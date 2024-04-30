@@ -1,0 +1,62 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Basic Definitions}
+\noindent
+
+\paragraph{ }
+\keyword{$\mathbb{R}$} Set of all real numbers. 
+
+\keyword{$\mathbb{Z}$} Set of all integers. 
+
+\keyword{$\mathbb{C}$} Set of all complex numbers. 
+
+\paragraph{ }
+\keyword{\textcolor{blue}{Scalars}}
+Scalars are elements from $\mathbb{R}$, $\mathbb{Z}$, or $\mathbb{C}$.
+\begin{itemize}
+  \item Fundamental building blocks of \textit{vectors} and \textit{matrices}.
+\end{itemize}
+\paragraph{ }
+\keyword{\textcolor{blue}{Vectors}} 
+A vector is a one dimensional array of scalars. 
+\begin{itemize}
+  \item $\fR^n$ is the set of all vectors with real numbers of $m$ rows and $n$ columns.
+  \item $[\bx]_{n}$ represents a real vector or size $n$.
+\end{itemize}
+
+\paragraph{ }
+\keyword{\textcolor{blue}{Matrices}} 
+A matrix is a multi-dimensional array of scalars. 
+\begin{itemize}
+  \item $\fR^{n \times m}$ is the set of all matrices with real numbers of size $n$.
+  \item $\fR^{n \times n}$ is the set of all \textit{square} matrices with real numbers of size $n$.
+  \item $[\bA]_{(m, n)}$ represents a real matrix with $m$ rows and $n$ columns.
+  \item Vectors can be interpreted as matrices
+    \begin{itemize}
+      \item $\bx \in \fR^{m \times 1}$ represents a \textit{row} vector. $\begin{bmatrix}
+          x_1 & \cdots & x_n \\
+      \end{bmatrix}$
+    \item $\bx \in \fR^{1 \times m}$ represents a \textit{column} vector. $\begin{bmatrix}
+        x_1 \\ \vdots \\ x_n 
+    \end{bmatrix}$
+  \item $\bx \in \fR^{m}$ by default represents a \textit{row} vector (since we are using python for this course, which is a row-major language)
+    \end{itemize}
+\end{itemize}
+
+\paragraph{ }
+\keyword{\textcolor{blue}{\textit{Linear Systems}}} 
+Linear systems are equations involving matrices and vectors - 
+\begin{equation*}
+  \by = \bA \bx, 
+\end{equation*}
+
+where, $\bx\in \fR^m, \bx\in \fR^n$  and $\bA \in \fR^{m \times n}$.
+
+\paragraph{ }
+\keyword{\textcolor{blue}{\textit{Linear Algebra}}} 
+
+\textit{arithmetic}
+
+\end{document}
