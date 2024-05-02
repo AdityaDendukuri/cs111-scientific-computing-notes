@@ -1,0 +1,42 @@
+
+
+% Prints expanded (m x n) matrix with spanning dots (...) 
+% USAGE - \printmatsq{x}
+
+\def \printmatsq #1{
+    \begin{bmatrix}
+        #1_{11} & \cdots & #1_{1n} \\
+        \vdots  & \ddots & \vdots \\
+        #1_{m1} & \cdots & #1_{mn} \\
+    \end{bmatrix}
+}
+
+\def \printmatrow #1{
+    \begin{bNiceMatrix} 
+        \Cdots & \mathbf{#1}_1 & \Cdots \\ 
+          &  \vdots &  \\
+        \Cdots & \mathbf{#1}_3 & \Cdots 
+    \end{bNiceMatrix}
+}
+
+\def \printmatcol #1{
+\begin{bNiceMatrix} 
+        \Vdots &  & \Vdots \\ 
+        \mathbf{#1}_1 & \cdots  & \mathbf{#1}_n \\
+        \Vdots &  & \Vdots 
+\end{bNiceMatrix} 
+}
+
+\def \printrowvec #1{
+    \begin{bmatrix}
+        #1_1 & \cdots & #1_n
+    \end{bmatrix}
+}
+
+\def \printcolvec #1{
+    \begin{bmatrix}
+        #1_1 \\ \vdots \\ #1_n
+    \end{bmatrix}
+}
+
+ 

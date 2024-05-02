@@ -1,0 +1,38 @@
+\documentclass[12pt]{article}
+
+\input{packages}
+
+% config file
+\input{config/macros}
+\input{config/printmatsq}
+\input{config/symbols}
+\input{config/ucsb_colors}
+
+\makeindex
+
+
+\title{CS111 Notes}
+
+\date{Spring 2024}
+
+\begin{document}
+    % title and table of contents
+    \maketitle
+    \newpage
+    \tableofcontents
+    \newpage
+    
+    % sections 
+    \input{chapters/linalg-review/section_layout_config}
+    \section{Linear Algebra Review}
+    \subfile{chapters/linalg-review/basic-definitions.tex}  \newpage
+    \subfile{chapters/linalg-review/matrix-arithmetic.tex}  \newpage
+    \subfile{chapters/linalg-review/linear-independence-and-rank.tex}
+    \subfile{chapters/linalg-review/linear-systems.tex}     \newpage
+    \subfile{chapters/linalg-review/vector-spaces.tex}      \newpage
+
+
+    % index 
+    \printindex
+\end{document}
+
