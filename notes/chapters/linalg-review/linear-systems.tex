@@ -1,4 +1,4 @@
-\documentclass[../main.tex]{subfiles}
+\documentclass[../../main.tex]{subfiles}
 
 
 \begin{document}
@@ -6,16 +6,15 @@
 
 \noindent
 
-\keyword{\textcolor{blue}{Linear Systems}} 
+\defn{Linear Systems}
 
 A system of linear equations are of the following form
 \begin{eqnarray*}
     a_{11}x_{1} + a_{12}x_{2} + &\cdots& + a_{1n}x_{n} = b_{1} \\
     &\vdots& \\
-    a_{m1}x_{1} + a_{m2}x_{2} + &\cdots& + a_{mn}x_{n} = b_{m}, \\
+    a_{m1}x_{1} + a_{m2}x_{2} + &\cdots& + a_{mn}x_{n} = b_{m}, 
 \end{eqnarray*}
-where $a_{11}, \cdots, a_{mn}$ are 
-\hspace{13pt}Can be re-written as a matrix-vector product -
+where $a_{11}, \cdots, a_{mn}$ are known constants and $x_{1}, \cdots, x_{n}$ are unknown variables. The goal is to solve for the variables. This \textit{system of linear equations} can be re-written as a matrix-vector product -
 \begin{align*}
     \begin{bmatrix}
         a_{11} & \cdots & a_{1n} \\
@@ -31,6 +30,14 @@ where $a_{11}, \cdots, a_{mn}$ are
         b_{1} \\
         \vdots \\
         b_{n}
-    \end{bmatrix}.
+    \end{bmatrix}, \\
 \end{align*}
+or, 
+\begin{equation}
+    \bA \bx = \bb.
+\end{equation}
+
+
+
+
 \end{document}

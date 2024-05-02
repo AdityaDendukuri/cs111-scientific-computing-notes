@@ -1,0 +1,15 @@
+
+
+% Prints expanded (m x n) matrix with spanning dots (...) 
+% USAGE - \printmatsq{x}
+
+\def \printmatsq #1{
+    \begin{bmatrix}
+        #1_{11} & \cdots & #1_{1n} \\
+        \vdots  & \ddots & \vdots \\
+        #1_{m1} & \cdots & #1_{mn} \\
+    \end{bmatrix}
+}
+
+
+ 

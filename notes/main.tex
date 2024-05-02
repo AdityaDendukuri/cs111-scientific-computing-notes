@@ -2,29 +2,31 @@
 
 \input{packages}
 \input{config}
-\title{CS111  Notes}
-\date{}
+\makeindex
+
+
+\title{CS111 Notes}
+
+\date{Spring 2024}
 
 \begin{document}
     % title and table of contents
     \maketitle
+    \newpage
     \tableofcontents
     \newpage
     
     % sections 
+    \input{chapters/linalg-review/section_layout_config}
     \section{Linear Algebra Review}
-    \input{chapters/c1-linalg-review/section_layout_config}
-    \subfile{chapters/c1-linalg-review/1-basic-definitions.tex}
-    \subfile{chapters/c1-linalg-review/2-matrix-arithmetic.tex}
-    \subfile{chapters/c1-linalg-review/3-linear-systems.tex}
-    \subfile{chapters/c1-linalg-review/4-vector-spaces.tex}
+    \subfile{notes/chapters/linalg-review/basic-definitions.tex}  \newpage
+    \subfile{notes/chapters/linalg-review/matrix-arithmetic.tex}  \newpage
+    \subfile{notes/chapters/linalg-review/linear-independence-and-rank.tex}
+    \subfile{notes/chapters/linalg-review/linear-systems.tex}     \newpage
+    \subfile{notes/chapters/linalg-review/vector-spaces.tex}      \newpage
 
-   \section{Calculus Review}
-   \section{LU - Decomposition}
-   \section{Semi Positive Definite (SPD) Matrices}
-   \section{Temperature Problem}
-   \section{Floating Point Arithmetic}
-   \section{Differential Equations}
-   \section{}
+
+    % index 
+    \printindex
 \end{document}
 

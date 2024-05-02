@@ -1,11 +1,13 @@
 
-\newcommand{\keyword}[1]{\reversemarginpar
-\marginnote{#1}}
-    
-\newcommand{\dict}[2]{#1\normalmarginpar \marginnote{{\small #1: #2}}}
-    
-\newcommand{\keywordfont}{\ttfamily}
 
+%% Cornell style notes (keywords left column and content right column)
+\newcommand{\keyword}[1]{\reversemarginpar \marginnote{#1}}
+\newcommand{\defn}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_blue}{\textbf{#1}}}}
+\newcommand{\note}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_green}{\textbf{#1}}}}
+\newcommand{\excr}[1]{\reversemarginpar \marginnote{\textcolor{red}{\textbf{#1}}}}
+
+\newcommand{\dict}[2]{#1\normalmarginpar \marginnote{{\small #1: #2}}}
+\newcommand{\keywordfont}{\ttfamily}
 
 %% symbol shortcuts
 % fancy symbols
@@ -19,3 +21,52 @@
 \newcommand{\bY}{\mathbf{Y}}
 \newcommand{\ba}{\mathbf{a}}
 \newcommand{\bA}{\mathbf{A}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bB}{\mathbf{B}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\bc}{\mathbf{c}}
+
+%% UCSB colors
+\definecolor{ucsb_blue}{RGB}{0, 54, 96}
+\definecolor{ucsb_green}{RGB}{9, 132, 122}
+\definecolor{ucsb_gold}{RGB}{254, 188, 17}
+
+%% Section title colors
+%\titleformat{\section}{\LARGE}{\rlap{\color{ucsb_blue}\rule[-0.4cm]{\linewidth}{1.2cm}} \thesection}{1em}{}
+
+
+\def \printmatsq #1{
+    \begin{bmatrix}
+        #1_{11} & \cdots & #1_{1n} \\
+        \vdots  & \ddots & \vdots \\
+        #1_{m1} & \cdots & #1_{mn} \\
+    \end{bmatrix}
+}
+
+\def \printmatrow #1{
+    \begin{bNiceMatrix} 
+        \Cdots & \mathbf{#1}_1 & \Cdots \\ 
+          &  \vdots &  \\
+        \Cdots & \mathbf{#1}_3 & \Cdots 
+    \end{bNiceMatrix}
+}
+
+\def \printmatcol #1{
+\begin{bNiceMatrix} 
+        \Vdots &  & \Vdots \\ 
+        \mathbf{#1}_1 & \cdots  & \mathbf{#1}_n \\
+        \Vdots &  & \Vdots 
+\end{bNiceMatrix} 
+}
+
+\def \printrowvec #1{
+    \begin{bmatrix}
+        #1_1 & \cdots & #1_n
+    \end{bmatrix}
+}
+
+\def \printcolvec #1{
+    \begin{bmatrix}
+        #1_1 \\ \vdots \\ #1_n
+    \end{bmatrix}
+}
