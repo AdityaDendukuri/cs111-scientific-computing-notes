@@ -1,13 +1,11 @@
 \documentclass[12pt]{article}
 
-\input{packages}
-
 % config file
-\input{config/import_packages}
-\input{config/macros}
+\input{config/import-packages}
+\input{config/notes-api}
 \input{config/printmatsq}
 \input{config/symbols}
-\input{config/ucsb_colors}
+\input{config/ucsb-colors}
 
 \makeindex
 
@@ -24,13 +22,7 @@
     \newpage
     
     % sections 
-    \input{chapters/linalg-review/section_layout_config}
-    \section{Linear Algebra Review}
-    \subfile{chapters/linalg-review/basic-definitions.tex}  \newpage
-    \subfile{chapters/linalg-review/matrix-arithmetic.tex}  \newpage
-    \subfile{chapters/linalg-review/linear-independence-and-rank.tex}
-    \subfile{chapters/linalg-review/linear-systems.tex}     \newpage
-    \subfile{chapters/linalg-review/vector-spaces.tex}      \newpage
+    \subfile{chapters/linalg-review/linalg-review.tex}
 
 
     % index 

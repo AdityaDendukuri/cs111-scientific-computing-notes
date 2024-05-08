@@ -1,6 +1,7 @@
 \documentclass[../../main.tex]{subfiles}
 
 \begin{document}
+\input{chapters/linalg-review/section_layout_config}
 
 \subsection{Matrix Arithmetic}
 
@@ -49,11 +50,38 @@ $\bA \in \mathbb{R}^{n \times m}, \bB \in \mathbb{R}^{m \times n}$
     \begin{bmatrix}
         \ba_1 \cdot \bb_1 & \cdots & \ba_1 \cdot \bb_n \\
         \vdots & \ddots & \vdots \\ 
-        \ba_m \cdot \bb_1 & \cdots & \ba_1m \cdot \bb_n 
+        \ba_m \cdot \bb_1 & \cdots & \ba_m \cdot \bb_n 
     \end{bmatrix}
 \end{equation*}
 
+\addNote{
+    Matrix and vectors can also be multiplied 
+    \begin{equation*}
+        \bA \mathbf{x} = \printmatrow{a} \printcolvecsolid{x} = \begin{bmatrix} \ba_1 \cdot \bx \\ \vdots \\ \ba_n \cdot \bx\end{bmatrix}.
+    \end{equation*}
+}
+\excr{Exercise: }{
+    Prove that the matrix product between matrices $A \in \fR^{m \times n}$ and $A \in \fR^{l \times k}$ is only possible iff $n = k$.
+}
+
 
 \subsubsection{Matrix Inverse}
+
+\addDef{Matrix Inverse}{
+    Given a matrix $\bA \in \fR^{n \times n}$, it's inverse is another matrix $\bA^{-1} \in \fR^{n \times n}$ such that
+    \begin{equation*}
+        \bA \bA^{-1} = \bA^{-1} \bA = \mathbf{I}.
+    \end{equation*}
+    \begin{itemize}
+        \item 
+    \end{itemize}
+}
+
+\addDef{Matrix Division} {
+    We can define a matrix division using the concept of matrix inverse. 
+    \begin{equation*}
+        \frac{\bA}{\bB} = \bB^{-1} \bA.
+    \end{equation*}
+}
 
 \end{document}
