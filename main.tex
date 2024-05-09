@@ -1,0 +1,31 @@
+\documentclass[12pt]{article}
+
+% config file
+\input{config/import-packages}
+\input{config/notes-api}
+\input{config/printmatsq}
+\input{config/symbols}
+\input{config/ucsb-colors}
+
+\makeindex
+
+
+\title{CS111 Notes}
+
+\date{Spring 2024}
+
+\begin{document}
+    % title and table of contents
+    \maketitle
+    \newpage
+    \tableofcontents
+    \newpage
+    
+    % sections 
+    \subfile{chapters/linalg-review/linalg-review.tex}
+
+
+    % index 
+    \printindex
+\end{document}
+
