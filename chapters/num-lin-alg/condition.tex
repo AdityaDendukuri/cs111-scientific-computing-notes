@@ -1,0 +1,60 @@
+\documentclass[../../cs111_main.tex]{subfiles}
+
+\begin{document}    
+\input{chapters/num-lin-alg/section_layout_config}
+
+\subsection{Condition Number and Conditioning}
+\label{sec:cond-num}
+
+\addNote{%
+In numerical linear algebra, the concept of conditioning provides a quantitative measure of how sensitive the solution of a problem is to small perturbations in its input. Even when an algorithm is implemented perfectly, a problem with poor conditioning can yield large errors in its solution due solely to slight inaccuracies in the data or round-off errors inherent in floating-point arithmetic.
+}
+
+\addDef{Condition Number}{%
+For an invertible matrix \(\bA \in \mathbb{R}^{n \times n}\), and given a consistent matrix norm \(\|\cdot\|\), the \emph{condition number} is defined as
+\[
+\kappa(\bA) = \|\bA\|\,\|\bA^{-1}\|.
+\]
+This number measures the maximum relative amplification of input errors in the solution of the linear system \(\bA\bx = \bb\). A condition number close to 1 indicates that the problem is well-conditioned, whereas a large condition number implies that even tiny errors or perturbations in the data may result in disproportionately large errors in the computed solution.
+}
+
+\textBox{%
+Consider the linear system \(\bA\bx = \bb\). A perturbation in the right-hand side vector \(\bb\) or in the matrix \(\bA\) itself can lead to a significant change in the solution \(\bx\). In particular, if \(\delta\bb\) represents a small relative error in \(\bb\), then the relative error in \(\bx\) is bounded above by a constant multiple of \(\kappa(\bA)\). Thus, a high condition number signifies that the solution is extremely sensitive to any perturbations in the input data.
+}
+
+\addNote{%
+When the condition number \(\kappa(\bA)\) is large, the matrix \(\bA\) is said to be \emph{ill-conditioned}. This implies that the geometry of the linear transformation represented by \(\bA\) distorts the space in such a way that certain directions are amplified far more than others.
+}
+
+\addDef{Geometric Interpretation}{%
+When employing the \(2\)-norm, the condition number of \(\bA\) is given by the ratio of its largest singular value \(\sigma_{\max}(\bA)\) to its smallest singular value \(\sigma_{\min}(\bA)\):
+\[
+\kappa_2(\bA) = \frac{\sigma_{\max}(\bA)}{\sigma_{\min}(\bA)}.
+\]
+This ratio reflects how \(\bA\) stretches or compresses vectors in \(\mathbb{R}^n\). A large ratio indicates that \(\bA\) significantly distorts the unit sphere, thereby magnifying errors along the directions corresponding to the smallest singular values.
+}
+
+\addExmpl{%
+To illustrate this concept, consider the matrix
+\[
+\bA = \begin{pmatrix}
+1 & 0 \\
+0 & 10^{-6}
+\end{pmatrix}.
+\]
+The singular values of \(\bA\) are \(1\) and \(10^{-6}\), hence the condition number in the \(2\)-norm is
+\[
+\kappa_2(\bA) = \frac{1}{10^{-6}} = 10^6.
+\]
+Although \(\bA\) is not singular, its high condition number reveals that even very small perturbations in \(\bb\) or in \(\bA\) could lead to substantial relative errors in the computed solution \(\bx\).
+}
+
+\textBox{%
+It is essential to distinguish between the inherent conditioning of a problem and the stability of the algorithm used to solve it. A well-conditioned problem can be solved poorly by an unstable algorithm, while a stable algorithm can only achieve so much when faced with an ill-conditioned problem. In practice, mitigating the effects of poor conditioning often involves techniques such as scaling, pivoting, or preconditioning. These techniques aim to reduce the effective condition number seen by the algorithm, thereby controlling the propagation of errors.
+}
+
+\addNote{%
+The study of condition numbers is not limited to linear systems; similar ideas extend to eigenvalue problems, least squares fitting, and optimization. In each case, the condition number serves as a critical metric for assessing the sensitivity of the problem's solution to perturbations. A deep understanding of conditioning is therefore indispensable in the design and analysis of reliable numerical algorithms in scientific computing.
+}
+
+\end{document}

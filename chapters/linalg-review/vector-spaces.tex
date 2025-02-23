@@ -1,0 +1,126 @@
+\documentclass[../../cs111_main.tex]{subfiles}
+
+\begin{document}
+\input{chapters/linalg-review/section_layout_config}
+
+\subsection{Vector Spaces}
+\label{sub:vector-spaces}
+
+\addDef{Vector Spaces}{%
+A \textbf{vector space} \(\mathcal{V}\) is a collection of objects called \emph{vectors} along with two operations—vector addition and scalar multiplication—that satisfy the following axioms. For any vectors \(\bx, \by, \bz \in \mathcal{V}\) and any scalars \(\alpha, \beta \in \mathbb{R}\), the axioms are:
+\begin{enumerate}
+    \item \textbf{Commutativity:} \(\bx + \by = \by + \bx.\)
+    \item \textbf{Associativity:} \((\bx + \by) + \bz = \bx + (\by + \bz).\)
+    \item \textbf{Additive Identity:} There exists a zero vector \(\mathbf{0} \in \mathcal{V}\) such that \(\bx + \mathbf{0} = \bx.\)
+    \item \textbf{Additive Inverse:} For every \(\bx \in \mathcal{V}\), there exists a vector \(-\bx \in \mathcal{V}\) with \(\bx + (-\bx) = \mathbf{0}.\)
+    \item \textbf{Distributivity:} \(\alpha (\bx + \by) = \alpha \bx + \alpha \by\) and \((\alpha + \beta) \bx = \alpha \bx + \beta \bx.\)
+    \item \textbf{Scalar Multiplicative Identity:} \(1 \cdot \bx = \bx.\)
+\end{enumerate}
+These axioms, familiar from \(\mathbb{R}^n\), form the foundation for both finite and infinite-dimensional spaces.
+}
+
+\addNote{%
+Just like of a number space is a collection of numbers with a predefined set of rules (addition, subtraction etc.). A vector space is simply an higher dimensional abstraction to numberspaces. 
+}
+
+\addDef{Subspace}{%
+A \textbf{subspace} of a vector space \(\mathcal{V}\) is a subset \(W \subseteq \mathcal{V}\) that is itself a vector space under the operations inherited from \(\mathcal{V}\). In particular, \(W\) must satisfy:
+\begin{itemize}
+    \item The zero vector of \(\mathcal{V}\) is in \(W\).
+    \item \(W\) is closed under vector addition: for all \(\bx, \by \in W\), \(\bx + \by \in W\).
+    \item \(W\) is closed under scalar multiplication: for all \(\bx \in W\) and all \(\alpha \in \mathbb{R}\), \(\alpha \bx \in W\).
+\end{itemize}
+}
+ 
+\addExcr{%
+Verify that the set \(W = \{(x,y) \in \mathbb{R}^2 : y = 2x\}\) is a subspace of \(\mathbb{R}^2\). What is its dimension?
+}
+
+\addDef{Linear Combination}{%
+A \textbf{linear combination} of vectors \(\{ \bx_1, \dots, \bx_n \}\) is any vector \(\by\) that can be written as
+\[
+\by = \alpha_1 \bx_1 + \alpha_2 \bx_2 + \cdots + \alpha_n \bx_n,
+\]
+where \(\alpha_1, \dots, \alpha_n \in \mathbb{R}\).
+}
+
+\addNote{%
+ View each vector as an ingredient; a linear combination mixes these ingredients in various proportions to produce new vectors.
+}
+
+\addDef{Linear Dependence}{%
+A set of vectors \(\{ \bx_1, \dots, \bx_n \}\) is \textbf{linearly dependent} if there exist scalars \(\alpha_1, \dots, \alpha_n\), not all zero, such that
+\[
+\alpha_1 \bx_1 + \alpha_2 \bx_2 + \cdots + \alpha_n \bx_n = \mathbf{0}.
+\]
+If the only solution is \(\alpha_1 = \cdots = \alpha_n = 0\), the vectors are \textbf{linearly independent}.
+}
+
+\addNote{%
+ Linear dependence indicates redundancy; one or more vectors in the set can be expressed as a combination of the others.
+}
+
+\addDef{Linear Span}{%
+The \textbf{linear span} of a set of vectors \(\{ \bx_1, \dots, \bx_n \}\), denoted \(\text{span}\{\bx_1, \dots, \bx_n\}\), is the set of all linear combinations of these vectors:
+\[
+\text{span}\{\bx_1, \dots, \bx_n\} = \{ \alpha_1 \bx_1 + \cdots + \alpha_n \bx_n : \alpha_i \in \mathbb{R} \}.
+\]
+This is the smallest subspace of \(\mathcal{V}\) that contains the given vectors.
+}
+
+\addExcr{%
+Determine a basis for \(\text{span}\{(1,2), (3,4)\}\) in \(\mathbb{R}^2\). Are the vectors \((1,2)\) and \((3,4)\) linearly independent?
+}
+
+\addDef{Basis}{%
+A \textbf{basis} for a vector space \(\mathcal{V}\) is a set of vectors that is both linearly independent and spanning. Every vector in \(\mathcal{V}\) can be uniquely expressed as a linear combination of the basis vectors. The number of basis vectors is the \textbf{dimension} of \(\mathcal{V}\).
+}
+
+\addExcr{%
+Find a basis for the subspace \(W = \{(x,y) \in \mathbb{R}^2 : y = 3x\}\). What is the dimension of \(W\)?
+}
+
+\addDef{Orthogonal Subspace (Orthogonal Complement)}{%
+Given a vector space \(\mathcal{V}\) equipped with an inner product \(\langle \cdot, \cdot \rangle\) and a subspace \(W \subseteq \mathcal{V}\), the \textbf{orthogonal complement} of \(W\), denoted \(W^\perp\), is defined as
+\[
+W^\perp = \{ \bv \in \mathcal{V} : \langle \bv, \bw \rangle = 0 \text{ for all } \bw \in W \}.
+\]
+\(W^\perp\) is itself a subspace of \(\mathcal{V}\).
+}
+
+\addNote{%
+ \(W^\perp\) consists of all vectors that are “perpendicular” to every vector in \(W\). In \(\mathbb{R}^2\), if \(W\) is a line through the origin, then \(W^\perp\) is the line orthogonal to \(W\).
+}
+
+\addExcr{%
+For the subspace \(W = \{(x,2x) \in \mathbb{R}^2 : x \in \mathbb{R}\}\), find the orthogonal complement \(W^\perp\). Hint: Determine all vectors \((a,b) \in \mathbb{R}^2\) satisfying \(a x + b (2x)= 0\) for all \(x\).
+}
+
+\addDef{Direct Sum}{%
+If \(W_1\) and \(W_2\) are subspaces of \(\mathcal{V}\) such that every vector \(\bv \in \mathcal{V}\) can be uniquely written as \(\bv = \bw_1 + \bw_2\) with \(\bw_1 \in W_1\) and \(\bw_2 \in W_2\), then \(\mathcal{V}\) is the \textbf{direct sum} of \(W_1\) and \(W_2\), denoted by
+\[
+\mathcal{V} = W_1 \oplus W_2.
+\]
+}
+
+\addNote{%
+ The direct sum decomposition splits the vector space into two non-overlapping parts. For instance, in \(\mathbb{R}^2\), any vector can be uniquely expressed as the sum of a vector from a given line \(W\) and a vector from its orthogonal complement \(W^\perp\).
+}
+
+\addExcr{%
+Show that \(\mathbb{R}^2 = W \oplus W^\perp\) for the subspace \(W = \{(x,2x) \in \mathbb{R}^2 : x \in \mathbb{R}\}\). Provide a detailed proof.
+}
+
+\addDef{Orthogonal Projection}{%
+Given a subspace \(W\) of a vector space \(\mathcal{V}\) with inner product, the \textbf{orthogonal projection} of a vector \(\bv \in \mathcal{V}\) onto \(W\) is the unique vector \(\bw \in W\) such that \(\bv - \bw \in W^\perp\). This projection is denoted by \(\text{proj}_W(\bv)\).
+}
+
+\addNote{%
+ The orthogonal projection of \(\bv\) onto \(W\) is the “shadow” of \(\bv\) on the subspace \(W\) when light is cast perpendicular to \(W\).
+}
+
+\addExcr{%
+Let \(W\) be the subspace of \(\mathbb{R}^2\) spanned by \((1,2)\). Compute the orthogonal projection of the vector \((3,4)\) onto \(W\).
+}
+
+\end{document}

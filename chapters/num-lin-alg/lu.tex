@@ -1,0 +1,106 @@
+\documentclass[../../cs111_main.tex]{subfiles}
+
+\begin{document}
+
+    % set the section layout to two column style
+
+\subsection{LU Decomposition}
+
+\addDef{LU Decomposition}{%
+An \textbf{LU Decomposition} (or \textbf{LU Factorization}) of an $n \times n$ matrix $\bA$ is a factorization
+\[
+\bA = \bL \bU,
+\]
+where $\bL$ is a lower triangular matrix (often taken to be \emph{unit} lower triangular, meaning its diagonal entries are all $1$) and $\bU$ is an upper triangular matrix.
+}
+
+\addNote{%
+\textbf{Triangular Solves:} Once $\bA$ is factored as $\bA = \bL \bU$, solving the linear system $\bA \bx = \bb$ is reduced to:
+\[
+\bL \bU \bx = \bb \quad \Longrightarrow \quad
+\begin{cases}
+\bL \by = \bb, \\
+\bU \bx = \by.
+\end{cases}
+\]
+Both steps are \emph{triangular solves}, which can be done in $O(n^2)$ time, making LU a cornerstone for efficient linear system solutions.
+}
+
+\subsubsection{Connection to Gaussian Elimination}
+\textBox{%
+Gaussian Elimination systematically eliminates entries below the main diagonal of $\bA$ until it becomes upper triangular. Each row operation corresponds to multiplying by a lower triangular matrix. By collecting all these row operations into one matrix $\bL$, the final upper triangular form is $\bU$. Hence,
+\[
+\bA = \bL \bU.
+\]
+Recording the multipliers from each elimination step directly constructs $\bL$.
+}
+
+\addThm{Existence of LU Decomposition Without Pivoting\label{thm:lu-existence}}{%
+Let $\bA$ be an $n \times n$ matrix whose leading principal minors are all nonzero. Then there exists a decomposition
+\[
+\bA = \bL \bU,
+\]
+where $\bL$ is unit lower triangular and $\bU$ is upper triangular.
+}
+
+\begin{proof}[Proof (By Induction on $n$)]
+\paragraph{Base Case ($n=1$).}
+If $n=1$, then $\bA = [a_{11}]$ with $a_{11} \neq 0$. We trivially have
+\[
+\bA = \begin{pmatrix} 1 \end{pmatrix}
+\begin{pmatrix} a_{11} \end{pmatrix},
+\]
+so $\bL = [1]$ and $\bU = [a_{11}]$.
+
+\paragraph{Inductive Step.}
+Assume that any $(n-1) \times (n-1)$ matrix whose leading principal minors are nonzero has an LU decomposition. Let $\bA$ be an $n \times n$ matrix with nonzero leading principal minors.
+
+\begin{enumerate}
+    \item \textbf{Eliminate the first column below $a_{11}$:} Since $a_{11} \neq 0$, for each $i=2,\dots,n$, define the multiplier
+    \[
+    \ell_{i1} = \frac{a_{i1}}{a_{11}}.
+    \]
+    Subtracting $\ell_{i1}$ times row 1 from row $i$ eliminates $a_{i1}$. These row operations can be collected into an elementary lower triangular matrix $\bL^{(1)}$.
+
+    \item \textbf{Form the submatrix:} After these operations, the matrix becomes
+    \[
+    \begin{pmatrix}
+    a_{11} & * & \cdots & * \\
+    0 & \tilde{a}_{22} & \cdots & * \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & * & \cdots & \tilde{a}_{nn}
+    \end{pmatrix}.
+    \]
+    The $(n-1)\times(n-1)$ submatrix in the lower-right corner, call it $\tilde{\bA}$, retains the nonzero leading principal minors property.
+
+    \item \textbf{Apply induction:} By the inductive hypothesis, $\tilde{\bA}$ can be decomposed as
+    \[
+    \tilde{\bA} = \bL_{\text{sub}} \bU_{\text{sub}},
+    \]
+    where $\bL_{\text{sub}}$ is lower triangular (with $1$'s on the diagonal) and $\bU_{\text{sub}}$ is upper triangular.
+
+    \item \textbf{Construct $\bL$ and $\bU$:} Embed $\bL_{\text{sub}}$ and $\bU_{\text{sub}}$ into $n\times n$ matrices:
+    \[
+    \bL = \begin{pmatrix}
+    1 & 0 & \cdots & 0 \\
+    \ell_{21} & & & \\
+    \vdots & & \bL_{\text{sub}} & \\
+    \ell_{n1} & & &
+    \end{pmatrix},
+    \quad
+    \bU = \begin{pmatrix}
+    a_{11} & * & \cdots & * \\
+    0 & & & \\
+    \vdots & & \bU_{\text{sub}} & \\
+    0 & & &
+    \end{pmatrix}.
+    \]
+    With these blocks in place, we verify $\bA = \bL \bU$, completing the proof by induction.
+\end{enumerate}
+\end{proof}
+
+
+
+\noindent This concludes our introduction to LU Decomposition. In the upcoming sections, we will explore variations that address numerical stability, such as partial pivoting, and connect these ideas to iterative methods and eigenvalue algorithms.
+
+\end{document}

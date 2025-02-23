@@ -1,5 +1,6 @@
 \documentclass[12pt]{article}
 
+
 % config file
 \input{config/import-packages}
 \input{config/notes-api}
@@ -12,11 +13,12 @@
 
 \title{CS111 Notes}
 
-\date{Spring 2024}
+\date{Spring 2024 \\ \vskip 100pt UCSB}
 
 \begin{document}
     % title and table of contents
     \maketitle
+    \input{chapters/preface}
     \newpage
     \tableofcontents
     \newpage
@@ -24,6 +26,7 @@
     % sections 
     \subfile{chapters/linalg-review/linalg-review.tex}
 
+    \subfile{chapters/num-lin-alg/num_lin_alg.tex}
 
     % index 
     \printindex

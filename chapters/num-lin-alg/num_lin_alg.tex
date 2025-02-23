@@ -1,0 +1,728 @@
+\documentclass[../../cs111_main.tex]{subfiles}
+
+\begin{document}    
+\input{chapters/linalg-review/section_layout_config}
+
+
+\section{Numerical Linear Algebra}
+
+\textBox{%
+Numerical Linear Algebra forms the core of scientific computing, enabling the efficient and stable solution of linear systems, the decomposition of large-scale matrices, and the extraction of essential features—such as eigenvalues and singular values—from complex data. In this section, we present a detailed exploration of the central ideas and methods in numerical linear algebra. Building on fundamental linear algebraic principles, we extend these ideas to cover algorithmic and computational considerations. We begin by discussing the transition from analytical to numerical methods, then revisit LU Decomposition and its pivoting variants, proceed through other matrix factorizations (Cholesky, QR), and conclude with the Eigenvalue and Singular Value Decompositions.
+}
+
+\subsection{From Analytical to Numerical}
+\label{subsec:analytical-to-numerical}
+
+\addDef{Analytical Solutions}{%
+In an idealized mathematical setting, a square and invertible matrix \(\bA \in \mathbb{R}^{n\times n}\) admits a closed-form solution for the linear system \(\bA\bx = \bb\), given by 
+\[
+\bx = \bA^{-1}\bb.
+\]
+This expression is exact and demonstrates the theoretical uniqueness of the solution provided that \(\bA^{-1}\) exists.
+}
+
+\addDef{Limitations of Analytical Methods}{%
+Despite the clarity of the analytical expression \(\bx = \bA^{-1}\bb\), computing \(\bA^{-1}\) directly is rarely practical. For large \(n\) or when \(\bA\) is nearly singular, direct inversion is computationally expensive (typically \(O(n^3)\) operations) and can be numerically unstable due to the propagation of round-off errors.
+}
+
+\addDef{Numerical Methods}{%
+Numerical linear algebra circumvents direct inversion by employing alternative strategies. Instead of forming \(\bA^{-1}\) explicitly, one uses matrix factorizations (such as LU, QR, or SVD) or iterative schemes (such as Jacobi, Gauss-Seidel, or Conjugate Gradient) to approximate the solution \(\hat{\bx}\) of \(\bA\bx = \bb\). These methods are designed to exploit the structure or sparsity of \(\bA\) and to control the amplification of numerical errors.
+}
+
+\addDef{Iterative Methods}{%
+Iterative methods generate a sequence of approximations \(\{\bx^{(k)}\}_{k=0}^\infty\) starting from an initial guess \(\bx^{(0)}\). Under suitable conditions, this sequence converges to the true solution \(\bx\). The convergence rate and overall efficiency of iterative methods depend critically on properties of \(\bA\), such as its spectral radius and, notably, its condition number.
+}
+
+\addDef{Condition Number}{%
+The condition number of \(\bA\) with respect to a chosen matrix norm \(\|\cdot\|\) is defined as 
+\[
+\kappa(\bA) = \|\bA\|\,\|\bA^{-1}\|.
+\]
+This scalar quantifies the sensitivity of the solution \(\bx\) to perturbations in \(\bA\) or \(\bb\). A large \(\kappa(\bA)\) indicates that the system is \emph{ill-conditioned}, meaning that even minute errors in the data may be significantly amplified in the computed solution.
+}
+
+\addNote{%
+For example, consider the matrix 
+\[
+\bA = \begin{pmatrix} 1 & 0 \\ 0 & 10^{-6} \end{pmatrix}.
+\]
+Its singular values are \(1\) and \(10^{-6}\), yielding \(\kappa_2(\bA)=10^6\). Such a high condition number suggests that even a relative error of \(10^{-8}\) in the data could be magnified to a relative error of approximately \(10^{-2}\) in the solution.
+}
+
+\addExcr{%
+Take the matrix 
+\[
+\bA = \begin{pmatrix} 1 & 0 \\ 0 & 10^{-6} \end{pmatrix},
+\]
+and compute its condition number using the \(2\)-norm. Then, perturb the right-hand side vector \(\bb\) by a small relative error (e.g., add \(10^{-8}\) times a random vector) and solve for \(\bx\). Compare the relative error in \(\bx\) with the product \(\kappa(\bA)\) times the relative error in \(\bb\). Discuss your findings and explore other examples of matrices with high condition numbers.
+}
+
+
+\subsection{Floating Point Error}
+
+\addDef{Absolute and Relative Error}{%
+When a real number \( A \) is approximated by a computed value \(\hat{A}\), the \textbf{absolute error} is defined as 
+\[
+e = \hat{A} - A.
+\]
+The \textbf{relative error} is given by 
+\[
+\varepsilon = \frac{\hat{A} - A}{A},
+\]
+so that the computed value can be expressed as
+\[
+\hat{A} = A + e \quad \text{or} \quad \hat{A} = A(1 + \varepsilon).
+\]
+Relative error is dimensionless and generally more informative than absolute error, especially when the scale of \( A \) is significant.
+}
+
+\addExcr{%
+Consider approximating \( \sqrt{175} \) by \( 13 \). Compute both the absolute and relative error of this approximation. How does the relative error provide insight into the accuracy independent of the scale of \( \sqrt{175} \)?
+}
+
+\addDef{Rounding Error}{%
+Computers represent real numbers using floating point arithmetic, which approximates real numbers by a finite number of bits. Let \(\text{fl}(x)\) denote the floating point representation of a real number \( x \). The \textbf{rounding error} is defined as 
+\[
+\text{fl}(x) - x,
+\]
+and when normalized, the relative rounding error satisfies 
+\[
+\left| \frac{\text{fl}(x) - x}{x} \right| \le \varepsilon_{\text{mach}},
+\]
+where \(\varepsilon_{\text{mach}}\) (machine epsilon) is the upper bound on the relative error due to rounding.
+}
+
+\addNote{%
+For example, in IEEE single precision, \(\varepsilon_{\text{mach}} \approx 6 \times 10^{-8}\); in double precision, \(\varepsilon_{\text{mach}} \approx 10^{-16}\). These values indicate the smallest relative difference that can be distinguished by the floating point format.
+}
+
+\addExcr{%
+Determine the machine epsilon for IEEE double precision arithmetic by considering the distance between 1 and the next representable floating point number. Explain why this value is significant in numerical computations.
+}
+
+\addDef{Cancellation}{%
+\textbf{Cancellation} occurs when subtracting two nearly equal numbers. Although the absolute error in each number may be small, their difference can lead to a significant loss of significant digits. For instance, if \( A = B - C \) where \( B \) and \( C \) are close in value, then the computed difference \(\hat{A} = \hat{B} - \hat{C}\) may have a relative error much larger than that of \( \hat{B} \) or \( \hat{C} \) individually. This phenomenon is known as \textbf{catastrophic cancellation}.
+}
+
+\addNote{%
+Consider \( B \approx 2.38 \times 10^5 \) and \( C \approx 2.33 \times 10^5 \). The leading digits cancel in the subtraction, leaving \( A \) with only one or two significant digits. Even if \( B \) and \( C \) are known to high precision, the cancellation drastically reduces the accuracy of \( A \).
+}
+
+\addExcr{%
+Take two numbers \( B \) and \( C \) with high precision and compute \( A = B - C \). Experiment with values where the first several digits of \( B \) and \( C \) agree. Quantify the loss in relative accuracy for \( A \) compared to the original numbers. Suggest an alternative formulation that could reduce the effect of cancellation.
+}
+
+\addDef{Floating Point Representation}{%
+Floating point numbers are represented in computers using a format similar to scientific notation. A normalized floating point number has the form 
+\[
+x = (-1)^s \times m \times 2^e,
+\]
+where:
+\begin{itemize}
+    \item \( s \) is the sign bit,
+    \item \( m \) is the mantissa (with \(1 \le m < 2\)), and
+    \item \( e \) is the exponent.
+\end{itemize}
+The number of bits allocated to the mantissa and exponent determines the precision and range of representable numbers. For example, IEEE single precision allocates 24 bits (including an implicit leading 1) to the mantissa and 8 bits to the exponent.
+}
+
+\addNote{%
+Not all real numbers can be exactly represented in this format. For example, numbers like \(1/3\) have a non-terminating binary expansion, which leads to a rounding error when stored as a floating point number.
+}
+
+\addExcr{%
+Explain why the fraction \(1/3\) cannot be represented exactly in binary floating point format. Estimate the resulting rounding error in IEEE single precision.
+}
+
+\addDef{Denormalized Numbers and Underflow}{%
+When the magnitude of a real number is smaller than the smallest normalized floating point number (denoted \(2^{e_{\min}}\)), the number is represented as a \textbf{denormalized number}. In this format, the leading digit is assumed to be zero, allowing for a gradual underflow. Although denormalized numbers provide a way to represent very small values, they come with a reduced precision compared to normalized numbers.
+}
+
+\addNote{%
+The use of denormalized numbers avoids a sudden jump to zero when numbers become very small, thereby improving the accuracy of computations that involve underflow. However, operations involving denormalized numbers can be slower on some hardware.
+}
+
+\addExcr{%
+Find the smallest positive normalized and denormalized numbers in IEEE single precision. Discuss the trade-offs in precision and performance when dealing with denormalized numbers.
+}
+
+\addDef{Exceptions in Floating Point Arithmetic}{%
+The IEEE standard also defines special values for representing exceptional cases: \(+\infty\) and \(-\infty\) are used to denote overflow, and \(\text{NaN}\) (Not a Number) is used to represent undefined or unrepresentable results, such as the result of \(0/0\) or \(\sqrt{-1}\). These exceptions are crucial for robust numerical algorithms, ensuring that computations yield consistent and interpretable results even in edge cases.
+}
+
+\addNote{%
+When a floating point operation produces a result outside the representable range, the result is set to infinity, and further arithmetic operations propagate this infinity. Similarly, any operation involving NaN typically results in NaN, alerting the programmer to an undefined condition.
+}
+
+\addExcr{%
+Consider performing the operation \( \sqrt{-1} \) in a programming environment that follows the IEEE standard. What is the expected output? Discuss how the propagation of NaN in subsequent computations helps in debugging numerical algorithms.
+}
+
+\textBox{%
+Understanding floating point error is essential for the design and analysis of numerical algorithms. Rounding errors, cancellation, and the limitations of finite precision arithmetic are intrinsic to computer computations. By carefully modeling these errors and employing techniques to mitigate their effects, one can design algorithms that yield reliable and accurate results even in the presence of unavoidable numerical imperfections.
+}
+
+
+
+\subsection{LU Factorization}
+\label{sub:lu-factorization}
+
+
+\textBox{%
+For a square matrix \(\bA \in \mathbb{R}^{n \times n}\), the LU factorization expresses \(\bA\) as the product of a lower triangular matrix \(\bL\) (usually unit lower triangular) and an upper triangular matrix \(\bU\). This factorization simplifies the solution of \(\bA\bx = \bb\) by reducing it to two sequential triangular solves, which are computationally inexpensive.
+}
+
+\addDef{LU Factorization}{%
+Let \(\bA \in \mathbb{R}^{n \times n}\) be a square matrix. An \textbf{LU Factorization} of \(\bA\) is a decomposition of the form
+\[
+\bA = \bL\,\bU,
+\]
+where \(\bL \in \mathbb{R}^{n \times n}\) is a lower triangular matrix with ones on its diagonal (a unit lower triangular matrix), and \(\bU \in \mathbb{R}^{n \times n}\) is an upper triangular matrix.
+}
+
+\addNote{%
+The key idea behind LU factorization is to systematically eliminate the subdiagonal entries of \(\bA\) by applying Gaussian elimination. Instead of performing elimination separately for each system, one factors \(\bA\) into \(\bL\) and \(\bU\) once, so that solving \(\bA\bx=\bb\) reduces to solving \(\bL\by=\bb\) (via forward substitution) and then \(\bU\bx=\by\) (via backward substitution).
+}
+
+\addParagraph{%
+To illustrate, suppose
+\[
+\bA = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\[1mm]
+a_{21} & a_{22} & \cdots & a_{2n}\\[1mm]
+\vdots & \vdots & \ddots & \vdots\\[1mm]
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{pmatrix}.
+\]
+The goal is to eliminate the entries below the main diagonal. For \(i=2,\dots,n\), the first step is to eliminate \(a_{i1}\) by setting
+\[
+\ell_{i1} = \frac{a_{i1}}{a_{11}},
+\]
+and replacing row \(i\) with
+\[
+\text{row}_i \leftarrow \text{row}_i - \ell_{i1}\,\text{row}_1.
+\]
+After this step, the first column of the modified matrix has zeros below \(a_{11}\), and the new entries in row \(i\) are given by
+\[
+a_{ij}^{(1)} = a_{ij} - \ell_{i1}\,a_{1j}, \quad j=2,\dots,n.
+\]
+This process is then repeated on the \((n-1) \times (n-1)\) submatrix obtained by deleting the first row and first column.
+}
+
+\addNote{%
+In the factorization, the multipliers \(\ell_{ij}\) (for \(i>j\)) are stored in the corresponding entries of \(\bL\) (with \(\ell_{jj} = 1\)), and the resulting coefficients after elimination become the entries of \(\bU\). Thus, \(\bL\) captures the elimination steps, while \(\bU\) is the upper triangular matrix produced by Gaussian elimination.
+}
+
+\addExcr{%
+Prove by induction on \(n\) that if all the leading principal minors of \(\bA\) are nonzero, then \(\bA\) has an LU factorization without row interchanges. (Hint: Start with \(n=1\) and assume the result for an \((n-1)\times(n-1)\) matrix; then show how to construct \(\bL\) and \(\bU\) for an \(n\times n\) matrix.)
+}
+
+\addParagraph{%
+More explicitly, one may write
+\[
+\bL = \begin{pmatrix}
+1      & 0      & \cdots & 0\\[1mm]
+\ell_{21} & 1      & \cdots & 0\\[1mm]
+\vdots & \vdots & \ddots & \vdots\\[1mm]
+\ell_{n1} & \ell_{n2} & \cdots & 1
+\end{pmatrix}, \quad
+\bU = \begin{pmatrix}
+u_{11} & u_{12} & \cdots & u_{1n}\\[1mm]
+0      & u_{22} & \cdots & u_{2n}\\[1mm]
+\vdots & \vdots & \ddots & \vdots\\[1mm]
+0      & 0      & \cdots & u_{nn}
+\end{pmatrix}.
+\]
+The entries of \(\bU\) and the multipliers \(\ell_{ij}\) are determined by the recurrences:
+\[
+u_{1j} = a_{1j},\quad j=1,\dots,n,
+\]
+\[
+\ell_{i1} = \frac{a_{i1}}{u_{11}},\quad i=2,\dots,n,
+\]
+and for \(k = 2, \dots, n\):
+\[
+u_{kj} = a_{kj} - \sum_{s=1}^{k-1} \ell_{ks}\,u_{sj}, \quad j=k,\dots,n,
+\]
+\[
+\ell_{ik} = \frac{1}{u_{kk}}\Bigl( a_{ik} - \sum_{s=1}^{k-1} \ell_{is}\,u_{sk} \Bigr), \quad i=k+1,\dots,n.
+\]
+}
+
+\addNote{%
+These formulas summarize the Gaussian elimination process: at each step, the pivot \(u_{kk}\) is used to eliminate the entries below it, and the multipliers are recorded in \(\bL\). The computation of \(u_{kj}\) reflects the updated entries after previously performed eliminations.
+}
+
+\addExcr{%
+Consider the \(3 \times 3\) matrix
+\[
+\bA = \begin{pmatrix}
+2 & 3 & 1 \\
+4 & 7 & 3 \\
+-2 & -3 & 1
+\end{pmatrix}.
+\]
+Perform the LU factorization manually by computing the multipliers \(\ell_{ij}\) and the resulting entries of \(\bU\). Verify that \(\bA = \bL\,\bU\).
+}
+
+\addNote{%
+In practice, if a pivot \(u_{kk}\) is zero or nearly zero, row interchanges (pivoting) become necessary to ensure numerical stability. In such cases, the LU factorization is modified to the LUP factorization, where a permutation matrix is incorporated. However, when all leading principal minors are nonzero, as assumed here, an LU factorization without pivoting exists.
+}
+
+
+\subsection{Pivoting and LUP Decomposition}
+
+\addDef{Pivoting and LUP Decomposition}{%
+When a matrix \(\bA\) contains zeros or very small entries in prospective pivot positions, row (or column) interchanges are necessary to maintain numerical stability. These interchanges are captured by a permutation matrix \(\bP\), yielding the factorization 
+\[
+\bP\bA = \bL\bU.
+\]
+This variant is known as the \emph{LUP Decomposition}, where \(\bL\) is unit lower triangular and \(\bU\) is upper triangular.
+}
+
+\textBox{%
+Partial pivoting involves interchanging rows to select the largest available pivot element in absolute value, thereby reducing the risk of division by small numbers and limiting error growth. Complete pivoting, which also swaps columns, may be employed for additional stability, albeit at a higher computational cost.
+}
+
+\addNote{%
+The permutation matrix \(\bP\) is orthogonal, satisfying \(\bP^T\bP = \bI\), and it geometrically represents the reordering of the rows (or columns) of \(\bA\).
+}
+
+\addExcr{%
+Given the matrix 
+\[
+\bA = \begin{pmatrix} 0 & 2 & 1 \\ 2 & 1 & 0 \\ 1 & 0 & 2 \end{pmatrix},
+\]
+determine a suitable permutation matrix \(\bP\) so that \(\bP\bA\) has a nonzero (and preferably large) pivot in the \((1,1)\) position. Then, perform the LU Decomposition on \(\bP\bA\) and verify that \(\bP\bA = \bL\bU\). Additionally, prove that for any permutation matrix \(\bP\), it holds that \(\bP^{-1} = \bP^T\).
+}
+
+\subsection{Cholesky Decomposition}
+
+\addDef{Cholesky Decomposition}{%
+For a symmetric positive definite (SPD) matrix \(\bA \in \mathbb{R}^{n \times n}\), the Cholesky Decomposition expresses \(\bA\) as 
+\[
+\bA = \bL\bL^T,
+\]
+where \(\bL\) is a unique lower triangular matrix with strictly positive diagonal entries.
+}
+
+\textBox{%
+SPD matrices, which satisfy \(\bx^T\bA\bx > 0\) for all nonzero \(\bx\), are prevalent in optimization, statistics, and finite element methods. The Cholesky factorization is both computationally efficient and numerically stable since it avoids the need for pivoting.
+}
+
+\addNote{%
+The uniqueness of the Cholesky Decomposition stems from the positivity of the leading principal minors of an SPD matrix, ensuring that each pivot in the elimination process is nonzero.
+}
+
+\addExcr{%
+Prove that if \(\bA\) is SPD, then all its leading principal minors are positive. Use this result to demonstrate that the Cholesky factorization \(\bA = \bL\bL^T\) is unique. As an application, compute the Cholesky factorization of 
+\[
+\bA = \begin{pmatrix} 4 & 2 \\ 2 & 3 \end{pmatrix},
+\]
+and verify your result.
+}
+
+\subsection{QR Decomposition and Orthogonal Transformations}
+
+\addDef{QR Decomposition}{%
+For a matrix \(\bA \in \mathbb{R}^{m \times n}\) with \(m \ge n\), the QR Decomposition factors \(\bA\) as 
+\[
+\bA = \bQ\bR,
+\]
+where \(\bQ\) is an orthogonal matrix (i.e., \(\bQ^T\bQ = \bI\)) and \(\bR\) is an upper triangular matrix.
+}
+
+\textBox{%
+The QR factorization is particularly effective in solving least squares problems. Given \(\bA = \bQ\bR\), one can minimize \(\|\bA\bx - \bb\|\) by solving the simpler upper triangular system \(\bR\bx = \bQ^T\bb\), as orthogonal transformations preserve Euclidean norms.
+}
+
+\addNote{%
+Several algorithms exist to compute the QR decomposition, including the classical Gram-Schmidt process, Householder reflections, and Givens rotations. Among these, Householder and Givens methods are favored for their superior numerical stability.
+}
+
+\addExcr{%
+Using a simple \(3 \times 2\) matrix, implement the classical Gram-Schmidt process to compute its QR decomposition. Then, analyze the orthogonality of the resulting \(\bQ\) and comment on any potential numerical issues that may arise in practice.
+}
+
+\subsubsection{Householder Transformations}
+
+\addDef{Householder Reflection}{%
+A Householder reflection is an orthogonal transformation defined by
+\[
+\bH = \bI - 2\,\frac{\bv\bv^T}{\|\bv\|^2},
+\]
+where \(\bv\) is a nonzero vector in \(\mathbb{R}^m\). The matrix \(\bH\) is symmetric and orthogonal.
+}
+
+\textBox{%
+Householder reflections are used to eliminate subdiagonal elements in a matrix. By applying a series of such reflections, one transforms \(\bA\) into an upper triangular matrix \(\bR\). The product of the Householder matrices forms the orthogonal factor \(\bQ^T\) in the QR decomposition.
+}
+
+\addExcr{%
+Prove that the product of Householder matrices \(\bH_k \cdots \bH_2\bH_1\) is orthogonal. Then, for a given vector \(\bx \in \mathbb{R}^m\), construct a Householder reflector that zeros out all but the first component of \(\bx\). Provide a step-by-step derivation.
+}
+
+\subsubsection{Givens Rotations}
+
+\addDef{Givens Rotation}{%
+A Givens rotation \(\bG(i,j,\theta)\) is an orthogonal transformation that rotates the \((i,j)\)-plane by an angle \(\theta\). It is defined by inserting a \(2 \times 2\) rotation matrix 
+\[
+\begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}
+\]
+into the identity matrix at the \(i\)th and \(j\)th positions.
+}
+
+\textBox{%
+Givens rotations are especially useful for eliminating individual elements of a matrix, making them well-suited for sparse matrices. By applying an appropriate sequence of Givens rotations, one can compute the QR decomposition while preserving the sparsity pattern.
+}
+
+\addExcr{%
+Develop an algorithm using Givens rotations to compute the QR decomposition of a tridiagonal matrix. Explain how the rotations are chosen to eliminate subdiagonal elements, and analyze the algorithm’s computational complexity.
+}
+
+\subsection{Eigenvalue Decomposition}
+
+\addDef{Eigenvalue Decomposition}{%
+If \(\bA \in \mathbb{R}^{n \times n}\) is diagonalizable with \(n\) linearly independent eigenvectors, then it can be expressed as 
+\[
+\bA = \bV\bLambda\bV^{-1},
+\]
+where \(\bV\) is the matrix of eigenvectors and \(\bLambda\) is a diagonal matrix containing the corresponding eigenvalues.
+}
+
+\textBox{%
+Eigenvalue decompositions are fundamental in understanding the spectral properties of matrices. They play a central role in stability analysis, vibrations, and many iterative methods. When \(\bA\) is symmetric, the eigenvalue decomposition simplifies to \(\bA = \bQ\bLambda\bQ^T\) with orthogonal \(\bQ\), which is particularly amenable to numerical computation.
+}
+
+\addExcr{%
+Show that if \(\bA\) is symmetric positive definite, then all its eigenvalues are positive. Use this result to analyze the convergence of the Conjugate Gradient method for solving \(\bA\bx = \bb\).
+}
+
+\subsection{Singular Value Decomposition and the Four Fundamental Subspaces}
+\label{sub:svd-four-subspaces}
+
+\addDef{Singular Value Decomposition (SVD)}{%
+For any matrix \(\bA \in \mathbb{R}^{m \times n}\), the \textbf{Singular Value Decomposition (SVD)} expresses \(\bA\) as 
+\[
+\bA = \bU \mathbf{\Sigma} \bV^T,
+\]
+where \(\bU \in \mathbb{R}^{m \times m}\) and \(\bV \in \mathbb{R}^{n \times n}\) are orthogonal matrices, and \(\mathbf{\Sigma} \in \mathbb{R}^{m \times n}\) is a diagonal (or more precisely, a rectangular diagonal) matrix whose diagonal entries \(\sigma_1 \ge \sigma_2 \ge \cdots \ge 0\) are called the \emph{singular values} of \(\bA\).%
+}
+
+\addNote{%
+ The SVD is often regarded as the culmination of linear algebra concepts. It not only factors the matrix into rotations and scalings but also reveals the intrinsic geometric structure of \(\bA\). In particular, the SVD explicitly identifies the four fundamental subspaces associated with \(\bA\), which are essential for understanding solutions to linear systems, least squares problems, and the behavior of \(\bA\) under perturbations.
+}
+
+
+\addDef{The Four Fundamental Subspaces}{%
+Given a matrix \(\bA \in \mathbb{R}^{m \times n}\), the four fundamental subspaces are:
+\begin{enumerate}
+    \item \textbf{Column Space (Range):} \(\mathcal{R}(\bA)=\{ \bA\bx : \bx \in \mathbb{R}^n \}\subseteq \mathbb{R}^m\). This subspace consists of all vectors that can be expressed as \(\bA\bx\).
+    \item \textbf{Null Space (Kernel):} \(\mathcal{N}(\bA)=\{ \bx \in \mathbb{R}^n : \bA\bx = \mathbf{0} \}\). This subspace comprises all solutions to the homogeneous equation.
+    \item \textbf{Row Space:} \(\mathcal{R}(\bA^T)=\{ \bA^T\by : \by \in \mathbb{R}^m \}\subseteq \mathbb{R}^n\). It is the span of the rows of \(\bA\) and is the orthogonal complement of \(\mathcal{N}(\bA)\) in \(\mathbb{R}^n\).
+    \item \textbf{Left Null Space:} \(\mathcal{N}(\bA^T)=\{ \by \in \mathbb{R}^m : \bA^T\by = \mathbf{0} \}\). This is the set of all vectors in \(\mathbb{R}^m\) that are orthogonal to every column of \(\bA\).
+\end{enumerate}
+}
+
+\addNote{%
+\textbf{Link to SVD:} In the SVD \(\bA=\bU\mathbf{\Sigma}\bV^T\), the columns of \(\bU\) corresponding to nonzero singular values form an orthonormal basis for the column space \(\mathcal{R}(\bA)\), while the remaining columns of \(\bU\) form a basis for the left null space \(\mathcal{N}(\bA^T)\). Similarly, the columns of \(\bV\) corresponding to nonzero singular values span the row space \(\mathcal{R}(\bA^T)\), and those corresponding to zero singular values span the null space \(\mathcal{N}(\bA)\).
+}
+
+\addDef{Link to Solutions of Linear Equations}{%
+Consider the linear system \(\bA\bx = \bb\). The existence and uniqueness of solutions depend on the relationship between \(\bb\) and the fundamental subspaces:
+\begin{itemize}
+    \item A solution exists if and only if \(\bb \in \mathcal{R}(\bA)\).
+    \item When \(\bb \in \mathcal{R}(\bA)\), the general solution can be expressed as the sum of a particular solution and any vector in the null space \(\mathcal{N}(\bA)\).
+    \item In the context of least squares, when \(\bb\) is not in \(\mathcal{R}(\bA)\), one seeks a solution \(\hat{\bx}\) such that the residual \(\|\bA\hat{\bx}-\bb\|\) is minimized. The SVD provides a natural framework to compute the minimum-norm solution via the pseudoinverse.
+\end{itemize}
+}
+
+\addExcr{%
+For a given matrix \(\bA\), use its SVD to:
+\begin{enumerate}
+    \item Determine orthonormal bases for \(\mathcal{R}(\bA)\), \(\mathcal{N}(\bA)\), \(\mathcal{R}(\bA^T)\), and \(\mathcal{N}(\bA^T)\).
+    \item Analyze the conditions under which the linear system \(\bA\bx=\bb\) has a unique solution, infinitely many solutions, or no solution.
+    \item Show that if \(\bb \notin \mathcal{R}(\bA)\), the least squares solution is given by \(\hat{\bx} = \bA^+\bb\), where \(\bA^+\) is the Moore-Penrose pseudoinverse derived from the SVD.
+\end{enumerate}
+}
+
+\addNote{%
+ The SVD not only decomposes the matrix into its fundamental components but also organizes its action into rotations (via \(\bU\) and \(\bV\)) and scalings (via \(\mathbf{\Sigma}\)). This clear separation allows us to understand how errors propagate in the solution of linear systems and how the geometry of \(\bA\) influences the solvability and stability of \(\bA\bx = \bb\).
+}
+\subsection{Rank Truncation via the SVD: Full Mathematical Explanation}
+\label{sub:svd-rank-truncation}
+
+\addDef{Singular Value Decomposition}{%
+For any matrix \(\bA \in \mathbb{R}^{m \times n}\), the Singular Value Decomposition (SVD) is given by
+\[
+\bA = \bU \mathbf{\Sigma} \bV^T,
+\]
+where:
+\begin{itemize}
+  \item \(\bU \in \mathbb{R}^{m \times m}\) is an orthogonal matrix whose columns \(\{\bu_1, \bu_2, \dots, \bu_m\}\) are the left singular vectors.
+  \item \(\bV \in \mathbb{R}^{n \times n}\) is an orthogonal matrix whose columns \(\{\bv_1, \bv_2, \dots, \bv_n\}\) are the right singular vectors.
+  \item \(\mathbf{\Sigma} \in \mathbb{R}^{m \times n}\) is a diagonal matrix with nonnegative entries \(\sigma_1, \sigma_2, \dots, \sigma_p\) (with \(p = \min(m,n)\)) arranged in descending order:
+  \[
+    \mathbf{\Sigma} = \begin{pmatrix}
+      \sigma_1 & & & 0 \\
+      & \sigma_2 & & \\
+      & & \ddots & \\
+      0 & & & \sigma_p \\
+      \end{pmatrix}.
+  \]
+\end{itemize}
+}
+
+\addNote{%
+\textbf{Intuition:} The SVD decomposes the matrix \(\bA\) into three parts: the rotations \(\bU\) and \(\bV^T\) and the scaling \(\mathbf{\Sigma}\). This factorization exposes the intrinsic rank and geometric features of \(\bA\). 
+}
+
+\addDef{Rank Truncation}{%
+Let \(r\) be an integer with \(0 \le r \le p\). The \textbf{rank-\(r\) approximation} of \(\bA\) is defined as
+\[
+\bA_r = \sum_{i=1}^r \sigma_i \bu_i \bv_i^T,
+\]
+or equivalently, if we partition \(\bU\), \(\mathbf{\Sigma}\), and \(\bV\) as
+\[
+\bU = \begin{pmatrix} \bU_r & \bU_{r,\perp} \end{pmatrix}, \quad
+\mathbf{\Sigma} = \begin{pmatrix} \mathbf{\Sigma}_r & 0 \\ 0 & \mathbf{\Sigma}_{r,\perp} \end{pmatrix}, \quad
+\bV = \begin{pmatrix} \bV_r & \bV_{r,\perp} \end{pmatrix},
+\]
+then
+\[
+\bA_r = \bU_r \mathbf{\Sigma}_r \bV_r^T.
+\]
+Here, \(\mathbf{\Sigma}_r \in \mathbb{R}^{r \times r}\) contains the largest \(r\) singular values, while \(\bU_r\) and \(\bV_r\) contain the corresponding singular vectors.
+}
+
+\addNote{%
+\textbf{Eckart-Young Theorem:} This truncated SVD, \(\bA_r\), is the best approximation to \(\bA\) among all matrices of rank at most \(r\). Specifically, for any matrix \(\bB\) of rank at most \(r\),
+\[
+\|\bA - \bA_r\|_2 \le \|\bA - \bB\|_2 \quad \text{and} \quad \|\bA - \bA_r\|_F \le \|\bA - \bB\|_F.
+\]
+Moreover, the errors are given by
+\[
+\|\bA - \bA_r\|_2 = \sigma_{r+1}, \quad \text{and} \quad \|\bA - \bA_r\|_F = \sqrt{\sum_{i=r+1}^p \sigma_i^2}.
+\]
+}
+
+\addExcr{%
+Prove the Eckart-Young Theorem for the \(2\)-norm case. In particular, show that for any matrix \(\bB\) with \(\operatorname{rank}(\bB) \le r\),
+\[
+\|\bA - \bB\|_2 \ge \sigma_{r+1}.
+\]
+(Hint: Consider the singular value decomposition of \(\bA\) and use the unitary invariance of the spectral norm.)
+}
+
+\textBox{%
+To see the derivation, observe that the SVD of \(\bA\) gives
+\[
+\bA = \sum_{i=1}^p \sigma_i \bu_i \bv_i^T.
+\]
+Truncating the series at \(r\) terms results in
+\[
+\bA_r = \sum_{i=1}^r \sigma_i \bu_i \bv_i^T,
+\]
+and the remainder is
+\[
+\bA - \bA_r = \sum_{i=r+1}^p \sigma_i \bu_i \bv_i^T.
+\]
+Since the spectral norm (or \(2\)-norm) is given by the largest singular value, it follows that
+\[
+\|\bA - \bA_r\|_2 = \sigma_{r+1}.
+\]
+Any other rank-\(r\) approximation \(\bB\) must incur an error at least as large as this, establishing the optimality of \(\bA_r\).
+}
+
+\addNote{%
+\textbf{Exercise Hint:} The singular values of \(\bA - \bB\) cannot be made smaller than those in the truncated tail \(\{\sigma_{r+1}, \dots, \sigma_p\}\) due to the unitary invariance of the norm.
+}
+
+\addExcr{%
+For a given \(4 \times 4\) matrix with singular values \(\sigma_1, \sigma_2, \sigma_3, \sigma_4\), construct the rank-\(2\) approximation \(\bA_2\) and compute \(\|\bA - \bA_2\|_2\) and \(\|\bA - \bA_2\|_F\). Compare your results with the theoretical error bounds.
+}
+
+
+
+
+\subsection{Conditioning and Stability Revisited}
+
+\textBox{%
+Throughout this discussion, the notion of conditioning pops up ubiquitously. Although numerical algorithms can be designed to be backward stable—meaning the computed solution is the exact solution of a slightly perturbed problem—the inherent sensitivity of a problem is dictated by the condition number \(\kappa(\bA)\). If \(\bA\) is ill-conditioned, even the most stable algorithm may yield a solution with significant relative error.
+}
+
+\addNote{%
+Backward stable algorithms do not improve the condition number of the problem; they merely ensure that the numerical method does not introduce additional error beyond what is implied by \(\kappa(\bA)\). For instance, LU factorization with partial pivoting is backward stable for most matrices, yet if \(\kappa(\bA)\) is large, the final solution may still be inaccurate.
+}
+
+\addExcr{%
+Consider a matrix \(\bA\) with an extremely large condition number (for example, one of the matrices you explored earlier in this section). Introduce a small relative perturbation \(\epsilon\) to the right-hand side \(\bb\), and solve \(\bA\bx = \bb\) using a stable LU decomposition with partial pivoting. Compare the relative error in the computed solution \(\hat{\bx}\) to \(\kappa(\bA)\epsilon\). Provide a detailed discussion on how the condition number impacts the accuracy of the solution and propose methods to mitigate these effects.
+}
+
+\addNote{%
+The choice of method depends critically on the structure of the matrix (e.g., symmetry, sparsity, bandedness) and the nature of the problem (e.g., direct solution versus iterative refinement). Advanced topics such as preconditioning and randomized algorithms for SVD extend these ideas into the realm of large-scale, high-performance computing.
+}
+
+\addExcr{%
+Explore the implementation of these matrix decompositions in a standard numerical library (e.g., LAPACK, MATLAB, NumPy, or Julia). Compare the theoretical operation counts with empirical performance data for large-scale problems. Discuss how design choices—such as pivoting, blocking, or parallelization strategies—affect both the computational efficiency and the numerical stability of the algorithms.
+}
+
+
+\subsection{Overdetermined and Underdetermined Systems}
+
+\addNote{%
+Not all systems have the same structure. An \textbf{overdetermined system} (more equations than unknowns, \(m > n\)) typically has no exact solution, necessitating least squares techniques. An \textbf{underdetermined system} (\(m < n\)) has infinitely many solutions, and additional criteria (such as minimum norm) are used to select a unique solution.
+}
+
+\addExcr{%
+Discuss the differences between overdetermined and underdetermined systems. Show how the SVD and the concept of the pseudoinverse provide natural ways to derive solutions in both cases.
+}
+
+\subsection{Conditioning and Stability Revisited}
+
+\textBox{%
+Throughout this discussion, the inherent sensitivity of a problem, as measured by the condition number \(\kappa(\bA)\), plays a crucial role. Even with backward stable algorithms, if \(\bA\) is ill-conditioned, the computed solution may exhibit significant relative errors.
+}
+
+\addNote{%
+Backward stable methods ensure that the computed solution is exact for a nearby problem, but they do not reduce the condition number. For example, LU factorization with partial pivoting is backward stable, yet for a matrix with a high \(\kappa(\bA)\), the final error in \(\hat{\bx}\) can be amplified.
+}
+
+\addExcr{%
+Consider a matrix \(\bA\) with a very large condition number. Introduce a small relative perturbation \(\epsilon\) to the right-hand side \(\bb\), and solve \(\bA\bx = \bb\) using a stable LU decomposition with partial pivoting. Compare the relative error in \(\hat{\bx}\) with \(\kappa(\bA)\epsilon\). Discuss strategies such as preconditioning to mitigate the effects of high condition numbers.
+}
+
+
+\subsection{Least Squares}
+
+\addDef{Least Squares Problem}{%
+Consider an overdetermined linear system 
+\[
+\bA \bx = \bb,
+\]
+where \(\bA \in \mathbb{R}^{m \times n}\) with \(m > n\) and \(\bb \in \mathbb{R}^m\). In general, no exact solution \(\bx\) exists that satisfies the system. The \textbf{least squares problem} seeks an approximate solution \(\hat{\bx}\) that minimizes the residual error measured in the 2-norm:
+\[
+\hat{\bx} = \argmin_{\bx \in \mathbb{R}^n} \| \bA \bx - \bb \|_2.
+\]
+In other words, we wish to find the vector \(\hat{\bx}\) that minimizes the function
+\[
+f(\bx) = \|\bA \bx - \bb\|_2^2.
+\]
+}
+
+\addNote{%
+Geometrically, the least squares solution corresponds to projecting the vector \(\bb\) onto the column space of \(\bA\). The computed \(\hat{\bx}\) yields the point \(\bA\hat{\bx}\) in the column space that is closest (in the Euclidean norm) to \(\bb\).
+}
+
+\textBox{%
+We begin by expanding the objective function. Notice that 
+\[
+f(\bx) = \|\bA \bx - \bb\|_2^2 = (\bA \bx - \bb)^T (\bA \bx - \bb).
+\]
+Expanding this quadratic form, we have
+\[
+f(\bx) = \bx^T \bA^T \bA \bx - 2 \bb^T \bA \bx + \bb^T \bb.
+\]
+Since \(\bb^T \bb\) is constant with respect to \(\bx\), minimizing \(f(\bx)\) is equivalent to minimizing the quadratic function 
+\[
+g(\bx) = \bx^T \bA^T \bA \bx - 2 \bb^T \bA \bx.
+\]
+}
+
+\textBox{%
+To find the minimum, we compute the gradient of \(g(\bx)\) with respect to \(\bx\). Using standard results from calculus, the gradient is given by
+\[
+\nabla_{\bx} g(\bx) = 2 \bA^T \bA \bx - 2 \bA^T \bb.
+\]
+Setting the gradient equal to zero (a necessary condition for optimality), we obtain the \textbf{normal equations}:
+\[
+2 \bA^T \bA \bx - 2 \bA^T \bb = \mathbf{0} \quad \Longrightarrow \quad \bA^T \bA \bx = \bA^T \bb.
+\]
+}
+
+\addNote{%
+The normal equations represent a system of \(n\) equations in \(n\) unknowns. Under the assumption that \(\bA\) has full column rank (i.e., \(\operatorname{rank}(\bA)=n\)), the matrix \(\bA^T \bA\) is invertible, and the least squares solution is unique.
+}
+
+\addDef{Normal Equations and the Least Squares Solution}{%
+Assuming that \(\bA^T \bA\) is invertible, the unique least squares solution is given by
+\[
+\hat{\bx} = (\bA^T \bA)^{-1} \bA^T \bb.
+\]
+This formula is central to the theory and practice of least squares, providing an explicit expression for the solution.
+}
+
+\addNote{%
+An important consequence of the least squares derivation is that the residual \(\br = \bb - \bA\hat{\bx}\) is orthogonal to the column space of \(\bA\). In fact, multiplying the normal equations by \(\hat{\bx}\) shows that
+\[
+\bA^T (\bb - \bA\hat{\bx}) = \mathbf{0}.
+\]
+This orthogonality property is key to many theoretical and practical aspects of least squares analysis.
+}
+
+\addExcr{%
+Show that if \(\hat{\bx} = (\bA^T \bA)^{-1} \bA^T \bb\) is the least squares solution of \(\bA\bx = \bb\), then the residual \(\br = \bb - \bA\hat{\bx}\) is orthogonal to every column of \(\bA\); that is, prove that \(\bA^T \br = \mathbf{0}\).
+}
+
+\textBox{%
+An alternative viewpoint is to express the least squares solution as the orthogonal projection of \(\bb\) onto the column space of \(\bA\). Define the projection matrix
+\[
+\bP = \bA (\bA^T \bA)^{-1} \bA^T.
+\]
+Then, the projection of \(\bb\) onto the column space of \(\bA\) is given by
+\[
+\hat{\bb} = \bP \bb = \bA\hat{\bx}.
+\]
+The matrix \(\bP\) has the properties of being symmetric (\(\bP^T = \bP\)) and idempotent (\(\bP^2 = \bP\)), and it plays a fundamental role in both theoretical analyses and practical algorithms for least squares problems.
+}
+
+\addExcr{%
+Prove that the projection matrix \(\bP = \bA (\bA^T \bA)^{-1} \bA^T\) is both symmetric and idempotent.
+}
+
+\textBox{%
+While the normal equations provide a direct way to obtain the least squares solution, they are not always the most numerically stable approach. The computation of \((\bA^T \bA)^{-1}\) can lead to loss of precision, particularly when \(\bA\) is ill-conditioned. For this reason, alternative methods—such as the QR Decomposition or the Singular Value Decomposition (SVD)—are often employed in practice to solve least squares problems.
+}
+
+\addDef{QR-Based Least Squares}{%
+Suppose \(\bA\) has a QR factorization \(\bA = \bQ\bR\) where \(\bQ \in \mathbb{R}^{m \times m}\) is orthogonal and \(\bR \in \mathbb{R}^{m \times n}\) is upper triangular (with the last \(m-n\) rows being zero if \(m > n\)). Then, the least squares problem becomes
+\[
+\min_{\bx} \|\bQ\bR \bx - \bb\|_2 = \min_{\bx} \|\bR \bx - \bQ^T \bb\|_2,
+\]
+since \(\bQ\) preserves the 2-norm. The solution is obtained by solving the triangular system 
+\[
+\bR_1 \bx = \bQ_1^T \bb,
+\]
+where \(\bR_1\) is the upper \(n \times n\) portion of \(\bR\) and \(\bQ_1\) consists of the first \(n\) columns of \(\bQ\).
+}
+
+\addNote{%
+This approach avoids forming \(\bA^T\bA\) directly, thereby mitigating the potential numerical instability associated with squaring the condition number.
+}
+
+\addExcr{%
+Given a full-rank matrix \(\bA \in \mathbb{R}^{m \times n}\) with \(m > n\) and its QR decomposition \(\bA = \bQ\bR\), derive the reduced form of the least squares solution by showing that solving \(\bR_1 \bx = \bQ_1^T \bb\) is equivalent to solving the normal equations.
+}
+
+\addDef{SVD-Based Least Squares}{%
+The Singular Value Decomposition (SVD) offers yet another robust method for solving least squares problems. If \(\bA = \bU\mathbf{\Sigma}\bV^T\) is the SVD of \(\bA\), then the least squares solution is given by
+\[
+\hat{\bx} = \bV \mathbf{\Sigma}^+ \bU^T \bb,
+\]
+where \(\mathbf{\Sigma}^+\) is the pseudoinverse of the diagonal matrix \(\mathbf{\Sigma}\). This method is particularly advantageous when \(\bA\) is rank-deficient or nearly singular.
+}
+
+\addNote{%
+The SVD-based approach naturally provides insight into the rank and conditioning of \(\bA\). Small singular values indicate directions in which \(\bA\) nearly loses rank, and they contribute disproportionately to the error in \(\hat{\bx}\).
+}
+
+\addExcr{%
+For a given matrix \(\bA\) with known singular values, use the SVD-based formula \(\hat{\bx} = \bV \mathbf{\Sigma}^+ \bU^T \bb\) to compute the least squares solution. Analyze how the presence of very small singular values affects the solution, and discuss strategies (such as truncation) to mitigate these effects.
+}
+
+\textBox{%
+In summary, the least squares method is a fundamental tool for solving overdetermined systems. It minimizes the error between the observed vector \(\bb\) and the predicted vector \(\bA\bx\) in a least-squares sense. The derivation via the normal equations provides a clear and concise formulation, while alternative approaches based on QR Decomposition and SVD offer improved numerical stability in practical applications.
+}
+
+
+\end{document}

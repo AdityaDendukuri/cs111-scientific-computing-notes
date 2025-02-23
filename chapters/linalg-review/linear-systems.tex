@@ -1,43 +1,100 @@
-\documentclass[linalg-review.tex]{subfiles}
-
+\documentclass[../../cs111_main.tex]{subfiles}
+\input{chapters/linalg-review/section_layout_config}
 
 \begin{document}
-\subsection{Linear Systems}
+\subsection{Linearity}
 
-\noindent
-
-\defn{Linear Systems}
-
-A system of linear equations are of the following form
+\addDef{Linear Systems \index{linear systems}}{%
+A \textbf{system of linear equations} is a collection of equations in which each equation is a linear combination of the unknown variables. Such a system can be written in the form
 \begin{eqnarray*}
-    a_{11}x_{1} + a_{12}x_{2} + &\cdots& + a_{1n}x_{n} = b_{1} \\
+    a_{11}x_{1} + a_{12}x_{2} + &\cdots& + a_{1n}x_{n} = b_{1}, \\
+    a_{21}x_{1} + a_{22}x_{2} + &\cdots& + a_{2n}x_{n} = b_{2}, \\
     &\vdots& \\
-    a_{m1}x_{1} + a_{m2}x_{2} + &\cdots& + a_{mn}x_{n} = b_{m}, 
+    a_{m1}x_{1} + a_{m2}x_{2} + &\cdots& + a_{mn}x_{n} = b_{m},
 \end{eqnarray*}
-where $a_{11}, \cdots, a_{mn}$ are known constants and $x_{1}, \cdots, x_{n}$ are unknown variables. The goal is to solve for the variables. This \textit{system of linear equations} can be re-written as a matrix-vector product -
-\begin{align*}
-    \begin{bmatrix}
-        a_{11} & \cdots & a_{1n} \\
-        \vdots & \ddots & \vdots \\
-        a_{m1} & \cdots & a_{mn} \\
-    \end{bmatrix}
-    \begin{bmatrix}
-        x_{1} \\
-        \vdots \\
-        x_{n}
-    \end{bmatrix} =
-    \begin{bmatrix}
-        b_{1} \\
-        \vdots \\
-        b_{n}
-    \end{bmatrix}, \\
-\end{align*}
-or, 
-\begin{equation}
-    \bA \bx = \bb.
-\end{equation}
+where each \(a_{ij}\) (with \(1 \le i \le m\) and \(1 \le j \le n\)) is a known constant and \(x_{1},\dots,x_{n}\) are the unknowns. The objective is to find values for the \(x_j\) that simultaneously satisfy all the equations. In matrix-vector form, this system is succinctly expressed as
+\[
+\bA \bx = \bb,
+\]
+where 
+\[
+\bA = \begin{bmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{bmatrix}, \quad
+\bx = \begin{bmatrix}
+x_{1} \\
+x_{2} \\
+\vdots \\
+x_{n}
+\end{bmatrix}, \quad
+\bb = \begin{bmatrix}
+b_{1} \\
+b_{2} \\
+\vdots \\
+b_{m}
+\end{bmatrix}.
+\]
+}
 
+\addNote{%
+The mapping \(T: \fR^n \to \fR^m\) defined by \(T(\bx) = \bA\bx\) is a linear transformation. That is, for any vectors \(\bx,\by \in \fR^n\) and scalar \(c \in \fR\), we have:
+\[
+T(\bx + \by) = \bA(\bx+\by) = \bA\bx + \bA\by = T(\bx) + T(\by),
+\]
+\[
+T(c\bx) = \bA(c\bx) = c\,\bA\bx = c\,T(\bx).
+\]
+These properties, known as additivity and homogeneity, are the defining features of linear maps.
+}
 
+\addThm{Existence and Uniqueness \index{linear systems!existence and uniqueness}}{%
+For a square system (i.e., when \(m=n\)), the linear system
+\[
+\bA\bx = \bb
+\]
+has a unique solution if and only if the coefficient matrix \(\bA\) is invertible, which is equivalent to \(\det(\bA) \neq 0\). If \(\bA\) is singular (i.e., noninvertible, \(\det(\bA)=0\)), then the system either has no solution or has infinitely many solutions. In the latter case, the set of solutions forms an affine subspace of \(\fR^n\).
+}
 
+\addDef{Homogeneous Systems \index{linear systems!homogeneous}}{%
+A \emph{homogeneous system} is a special case of a linear system where the constant vector is zero:
+\[
+\bA\bx = \mathbf{0}.
+\]
+Such a system always has at least the trivial solution \(\bx = \mathbf{0}\). Moreover, if there exists any nontrivial solution, then the complete set of solutions forms a linear subspace of \(\fR^n\), called the null space (or kernel) of \(\bA\).
+}
+
+\addDef{Superposition Principle \index{linear systems!superposition}}{%
+For a homogeneous linear system \(\bA\bx = \mathbf{0}\), if \(\bx_1\) and \(\bx_2\) are solutions, then any linear combination 
+\[
+c_1\bx_1 + c_2\bx_2, \quad \text{with } c_1,c_2 \in \fR,
+\]
+is also a solution. This principle, known as the \textbf{superposition principle}, reflects the fact that the set of all solutions to a homogeneous system forms a vector subspace of \(\fR^n\).
+}
+
+\addExmpl{%
+Consider the system
+\[
+\begin{aligned}
+2x + 3y &= 5,\\[1mm]
+x - 4y &= -2.
+\end{aligned}
+\]
+In matrix form, it is expressed as
+\[
+\bA \bx = \bb \quad \text{with} \quad \bA = \begin{bmatrix} 2 & 3 \\ 1 & -4 \end{bmatrix}, \quad \bx = \begin{bmatrix} x \\ y \end{bmatrix}, \quad \bb = \begin{bmatrix} 5 \\ -2 \end{bmatrix}.
+\]
+The determinant of the coefficient matrix is calculated as
+\[
+\det\begin{bmatrix} 2 & 3 \\ 1 & -4 \end{bmatrix} = 2(-4) - 3(1) = -8 - 3 = -11 \neq 0.
+\]
+Since the determinant is nonzero, \(\bA\) is invertible, and by the Existence and Uniqueness Theorem, the system has a unique solution.
+}
+
+\addNote{%
+For non-square systems or singular matrices, the solution set can be more intricate. For example, when \(\bA\) is not of full rank, the homogeneous system has infinitely many solutions forming a subspace whose dimension is given by the nullity of \(\bA\) (as described by the Rank-Nullity Theorem). Understanding these scenarios is essential in many applications, such as in solving least squares problems.
+}
 
 \end{document}

@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage{marginnote}
+\usepackage{lipsum}
+
+\usepackage[explicit]{titlesec}
+\titleformat{\section}[rightmargin]%
+    {\reversemarginpar\bfseries\marginnote{#1}}%
+    {\thesection}%
+    {0pt}{}[]
+
+\begin{document}
+\section{My section}
+\lipsum[1-9]
+
+\section{My section}
+\lipsum[10-12]
+\end{document}

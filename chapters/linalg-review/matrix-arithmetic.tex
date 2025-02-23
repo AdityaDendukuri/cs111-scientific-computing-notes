@@ -1,87 +1,146 @@
-\documentclass[../../main.tex]{subfiles}
+\documentclass[../../cs111_main.tex]{subfiles}
 
 \begin{document}
 \input{chapters/linalg-review/section_layout_config}
 
 \subsection{Matrix Arithmetic}
 
+We are all familiar with scalar arithmetic, including operations like addition, subtraction, and multiplication, as well as fundamental properties such as associativity and distributivity. In the following sections, we extend these familiar concepts to vectors and matrices, exploring how these operations are defined and applied in higher dimensions.
+
 \subsubsection{Adding and Subtracting Matrices}
-\paragraph{ }
-\defn{Matrix Sum} 
-$\bA \in \fR^{m \times n}, \bB \in \fR^{m \times n}$, 
-\begin{equation*}
-    \bA + \bB = \printmatsq{a} + \printmatsq{b} = \printmatsq{(a+b)}.
-\end{equation*}
 
-\paragraph{ }
-\defn{Scalar Product} 
-$\bA \in \fR^{m \times n}, c \in \fR$ 
-\begin{equation*}
-    c\bA = c \printmatsq{a} = \printmatsq{c a}.
-\end{equation*}
+Matrix addition is performed element-wise. Note that matrices can only be added (or subtracted) if they have the same dimensions.
 
-\paragraph{ }
-\excr{Exercise: }
-Define matrix subtraction using Matrix sum and scalar product. 
-\begin{equation*}
-    \bA - \bB = 
-\end{equation*}
+\addDef{Matrix Sum}{%
+Let $\bA, \bB \in \fR^{m \times n}$ be matrices. Their sum is defined as
+\[
+\bA + \bB = \printmatsq{a} + \printmatsq{b} = \printmatsq{(a+b)},
+\]
+where each entry satisfies $(a+b)_{ij} = a_{ij} + b_{ij}$ for $1 \le i \le m$ and $1 \le j \le n$.
+}
 
+\addNote{%
+For two matrices $\bA \in \fR^{m \times n}$ and $\bB \in \fR^{p \times q}$, the sum $\bA+\bB$ is defined if and only if $m=p$ and $n=q$.
+}
 
+\addExcr{%
+Prove that matrix addition is commutative and associative.
+}
 
-\subsubsection{Multiplying Matrices}
+\subsubsection{Multiplication}
 
-\paragraph{ }
-\defn{Dot Product}
-\index{dot|product}
-$\ba, \bb \in \fR^{n}$
+Matrix operations include multiplication by a scalar and matrix multiplication. In the following, we review these operations.
+
+\addDef{Scalar Multiplication}{%
+Let $\bA \in \fR^{m \times n}$ and $c \in \fR$. Then scalar multiplication is defined as
+\[
+c\bA = c \printmatsq{a} = \printmatsq{c a},
+\]
+where each entry satisfies $(c a)_{ij} = c \cdot a_{ij}$.
+}
+
+\addExcr{%
+Using the definitions of matrix sum and scalar multiplication, define matrix subtraction.\\[1mm]
+Hint: Express $\bA - \bB$ as $\bA + (-1)\bB$.
+}
+
+\addDef{Dot Product}{%
+\index{dot|product}%
+For vectors $\ba, \bb \in \fR^{n}$, the dot product (or inner product) is defined as
 \begin{equation}
-    \ba  \cdot \bb = \ba^t \bb = \printcolvec{a} \printrowvec{b} = \sum_{i=1}^{n} a_{i} b_{i}.
+    \ba \cdot \bb = \ba^t \bb = \printrowvec{a} \printcolvec{b} = \sum_{i=1}^{n} a_{i} b_{i}.
 \end{equation}
+}
+
+\addDef{Matrix Product}{%
+Let $\bA \in \mathbb{R}^{m \times n}$ and $\bB \in \mathbb{R}^{n \times p}$. Their product $\bA\bB$ is an $m \times p$ matrix defined by
+\[
+(\bA\bB)_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj},
+\]
+or equivalently, if we consider the rows of $\bA$ as vectors $\ba_i$ and the columns of $\bB$ as vectors $\bb_j$, then
+\[
+\bA \bB = 
+\begin{pmatrix}
+\ba_1 \cdot \bb_1 & \cdots & \ba_1 \cdot \bb_p \\
+\vdots & \ddots & \vdots \\ 
+\ba_m \cdot \bb_1 & \cdots & \ba_m \cdot \bb_p 
+\end{pmatrix}.
+\]
+}
+
+\addNote{%
+Matrix multiplication is defined only when the number of columns of $\bA$ equals the number of rows of $\bB$. Moreover, it is associative and distributive over addition, but in general it is not commutative; that is, $\bA\bB \neq \bB\bA$ for most matrices.
+}
+
+\addExcr{%
+Prove that if $\bA \in \fR^{m \times n}$ and $\bB \in \fR^{p \times q}$, then the product $\bA\bB$ is defined if and only if $n = p$.
+}
+
+\addExcr{%
+Prove the distributive property of matrix multiplication: show that $\bA(\bB + \mathbf{C}) = \bA\bB + \bA\mathbf{C}$.
+}
+
+\addExcr{%
+Prove that scalar multiplication distributes over matrix addition, i.e., $\alpha (\bA + \bB) = \alpha\bA + \alpha\bB.$
+}
+
+\addExcr{%
+Investigate the statement: ``$\bA\bB = \bB\bA$ if and only if $\bA = \bB$.'' Prove or provide a counterexample.
+}
+
+\subsubsection{Matrices as Vectors and Linear Maps}
+
+Many properties of scalar arithmetic extend naturally to both vectors and matrices. In fact, matrices can be viewed as elements of a higher-dimensional vector space, and matrix multiplication can be interpreted as the composition of linear transformations. While the notations for vectors and matrices are similar, their roles in linear algebra differ:
 \begin{itemize}
-    \item Also called inner product.
+    \item Vectors typically represent points or directions in space.
+    \item Matrices often represent linear maps or transformations between vector spaces.
 \end{itemize}
-
-\paragraph{ }
-\defn{Matrix Product}
-$\bA \in \mathbb{R}^{n \times m}, \bB \in \mathbb{R}^{m \times n}$
-\begin{equation*}
-    \bA \bB = \printmatrow{a} \cdot \printmatcol{b} = 
-    \begin{bmatrix}
-        \ba_1 \cdot \bb_1 & \cdots & \ba_1 \cdot \bb_n \\
-        \vdots & \ddots & \vdots \\ 
-        \ba_m \cdot \bb_1 & \cdots & \ba_m \cdot \bb_n 
-    \end{bmatrix}
-\end{equation*}
-
-\addNote{
-    Matrix and vectors can also be multiplied 
-    \begin{equation*}
-        \bA \mathbf{x} = \printmatrow{a} \printcolvecsolid{x} = \begin{bmatrix} \ba_1 \cdot \bx \\ \vdots \\ \ba_n \cdot \bx\end{bmatrix}.
-    \end{equation*}
-}
-\excr{Exercise: }{
-    Prove that the matrix product between matrices $A \in \fR^{m \times n}$ and $A \in \fR^{l \times k}$ is only possible iff $n = k$.
-}
-
+This conceptual distinction becomes crucial when discussing topics such as vector spaces, eigenvalues, and linear transformations.
 
 \subsubsection{Matrix Inverse}
 
-\addDef{Matrix Inverse}{
-    Given a matrix $\bA \in \fR^{n \times n}$, it's inverse is another matrix $\bA^{-1} \in \fR^{n \times n}$ such that
-    \begin{equation*}
-        \bA \bA^{-1} = \bA^{-1} \bA = \mathbf{I}.
-    \end{equation*}
-    \begin{itemize}
-        \item 
-    \end{itemize}
+\addDef{Matrix Inverse}{%
+For a square matrix $\bA \in \fR^{n \times n}$, the inverse of $\bA$, denoted $\bA^{-1}$, is defined as the unique matrix satisfying
+\[
+\bA \bA^{-1} = \bA^{-1} \bA = \mathbf{I},
+\]
+where $\mathbf{I}$ is the $n \times n$ identity matrix. A matrix that has an inverse is called \emph{invertible} or \emph{nonsingular}.
 }
 
-\addDef{Matrix Division} {
-    We can define a matrix division using the concept of matrix inverse. 
-    \begin{equation*}
-        \frac{\bA}{\bB} = \bB^{-1} \bA.
-    \end{equation*}
+\addNote{%
+A square matrix $\bA$ is invertible if and only if $\det(\bA) \neq 0$, which also implies that $\bA$ has full rank.
 }
+
+\addExcr{%
+Prove that if $\bA$ is invertible, then its inverse is unique.
+}
+
+\addDef{Left Inverse}{%
+For a matrix \(\bA \in \mathbb{R}^{m \times n}\) with \(m \ge n\) and full column rank, a \textbf{left inverse} \(\bA^{-L}\) is an \(n \times m\) matrix satisfying 
+\[
+\bA^{-L}\bA = \bI_{n}.
+\]
+}
+
+\addDef{Right Inverse}{%
+For a matrix \(\bA \in \mathbb{R}^{m \times n}\) with \(m \le n\) and full row rank, a \textbf{right inverse} \(\bA^{-R}\) is an \(n \times m\) matrix satisfying 
+\[
+\bA\bA^{-R} = \bI_{m}.
+\]
+}
+
+\textBox{%
+In the case where \(\bA\) is rectangular or rank-deficient, the Moore-Penrose pseudoinverse \(\bA^+\) is defined uniquely to satisfy four specific properties, yielding the best least-squares solution to \(\bA\bx = \bb\).
+}
+
+\addExcr{%
+Given a rank-\(r\) matrix \(\bA \in \mathbb{R}^{m \times n}\) with SVD \(\bA = \bU\mathbf{\Sigma}\bV^T\), derive the explicit expression for its Moore-Penrose pseudoinverse 
+\[
+\bA^+ = \bV\mathbf{\Sigma}^+\bU^T,
+\]
+where \(\mathbf{\Sigma}^+\) is formed by taking the reciprocal of each nonzero singular value and transposing the matrix. Discuss how \(\bA^+\) serves as a left inverse when \(\bA\) is tall and as a right inverse when \(\bA\) is wide.
+}
+
+\sectionend
 
 \end{document}

@@ -3,43 +3,51 @@
 % Prints expanded (m x n) matrix with spanning dots (...) 
 % USAGE - \printmatsq{x}
 
-\def \printmatsq #1{
-    \begin{bmatrix}
+\def \printmat #1{
+    \begin{pmatrix}
         #1_{11} & \cdots & #1_{1n} \\
         \vdots  & \ddots & \vdots \\
         #1_{m1} & \cdots & #1_{mn} \\
-    \end{bmatrix}
+    \end{pmatrix}
+}
+
+\def \printmatsq #1{
+    \begin{pmatrix}
+        #1_{11} & \cdots & #1_{1n} \\
+        \vdots  & \ddots & \vdots \\
+        #1_{n1} & \cdots & #1_{nn} \\
+    \end{pmatrix}
 }
 
 \def \printmatrow #1{
-    \begin{bNiceMatrix} 
-        \Cdots & \mathbf{#1}_1 & \Cdots \\ 
+    \begin{pNiceMatrix} 
+        \Cdots & \boldsymbol{#1}_1 & \Cdots \\ 
           &  \vdots &  \\
-        \Cdots & \mathbf{#1}_3 & \Cdots 
-    \end{bNiceMatrix}
+        \Cdots & \boldsymbol{#1}_n & \Cdots 
+    \end{pNiceMatrix}
 }
 
 \def \printmatcol #1{
-\begin{bNiceMatrix} 
+\begin{pNiceMatrix} 
         \Vdots &  & \Vdots \\ 
-        \mathbf{#1}_1 & \cdots  & \mathbf{#1}_n \\
+        \boldsymbol{#1}_1 & \cdots  & \boldsymbol{#1}_n \\
         \Vdots &  & \Vdots 
-\end{bNiceMatrix} 
+\end{pNiceMatrix} 
 }
 
 \def \printrowvec #1{
-    \begin{bmatrix}
+    \begin{pmatrix}
         #1_1 & \cdots & #1_n
-    \end{bmatrix}
+    \end{pmatrix}
 }
 
 \def \printcolvec #1{
-    \begin{bmatrix}
+    \begin{pmatrix}
         #1_1 \\ \vdots \\ #1_n
-    \end{bmatrix}
+    \end{pmatrix}
 }
 
 
 \def \printcolvecsolid #1{
-    \begin{bNiceMatrix} \Vdots \\ \mathbf{#1} \\ \Vdots \end{bNiceMatrix}
+    \begin{pNiceMatrix} \Vdots \\ \boldsymbol{#1} \\ \Vdots \end{pNiceMatrix}
 }

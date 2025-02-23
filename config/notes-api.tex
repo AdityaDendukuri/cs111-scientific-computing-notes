@@ -1,21 +1,45 @@
-%% Cornell style notes (keywords left column and content right column)
-\newcommand{\keyword}[1]{\reversemarginpar \marginnote{#1}}
+% Cornell style notes (keywords left column and content right column)
+\setlength{\parindent}{0pt}
+\newcommand{\newentry}{\vskip 15pt}
+
+% Commands for margin notes
+\newcommand{\keyword}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_blue}{\textbf{#1}}}}
 \newcommand{\defn}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_blue}{\textbf{#1}}}}
 \newcommand{\note}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_green}{\textbf{#1}}}}
-\newcommand{\excr}[1]{\reversemarginpar \marginnote{\textcolor{red}{\textbf{#1}}}}
+\newcommand{\excr}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_coral}{\textbf{#1}}}}
+\newcommand{\exmpl}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_gold}{\textbf{#1}}}}
 
-\newcommand{\dict}[2]{#1\normalmarginpar \marginnote{{\small #1: #2}}}
+\newcommand{\sectionend}{\reversemarginpar \marginnote{\textcolor{red}{\textbf{[SECTION END]}}}}
+
+
+\newcommand{\dict}[2]{\textbf{#1} \normalmarginpar \marginnote{{\small #1: #2}}}
 \newcommand{\keywordfont}{\ttfamily}
 
-\def \addDef#1#2{ 
-    \paragraph{ }
+\newcommand{\addDef}[2]{%
+    \newentry
     \defn{#1}
     #2  
 }
 
-\def \addNote#1{
-    \paragraph{ }
+\newcommand{\addNote}[1]{%
+    \newentry
     \note{NOTE}
     #1
 }
 
+\newcommand{\textBox}[1]{%
+    \newentry
+    #1
+}
+
+\newcommand{\addExmpl}[1]{%
+    \newentry
+    \exmpl{Examples}
+    #1
+}
+
+\newcommand{\addExcr}[1]{%
+    \newentry
+    \excr{Exercise}
+    #1
+}
