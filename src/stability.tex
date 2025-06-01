@@ -1,0 +1,141 @@
+\documentclass[../readings.tex]{subfiles}
+\begin{document}
+\subsection{Stability and Condition Numer}
+\label{subsec:analytical-to-numerical}
+\textBox{
+In an idealized mathematical setting, a square and invertible matrix $\bA \in \mathbb{R}^{n\times n}$ admits a closed-form solution for the linear system $\bA\bx = \bb$, given by 
+$$
+\bx = \bA^{-1}\bb.
+$$
+This expression is exact and demonstrates the theoretical uniqueness of the solution provided that $\bA^{-1}$ exists.
+}
+
+\addDef{Limitations of Analytical Methods}{
+Computing $\bA^{-1}$ directly is rarely practical for several reasons:
+\begin{enumerate}
+    \item \textbf{Computational Expense}: Explicitly forming $\bA^{-1}$ requires $O(n^3)$ operations, which becomes prohibitive for large systems.
+    \item \textbf{Numerical Instability}: Direct inversion can amplify round-off errors, especially when $\bA$ is nearly singular.
+    \item \textbf{Inefficiency for Multiple Systems}: When solving multiple systems with the same coefficient matrix but different right-hand sides, storing and applying $\bA^{-1}$ is less efficient than using factorization methods.
+    \item \textbf{Memory Requirements}: Storing the full inverse requires $O(n^2)$ memory, which may be unnecessary since we only need the solution vector $\bx$.
+\end{enumerate}
+}
+
+\addDef{Matrix Factorization Approach}{
+So far, we have looked at methods that instead of computing $\bA^{-1}$ explicitly, we factorize the matrix $\bA$ into simpler components (LU, Cholesky etc.) that are easier to work with. Each triangular solve requires only $O(n^2)$ operations, making this approach substantially more efficient for solving multiple systems with the same coefficient matrix.
+}
+
+\textBox{
+The key advantage of matrix factorization methods like LU decomposition is that the expensive $O(n^3)$ factorization step needs to be performed only once for a given matrix $\bA$. After that, each new right-hand side $\bb$ can be handled with just $O(n^2)$ operations. 
+}
+
+\subsubsection{Numerical Stability}
+\addDef{Numerical Stability}{
+Numerical stability refers to how well a computational algorithm controls the accumulation and propagation of round-off errors. An algorithm is considered numerically stable if small changes in the input data produce correspondingly small changes in the output.
+
+In the context of solving linear systems:
+\begin{itemize}
+    \item A stable algorithm should not amplify errors beyond what would be expected based on the conditioning of the problem
+    \item Different algorithms for the same mathematical problem can have significantly different stability properties
+    \item Stability is a property of the algorithm, not the problem itself
+\end{itemize}
+
+For example, Gaussian elimination with partial pivoting is generally stable for solving linear systems, while the explicit computation of $\bA^{-1}$ followed by matrix-vector multiplication is often less stable.
+}
+\subsubsection{Condition Number}
+
+\addDef{Condition Number}{
+The condition number of $\bA$ with respect to a chosen matrix norm $\|\cdot\|$ is defined as 
+$$
+\kappa(\bA) = \|\bA\|\,\|\bA^{-1}\|.
+$$
+This scalar quantifies the sensitivity of the solution $\bx$ to perturbations in $\bA$ or $\bb$. A large $\kappa(\bA)$ indicates that the system is \emph{ill-conditioned}, meaning that even minute errors in the data may be significantly amplified in the computed solution.
+
+For symmetric matrices, the condition number can be computed using the eigenvalues:
+$$
+\kappa_2(\bA) = \frac{|\lambda_{\max}|}{|\lambda_{\min}|}
+$$
+where $\lambda_{\max}$ and $\lambda_{\min}$ are the eigenvalues with the largest and smallest absolute values, respectively.
+
+The condition number provides an upper bound on how much perturbations in the input data can be amplified in the solution. Unlike numerical stability, which is a property of the algorithm, the condition number is an intrinsic property of the matrix itself.
+}
+
+\addNote{
+For example, consider the diagonal matrix 
+$$
+\bA = \begin{pmatrix} 1 & 0 \\ 0 & 10^{-6} \end{pmatrix}.
+$$
+Its eigenvalues are exactly $1$ and $10^{-6}$ (since it's a diagonal matrix), yielding $\kappa_2(\bA)=10^6$. Such a high condition number suggests that small perturbations in the input data could be significantly amplified in the solution.
+
+This sensitivity to perturbations affects all solution methods, whether direct or iterative. However, different factorization techniques (like QR versus LU) may have different numerical stability properties when applied to ill-conditioned problems.
+}
+
+\addExmpl{
+\textbf{Impact of Condition Number on Solution Sensitivity:}
+Consider solving a linear system $\bA\bx = \bb$ where:
+$$
+\bA = \begin{pmatrix} 1 & 0 \\ 0 & 10^{-6} \end{pmatrix} \quad \text{and} \quad
+\bb = \begin{pmatrix} 1 \\ 1 \end{pmatrix}
+$$
+
+This is a diagonal matrix with eigenvalues $\lambda_1 = 1$ and $\lambda_2 = 10^{-6}$, so $\kappa_2(\bA) = 10^6$. 
+
+The exact solution is $\bx = \begin{pmatrix} 1 \\ 10^6 \end{pmatrix}$.
+
+Note how the small eigenvalue $\lambda_2 = 10^{-6}$ corresponds to a very large entry in the solution vector. This illustrates why ill-conditioned matrices can lead to numerical challenges - even small perturbations in the direction corresponding to the smallest eigenvalue can cause large changes in the solution.
+
+Even with stable algorithms like LU decomposition with pivoting, the fundamental sensitivity of the problem remains, potentially leading to significant solution errors when the input data contains even slight inaccuracies.
+}
+
+\subsubsection{Relationship Between Stability and Conditioning}
+\addDef{Relationship Between Stability and Conditioning}{
+It's important to distinguish between numerical stability and conditioning:
+
+\begin{itemize}
+    \item \textbf{Condition Number}: Measures the inherent sensitivity of the mathematical problem to perturbations in the input data. It is a property of the matrix $\bA$, not the algorithm used to solve the system.
+    
+    \item \textbf{Numerical Stability}: Refers to how well an algorithm controls the propagation of errors during computation. It is a property of the algorithm, not the mathematical problem.
+\end{itemize}
+
+A well-conditioned problem (low $\kappa(\bA)$) solved with an unstable algorithm may yield inaccurate results. Similarly, an ill-conditioned problem (high $\kappa(\bA)$) solved with a stable algorithm will still be sensitive to input perturbations.
+
+The ideal scenario is to:
+\begin{enumerate}
+    \item Reformulate ill-conditioned problems when possible to improve conditioning
+    \item Use numerically stable algorithms regardless of the condition number
+    \item Apply higher precision arithmetic for severely ill-conditioned problems
+\end{enumerate}
+}
+
+\addDef{Iterative Methods and Conditioning}{
+For very large systems where even computing and storing factors like $\bL$ and $\bU$ becomes impractical, iterative methods provide an alternative approach. These methods generate a sequence of approximations $\{\bx^{(k)}\}_{k=0}^\infty$ starting from an initial guess $\bx^{(0)}$. Under suitable conditions, this sequence converges to the true solution $\bx$. 
+}
+
+\addDef{Condition Number and Convergence}{
+The convergence rate of iterative methods is strongly influenced by the condition number:
+\begin{itemize}
+    \item Well-conditioned systems (small $\kappa(\bA)$) generally converge quickly
+    \item Ill-conditioned systems (large $\kappa(\bA)$) may converge very slowly or fail to converge in practice
+\end{itemize}
+
+To address this challenge, preconditioning techniques are often employed. A preconditioner transforms the original system into an equivalent system with a more favorable condition number, accelerating convergence while maintaining the same solution.
+}
+
+
+\addDef{Stability in Matrix Factorizations}{
+Different matrix factorization methods exhibit varying degrees of numerical stability:
+
+\begin{itemize}
+    \item \textbf{LU Decomposition}: In its basic form without pivoting, LU can be unstable. With partial pivoting (row exchanges), it becomes much more stable for most matrices. Complete pivoting (row and column exchanges) offers even better stability but at a higher computational cost.
+    
+    \item \textbf{Cholesky Decomposition}: For symmetric positive definite matrices, Cholesky is both efficient and numerically stable. No pivoting is required since diagonal elements are guaranteed to be positive.
+    
+    \item \textbf{QR Decomposition}: Generally more stable than LU decomposition, especially for ill-conditioned problems, but comes at a higher computational cost. The orthogonality of the $\bQ$ factor helps maintain numerical stability.
+    
+    \item \textbf{SVD (Singular Value Decomposition)}: The most stable decomposition, capable of handling even rank-deficient matrices, but also the most computationally intensive.
+\end{itemize}
+
+The stability of these factorizations relates directly to how they handle the sensitive directions associated with small eigenvalues or singular values.
+}
+
+
+\end{document}

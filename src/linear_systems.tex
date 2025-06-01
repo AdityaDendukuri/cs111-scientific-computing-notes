@@ -1,0 +1,227 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+
+
+\subsection{Linearity}
+
+Linearity is a fundamental concept in numerical linear algebra that underpins many of the algorithms and methods discussed in this course. At its core, linearity describes mathematical structures that behave in a predictable way under addition and scalar multiplication.
+
+\textBox{
+A mapping or operation $L$ is considered linear if it satisfies two key properties:
+\begin{itemize}
+    \item \textbf{Additivity}: $L(\mathbf{x} + \mathbf{y}) = L(\mathbf{x}) + L(\mathbf{y})$ for all inputs $\mathbf{x}$ and $\mathbf{y}$
+    \item \textbf{Homogeneity}: $L(\alpha\mathbf{x}) = \alpha L(\mathbf{x})$ for all inputs $\mathbf{x}$ and all scalars $\alpha$
+\end{itemize}
+
+These properties can be combined into the principle of superposition: $L(\alpha\mathbf{x} + \beta\mathbf{y}) = \alpha L(\mathbf{x}) + \beta L(\mathbf{y})$ for all inputs $\mathbf{x}$ and $\mathbf{y}$, and all scalars $\alpha$ and $\beta$.
+}
+
+\textBox{
+Linear mappings preserve vector operations, which allows us to decompose complex problems into simpler ones and then combine the solutions. This property is what makes linear algebra so powerful for a wide range of applications, from solving systems of equations to approximating functions, analyzing data, and modeling physical phenomena.
+}
+
+\textBox{
+In numerical linear algebra, we often represent linear mappings as matrices. The multiplication of a matrix $\mathbf{A}$ by a vector $\mathbf{x}$ is a linear operation, making matrices the perfect tool for expressing and analyzing linear transformations. The computational challenges that arise in numerical linear algebra—such as solving linear systems, finding eigenvalues, or computing matrix decompositions—all fundamentally involve manipulating these linear structures efficiently and accurately.
+}
+
+\subsubsection{Linear Systems}
+\addDef{Linear Systems \index{linear systems}}{%
+A \textbf{system of linear equations} is a collection of equations in which each equation is a linear combination of the unknown variables. Such a system can be written in the form
+\begin{eqnarray*}
+    a_{11}x_{1} + a_{12}x_{2} + &\cdots& + a_{1n}x_{n} = b_{1}, \\
+    a_{21}x_{1} + a_{22}x_{2} + &\cdots& + a_{2n}x_{n} = b_{2}, \\
+    &\vdots& \\
+    a_{m1}x_{1} + a_{m2}x_{2} + &\cdots& + a_{mn}x_{n} = b_{m},
+\end{eqnarray*}
+where each \(a_{ij}\) (with \(1 \le i \le m\) and \(1 \le j \le n\)) is a known constant and \(x_{1},\dots,x_{n}\) are the unknowns. In matrix-vector form, this system is succinctly expressed as
+\[
+\bA \bx = \bb,
+\]
+where 
+\[
+\bA = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{pmatrix}, \quad
+\bx = \begin{pmatrix}
+x_{1} \\
+x_{2} \\
+\vdots \\
+x_{n}
+\end{pmatrix}, \quad
+\bb = \begin{pmatrix}
+b_{1} \\
+b_{2} \\
+\vdots \\
+b_{m}
+\end{pmatrix}.
+\]
+}
+
+\textBox{%
+The mapping \(T: \fR^n \to \fR^m\) defined by \(T(\bx) = \bA\bx\) is a linear transformation. That is, for any vectors \(\bx,\by \in \fR^n\) and scalar \(c \in \fR\), we have:
+\[
+T(\bx + \by) = \bA(\bx+\by) = \bA\bx + \bA\by = T(\bx) + T(\by),
+\]
+\[
+T(c\bx) = \bA(c\bx) = c\,\bA\bx = c\,T(\bx).
+\]
+These properties, known as additivity and homogeneity, are the defining features of linear maps.
+}
+
+\addDef{Existence and Uniqueness \index{linear systems!existence and uniqueness}}{%
+For a square system (i.e., when \(m=n\)), the linear system
+\[
+\bA\bx = \bb
+\]
+has a unique solution if and only if the coefficient matrix \(\bA\) is invertible, which is equivalent to \(\det(\bA) \neq 0\). If \(\bA\) is singular (i.e., noninvertible, \(\det(\bA)=0\)), then the system either has no solution or has infinitely many solutions. In the latter case, the set of solutions forms an affine subspace of \(\fR^n\).
+}
+
+\addDef{Linear Combination}{%
+A \textbf{linear combination} of vectors \(\{ \bx_1, \dots, \bx_n \}\) is any vector \(\by\) that can be written as
+\[
+\by = \alpha_1 \bx_1 + \alpha_2 \bx_2 + \cdots + \alpha_n \bx_n,
+\]
+where \(\alpha_1, \dots, \alpha_n \in \mathbb{R}\).
+}
+
+\addNote{%
+View each vector as an ingredient; a linear combination mixes these ingredients in various proportions to produce new vectors.
+}
+
+\addDef{Linear Dependence}{%
+A set of vectors \(\{ \bx_1, \dots, \bx_n \}\) is \textbf{linearly dependent} if there exist scalars \(\alpha_1, \dots, \alpha_n\), not all zero, such that
+\[
+\alpha_1 \bx_1 + \alpha_2 \bx_2 + \cdots + \alpha_n \bx_n = \mathbf{0}.
+\]
+If the only solution is \(\alpha_1 = \cdots = \alpha_n = 0\), the vectors are \textbf{linearly independent}.
+}
+
+\addNote{%
+Linear dependence indicates redundancy; one or more vectors in the set can be expressed as a combination of the others.
+}
+
+
+\addDef{Basis}{%
+A \textbf{basis} for a vector space \(\mathcal{V}\) is a set of vectors that is both linearly independent and spanning. Every vector in \(\mathcal{V}\) can be uniquely expressed as a linear combination of the basis vectors. The number of basis vectors is the \textbf{dimension} of \(\mathcal{V}\).
+}
+
+
+
+\subsubsection{Rank}
+
+\addDef{Rank}{%
+The \textbf{rank} of a matrix \(\bA\) is defined as the maximum number of linearly independent rows (or equivalently, columns) of \(\bA\). Equivalently, it is the dimension of the row space (or column space) of \(\bA\). For an \(m \times n\) matrix, the rank is always less than or equal to \(\min(m,n)\).
+}
+
+\addNote{%
+Intuitively, the rank measures the amount of “information” contained in the matrix. It indicates the maximum number of independent directions or components that the matrix can represent. For instance, if a matrix has a rank of \(r\), then there are \(r\) rows (or columns) that contribute unique information, while the remaining rows (or columns) can be expressed as linear combinations of these.
+}
+
+\addNote{%
+For an \(m \times n\) matrix, since there are \(m\) rows and \(n\) columns, the rank cannot exceed either \(m\) or \(n\). In particular, if \(\bA\) is square (i.e., \(m=n\)) and full rank (i.e., rank = \(n\)), then \(\bA\) is invertible.
+}
+
+\addDef{Full Rank}{%
+A matrix is said to be \textbf{full rank} if its rank is as large as possible, that is, if \(\text{rank}(\bA) = \min(m,n)\). In the case of a square matrix, full rank implies invertibility.
+}
+
+\addExmpl{%
+\textbf{Example: Determining the Rank of a Matrix}\\[2mm]
+Consider the matrix
+\[
+\bA = \begin{pmatrix}
+1 & 2 & 3 \\
+2 & 4 & 6 \\
+1 & 1 & 1
+\end{pmatrix}.
+\]
+Observe that the second row is exactly twice the first row, suggesting a dependency. To determine the rank, we perform elementary row operations to obtain the row-echelon form:
+
+\textbf{Step 1:} Leave the first row unchanged:
+\[
+R_1 = (1,2,3).
+\]
+
+\textbf{Step 2:} Replace the second row by subtracting \(2R_1\):
+\[
+R_2 \rightarrow R_2 - 2R_1: \quad (2,4,6) - 2(1,2,3) = (0,0,0).
+\]
+
+\textbf{Step 3:} Replace the third row by subtracting \(R_1\):
+\[
+R_3 \rightarrow R_3 - R_1: \quad (1,1,1) - (1,2,3) = (0,-1,-2).
+\]
+
+The matrix becomes:
+\[
+\bA' = \begin{pmatrix}
+1 & 2 & 3 \\
+0 & 0 & 0 \\
+0 & -1 & -2
+\end{pmatrix}.
+\]
+Swap \(R_2\) and \(R_3\) to bring the nonzero row up:
+\[
+\bA'' = \begin{pmatrix}
+1 & 2 & 3 \\
+0 & -1 & -2 \\
+0 & 0 & 0
+\end{pmatrix}.
+\]
+Finally, multiply the second row by \(-1\):
+\[
+\bA''' = \begin{pmatrix}
+1 & 2 & 3 \\
+0 & 1 & 2 \\
+0 & 0 & 0
+\end{pmatrix}.
+\]
+
+Since there are two nonzero rows (pivot rows), the rank of \(\bA\) is \(2\).
+}
+
+\addDef{Rank-Nullity Theorem}{%
+For any \(m \times n\) matrix \(\bA\), 
+\[
+\text{rank}(\bA) + \text{dim}(\bA) = n,
+\]
+where the nullity of \(\bA\) is the dimension of its null space. This relationship is fundamental in understanding the solution structure of the homogeneous system \(\bA\bx = \mathbf{0}\).
+}
+
+\addNote{%
+In many applications such as data compression, signal processing, and machine learning, the rank of a matrix is used to identify redundancy in data. Low-rank approximations can help reduce dimensionality while preserving essential information.
+}
+
+\addDef{Linear Span}{%
+The \textbf{linear span} of a set of vectors \(\{ \bx_1, \dots, \bx_n \}\), denoted \(\text{span}\{\bx_1, \dots, \bx_n\}\), is the set of all linear combinations of these vectors:
+\[
+\text{span}\{\bx_1, \dots, \bx_n\} = \{ \alpha_1 \bx_1 + \cdots + \alpha_n \bx_n : \alpha_i \in \mathbb{R} \}.
+\]
+This is the smallest subspace of the vector space that contains the given vectors.
+}
+
+\addExmpl{%
+\textbf{ Basis for \(\text{span}\{(1,2), (3,4)\}\) in \(\mathbb{R}^2\)}\\[2mm]
+Consider the vectors \(\bv_1 = (1,2)\) and \(\bv_2 = (3,4)\). To check their linear independence, assume there exist scalars \(\alpha\) and \(\beta\) such that
+\[
+\alpha (1,2) + \beta (3,4) = (0,0).
+\]
+This yields the system:
+\[
+\alpha + 3\beta = 0, \quad 2\alpha + 4\beta = 0.
+\]
+Multiplying the first equation by 2 gives \(2\alpha + 6\beta = 0\). Subtracting the second equation, we have
+\[
+(2\alpha + 6\beta) - (2\alpha + 4\beta) = 2\beta = 0 \quad \Rightarrow \quad \beta = 0.
+\]
+Substituting back, \(\alpha = 0\). Since the only solution is \(\alpha=\beta=0\), the vectors are linearly independent. Hence, \(\{(1,2), (3,4)\}\) forms a basis for \(\text{span}\{(1,2), (3,4)\}\), which in this case is all of \(\mathbb{R}^2\).
+}
+
+
+
+
+\end{document}

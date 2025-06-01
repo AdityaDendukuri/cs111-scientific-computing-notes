@@ -1,0 +1,355 @@
+\documentclass[../readings.tex]{subfiles}
+
+
+\begin{document}
+\newpage
+\subsection{Singular Value Decomposition and the Four Fundamental Subspaces}
+\label{sub\:svd-four-subspaces}
+
+The SVD is often regarded as the culmination of linear algebra concepts. It formalizes the intuition that any matrix transformation can be decomposed into rotations and scalings. The orthogonal matrices $\bU$ and $\bV$ represent rotations (or reflections) in the input and output spaces, while the diagonal matrix $\mathbf{\Sigma}$ represents stretching or compression along orthogonal axes.
+
+\addDef{Singular Value Decomposition (SVD)}{%
+For any matrix $\bA \in \mathbb{R}^{m \times n}$, the \textbf{Singular Value Decomposition (SVD)} expresses $\bA$ as
+
+$$
+\bA = \bU \mathbf{\Sigma} \bV^T,
+$$
+
+where $\bU \in \mathbb{R}^{m \times m}$ and $\bV \in \mathbb{R}^{n \times n}$ are orthogonal matrices, and $\mathbf{\Sigma} \in \mathbb{R}^{m \times n}$ is a diagonal (or more precisely, a rectangular diagonal) matrix whose diagonal entries $\sigma_1 \ge \sigma_2 \ge \cdots \ge 0$ are called the \emph{singular values} of $\bA$.%
+}
+
+\addNote{%
+At its core, any matrix operation can be understood geometrically as a composition of three fundamental actions: rotation, scaling, and another rotation. When a matrix $\bA$ acts on a vector $\bx$, it can be viewed as:
+\begin{enumerate}
+\item First, rotating the vector (changing its direction)
+\item Then, scaling the vector along specific axes (changing its length in different directions)
+\item Finally, rotating again to achieve the final orientation
+\end{enumerate}
+
+This geometric interpretation is powerful because it allows us to visualize the action of complex transformations. For example, the matrix $\bA = \begin{pmatrix} 3 & 1 \\ 1 & 2 \end{pmatrix}$ doesn't obviously reveal its geometric effect, but when decomposed into rotations and scalings, we can clearly see it consists of a rotation by approximately $22.5$ degrees, followed by scaling along new axes by factors of $3.41$ and $1.59$, and then another rotation.
+}
+
+\addDef{The Four Fundamental Subspaces}{%
+Given a matrix $\bA \in \mathbb{R}^{m \times n}$, the four fundamental subspaces are:
+\begin{enumerate}
+\item \textbf{Column Space (Range):} $\mathcal{R}(\bA)=\{ \bA\bx : \bx \in \mathbb{R}^n \}\subseteq \mathbb{R}^m$. This subspace consists of all vectors that can be expressed as $\bA\bx$.
+\item \textbf{Null Space (Kernel):} $\mathcal{N}(\bA)=\{ \bx \in \mathbb{R}^n : \bA\bx = \mathbf{0} \}$. This subspace comprises all solutions to the homogeneous equation.
+\item \textbf{Row Space:} $\mathcal{R}(\bA^T)=\{ \bA^T\by : \by \in \mathbb{R}^m \}\subseteq \mathbb{R}^n$. It is the span of the rows of $\bA$ and is the orthogonal complement of $\mathcal{N}(\bA)$ in $\mathbb{R}^n$.
+\item \textbf{Left Null Space:} $\mathcal{N}(\bA^T)=\{ \by \in \mathbb{R}^m : \bA^T\by = \mathbf{0} \}$. This is the set of all vectors in $\mathbb{R}^m$ that are orthogonal to every column of $\bA$.
+\end{enumerate}
+}
+
+\addNote{%
+\textbf{Link to SVD:} In the SVD $\bA=\bU\mathbf{\Sigma}\bV^T$, the columns of $\bU$ and $\bV$ provide orthonormal bases for the four fundamental subspaces. The SVD expresses the matrix $\bA$ in terms of these subspaces as follows:
+
+
+$$
+\small{
+\bA = \bU \mathbf{\Sigma} \bV^T = 
+\begin{bmatrix}
+| & | & | & | & & | \\
+| & | & | & | & & | \\
+\bu_{1} & \bu_{2} & \cdots & \bu_{r} & \cdots & \bu_{m} \\
+| & | & | & | & & | \\
+| & | & | & | & & | \\
+\end{bmatrix}
+\begin{bmatrix}
+\sigma_{1} & & & & & \\
+& \sigma_{2} & & & & \\
+& & \ddots & & & \\
+& & & \sigma_{r} & & \\
+& & & & \ddots & \\
+& & & & & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+\textemdash & \bv_{1}^{T} & \textemdash \\
+\textemdash & \bv_{2}^{T} & \textemdash \\
+ & \vdots &  \\
+\textemdash & \bv_{r}^{T} & \textemdash \\
+ & \vdots &  \\
+\textemdash & \bv_{n}^{T} & \textemdash \\
+\end{bmatrix}}
+$$
+
+Where $r$ is the rank of matrix $\bA$. The four fundamental subspaces can be directly identified from this decomposition:
+\begin{itemize}
+\item \textbf{Column Space} $\mathcal{R}(\bA)$: Spanned by $\{\bu_1, \bu_2, \ldots, \bu_r\}$ (first $r$ columns of $\bU$)
+\item \textbf{Left Null Space} $\mathcal{N}(\bA^T)$: Spanned by $\{\bu_{r+1}, \bu_{r+2}, \ldots, \bu_m\}$ (last $m-r$ columns of $\bU$)
+\item \textbf{Row Space} $\mathcal{R}(\bA^T)$: Spanned by $\{\bv_1, \bv_2, \ldots, \bv_r\}$ (first $r$ columns of $\bV$)
+\item \textbf{Null Space} $\mathcal{N}(\bA)$: Spanned by $\{\bv_{r+1}, \bv_{r+2}, \ldots, \bv_n\}$ (last $n-r$ columns of $\bV$)
+\end{itemize}
+
+This elegant connection reveals why the SVD is so powerful: it simultaneously provides orthonormal bases for all four fundamental subspaces associated with the matrix.
+}
+
+\addDef{Zero Singular Values and Subspaces}{%
+The number of zero singular values in $\mathbf{\Sigma}$ directly corresponds to the dimension of the null space $\mathcal{N}(\bA)$. If we have $n-r$ zero singular values, then:
+
+$$\text{dim}(\mathcal{N}(\bA)) = n-r$$
+
+Similarly, the number of non-zero singular values equals the dimension of the range space:
+
+$$\text{dim}(\mathcal{R}(\bA)) = r$$
+
+This establishes the fundamental relationship between the rank of $\bA$, the dimension of its null space, and the singular values:
+
+$$\text{rank}(\bA) + \text{dim}(\mathcal{N}(\bA)) = n$$
+
+where $n$ is the number of columns in $\bA$.
+}
+
+\addNote{%
+The zero singular values provide critical information about the linear transformation represented by $\bA$. Each zero singular value signifies a direction in the input space (given by the corresponding right singular vector $\bv_i$) that gets mapped to the zero vector. These directions collectively form the null space of $\bA$.
+
+Conversely, the positive singular values correspond to directions that are preserved by the transformation, though possibly scaled. The smallest non-zero singular value $\sigma_r$ indicates the direction along which the transformation compresses vectors the most, making it crucial for understanding the numerical stability of problems involving $\bA$.
+}
+
+\addExmpl{%
+Consider a matrix $\bA \in \mathbb{R}^{3 \times 4}$ with rank 2. Its SVD would yield:
+
+$$
+\bA = \bU \mathbf{\Sigma} \bV^T = 
+\begin{bmatrix}
+\bu_1 & \bu_2 & \bu_3
+\end{bmatrix}
+\begin{bmatrix}
+\sigma_1 & 0 & 0 & 0 \\
+0 & \sigma_2 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+\begin{bmatrix}
+\bv_1^T \\
+\bv_2^T \\
+\bv_3^T \\
+\bv_4^T
+\end{bmatrix}
+$$
+
+Here, $\sigma_1 > 0$ and $\sigma_2 > 0$, while all other singular values are zero. The column space $\mathcal{R}(\bA)$ is two-dimensional, spanned by $\{\bu_1, \bu_2\}$. The null space $\mathcal{N}(\bA)$ is also two-dimensional, spanned by $\{\bv_3, \bv_4\}$. Any vector in the null space, when multiplied by $\bA$, produces the zero vector because the corresponding singular values are zero.
+}
+
+\addDef{Link to Solutions of Linear Equations}{%
+Consider the linear system $\bA\bx = \bb$. The existence and uniqueness of solutions depend on the relationship between $\bb$ and the fundamental subspaces:
+\begin{itemize}
+\item A solution exists if and only if $\bb \in \mathcal{R}(\bA)$.
+\item When $\bb \in \mathcal{R}(\bA)$, the general solution can be expressed as the sum of a particular solution and any vector in the null space $\mathcal{N}(\bA)$.
+\item In the context of least squares, when $\bb$ is not in $\mathcal{R}(\bA)$, one seeks a solution $\hat{\bx}$ such that the residual $\|\bA\hat{\bx}-\bb\|$ is minimized. The SVD provides a natural framework to compute the minimum-norm solution via the pseudoinverse.
+\end{itemize}
+}
+
+\addNote{%
+The SVD not only decomposes the matrix into its fundamental components but also organizes its action into rotations (via $\bU$ and $\bV$) and scalings (via $\mathbf{\Sigma}$). This clear separation allows us to understand how errors propagate in the solution of linear systems and how the geometry of $\bA$ influences the solvability and stability of $\bA\bx = \bb$.
+}
+
+\subsection{Rank Truncation via the SVD}
+\label{sub:svd-rank-truncation}
+
+\addDef{Rank Truncation}{%
+Let $r$ be an integer with $0 \le r \le p$. The \textbf{rank-$r$ approximation} of $\bA$ is defined as
+
+$$
+\bA_r = \sum_{i=1}^r \sigma_i \bu_i \bv_i^T,
+$$
+
+or equivalently, if we partition $\bU$, $\mathbf{\Sigma}$, and $\bV$ as
+
+$$
+\bU = \begin{bmatrix} \bU_r & \bU_{r,\perp} \end{bmatrix}, \quad
+\mathbf{\Sigma} = \begin{bmatrix} \mathbf{\Sigma}_r & 0 \\ 0 & \mathbf{\Sigma}_{r,\perp} \end{bmatrix}, \quad
+\bV = \begin{bmatrix} \bV_r & \bV_{r,\perp} \end{bmatrix},
+$$
+
+then
+
+$$
+\bA_r = \bU_r \mathbf{\Sigma}_r \bV_r^T.
+$$
+
+Here, $\mathbf{\Sigma}_r \in \mathbb{R}^{r \times r}$ contains the largest $r$ singular values, while $\bU_r$ and $\bV_r$ contain the corresponding singular vectors. In this form, $\bU_r$ consists of the first $r$ columns of $\bU$, and $\bV_r$ consists of the first $r$ columns of $\bV$.
+}
+
+\addNote{%
+\textbf{Eckart-Young Theorem:} This truncated SVD, $\bA_r$, is the best approximation to $\bA$ among all matrices of rank at most $r$. Specifically, for any matrix $\bB$ of rank at most $r$,
+
+$$
+\|\bA - \bA_r\|_2 \le \|\bA - \bB\|_2 \quad \text{and} \quad \|\bA - \bA_r\|_F \le \|\bA - \bB\|_F.
+$$
+Moreover, the errors are given by
+
+$$
+\|\bA - \bA_r\|_2 = \sigma_{r+1}, \quad \text{and} \quad \|\bA - \bA_r\|_F = \sqrt{\sum_{i=r+1}^p \sigma_i^2}.
+$$
+}
+
+\textBox{%
+To see the derivation, observe that the SVD of $\bA$ gives
+
+$$
+\bA = \sum_{i=1}^p \sigma_i \bu_i \bv_i^T.
+$$
+
+Truncating the series at $r$ terms results in
+
+$$
+\bA_r = \sum_{i=1}^r \sigma_i \bu_i \bv_i^T,
+$$
+
+and the remainder is
+
+$$
+\bA - \bA_r = \sum_{i=r+1}^p \sigma_i \bu_i \bv_i^T.
+$$
+
+Since the spectral norm (or $2$-norm) is given by the largest singular value, it follows that
+
+$$
+\|\bA - \bA_r\|_2 = \sigma_{r+1}.
+$$
+
+Any other rank-$r$ approximation $\bB$ must incur an error at least as large as this, establishing the optimality of $\bA_r$.
+}
+
+\addExmpl{%
+Let's examine a practical application of rank truncation in data compression. Consider a grayscale image represented as a matrix $\bA \in \mathbb{R}^{1000 \times 1000}$ with singular values that decay rapidly after the first 50 values. 
+
+After computing the SVD, we can construct a rank-50 approximation $\bA_{50}$. The storage requirements are dramatically reduced:
+\begin{itemize}
+\item Original matrix: $1000 \times 1000 = 10^6$ elements
+\item Rank-50 representation: $1000 \times 50 + 50 + 50 \times 1000 = 10^5 + 50$ elements
+\end{itemize}
+
+This represents approximately a 10x compression ratio while preserving the most important features of the image. The error bounds tell us that:
+\begin{itemize}
+\item Worst-case pixel error: $\|\bA - \bA_{50}\|_2 = \sigma_{51}$
+\item Average error across all pixels: $\|\bA - \bA_{50}\|_F = \sqrt{\sum_{i=51}^{1000} \sigma_i^2}$
+\end{itemize}
+
+If $\sigma_{51} \ll \sigma_{50}$, the compression preserves image quality well, demonstrating how the SVD can identify and retain the most significant components of the data.
+}
+
+\addNote{%
+The optimal approximation property of truncated SVD makes it an invaluable tool across various applications, including image processing, signal denoising, latent semantic analysis in text processing, and recommender systems. The error bounds provided by the Eckart-Young theorem allow practitioners to make informed decisions about the trade-off between approximation quality and computational complexity. In practical terms, examining the distribution of singular values can reveal the intrinsic dimensionality of the data, with a sharp drop in singular values indicating a natural cutoff point for rank truncation.
+}
+
+\addDef{Relationship Between SVD and Eigendecomposition}{%
+For any matrix $\bA \in \mathbb{R}^{m \times n}$, the singular values and vectors are related to the eigenvalues and eigenvectors of $\bA^T\bA$ and $\bA\bA^T$ as follows:
+\begin{itemize}
+\item The right singular vectors $\bv_i$ are eigenvectors of $\bA^T\bA$: $\bA^T\bA\bv_i = \sigma_i^2\bv_i$
+\item The left singular vectors $\bu_i$ are eigenvectors of $\bA\bA^T$: $\bA\bA^T\bu_i = \sigma_i^2\bu_i$
+\item The singular values $\sigma_i$ are the square roots of the eigenvalues of both $\bA^T\bA$ and $\bA\bA^T$
+\end{itemize}
+
+This connection means that zero singular values correspond directly to zero eigenvalues of $\bA^T\bA$ and $\bA\bA^T$.
+}
+
+\addNote{%
+The pseudoinverse, derived from the SVD as $\bA^+ = \bV\mathbf{\Sigma}^+\bU^T$ (where $\mathbf{\Sigma}^+$ has reciprocals of non-zero singular values on its diagonal), provides a unified framework for solving both overdetermined and underdetermined systems. For overdetermined systems, $\hat{\bx} = \bA^+\bb$ minimizes $\|\bA\bx - \bb\|_2$, while for underdetermined systems, it gives the solution with the smallest $\|\bx\|_2$ among all vectors satisfying $\bA\bx = \bb$.
+}
+
+\subsection{Condition Number and SVD}
+\label{sub:svd-condition-number}
+
+\addDef{Condition Number via SVD}{%
+The condition number of a matrix $\bA$, denoted $\kappa(\bA)$, measures the sensitivity of the solution of the linear system $\bA\bx = \bb$ to perturbations in the input data. Given the SVD $\bA = \bU \mathbf{\Sigma} \bV^T$, the condition number is defined as:
+
+$$\kappa(\bA) = \frac{\sigma_1}{\sigma_r}$$
+
+where $\sigma_1$ is the largest singular value and $\sigma_r$ is the smallest non-zero singular value (assuming $\bA$ has rank $r$).
+}
+
+\textBox{%
+To derive this definition from first principles, recall that the condition number measures how much a relative change in the input can affect the relative change in the output. For a linear system $\bA\bx = \bb$, consider a perturbation $\delta \bb$ in $\bb$ leading to a change $\delta \bx$ in the solution. The relative error magnification is bounded by:
+
+$$\frac{\|\delta \bx\|/\|\bx\|}{\|\delta \bb\|/\|\bb\|} \leq \kappa(\bA)$$
+
+Using the SVD $\bA = \bU \mathbf{\Sigma} \bV^T$, we can write:
+
+$$\bx = \bA^{-1}\bb = \bV \mathbf{\Sigma}^{-1} \bU^T \bb$$
+
+The worst-case amplification occurs when $\bb$ is aligned with the left singular vector $\bu_r$ (corresponding to the smallest singular value) and the resulting $\bx$ is aligned with the right singular vector $\bv_r$. In this case:
+
+$$\bx = \frac{1}{\sigma_r} \bv_r$$
+
+Conversely, the least amplification occurs when $\bb$ aligns with $\bu_1$ (the largest singular value):
+
+$$\bx = \frac{1}{\sigma_1} \bv_1$$
+
+The ratio between these extreme cases gives the condition number:
+
+$$\kappa(\bA) = \frac{\sigma_1}{\sigma_r}$$
+
+This reveals why matrices with very small singular values relative to their largest singular value are ill-conditioned.
+}
+
+\addExmpl{%
+Consider a linear system $\bA\bx = \bb$ where:
+$$
+\bA = \begin{bmatrix} 
+1 & 1 \\
+1 & 1.001
+\end{bmatrix}
+$$
+
+Computing the SVD yields:
+$$
+\bU = \begin{bmatrix} 
+-0.7071 & -0.7071 \\
+-0.7071 & 0.7071
+\end{bmatrix}, \quad
+\mathbf{\Sigma} = \begin{bmatrix} 
+2.001 & 0 \\
+0 & 0.0005
+\end{bmatrix}, \quad
+\bV = \begin{bmatrix} 
+-0.7071 & -0.7071 \\
+-0.7071 & 0.7071
+\end{bmatrix}
+$$
+
+The condition number is $\kappa(\bA) = \frac{\sigma_1}{\sigma_2} = \frac{2.001}{0.0005} \approx 4000$.
+
+Now suppose we have $\bb = \begin{bmatrix} 2 \\ 2.001 \end{bmatrix}$ and a slightly perturbed $\tilde{\bb} = \begin{bmatrix} 2 \\ 2.002 \end{bmatrix}$. To understand the effect of this perturbation, we express these vectors in the basis of left singular vectors:
+
+$$\bb = \bU^T\bb = \begin{bmatrix} -2.8248 \\ 0.0007 \end{bmatrix}, \quad \tilde{\bb} = \bU^T\tilde{\bb} = \begin{bmatrix} -2.8255 \\ 0.0014 \end{bmatrix}$$
+
+The solution can be computed as $\bx = \bV\mathbf{\Sigma}^{-1}\bU^T\bb$. The key observation is that components corresponding to small singular values get amplified by the factor $1/\sigma_i$:
+
+$$\bx = \bV\begin{bmatrix} 
+\frac{-2.8248}{2.001} \\
+\frac{0.0007}{0.0005}
+\end{bmatrix} = \bV\begin{bmatrix} 
+-1.41 \\
+1.40
+\end{bmatrix} \approx \begin{bmatrix} 
+1.00 \\
+1.00
+\end{bmatrix}$$
+
+$$\tilde{\bx} = \bV\begin{bmatrix} 
+\frac{-2.8255}{2.001} \\
+\frac{0.0014}{0.0005}
+\end{bmatrix} = \bV\begin{bmatrix} 
+-1.41 \\
+2.80
+\end{bmatrix} \approx \begin{bmatrix} 
+-0.01 \\
+1.99
+\end{bmatrix}$$
+
+We see that a tiny change in the input ($\|\delta\bb\|/\|\bb\| \approx 0.0005$) creates a large relative change in the output ($\|\delta\bx\|/\|\bx\| \approx 0.70$), which is consistent with our condition number. The component of the perturbation in the direction of $\bu_2$ (corresponding to the smallest singular value $\sigma_2$) gets amplified by $1/\sigma_2 = 1/0.0005 = 2000$.
+
+This SVD analysis reveals precisely why the system is sensitive to perturbations, and in which directions these perturbations are most amplified.
+}
+
+\addDef{SVD and Regularization}{%
+For ill-conditioned problems, regularization techniques leverage the SVD to create more stable solutions. A key approach is the truncated SVD, where we replace $\bA$ with a low-rank approximation $\bA_k$ by setting all singular values below a threshold to zero. The SVD solution becomes:
+
+$$\bx_k = \sum_{i=1}^k \frac{\bu_i^T\bb}{\sigma_i}\bv_i$$
+
+This effectively ignores directions corresponding to small singular values, reducing sensitivity to perturbations at the cost of introducing a controlled amount of bias. The condition number of this regularized system is $\kappa(\bA_k) = \sigma_1/\sigma_k$, which is much smaller than the original.
+}
+
+\addNote{%
+The singular value spectrum of a matrix reveals much about the problem's inherent difficulty. A rapidly decaying spectrum (many small singular values) indicates an ill-conditioned problem where information is being compressed in certain directions. In such cases, the SVD provides not just a diagnostic tool but also the means for regularization through methods like truncated SVD, ridge regularization, and other approaches that modify the singular values to balance accuracy against stability.
+}
+\end{document}

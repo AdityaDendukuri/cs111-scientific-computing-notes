@@ -1,0 +1,54 @@
+\documentclass[12pt]{article} % config file 
+\input{config/import-packages} 
+\input{config/notes-api} 
+\input{config/printmatsq} 
+\input{config/symbols} 
+\input{config/ucsb-colors} 
+\makeindex 
+\title{CS111 - Scientific Computing Basics} 
+\date{Spring 2025 \\ \vskip 100pt UCSB} 
+\begin{document}
+    % title and table of contents
+    \maketitle
+    \tableofcontents
+    \newpage
+    \newgeometry{
+    left=40mm,
+    top=20mm,
+    bottom=30mm}
+    
+    % Core Linear Algebra Foundations
+    \section{Fundamentals of Linear Algebra}
+    \subfile{src/vecs_and_mats.tex}
+    \subfile{src/arithmetic.tex}
+    
+    % Linear Systems
+    \section{Linear Systems of Equations}
+    \subfile{src/linear_systems.tex}
+    \subfile{src/lu.tex}
+    \subfile{src/floating_point.tex}
+    
+    % Eigenvalues and Matrix Decompositions
+    \section{Eigenvalues and Matrix Properties}
+    \subfile{src/eigen.tex}
+    \subfile{src/spd.tex}
+    \subfile{src/orthogonal.tex}
+    
+    % Iterative Methods
+    \section{Iterative Methods for Linear Systems}
+    \subfile{src/iterative}
+    \subfile{src/jacobi.tex}
+    \subfile{src/conj_grad.tex}
+    \subfile{src/stability.tex}
+    
+    % Advanced Decompositions and Applications
+    \section{Advanced Matrix Decompositions}
+    \subfile{src/svd.tex}
+    \subfile{src/norm.tex}
+    \subfile{src/least_squares.tex}
+    
+    % Applications
+    \section{Applications of Numerical Linear Algebra}
+    \subfile{src/pca.tex}
+    \subfile{src/graphs}
+\end{document}

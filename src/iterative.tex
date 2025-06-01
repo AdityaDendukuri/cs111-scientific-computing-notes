@@ -1,0 +1,61 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+\subsection{Iterative Methods for Linear Systems}
+\label{subsec:iterative-methods}
+
+\textBox{%
+So far, we've examined direct methods for solving linear systems $\bA\bx = \bb$. These methods compute the solution in a fixed number of operations, but for large systems, we need alternative approaches. Iterative methods provide an elegant solution by refining an initial guess through successive approximations.
+}
+
+\addDef{Recap of Direct Methods}{%
+Before diving into iterative approaches, let's briefly recap the direct methods we've studied:
+\begin{enumerate}
+
+\item  \textbf{Direct Inverse}: The analytical solution $\bx = \bA^{-1}\bb$ requires explicitly computing $\bA^{-1}$, which costs $O(n^3)$ operations and may suffer from numerical instability.
+
+\item \textbf{Matrix Factorization}: Methods like LU, Cholesky, and QR decompose $\bA$ into simpler matrices (e.g., $\bA = \bL\bU$). This factorization costs $O(n^3)$ operations, but subsequent solutions with new right-hand sides require only $O(n^2)$ operations.
+\end{enumerate}
+}
+
+\addNote{
+While these methods are effective for small to medium-sized problems, they become impractical for very large systems due to the high complexity, especially when $\bA$ is sparse but its factors are not.
+}
+
+\addDef{Iterative Methods}{%
+Iterative methods take a fundamentally different approach to solving linear systems. Instead of computing the solution directly, they:
+
+\begin{enumerate}
+    \item Start with an initial guess $\bx^{(0)}$
+    \item Generate a sequence of increasingly accurate approximations $\{\bx^{(k)}\}_{k=0}^{\infty}$
+    \item Stop when a specified accuracy is achieved
+\end{enumerate}
+}
+
+\textBox{%
+We can think of iterative methods as navigating through the solution space. Starting from an initial position $\bx^{(0)}$, we repeatedly follow a rule that moves us closer to the true solution $\bx^*$. The rule is designed so that each step reduces our distance from the destination, eventually bringing us arbitrarily close to it.
+}
+
+\addDef{The Iterative Principle}{%
+To understand the basic principle behind iterative methods, consider rearranging the linear system $\bA\bx = \bb$ into the form:
+$$
+\bx = \bT\bx + \bc
+$$
+
+where $\bT$ is derived from $\bA$, and $\bc$ is derived from both $\bA$ and $\bb$.
+
+This leads to the iterative scheme:
+$$
+\bx^{(k+1)} = \bT\bx^{(k)} + \bc
+$$
+
+For this iteration to converge to the true solution $\bx^*$, the matrix $\bT$ must have specific properties—most importantly, its spectral radius must be less than 1.
+
+Different choices of $\bT$ and $\bc$ lead to different iterative methods. The challenge lies in choosing them to ensure:
+\begin{itemize}
+    \item Convergence (the sequence actually reaches the solution)
+    \item Rapid convergence (it gets there quickly)
+    \item Computational efficiency (each iteration is inexpensive)
+\end{itemize}
+}
+\end{document}

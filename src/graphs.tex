@@ -1,0 +1,383 @@
+
+\begin{document}
+
+\subsection{Spectral Graph Theory}
+\label{sub:spectral_graph_theory}
+
+Spectral graph theory studies graph properties through the eigenvalues and eigenvectors of their associated matrices. This approach bridges discrete graph structures with continuous spectral analysis, enabling powerful insights into connectivity, partitioning, diffusion, and community detection.
+
+\addDef{Graph Representation}{%
+A graph $G=(V,E)$ consists of a vertex set $V$ with $n = |V|$ vertices and an edge set $E$ with $m = |E|$ edges. For an undirected graph, each edge is an unordered pair $(i,j)$ with $i,j \in V$. A weighted graph assigns a positive weight $w_{ij} > 0$ to each edge $(i,j) \in E$. The degree $d_i$ of vertex $i$ is defined as $d_i = \sum_{j:(i,j) \in E} w_{ij}$, which reduces to the number of adjacent vertices in the unweighted case.
+}
+
+\addDef{Matrix Representations}{%
+A graph can be represented by several matrices:
+\begin{itemize}
+\item \textbf{Adjacency Matrix ($\bA$)}: For unweighted graphs, $A_{ij} = 1$ if $(i,j) \in E$ and $0$ otherwise. For weighted graphs, $A_{ij} = w_{ij}$ if $(i,j) \in E$ and $0$ otherwise.
+\item \textbf{Degree Matrix ($\bD$)}: A diagonal matrix with $D_{ii} = d_i$.
+\item \textbf{Incidence Matrix ($\bM$)}: For an undirected graph with arbitrary orientation, $M_{ie} = 1$ if vertex $i$ is the head of edge $e$, $M_{ie} = -1$ if it is the tail, and $M_{ie} = 0$ otherwise.
+\item \textbf{Laplacian Matrix ($\bL$)}: $\bL = \bD - \bA$, or equivalently, $\bL = \bM\bM^T$.
+\end{itemize}
+}
+
+\addDef{Laplacian as a Differential Operator}{%
+The graph Laplacian can be interpreted as a discrete analog of the continuous Laplace operator $\nabla^2$. For a function $f: V \rightarrow \mathbb{R}$ defined on vertices, the Laplacian applied to $f$ at vertex $i$ is:
+
+$$(\bL f)_i = \sum_{j:(i,j) \in E} w_{ij}(f_i - f_j)$$
+
+This measures how $f$ at vertex $i$ differs from its neighbors, similar to how the continuous Laplacian measures the deviation of a function from its average value in an infinitesimal neighborhood. 
+}
+
+\addDef{Quadratic Form}{
+The quadratic form of the Laplacian provides a measure of function smoothness across the graph:
+
+\begin{align}
+f^T \bL f &= \sum_{i=1}^n \sum_{j=1}^n L_{ij}f_i f_j \\
+&= \sum_{i=1}^n d_i f_i^2 - \sum_{i=1}^n \sum_{j=1}^n A_{ij}f_i f_j \\
+&= \sum_{i=1}^n \sum_{j:(i,j) \in E} w_{ij}f_i^2 - \sum_{i=1}^n \sum_{j:(i,j) \in E} w_{ij}f_i f_j \\
+&= \frac{1}{2}\sum_{i=1}^n \sum_{j:(i,j) \in E} w_{ij}(f_i^2 + f_j^2 - 2f_i f_j) \\
+&= \frac{1}{2}\sum_{i=1}^n \sum_{j:(i,j) \in E} w_{ij}(f_i - f_j)^2
+\end{align}
+
+The last expression is a weighted sum of squared differences across edges, clearly non-negative, proving $\bL$ is positive semidefinite.
+}
+
+\addDef{Matrix Form of Laplacian}{
+If we identify the elements $w_{ij}$ as defining an adjacency matrix $\mathbf{W}$, then the discrete
+Laplacian in quadratic form for a vector input $(x)$ can be written as
+
+\begin{align}
+\mathbf{x}^T\mathbf{L}\mathbf{x} &= \sum_{i\sim j} w_{ij}(\mathbf{x}_i - \mathbf{x}_j)^2 \label{eq:lap_quad1} \\
+&= \sum_{i\sim j} w_{ij}\mathbf{x}_i^2 + \sum_{i\sim j} w_{ij}\mathbf{x}_j^2 - \sum_{i\sim j} 2w_{ij}\mathbf{x}_i\mathbf{x}_j \label{eq:lap_quad2} \\
+&= \sum_{i\sim j} \mathbf{d}_j\mathbf{x}_i^2 + \sum_{i\sim j} \mathbf{d}_i\mathbf{x}_j^2 - 2\sum_{i\sim j} w_{ij}\mathbf{x}_i\mathbf{x}_j \label{eq:lap_quad3} \\
+&= \frac{1}{2}(\mathbf{x}^T\mathbf{D}\mathbf{x} + \mathbf{x}^T\mathbf{D}\mathbf{x} - 2\mathbf{x}^T\mathbf{W}\mathbf{x}) \label{eq:lap_quad4} \\
+&= \mathbf{x}^T(\mathbf{D} - \mathbf{W})\mathbf{x}. \label{eq:lap_quad5}
+\end{align}
+
+Where $\mathbf{D}$ is the degree diagonal matrix and $\mathbf{W}$ is a matrix encoding $w_{ij}$ values. The expression is divided by half in the third step as $\sum_{i\sim j} = \frac{1}{2}\sum_i \sum_j$, so we do not count repeated maps in the permutation sum ($\therefore \mathbf{D}_{ij} = \mathbf{D}_{ji}$). The previous derivation implies the following well-known relationship for the \textit{Laplacian matrix}
+}
+
+\addDef{Spectral Properties of the Laplacian}{%
+The spectrum of the Laplacian matrix $\bL$ consists of eigenvalues $0 = \lambda_1 \leq \lambda_2 \leq \ldots \leq \lambda_n$ with corresponding eigenvectors $\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_n$.
+
+Key spectral properties include:
+\begin{itemize}
+\item \textbf{Zero Eigenvalue}: $\lambda_1 = 0$ always, with eigenvector $\mathbf{v}_1 = \mathbf{1}/\sqrt{n}$ (the normalized constant vector).
+\item \textbf{Component Count}: The multiplicity of $\lambda_1 = 0$ equals the number of connected components in $G$.
+\item \textbf{Algebraic Connectivity}: $\lambda_2 > 0$ if and only if $G$ is connected. This value, known as the Fiedler value, quantifies how well-connected the graph is.
+\item \textbf{Diameter Bound}: For a connected graph, $\text{diam}(G) \geq \frac{2}{\lambda_2}$, where $\text{diam}(G)$ is the maximum shortest path length between any two vertices.
+\item \textbf{Cheeger Inequality}: $\frac{\lambda_2}{2} \leq h(G) \leq \sqrt{2\lambda_2}$, where $h(G)$ is the Cheeger constant (isoperimetric number) measuring the graph's "bottleneckedness."
+\end{itemize}
+}
+
+\addExmpl{Complete and Path Graphs}{%
+Consider two extremes: the complete graph $K_n$ and the path graph $P_n$.
+
+For $K_n$, every vertex connects to all others, so $d_i = n-1$ for all $i$. The Laplacian has eigenvalues:
+\begin{itemize}
+\item $\lambda_1 = 0$ (multiplicity 1)
+\item $\lambda_2 = \lambda_3 = \ldots = \lambda_n = n$ (multiplicity $n-1$)
+\end{itemize}
+
+For $P_3$ (path with 3 vertices), the Laplacian is:
+$$\bL = \begin{pmatrix} 1 & -1 & 0 \\ -1 & 2 & -1 \\ 0 & -1 & 1 \end{pmatrix}$$
+
+Its eigenvalues are $\lambda_1 = 0$, $\lambda_2 = 2 - \sqrt{2} \approx 0.59$, $\lambda_3 = 2 + \sqrt{2} \approx 3.41$, with corresponding eigenvectors:
+\begin{align}
+\mathbf{v}_1 &= \frac{1}{\sqrt{3}}(1, 1, 1)^T \\
+\mathbf{v}_2 &= \frac{1}{\sqrt{2 + (2-\sqrt{2})^2}}(1, \sqrt{2}-1, -1)^T \\
+\mathbf{v}_3 &= \frac{1}{\sqrt{2 + (2+\sqrt{2})^2}}(1, -(\sqrt{2}+1), 1)^T
+\end{align}
+
+The low $\lambda_2$ for $P_3$ compared to $K_3$ reflects its weaker connectivity.
+}
+
+\addDef{Variational Characterization}{%
+The Courant-Fischer theorem provides a variational characterization of Laplacian eigenvalues:
+
+$$\lambda_k = \min_{\substack{S \subset \mathbb{R}^n, \dim(S) = k\\ S \perp \text{span}\{\mathbf{v}_1, \ldots, \mathbf{v}_{k-1}\}}} \max_{\mathbf{x} \in S, \mathbf{x} \neq \mathbf{0}} \frac{\mathbf{x}^T\bL\mathbf{x}}{\mathbf{x}^T\mathbf{x}}$$
+
+For the second eigenvalue (Fiedler value):
+
+$$\lambda_2 = \min_{\mathbf{x} \perp \mathbf{1}, \mathbf{x} \neq \mathbf{0}} \frac{\mathbf{x}^T\bL\mathbf{x}}{\mathbf{x}^T\mathbf{x}} = \min_{\mathbf{x} \perp \mathbf{1}, \mathbf{x} \neq \mathbf{0}} \frac{\sum_{(i,j) \in E} w_{ij}(x_i - x_j)^2}{\sum_{i=1}^n x_i^2}$$
+
+This connects the Fiedler value to the optimal solution of a continuous relaxation of the graph partitioning problem.
+}
+
+\addNote{%
+The Fiedler vector $\mathbf{v}_2$ carries significant structural information about the graph. Its components can be interpreted as an embedding of vertices on a line that minimizes the sum of squared distances between connected vertices, subject to orthogonality to the constant vector and unit norm constraint. This provides a natural ordering of vertices that tends to place connected vertices close together.
+
+\begin{figure}[h]
+\centering
+% \begin{tikzpicture}[scale=0.8]
+%   % Draw a simple graph
+%   \node[circle,draw] (1) at (0,0) {1};
+%   \node[circle,draw] (2) at (2,0) {2};
+%   \node[circle,draw] (3) at (4,0) {3};
+%   \node[circle,draw] (4) at (0,-2) {4};
+%   \node[circle,draw] (5) at (2,-2) {5};
+%   \node[circle,draw] (6) at (4,-2) {6};
+%   
+%   \draw (1) -- (2) -- (3);
+%   \draw (4) -- (5) -- (6);
+%   \draw (1) -- (4);
+%   \draw (2) -- (5);
+%   \draw (3) -- (6);
+%   
+%   % Draw Fiedler embedding below
+%   \draw[->] (-1,-4) -- (5,-4) node[right] {Fiedler embedding};
+%   \node[circle,fill=red!50] at (0,-4) {1};
+%   \node[circle,fill=red!50] at (1,-4) {4};
+%   \node[circle,fill=blue!50] at (3,-4) {3};
+%   \node[circle,fill=blue!50] at (4,-4) {6};
+%   \node[circle,fill=white] at (2,-4) {2};
+%   \node[circle,fill=white] at (2.2,-4) {5};
+% \end{tikzpicture}
+\caption{Graph with vertices embedded according to Fiedler vector values. The signs of the components suggest a natural bipartition.}
+\end{figure}
+}
+
+\addDef{Normalized Laplacians}{%
+Two important normalized versions of the Laplacian address the bias towards high-degree vertices in the standard Laplacian:
+
+\begin{itemize}
+\item \textbf{Symmetric Normalized Laplacian}: $\bL_{sym} = \bD^{-1/2}\bL\bD^{-1/2} = \mathbf{I} - \bD^{-1/2}\bA\bD^{-1/2}$
+
+\item \textbf{Random Walk Normalized Laplacian}: $\bL_{rw} = \bD^{-1}\bL = \mathbf{I} - \bD^{-1}\bA$
+\end{itemize}
+
+These matrices have eigenvalues in $[0,2]$. While $\bL_{sym}$ is symmetric, $\bL_{rw}$ is not generally symmetric but relates directly to random walks on the graph. The matrix $\bP = \bD^{-1}\bA$ represents transition probabilities of a random walk, where $P_{ij}$ is the probability of moving from vertex $i$ to vertex $j$.
+
+The two normalized Laplacians share the same eigenvalues. If $\mathbf{v}$ is an eigenvector of $\bL_{sym}$ with eigenvalue $\lambda$, then $\bD^{-1/2}\mathbf{v}$ is an eigenvector of $\bL_{rw}$ with the same eigenvalue.
+}
+
+\textBox{Spectral Clustering Algorithm}{%
+Spectral clustering leverages the Laplacian's eigenvectors to partition graphs:
+
+\begin{algorithm}
+\caption{Spectral Clustering}
+\begin{algorithmic}[1]
+\State Construct the graph Laplacian $\bL$ (or normalized version)
+\State Compute eigenvectors $\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_k$ for the $k$ smallest eigenvalues
+\State Form matrix $\mathbf{X} = [\mathbf{v}_2, \ldots, \mathbf{v}_k] \in \mathbb{R}^{n \times (k-1)}$ (skip $\mathbf{v}_1$)
+\State Let row $i$ of $\mathbf{X}$ represent vertex $i$ in $\mathbb{R}^{k-1}$
+\State Apply $k$-means clustering to these rows
+\State Assign vertex $i$ to cluster $j$ if row $i$ is assigned to cluster $j$
+\end{algorithmic}
+\end{algorithm}
+
+This algorithm maps the graph to a low-dimensional space where standard Euclidean clustering methods can be applied. The eigenvectors provide coordinates that capture the graph's community structure.
+}
+
+\addDef{Graph Cuts and Spectral Partitioning}{%
+For a partition of vertices $V$ into disjoint sets $A$ and $B = V \setminus A$, the cut between them is defined as:
+
+$$\text{cut}(A,B) = \sum_{i \in A, j \in B} w_{ij}$$
+
+Several normalized cut objectives have been proposed:
+
+\begin{itemize}
+\item \textbf{RatioCut}: $\text{RatioCut}(A,B) = \frac{\text{cut}(A,B)}{|A|} + \frac{\text{cut}(A,B)}{|B|}$
+\item \textbf{NCut (Normalized Cut)}: $\text{NCut}(A,B) = \frac{\text{cut}(A,B)}{\text{vol}(A)} + \frac{\text{cut}(A,B)}{\text{vol}(B)}$
+\end{itemize}
+
+where $\text{vol}(A) = \sum_{i \in A} d_i$ is the volume of set $A$.
+
+Minimizing RatioCut is NP-hard, but a relaxation leads to:
+
+$$\min_{\mathbf{f} \perp \mathbf{1}, \|\mathbf{f}\|=\sqrt{n}} \mathbf{f}^T\bL\mathbf{f}$$
+
+The solution is the Fiedler vector $\mathbf{v}_2$. Similarly, minimizing NCut relates to the second eigenvector of $\bL_{rw}$.
+}
+
+\addNote{%
+The connection between spectral graph theory and random walks provides further insight. The transition matrix $\bP = \bD^{-1}\bA$ describes a Markov process on the graph. Its eigenvalues relate to mixing times and convergence rates. For a connected, non-bipartite graph, a random walk converges to a stationary distribution $\pi$ with $\pi_i = \frac{d_i}{\sum_{j} d_j}$.
+
+The convergence rate is governed by the spectral gap $1-|\eta_2|$, where $\eta_2$ is the second largest eigenvalue of $\bP$ in absolute value. This relates to the Laplacian through $\eta_i = 1 - \lambda_i$ for the eigenvalues of $\bL_{rw}$.
+
+This spectral perspective on random walks has applications in PageRank algorithms, diffusion maps, and semi-supervised learning on graphs.
+}
+
+\addDef{Heat Kernel and Diffusion}{%
+The graph Laplacian governs diffusion processes on graphs through the heat equation:
+
+$$\frac{\partial f}{\partial t} = -\bL f$$
+
+The solution is $f(t) = e^{-t\bL}f(0)$, where $e^{-t\bL}$ is the heat kernel. Using the spectral decomposition $\bL = \sum_{i=1}^n \lambda_i \mathbf{v}_i\mathbf{v}_i^T$, the heat kernel is:
+
+$$e^{-t\bL} = \sum_{i=1}^n e^{-t\lambda_i} \mathbf{v}_i\mathbf{v}_i^T$$
+
+This exponentially dampens high-frequency components associated with large eigenvalues while preserving low-frequency components associated with small eigenvalues, functioning as a low-pass filter.
+
+The heat kernel trace $\text{Tr}(e^{-t\bL}) = \sum_{i=1}^n e^{-t\lambda_i}$ captures the graph's global properties and relates to the concept of "shape" in spectral geometry.
+}
+
+\addExmpl{Visualizing the Fiedler Vector}{%
+Consider the barbell graph consisting of two complete graphs $K_5$ connected by a single edge.
+\begin{center}
+ \begin{tikzpicture}
+   % First clique
+   \node[circle,draw] (A) at (0,0) {};
+   \node[circle,draw] (B) at (0,1) {};
+   \node[circle,draw] (C) at (1,0) {};
+   \node[circle,draw] (D) at (1,1) {};
+   \node[circle,draw] (E) at (0.5,0.5) {};
+   
+   % Second clique
+   \node[circle,draw] (F) at (4,0) {};
+   \node[circle,draw] (G) at (4,1) {};
+   \node[circle,draw] (H) at (5,0) {};
+   \node[circle,draw] (I) at (5,1) {};
+   \node[circle,draw] (J) at (4.5,0.5) {};
+   
+   % Edges within first clique
+   \draw (A) -- (B) -- (C) -- (D) -- (A);
+   \draw (A) -- (C);
+  \draw (B) -- (D);
+   \draw (A) -- (E) -- (B);
+      \draw (C) -- (E) -- (D);
+   
+   % Edges within second clique
+   \draw (F) -- (G) -- (H) -- (I) -- (F);
+   \draw (F) -- (H);
+  \draw (G) -- (I);
+   \draw (F) -- (J) -- (G);
+   \draw (H) -- (J) -- (I);
+   
+   % Bridge edge
+   \draw[very thick] (E) -- (J);
+   
+   % Fiedler vector visualization below
+   \draw[->] (-1,-1) -- (6,-1);
+   \foreach \x/\y in {0.2/-1, 0.3/-1, 0.4/-1, 0.5/-1, 0.6/-1, 4.4/-1, 4.5/-1, 4.6/-1, 4.7/-1, 4.8/-1} {
+     \ifnum\x<1
+       \node[circle,fill=blue!50,scale=0.7] at (\x,\y) {};
+     \else
+       \node[circle,fill=red!50,scale=0.7] at (\x,\y) {};
+     \fi
+   
+   \node at (2.5,-1.5) {Fiedler vector embedding};
+ \end{tikzpicture}
+\end{center}
+The Fiedler vector for this graph has approximately constant values within each clique, with opposite signs, reflecting the natural partition. The algebraic connectivity $\lambda_2$ is very small, indicating the graph can be easily disconnected.
+}
+
+\addDef{Matrix Tree Theorem}{%
+The Matrix Tree Theorem provides a remarkable connection between the Laplacian spectrum and spanning trees. For a connected graph $G$, the number of spanning trees $\tau(G)$ is:
+
+$$\tau(G) = \frac{1}{n}\prod_{i=2}^n \lambda_i$$
+
+where $\lambda_i$ are the non-zero eigenvalues of the Laplacian. Equivalently, for any $i$:
+
+$$\tau(G) = \det(\bL_{i,i})$$
+
+where $\bL_{i,i}$ is the $(i,i)$-minor of $\bL$, obtained by removing the $i$-th row and column.
+
+This theorem connects the purely combinatorial concept of spanning tree enumeration with the analytical properties of the Laplacian spectrum.
+}
+
+\subsection{The PageRank Algorithm}
+\label{sub:pagerank}
+
+PageRank is a celebrated algorithm, famously developed and used by Google, to measure the importance or "rank" of web pages. The core idea is that the importance of a page is determined not just by its content, but also by the number and quality of other pages that link to it. A link from an important page is considered more valuable than a link from a less important one. PageRank models this concept using a random surfer navigating the web graph, with a page's rank being proportional to the likelihood of the surfer landing on that page.
+
+\addDef{The Web Graph and Random Surfer}{%
+The World Wide Web can be modeled as a directed graph $G=(V,E)$, where $V$ is the set of web pages (vertices) and a directed edge $(p_j, p_i) \in E$ exists if page $p_j$ contains a hyperlink to page $p_i$. Let $N = |V|$ be the total number of pages.
+
+The PageRank algorithm is often explained via the "random surfer" model:
+\begin{itemize}
+    \item A user starts on a random web page.
+    \item At each step, the user randomly clicks on one of the outbound links on the current page to navigate to a new page.
+    \item If the current page has no outbound links (a "dangling node"), the user jumps to another page chosen randomly from all $N$ pages.
+\end{itemize}
+The PageRank of a page $p_i$, denoted $PR(p_i)$, is the long-term probability that the random surfer will be on page $p_i$. Pages visited more frequently by the random surfer are considered more important.
+}
+
+\addDef{Basic PageRank Formulation}{%
+Let $PR(p_i)$ be the PageRank score of page $p_i$. Let $B(p_i)$ be the set of pages that link to page $p_i$. For any page $p_j \in B(p_i)$, let $L(p_j)$ be the number of outbound links from page $p_j$. The basic idea is that page $p_j$ "distributes" its PageRank score equally among all the pages it links to. Thus, the PageRank of $p_i$ is the sum of the PageRank contributions from all pages linking to it:
+$$ PR(p_i) = \sum_{p_j \in B(p_i)} \frac{PR(p_j)}{L(p_j)} $$
+This is a recursive definition: the rank of a page depends on the rank of other pages.
+}
+
+\textBox{Matrix Formulation and Power Iteration}{%
+Let $\mathbf{r}$ be a column vector of PageRank scores, where $r_i = PR(p_i)$, and $\sum_i r_i = 1$. We can define a hyperlink transition matrix $\bH \in \mathbb{R}^{N \times N}$ (sometimes denoted $\bM^T$ or $\bP^T$ if $\bP$ is row-stochastic) where:
+$$ H_{ij} = \begin{cases} 1/L(p_j) & \text{if page } p_j \text{ links to page } p_i \text{ and } L(p_j) > 0 \\ 0 & \text{otherwise} \end{cases} $$
+The PageRank equation can then be written as an eigenvector problem: $\mathbf{r} = \bH \mathbf{r}$. The PageRank vector $\mathbf{r}$ is the principal eigenvector of $\bH$ corresponding to the eigenvalue $1$. This can be found using the power iteration method:
+1. Initialize $\mathbf{r}^{(0)}$ (e.g., $r_i^{(0)} = 1/N$ for all $i$).
+2. Iterate: $\mathbf{r}^{(k+1)} = \bH \mathbf{r}^{(k)}$.
+3. Repeat until convergence.
+
+However, this basic formulation has issues:
+\begin{itemize}
+    \item \textbf{Dangling Nodes:} Pages with no outbound links ($L(p_j)=0$). Columns in $\bH$ corresponding to dangling nodes would be all zero, causing rank to "leak out" of the system during power iteration.
+    \item \textbf{Sink Regions (Rank Traps):} If the graph has groups of pages that link to each other but not to outside pages (or if the graph is not strongly connected), the random surfer can get trapped, and power iteration may not converge to a unique, meaningful PageRank distribution.
+\end{itemize}
+}
+
+\addDef{The Damped PageRank Algorithm (Google Matrix)}{%
+To address the issues of dangling nodes and sink regions, and to ensure convergence to a unique positive PageRank vector, the damping factor $d$ (typically $d \approx 0.85$) is introduced. The random surfer model is modified:
+\begin{itemize}
+    \item With probability $d$, the surfer clicks a random link on the current page.
+    \item With probability $1-d$, the surfer jumps to a random page chosen uniformly from all $N$ pages in the web graph.
+\end{itemize}
+The PageRank formula becomes:
+$$ PR(p_i) = \frac{1-d}{N} + d \sum_{p_j \in B(p_i)} \frac{PR(p_j)}{L(p_j)} $$
+This leads to the Google Matrix $\bG$. Let $\bS \in \mathbb{R}^{N \times N}$ be the column-stochastic hyperlink matrix:
+$$ S_{ij} = \begin{cases} 1/L(p_j) & \text{if page } p_j \text{ links to page } p_i \text{ and } L(p_j) > 0 \\ 1/N & \text{if page } p_j \text{ is a dangling node (i.e., } L(p_j)=0) \\ 0 & \text{otherwise (no link and not dangling contribution)} \end{cases} $$
+Note: The $1/N$ for dangling nodes ensures $\bS$ is column-stochastic (columns sum to 1).
+The Google Matrix $\bG$ is then defined as:
+$$ \bG = d\bS + \frac{1-d}{N}\mathbf{J} $$
+where $\mathbf{J}$ is an $N \times N$ matrix of all ones. The matrix $\bG$ is column-stochastic, irreducible, and primitive. By the Perron-Frobenius theorem, $\bG$ has a unique largest eigenvalue $\lambda_{\max}=1$, and its corresponding eigenvector $\mathbf{r}$ (the PageRank vector) has all positive entries and is unique up to scaling. We scale $\mathbf{r}$ such that $\|\mathbf{r}\|_1 = \sum_i r_i = 1$.
+The PageRank vector $\mathbf{r}$ is the solution to $\mathbf{r} = \bG\mathbf{r}$.
+}
+
+\textBox{Solving for PageRank with the Google Matrix}{%
+The PageRank vector $\mathbf{r}$ is typically computed using the power iteration method:
+1. Initialize $\mathbf{r}^{(0)}$ with $r_i^{(0)} = 1/N$ for all $i=1, \ldots, N$. Ensure $\|\mathbf{r}^{(0)}\|_1 = 1$.
+2. Iterate for $k=0, 1, 2, \ldots$:
+   $$ \mathbf{r}^{(k+1)} = \bG \mathbf{r}^{(k)} = d\bS\mathbf{r}^{(k)} + \frac{1-d}{N}\mathbf{J}\mathbf{r}^{(k)} $$
+   Since $\mathbf{J}\mathbf{r}^{(k)} = \mathbf{1}(\mathbf{1}^T\mathbf{r}^{(k)}) = \mathbf{1}(1) = \mathbf{1}$ (as $\|\mathbf{r}^{(k)}\|_1=1$), the iteration simplifies to:
+   $$ \mathbf{r}^{(k+1)} = d\bS\mathbf{r}^{(k)} + \frac{1-d}{N}\mathbf{1} $$
+3. Continue until convergence, i.e., $\|\mathbf{r}^{(k+1)} - \mathbf{r}^{(k)}\|_1 < \epsilon$ for some small tolerance $\epsilon$.
+
+This iterative process is efficient because the matrix $\bS$ (or the original hyperlink graph) is typically very sparse, even though $\bG$ itself is dense. The term $d\bS\mathbf{r}^{(k)}$ can be computed by exploiting the sparse structure of web links. The $(1-d)/N \cdot \mathbf{1}$ term represents the teleportation probability uniformly distributed.
+}
+
+\addExmpl{Illustrative PageRank Calculation}{%
+Consider a simple web graph with three pages: $P_1, P_2, P_3$.
+Links: $P_1 \to P_2$, $P_2 \to P_1$, $P_2 \to P_3$, $P_3 \to P_1$.
+Out-degrees: $L(P_1)=1$, $L(P_2)=2$, $L(P_3)=1$. No dangling nodes.
+Let $d=0.85$. $N=3$. $(1-d)/N = 0.15/3 = 0.05$.
+
+The matrix $\bS$:
+\begin{itemize}
+    \item Column 1 ($P_1$ links to $P_2$): $S_{21}=1/1=1$. Others 0.
+    \item Column 2 ($P_2$ links to $P_1, P_3$): $S_{12}=1/2=0.5$, $S_{32}=1/2=0.5$. Others 0.
+    \item Column 3 ($P_3$ links to $P_1$): $S_{13}=1/1=1$. Others 0.
+\end{itemize}
+$$ \bS = \begin{pmatrix} 0 & 0.5 & 1 \\ 1 & 0 & 0 \\ 0 & 0.5 & 0 \end{pmatrix} $$
+Initialize $\mathbf{r}^{(0)} = (1/3, 1/3, 1/3)^T \approx (0.333, 0.333, 0.333)^T$.
+
+Iteration 1: $\mathbf{r}^{(1)} = d\bS\mathbf{r}^{(0)} + \frac{1-d}{N}\mathbf{1}$
+$d\bS\mathbf{r}^{(0)} = 0.85 \begin{pmatrix} 0 & 0.5 & 1 \\ 1 & 0 & 0 \\ 0 & 0.5 & 0 \end{pmatrix} \begin{pmatrix} 1/3 \\ 1/3 \\ 1/3 \end{pmatrix} = 0.85 \begin{pmatrix} 0.5 \cdot 1/3 + 1 \cdot 1/3 \\ 1 \cdot 1/3 \\ 0.5 \cdot 1/3 \end{pmatrix} = 0.85 \begin{pmatrix} 1.5/3 \\ 1/3 \\ 0.5/3 \end{pmatrix} = \begin{pmatrix} 0.425 \\ 0.283 \\ 0.142 \end{pmatrix}$ (approx)
+$\frac{1-d}{N}\mathbf{1} = \begin{pmatrix} 0.05 \\ 0.05 \\ 0.05 \end{pmatrix}$
+$\mathbf{r}^{(1)} = \begin{pmatrix} 0.425 \\ 0.283 \\ 0.142 \end{pmatrix} + \begin{pmatrix} 0.05 \\ 0.05 \\ 0.05 \end{pmatrix} = \begin{pmatrix} 0.475 \\ 0.333 \\ 0.192 \end{pmatrix}$ (Sum = 1.0)
+
+Iteration 2: $\mathbf{r}^{(2)} = d\bS\mathbf{r}^{(1)} + \frac{1-d}{N}\mathbf{1}$
+$d\bS\mathbf{r}^{(1)} = 0.85 \begin{pmatrix} 0 & 0.5 & 1 \\ 1 & 0 & 0 \\ 0 & 0.5 & 0 \end{pmatrix} \begin{pmatrix} 0.475 \\ 0.333 \\ 0.192 \end{pmatrix} = 0.85 \begin{pmatrix} 0.5(0.333) + 1(0.192) \\ 1(0.475) \\ 0.5(0.333) \end{pmatrix} = 0.85 \begin{pmatrix} 0.1665 + 0.192 \\ 0.475 \\ 0.1665 \end{pmatrix} = 0.85 \begin{pmatrix} 0.3585 \\ 0.475 \\ 0.1665 \end{pmatrix} \approx \begin{pmatrix} 0.3047 \\ 0.4038 \\ 0.1415 \end{pmatrix}$
+$\mathbf{r}^{(2)} \approx \begin{pmatrix} 0.3047 \\ 0.4038 \\ 0.1415 \end{pmatrix} + \begin{pmatrix} 0.05 \\ 0.05 \\ 0.05 \end{pmatrix} = \begin{pmatrix} 0.3547 \\ 0.4538 \\ 0.1915 \end{pmatrix}$ (Sum $\approx$ 1.0)
+
+Iterations would continue until convergence. $P_1$ appears to receive the most rank due to two direct incoming sources (one of which is $P_2$ that splits its rank).
+}
+
+\addNote[Interpretations, Properties, and Extensions]{%
+\begin{itemize}
+    \item \textbf{Probability Distribution:} The PageRank vector $\mathbf{r}$ represents a stationary probability distribution of the random surfer model with teleportation. $r_i$ is the long-term probability of finding the surfer on page $p_i$.
+    \item \textbf{Damping Factor ($d$):} The choice of $d$ balances between the link structure of the web and the uniform "teleportation" probability. A higher $d$ gives more weight to the link structure, while a lower $d$ makes ranks more uniform. It also ensures convergence and helps mitigate rank sinks.
+    \item \textbf{Scalability:} PageRank is designed to scale to billions of pages due to the sparse nature of the web graph and the efficiency of the power iteration method (when implemented carefully).
+    \item \textbf{Personalized/Topic-Specific PageRank:} The teleportation term $(\frac{1-d}{N}\mathbf{1})$ can be modified to jump to a specific subset of pages or pages related to a topic, leading to personalized or topic-sensitive rankings. Instead of jumping to any page with uniform probability $1/N$, the jump can be biased towards a personalized vector $\mathbf{v}$, leading to $\mathbf{r}^{(k+1)} = d\bS\mathbf{r}^{(k)} + (1-d)\mathbf{v}$.
+    \item \textbf{Robustness:} While PageRank provides a robust measure of importance, it is not entirely immune to manipulation (e.g., link farms), leading to ongoing refinements in search engine algorithms.
+\end{itemize}
+PageRank revolutionized web search by providing a query-independent measure of page quality, which, when combined with content relevance, significantly improved search results.
+}
+\end{document}

@@ -15,6 +15,44 @@
 \newcommand{\dict}[2]{\textbf{#1} \normalmarginpar \marginnote{{\small #1: #2}}}
 \newcommand{\keywordfont}{\ttfamily}
 
+% Theorem and proof macros with margin notes
+\newcommand{\thm}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_blue}{\textbf{Theorem}}}}
+\newcommand{\prf}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_green}{\textbf{Proof}}}}
+\newcommand{\lem}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_blue}{\textbf{Lemma}}}}
+\newcommand{\cor}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_blue}{\textbf{Corollary}}}}
+\newcommand{\prop}[1]{\reversemarginpar \marginnote{\textcolor{ucsb_blue}{\textbf{Proposition}}}}
+
+% Environment-style commands for theorems and proofs
+\newcommand{\addThm}[2]{%
+    \newentry
+    \thm{Theorem}
+    \textbf{#1.} #2
+}
+
+\newcommand{\addPrf}[1]{%
+    \newentry
+    \prf{Proof}
+    #1 \hfill $\square$
+}
+
+\newcommand{\addLem}[2]{%
+    \newentry
+    \lem{Lemma}
+    \textbf{#1.} #2
+}
+
+\newcommand{\addCor}[2]{%
+    \newentry
+    \cor{Corollary}
+    \textbf{#1.} #2
+}
+
+\newcommand{\addProp}[2]{%
+    \newentry
+    \prop{Proposition}
+    \textbf{#1.} #2
+}
+
 \newcommand{\addDef}[2]{%
     \newentry
     \defn{#1}

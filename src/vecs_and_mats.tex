@@ -1,0 +1,95 @@
+\documentclass[../readings.tex]{subfiles}
+\begin{document}
+
+
+\subsection{Vectors and Matrices}
+
+\addDef{$\mathbb{R}$}{%
+The set of all real numbers. Real numbers form the backbone of most numerical computations and serve as the primary field in many applications across science and engineering.
+}
+
+\addDef{$\mathbb{Z}$}{%
+The set of all integers. Integers are important for problems involving countable or discrete quantities and are a subset of the real numbers.
+}
+
+\addDef{$\mathbb{C}$}{%
+The set of all complex numbers. Although our primary focus is on real scalars, complex numbers extend the idea of numbers and are essential in advanced topics such as signal processing, control theory, and quantum mechanics.
+}
+
+\addDef{Scalars}{%
+Elements of number spaces (e.g., $\mathbb{R}$, $\mathbb{C}$, $\mathbb{Z}$) are called \textbf{scalars}. They represent individual quantities and serve as the fundamental building blocks from which vectors and matrices are constructed.
+}
+\textBox{%
+Scalars can be viewed as the atoms of numerical computation. In advanced studies, such as functional analysis or numerical linear algebra, understanding the properties of scalars is crucial, particularly when extending these concepts to infinite-dimensional spaces or complex systems.
+}
+
+\addDef{Vectors}{%
+A \textbf{vector} is a one-dimensional array of scalars. Vectors can represent points, directions, or more abstract quantities within a vector space, and they are fundamental in representing data and linear relationships.
+}
+\addNote{%
+Vectors may be represented either as row vectors or column vectors. Although both forms contain the same information, the distinction becomes important in the context of linear transformations, dual spaces, and inner product spaces.
+}
+\addExmpl{%
+\begin{equation*}
+\begin{pmatrix} 1 & 2 & 3 \end{pmatrix}, \quad
+\begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix}, \quad
+\begin{pmatrix} 1+2i \\ 7i \\ 3 \end{pmatrix}, \ldots
+\end{equation*}
+}
+\textBox{%
+Just as scalars belong to number systems like $\mathbb{R}$ or $\mathbb{C}$, vectors inhabit \textbf{vector spaces}. While these notes treat vector spaces in an informal manner, later chapters will provide a rigorous formulation of vector spaces and their properties.
+}
+
+\addDef{$\fR^n$}{%
+The set of all real vectors of size $n$. When we write \(x \in \fR^n\), it indicates that \(x\) is a vector with \(n\) real entries. Vectors in \(\fR^n\) are typically expressed in one of the following forms:
+\begin{align*}
+\boldsymbol{x} \in \fR^{n \times 1} &= \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}, \quad \text{(column vector)}\\[1mm]
+\boldsymbol{x} \in \fR^{1 \times n} &= \begin{pmatrix} x_1 & x_2 & \cdots & x_n \end{pmatrix}, \quad \text{(row vector)}
+\end{align*}
+For these notes, the column vector form is adopted as the default representation.
+}
+\addNote{%
+In our discussion, we focus on finite-dimensional vector spaces. In more advanced topics, infinite-dimensional vector spaces—central to functional analysis—play a significant role in areas such as differential equations and quantum mechanics.
+}
+
+\addDef{Matrices}{%
+A \textbf{matrix} is a two-dimensional (or higher-dimensional) array of scalars. A matrix \(\bA \in \fR^{m \times n}\) is typically written as
+\begin{equation*}
+\bA = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{pmatrix}.
+\end{equation*}
+Matrices are used to represent linear transformations, systems of linear equations, and more complex data structures.
+}
+
+\addExmpl{%
+Examples of two-dimensional matrices include:
+\begin{equation*}
+\begin{pmatrix}
+1 & 2 & 3 \\[1mm]
+4 & 5 & 6
+\end{pmatrix}, \quad
+\begin{pmatrix}
+1 & 2 \\[1mm]
+4 & 5 \\[1mm]
+6 & 7
+\end{pmatrix}, \quad \text{etc.}
+\end{equation*}
+}
+\addNote{%
+Matrices can also be interpreted as vectors whose entries are themselves vectors. For instance,
+\begin{equation*}
+\bA = \printmatrow{r} = \printmatcol{c},
+\end{equation*}
+where:
+\begin{enumerate}
+    \item \(r_i = \bA[i]\) denotes the \textit{row vector} corresponding to the \(i^\text{th}\) row of \(\bA\).
+    \item \(c_i = \bA[:, i]\) denotes the \textit{column vector} corresponding to the \(i^\text{th}\) column of \(\bA\).
+\end{enumerate}
+This viewpoint is particularly useful when exploring advanced topics such as block matrices, tensor decompositions, and matrix factorization methods.
+}
+
+\end{document}

@@ -1,0 +1,76 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+\subsection{Matrix Norms}
+\label{sub:matrix_norms}
+
+Matrix norms are functions that assign a scalar "size" or "magnitude" to a matrix. They are fundamental tools in linear algebra and numerical analysis, used for measuring the error in matrix computations (e.g., in low-rank approximations or solutions to linear systems), analyzing the convergence of iterative algorithms, and understanding the sensitivity of problems to perturbations (e.g., condition numbers).
+
+\addDef{Matrix Norm}{%
+A function $\|\cdot\|: \mathbb{R}^{m \times n} \to \mathbb{R}$ is a matrix norm if for all matrices $\bA, \bB \in \mathbb{R}^{m \times n}$ and any scalar $c \in \mathbb{R}$, it satisfies the following properties:
+\begin{enumerate}
+    \item Non-negativity: $\|\bA\| \ge 0$
+    \item Definiteness: $\|\bA\| = 0 \iff \bA = \mathbf{0}$ (the zero matrix)
+    \item Absolute homogeneity: $\|c\bA\| = |c| \|\bA\|$
+    \item Triangle inequality (or subadditivity): $\|\bA + \bB\| \le \|\bA\| + \|\bB\|$
+\end{enumerate}
+For square matrices ($\bA, \bB \in \mathbb{R}^{n \times n}$), an additional desirable property for many matrix norms is submultiplicativity:
+\begin{enumerate}
+    \item[5.] Submultiplicativity: $\|\bA\bB\| \le \|\bA\|\|\bB\|$
+\end{enumerate}
+This property is crucial when dealing with products of matrices, such as in iterative methods or error propagation.
+}
+
+\addDef{Induced (Operator) Norms}{%
+Induced norms, also known as operator norms, are defined in terms of vector norms. Given a vector norm $\|\cdot\|_v$ on $\mathbb{R}^n$ (domain) and a vector norm $\|\cdot\|_u$ on $\mathbb{R}^m$ (codomain), the matrix norm for $\bA \in \mathbb{R}^{m \times n}$ induced by these vector norms is:
+$$ \|\bA\|_{u,v} = \max_{\mathbf{x} \neq \mathbf{0}} \frac{\|\bA\mathbf{x}\|_u}{\|\mathbf{x}\|_v} = \max_{\|\mathbf{x}\|_v=1} \|\bA\mathbf{x}\|_u $$
+Effectively, $\|\bA\|_{u,v}$ measures the maximum "stretching factor" that $\bA$ applies to any non-zero vector $\mathbf{x}$ (when measured by the respective vector norms). All induced norms are submultiplicative (assuming compatible dimensions and the same vector norm for the inner product when chaining matrices). Common induced norms use $p$-norms for vectors:
+\begin{itemize}
+    \item \textbf{$L_1$-Norm (Maximum Absolute Column Sum):} Induced by the vector $L_1$-norm ($\|\mathbf{x}\|_1 = \sum_i |x_i|$).
+        $$ \|\bA\|_1 = \max_{1 \le j \le n} \sum_{i=1}^m |a_{ij}| $$
+    \item \textbf{$L_{\infty}$-Norm (Maximum Absolute Row Sum):} Induced by the vector $L_{\infty}$-norm ($\|\mathbf{x}\|_{\infty} = \max_i |x_i|$).
+        $$ \|\bA\|_{\infty} = \max_{1 \le i \le m} \sum_{j=1}^n |a_{ij}| $$
+    \item \textbf{$L_2$-Norm (Spectral Norm):} Induced by the vector $L_2$-norm (Euclidean norm, $\|\mathbf{x}\|_2 = \sqrt{\sum_i x_i^2}$).
+        $$ \|\bA\|_2 = \sigma_{\max}(\bA) = \sqrt{\lambda_{\max}(\bA^T\bA)} $$
+        Here, $\sigma_{\max}(\bA)$ is the largest singular value of $\bA$, and $\lambda_{\max}(\bA^T\bA)$ is the largest eigenvalue of the positive semi-definite matrix $\bA^T\bA$. This norm represents the maximum factor by which $\bA$ can stretch a vector in the Euclidean sense.
+\end{itemize}
+}
+
+\addDef{Entry-wise Norms}{%
+Entry-wise norms treat the matrix $\bA \in \mathbb{R}^{m \times n}$ as a vector in $\mathbb{R}^{mn}$ containing all its entries, and then apply a vector norm to this long vector.
+\begin{itemize}
+    \item \textbf{Frobenius Norm ($\|\cdot\|_F$):} This is analogous to the Euclidean ($L_2$) norm for vectors.
+        $$ \|\bA\|_F = \sqrt{\sum_{i=1}^m \sum_{j=1}^n |a_{ij}|^2} $$
+        The Frobenius norm can also be expressed using the trace of $\bA^T\bA$ or the singular values $\sigma_k(\bA)$ of $\bA$:
+        $$ \|\bA\|_F = \sqrt{\mathrm{Tr}(\bA^T\bA)} = \sqrt{\mathrm{Tr}(\bA\bA^T)} = \sqrt{\sum_{k=1}^{\min(m,n)} \sigma_k^2(\bA)} $$
+        The Frobenius norm is submultiplicative and is frequently used in numerical linear algebra, particularly in problems involving low-rank approximation (like PCA).
+    \item \textbf{Max Norm ($\|\cdot\|_{\max}$):} (Less common in theoretical analysis but sometimes used)
+        $$ \|\bA\|_{\max} = \max_{i,j} |a_{ij}| $$
+        This is a valid matrix norm but is not submultiplicative.
+\end{itemize}
+}
+
+\addExmpl{Matrix Norm Calculations}{%
+Let $\bA = \begin{pmatrix} 1 & -2 \\ -3 & 4 \end{pmatrix}$.
+\begin{itemize}
+    \item \textbf{$L_1$-Norm:} $\|\bA\|_1 = \max(|1|+|-3|, |-2|+|4|) = \max(1+3, 2+4) = \max(4, 6) = 6$.
+    \item \textbf{$L_{\infty}$-Norm:} $\|\bA\|_{\infty} = \max(|1|+|-2|, |-3|+|4|) = \max(1+2, 3+4) = \max(3, 7) = 7$.
+    \item \textbf{Frobenius Norm:} $\|\bA\|_F = \sqrt{1^2 + (-2)^2 + (-3)^2 + 4^2} = \sqrt{1 + 4 + 9 + 16} = \sqrt{30} \approx 5.477$.
+    \item \textbf{$L_2$-Norm (Spectral Norm):} We need eigenvalues of $\bA^T\bA$.
+        $$ \bA^T\bA = \begin{pmatrix} 1 & -3 \\ -2 & 4 \end{pmatrix} \begin{pmatrix} 1 & -2 \\ -3 & 4 \end{pmatrix} = \begin{pmatrix} 10 & -14 \\ -14 & 20 \end{pmatrix} $$
+        The characteristic equation is $\det(\bA^T\bA - \lambda\bI) = (10-\lambda)(20-\lambda) - (-14)^2 = \lambda^2 - 30\lambda + 4 = 0$.
+        The eigenvalues are $\lambda = \frac{30 \pm \sqrt{30^2 - 4(1)(4)}}{2} = \frac{30 \pm \sqrt{900 - 16}}{2} = \frac{30 \pm \sqrt{884}}{2} = 15 \pm \sqrt{221}$.
+        So, $\lambda_{\max}(\bA^T\bA) = 15 + \sqrt{221}$.
+        Therefore, $\|\bA\|_2 = \sqrt{15 + \sqrt{221}} \approx \sqrt{15 + 14.866} \approx \sqrt{29.866} \approx 5.465$.
+\end{itemize}
+}
+
+\addNote[Properties and Use of Matrix Norms]{%
+\begin{itemize}
+    \item \textbf{Equivalence of Norms:} All matrix norms on the finite-dimensional space $\mathbb{R}^{m \times n}$ are equivalent. This means that for any two norms $\|\cdot\|_{\alpha}$ and $\|\cdot\|_{\beta}$, there exist positive constants $c_1, c_2$ such that $c_1 \|\bA\|_{\beta} \le \|\bA\|_{\alpha} \le c_2 \|\bA\|_{\beta}$ for all $\bA \in \mathbb{R}^{m \times n}$. This implies that if a sequence of matrices converges in one norm, it converges in all norms.
+    \item \textbf{Consistency with Vector Norms:} A matrix norm $\|\cdot\|$ is said to be consistent with a vector norm $\|\cdot\|_v$ if $\|\bA\mathbf{x}\|_v \le \|\bA\| \|\mathbf{x}\|_v$ for all $\bA, \mathbf{x}$. Induced norms are, by definition, consistent with the vector norms that induce them. The Frobenius norm is consistent with the vector $L_2$-norm.
+    \item \textbf{Condition Number:} Matrix norms are used to define the condition number of a square invertible matrix $\bA$ as $\kappa(\bA) = \|\bA\| \|\bA^{-1}\|$. The condition number measures the sensitivity of the solution of $\bA\mathbf{x}=\mathbf{b}$ to perturbations in $\bA$ or $\mathbf{b}$.
+    \item \textbf{Applications:} The Frobenius norm is prominently featured in the Eckart-Young-Mirsky theorem for optimal low-rank matrix approximation (relevant to PCA error). The spectral norm is crucial in stability analysis of dynamical systems and convergence rates of iterative methods.
+\end{itemize}
+}
+\end{document}

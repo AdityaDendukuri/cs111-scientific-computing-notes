@@ -1,0 +1,184 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+
+\newgeometry{
+    left=40mm,
+    top=20mm,
+    bottom=30mm}
+
+\subsection{Matrix Arithmetic}
+
+We are all familiar with scalar arithmetic, including operations like addition, subtraction, and multiplication, as well as fundamental properties such as associativity and distributivity. In the following sections, we extend these familiar concepts to vectors and matrices, exploring how these operations are defined and applied in higher dimensions.
+
+\subsubsection{Addition and Subtraction}
+
+Matrix addition is performed element-wise. Note that matrices can only be added (or subtracted) if they have the same dimensions.
+
+\addDef{Matrix Sum}{%
+Let $\bA, \bB \in \fR^{m \times n}$ be matrices. Their sum is defined as
+\[
+\bA + \bB = \printmatsq{a} + \printmatsq{b} = \printmatsq{(a+b)},
+\]
+where each entry satisfies $(a+b)_{ij} = a_{ij} + b_{ij}$ for $1 \le i \le m$ and $1 \le j \le n$.
+}
+
+\addNote{%
+For two matrices $\bA \in \fR^{m \times n}$ and $\bB \in \fR^{p \times q}$, the sum $\bA+\bB$ is defined if and only if $m=p$ and $n=q$.
+}
+
+\textBox{%
+\textbf{ Commutativity and Associativity of Matrix Addition}\\[2mm]
+Let 
+\[
+\bA = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \quad \text{and} \quad \bB = \begin{pmatrix} e & f \\ g & h \end{pmatrix}.
+\]
+Then,
+\[
+\bA + \bB = \begin{pmatrix} a+e & b+f \\ c+g & d+h \end{pmatrix} 
+\quad \text{and} \quad 
+\bB + \bA = \begin{pmatrix} e+a & f+b \\ g+c & h+d \end{pmatrix}.
+\]
+Since addition of real numbers is commutative, we have $\bA+\bB = \bB+\bA$. Furthermore, for any third matrix 
+\(\mathbf{C} = \begin{pmatrix} i & j \\ k & l \end{pmatrix}\),
+\[
+(\bA+\bB)+\mathbf{C} = \begin{pmatrix} (a+e)+i & (b+f)+j \\ (c+g)+k & (d+h)+l \end{pmatrix},
+\]
+and
+\[
+\bA+(\bB+\mathbf{C}) = \begin{pmatrix} a+(e+i) & b+(f+j) \\ c+(g+k) & d+(h+l) \end{pmatrix}.
+\]
+By associativity of addition for real numbers, these two results are identical. Hence, matrix addition is both commutative and associative.
+}
+\newpage
+\addDef{Scalar Multiplication}{%
+Let $\bA \in \fR^{m \times n}$ and $c \in \fR$. Then scalar multiplication is defined as
+\[
+c\bA = c \printmatsq{a} = \printmatsq{c a},
+\]
+where each entry satisfies $(c a)_{ij} = c \cdot a_{ij}$.
+}
+
+\textBox{%
+\textbf{ Distributivity of Scalar Multiplication over Matrix Addition}\\[2mm]
+Let \(\alpha \in \fR\) and 
+\[
+\bA = \begin{pmatrix} a & b \\ c & d \end{pmatrix}, \quad \bB = \begin{pmatrix} e & f \\ g & h \end{pmatrix}.
+\]
+Then,
+\[
+\alpha(\bA + \bB) = \alpha \begin{pmatrix} a+e & b+f \\ c+g & d+h \end{pmatrix} = \begin{pmatrix} \alpha(a+e) & \alpha(b+f) \\ \alpha(c+g) & \alpha(d+h) \end{pmatrix}.
+\]
+Since scalar multiplication distributes over addition for real numbers, this equals
+\[
+\begin{pmatrix} \alpha a+\alpha e & \alpha b+\alpha f \\ \alpha c+\alpha g & \alpha d+\alpha h \end{pmatrix} = \alpha\bA + \alpha\bB.
+\]
+}
+
+\subsubsection{Dot Product}
+
+\addDef{Dot Product}{%
+\index{dot|product}%
+For vectors $\ba, \bb \in \fR^{n}$, the dot product (or inner product) is defined as
+\begin{equation}
+    \ba \cdot \bb = \ba^t \bb = \printrowvec{a} \printcolvec{b} = \sum_{i=1}^{n} a_{i} b_{i}.
+\end{equation}
+}
+
+\addDef{Matrix Product}{%
+Let $\bA \in \mathbb{R}^{m \times n}$ and $\bB \in \mathbb{R}^{n \times p}$. Their product $\bA\bB$ is an $m \times p$ matrix defined by
+\[
+(\bA\bB)_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj},
+\]
+or equivalently, if we consider the rows of $\bA$ as vectors $\ba_i$ and the columns of $\bB$ as vectors $\bb_j$, then
+\[
+\bA \bB = 
+\begin{pmatrix}
+\ba_1 \cdot \bb_1 & \cdots & \ba_1 \cdot \bb_p \\
+\vdots & \ddots & \vdots \\ 
+\ba_m \cdot \bb_1 & \cdots & \ba_m \cdot \bb_p 
+\end{pmatrix}.
+\]
+}
+
+\addNote{%
+Matrix multiplication is defined only when the number of columns of $\bA$ equals the number of rows of $\bB$. Moreover, it is associative and distributive over addition, but in general it is not commutative; that is, $\bA\bB \neq \bB\bA$ for most matrices.
+}
+\newpage
+\textBox{%
+\textbf{ Compatibility for Matrix Multiplication}\\[2mm]
+Let \(\bA\) be a \(3 \times 4\) matrix and \(\bB\) be a \(4 \times 2\) matrix. Since the number of columns in \(\bA\) (4) equals the number of rows in \(\bB\) (4), the product \(\bA\bB\) is defined and will result in a \(3 \times 2\) matrix. Conversely, if \(\bB\) were instead a \(5 \times 2\) matrix, the product would be undefined.
+}
+
+\textBox{%
+\textbf{ Distributive Property of Matrix Multiplication}\\[2mm]
+Let 
+\[
+\bA = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}, \quad
+\bB = \begin{pmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{pmatrix}, \quad
+\mathbf{C} = \begin{pmatrix} c_{11} & c_{12} \\ c_{21} & c_{22} \end{pmatrix}.
+\]
+Then,
+\[
+\bA(\bB + \mathbf{C}) = \bA \begin{pmatrix} b_{11}+c_{11} & b_{12}+c_{12} \\ b_{21}+c_{21} & b_{22}+c_{22} \end{pmatrix},
+\]
+and by computing the entries using the definition of matrix multiplication, one can verify that
+\[
+\bA(\bB + \mathbf{C}) = \bA\bB + \bA\mathbf{C}.
+\]
+}
+
+\textBox{%
+\textbf{ Non-Commutativity of Matrix Multiplication}\\[2mm]
+Consider the matrices
+\[
+\bA = \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix} \quad \text{and} \quad \bB = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.
+\]
+Then,
+\[
+\bA\bB = \begin{pmatrix} 1\cdot0+0\cdot1 & 1\cdot1+0\cdot0 \\ 0\cdot0+2\cdot1 & 0\cdot1+2\cdot0 \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 0 \end{pmatrix},
+\]
+and
+\[
+\bB\bA = \begin{pmatrix} 0\cdot1+1\cdot0 & 0\cdot0+1\cdot2 \\ 1\cdot1+0\cdot0 & 1\cdot0+0\cdot2 \end{pmatrix} = \begin{pmatrix} 0 & 2 \\ 1 & 0 \end{pmatrix}.
+\]
+Since \(\bA\bB \neq \bB\bA\) and clearly \(\bA \neq \bB\), this example shows that matrix multiplication is not commutative.
+}
+
+Many properties of scalar arithmetic extend naturally to both vectors and matrices. In fact, matrices can be viewed as elements of a higher-dimensional vector space, and matrix multiplication can be interpreted as the composition of linear transformations. While the notations for vectors and matrices are similar, their roles in linear algebra differ:
+\begin{itemize}
+    \item Vectors typically represent points or directions in space.
+    \item Matrices often represent linear maps or transformations between vector spaces.
+\end{itemize}
+This conceptual distinction becomes crucial when discussing topics such as vector spaces, eigenvalues, and linear transformations.
+\newpage
+
+\subsubsection{Matrix Inverse}
+\addDef{Matrix Inverse}{%
+For a square matrix $\bA \in \fR^{n \times n}$, the inverse of $\bA$, denoted $\bA^{-1}$, is defined as the unique matrix satisfying
+\[
+\bA \bA^{-1} = \bA^{-1} \bA = \mathbf{I},
+\]
+where $\mathbf{I}$ is the \(n \times n\) identity matrix. A matrix that has an inverse is called \emph{invertible} or \emph{nonsingular}.
+}
+
+\addNote{%
+A square matrix \(\bA\) is invertible if and only if \(\det(\bA) \neq 0\), which also implies that \(\bA\) has full rank.
+}
+
+\textBox{%
+\textbf{ Uniqueness of the Inverse}\\[2mm]
+Suppose \(\bA\) is an invertible matrix and that \(\bB\) and \(\mathbf{C}\) are both inverses of \(\bA\); that is,
+\[
+\bA\bB = \bB\bA = \mathbf{I} \quad \text{and} \quad \bA\mathbf{C} = \mathbf{C}\bA = \mathbf{I}.
+\]
+Then,
+\[
+\bB = \bB\mathbf{I} = \bB(\bA\mathbf{C}) = (\bB\bA)\mathbf{C} = \mathbf{I}\mathbf{C} = \mathbf{C}.
+\]
+Thus, the inverse of \(\bA\) is unique.
+}
+
+
+
+\end{document}

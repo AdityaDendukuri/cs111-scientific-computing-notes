@@ -1,0 +1,130 @@
+\documentclass[../readings.tex]{subfiles}
+
+
+\begin{document}
+
+\subsection{Jacobi Iteration}
+\label{subsec:jacobi-iteration}
+
+\subsubsection{Jacobi Iteration}
+\addDef{Jacobi Iteration Method}{%
+The Jacobi method is one of the simplest iterative techniques for solving a linear system $\bA\bx = \bb$ where $\bA \in \mathbb{R}^{n \times n}$ and $\bb \in \mathbb{R}^n$. The method decomposes the matrix $\bA$ into its diagonal and off-diagonal components:
+$$
+\bA = \bD + \bR
+$$
+where $\bD$ is the diagonal matrix containing the diagonal entries of $\bA$, and $\bR = \bA - \bD$ contains all the off-diagonal entries.
+
+The linear system can then be rewritten as:
+$$
+\bD\bx + \bR\bx = \bb
+$$
+
+Assuming that all diagonal entries of $\bA$ are non-zero (i.e., $a_{ii} \neq 0$ for all $i$), we can solve for $\bx$:
+$$
+\bx = \bD^{-1}(\bb - \bR\bx)
+$$
+
+This equation forms the basis of the Jacobi iteration. Starting with an initial guess $\bx^{(0)}$, we generate a sequence of approximations $\{\bx^{(k)}\}_{k=0}^{\infty}$ using:
+$$
+\bx^{(k+1)} = \bD^{-1}(\bb - \bR\bx^{(k)})
+$$
+
+In component form, this becomes:
+$$
+x_i^{(k+1)} = \frac{1}{a_{ii}}\left(b_i - \sum_{j\neq i} a_{ij}x_j^{(k)}\right), \quad i = 1, 2, \ldots, n
+$$
+
+This formula reveals the key characteristic of the Jacobi method: the computation of each component $x_i^{(k+1)}$ uses only the values from the previous iteration $\bx^{(k)}$.
+}
+\newpage
+\subsubsection{Convergence of Jacobi Iteration}
+\addDef{Convergence of Jacobi Iteration}{%
+The Jacobi method does not always converge. The convergence behavior depends on the properties of the matrix $\bA$. The iteration can be written in matrix form as:
+$$
+\bx^{(k+1)} = \bT_J \bx^{(k)} + \bc
+$$
+
+where $\bT_J = -\bD^{-1}\bR$ is the Jacobi iteration matrix and $\bc = \bD^{-1}\bb$.
+
+The method converges for any initial guess $\bx^{(0)}$ if and only if the spectral radius of $\bT_J$ is less than 1:
+$$
+\rho(\bT_J) < 1
+$$
+
+where $\rho(\bT_J)$ is the maximum absolute value of the eigenvalues of $\bT_J$.
+
+Sufficient (but not necessary) conditions for convergence include:
+\begin{itemize}
+    \item $\bA$ is strictly diagonally dominant, i.e., $|a_{ii}| > \sum_{j\neq i} |a_{ij}|$ for all $i$
+    \item $\bA$ is symmetric positive definite
+\end{itemize}
+
+The rate of convergence is determined by $\rho(\bT_J)$ – the closer this value is to 0, the faster the convergence.
+}
+
+
+\addExmpl{
+\textbf{Effect of Matrix Properties on Convergence}%
+Let's examine how different matrix properties affect the convergence of the Jacobi method.
+
+\textbf{Case 1: Strictly Diagonally Dominant Matrix}
+$$
+\bA_1 = \begin{pmatrix}
+5 & 1 & 1 \\
+1 & 5 & 1 \\
+1 & 1 & 5
+\end{pmatrix}
+$$
+
+For this matrix, $|a_{ii}| = 5 > 2 = \sum_{j\neq i} |a_{ij}|$ for all $i$. The Jacobi iteration matrix $\bT_J$ has $\rho(\bT_J) \approx 0.4$, ensuring fast convergence.
+
+\textbf{Case 2: Non-Diagonally Dominant Matrix}
+$$
+\bA_2 = \begin{pmatrix}
+2 & 1 & 3 \\
+1 & 3 & 1 \\
+2 & 2 & 2
+\end{pmatrix}
+$$
+
+For this matrix, the third row violates diagonal dominance. The Jacobi method still converges but more slowly, with $\rho(\bT_J) \approx 0.8$.
+
+\textbf{Case 3: Non-Convergent Case}
+$$
+\bA_3 = \begin{pmatrix}
+1 & 3 & 1 \\
+1 & 2 & 1 \\
+1 & 1 & 2
+\end{pmatrix}
+$$
+
+For this matrix, $\rho(\bT_J) > 1$, and the Jacobi method diverges regardless of the initial guess.
+
+These examples illustrate that the structure of $\bA$ significantly impacts whether the Jacobi method converges and how quickly it does so.
+}
+
+\addDef{Stopping Criteria}{%
+In practical implementations of the Jacobi method, we need to determine when to terminate the iteration. Common stopping criteria include:
+
+\begin{enumerate}
+
+\item \textbf{Residual-based}: Stop when the residual norm is small:
+   $$\|\bA\bx^{(k)} - \bb\| < \epsilon_{\text{res}}$$
+
+\item \textbf{Increment-based}: Stop when the change between successive iterations is small:
+   $$\|\bx^{(k+1)} - \bx^{(k)}\| < \epsilon_{\text{inc}}$$
+
+\item \textbf{Relative Residual}: Stop when the relative residual is small:
+   $$\frac{\|\bA\bx^{(k)} - \bb\|}{\|\bb\|} < \epsilon_{\text{rel}}$$
+
+\item \textbf{Maximum Iterations}: Stop after a predetermined number of iterations, regardless of convergence.
+
+The error after $k$ iterations can be bounded by:
+$$\|\bx^{(k)} - \bx^*\| \leq \frac{\rho(\bT_J)^k}{1-\rho(\bT_J)}\|\bx^{(1)} - \bx^{(0)}\|$$
+
+where $\bx^*$ is the exact solution. This bound shows that the error decreases geometrically at a rate determined by $\rho(\bT_J)$.
+\end{enumerate}
+}
+
+
+\end{document}

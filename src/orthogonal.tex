@@ -1,0 +1,264 @@
+\documentclass[../readings.tex]{subfiles}
+
+
+\begin{document}
+
+\subsection{Orthogonal Matrices}
+
+\addDef{Orthogonal Vectors}{%
+Two vectors $\bx, \by \in \mathbb{R}^n$ are called \emph{orthogonal} if their inner product is zero:
+$$
+\bx^T\by = 0
+$$
+Geometrically, orthogonal vectors are perpendicular to each other. A set of vectors ${\bv_1, \bv_2, \ldots, \bv_k}$ is called \emph{mutually orthogonal} if every pair of distinct vectors in the set is orthogonal:
+$$
+\bv_i^T\bv_j = 0 \quad \text{for all } i \neq j
+$$
+}
+
+
+
+\addDef{Orthonormal Basis}{%
+A set of vectors ${\bq_1, \bq_2, \ldots, \bq_n}$ in $\mathbb{R}^n$ is called an \emph{orthonormal basis} if:
+\begin{enumerate}
+\item The vectors are \emph{mutually orthogonal}: $\bq_i^T\bq_j = 0$ for all $i \neq j$
+\item Each vector has unit length: $|\bq_i|_2 = 1$ for all $i = 1, 2, \ldots, n$
+\item The vectors span $\mathbb{R}^n$ (which is automatic if we have $n$ linearly independent vectors in $\mathbb{R}^n$)
+\end{enumerate}
+Equivalently, a set of vectors ${\bq_1, \bq_2, \ldots, \bq_n}$ forms an orthonormal basis if:
+$$
+\bq_i^T\bq_j = \delta_{ij} =
+\begin{cases}
+1 & \text{if } i = j \\
+0 & \text{if } i \neq j
+\end{cases}
+$$
+If we arrange these vectors as columns of a matrix $\bQ = [\bq_1, \bq_2, \ldots, \bq_n]$, then $\bQ$ is an orthogonal matrix, satisfying $\bQ^T\bQ = \bQ\bQ^T = \bI$.
+}
+
+\addNote{%
+Any vector $\bv \in \mathbb{R}^n$ can be expressed uniquely as a linear combination of vectors from an orthonormal basis ${\bq_1, \bq_2, \ldots, \bq_n}$:
+$$
+\bv = (\bq_1^T\bv)\bq_1 + (\bq_2^T\bv)\bq_2 + \ldots + (\bq_n^T\bv)\bq_n = \sum_{i=1}^n (\bq_i^T\bv)\bq_i
+$$
+The coefficients $\bq_i^T\bv$ are the projections of $\bv$ onto the basis vectors. This simple formula for the coefficients is a key computational advantage of orthonormal bases - \emph{we don't need to solve a system of equations to find the coefficients.}
+}
+
+\addDef{Orthogonal Matrix}{%
+A square matrix $\bQ \in \mathbb{R}^{n \times n}$ is called \emph{orthogonal} if its columns form an orthonormal set in $\mathbb{R}^n$, which means:
+$
+\bQ^T\bQ = \bQ\bQ^T = \bI_n
+$
+Equivalently, $\bQ^T = \bQ^{-1}$, meaning the transpose of an orthogonal matrix is its inverse.
+}
+
+\textBox{%
+Orthogonal matrices represent rotations, reflections, or combinations of these operations in $\mathbb{R}^n$. They preserve vector lengths and angles between vectors, making them particularly valuable in scientific computing where maintaining geometric properties is important. When multiplying a vector by an orthogonal matrix, the result is a vector with the same length but potentially different direction.
+}
+
+\addDef{Properties of Orthogonal Matrices}{%
+Let $\bQ \in \mathbb{R}^{n \times n}$ be an orthogonal matrix. Then:
+\begin{enumerate}
+    \item The columns of $\bQ$ form an orthonormal basis for $\mathbb{R}^n$.
+    \item The rows of $\bQ$ also form an orthonormal basis for $\mathbb{R}^n$.
+    \item $\det(\bQ) = \pm 1$. When $\det(\bQ) = 1$, $\bQ$ represents a rotation; when $\det(\bQ) = -1$, it represents a reflection or rotoreflection.
+    \item $\|\bQ\bx\|_2 = \|\bx\|_2$ for all $\bx \in \mathbb{R}^n$, meaning orthogonal transformations preserve Euclidean lengths.
+    \item The condition number (with respect to the 2-norm) is $\kappa_2(\bQ) = 1$, making orthogonal matrices optimally conditioned for numerical computations.
+    \item If $\bQ_1$ and $\bQ_2$ are orthogonal matrices, then their product $\bQ_1\bQ_2$ is also orthogonal.
+\end{enumerate}
+}
+
+\subsubsection{QR Decomposition}
+\addDef{QR Decomposition}{%
+For a matrix \(\bA \in \mathbb{R}^{m \times n}\) with \(m \ge n\), the QR Decomposition factors \(\bA\) as 
+\[
+\bA = \bQ\bR,
+\]
+where \(\bQ \in \mathbb{R}^{m \times m}\) is an orthogonal matrix (i.e., \(\bQ^T\bQ = \bI\)) and \(\bR \in \mathbb{R}^{m \times n}\) is an upper triangular matrix with zeros below the main diagonal.
+}
+
+\textBox{%
+The QR factorization is particularly valuable in scientific computing because it transforms problems involving arbitrary matrices into problems with triangular matrices, which are much easier to solve. In addition, the orthogonality of \(\bQ\) ensures numerical stability in many applications, as orthogonal transformations preserve Euclidean norms and don't amplify errors.
+}
+
+\addDef{Properties of QR Decomposition}{%
+The QR decomposition of a matrix \(\bA \in \mathbb{R}^{m \times n}\) with \(m \geq n\) has several important properties:
+
+\begin{enumerate}
+\item If \(\bA\) has full column rank, then the first \(n\) columns of \(\bQ\) form an orthonormal basis for the column space of \(\bA\).
+
+\item The diagonal elements of \(\bR\) satisfy \(|r_{ii}| = \|\bq_i^T\bA\|_2\), where \(\bq_i\) is the \(i\)th column of \(\bQ\).
+
+\item If \(\bA\) has full column rank, then the upper triangular matrix \(\bR\) has nonzero diagonal elements.
+
+\item The computational complexity for the QR decomposition is approximately \(2mn^2 - \frac{2}{3}n^3\) floating-point operations.
+\end{enumerate}
+
+}
+\subsubsection{Grahm Schmidt}
+
+\addDef{Orthogonal Complement}{%
+Let $\{\bv_1, \bv_2, \ldots, \bv_k\}$ be a set of vectors in $\mathbb{R}^n$ that spans a space $S$. The \emph{orthogonal complement} of $S$, denoted by $S^\perp$ (read as "S perp"), is the set of all vectors in $\mathbb{R}^n$ that are orthogonal to every vector in $S$:
+$$
+S^\perp = \{\bw \in \mathbb{R}^n : \bw^T\bv_i = 0 \text{ for all } i = 1,2,\ldots,k\}
+$$
+
+\noindent Important properties of the orthogonal complement include:
+\begin{enumerate}
+\item $S^\perp$ forms a valid space of vectors in $\mathbb{R}^n$.
+\item If the vectors $\{\bv_1, \bv_2, \ldots, \bv_k\}$ are linearly independent and $k < n$, then $S^\perp$ is non-empty.
+\item If $\{\bv_1, \bv_2, \ldots, \bv_k\}$ spans a space of dimension $k$, then $S^\perp$ has dimension $n-k$.
+\item Any vector $\bx \in \mathbb{R}^n$ can be uniquely written as $\bx = \bx_S + \bx_{S^\perp}$ where $\bx_S$ is in the space spanned by $\{\bv_1, \bv_2, \ldots, \bv_k\}$ and $\bx_{S^\perp}$ is in $S^\perp$.
+\item If the columns of matrix $\bA$ are $\{\bv_1, \bv_2, \ldots, \bv_k\}$, then $S^\perp$ consists of all solutions to $\bA^T\bx = \mathbf{0}$.
+\end{enumerate}
+
+\noindent Geometrically, $S^\perp$ consists of all vectors that are perpendicular to each vector in the set $\{\bv_1, \bv_2, \ldots, \bv_k\}$.
+}
+
+\addDef{Gram-Schmidt Process}{%
+The Gram-Schmidt process is an algorithm for converting a set of linearly independent vectors $\{\bv_1, \bv_2, \ldots, \bv_n\}$ into an orthogonal or orthonormal basis for the same subspace. The process works by sequentially projecting each vector onto the orthogonal complement of the subspace spanned by the previous orthogonalized vectors.
+}
+
+\textBox{
+
+For a set of linearly independent vectors $\{\bv_1, \bv_2, \ldots, \bv_n\}$, the Gram-Schmidt process generates an orthogonal set $\{\bu_1, \bu_2, \ldots, \bu_n\}$ as follows:
+\begin{align}
+\bu_1 &= \bv_1 \\
+\bu_2 &= \bv_2 - \frac{\bu_1^T\bv_2}{\bu_1^T\bu_1}\bu_1 \\
+\bu_3 &= \bv_3 - \frac{\bu_1^T\bv_3}{\bu_1^T\bu_1}\bu_1 - \frac{\bu_2^T\bv_3}{\bu_2^T\bu_2}\bu_2 \\
+&\vdots \\
+\bu_k &= \bv_k - \sum_{j=1}^{k-1}\frac{\bu_j^T\bv_k}{\bu_j^T\bu_j}\bu_j
+\end{align}
+
+To obtain an orthonormal basis $\{\bq_1, \bq_2, \ldots, \bq_n\}$, we normalize each orthogonal vector:
+\begin{align}
+\bq_i = \frac{\bu_i}{\|\bu_i\|_2} = \frac{\bu_i}{\sqrt{\bu_i^T\bu_i}}
+\end{align}
+}
+
+\addNote{%
+The Gram-Schmidt process can be interpreted geometrically:
+\begin{itemize}
+\item $\bu_1$ is simply the first vector $\bv_1$
+\item $\bu_2$ is $\bv_2$ minus its projection onto $\bu_1$
+\item $\bu_3$ is $\bv_3$ minus its projections onto both $\bu_1$ and $\bu_2$
+\end{itemize}
+Each $\bu_k$ is the component of $\bv_k$ that is orthogonal to the subspace spanned by $\{\bu_1, \bu_2, \ldots, \bu_{k-1}\}$.
+}
+
+\addExmpl{Gram-Schmidt Process}{%
+Consider the vectors $\bv_1 = [1, 1, 1]^T$ and $\bv_2 = [0, 1, 2]^T$ in $\mathbb{R}^3$. Let's apply the Gram-Schmidt process:
+\begin{itemize}
+    \item Step 1: $\bu_1 = \bv_1 = [1, 1, 1]^T$
+    \item Step 2: We compute $\bu_2$ as follows:
+    \begin{align}
+    \bu_2 &= \bv_2 - \frac{\bu_1^T\bv_2}{\bu_1^T\bu_1}\bu_1 \\
+    &= [0, 1, 2]^T - \frac{[1, 1, 1][0, 1, 2]^T}{[1, 1, 1][1, 1, 1]^T}[1, 1, 1]^T \\
+    &= [0, 1, 2]^T - \frac{3}{3}[1, 1, 1]^T \\
+    &= [0, 1, 2]^T - [1, 1, 1]^T \\
+    &= [-1, 0, 1]^T
+    \end{align}
+
+    \item To normalize:
+\begin{align}
+\bq_1 &= \frac{\bu_1}{\|\bu_1\|_2} = \frac{[1, 1, 1]^T}{\sqrt{3}} = [\frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}}]^T \\
+\bq_2 &= \frac{\bu_2}{\|\bu_2\|_2} = \frac{[-1, 0, 1]^T}{\sqrt{2}} = [-\frac{1}{\sqrt{2}}, 0, \frac{1}{\sqrt{2}}]^T
+\end{align}
+
+Thus, we have transformed the linearly independent vectors $\bv_1$ and $\bv_2$ into the orthonormal vectors $\bq_1$ and $\bq_2$.
+\end{itemize}
+
+
+
+
+
+}
+
+\textBox{%
+The Gram-Schmidt process provides a constructive proof of the existence of an orthonormal basis for any subspace of $\mathbb{R}^n$. In practice, however, the classical Gram-Schmidt algorithm can suffer from numerical instability due to accumulated rounding errors, especially for large sets of vectors. The modified Gram-Schmidt algorithm, which applies the orthogonalization against each previously computed orthogonal vector immediately, offers better numerical stability and is preferred in computational applications.
+}
+
+\addDef{Modified Gram-Schmidt}{%
+The Modified Gram-Schmidt algorithm is a numerically more stable version of the classical Gram-Schmidt process. Instead of computing all projections simultaneously for each new vector, it orthogonalizes against each previous vector sequentially:
+
+\begin{align}
+\bv_1^{(1)} &= \bv_1 \\
+\bu_1 &= \bv_1^{(1)} \\
+\bv_2^{(1)} &= \bv_2 \\
+\bv_2^{(2)} &= \bv_2^{(1)} - \frac{\bu_1^T\bv_2^{(1)}}{\bu_1^T\bu_1}\bu_1 \\
+\bu_2 &= \bv_2^{(2)} \\
+&\vdots \\
+\bv_k^{(1)} &= \bv_k \\
+\bv_k^{(2)} &= \bv_k^{(1)} - \frac{\bu_1^T\bv_k^{(1)}}{\bu_1^T\bu_1}\bu_1 \\
+\bv_k^{(3)} &= \bv_k^{(2)} - \frac{\bu_2^T\bv_k^{(2)}}{\bu_2^T\bu_2}\bu_2 \\
+&\vdots \\
+\bv_k^{(k)} &= \bv_k^{(k-1)} - \frac{\bu_{k-1}^T\bv_k^{(k-1)}}{\bu_{k-1}^T\bu_{k-1}}\bu_{k-1} \\
+\bu_k &= \bv_k^{(k)}
+\end{align}
+
+As before, to obtain an orthonormal basis, normalize each vector:
+\begin{align}
+\bq_i = \frac{\bu_i}{\|\bu_i\|_2}
+\end{align}
+}
+
+\addNote{%
+The Gram-Schmidt process is closely related to the QR decomposition. If we arrange the original vectors $\{\bv_1, \bv_2, \ldots, \bv_n\}$ as columns of a matrix $\bA$ and the orthonormal vectors $\{\bq_1, \bq_2, \ldots, \bq_n\}$ as columns of a matrix $\bQ$, then:
+$$
+\bA = \bQ\bR
+$$
+where $\bR$ is an upper triangular matrix with elements:
+$$
+r_{ij} = 
+\begin{cases}
+\bq_i^T\bv_j & \text{if } i \leq j \\
+0 & \text{if } i > j
+\end{cases}
+$$
+
+The elements of $\bR$ represent the projection coefficients computed during the Gram-Schmidt process.
+}
+
+\addExmpl{Gram-Schmidt and QR Decomposition}{%
+Consider the matrix $\bA = \begin{bmatrix} 1 & 0 \\ 1 & 1 \\ 1 & 2 \end{bmatrix}$ whose columns are the vectors $\bv_1 = [1, 1, 1]^T$ and $\bv_2 = [0, 1, 2]^T$ from our previous example.
+
+From the Gram-Schmidt process, we obtained:
+\begin{align}
+\bq_1 &= [\frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}}]^T \\
+\bq_2 &= [-\frac{1}{\sqrt{2}}, 0, \frac{1}{\sqrt{2}}]^T
+\end{align}
+
+The $\bR$ matrix is given by:
+\begin{align}
+r_{11} &= \bq_1^T\bv_1 = \frac{1}{\sqrt{3}} \cdot 3 = \sqrt{3} \\
+r_{12} &= \bq_1^T\bv_2 = \frac{1}{\sqrt{3}} \cdot 3 = \sqrt{3} \\
+r_{21} &= 0 \quad \text{(by construction)} \\
+r_{22} &= \bq_2^T\bv_2^{(2)} = \bq_2^T\bu_2 = \frac{1}{\sqrt{2}} \cdot \sqrt{2} = \sqrt{2}
+\end{align}
+
+Therefore:
+$$
+\bR = \begin{bmatrix} \sqrt{3} & \sqrt{3} \\ 0 & \sqrt{2} \end{bmatrix}
+$$
+
+And we can verify that $\bA = \bQ\bR$:
+\begin{align}
+\bQ\bR &= \begin{bmatrix} \frac{1}{\sqrt{3}} & -\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{3}} & 0 \\ \frac{1}{\sqrt{3}} & \frac{1}{\sqrt{2}} \end{bmatrix} \begin{bmatrix} \sqrt{3} & \sqrt{3} \\ 0 & \sqrt{2} \end{bmatrix} \\
+&= \begin{bmatrix} 1 & 0 \\ 1 & 1 \\ 1 & 2 \end{bmatrix} = \bA
+\end{align}
+}
+
+\addDef{Applications of Gram-Schmidt}{%
+The Gram-Schmidt process and the related QR decomposition have numerous applications in numerical linear algebra and computational mathematics:
+
+\begin{enumerate}
+\item \textbf{Solving Linear Systems:} QR factorization provides a stable method for solving linear systems $\bA\bx = \bb$.
+\item \textbf{Least Squares Problems:} For overdetermined systems, the QR decomposition allows for efficient and stable computation of least squares solutions.
+\item \textbf{Eigenvalue Algorithms:} QR decomposition forms the basis of the QR algorithm for computing eigenvalues.
+\item \textbf{Coordinate Transformations:} Orthogonal bases simplify many calculations by allowing easy computation of coordinates and projections.
+\item \textbf{Signal Processing:} Orthogonal projections are used for signal decomposition and filtering.
+\item \textbf{Numerical PDEs:} Orthogonal basis functions are valuable in spectral methods for solving partial differential equations.
+\end{enumerate}
+}
+
+\end{document}

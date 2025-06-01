@@ -1,0 +1,344 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Floating Point Numbers and Errors}
+
+\textBox{%
+Computing with real numbers on finite machines introduces inherent approximation errors. Understanding these approximations and their consequences is fundamental to scientific computing. In this section, we exmplore floating point representation, the types of errors that arise in numerical computations, and techniques for analyzing and managing these errors.
+}
+
+\addDef{Floating Point Representation}{%
+Floating point numbers are represented in computers using a format similar to scientific notation. A normalized floating point number has the form
+\[
+x = (-1)^s \times (1.f) \times 2^e,
+\]
+where:
+\begin{itemize}
+    \item \( s \) is the sign bit (0 for positive, 1 for negative)
+    \item \( f \) is the fractional part (or significand/mantissa)
+    \item \( e \) is the exponent
+    \item The leading 1 before the decimal point is implicit in most formats (hidden bit)
+\end{itemize}
+
+The IEEE 754 standard defines several formats, including:
+\begin{itemize}
+    \item \textbf{Single precision (32 bits)}: 1 sign bit, 8 exponent bits, 23 fraction bits
+    \item \textbf{Double precision (64 bits)}: 1 sign bit, 11 exponent bits, 52 fraction bits
+\end{itemize}
+
+The exponent field uses a biased representation, with bias = $2^{(k-1)}-1$ where $k$ is the number of exponent bits. This allows representation of both very small and very large numbers.
+}
+
+\addExmpl{%
+\textbf{16-bit Floating Point Representation}: et's examine a simplified 16-bit floating point format with 1 sign bit, 5 exponent bits, and 10 fraction bits. The bias for the exponent would be $2^{(5-1)}-1 = 15$. To represent the number $-3.25$ in this format:
+\begin{enumerate}
+    \item Convert to sign-magnitude form: sign = 1 (negative)
+    \item Convert to binary: $3.25_{10} = 11.01_2$
+    \item Normalize: $1.101_2 \times 2^1$
+    \item Determine the biased exponent: $1 + 15 = 16 = 10000_2$
+    \item Encode the significand: $1.101_2$ gives fraction bits $1010000000$
+    \item Final representation: $1~10000~1010000000$
+\end{enumerate}
+}
+
+\textBox{
+To count the total number of representable values in this format:
+\begin{itemize}
+    \item Special values: $\pm 0$, $\pm\infty$, and NaN configurations
+    \item Normal numbers: $2 \times (2^5-2) \times 2^{10} = 2 \times 30 \times 1024 = 61,440$
+    \item Subnormal numbers: $2 \times 2^{10} = 2048$
+\end{itemize}
+
+The total is approximately $63,488 + $ NaN configurations.
+}
+
+\addDef{Machine Epsilon ($\varepsilon_{\text{mach}}$)}{%
+Machine epsilon is a fundamental constant in floating point arithmetic, defined as the difference between 1 and the next representable floating point number. Equivalently, it is the smallest $\varepsilon$ such that $1 + \varepsilon > 1$ in floating point arithmetic.
+
+For a floating point system with $p$ bits in the significand (including the hidden bit), machine epsilon is:
+\[
+\varepsilon_{\text{mach}} = 2^{-p+1}
+\]
+
+Machine epsilon determines the relative precision of the floating point system. For any normalized floating point number $x$, the gap to the next representable number is approximately $\varepsilon_{\text{mach}} \cdot |x|$.
+}
+
+\addExmpl{%
+\textbf{Calculating Machine Epsilon}: For IEEE double precision (64 bits):
+\begin{itemize}
+    \item 52 fraction bits + 1 hidden bit = 53 bits of precision
+    \item $\varepsilon_{\text{mach}} = 2^{-53+1} = 2^{-52} \approx 2.22 \times 10^{-16}$
+\end{itemize}
+Try verifying this experimentally!
+}
+
+\addDef{Unit Roundoff ($u$)}{%
+The unit roundoff $u$ is half of machine epsilon:
+\[
+u = \frac{\varepsilon_{\text{mach}}}{2} = 2^{-p}
+\]
+
+Unit roundoff represents the maximum relative error introduced when rounding a real number to its nearest floating point representation. For any real number $x$ within the representable range:
+\[
+\frac{|\text{fl}(x) - x|}{|x|} \leq u
+\]
+
+where $\text{fl}(x)$ denotes the floating point representation of $x$.
+}
+
+\addNote{%
+The numerical difference between machine epsilon and unit roundoff is subtle but important. Machine epsilon is the smallest number that, when added to 1, yields a different floating point number. Unit roundoff is the maximum relative error in representing any number. In IEEE arithmetic with round-to-nearest mode, $u = \varepsilon_{\text{mach}}/2$.
+}
+
+\addDef{Absolute and Relative Error}{%
+When a real number \( x \) is approximated by a computed value \(\hat{x}\), the \textbf{absolute error} is defined as 
+\[
+\delta = \hat{x} - x
+\]
+The \textbf{relative error} is given by 
+\[
+\varepsilon = \frac{\hat{x} - x}{x} = \frac{\delta}{x}
+\]
+so that the computed value can be expressed as
+\[
+\hat{x} = x + \delta \quad \text{or} \quad \hat{x} = x(1 + \varepsilon)
+\]
+}
+
+\addExmpl{%
+
+\textbf{Absolute vs. Relative Error}:
+Consider approximating \( \pi \approx 3.14159265359... \) with different values:
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Approximation & Absolute Error & Relative Error \\
+\hline
+3.14 & 0.00159... & 0.000507... \\
+3.1 & 0.04159... & 0.01324... \\
+3 & 0.14159... & 0.04507... \\
+\hline
+\end{tabular}
+\end{center}
+
+Now consider approximating \( 10^{-6} \) by \( 0.99 \times 10^{-6} \):
+\begin{itemize}
+    \item Absolute error: \( \delta = 0.99 \times 10^{-6} - 10^{-6} = -0.01 \times 10^{-6} = -10^{-8} \)
+    \item Relative error: \( \varepsilon = \frac{-10^{-8}}{10^{-6}} = -0.01 \) or -1\%
+\end{itemize}
+
+This example illustrates why relative error is often more meaningful than absolute error: a small absolute error might represent a large relative error for small numbers, and vice versa for large numbers.
+}
+
+\addDef{Floating Point Operations and Error Propagation}{%
+In IEEE floating point arithmetic, operations like addition, subtraction, multiplication, and division are performed as if the exact result were calculated and then rounded to the nearest floating point number. For any binary operation $\circledast$ between floating point numbers $x$ and $y$:
+\[
+\text{fl}(x \circledast y) = (x \circledast y)(1 + \delta), \quad |\delta| \leq u
+\]
+
+where $u$ is the unit roundoff. This model helps us analyze how errors propagate through computations.
+}
+
+\addExmpl{%
+
+\textbf{Error Propagation in Addition}:
+Consider adding two floating point numbers $a$ and $b$. The computed sum has the form:
+\[
+\text{fl}(a + b) = (a + b)(1 + \delta), \quad |\delta| \leq u
+\]
+
+If $a \approx -b$ (nearly equal in magnitude but opposite in sign), cancellation occurs. For example, with 3-digit decimal arithmetic:
+\begin{align*}
+a &= 1.00 \\
+b &= -0.995
+\end{align*}
+
+The exact sum is $0.005$, but in 3-digit arithmetic:
+\begin{align*}
+\text{fl}(a + b) &= \text{fl}(1.00 + (-0.995)) \\
+&= \text{fl}(0.005) \\
+&= 0.00500
+\end{align*}
+
+If $a$ and $b$ both have small relative errors ($\hat{a} = a(1 + \varepsilon_a)$ and $\hat{b} = b(1 + \varepsilon_b)$ where $|\varepsilon_a|, |\varepsilon_b| \leq u$), the relative error in the computed sum can be much larger:
+\[
+\frac{\text{fl}(\hat{a} + \hat{b}) - (a + b)}{a + b} \approx \frac{a\varepsilon_a + b\varepsilon_b}{a + b}
+\]
+
+When $a \approx -b$, the denominator becomes very small, magnifying the error.
+}
+
+\addDef{Catastrophic Cancellation}{%
+\textbf{Catastrophic cancellation} occurs when subtracting two nearly equal numbers. Although the absolute error in each number may be small, their difference can lead to a significant loss of significant digits.
+
+If $\hat{x} = x(1 + \varepsilon_x)$ and $\hat{y} = y(1 + \varepsilon_y)$ where $x \approx y$, then:
+\[
+\hat{x} - \hat{y} = (x - y) + x\varepsilon_x - y\varepsilon_y
+\]
+
+The relative error becomes:
+\[
+\frac{(\hat{x} - \hat{y}) - (x - y)}{x - y} = \frac{x\varepsilon_x - y\varepsilon_y}{x - y}
+\]
+
+When $x \approx y$, the denominator is small, potentially making the relative error very large.
+}
+
+\addExmpl{%
+
+\textbf{Catastrophic Cancellation Example}:
+
+Consider computing $f(x) = \sqrt{x + 1} - \sqrt{x}$ for $x = 10^8$ using double precision.
+
+Direct computation:
+\begin{align*}
+\sqrt{10^8 + 1} &\approx 10000.00000005 \\
+\sqrt{10^8} &= 10000 \\
+f(10^8) &\approx 10000.00000005 - 10000 = 5 \times 10^{-8}
+\end{align*}
+
+Due to rounding in floating point, we might only get:
+\[
+f(10^8) \approx 0
+\]
+
+However, algebraic manipulation gives an equivalent form:
+\[
+f(x) = \frac{1}{\sqrt{x + 1} + \sqrt{x}}
+\]
+
+Using this formula:
+\[
+f(10^8) = \frac{1}{10000.00000005 + 10000} \approx \frac{1}{20000} = 5 \times 10^{-5}
+\]
+
+The second approach avoids catastrophic cancellation and gives a more accurate result. This illustrates that mathematical reformulation can often mitigate numerical issues.
+}
+
+\addDef{Special Values in IEEE Floating Point}{%
+IEEE 754 defines several special values to handle exceptional cases:
+
+\begin{itemize}
+    \item \textbf{Zeros}: Both +0 and -0 are represented, though they compare as equal.
+    
+    \item \textbf{Subnormal numbers (denormalized)}: Numbers smaller than the smallest normalized number, represented with a leading zero instead of one. They provide gradual underflow but with reduced precision.
+    
+    \item \textbf{Infinities}: +$\infty$ and -$\infty$ represent overflow or division by zero.
+    
+    \item \textbf{NaN (Not a Number)}: Represents undefined operations like 0/0 or $\sqrt{-1}$. There are actually many different NaN values with different internal bit patterns.
+\end{itemize}
+
+These special values ensure that every floating point operation produces a well-defined result, making numerical algorithms more robust.
+}
+
+\addExmpl{%
+\textbf{Subnormal Numbers Range and Precision}: For IEEE double precision:
+\begin{itemize}
+    \item Smallest positive normalized number: $2^{-1022} \approx 2.22 \times 10^{-308}$
+    \item Smallest positive subnormal number: $2^{-1022} \times 2^{-52} = 2^{-1074} \approx 4.94 \times 10^{-324}$
+\end{itemize}
+
+Subnormal numbers fill the gap between 0 and the smallest normalized number, but with reduced precision. While a normalized double precision number has 53 bits of precision, a subnormal number might have significantly fewer, depending on its magnitude.
+}
+
+\addExmpl{
+For example, the subnormal number $2^{-1073}$ has only 1 bit of precision, making its relative representation error much larger than for normalized numbers.
+}
+\newpage
+\addDef{Floating Point Arithmetic Properties}{%
+Floating point arithmetic differs from real arithmetic in several important ways:
+
+\begin{itemize}
+    \item \textbf{Non-associativity}: In general, $(a + b) + c \neq a + (b + c)$ due to rounding errors.
+    
+    \item \textbf{Non-distributivity}: Generally, $a \times (b + c) \neq a \times b + a \times c$ due to rounding errors.
+    
+    \item \textbf{Absorption}: When $|a| \gg |b|$, the computation of $a + b$ might result in just $a$ if $b$ is too small to affect the representation of $a$.
+    
+    \item \textbf{Inexact cancellation}: As discussed, subtracting nearly equal quantities can result in significant loss of precision.
+\end{itemize}
+
+Understanding these properties is crucial for designing stable numerical algorithms.
+}
+
+\addExmpl{%
+
+\textbf{Non-associativity Example}: Consider adding three numbers in different orders using 4-digit decimal arithmetic:
+\begin{align*}
+(1.000 \times 10^{10} + 1.000) + (-1.000 \times 10^{10}) &= 1.000 \times 10^{10} + (-1.000 \times 10^{10}) \\
+&= 0.000
+\end{align*}
+
+But in the other order:
+\begin{align*}
+1.000 \times 10^{10} + (1.000 + (-1.000 \times 10^{10})) &= 1.000 \times 10^{10} + (-9.999 \times 10^{9}) \\
+&= 1.000 \times 10^{9}
+\end{align*}
+
+The large difference in results demonstrates why the order of operations matters in floating point arithmetic, especially when combining values of significantly different magnitudes.
+}
+
+\addDef{Error Analysis Strategies}{%
+When performing error analysis for numerical algorithms, several approaches are commonly used:
+
+\begin{itemize}
+    \item \textbf{Forward error analysis}: Estimate how input errors and rounding errors propagate to affect the output.
+    
+    \item \textbf{Backward error analysis}: Find the smallest perturbation to the inputs that would make the computed result exact.
+    
+    \item \textbf{Interval arithmetic}: Carry interval bounds through the computation to guarantee containment of the true result.
+    
+    \item \textbf{Condition number analysis}: Determine how sensitive the problem is to small changes in the input data.
+\end{itemize}
+
+These analyses help assess the reliability and accuracy of numerical results.
+}
+
+\newpage
+\addExmpl{%
+
+Let $\hat{\bx}$ denote the computed solution to the linear system $\bA\bx = \bb$. 
+Backward error analysis seeks to determine the perturbation $\bE$ to $\bA$ such that $\hat{\bx}$ is the exact solution to the perturbed system:
+\[
+(\bA + \bE)\hat{\bx} = \bb.
+\]
+
+To proceed, define the residual:
+\[
+\br = \bb - \bA\hat{\bx}.
+\]
+
+By rearranging we get:
+\[
+\bA\hat{\bx} + \br = \bb,
+\]
+which can be rewritten as:
+\[
+(\bA + \bE)\hat{\bx} = \bb,
+\]
+where the perturbation matrix $\bE$ is given explicitly by:
+\[
+\bE = -\frac{\br \hat{\bx}^\top}{\|\hat{\bx}\|^2}.
+\]
+
+The \emph{relative backward error} is defined as:
+\[
+\frac{\|\bE\|}{\|\bA\|}.
+\]
+
+In practice, this quantity is often much smaller than the \emph{relative forward error}:
+\[
+\frac{\|\hat{\bx} - \bx\|}{\|\bx\|}.
+\]
+
+This explains why algorithms that exhibit large forward errors may still be practically useful: they produce solutions that are exact for a nearby problem.
+
+}
+
+\textBox{%
+Floating point arithmetic forms the foundation of numerical computing, with its inherent limitations shaping the design and analysis of algorithms. By understanding floating point representation, error propagation, and special cases, we can develop numerically stable algorithms that produce reliable results even in the presence of unavoidable computational errors. Remember that mathematical reformulations, careful algorithm design, and appropriate error analysis are often more effective than simply increasing precision.
+}
+
+\end{document}

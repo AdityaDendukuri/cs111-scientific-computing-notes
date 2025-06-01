@@ -2,6 +2,8 @@
 
 \usepackage{marginnote}
 \usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 \usepackage{amssymb}
 \usepackage{xcolor}
 \usepackage{makeidx}
@@ -10,7 +12,20 @@
 \usepackage{indentfirst} 
 \usepackage{nicematrix,tikz}
 \NiceMatrixOptions{xdots/line-style=solid}
+\usepackage[backend=biber,
+sorting=ydnt]{biblatex}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% For additional plot types and styles
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{decorations.markings}
 
 \usepackage[marginparwidth=30mm, marginparsep=5mm,textwidth=500pt, hoffset=4mm]{geometry}
 
 \usepackage{subfiles}
+
+\usepackage{tikz-3dplot}

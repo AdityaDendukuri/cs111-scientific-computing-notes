@@ -1,0 +1,261 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+
+\subsection{LU Factorization}
+\label{sub:lu-factorization}
+
+\textBox{%
+The LU factorization expresses a square matrix \(\bA \in \mathbb{R}^{n \times n}\) as the product 
+\[
+\bA = \bL\,\bU,
+\]
+where \(\bL\) is a lower triangular matrix with ones on the diagonal (a unit lower triangular matrix) and \(\bU\) is an upper triangular matrix. This factorization simplifies solving linear systems \(\bA\bx=\bb\) by allowing the solution to be obtained via forward substitution (for \(\bL\by=\bb\)) followed by backward substitution (for \(\bU\bx=\by\)).
+}
+
+\subsubsection{LU Factoriazation and Gaussian Elimination}
+\addDef{LU Factorization}{%
+An \textbf{LU Factorization} of a matrix \(\bA \in \mathbb{R}^{n \times n}\) is a decomposition of the form
+\[
+\bA = \bL\,\bU,
+\]
+with
+\[
+\bL = \begin{pmatrix}
+1 & 0 & \cdots & 0\\[1mm]
+\ell_{21} & 1 & \cdots & 0\\[1mm]
+\vdots & \vdots & \ddots & \vdots\\[1mm]
+\ell_{n1} & \ell_{n2} & \cdots & 1
+\end{pmatrix} \quad \text{and} \quad
+\bU = \begin{pmatrix}
+u_{11} & u_{12} & \cdots & u_{1n}\\[1mm]
+0 & u_{22} & \cdots & u_{2n}\\[1mm]
+\vdots & \vdots & \ddots & \vdots\\[1mm]
+0 & 0 & \cdots & u_{nn}
+\end{pmatrix}.
+\]
+}
+
+\addDef{Gaussian elimination}{%
+The procedure for LU factorization closely follows Gaussian elimination. For example, given
+\[
+\bA = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n}\\[1mm]
+a_{21} & a_{22} & \cdots & a_{2n}\\[1mm]
+\vdots & \vdots & \ddots & \vdots\\[1mm]
+a_{n1} & a_{n2} & \cdots & a_{nn}
+\end{pmatrix},
+\]
+one begins by eliminating the entries below \(a_{11}\). For \(i=2,\dots,n\), set
+\[
+\ell_{i1} = \frac{a_{i1}}{a_{11}},
+\]
+and update row \(i\) by replacing it with
+\[
+\text{row}_i \leftarrow \text{row}_i - \ell_{i1}\,\text{row}_1.
+\]
+This results in zeros below \(a_{11}\) and new entries
+\[
+a_{ij}^{(1)} = a_{ij} - \ell_{i1}\,a_{1j}, \quad j=2,\dots,n.
+\]
+Repeating this process on the \((n-1)\times(n-1)\) submatrix produces the full LU decomposition.
+}
+
+
+\addExmpl{%
+To illustrate, consider the \(3 \times 3\) matrix
+\[
+\bA = \begin{pmatrix}
+2 & 3 & 1 \\
+4 & 7 & 3 \\
+-2 & -3 & 1
+\end{pmatrix}.
+\]
+We wish to decompose \(\bA\) as \(\bA = \bL\,\bU\) with
+\[
+\bL = \begin{pmatrix}
+1 & 0 & 0 \\
+\ell_{21} & 1 & 0 \\
+\ell_{31} & \ell_{32} & 1
+\end{pmatrix}, \quad
+\bU = \begin{pmatrix}
+u_{11} & u_{12} & u_{13} \\
+0 & u_{22} & u_{23} \\
+0 & 0 & u_{33}
+\end{pmatrix}.
+\]
+Begin by taking the first row of \(\bA\) as the first row of \(\bU\):
+\[
+u_{11} = 2,\quad u_{12} = 3,\quad u_{13} = 1.
+\]
+The multipliers for the first column are then
+\[
+\ell_{21} = \frac{4}{2} = 2,\quad \ell_{31} = \frac{-2}{2} = -1.
+\]
+After eliminating the first column, update the remaining rows. For row 2:
+\[
+u_{22} = 7 - 2\cdot 3 = 1,\quad u_{23} = 3 - 2\cdot 1 = 1.
+\]
+For row 3, the updated entries become
+\[
+\tilde{a}_{32} = -3 - (-1)\cdot 3 = 0,\quad \tilde{a}_{33} = 1 - (-1)\cdot 1 = 2.
+\]
+Thus, \(\ell_{32} = 0\) and \(u_{33} = 2\). Consequently, we have
+\[
+\bL = \begin{pmatrix}
+1 & 0 & 0 \\
+2 & 1 & 0 \\
+-1 & 0 & 1
+\end{pmatrix},\quad
+\bU = \begin{pmatrix}
+2 & 3 & 1 \\
+0 & 1 & 1 \\
+0 & 0 & 2
+\end{pmatrix}.
+\]
+A direct multiplication verifies that \(\bL\,\bU = \bA\).
+}
+
+\subsubsection{Pivoting and LUP Decomposition}
+
+\addDef{Pivoting and LUP Decomposition}{%
+When the matrix \(\bA\) has zeros or small entries in prospective pivot positions, it is necessary to perform row interchanges to maintain numerical stability. These interchanges are recorded by a permutation matrix \(\mathbf{P}\), leading to the factorization
+\[
+\mathbf{P}\bA = \bL\,\bU,
+\]
+which is known as the \emph{LUP Decomposition}. Here, \(\bL\) is a unit lower triangular matrix and \(\bU\) is an upper triangular matrix.
+}
+
+\textBox{%
+Partial pivoting selects the largest available pivot (in absolute value) by interchanging (permuting) rows. This minimizes the risk of division by a small number and reduces the growth of rounding errors. Although complete pivoting, which interchanges both rows and columns, can further improve stability, it is generally more computationally expensive.
+}
+
+\textBox{%
+The permutation matrix \(\mathbf{P}\) is orthogonal in the sense that \(\mathbf{P}^T\mathbf{P} = \bI\). In fact, for any permutation matrix \(\mathbf{P}\), one has \(\mathbf{P}^{-1} = \mathbf{P}^T\), reflecting that \(\mathbf{P}\) merely rearranges the rows of the identity matrix.
+}
+
+\addExmpl{%
+For example, consider the matrix
+\[
+\bA = \begin{pmatrix}
+0 & 2 & 1 \\
+2 & 1 & 0 \\
+1 & 0 & 2
+\end{pmatrix}.
+\]
+Since the (1,1) entry is zero, we must permute the rows to secure a nonzero (and preferably large) pivot in the (1,1) position. Observing the first column, the largest absolute value is \(2\) (in row 2). Therefore, we swap row 1 with row 2 using the permutation matrix
+\[
+\mathbf{P} = \begin{pmatrix}
+0 & 1 & 0 \\
+1 & 0 & 0 \\
+0 & 0 & 1
+\end{pmatrix}.
+\]
+Then,
+\[
+\mathbf{P}\bA = \begin{pmatrix}
+2 & 1 & 0 \\
+0 & 2 & 1 \\
+1 & 0 & 2
+\end{pmatrix}.
+\]
+}
+
+\textBox{%
+Next, we perform the LU factorization on \(\mathbf{P}\bA\). Write
+\[
+\mathbf{P}\bA = \bL\,\bU,
+\]
+with
+\[
+\bL = \begin{pmatrix}
+1 & 0 & 0 \\
+\ell_{21} & 1 & 0 \\
+\ell_{31} & \ell_{32} & 1
+\end{pmatrix} \quad \text{and} \quad
+\bU = \begin{pmatrix}
+u_{11} & u_{12} & u_{13} \\
+0 & u_{22} & u_{23} \\
+0 & 0 & u_{33}
+\end{pmatrix}.
+\]
+Assign the first row of \(\bU\) from \(\mathbf{P}\bA\):
+\[
+u_{11} = 2,\quad u_{12} = 1,\quad u_{13} = 0.
+\]
+Then, the multipliers for the first column are
+\[
+\ell_{21} = \frac{0}{2} = 0,\quad \ell_{31} = \frac{1}{2} = 0.5.
+\]
+Subtracting \(0.5\) times the first row from the third row updates it to
+\[
+\begin{pmatrix} 1 & 0 & 2 \end{pmatrix} - 0.5\,\begin{pmatrix} 2 & 1 & 0 \end{pmatrix} = \begin{pmatrix} 0 & -0.5 & 2 \end{pmatrix}.
+\]
+For the \(2\times2\) submatrix (rows 2 and 3), set
+\[
+u_{22} = 2,\quad u_{23} = 1,
+\]
+and compute the multiplier
+\[
+\ell_{32} = \frac{-0.5}{2} = -0.25.
+\]
+Finally, update the (3,3) entry:
+\[
+u_{33} = 2 - (-0.25)(1) = 2.25.
+\]
+Thus, we obtain
+\[
+\bL = \begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0.5 & -0.25 & 1
+\end{pmatrix},\quad
+\bU = \begin{pmatrix}
+2 & 1 & 0 \\
+0 & 2 & 1 \\
+0 & 0 & 2.25
+\end{pmatrix}.
+\]
+A multiplication of \(\bL\) and \(\bU\) confirms that \(\bL\,\bU = \mathbf{P}\bA\).
+}
+
+\subsubsection{Solving Linear Systems using LU Factorization}
+
+\textBox{%
+Once a square matrix \(\bA \in \fR^{n \times n}\) has been factorized as \(\bA = \bL\bU\), solving the linear system \(\bA\bx = \bb\) reduces to two simpler steps: forward substitution and backward substitution.
+}
+
+\addDef{LU Solve}{%
+Given the LU factorization, we solve the system \(\bA\bx = \bL \bU \bx =\bb\) by first solving
+\[
+\bL\by = \bb,
+\]
+and then solving
+\[
+\bU\bx = \by.
+\]}
+
+\textBox{
+Since \(\bL\) is a unit lower triangular matrix, we use forward substitution. Specifically, for \(i=1,2,\dots,n\),
+\[
+y_i = b_i - \sum_{j=1}^{i-1} \ell_{ij} \, y_j.
+\]
+After obtaining \(\by\), we solve the upper triangular system using backward substitution. For \(i=n, n-1, \dots, 1\),
+\[
+x_i = \frac{1}{u_{ii}} \left( y_i - \sum_{j=i+1}^{n} u_{ij} \, x_j \right).
+\]
+}
+
+\addNote{%
+The forward substitution process requires roughly
+\[
+\sum_{i=1}^{n} (i-1) = \frac{n(n-1)}{2} = O(n^2)
+\]
+operations, and backward substitution has a similar computational cost. Thus, once the LU factorization is available, solving \(\bA\bx = \bb\) takes \(O(n^2)\) operations.
+}
+
+\addNote{%
+It is important to note that while solving the system after the factorization is efficient, computing the LU factorization itself generally requires \(O(n^3)\) operations. Therefore, if multiple right-hand sides \(\bb\) are to be solved with the same matrix \(\bA\), it is advantageous to factorize \(\bA\) once and reuse the factors \(\bL\) and \(\bU\) for each subsequent system (very common in iterative methods), reducing the per-system cost to \(O(n^2)\).
+}
+
+\end{document}
