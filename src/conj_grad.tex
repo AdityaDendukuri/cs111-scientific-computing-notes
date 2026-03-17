@@ -5,160 +5,192 @@
 \label{subsec:conjugate-gradient}
 
 \textBox{%
-The Conjugate Gradient (CG) method is an efficient iterative solver for symmetric positive definite linear systems.  By combining steepest descent with a dynamically generated set of \(\bA\)-conjugate search directions, it converges in at most \(n\) steps in exact arithmetic, while requiring only \(O(n)\) storage and one matrix–vector product per iteration.
-
+The Conjugate Gradient (CG) method is an efficient iterative solver for symmetric positive definite linear systems. By maintaining a set of $\bA$-conjugate search directions built from the residuals, it converges to the exact solution in at most $n$ steps in exact arithmetic, while requiring only $O(n)$ storage and one matrix–vector product per iteration. Its convergence rate depends on $\sqrt{\kappa(\bA)}$ rather than $\kappa(\bA)$, giving a dramatic speedup over stationary methods on ill-conditioned systems.
 }
 
 \subsubsection{From Linear Systems to Optimization}
-\addDef{Quadratic Form}{%
-For a symmetric positive definite matrix $\bA \in \mathbb{R}^{n \times n}$ and a vector $\bb \in \mathbb{R}^n$, solving the linear system $\bA\bx = \bb$ is equivalent to minimizing the quadratic function:
-$$\phi(\bx) = \frac{1}{2}\bx^T\bA\bx - \bx^T\bb$$
 
-To see this, note that the gradient of $\phi$ is:
-$$\nabla\phi(\bx) = \bA\bx - \bb$$
+\addThm{Equivalence of Linear System and Quadratic Minimization}{%
+Let $\bA \in \fR^{n\times n}$ be symmetric positive definite and $\bb \in \fR^n$. Define
+\[
+  \phi(\bx) = \tfrac{1}{2}\bx^T\bA\bx - \bx^T\bb.
+\]
+Then $\bx^*$ solves $\bA\bx = \bb$ if and only if $\bx^*$ minimizes $\phi$.
+}
 
-At the minimum of $\phi$, we have $\nabla\phi(\bx) = \bzero$, which gives us $\bA\bx = \bb$. This optimization perspective is the foundation for developing the Conjugate Gradient method.
+\addPrf{%
+Since $\bA$ is symmetric, $\nabla\phi(\bx) = \bA\bx - \bb$. A point $\bx^*$ is a critical point of $\phi$ if and only if $\nabla\phi(\bx^*) = \bzero$, i.e., $\bA\bx^* = \bb$. Since $\bA$ is positive definite, $\phi$ is strictly convex (its Hessian $\bA \succ 0$), so the unique critical point is the global minimum.
 }
 
 \addNote{%
-When $\bA$ is symmetric positive definite, the quadratic function $\phi(\bx)$ has a unique global minimum, forming a paraboloid in $(n+1)$-dimensional space with elliptical contours in $\mathbb{R}^n$. The condition number of $\bA$ determines how elongated these elliptical contours are—a high condition number creates a narrow, steep valley that causes difficulty for simple iterative methods.
+When $\bA$ is symmetric positive definite, $\phi(\bx)$ is a paraboloid with elliptical level sets in $\fR^n$. The condition number $\kappa_2(\bA) = \lambda_{\max}/\lambda_{\min}$ controls the eccentricity: high $\kappa(\bA)$ produces narrow, elongated valleys. Gradient-based methods zigzag inefficiently in these valleys, while CG exploits the geometry via $\bA$-conjugate directions.
 }
 
-\addDef{Limitations of Stationary Methods}{%
-Before exploring the Conjugate Gradient method, let's understand the limitations of simpler approaches. Methods like Jacobi iteration belong to a class called \emph{stationary iterative methods}, characterized by a fixed iteration matrix $\bT$:
-$$\bx^{(k+1)} = \bT\bx^{(k)} + \bc$$
+\addDef{Residual and Steepest Descent}{%
+At iterate $\bx^{(k)}$, the \emph{residual} $\br^{(k)} = \bb - \bA\bx^{(k)} = -\nabla\phi(\bx^{(k)})$ points in the direction of steepest descent. The \emph{steepest descent} update
+\[
+  \bx^{(k+1)} = \bx^{(k)} + \alpha_k\br^{(k)}, \qquad \alpha_k = \frac{(\br^{(k)})^T\br^{(k)}}{(\br^{(k)})^T\bA\br^{(k)}}
+\]
+minimizes $\phi$ along the direction $\br^{(k)}$ but often exhibits zigzagging in ill-conditioned systems.
 }
 
-\addNote{
-These methods suffer from several drawbacks: slow convergence that only reduces error by a constant factor per iteration, high sensitivity to the condition number with performance degrading as $\kappa(\bA)$ increases, fixed behavior that doesn't adapt based on information gained during iteration, and the typical requirement for far more than $n$ iterations to solve an $n \times n$ system. These limitations motivated the development of more sophisticated approaches.
+\addDef{Stationary Method Limitations}{%
+A stationary iterative method $\bx^{(k+1)} = \bT\bx^{(k)} + \bc$ reduces the error by a constant factor $\rho(\bT)$ per step. Its convergence rate for the Jacobi splitting satisfies $\rho(\bT_J) \leq (\kappa(\bA)-1)/(\kappa(\bA)+1)$, which approaches $1$ as $\kappa(\bA) \to \infty$.
 }
 
-\addDef{Steepest Descent}{%
-The method of steepest descent improves upon stationary methods by adaptively choosing both the direction and step size at each iteration:
-$$\bx^{(k+1)} = \bx^{(k)} + \alpha_k \br^{(k)}$$
-
-where $\br^{(k)} = \bb - \bA\bx^{(k)}$ (the residual) represents the negative gradient of $\phi$ at $\bx^{(k)}$, and $\alpha_k$ is the optimal step size:
-$$\alpha_k = \frac{(\br^{(k)})^T\br^{(k)}}{(\br^{(k)})^T\bA\br^{(k)}}$$
-
-While steepest descent adapts to the local geometry of the problem, it often exhibits "zigzagging" behavior in narrow valleys, making it inefficient for ill-conditioned systems.
+\addNote{%
+For $\kappa(\bA) = 100$, the Jacobi factor is $\approx 0.98$, requiring $\sim\!500$ iterations to reduce the error by $10^{-4}$. Steepest descent suffers the same limitation. Conjugate Gradient breaks this barrier by adapting its search directions to the problem geometry.
 }
-\newpage
 
 \subsubsection{$\bA$-Conjugate Directions}
-\addDef{A-Conjugate Directions: The Key Insight}{%
-The key idea behind the Conjugate Gradient method is the concept of $\bA$-conjugate (or $\bA$-orthogonal) directions. A set of nonzero vectors $\{\bp_i\}_{i=1}^{n}$ is $\bA$-conjugate if:
-$$\bp_i^T\bA\bp_j = 0, \quad \text{for all } i \neq j$$
 
-These vectors have several crucial properties:
-\begin{itemize}
-    \item They are linearly independent
-    \item A set of $n$ such vectors forms a basis for $\mathbb{R}^n$
-    \item When minimizing along these directions, progress in one direction is never undone by moves in subsequent directions (due to linear independence)
-\end{itemize}
+\addDef{$\bA$-Conjugacy}{%
+Two vectors $\bp, \bq \in \fR^n$ are \emph{$\bA$-conjugate} (or \emph{$\bA$-orthogonal}) if $\bp^T\bA\bq = 0$. A set $\{\bp_0, \ldots, \bp_{m-1}\}$ of nonzero vectors is $\bA$-conjugate if $\bp_i^T\bA\bp_j = 0$ for all $i \neq j$.
 }
 
-\addNote{
-If we minimize $\phi(\bx)$ sequentially along a set of $n$ $\bA$-conjugate directions, we will reach the exact minimum in at most $n$ steps.
+\addProp{$\bA$-Conjugate Vectors are Linearly Independent}{%
+If $\bA$ is positive definite, every set of $\bA$-conjugate nonzero vectors is linearly independent.
 }
 
-\addDef{Optimization Along Conjugate Directions}{%
-If $\{\bp_i\}_{i=0}^{n-1}$ is a set of $\bA$-conjugate vectors, the solution $\bx^*$ to $\bA\bx = \bb$ can be expressed as:
-$$\bx^* = \bx^{(0)} + \sum_{i=0}^{n-1} \alpha_i\bp_i$$
-
-where the optimal step sizes are:
-$$\alpha_i = \frac{\bp_i^T\br_i}{\bp_i^T\bA\bp_i}$$
-
-with $\br_i = \bb - \bA\bx^{(i)}$.
-
-What makes this approach powerful is that each step size $\alpha_i$ can be determined independently of the others. When using $\bA$-conjugate directions, the components of our optimization problem decouple, allowing for exact minimization in exactly $n$ steps.
+\addPrf{%
+Suppose $\sum_{i=0}^{m-1} c_i\bp_i = \bzero$. Multiply on the left by $\bp_j^T\bA$:
+\[
+  0 = \bp_j^T\bA\Bigl(\sum_i c_i\bp_i\Bigr) = c_j\,\bp_j^T\bA\bp_j.
+\]
+Since $\bA \succ 0$, $\bp_j^T\bA\bp_j > 0$. Hence $c_j = 0$ for each $j$.
 }
 
-\addDef{Iteratively Computing $\bA$-Conjugate Directions}{%
-The primary challenge is efficiently generating $\bA$-conjugate directions. While the eigenvectors of $\bA$ would form an $\bA$-conjugate set, computing them is typically too expensive.
-\medskip
-The key innovation of the Conjugate Gradient method is a technique to generate these directions iteratively without storing them all. Each new direction is formed as:
-$$\bp_{k+1} = \br_{k+1} + \beta_k\bp_k$$
-
-where $\beta_k$ is chosen to ensure $\bp_{k+1}$ is $\bA$-conjugate to all previous directions:
-$$\beta_k = \frac{\br_{k+1}^T\br_{k+1}}{\br_k^T\br_k}$$
-
-This formula guarantees that each new direction is $\bA$-conjugate to all previous directions, not just the most recent one. This property is a consequence of how the residuals and search directions evolve during the algorithm.
+\addProp{Exact Minimization Along $n$ Conjugate Directions}{%
+Let $\bA$ be symmetric positive definite and $\{\bp_0, \ldots, \bp_{n-1}\}$ be $\bA$-conjugate in $\fR^n$. Starting from $\bx^{(0)}$, define
+\[
+  \bx^{(k)} = \bx^{(0)} + \sum_{i=0}^{k-1}\alpha_i\bp_i, \qquad \alpha_i = \frac{\bp_i^T\br^{(i)}}{\bp_i^T\bA\bp_i},
+\]
+where $\br^{(i)} = \bb - \bA\bx^{(i)}$. Then $\bx^{(n)} = \bx^*$ exactly.
 }
 
-\addDef{The Complete Conjugate Gradient Algorithm}{%
-Putting everything together, the Conjugate Gradient algorithm becomes:
+\addPrf{%
+Since the $\bp_i$ are linearly independent in $\fR^n$, they form a basis. Write $\bx^* - \bx^{(0)} = \sum_i \alpha_i^*\bp_i$. Multiplying by $\bp_j^T\bA$:
+\[
+  \bp_j^T\bA(\bx^*-\bx^{(0)}) = \alpha_j^*\,\bp_j^T\bA\bp_j.
+\]
+Since $\bA(\bx^*-\bx^{(0)}) = \bb - \bA\bx^{(0)} = \br^{(0)}$, we get $\alpha_j^* = \bp_j^T\br^{(0)}/(\bp_j^T\bA\bp_j)$. One verifies by induction that $\bp_j^T\br^{(j)} = \bp_j^T\br^{(0)}$ (because $\br^{(j)}$ differs from $\br^{(0)}$ only by $\bA$-multiples of previous $\bp_i$, which are $\bA$-conjugate to $\bp_j$). Hence $\alpha_j^* = \alpha_j$ and $\bx^{(n)} = \bx^*$.
+}
 
-\textbf{Initialize:}
-\begin{itemize}
-    \item Choose initial guess $\bx^{(0)}$
-    \item Compute initial residual $\br^{(0)} = \bb - \bA\bx^{(0)}$
-    \item Set initial search direction $\bp^{(0)} = \br^{(0)}$
-\end{itemize}
+\addDef{Iterative Generation of $\bA$-Conjugate Directions}{%
+The CG method builds $\bA$-conjugate directions iteratively via a three-term recurrence. Given residual $\br^{(k+1)}$, the next search direction is:
+\[
+  \bp^{(k+1)} = \br^{(k+1)} + \beta_k\bp^{(k)}, \qquad \beta_k = \frac{(\br^{(k+1)})^T\br^{(k+1)}}{(\br^{(k)})^T\br^{(k)}}.
+\]
+The choice of $\beta_k$ ensures $\bp^{(k+1)}$ is $\bA$-conjugate to \emph{all} previous directions, not just $\bp^{(k)}$.
+}
 
-\textbf{For $k = 0, 1, 2, \ldots$ until convergence:}
+\subsubsection{The CG Algorithm and Convergence}
+
+\addDef{Conjugate Gradient Algorithm}{%
+\textbf{Initialize:} $\bx^{(0)}$ (arbitrary), $\br^{(0)} = \bb - \bA\bx^{(0)}$, $\bp^{(0)} = \br^{(0)}$.
+
+\textbf{For $k = 0, 1, 2, \ldots$ until $\|\br^{(k)}\| < \epsilon$:}
+\begin{align*}
+  \alpha_k    &= \frac{(\br^{(k)})^T\br^{(k)}}{(\bp^{(k)})^T\bA\bp^{(k)}}, \\
+  \bx^{(k+1)} &= \bx^{(k)} + \alpha_k\bp^{(k)}, \\
+  \br^{(k+1)} &= \br^{(k)} - \alpha_k\bA\bp^{(k)}, \\
+  \beta_k     &= \frac{(\br^{(k+1)})^T\br^{(k+1)}}{(\br^{(k)})^T\br^{(k)}}, \\
+  \bp^{(k+1)} &= \br^{(k+1)} + \beta_k\bp^{(k)}.
+\end{align*}
+}
+
+\addProp{CG Storage Requirement}{%
+At each step, only $\bx^{(k)}$, $\br^{(k)}$, $\bp^{(k)}$, and the product $\bA\bp^{(k)}$ need to be stored simultaneously — a constant number of $n$-vectors, independent of the iteration count.
+}
+
+\addProp{CG Cost Per Iteration}{%
+Each CG iteration requires one matrix–vector product $\bA\bp^{(k)}$ (cost $O(n^2)$ for a dense matrix, $O(\mathrm{nnz}(\bA))$ for a sparse matrix), two vector dot products, and three vector updates — all at $O(n)$.
+}
+
+\addThm{Finite Termination of Conjugate Gradient}{%
+Let $\bA \in \fR^{n\times n}$ be symmetric positive definite. The CG iterates satisfy:
 \begin{enumerate}
-    \item Compute optimal step size: $\alpha_k = \frac{\br^{(k)T}\br^{(k)}}{\bp^{(k)T}\bA\bp^{(k)}}$
-    \item Update solution: $\bx^{(k+1)} = \bx^{(k)} + \alpha_k\bp^{(k)}$
-    \item Update residual: $\br^{(k+1)} = \br^{(k)} - \alpha_k\bA\bp^{(k)}$
-    \item Check for convergence (if $\|\br^{(k+1)}\|$ is sufficiently small, stop)
-    \item Compute direction update coefficient: $\beta_k = \frac{\br^{(k+1)T}\br^{(k+1)}}{\br^{(k)T}\br^{(k)}}$
-    \item Update search direction: $\bp^{(k+1)} = \br^{(k+1)} + \beta_k\bp^{(k)}$
+  \item $(\br^{(i)})^T\br^{(j)} = 0$ for $i \neq j$ (residuals are mutually orthogonal).
+  \item $(\bp^{(i)})^T\bA\bp^{(j)} = 0$ for $i \neq j$ (search directions are $\bA$-conjugate).
 \end{enumerate}
-
-This algorithm has the following properties:
-\begin{itemize}
-    \item It requires storing only a constant number of vectors
-    \item In exact arithmetic, it converges in at most $n$ steps
-    \item Each iteration costs $O(n^2)$ operations (due to matrix-vector product) 
-    \item For sparse matrices, meaning matrices that are mostly populated with zeros, this cost can be much lower (using sparse data structures).
-\end{itemize}
+Consequently, CG terminates with $\bx^{(m)} = \bx^*$ for some $m \leq n$.
 }
 
-\subsubsection{Convergence of Conjugate Gradient Method}
-\addDef{Conjugate Gradient Termination}{%
-Let $\bA \in \mathbb{R}^{n \times n}$ be symmetric positive definite. Then the Conjugate Gradient method applied to solve $\bA\bx = \bb$ will terminate with the exact solution in at most $n$ iterations.
+\addPrf{%
+We prove both properties by induction. Both hold vacuously for $k = 0$.
 
-The proof for this theorem rests on two key properties that can be established by induction:
+Assume (1) and (2) hold through step $k$. For the orthogonality of residuals: using $\br^{(k+1)} = \br^{(k)} - \alpha_k\bA\bp^{(k)}$,
+\[
+  (\br^{(k+1)})^T\br^{(j)} = (\br^{(k)})^T\br^{(j)} - \alpha_k(\bp^{(k)})^T\bA\br^{(j)}.
+\]
+Since each residual $\br^{(j)}$ is a linear combination of $\bp^{(0)},\ldots,\bp^{(j)}$, and the search directions satisfy $\bA$-conjugacy, the term $(\bp^{(k)})^T\bA\br^{(j)}$ vanishes for $j < k$ and equals $(\br^{(k)})^T\br^{(k)}$ for $j = k$, which is cancelled by the choice of $\alpha_k$. For the $\bA$-conjugacy of directions: by construction of $\beta_k$,
+\[
+  (\bp^{(k+1)})^T\bA\bp^{(k)} = (\br^{(k+1)})^T\bA\bp^{(k)} + \beta_k(\bp^{(k)})^T\bA\bp^{(k)} = 0
+\]
+by the choice of $\beta_k$; inner products with earlier directions vanish by the inductive hypothesis.
+
+Since there can be at most $n$ mutually orthogonal nonzero residuals in $\fR^n$, the algorithm must produce $\br^{(m)} = \bzero$ for some $m \leq n$.
+}
+
+\addThm{CG Convergence Rate Bound}{%
+Let $\bA$ be symmetric positive definite with condition number $\kappa = \kappa_2(\bA)$. Then for all $k \geq 0$:
+\[
+  \frac{\|\bx^{(k)} - \bx^*\|_\bA}{\|\bx^{(0)} - \bx^*\|_\bA} \leq 2\left(\frac{\sqrt{\kappa}-1}{\sqrt{\kappa}+1}\right)^k,
+\]
+where $\|\bv\|_\bA = \sqrt{\bv^T\bA\bv}$ is the $\bA$-norm (energy norm).
+}
+
+\addPrf{%
+One can show that $\bx^{(k)}$ minimizes $\|\bx - \bx^*\|_\bA$ over all $\bx^{(0)} + \mathcal{K}_k$, where $\mathcal{K}_k = \mathrm{span}\{\br^{(0)}, \bA\br^{(0)}, \ldots, \bA^{k-1}\br^{(0)}\}$ is the $k$-th Krylov subspace. Hence
+\[
+  \frac{\|\bx^{(k)} - \bx^*\|_\bA}{\|\bx^{(0)} - \bx^*\|_\bA} \leq \min_{\substack{p \in \mathcal{P}_k \\ p(0) = 1}} \max_{\lambda \in \sigma(\bA)} |p(\lambda)|,
+\]
+where the minimum is over polynomials of degree $k$ satisfying $p(0) = 1$. The Chebyshev polynomial $T_k$ minimizes the maximum absolute value over $[\lambda_{\min}, \lambda_{\max}]$ among all such polynomials, and satisfies
+\[
+  \min_{\substack{p \in \mathcal{P}_k \\ p(0)=1}}\max_{\lambda \in [\lambda_{\min},\lambda_{\max}]}|p(\lambda)| = \frac{1}{T_k((\lambda_{\max}+\lambda_{\min})/(\lambda_{\max}-\lambda_{\min}))} \leq 2\left(\frac{\sqrt{\kappa}-1}{\sqrt{\kappa}+1}\right)^k,
+\]
+where the last bound follows from the identity $T_k(\cosh\theta) = \cosh(k\theta)$ with $\cosh\theta = (\kappa+1)/(\kappa-1)$.
+}
+
+\addNote{%
+The CG convergence factor $(\sqrt{\kappa}-1)/(\sqrt{\kappa}+1)$ is far smaller than the stationary method factor $(\kappa-1)/(\kappa+1)$ for large $\kappa$. For $\kappa = 100$: CG factor $\approx 0.82$ (needs $\approx 22$ iterations for $10^{-4}$ reduction), versus Jacobi factor $\approx 0.98$ (needs $\approx 500$ iterations). Moreover, if the eigenvalues of $\bA$ are clustered into $m$ distinct groups, CG converges in roughly $m$ steps — this is \emph{superlinear convergence}, far better than the worst-case bound.
+}
+
+\subsubsection{Preconditioning}
+
+\addDef{Preconditioner}{%
+A \emph{preconditioner} for $\bA\bx = \bb$ is a symmetric positive definite matrix $\bM$ such that $\bM \approx \bA$ and $\bM^{-1}$ is cheap to apply. The preconditioned system $\bM^{-1/2}\bA\bM^{-1/2}\by = \bM^{-1/2}\bb$ (where $\by = \bM^{1/2}\bx$) has the same solution but ideally satisfies $\kappa(\bM^{-1/2}\bA\bM^{-1/2}) \ll \kappa(\bA)$.
+}
+
+\addNote{%
+In practice, the Preconditioned Conjugate Gradient (PCG) algorithm applies $\bM^{-1}$ at each step without forming $\bM^{1/2}$ explicitly. Common preconditioners include: \textbf{Jacobi} ($\bM = \mathrm{diag}(\bA)$, cheap but limited benefit), \textbf{incomplete Cholesky} ($\bM \approx \bL\bL^T$ with controlled fill-in, far more effective), and \textbf{multigrid} (near-optimal $O(n)$ convergence for PDE-derived systems).
+}
+
+\addExcr{%
+Implement the Conjugate Gradient method in Python.
 \begin{enumerate}
-    \item The residuals $\br^{(0)}, \br^{(1)}, \ldots, \br^{(k)}$ are mutually orthogonal
-    \item The search directions $\bp^{(0)}, \bp^{(1)}, \ldots, \bp^{(k)}$ are mutually $\bA$-conjugate
+  \item Write \texttt{conjugate\_gradient(A, b, x0, tol)} following the CG algorithm, stopping when $\|\br^{(k)}\|/\|\br^{(0)}\| < \texttt{tol}$.
+  \item Test on the $100\times 100$ SPD tridiagonal matrix $\bA = \mathrm{tridiag}(-1,2,-1)$. Plot the $\bA$-norm error vs.\ iteration count and compare to the theoretical bound.
+  \item Verify your implementation against \texttt{scipy.sparse.linalg.cg}.
 \end{enumerate}
-
-Since at most $n$ mutually $\bA$-conjugate directions can exist in $\mathbb{R}^n$, the algorithm must terminate in at most $n$ steps, having explored the entire space.
 }
 
-\addExmpl{Convergence Behavior Comparison}{%
-Consider a $100 \times 100$ symmetric positive definite matrix with eigenvalues clustered in two groups: 90 eigenvalues near 1 and 10 eigenvalues near 100.
-
-The convergence rates for different methods on this system are:
-\begin{itemize}
-    \item Jacobi iteration: $\approx 0.99$ (thousands of iterations needed)
-    \item Steepest descent: $\approx 0.98$ (still very slow)
-    \item Conjugate Gradient: $\approx 0.82$ (dramatically faster)
-\end{itemize}
-
-The error in CG after $k$ iterations is bounded by:
-$$\|\bx^{(k)} - \bx^*\|_\bA \leq 2 \left(\frac{\sqrt{\kappa(\bA)} - 1}{\sqrt{\kappa(\bA)} + 1}\right)^k \|\bx^{(0)} - \bx^*\|_\bA$$
-
-Furthermore, because of the eigenvalue clustering, CG would likely converge in just over 10 iterations rather than the theoretical maximum of 100.
+\addExcr{%
+\textbf{(Preconditioning effect)} Using the tridiagonal $\bA$ for $n = 200$:
+\begin{enumerate}
+  \item Compute $\kappa_2(\bA)$ with \texttt{np.linalg.cond}. How many CG iterations does the bound predict for $10^{-8}$ accuracy?
+  \item Apply the Jacobi preconditioner $\bM = \mathrm{diag}(\bA)$. What is $\kappa(\bM^{-1}\bA)$? Why does it barely help here?
+  \item Implement incomplete Cholesky preconditioning via \texttt{scipy.sparse.linalg.spilu}. Compare iteration counts for the original and preconditioned CG.
+\end{enumerate}
 }
 
-\addDef{Preconditioning: Further Acceleration}{%
-While CG significantly outperforms simpler methods, its performance still degrades as $\kappa(\bA)$ increases. Preconditioning addresses this by transforming the original system into an equivalent one with better conditioning.
-\medskip
-Given a symmetric positive definite matrix $\bM$ that approximates $\bA$ but is easier to invert, we solve the equivalent system:
-$$\bM^{-1/2}\bA\bM^{-1/2}\by = \bM^{-1/2}\bb, \quad \text{where } \by = \bM^{1/2}\bx$$
-
-The ideal preconditioner:
-\begin{itemize}
-    \item Approximates $\bA$ well, so $\bM^{-1}\bA$ has eigenvalues clustered near 1
-    \item Is easy to invert
-    \item Preserves the symmetry and positive-definiteness of the system
-\end{itemize}
-
-With $\bM = \text{diag}(\bA)$, Preconditioned CG effectively combines Jacobi's diagonal scaling with CG's superior convergence properties.
+\addExcr{%
+\textbf{(Eigenvalue clustering and superlinear convergence)} Build a $50\times50$ SPD matrix with eigenvalues: 40 eigenvalues equal to $1$, 5 equal to $10$, and 5 equal to $100$.
+\begin{enumerate}
+  \item What is $\kappa(\bA)$? What does the CG bound predict for the number of iterations needed to achieve $\|\bx^{(k)}-\bx^*\|_\bA/\|\bx^{(0)}-\bx^*\|_\bA < 10^{-10}$?
+  \item Construct the matrix using \texttt{Q @ np.diag(eigs) @ Q.T} with a random orthogonal $\bQ$ from \texttt{scipy.stats.ortho\_group.rvs(50)}. Run CG and plot the actual error versus the bound.
+  \item How many iterations does CG actually need? Explain why superlinear convergence occurs when eigenvalues are clustered.
+\end{enumerate}
 }
-
-
 
 \end{document}

@@ -61,6 +61,31 @@ a_{ij}^{(1)} = a_{ij} - \ell_{i1}\,a_{1j}, \quad j=2,\dots,n.
 Repeating this process on the \((n-1)\times(n-1)\) submatrix produces the full LU decomposition.
 }
 
+\addThm{LU Factorization Existence and Uniqueness}{%
+A matrix $\bA \in \fR^{n \times n}$ has a unique LU factorization (without pivoting) if and only if all leading principal submatrices $\bA_k \in \fR^{k \times k}$ (the top-left $k \times k$ blocks) are nonsingular for $k = 1, \ldots, n-1$.
+}
+
+\addPrf{%
+At step $k$ of Gaussian elimination, the pivot is the $(k,k)$ entry of the current reduced matrix, which equals $\det(\bA_k)/\det(\bA_{k-1})$ (an inductive result). This pivot is nonzero iff $\det(\bA_k) \neq 0$. If all $n-1$ pivots are nonzero, elimination completes and produces a unique $\bL, \bU$ since each multiplier $\ell_{ik} = a_{ik}/a_{kk}$ and each updated entry are determined uniquely.
+}
+
+\addThm{LU Factorization Cost}{%
+Gaussian elimination to compute the LU factorization of $\bA \in \fR^{n \times n}$ costs
+\[
+    \frac{2}{3}n^3 + O(n^2) \text{ flops.}
+\]
+}
+
+\addPrf{%
+At elimination step $k$ ($k = 1, \ldots, n-1$), we compute $n-k$ multipliers ($n-k$ divisions) and update an $(n-k)\times(n-k)$ submatrix ($2(n-k)^2$ flops for multiply-add pairs). The dominant cost is:
+\[
+    \sum_{k=1}^{n-1} 2(n-k)^2 = 2\sum_{j=1}^{n-1} j^2 = 2\cdot\frac{(n-1)n(2n-1)}{6} = \frac{2n^3}{3} + O(n^2).
+\]
+}
+
+\addNote{%
+The $\frac{2}{3}n^3$ constant is exactly twice the $\frac{1}{3}n^3$ cost for a triangular solve. So the factorization dominates: it costs $O(n^3)$ once, but each solve thereafter is only $O(n^2)$.
+}
 
 \addExmpl{%
 To illustrate, consider the \(3 \times 3\) matrix
@@ -114,6 +139,19 @@ Thus, \(\ell_{32} = 0\) and \(u_{33} = 2\). Consequently, we have
 \end{pmatrix}.
 \]
 A direct multiplication verifies that \(\bL\,\bU = \bA\).
+}
+
+\addExcr{%
+Compute the LU factorization (without pivoting) of
+\[
+    \bA = \begin{pmatrix} 1 & 2 & 1 \\ 3 & 8 & 1 \\ 0 & 4 & 1 \end{pmatrix}.
+\]
+\begin{enumerate}
+    \item Carry out the elimination steps explicitly: compute multipliers $\ell_{21}, \ell_{31}$ at step 1, update the submatrix, then compute $\ell_{32}$ at step 2.
+    \item Write $\bL$ and $\bU$ explicitly. Verify $\bL\bU = \bA$.
+    \item Use the factorization to solve $\bA\bx = (5, 15, 4)^T$ via forward then backward substitution.
+    \item In Python, verify with \texttt{from scipy.linalg import lu} and \texttt{lu(A)}. Why does SciPy always return a permutation $\bP$ even if no row swaps are needed?
+\end{enumerate}
 }
 
 \subsubsection{Pivoting and LUP Decomposition}
@@ -256,6 +294,32 @@ operations, and backward substitution has a similar computational cost. Thus, on
 
 \addNote{%
 It is important to note that while solving the system after the factorization is efficient, computing the LU factorization itself generally requires \(O(n^3)\) operations. Therefore, if multiple right-hand sides \(\bb\) are to be solved with the same matrix \(\bA\), it is advantageous to factorize \(\bA\) once and reuse the factors \(\bL\) and \(\bU\) for each subsequent system (very common in iterative methods), reducing the per-system cost to \(O(n^2)\).
+}
+
+\addThm{Total Cost of LU-Based Solve}{%
+Solving $k$ linear systems $\bA\bx_i = \bb_i$ ($i = 1, \ldots, k$) with the same $\bA \in \fR^{n \times n}$ via LU factorization costs
+\[
+    \frac{2}{3}n^3 + 2kn^2 + O(n) \text{ flops,}
+\]
+versus $k \cdot \left(\frac{2}{3}n^3 + O(n^2)\right)$ if the matrix is re-factorized for each solve.
+}
+
+\addExcr{%
+\begin{enumerate}
+    \item Derive the exact flop count for forward substitution (computing $\by$ from $\bL\by = \bb$): count the multiplications and additions at each step $i = 1, \ldots, n$. Show the total is $n^2 - n$ arithmetic operations.
+    \item Suppose $\bA$ is $1000 \times 1000$ and you need to solve for 500 right-hand sides. How many flops does the LU-then-solve approach save compared to calling \texttt{np.linalg.solve} 500 times? (Assume each call re-factorizes.)
+    \item Give a concrete $2 \times 2$ matrix where Gaussian elimination without pivoting fails (division by zero) but LUP succeeds. Write out $\bP$, $\bL$, $\bU$.
+    \item In Python, use \texttt{scipy.linalg.lu\_factor(A)} once and \texttt{scipy.linalg.lu\_solve} for each right-hand side. Write the code for 3 right-hand sides and verify each residual is near machine precision.
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(Stability of Gaussian Elimination)} Partial pivoting selects the largest pivot at each step.
+\begin{enumerate}
+    \item The \textbf{growth factor} $\rho$ of LU with partial pivoting is $\rho = \max_{i,j,k}|u_{ij}^{(k)}| / \max_{i,j}|a_{ij}|$, where $u_{ij}^{(k)}$ are the entries at elimination step $k$. For partial pivoting, $\rho \leq 2^{n-1}$. What is this for $n = 50$?
+    \item In practice $\rho$ is almost always $O(n)$ or smaller. Does this make LU with partial pivoting \emph{backward stable} in theory or just in practice?
+    \item For a matrix where partial pivoting performs poorly (the theoretical worst case), complete pivoting—interchanging both rows and columns—is guaranteed to have $\rho = O(n^{2/3})$ but is rarely used. What is the computational reason?
+\end{enumerate}
 }
 
 \end{document}

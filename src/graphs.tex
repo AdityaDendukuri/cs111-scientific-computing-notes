@@ -1,3 +1,4 @@
+\documentclass[../readings.tex]{subfiles}
 
 \begin{document}
 
@@ -151,18 +152,18 @@ These matrices have eigenvalues in $[0,2]$. While $\bL_{sym}$ is symmetric, $\bL
 The two normalized Laplacians share the same eigenvalues. If $\mathbf{v}$ is an eigenvector of $\bL_{sym}$ with eigenvalue $\lambda$, then $\bD^{-1/2}\mathbf{v}$ is an eigenvector of $\bL_{rw}$ with the same eigenvalue.
 }
 
-\textBox{Spectral Clustering Algorithm}{%
-Spectral clustering leverages the Laplacian's eigenvectors to partition graphs:
+\textBox{%
+\textbf{Spectral Clustering Algorithm.} Spectral clustering leverages the Laplacian's eigenvectors to partition graphs:
 
 \begin{algorithm}
 \caption{Spectral Clustering}
 \begin{algorithmic}[1]
-\State Construct the graph Laplacian $\bL$ (or normalized version)
-\State Compute eigenvectors $\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_k$ for the $k$ smallest eigenvalues
-\State Form matrix $\mathbf{X} = [\mathbf{v}_2, \ldots, \mathbf{v}_k] \in \mathbb{R}^{n \times (k-1)}$ (skip $\mathbf{v}_1$)
-\State Let row $i$ of $\mathbf{X}$ represent vertex $i$ in $\mathbb{R}^{k-1}$
-\State Apply $k$-means clustering to these rows
-\State Assign vertex $i$ to cluster $j$ if row $i$ is assigned to cluster $j$
+\STATE Construct the graph Laplacian $\bL$ (or normalized version)
+\STATE Compute eigenvectors $\mathbf{v}_1, \mathbf{v}_2, \ldots, \mathbf{v}_k$ for the $k$ smallest eigenvalues
+\STATE Form matrix $\mathbf{X} = [\mathbf{v}_2, \ldots, \mathbf{v}_k] \in \mathbb{R}^{n \times (k-1)}$ (skip $\mathbf{v}_1$)
+\STATE Let row $i$ of $\mathbf{X}$ represent vertex $i$ in $\mathbb{R}^{k-1}$
+\STATE Apply $k$-means clustering to these rows
+\STATE Assign vertex $i$ to cluster $j$ if row $i$ is assigned to cluster $j$
 \end{algorithmic}
 \end{algorithm}
 
@@ -249,13 +250,12 @@ Consider the barbell graph consisting of two complete graphs $K_5$ connected by 
    
    % Fiedler vector visualization below
    \draw[->] (-1,-1) -- (6,-1);
-   \foreach \x/\y in {0.2/-1, 0.3/-1, 0.4/-1, 0.5/-1, 0.6/-1, 4.4/-1, 4.5/-1, 4.6/-1, 4.7/-1, 4.8/-1} {
-     \ifnum\x<1
-       \node[circle,fill=blue!50,scale=0.7] at (\x,\y) {};
-     \else
-       \node[circle,fill=red!50,scale=0.7] at (\x,\y) {};
-     \fi
-   
+   \foreach \x in {0.2, 0.3, 0.4, 0.5, 0.6} {
+     \node[circle,fill=blue!50,scale=0.7] at (\x,-1) {};
+   }
+   \foreach \x in {4.4, 4.5, 4.6, 4.7, 4.8} {
+     \node[circle,fill=red!50,scale=0.7] at (\x,-1) {};
+   }
    \node at (2.5,-1.5) {Fiedler vector embedding};
  \end{tikzpicture}
 \end{center}
@@ -322,25 +322,25 @@ To address the issues of dangling nodes and sink regions, and to ensure converge
 \end{itemize}
 The PageRank formula becomes:
 $$ PR(p_i) = \frac{1-d}{N} + d \sum_{p_j \in B(p_i)} \frac{PR(p_j)}{L(p_j)} $$
-This leads to the Google Matrix $\bG$. Let $\bS \in \mathbb{R}^{N \times N}$ be the column-stochastic hyperlink matrix:
+This leads to the Google Matrix $\mathbf{G}$. Let $\bS \in \mathbb{R}^{N \times N}$ be the column-stochastic hyperlink matrix:
 $$ S_{ij} = \begin{cases} 1/L(p_j) & \text{if page } p_j \text{ links to page } p_i \text{ and } L(p_j) > 0 \\ 1/N & \text{if page } p_j \text{ is a dangling node (i.e., } L(p_j)=0) \\ 0 & \text{otherwise (no link and not dangling contribution)} \end{cases} $$
 Note: The $1/N$ for dangling nodes ensures $\bS$ is column-stochastic (columns sum to 1).
-The Google Matrix $\bG$ is then defined as:
-$$ \bG = d\bS + \frac{1-d}{N}\mathbf{J} $$
-where $\mathbf{J}$ is an $N \times N$ matrix of all ones. The matrix $\bG$ is column-stochastic, irreducible, and primitive. By the Perron-Frobenius theorem, $\bG$ has a unique largest eigenvalue $\lambda_{\max}=1$, and its corresponding eigenvector $\mathbf{r}$ (the PageRank vector) has all positive entries and is unique up to scaling. We scale $\mathbf{r}$ such that $\|\mathbf{r}\|_1 = \sum_i r_i = 1$.
-The PageRank vector $\mathbf{r}$ is the solution to $\mathbf{r} = \bG\mathbf{r}$.
+The Google Matrix $\mathbf{G}$ is then defined as:
+$$ \mathbf{G} = d\bS + \frac{1-d}{N}\mathbf{J} $$
+where $\mathbf{J}$ is an $N \times N$ matrix of all ones. The matrix $\mathbf{G}$ is column-stochastic, irreducible, and primitive. By the Perron-Frobenius theorem, $\mathbf{G}$ has a unique largest eigenvalue $\lambda_{\max}=1$, and its corresponding eigenvector $\mathbf{r}$ (the PageRank vector) has all positive entries and is unique up to scaling. We scale $\mathbf{r}$ such that $\|\mathbf{r}\|_1 = \sum_i r_i = 1$.
+The PageRank vector $\mathbf{r}$ is the solution to $\mathbf{r} = \mathbf{G}\mathbf{r}$.
 }
 
 \textBox{Solving for PageRank with the Google Matrix}{%
 The PageRank vector $\mathbf{r}$ is typically computed using the power iteration method:
 1. Initialize $\mathbf{r}^{(0)}$ with $r_i^{(0)} = 1/N$ for all $i=1, \ldots, N$. Ensure $\|\mathbf{r}^{(0)}\|_1 = 1$.
 2. Iterate for $k=0, 1, 2, \ldots$:
-   $$ \mathbf{r}^{(k+1)} = \bG \mathbf{r}^{(k)} = d\bS\mathbf{r}^{(k)} + \frac{1-d}{N}\mathbf{J}\mathbf{r}^{(k)} $$
+   $$ \mathbf{r}^{(k+1)} = \mathbf{G} \mathbf{r}^{(k)} = d\bS\mathbf{r}^{(k)} + \frac{1-d}{N}\mathbf{J}\mathbf{r}^{(k)} $$
    Since $\mathbf{J}\mathbf{r}^{(k)} = \mathbf{1}(\mathbf{1}^T\mathbf{r}^{(k)}) = \mathbf{1}(1) = \mathbf{1}$ (as $\|\mathbf{r}^{(k)}\|_1=1$), the iteration simplifies to:
    $$ \mathbf{r}^{(k+1)} = d\bS\mathbf{r}^{(k)} + \frac{1-d}{N}\mathbf{1} $$
 3. Continue until convergence, i.e., $\|\mathbf{r}^{(k+1)} - \mathbf{r}^{(k)}\|_1 < \epsilon$ for some small tolerance $\epsilon$.
 
-This iterative process is efficient because the matrix $\bS$ (or the original hyperlink graph) is typically very sparse, even though $\bG$ itself is dense. The term $d\bS\mathbf{r}^{(k)}$ can be computed by exploiting the sparse structure of web links. The $(1-d)/N \cdot \mathbf{1}$ term represents the teleportation probability uniformly distributed.
+This iterative process is efficient because the matrix $\bS$ (or the original hyperlink graph) is typically very sparse, even though $\mathbf{G}$ itself is dense. The term $d\bS\mathbf{r}^{(k)}$ can be computed by exploiting the sparse structure of web links. The $(1-d)/N \cdot \mathbf{1}$ term represents the teleportation probability uniformly distributed.
 }
 
 \addExmpl{Illustrative PageRank Calculation}{%
@@ -370,7 +370,7 @@ $\mathbf{r}^{(2)} \approx \begin{pmatrix} 0.3047 \\ 0.4038 \\ 0.1415 \end{pmatri
 Iterations would continue until convergence. $P_1$ appears to receive the most rank due to two direct incoming sources (one of which is $P_2$ that splits its rank).
 }
 
-\addNote[Interpretations, Properties, and Extensions]{%
+\addNote{%
 \begin{itemize}
     \item \textbf{Probability Distribution:} The PageRank vector $\mathbf{r}$ represents a stationary probability distribution of the random surfer model with teleportation. $r_i$ is the long-term probability of finding the surfer on page $p_i$.
     \item \textbf{Damping Factor ($d$):} The choice of $d$ balances between the link structure of the web and the uniform "teleportation" probability. A higher $d$ gives more weight to the link structure, while a lower $d$ makes ranks more uniform. It also ensures convergence and helps mitigate rank sinks.

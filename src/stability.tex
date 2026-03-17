@@ -1,141 +1,185 @@
 \documentclass[../readings.tex]{subfiles}
 \begin{document}
-\subsection{Stability and Condition Numer}
-\label{subsec:analytical-to-numerical}
-\textBox{
-In an idealized mathematical setting, a square and invertible matrix $\bA \in \mathbb{R}^{n\times n}$ admits a closed-form solution for the linear system $\bA\bx = \bb$, given by 
-$$
-\bx = \bA^{-1}\bb.
-$$
-This expression is exact and demonstrates the theoretical uniqueness of the solution provided that $\bA^{-1}$ exists.
+\subsection{Stability and Condition Number}
+\label{subsec:stability-condition}
+
+\textBox{%
+In an idealized mathematical setting, the solution to $\bA\bx = \bb$ is simply $\bx = \bA^{-1}\bb$. In practice, two separate issues corrupt the computed answer: the \emph{inherent sensitivity} of the problem to perturbations in the data (measured by the condition number) and the \emph{algorithm's ability to avoid amplifying errors} beyond this inherent sensitivity (measured by numerical stability). Understanding both is essential for reliable scientific computing.
 }
 
-\addDef{Limitations of Analytical Methods}{
-Computing $\bA^{-1}$ directly is rarely practical for several reasons:
-\begin{enumerate}
-    \item \textbf{Computational Expense}: Explicitly forming $\bA^{-1}$ requires $O(n^3)$ operations, which becomes prohibitive for large systems.
-    \item \textbf{Numerical Instability}: Direct inversion can amplify round-off errors, especially when $\bA$ is nearly singular.
-    \item \textbf{Inefficiency for Multiple Systems}: When solving multiple systems with the same coefficient matrix but different right-hand sides, storing and applying $\bA^{-1}$ is less efficient than using factorization methods.
-    \item \textbf{Memory Requirements}: Storing the full inverse requires $O(n^2)$ memory, which may be unnecessary since we only need the solution vector $\bx$.
-\end{enumerate}
+\subsubsection{Why Not Invert Directly?}
+
+\addDef{Computational Cost of Explicit Inversion}{%
+Computing $\bA^{-1}$ requires solving $n$ linear systems $\bA\mathbf{x}_i = \mathbf{e}_i$. After the LU factorization (one-time cost $\frac{2}{3}n^3$), each solve costs $2n^2$, giving a total of $\frac{2}{3}n^3 + 2n^3 \approx \frac{8}{3}n^3$ flops. Forming and storing the $n\times n$ inverse requires $O(n^2)$ memory and provides no benefit when only the product $\bA^{-1}\bb$ is needed.
 }
 
-\addDef{Matrix Factorization Approach}{
-So far, we have looked at methods that instead of computing $\bA^{-1}$ explicitly, we factorize the matrix $\bA$ into simpler components (LU, Cholesky etc.) that are easier to work with. Each triangular solve requires only $O(n^2)$ operations, making this approach substantially more efficient for solving multiple systems with the same coefficient matrix.
+\addDef{Numerical Instability of Explicit Inversion}{%
+When $\bA$ is nearly singular, explicitly forming $\bA^{-1}$ amplifies round-off errors severely. A single erroneous column of $\bA^{-1}$ propagates into the entire solution $\bA^{-1}\bb$, whereas solving via a stable factorization confines errors to the individual triangular solve steps.
 }
 
-\textBox{
-The key advantage of matrix factorization methods like LU decomposition is that the expensive $O(n^3)$ factorization step needs to be performed only once for a given matrix $\bA$. After that, each new right-hand side $\bb$ can be handled with just $O(n^2)$ operations. 
+\addDef{Preferred Strategy: Factorize Once, Solve Many}{%
+Given the LU factorization $\bA = \bP\bL\bU$ (computed once at cost $\frac{2}{3}n^3$), each new right-hand side $\bb$ requires only two triangular solves at cost $2n^2$. For $k$ right-hand sides, total cost is $\frac{2}{3}n^3 + 2kn^2$, far better than $k$ separate $O(n^3)$ solves or storing $\bA^{-1}$.
+}
+
+\addNote{%
+The practical rule: \textbf{never explicitly form $\bA^{-1}$}. Use \texttt{np.linalg.solve(A, b)} for a single system, or \texttt{scipy.linalg.lu\_factor} / \texttt{scipy.linalg.lu\_solve} when solving multiple systems with the same $\bA$.
 }
 
 \subsubsection{Numerical Stability}
-\addDef{Numerical Stability}{
-Numerical stability refers to how well a computational algorithm controls the accumulation and propagation of round-off errors. An algorithm is considered numerically stable if small changes in the input data produce correspondingly small changes in the output.
 
-In the context of solving linear systems:
-\begin{itemize}
-    \item A stable algorithm should not amplify errors beyond what would be expected based on the conditioning of the problem
-    \item Different algorithms for the same mathematical problem can have significantly different stability properties
-    \item Stability is a property of the algorithm, not the problem itself
-\end{itemize}
-
-For example, Gaussian elimination with partial pivoting is generally stable for solving linear systems, while the explicit computation of $\bA^{-1}$ followed by matrix-vector multiplication is often less stable.
+\addDef{Backward Stability}{%
+An algorithm for $\bA\bx = \bb$ is \emph{backward stable} if the computed solution $\hat{\bx}$ satisfies
+\[
+  (\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb
+\]
+for some \emph{backward errors} with $\|\delta\bA\|/\|\bA\| = O(\epsilon_{\mathrm{mach}})$ and $\|\delta\bb\|/\|\bb\| = O(\epsilon_{\mathrm{mach}})$. In words: the computed answer is the exact answer to a slightly perturbed problem.
 }
+
+\addNote{%
+Backward stability is a property of the \emph{algorithm}, not the problem. Gaussian elimination without pivoting can be unstable; with partial pivoting it is backward stable for virtually all practical matrices.
+}
+
+\addProp{Gaussian Elimination with Partial Pivoting is Backward Stable}{%
+Gaussian elimination with partial pivoting (GEPP) produces a computed solution $\hat{\bx}$ satisfying $(\bA + \delta\bA)\hat{\bx} = \bb$ with
+\[
+  \|\delta\bA\|_\infty \leq g_n \cdot \epsilon_{\mathrm{mach}} \cdot \|\bA\|_\infty,
+\]
+where $g_n$ is the \emph{growth factor}. In the worst case $g_n \leq 2^{n-1}$, but for random matrices in practice $g_n = O(n^{2/3})$.
+}
+
+\addPrf{%
+At each elimination step, partial pivoting selects the largest entry in the current column as pivot, ensuring all multipliers satisfy $|m_{ij}| \leq 1$. This prevents exponential amplification of round-off at each stage. A detailed rounding error analysis over the $O(n^3)$ scalar operations shows that the accumulated backward error satisfies the stated bound. For a complete proof see Higham, \textit{Accuracy and Stability of Numerical Algorithms}, Ch.~9.
+}
+
 \subsubsection{Condition Number}
 
-\addDef{Condition Number}{
-The condition number of $\bA$ with respect to a chosen matrix norm $\|\cdot\|$ is defined as 
-$$
-\kappa(\bA) = \|\bA\|\,\|\bA^{-1}\|.
-$$
-This scalar quantifies the sensitivity of the solution $\bx$ to perturbations in $\bA$ or $\bb$. A large $\kappa(\bA)$ indicates that the system is \emph{ill-conditioned}, meaning that even minute errors in the data may be significantly amplified in the computed solution.
-
-For symmetric matrices, the condition number can be computed using the eigenvalues:
-$$
-\kappa_2(\bA) = \frac{|\lambda_{\max}|}{|\lambda_{\min}|}
-$$
-where $\lambda_{\max}$ and $\lambda_{\min}$ are the eigenvalues with the largest and smallest absolute values, respectively.
-
-The condition number provides an upper bound on how much perturbations in the input data can be amplified in the solution. Unlike numerical stability, which is a property of the algorithm, the condition number is an intrinsic property of the matrix itself.
+\addDef{Condition Number}{%
+The \emph{condition number} of an invertible matrix $\bA \in \fR^{n\times n}$ with respect to a matrix norm $\|\cdot\|$ is
+\[
+  \kappa(\bA) = \|\bA\|\,\|\bA^{-1}\|.
+\]
+For the 2-norm, $\kappa_2(\bA) = \sigma_{\max}/\sigma_{\min}$ (ratio of largest to smallest singular values); for a symmetric matrix, $\kappa_2(\bA) = |\lambda_{\max}|/|\lambda_{\min}|$.
 }
 
-\addNote{
-For example, consider the diagonal matrix 
-$$
-\bA = \begin{pmatrix} 1 & 0 \\ 0 & 10^{-6} \end{pmatrix}.
-$$
-Its eigenvalues are exactly $1$ and $10^{-6}$ (since it's a diagonal matrix), yielding $\kappa_2(\bA)=10^6$. Such a high condition number suggests that small perturbations in the input data could be significantly amplified in the solution.
-
-This sensitivity to perturbations affects all solution methods, whether direct or iterative. However, different factorization techniques (like QR versus LU) may have different numerical stability properties when applied to ill-conditioned problems.
+\addThm{Perturbation Bound for Linear Systems}{%
+Let $\bA\bx = \bb$ with $\bA$ invertible and $\bb \neq \bzero$. Suppose $\hat{\bx}$ satisfies $(\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb$. If $\|\bA^{-1}\|\,\|\delta\bA\| < 1$, then
+\[
+  \frac{\|\hat{\bx} - \bx\|}{\|\bx\|} \leq \frac{\kappa(\bA)}{1 - \kappa(\bA)\,\|\delta\bA\|/\|\bA\|} \left(\frac{\|\delta\bA\|}{\|\bA\|} + \frac{\|\delta\bb\|}{\|\bb\|}\right).
+\]
 }
 
-\addExmpl{
-\textbf{Impact of Condition Number on Solution Sensitivity:}
-Consider solving a linear system $\bA\bx = \bb$ where:
-$$
-\bA = \begin{pmatrix} 1 & 0 \\ 0 & 10^{-6} \end{pmatrix} \quad \text{and} \quad
-\bb = \begin{pmatrix} 1 \\ 1 \end{pmatrix}
-$$
-
-This is a diagonal matrix with eigenvalues $\lambda_1 = 1$ and $\lambda_2 = 10^{-6}$, so $\kappa_2(\bA) = 10^6$. 
-
-The exact solution is $\bx = \begin{pmatrix} 1 \\ 10^6 \end{pmatrix}$.
-
-Note how the small eigenvalue $\lambda_2 = 10^{-6}$ corresponds to a very large entry in the solution vector. This illustrates why ill-conditioned matrices can lead to numerical challenges - even small perturbations in the direction corresponding to the smallest eigenvalue can cause large changes in the solution.
-
-Even with stable algorithms like LU decomposition with pivoting, the fundamental sensitivity of the problem remains, potentially leading to significant solution errors when the input data contains even slight inaccuracies.
+\addPrf{%
+Subtracting $\bA\bx = \bb$ from $(\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb$ gives
+\[
+  (\bA + \delta\bA)(\hat{\bx} - \bx) = \delta\bb - \delta\bA\,\bx.
+\]
+Since $\|\bA^{-1}\delta\bA\| \leq \|\bA^{-1}\|\,\|\delta\bA\| < 1$, the matrix $\bI + \bA^{-1}\delta\bA$ is invertible by the Neumann lemma, and
+\[
+  \|(\bA + \delta\bA)^{-1}\| = \|\bA^{-1}(\bI + \bA^{-1}\delta\bA)^{-1}\| \leq \frac{\|\bA^{-1}\|}{1 - \|\bA^{-1}\|\,\|\delta\bA\|}.
+\]
+Therefore:
+\[
+  \|\hat{\bx} - \bx\| \leq \frac{\|\bA^{-1}\|}{1 - \|\bA^{-1}\|\,\|\delta\bA\|}\bigl(\|\delta\bb\| + \|\delta\bA\|\,\|\bx\|\bigr).
+\]
+Dividing by $\|\bx\|$ and using $\|\bb\| \leq \|\bA\|\,\|\bx\|$ (so $1/\|\bx\| \leq \|\bA\|/\|\bb\|$) yields the stated bound.
 }
 
-\subsubsection{Relationship Between Stability and Conditioning}
-\addDef{Relationship Between Stability and Conditioning}{
-It's important to distinguish between numerical stability and conditioning:
+\addCor{Effect of Right-Hand Side Perturbation}{%
+If only $\bb$ is perturbed ($\delta\bA = \bzero$), then
+\[
+  \frac{\|\hat{\bx} - \bx\|}{\|\bx\|} \leq \kappa(\bA)\,\frac{\|\delta\bb\|}{\|\bb\|}.
+\]
+}
 
-\begin{itemize}
-    \item \textbf{Condition Number}: Measures the inherent sensitivity of the mathematical problem to perturbations in the input data. It is a property of the matrix $\bA$, not the algorithm used to solve the system.
-    
-    \item \textbf{Numerical Stability}: Refers to how well an algorithm controls the propagation of errors during computation. It is a property of the algorithm, not the mathematical problem.
-\end{itemize}
+\addPrf{%
+Set $\delta\bA = \bzero$ in the perturbation bound. Then $\hat{\bx} - \bx = \bA^{-1}\delta\bb$, so $\|\hat{\bx}-\bx\| \leq \|\bA^{-1}\|\,\|\delta\bb\|$. Using $\|\bx\| \geq \|\bb\|/\|\bA\|$ gives $\|\hat{\bx}-\bx\|/\|\bx\| \leq \|\bA\|\,\|\bA^{-1}\|\,\|\delta\bb\|/\|\bb\| = \kappa(\bA)\,\|\delta\bb\|/\|\bb\|$.
+}
 
-A well-conditioned problem (low $\kappa(\bA)$) solved with an unstable algorithm may yield inaccurate results. Similarly, an ill-conditioned problem (high $\kappa(\bA)$) solved with a stable algorithm will still be sensitive to input perturbations.
+\addNote{%
+The condition number tells us the worst-case amplification factor. A relative perturbation of size $\epsilon$ in the data can produce a relative error up to $\kappa(\bA)\cdot\epsilon$ in the solution. In double precision $\epsilon_{\mathrm{mach}} \approx 10^{-16}$, so we can expect at most $\lfloor 16 - \log_{10}\kappa(\bA)\rfloor$ correct decimal digits in the computed solution.
+}
 
-The ideal scenario is to:
+\addExmpl{%
+Let $\bA = \begin{pmatrix} 1 & 0 \\ 0 & 10^{-6} \end{pmatrix}$, $\bb = (1,1)^T$. The exact solution is $\bx^* = (1, 10^6)^T$ and $\kappa_2(\bA) = 10^6$. A perturbation $\delta\bb = (10^{-4}, 0)^T$ has $\|\delta\bb\|/\|\bb\| \approx 10^{-4}$. The bound predicts a relative solution error up to $\kappa(\bA)\cdot10^{-4} = 100$. Indeed, the perturbed solution is $\hat{\bx} = (1+10^{-4}, 10^6)^T$, giving $\|\hat{\bx}-\bx^*\|/\|\bx^*\| \approx 10^{-10}$ — much smaller than the bound, since the perturbation was in the well-conditioned direction.
+}
+
+\subsubsection{Conditioning vs.\ Stability}
+
+\addDef{Conditioning (Problem Property)}{%
+\emph{Conditioning} is an intrinsic property of the \emph{mathematical problem}: it measures the sensitivity of the exact solution to perturbations in the data. A matrix is \emph{ill-conditioned} if $\kappa(\bA) \gg 1$ and \emph{well-conditioned} if $\kappa(\bA)$ is small.
+}
+
+\addDef{Numerical Stability (Algorithm Property)}{%
+\emph{Numerical stability} is a property of the \emph{algorithm}: it measures how well the algorithm avoids introducing errors beyond those inherent to the problem. A backward stable algorithm introduces no more error than is forced by the problem's conditioning.
+}
+
+\addNote{%
+A well-conditioned problem solved by an unstable algorithm may yield inaccurate results. An ill-conditioned problem solved by a stable algorithm is still inherently sensitive — no algorithm can overcome poor conditioning. The best strategy is: use a numerically stable algorithm, and if $\kappa(\bA)$ is large, reformulate or precondition the problem before solving.
+}
+
+\subsubsection{Stability of Matrix Factorizations}
+
+\addProp{Stability of LU with Partial Pivoting}{%
+Gaussian elimination with partial pivoting is backward stable with growth factor bounded by $2^{n-1}$ in the worst case. This worst-case bound is rarely achieved; for random dense matrices the expected growth factor is $O(n^{2/3})$.
+}
+
+\addPrf{%
+Partial pivoting ensures all multipliers satisfy $|m_{ij}| \leq 1$. At each elimination step, entries can at most double, giving a growth factor bound of $2^{n-1}$. Worst-case matrices achieving this bound are known but are extremely rare in practice. For most scientific problems, GEPP is effectively backward stable.
+}
+
+\addProp{Stability of Cholesky Factorization}{%
+For symmetric positive definite $\bA$, Cholesky factorization $\bA = \bL\bL^T$ is backward stable without any pivoting. All pivot elements $\ell_{kk} = \sqrt{a_{kk} - \sum_{j<k}\ell_{kj}^2}$ remain positive and bounded by $\sqrt{\|\bA\|_2}$, so no element growth occurs.
+}
+
+\addPrf{%
+For an SPD matrix, all principal submatrices are SPD (their Schur complements are positive definite), so each diagonal entry encountered during Cholesky is positive. Since no cancellation or sign change can occur, the factorization is inherently stable. A rounding error analysis shows the backward error satisfies $\|\bA + \delta\bA - \hat{\bL}\hat{\bL}^T\|_F \leq c_n\epsilon_{\mathrm{mach}}\|\bA\|_F$ for a modest constant $c_n$.
+}
+
+\addProp{Stability of QR via Householder Reflections}{%
+QR decomposition using Householder reflections is backward stable with no growth factor. Each Householder reflector $\bH = \bI - 2\bv\bv^T/\|\bv\|^2$ is orthogonal with $\kappa_2(\bH) = 1$, so orthogonal transformations cannot amplify errors.
+}
+
+\addPrf{%
+Each Householder reflection is an orthogonal transformation, so $\|\bH\|_2 = 1$ and $\|\bH^{-1}\|_2 = 1$. Round-off errors introduced at each step are not amplified by subsequent orthogonal transformations. A detailed analysis shows the overall backward error satisfies $\|(\hat{\bQ} + \delta\bQ)(\hat{\bR} + \delta\bR) - \bA\|_F = O(\epsilon_{\mathrm{mach}}\|\bA\|_F)$.
+}
+
+\addNote{%
+\textbf{Hierarchy of stability:} SVD $\geq$ QR (Householder) $>$ Cholesky (SPD only) $\approx$ LU with partial pivoting $\gg$ LU without pivoting. SVD is the most stable but also the most expensive. For general systems, GEPP is the standard; for SPD systems, Cholesky is preferred; for least squares or ill-conditioned problems, QR is recommended.
+}
+
+\addDef{Iterative Refinement}{%
+After computing $\hat{\bx}$ via a factorization, \emph{iterative refinement} improves accuracy by: (1) compute the residual $\br = \bb - \bA\hat{\bx}$; (2) solve $\bA\boldsymbol{\delta} = \br$ using the \emph{same} factorization; (3) update $\hat{\bx} \leftarrow \hat{\bx} + \boldsymbol{\delta}$. Each cycle recovers roughly $\lfloor\log_{10}(1/\kappa(\bA))\rfloor$ additional correct digits, up to the precision limit.
+}
+
+\addDef{Condition Number and Convergence of Iterative Methods}{%
+For iterative methods, the condition number governs convergence rate. For a stationary splitting with $\bT = \bI - \bM^{-1}\bA$, the spectral radius $\rho(\bT)$ is close to $1$ when $\bM^{-1}\bA$ has eigenvalues far from $1$, which happens when $\kappa(\bA)$ is large and $\bM$ is a poor approximation to $\bA$. Preconditioning reduces the effective condition number $\kappa(\bM^{-1}\bA)$ to accelerate convergence.
+}
+
+\addExcr{%
+\textbf{(Condition number and solution sensitivity)} Let $\bA_\epsilon = \begin{pmatrix} 1 & 0 \\ 0 & \epsilon \end{pmatrix}$, $\bb = (1,1)^T$.
 \begin{enumerate}
-    \item Reformulate ill-conditioned problems when possible to improve conditioning
-    \item Use numerically stable algorithms regardless of the condition number
-    \item Apply higher precision arithmetic for severely ill-conditioned problems
+  \item Compute $\kappa_2(\bA_\epsilon)$ for $\epsilon = 10^{-4}, 10^{-8}, 10^{-12}$.
+  \item The exact solution is $\bx^* = (1, 1/\epsilon)^T$. Perturb $\bb$ to $\tilde{\bb} = (1+10^{-4},1)^T$. Compute the relative error $\|\tilde{\bx} - \bx^*\|/\|\bx^*\|$ and compare it to the bound $\kappa_2(\bA_\epsilon)\cdot\|\delta\bb\|/\|\bb\|$.
+  \item Using NumPy, solve both systems for each $\epsilon$. At which $\epsilon$ does the computed solution become unreliable in double precision?
 \end{enumerate}
 }
 
-\addDef{Iterative Methods and Conditioning}{
-For very large systems where even computing and storing factors like $\bL$ and $\bU$ becomes impractical, iterative methods provide an alternative approach. These methods generate a sequence of approximations $\{\bx^{(k)}\}_{k=0}^\infty$ starting from an initial guess $\bx^{(0)}$. Under suitable conditions, this sequence converges to the true solution $\bx$. 
+\addExcr{%
+\textbf{(Comparing factorization stability)} Build the $n\times n$ Hilbert matrix $H_{ij} = 1/(i+j-1)$ using \texttt{scipy.linalg.hilbert(n)}, which is famously ill-conditioned.
+\begin{enumerate}
+  \item For $n = 10$: compute $\kappa_2(H)$ and predict how many correct digits to expect. Solve $H\bx = H\cdot\mathbf{1}$ (exact solution $\bx^* = \mathbf{1}$) via \texttt{np.linalg.solve} (LU) and \texttt{np.linalg.lstsq} (QR-based). Compare the errors.
+  \item Use the \texttt{mpmath} library with \texttt{mp.dps = 50} to solve the same system in high precision. Does the error decrease significantly? What does this tell you about conditioning vs.\ precision?
+  \item Apply one step of iterative refinement to the LU solution. How much improvement do you observe?
+\end{enumerate}
 }
 
-\addDef{Condition Number and Convergence}{
-The convergence rate of iterative methods is strongly influenced by the condition number:
-\begin{itemize}
-    \item Well-conditioned systems (small $\kappa(\bA)$) generally converge quickly
-    \item Ill-conditioned systems (large $\kappa(\bA)$) may converge very slowly or fail to converge in practice
-\end{itemize}
-
-To address this challenge, preconditioning techniques are often employed. A preconditioner transforms the original system into an equivalent system with a more favorable condition number, accelerating convergence while maintaining the same solution.
+\addExcr{%
+\textbf{(Backward error analysis in practice)} For the system $\bA\bx = \bb$ with $\bA$ and $\bb$ of your choice (e.g., a random $10\times10$ matrix scaled so $\kappa(\bA) \approx 10^4$):
+\begin{enumerate}
+  \item Compute $\hat{\bx}$ via \texttt{np.linalg.solve}. Compute the backward error $\|\bA\hat{\bx} - \bb\|/\|\bb\|$. Is it consistent with $O(\epsilon_{\mathrm{mach}})$?
+  \item Compute the forward error $\|\hat{\bx} - \bx^*\|/\|\bx^*\|$ (using a solution computed in high precision as ground truth). Is the ratio (forward error)/(backward error) consistent with $\kappa(\bA)$?
+  \item Repeat with a worse-conditioned matrix ($\kappa \approx 10^{12}$) and interpret the results.
+\end{enumerate}
 }
-
-
-\addDef{Stability in Matrix Factorizations}{
-Different matrix factorization methods exhibit varying degrees of numerical stability:
-
-\begin{itemize}
-    \item \textbf{LU Decomposition}: In its basic form without pivoting, LU can be unstable. With partial pivoting (row exchanges), it becomes much more stable for most matrices. Complete pivoting (row and column exchanges) offers even better stability but at a higher computational cost.
-    
-    \item \textbf{Cholesky Decomposition}: For symmetric positive definite matrices, Cholesky is both efficient and numerically stable. No pivoting is required since diagonal elements are guaranteed to be positive.
-    
-    \item \textbf{QR Decomposition}: Generally more stable than LU decomposition, especially for ill-conditioned problems, but comes at a higher computational cost. The orthogonality of the $\bQ$ factor helps maintain numerical stability.
-    
-    \item \textbf{SVD (Singular Value Decomposition)}: The most stable decomposition, capable of handling even rank-deficient matrices, but also the most computationally intensive.
-\end{itemize}
-
-The stability of these factorizations relates directly to how they handle the sensitive directions associated with small eigenvalues or singular values.
-}
-
 
 \end{document}

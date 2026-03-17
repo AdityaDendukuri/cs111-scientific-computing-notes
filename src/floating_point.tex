@@ -91,6 +91,25 @@ where $\text{fl}(x)$ denotes the floating point representation of $x$.
 The numerical difference between machine epsilon and unit roundoff is subtle but important. Machine epsilon is the smallest number that, when added to 1, yields a different floating point number. Unit roundoff is the maximum relative error in representing any number. In IEEE arithmetic with round-to-nearest mode, $u = \varepsilon_{\text{mach}}/2$.
 }
 
+\addThm{Fundamental Theorem of Floating Point Arithmetic}{%
+Let $\text{fl}(x)$ denote the nearest floating point number to a real $x$ (within the normalized range). Then
+\[
+    \text{fl}(x) = x(1 + \delta), \quad |\delta| \leq u = 2^{-p},
+\]
+where $p$ is the number of significand bits. Furthermore, for any floating point $a, b$ and operation $\circ \in \{+, -, \times, \div\}$, IEEE 754 guarantees:
+\[
+    \text{fl}(a \circ b) = (a \circ b)(1 + \delta), \quad |\delta| \leq u.
+\]
+}
+
+\addPrf{%
+The real line is partitioned into intervals of the form $[x, x(1 + 2^{1-p}))$, each containing exactly one floating point number (the left endpoint). Rounding to nearest halves this error. For the second statement, IEEE 754 mandates that each basic operation is computed as if in infinite precision and then rounded, ensuring the same $|\delta| \leq u$ bound.
+}
+
+\addNote{%
+The IEEE 754 guarantee that each individual operation incurs at most unit roundoff is the foundation of all backward error analyses. After $n$ sequential operations, errors can compound, but under mild assumptions (no catastrophic cancellation) the accumulated error grows as $O(nu)$, which is acceptable for double precision when $n \ll 10^{16}$.
+}
+
 \addDef{Absolute and Relative Error}{%
 When a real number \( x \) is approximated by a computed value \(\hat{x}\), the \textbf{absolute error} is defined as 
 \[
@@ -186,6 +205,21 @@ The relative error becomes:
 When $x \approx y$, the denominator is small, potentially making the relative error very large.
 }
 
+\addThm{Cancellation Error Bound}{%
+Let $\hat{x} = x(1+\varepsilon_x)$ and $\hat{y} = y(1+\varepsilon_y)$ with $|\varepsilon_x|, |\varepsilon_y| \leq u$ and $x > y > 0$. Then the relative error in the computed difference satisfies
+\[
+    \left|\frac{(\hat{x} - \hat{y}) - (x-y)}{x-y}\right| \leq u\cdot\frac{x + y}{x - y}.
+\]
+The amplification factor $(x+y)/(x-y)$ is unbounded as $x \to y^+$, explaining why catastrophic cancellation can cause total loss of significance.
+}
+
+\addPrf{%
+The error in the difference is $\hat{x} - \hat{y} - (x - y) = x\varepsilon_x - y\varepsilon_y$. Taking absolute value and dividing by $|x-y|$:
+\[
+    \frac{|x\varepsilon_x - y\varepsilon_y|}{x - y} \leq \frac{|x||\varepsilon_x| + |y||\varepsilon_y|}{x-y} \leq u\cdot\frac{x + y}{x - y}.
+\]
+}
+
 \addExmpl{%
 
 \textbf{Catastrophic Cancellation Example}:
@@ -217,20 +251,32 @@ f(10^8) = \frac{1}{10000.00000005 + 10000} \approx \frac{1}{20000} = 5 \times 10
 The second approach avoids catastrophic cancellation and gives a more accurate result. This illustrates that mathematical reformulation can often mitigate numerical issues.
 }
 
-\addDef{Special Values in IEEE Floating Point}{%
-IEEE 754 defines several special values to handle exceptional cases:
+\addNote{%
+IEEE 754 defines special bit patterns to handle results that fall outside the range of normalized numbers.
+}
 
-\begin{itemize}
-    \item \textbf{Zeros}: Both +0 and -0 are represented, though they compare as equal.
-    
-    \item \textbf{Subnormal numbers (denormalized)}: Numbers smaller than the smallest normalized number, represented with a leading zero instead of one. They provide gradual underflow but with reduced precision.
-    
-    \item \textbf{Infinities}: +$\infty$ and -$\infty$ represent overflow or division by zero.
-    
-    \item \textbf{NaN (Not a Number)}: Represents undefined operations like 0/0 or $\sqrt{-1}$. There are actually many different NaN values with different internal bit patterns.
-\end{itemize}
+\addDef{Signed Zero}{%
+Both $+0$ and $-0$ are represented and compare as equal, but behave differently in certain operations (e.g., $1/(+0) = +\infty$ vs.\ $1/(-0) = -\infty$).
+}
 
-These special values ensure that every floating point operation produces a well-defined result, making numerical algorithms more robust.
+\addDef{Subnormal Numbers}{%
+Numbers smaller than the smallest normalized value $2^{e_{\min}}$ are represented with a leading zero bit instead of one, allowing gradual underflow at the cost of reduced precision. The smallest positive double-precision subnormal is $2^{-1074} \approx 4.94 \times 10^{-324}$.
+}
+
+\addDef{Infinities}{%
+$+\infty$ and $-\infty$ arise from overflow or division by a nonzero number by zero (e.g., \texttt{1.0/0.0}). They propagate correctly through arithmetic: $x + \infty = \infty$ for any finite $x$.
+}
+
+\addDef{NaN (Not a Number)}{%
+Produced by undefined operations such as $0/0$, $\infty - \infty$, or $\sqrt{-1}$. Any arithmetic involving a NaN returns a NaN, and NaN compares unequal to everything including itself (\texttt{nan != nan} is \texttt{True} in Python).
+}
+
+\addExcr{%
+\begin{enumerate}
+    \item In Python, evaluate \texttt{float('inf') + 1}, \texttt{float('inf') - float('inf')}, and \texttt{0.0 * float('inf')}. Classify each result as a normal float, $\pm\infty$, or NaN. Explain using the IEEE 754 rules above.
+    \item Explain why \texttt{float('nan') == float('nan')} returns \texttt{False} in Python. What does this imply for checking if a computation produced a NaN?
+    \item What is the smallest positive subnormal number in IEEE single precision (1 sign, 8 exponent, 23 fraction bits)? How does its relative rounding error compare to that of a normalized number?
+\end{enumerate}
 }
 
 \addExmpl{%
@@ -247,20 +293,32 @@ Subnormal numbers fill the gap between 0 and the smallest normalized number, but
 For example, the subnormal number $2^{-1073}$ has only 1 bit of precision, making its relative representation error much larger than for normalized numbers.
 }
 \newpage
-\addDef{Floating Point Arithmetic Properties}{%
-Floating point arithmetic differs from real arithmetic in several important ways:
+\addNote{%
+Floating-point arithmetic is not real arithmetic. The following properties distinguish it from the exact operations on $\fR$ and must be internalized when designing numerical algorithms.
+}
 
-\begin{itemize}
-    \item \textbf{Non-associativity}: In general, $(a + b) + c \neq a + (b + c)$ due to rounding errors.
-    
-    \item \textbf{Non-distributivity}: Generally, $a \times (b + c) \neq a \times b + a \times c$ due to rounding errors.
-    
-    \item \textbf{Absorption}: When $|a| \gg |b|$, the computation of $a + b$ might result in just $a$ if $b$ is too small to affect the representation of $a$.
-    
-    \item \textbf{Inexact cancellation}: As discussed, subtracting nearly equal quantities can result in significant loss of precision.
-\end{itemize}
+\addDef{Non-Associativity}{%
+In floating-point arithmetic, $(a \oplus b) \oplus c \neq a \oplus (b \oplus c)$ in general. Each addition introduces a rounding error, and changing the order changes which intermediate values are rounded.
+}
 
-Understanding these properties is crucial for designing stable numerical algorithms.
+\addDef{Non-Distributivity}{%
+$a \otimes (b \oplus c) \neq (a \otimes b) \oplus (a \otimes c)$ in general, because $b \oplus c$ is rounded before multiplication, while $a \otimes b$ and $a \otimes c$ are rounded separately before addition.
+}
+
+\addDef{Absorption}{%
+When $|a| \gg |b|$, the sum $\text{fl}(a + b)$ may equal $a$ exactly, because $b$ falls below the unit roundoff relative to $a$. The smaller number is \emph{absorbed} and contributes nothing.
+}
+
+\addDef{Inexact Cancellation}{%
+Subtracting two nearly equal floating-point numbers amplifies relative errors catastrophically. This is the phenomenon of catastrophic cancellation discussed above, and is a consequence of the non-associativity and rounding model.
+}
+
+\addExcr{%
+\begin{enumerate}
+    \item Using 4-significant-digit decimal arithmetic, compute $(1000. + 0.001) - 1000.$ and $1000. + (0.001 - 1000.)$. Which order is accurate? Which demonstrates absorption?
+    \item In Python, verify non-distributivity: compute \texttt{a*(b+c)} vs \texttt{a*b + a*c} for \texttt{a = 1e15}, \texttt{b = 1.0}, \texttt{c = -1.0}. Explain the discrepancy.
+    \item True or False: if \texttt{a == b} in floating point, then \texttt{a - b == 0.0} always. What about the converse?
+\end{enumerate}
 }
 
 \addExmpl{%
@@ -280,20 +338,32 @@ But in the other order:
 The large difference in results demonstrates why the order of operations matters in floating point arithmetic, especially when combining values of significantly different magnitudes.
 }
 
-\addDef{Error Analysis Strategies}{%
-When performing error analysis for numerical algorithms, several approaches are commonly used:
+\addNote{%
+Error analysis is the systematic study of how errors enter and propagate through a numerical computation. Four complementary strategies are used in practice.
+}
 
-\begin{itemize}
-    \item \textbf{Forward error analysis}: Estimate how input errors and rounding errors propagate to affect the output.
-    
-    \item \textbf{Backward error analysis}: Find the smallest perturbation to the inputs that would make the computed result exact.
-    
-    \item \textbf{Interval arithmetic}: Carry interval bounds through the computation to guarantee containment of the true result.
-    
-    \item \textbf{Condition number analysis}: Determine how sensitive the problem is to small changes in the input data.
-\end{itemize}
+\addDef{Forward Error Analysis}{%
+Tracks how errors in the input data and rounding errors at each arithmetic operation propagate \emph{forward} through the algorithm to bound the total error in the output. Straightforward but can produce pessimistic overestimates.
+}
 
-These analyses help assess the reliability and accuracy of numerical results.
+\addDef{Backward Error Analysis}{%
+Rather than tracking errors forward, asks: \emph{what is the smallest perturbation to the input that would make the computed output exact?} If this backward error is small (say, of order $u\|\bA\|$), the algorithm solved a nearby problem exactly — which is the best one can hope for in floating-point arithmetic.
+}
+
+\addDef{Interval Arithmetic}{%
+Each number is replaced by a guaranteed enclosing interval $[a, b]$, and every operation maps intervals to intervals in a way that always contains the true result. Produces certified bounds but can suffer from interval explosion for long computations.
+}
+
+\addDef{Condition Number Analysis}{%
+Measures the intrinsic sensitivity of a \emph{problem} to small perturbations in its input, independently of the algorithm. A problem with condition number $\kappa$ can lose up to $\log_{10}\kappa$ digits of accuracy even with a perfect algorithm. An algorithm is \emph{backward stable} if its backward error is $O(u)$.
+}
+
+\addExcr{%
+\begin{enumerate}
+    \item For solving $\bA\bx = \bb$, explain the difference between the forward error $\|\hat{\bx} - \bx\|/\|\bx\|$ and the backward error $\|\bb - \bA\hat{\bx}\|/(\|\bA\|\|\hat{\bx}\|)$. Which is easier to compute after the fact, and why?
+    \item An algorithm has backward error $10^{-15}$ applied to a problem with condition number $\kappa(\bA) = 10^{8}$. What is the worst-case forward error? Is this acceptable for double-precision computation?
+    \item Why is backward error analysis generally preferred over forward error analysis for evaluating numerical algorithms? Give one scenario where forward analysis might still be useful.
+\end{enumerate}
 }
 
 \newpage
@@ -339,6 +409,39 @@ This explains why algorithms that exhibit large forward errors may still be prac
 
 \textBox{%
 Floating point arithmetic forms the foundation of numerical computing, with its inherent limitations shaping the design and analysis of algorithms. By understanding floating point representation, error propagation, and special cases, we can develop numerically stable algorithms that produce reliable results even in the presence of unavoidable computational errors. Remember that mathematical reformulations, careful algorithm design, and appropriate error analysis are often more effective than simply increasing precision.
+}
+
+\addExcr{%
+\begin{enumerate}
+    \item How many significant decimal digits does an IEEE double-precision number carry? (\textit{Hint: $u = 2^{-52} \approx 2.22 \times 10^{-16}$; $-\log_{10}(u) \approx ?$})
+    \item In Python, evaluate \texttt{1.0 + 1e-16} and \texttt{1.0 + 2e-16}. Explain both results using $\varepsilon_{\text{mach}}$.
+    \item Write a Python function \texttt{compute\_eps()} that finds machine epsilon empirically (without \texttt{sys.float\_info.epsilon} or \texttt{np.finfo}). \textit{Hint: start from 1.0 and halve repeatedly until $1 + \varepsilon = 1$.}
+    \item Confirm that $(1.0 + u) - 1.0 = u$ but $(1.0 + u/2) - 1.0 = 0$ in double precision. Explain in terms of the spacing between adjacent floats near 1.
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(Cancellation and Reformulation)} For each expression, identify whether catastrophic cancellation can occur and, if so, derive an algebraically equivalent form that avoids it.
+\begin{enumerate}
+    \item $\dfrac{1 - \cos x}{x^2}$ for small $x$ (use the identity $1 - \cos x = 2\sin^2(x/2)$).
+    \item $\sqrt{x+1} - \sqrt{x}$ for large $x$ (rationalize the numerator).
+    \item The smaller root of $x^2 - 10^8 x + 1 = 0$ via the quadratic formula. What goes wrong and how do you fix it?
+    \item $e^x - 1$ for small $x$. Why does NumPy provide \texttt{np.expm1(x)}? Verify numerically that \texttt{np.expm1(1e-15)} is more accurate than \texttt{np.exp(1e-15) - 1}.
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(Backward Error Analysis)} Let $\hat{\bx}$ be the computed solution to $\bA\bx = \bb$ obtained by LU with partial pivoting.
+\begin{enumerate}
+    \item Define the residual $\br = \bb - \bA\hat{\bx}$. Using the formula $\bE = -\br\hat{\bx}^T/\|\hat{\bx}\|^2$, show that $(\bA + \bE)\hat{\bx} = \bb$, confirming $\hat{\bx}$ is the exact solution to a nearby system.
+    \item Show that the relative backward error satisfies $\|\bE\|_2/\|\bA\|_2 = \|\br\|_2 / (\|\bA\|_2 \|\hat{\bx}\|_2)$. (\textit{Hint: use $\|\br\bv^T\|_2 = \|\br\|_2\|\bv\|_2$ for rank-1 matrices.})
+    \item For a well-conditioned system, a small backward error implies a small forward error. Write the bound:
+    \[
+        \frac{\|\hat{\bx} - \bx\|_2}{\|\bx\|_2} \leq \kappa(\bA) \cdot \frac{\|\bE\|_2}{\|\bA\|_2},
+    \]
+    where $\kappa(\bA) = \|\bA\|_2\|\bA^{-1}\|_2$ is the condition number. If $\kappa(\bA) = 10^{10}$ and the backward error is $10^{-16}$, what is the worst-case forward error?
+    \item In Python, construct an ill-conditioned matrix using \texttt{np.diag([1, 1e-10])}, solve with \texttt{np.linalg.solve}, and compare \texttt{np.linalg.cond(A)} with the observed forward error.
+\end{enumerate}
 }
 
 \end{document}

@@ -72,12 +72,46 @@ T(c\bx) = \bA(c\bx) = c\,\bA\bx = c\,T(\bx).
 These properties, known as additivity and homogeneity, are the defining features of linear maps.
 }
 
+\addThm{Matrix-Vector Multiplication is Linear}{%
+The map $T: \fR^n \to \fR^m$ defined by $T(\bx) = \bA\bx$ is a linear transformation. That is, for all $\bx, \by \in \fR^n$ and $\alpha \in \fR$:
+\[
+    T(\bx + \by) = T(\bx) + T(\by), \qquad T(\alpha\bx) = \alpha T(\bx).
+\]
+Equivalently, $T(\alpha\bx + \beta\by) = \alpha T(\bx) + \beta T(\by)$ for all $\alpha, \beta \in \fR$.
+}
+
+\addPrf{%
+By distributivity of matrix multiplication: $\bA(\bx + \by) = \bA\bx + \bA\by = T(\bx) + T(\by)$.
+By scalar compatibility: $\bA(\alpha\bx) = \alpha(\bA\bx) = \alpha T(\bx)$.
+}
+
 \addDef{Existence and Uniqueness \index{linear systems!existence and uniqueness}}{%
 For a square system (i.e., when \(m=n\)), the linear system
 \[
 \bA\bx = \bb
 \]
 has a unique solution if and only if the coefficient matrix \(\bA\) is invertible, which is equivalent to \(\det(\bA) \neq 0\). If \(\bA\) is singular (i.e., noninvertible, \(\det(\bA)=0\)), then the system either has no solution or has infinitely many solutions. In the latter case, the set of solutions forms an affine subspace of \(\fR^n\).
+}
+
+\addThm{Equivalences for Invertibility}{%
+Let $\bA \in \fR^{n \times n}$. The following are equivalent:
+\begin{enumerate}
+    \item $\bA$ is invertible.
+    \item $\bA\bx = \bb$ has a unique solution for every $\bb \in \fR^n$.
+    \item $\bA\bx = \bzero$ has only the trivial solution $\bx = \bzero$.
+    \item $\text{rank}(\bA) = n$.
+    \item The columns of $\bA$ are linearly independent.
+\end{enumerate}
+}
+
+\addPrf{%
+$(1)\Rightarrow(2)$: Set $\bx = \bA^{-1}\bb$; then $\bA\bx = \bb$. If $\bA\bx_1 = \bA\bx_2$, then $\bA(\bx_1 - \bx_2) = \bzero$, so $\bx_1 - \bx_2 = \bA^{-1}\bzero = \bzero$.
+
+$(2)\Rightarrow(3)$: Applying (2) with $\bb = \bzero$ forces the unique solution to be $\bx = \bzero$.
+
+$(3)\Rightarrow(4)$: Null space of $\bA$ is $\{\bzero\}$, so nullity$(\bA) = 0$. By the Rank-Nullity Theorem, rank$(\bA) = n$.
+
+$(4)\Rightarrow(1)$: A square matrix with rank $n$ has $n$ linearly independent columns that span $\fR^n$, which is the condition for invertibility.
 }
 
 \addDef{Linear Combination}{%
@@ -185,11 +219,28 @@ Since there are two nonzero rows (pivot rows), the rank of \(\bA\) is \(2\).
 }
 
 \addDef{Rank-Nullity Theorem}{%
-For any \(m \times n\) matrix \(\bA\), 
+For any \(m \times n\) matrix \(\bA\),
 \[
 \text{rank}(\bA) + \text{dim}(\bA) = n,
 \]
 where the nullity of \(\bA\) is the dimension of its null space. This relationship is fundamental in understanding the solution structure of the homogeneous system \(\bA\bx = \mathbf{0}\).
+}
+
+\addThm{Rank-Nullity Theorem}{%
+For any $\bA \in \fR^{m \times n}$,
+\[
+    \text{rank}(\bA) + \text{nullity}(\bA) = n,
+\]
+where $\text{nullity}(\bA) = \dim(\ker(\bA))$ and $\ker(\bA) = \{\bx \in \fR^n : \bA\bx = \bzero\}$.
+}
+
+\addNote{%
+For a square $n \times n$ system $\bA\bx = \bb$, the Rank-Nullity Theorem gives a complete picture:
+\begin{itemize}
+    \item $\text{rank}(\bA) = n$: the null space is $\{\bzero\}$, so $\bA\bx = \bb$ has a unique solution.
+    \item $\text{rank}(\bA) = r < n$: if a solution exists, there are infinitely many — the solution set is an affine subspace of dimension $n - r$.
+\end{itemize}
+In NumPy, \texttt{np.linalg.matrix\_rank(A)} computes the rank numerically (via SVD).
 }
 
 \addNote{%
@@ -221,7 +272,36 @@ Multiplying the first equation by 2 gives \(2\alpha + 6\beta = 0\). Subtracting 
 Substituting back, \(\alpha = 0\). Since the only solution is \(\alpha=\beta=0\), the vectors are linearly independent. Hence, \(\{(1,2), (3,4)\}\) forms a basis for \(\text{span}\{(1,2), (3,4)\}\), which in this case is all of \(\mathbb{R}^2\).
 }
 
+\addExcr{%
+Consider the system $\bA\bx = \bb$ with
+\[
+    \bA = \begin{pmatrix} 1 & 2 & -1 \\ 2 & 5 & 0 \\ -1 & 1 & 6 \end{pmatrix}, \quad \bb = \begin{pmatrix} 1 \\ 4 \\ 3 \end{pmatrix}.
+\]
+\begin{enumerate}
+    \item Determine the rank of $\bA$ by row-reducing the augmented matrix $[\bA \mid \bb]$.
+    \item How many solutions does this system have? Justify using the Rank-Nullity Theorem.
+    \item Find the solution(s).
+    \item In NumPy, solve using \texttt{np.linalg.solve(A, b)} and check the residual \texttt{np.linalg.norm(b - A @ x)}. What residual do you expect for a consistent system?
+\end{enumerate}
+}
 
+\addExcr{%
+\textbf{(Linear Independence and the Null Space)} Let $\bA \in \fR^{m \times n}$ with $m < n$ (a wide matrix).
+\begin{enumerate}
+    \item Argue that the columns of $\bA$ must be linearly dependent. (\textit{Hint: use Rank-Nullity with $\text{rank}(\bA) \leq m < n$.})
+    \item What does this imply about the existence and uniqueness of solutions to $\bA\bx = \bb$?
+    \item Give a $2 \times 3$ example where $\bA\bx = \bb$ has infinitely many solutions, and find the general solution as a particular solution plus the null space.
+    \item Can a wide system $\bA\bx = \bb$ ever have no solution? Explain.
+\end{enumerate}
+}
 
+\addExcr{%
+\textbf{(Superposition Principle)} Suppose $\bx_1$ solves $\bA\bx = \bb_1$ and $\bx_2$ solves $\bA\bx = \bb_2$.
+\begin{enumerate}
+    \item Show that $\alpha\bx_1 + \beta\bx_2$ solves $\bA\bx = \alpha\bb_1 + \beta\bb_2$.
+    \item Use this principle to solve $\bA\bx = 3\bb_1 - 2\bb_2$ without any new computation.
+    \item Why is this principle computationally valuable when solving $\bA\bX = \bB$ for a matrix right-hand side $\bB$? How does \texttt{np.linalg.solve(A, B)} exploit this?
+\end{enumerate}
+}
 
 \end{document}

@@ -50,6 +50,21 @@ and
 \]
 By associativity of addition for real numbers, these two results are identical. Hence, matrix addition is both commutative and associative.
 }
+
+\addThm{$\fR^{m \times n}$ as a Vector Space}{%
+The set $\fR^{m \times n}$ equipped with matrix addition and scalar multiplication forms a real vector space of dimension $mn$.
+}
+
+\addPrf{%
+Each axiom follows from the corresponding property of $\fR$ applied entry-wise. For \textbf{commutativity}:
+\[
+    (\bA + \bB)_{ij} = a_{ij} + b_{ij} = b_{ij} + a_{ij} = (\bB + \bA)_{ij}.
+\]
+The \textbf{additive identity} is $\mathbf{0}$ since $(\bA + \mathbf{0})_{ij} = a_{ij} + 0 = a_{ij}$. The \textbf{additive inverse} of $\bA$ is $-\bA$ (negate every entry), satisfying $(\bA + (-\bA))_{ij} = 0$.
+
+For the \textbf{dimension}: the $mn$ matrices $\bE^{(ij)}$ with a $1$ in position $(i,j)$ and zeros elsewhere are linearly independent and every $\bA \in \fR^{m \times n}$ decomposes as $\bA = \sum_{i=1}^m\sum_{j=1}^n a_{ij}\,\bE^{(ij)}$, so they form a basis of size $mn$.
+}
+
 \newpage
 \addDef{Scalar Multiplication}{%
 Let $\bA \in \fR^{m \times n}$ and $c \in \fR$. Then scalar multiplication is defined as
@@ -104,6 +119,15 @@ or equivalently, if we consider the rows of $\bA$ as vectors $\ba_i$ and the col
 \addNote{%
 Matrix multiplication is defined only when the number of columns of $\bA$ equals the number of rows of $\bB$. Moreover, it is associative and distributive over addition, but in general it is not commutative; that is, $\bA\bB \neq \bB\bA$ for most matrices.
 }
+
+\addLem{Computational Cost of Matrix Multiplication}{%
+Computing $\bA\bB$ where $\bA \in \fR^{m \times n}$ and $\bB \in \fR^{n \times p}$ requires exactly $mnp$ multiplications and $m(n-1)p$ additions using the standard algorithm, giving $O(mnp)$ floating-point operations (flops). For two square $n \times n$ matrices this reduces to $O(n^3)$ flops.
+}
+
+\addNote{%
+The $O(n^3)$ cost of naive matrix multiplication is a central bottleneck in scientific computing. Strassen's algorithm reduces this to $O(n^{\log_2 7}) \approx O(n^{2.807})$, but is rarely used in practice due to numerical stability concerns and cache-unfriendly memory access. Modern BLAS/LAPACK implementations approach peak hardware throughput via blocking strategies, but the asymptotic cost remains $O(n^3)$. For many applications, avoiding explicit matrix-matrix products entirely (e.g., exploiting sparsity or factored structure) is more impactful than algorithmic improvements.
+}
+
 \newpage
 \textBox{%
 \textbf{ Compatibility for Matrix Multiplication}\\[2mm]
@@ -145,12 +169,33 @@ and
 Since \(\bA\bB \neq \bB\bA\) and clearly \(\bA \neq \bB\), this example shows that matrix multiplication is not commutative.
 }
 
+\addExcr{%
+Let $\bA = \begin{pmatrix} 2 & 1 \\ 0 & 3 \end{pmatrix}$ and $\bB = \begin{pmatrix} 1 & -1 \\ 2 & 4 \end{pmatrix}$.
+\begin{enumerate}
+    \item Compute $\bA\bB$ and $\bB\bA$ by hand. Confirm $\bA\bB \neq \bB\bA$.
+    \item Find a nonzero matrix $\mathbf{C} \neq \bI$ that commutes with $\bA$ (i.e., $\bA\mathbf{C} = \mathbf{C}\bA$). \textit{Hint: diagonal matrices always commute with diagonal matrices. What if you try $\mathbf{C} = \alpha\bA + \beta\bI$?}
+    \item Verify associativity: compute $(\bA\bB)\bc$ and $\bA(\bB\bc)$ for $\bc = (1,0)^T$ and confirm they are equal.
+    \item For $\bA, \bB \in \fR^{n\times n}$ and $\bc \in \fR^n$, compare the flop count of $(\bA\bB)\bc$ versus $\bA(\bB\bc)$. Which order is cheaper and by what factor?
+\end{enumerate}
+}
+
 Many properties of scalar arithmetic extend naturally to both vectors and matrices. In fact, matrices can be viewed as elements of a higher-dimensional vector space, and matrix multiplication can be interpreted as the composition of linear transformations. While the notations for vectors and matrices are similar, their roles in linear algebra differ:
 \begin{itemize}
     \item Vectors typically represent points or directions in space.
     \item Matrices often represent linear maps or transformations between vector spaces.
 \end{itemize}
 This conceptual distinction becomes crucial when discussing topics such as vector spaces, eigenvalues, and linear transformations.
+
+\addExcr{%
+\textbf{(Associativity and Computational Cost)} Suppose $\bA, \bB \in \fR^{n \times n}$ and $\bx \in \fR^n$. We wish to compute $\bA\bB\bx$.
+\begin{enumerate}
+    \item \textit{Approach 1:} Compute $\bM = \bA\bB$ first, then $\bM\bx$. What is the total flop count?
+    \item \textit{Approach 2:} Compute $\bA(\bB\bx)$ via two sequential matrix-vector products. What is the total flop count?
+    \item For large $n$, which approach is more efficient and by what asymptotic factor?
+    \item Write NumPy code for both approaches using \texttt{@}. Does NumPy automatically choose the optimal evaluation order for a chain like \texttt{A @ B @ x}?
+\end{enumerate}
+}
+
 \newpage
 
 \subsubsection{Matrix Inverse}
@@ -179,6 +224,52 @@ Then,
 Thus, the inverse of \(\bA\) is unique.
 }
 
+\addThm{Properties of the Matrix Inverse}{%
+Let $\bA, \bB \in \fR^{n \times n}$ be invertible and $\alpha \in \fR \setminus \{0\}$. Then:
+\begin{enumerate}
+    \item $(\bA^{-1})^{-1} = \bA$
+    \item $(\bA\bB)^{-1} = \bB^{-1}\bA^{-1}$ \quad \textbf{(Reversal Law)}
+    \item $(\alpha\bA)^{-1} = \tfrac{1}{\alpha}\bA^{-1}$
+    \item $(\bA^T)^{-1} = (\bA^{-1})^T$
+\end{enumerate}
+}
 
+\addPrf{%
+\textbf{(1):} $\bA^{-1}\bA = \bI$ and $\bA\bA^{-1} = \bI$ show $\bA$ is both a left and right inverse of $\bA^{-1}$, so $(\bA^{-1})^{-1} = \bA$.
+
+\textbf{(2):} Check the right-inverse condition:
+\[
+    (\bA\bB)(\bB^{-1}\bA^{-1}) = \bA(\bB\bB^{-1})\bA^{-1} = \bA\bI\bA^{-1} = \bA\bA^{-1} = \bI.
+\]
+Left-inverse: $(\bB^{-1}\bA^{-1})(\bA\bB) = \bB^{-1}(\bA^{-1}\bA)\bB = \bB^{-1}\bI\bB = \bI$.
+By uniqueness of the inverse, $(\bA\bB)^{-1} = \bB^{-1}\bA^{-1}$.
+
+\textbf{(3):} $(\alpha\bA)\!\left(\tfrac{1}{\alpha}\bA^{-1}\right) = \tfrac{\alpha}{\alpha}\bA\bA^{-1} = \bI$.
+
+\textbf{(4):} Transpose both sides of $\bA\bA^{-1} = \bI$ using the Reversal Law: $(\bA^{-1})^T\bA^T = \bI$, so $(\bA^T)^{-1} = (\bA^{-1})^T$.
+}
+
+\addNote{%
+Property (2) is critical in scientific computing. To solve $(\bA\bB)\bx = \bc$, we should \emph{not} compute $(\bA\bB)^{-1}$ explicitly (cost: $O(n^3)$ with a large constant and numerical error amplification). Instead, use the reversal law: first solve $\bA\by = \bc$ for $\by$ via LU factorization, then solve $\bB\bx = \by$. The function \texttt{np.linalg.solve} does exactly this.
+}
+
+\addExcr{%
+\begin{enumerate}
+    \item For $\bA = \begin{pmatrix} 2 & 1 \\ 5 & 3 \end{pmatrix}$, compute $\bA^{-1}$ by hand using the $2\times 2$ formula $\bA^{-1} = \frac{1}{\det\bA}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$. Verify by checking $\bA\bA^{-1} = \bI$.
+    \item Given $\bB = \begin{pmatrix} 1 & 0 \\ -1 & 1 \end{pmatrix}$, use the Reversal Law to compute $(\bA\bB)^{-1}$ without re-inverting a $2\times 2$ system from scratch.
+    \item Explain why \texttt{np.linalg.solve(A, b)} is preferred over \texttt{np.linalg.inv(A) @ b} for solving $\bA\bx = \bb$. Address both numerical accuracy and computational cost.
+    \item True or False: if $\bA^2 = \bI$, then $\bA^{-1} = \bA$. Prove your answer and give a concrete $2\times 2$ example beyond $\bI$ itself.
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(Identifying Invertibility)} For each matrix below, determine without computing the inverse whether it is invertible. Give a one-sentence justification.
+\begin{enumerate}
+    \item $\begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix}$
+    \item $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$
+    \item $\begin{pmatrix} 3 & 0 & 0 \\ 0 & 5 & 0 \\ 0 & 0 & -1 \end{pmatrix}$
+    \item $\begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 1 & 2 & 1 \end{pmatrix}$
+\end{enumerate}
+}
 
 \end{document}

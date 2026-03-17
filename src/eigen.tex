@@ -64,16 +64,75 @@ Similarly, for $\lambda_2 = 2$, we solve $(\bA - 2\bI)\bv = \mathbf{0}$:
 This gives us $v_1 + v_2 = 0$, so $v_1 = -v_2$. Any nonzero vector of the form $\bv_2 = (t, -t)^T$ for $t \neq 0$ is an eigenvector. A normalized eigenvector would be $\bv_2 = \frac{1}{\sqrt{2}}(1, -1)^T$.
 }
 
-\addDef{Key Properties of Eigenvalues}{%
-For a matrix $\bA \in \mathbb{R}^{n \times n}$:
+\addProp{Eigenvalues of Triangular Matrices}{%
+If $\bA$ is upper or lower triangular, its eigenvalues are precisely the diagonal entries $a_{11}, a_{22}, \ldots, a_{nn}$.
+}
+
+\addPrf{%
+The characteristic polynomial $\det(\bA - \lambda\bI)$ for a triangular matrix is the product of its diagonal entries $(a_{ii} - \lambda)$, giving $p_\bA(\lambda) = \prod_{i=1}^n (a_{ii} - \lambda)$. The roots are $\lambda_i = a_{ii}$.
+}
+
+\addProp{Similar Matrices Share Eigenvalues}{%
+If $\bB = \bV^{-1}\bA\bV$ for some invertible $\bV$, then $\bA$ and $\bB$ have the same characteristic polynomial and hence the same eigenvalues.
+}
+
+\addPrf{%
+$\det(\bB - \lambda\bI) = \det(\bV^{-1}\bA\bV - \lambda\bI) = \det(\bV^{-1}(\bA - \lambda\bI)\bV) = \det(\bV^{-1})\det(\bA - \lambda\bI)\det(\bV) = \det(\bA - \lambda\bI)$.
+}
+
+\addThm{Key Eigenvalue Properties}{%
+For $\bA \in \fR^{n \times n}$ with eigenvalues $\lambda_1, \ldots, \lambda_n$ (counting algebraic multiplicity):
 \begin{enumerate}
-    \item The sum of the eigenvalues equals the trace of $\bA$: $\sum_{i=1}^{n} \lambda_i = \text{tr}(\bA)$.
-    \item The product of the eigenvalues equals the determinant of $\bA$: $\prod_{i=1}^{n} \lambda_i = \det(\bA)$.
-    \item The eigenvalues of $\bA^k$ are $\lambda_i^k$ for $i = 1, 2, \ldots, n$.
-    \item The eigenvalues of $\bA^{-1}$ (if $\bA$ is invertible) are $\frac{1}{\lambda_i}$ for $i = 1, 2, \ldots, n$.
-    \item If $\bA$ is triangular, its eigenvalues are exactly the diagonal entries.
-    \item Similar matrices (i.e., matrices $\bA$ and $\bB$ where $\bB = \bV^{-1}\bA\bV$ for some invertible $\bV$) have the same eigenvalues.
+    \item $\displaystyle\text{tr}(\bA) = \sum_{i=1}^n \lambda_i$
+    \item $\displaystyle\det(\bA) = \prod_{i=1}^n \lambda_i$
+    \item $\bA$ is singular if and only if $0 \in \sigma(\bA)$.
+    \item If $\bA$ is invertible, the eigenvalues of $\bA^{-1}$ are $1/\lambda_1, \ldots, 1/\lambda_n$.
 \end{enumerate}
+}
+
+\addPrf{%
+(1) and (2): Both follow from comparing the characteristic polynomial
+\[
+    p_\bA(\lambda) = \det(\bA - \lambda\bI) = (-1)^n(\lambda - \lambda_1)\cdots(\lambda - \lambda_n)
+\]
+with the direct expansion of the determinant. Setting $\lambda = 0$ gives $\det(\bA) = \prod_i \lambda_i$. The coefficient of $\lambda^{n-1}$ gives $-\text{tr}(\bA) = -\sum_i \lambda_i$.
+
+(3): Direct from (2): $\det(\bA) = 0 \iff \prod_i \lambda_i = 0 \iff$ some $\lambda_i = 0$.
+
+(4): If $\bA\bv = \lambda\bv$ with $\lambda \neq 0$, multiply both sides by $\frac{1}{\lambda}\bA^{-1}$ to get $\bA^{-1}\bv = \frac{1}{\lambda}\bv$.
+}
+
+\addLem{Eigenvectors for Distinct Eigenvalues are Linearly Independent}{%
+Let $\lambda_1, \ldots, \lambda_k$ be distinct eigenvalues of $\bA$ with corresponding eigenvectors $\bv_1, \ldots, \bv_k$. Then $\{\bv_1, \ldots, \bv_k\}$ is linearly independent.
+}
+
+\addPrf{%
+By induction on $k$. The case $k=1$ holds since eigenvectors are nonzero. Assume $\{\bv_1, \ldots, \bv_{k-1}\}$ is independent. Suppose $\sum_{i=1}^k c_i\bv_i = \bzero$. Apply $(\bA - \lambda_k\bI)$ to both sides:
+\[
+    \sum_{i=1}^{k-1} c_i(\lambda_i - \lambda_k)\bv_i = \bzero.
+\]
+By the inductive hypothesis, $c_i(\lambda_i - \lambda_k) = 0$ for each $i < k$. Since $\lambda_i \neq \lambda_k$, each $c_i = 0$. Substituting back gives $c_k\bv_k = \bzero$, so $c_k = 0$.
+}
+
+\addThm{Spectral Theorem for Real Symmetric Matrices}{%
+Let $\bA \in \fR^{n \times n}$ be symmetric. Then:
+\begin{enumerate}
+    \item All eigenvalues of $\bA$ are real.
+    \item Eigenvectors corresponding to distinct eigenvalues are orthogonal.
+    \item $\bA$ is orthogonally diagonalizable: $\bA = \bQ\bD\bQ^T$ where $\bQ$ is orthogonal and $\bD = \text{diag}(\lambda_1, \ldots, \lambda_n) \in \fR^{n\times n}$.
+\end{enumerate}
+}
+
+\addPrf{%
+(1): Let $\lambda \in \fC$ be an eigenvalue with eigenvector $\bv \in \fC^n$, $\bA\bv = \lambda\bv$. Then $\bar{\bv}^T\bA\bv = \lambda\,\bar{\bv}^T\bv$. But also $\bar{\bv}^T\bA\bv = (\bA\bar{\bv})^T\bv = \overline{(\bA\bv)}^T\bv = \bar{\lambda}\,\bar{\bv}^T\bv$. Since $\bar{\bv}^T\bv = \|\bv\|_2^2 > 0$, we conclude $\lambda = \bar{\lambda}$, so $\lambda \in \fR$.
+
+(2): Let $\bA\bv = \lambda\bv$ and $\bA\bw = \mu\bw$ with $\lambda \neq \mu$. Then:
+\[
+    \lambda\,\bv^T\bw = (\bA\bv)^T\bw = \bv^T\bA^T\bw = \bv^T\bA\bw = \mu\,\bv^T\bw.
+\]
+Since $\lambda \neq \mu$, we get $\bv^T\bw = 0$.
+
+(3): Existence of a full orthonormal eigenbasis follows from (1), (2), and the fact that the characteristic polynomial splits over $\fR$ for symmetric matrices (proven via induction on dimension in a full course).
 }
 
 \addDef{Diagonalization}{%
@@ -92,7 +151,33 @@ A matrix $\bA$ is diagonalizable if and only if there exist $n$ linearly indepen
 The eigenvalue problem is one of the most fundamental in numerical linear algebra, with applications ranging from structural engineering (vibration analysis) to quantum mechanics (energy states), machine learning (principal component analysis), and dynamical systems (stability analysis). The efficiency and accuracy of eigenvalue algorithms have direct implications for these applications, making them a central focus in scientific computing.
 }
 
+\addExcr{%
+For each matrix, find all eigenvalues and a corresponding eigenvector for each, showing all steps.
+\begin{enumerate}
+    \item $\bA = \begin{pmatrix} 5 & 2 \\ 2 & 2 \end{pmatrix}$ \quad (verify using trace and determinant)
+    \item $\bB = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ \quad (rotation by 90°; are eigenvalues real?)
+    \item $\mathbf{C} = \begin{pmatrix} 1 & 1 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 2 \end{pmatrix}$ \quad (use property (5) of Key Properties)
+\end{enumerate}
+}
 
+\addExcr{%
+\textbf{(Spectral Theorem in Practice)} Let $\bA = \begin{pmatrix} 4 & 1 \\ 1 & 4 \end{pmatrix}$.
+\begin{enumerate}
+    \item Find the eigenvalues and verify: $\text{tr}(\bA) = \lambda_1 + \lambda_2$ and $\det(\bA) = \lambda_1\lambda_2$.
+    \item Find an orthonormal eigenbasis $\{\bq_1, \bq_2\}$ and write $\bA = \bQ\bD\bQ^T$ explicitly.
+    \item Use the decomposition to compute $\bA^{10}$ efficiently. (\textit{Hint: $\bA^k = \bQ\bD^k\bQ^T$, and $\bD^k$ is easy.})
+    \item In NumPy, use \texttt{np.linalg.eig(A)} and \texttt{np.linalg.eigh(A)} (the latter exploits symmetry). Compare the results and explain why \texttt{eigh} is preferred for symmetric matrices.
+\end{enumerate}
+}
 
+\addExcr{%
+\textbf{(Diagonalizability and the Geometric Multiplicity)} The matrix $\bA = \begin{pmatrix} 2 & 1 \\ 0 & 2 \end{pmatrix}$ has a repeated eigenvalue $\lambda = 2$.
+\begin{enumerate}
+    \item Find the eigenspace $\ker(\bA - 2\bI)$. What is its dimension (geometric multiplicity)?
+    \item Is $\bA$ diagonalizable? Why or why not?
+    \item Compute $\bA^k$ for general $k$ using the Jordan form $\bA = 2\bI + \mathbf{N}$ where $\mathbf{N} = \begin{pmatrix}0&1\\0&0\end{pmatrix}$ is nilpotent. (\textit{Hint: $\mathbf{N}^2 = \mathbf{0}$, so $(2\bI + \mathbf{N})^k = \sum_{j=0}^{1}\binom{k}{j}2^{k-j}\mathbf{N}^{j}$.})
+    \item What does \texttt{np.linalg.eig(A)} return for this matrix? Are the eigenvectors linearly independent?
+\end{enumerate}
+}
 
 \end{document}

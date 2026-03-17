@@ -92,4 +92,82 @@ where:
 This viewpoint is particularly useful when exploring advanced topics such as block matrices, tensor decompositions, and matrix factorization methods.
 }
 
+\addDef{Matrix Transpose}{%
+The \textbf{transpose} of $\bA \in \fR^{m \times n}$, denoted $\bA^T$, is the $n \times m$ matrix obtained by interchanging rows and columns:
+\[
+    (\bA^T)_{ij} = a_{ji}, \quad 1 \le i \le n,\ 1 \le j \le m.
+\]
+For a column vector $\bx \in \fR^n$, the transpose $\bx^T$ is its corresponding row vector and vice versa.
+}
+
+\addDef{Symmetric and Skew-Symmetric Matrices}{%
+A square matrix $\bA \in \fR^{n \times n}$ is:
+\begin{itemize}
+    \item \textbf{symmetric} if $\bA^T = \bA$, equivalently $a_{ij} = a_{ji}$ for all $i,j$.
+    \item \textbf{skew-symmetric} if $\bA^T = -\bA$, equivalently $a_{ij} = -a_{ji}$ for all $i,j$.
+\end{itemize}
+}
+
+\addNote{%
+Every square matrix $\bA$ decomposes uniquely into a symmetric part and a skew-symmetric part:
+\[
+    \bA = \underbrace{\tfrac{1}{2}(\bA + \bA^T)}_{\text{symmetric}} + \underbrace{\tfrac{1}{2}(\bA - \bA^T)}_{\text{skew-symmetric}}.
+\]
+Symmetric matrices arise constantly in scientific computing: covariance matrices in statistics, graph Laplacians in network problems, and Hessians of quadratic objectives in optimization are all symmetric.
+}
+
+\addThm{Properties of the Transpose}{%
+Let $\bA \in \fR^{m \times n}$, $\bB \in \fR^{n \times p}$, and $\alpha \in \fR$. Then:
+\begin{enumerate}
+    \item $(\bA^T)^T = \bA$
+    \item $(\bA + \bB)^T = \bA^T + \bB^T$ \quad (for conformable $\bA, \bB$)
+    \item $(\alpha\bA)^T = \alpha\bA^T$
+    \item $(\bA\bB)^T = \bB^T\bA^T$ \quad \textbf{(Reversal Law)}
+\end{enumerate}
+}
+
+\addPrf{%
+Properties (1)--(3) follow directly from the definition $(\bA^T)_{ij} = a_{ji}$ applied entry-wise. For example, for (2):
+\[
+    (\bA+\bB)^T_{ij} = (\bA+\bB)_{ji} = a_{ji} + b_{ji} = (\bA^T)_{ij} + (\bB^T)_{ij} = (\bA^T + \bB^T)_{ij}.
+\]
+
+For (4), let $\mathbf{C} = \bA\bB \in \fR^{m \times p}$. By definition of transpose and matrix product:
+\[
+    (\mathbf{C}^T)_{ij} = c_{ji} = \sum_{k=1}^{n} a_{jk}\,b_{ki}.
+\]
+Expanding $\bB^T\bA^T$ using $(\bB^T)_{ik} = b_{ki}$ and $(\bA^T)_{kj} = a_{jk}$:
+\[
+    (\bB^T\bA^T)_{ij} = \sum_{k=1}^{n} (\bB^T)_{ik}\,(\bA^T)_{kj} = \sum_{k=1}^{n} b_{ki}\,a_{jk}.
+\]
+Both sums are identical, so $(\bA\bB)^T = \bB^T\bA^T$.
+}
+
+\addCor{Reversal Law for Multiple Factors}{%
+By induction on the Reversal Law:
+\[
+    (\bA_1 \bA_2 \cdots \bA_k)^T = \bA_k^T \cdots \bA_2^T \bA_1^T.
+\]
+}
+
+\addExcr{%
+Let $\bA = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}$.
+\begin{enumerate}
+    \item State the dimensions of $\bA$, $\bA^T$, $\bA\bA^T$, and $\bA^T\bA$.
+    \item Compute $\bA^T$ explicitly. Then compute $\bA\bA^T$ and verify it is symmetric.
+    \item In NumPy (0-based indexing), write the expression to retrieve element $a_{12}$ (first row, second column of the mathematical matrix). Then write a one-liner for $\bA\bA^T$.
+    \item Is $\bA\bA^T = \bA^T\bA$ in general? What can you say about each product individually?
+\end{enumerate}
+}
+
+\addExcr{%
+Let $\bx = (x_1, \ldots, x_n)^T \in \fR^n$ be a nonzero column vector.
+\begin{enumerate}
+    \item The \textbf{outer product} is $\bx\bx^T \in \fR^{n \times n}$. Write out entry $(i,j)$ explicitly.
+    \item Use the Reversal Law to show $\bx\bx^T$ is always symmetric.
+    \item What is the rank of $\bx\bx^T$? Justify by arguing about the column space. (\textit{Hint: every column of $\bx\bx^T$ is a scalar multiple of $\bx$.})
+    \item The \textbf{inner product} is $\bx^T\bx \in \fR$. Express it as a sum. Why is $\bx^T\bx \ge 0$ with equality iff $\bx = \bzero$? How does this relate to the Euclidean length of $\bx$?
+\end{enumerate}
+}
+
 \end{document}
