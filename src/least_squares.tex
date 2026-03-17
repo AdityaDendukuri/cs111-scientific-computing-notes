@@ -56,7 +56,7 @@ The singular values of $\bA$ are $\sigma_1 \geq \cdots \geq \sigma_n > 0$. The m
 }
 
 \addNote{%
-Condition number squaring is a serious practical concern. If $\kappa_2(\bA) = 10^6$ (a moderately ill-conditioned design matrix), then $\kappa_2(\bA^T\bA) = 10^{12}$, and we lose 12 decimal digits of accuracy in the normal equations solution. This motivates QR-based methods that avoid forming $\bA^T\bA$ entirely.
+Condition number squaring is a serious practical concern. If $\kappa_2(\bA) = 10^6$ (a moderately ill-conditioned design matrix), then $\kappa_2(\bA^T\bA) = 10^{12}$, and we lose 12 decimal digits of accuracy in the normal equations solution. This motivates QR-based methods that avoid forming $\bA^T\bA$ entirely. See \S\ref{subsec:stability-condition} for how condition number governs forward error in computed solutions generally.
 }
 
 \addExmpl{%

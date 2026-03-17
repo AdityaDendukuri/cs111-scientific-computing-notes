@@ -136,4 +136,151 @@ Implement the Jacobi method in Python.
 \end{enumerate}
 }
 
+\newpage
+\subsubsection{Gauss-Seidel Iteration}
+
+\addDef{Splitting of $\bA$ for Gauss-Seidel}{%
+Decompose $\bA = \bL_* + \bU_*$, where $\bL_*$ is the lower triangular part (including the diagonal) and $\bU_*$ is the strictly upper triangular part:
+\[
+  \bA = \bL_* + \bU_*, \qquad (\bL_*)_{ij} = \begin{cases} a_{ij} & j \leq i \\ 0 & j > i \end{cases}, \quad (\bU_*)_{ij} = \begin{cases} a_{ij} & j > i \\ 0 & j \leq i \end{cases}.
+\]
+Rearranging $(\bL_* + \bU_*)\bx = \bb$ as $\bL_*\bx = \bb - \bU_*\bx$ yields the Gauss-Seidel fixed-point equation.
+}
+
+\addDef{Gauss-Seidel Iteration}{%
+The \emph{Gauss-Seidel iteration} for $\bA\bx = \bb$ is
+\[
+  \bx^{(k+1)} = \bT_{GS}\bx^{(k)} + \bL_*^{-1}\bb, \qquad \bT_{GS} = -\bL_*^{-1}\bU_*.
+\]
+In component form, updating in order $i = 1, \ldots, n$:
+\[
+  x_i^{(k+1)} = \frac{1}{a_{ii}}\Bigl(b_i - \sum_{j < i} a_{ij}\,x_j^{(k+1)} - \sum_{j > i} a_{ij}\,x_j^{(k)}\Bigr).
+\]
+The key distinction from Jacobi: components $x_1^{(k+1)}, \ldots, x_{i-1}^{(k+1)}$ already computed in the current sweep are used \emph{immediately}.
+}
+
+\addNote{%
+Because updated values are used as soon as they are available, Gauss-Seidel typically converges roughly twice as fast as Jacobi in practice. However, the sequential dependence among components means updates cannot be parallelized directly, unlike Jacobi.
+}
+
+\addThm{Gauss-Seidel Convergence for SPD Matrices}{%
+If $\bA$ is symmetric positive definite, then the Gauss-Seidel iteration converges for every initial vector $\bx^{(0)}$.
+}
+
+\addPrf{%
+We show $\rho(\bT_{GS}) < 1$. Write $\bA = \bL_* + \bU_*$. Since $\bA$ is symmetric, $\bU_* = \bL_*^T - \bD$. The iteration matrix is $\bT_{GS} = -\bL_*^{-1}\bU_*$. To show all eigenvalues satisfy $|\lambda| < 1$, suppose $\bT_{GS}\bv = \lambda\bv$ for $\bv \neq \bzero$. Then $-\bU_*\bv = \lambda\bL_*\bv$, i.e., $(\bA - \bL_*)\bv = -\lambda\bL_*\bv$, giving $\bA\bv = (1-\lambda)\bL_*\bv$. Taking the inner product with $\bv$ and using $\bA \succ 0$:
+\[
+  (1-\lambda)\,\bv^T\bL_*\bv = \bv^T\bA\bv > 0.
+\]
+Decompose $\bv^T\bL_*\bv = \bv^T\bD\bv/2 + \tfrac{1}{2}\bv^T\bA\bv > 0$ (both terms positive since $\bD \succ 0$ and $\bA \succ 0$), so $1 - \lambda > 0$, meaning $\lambda < 1$. A symmetric argument using conjugates shows $|\lambda| < 1$, hence $\rho(\bT_{GS}) < 1$.
+}
+
+\addThm{Gauss-Seidel Convergence for Strictly Diagonally Dominant Matrices}{%
+If $\bA$ is strictly diagonally dominant, the Gauss-Seidel iteration converges for every $\bx^{(0)}$.
+}
+
+\addPrf{%
+The proof parallels the Jacobi case. Let $\bT_{GS}\bv = \lambda\bv$, $\bv \neq \bzero$. Pick $i^*$ with $|v_{i^*}| = \|\bv\|_\infty$. The $i^*$-th component of $-\bU_*\bv = \lambda\bL_*\bv$ gives
+\[
+  \lambda a_{i^*i^*} v_{i^*} = -\sum_{j < i^*} a_{i^*j}(\lambda v_j) - \sum_{j > i^*} a_{i^*j} v_j.
+\]
+Taking absolute values and using $|v_j| \leq |v_{i^*}|$:
+\[
+  |\lambda|\,|a_{i^*i^*}| \leq |\lambda| \sum_{j < i^*}|a_{i^*j}| + \sum_{j > i^*}|a_{i^*j}|.
+\]
+If $|\lambda| \geq 1$, then $|\lambda|\,|a_{i^*i^*}| \leq |\lambda|\sum_{j \neq i^*}|a_{i^*j}|$, contradicting strict diagonal dominance. Hence $|\lambda| < 1$.
+}
+
+\addExmpl{%
+\textbf{Jacobi vs.\ Gauss-Seidel on a tridiagonal system.}
+
+Consider the $3 \times 3$ tridiagonal system with $\bA = \begin{pmatrix}4&-1&0\\-1&4&-1\\0&-1&4\end{pmatrix}$, $\bb = (3, 2, 3)^T$ (exact solution $\bx^* = (1,1,1)^T$).
+
+\textit{Jacobi step from $\bx^{(0)} = \bzero$:}
+\[
+  x_1^{(1)} = \tfrac{3}{4} = 0.75, \quad x_2^{(1)} = \tfrac{2}{4} = 0.5, \quad x_3^{(1)} = \tfrac{3}{4} = 0.75.
+\]
+\textit{Gauss-Seidel step from $\bx^{(0)} = \bzero$ (using updated values immediately):}
+\[
+  x_1^{(1)} = \tfrac{3}{4} = 0.75, \quad x_2^{(1)} = \tfrac{2 + 0.75}{4} = \tfrac{2.75}{4} = 0.6875, \quad x_3^{(1)} = \tfrac{3 + 0.6875}{4} = \tfrac{3.6875}{4} \approx 0.922.
+\]
+Gauss-Seidel is already significantly closer to $\bx^* = (1,1,1)^T$ after a single sweep.
+}
+
+\newpage
+\subsubsection{Successive Over-Relaxation (SOR)}
+
+\textBox{%
+Both Jacobi and Gauss-Seidel can converge slowly when $\rho(\bT)$ is close to 1. The idea behind SOR is simple: take the Gauss-Seidel update as a direction and \emph{overshoot} by a factor $\omega > 1$ to accelerate convergence. Choosing the optimal $\omega$ can reduce the spectral radius dramatically, turning $O(n^2)$ iterations into $O(n)$ for certain model problems.
+}
+
+\addDef{SOR Iteration}{%
+The \emph{Successive Over-Relaxation (SOR)} method introduces a relaxation parameter $\omega > 0$. Let $\tilde{x}_i$ denote the Gauss-Seidel update for component $i$. SOR blends the new and old values:
+\[
+  x_i^{(k+1)} = (1-\omega)\,x_i^{(k)} + \omega\,\tilde{x}_i^{(k+1)},
+\]
+where
+\[
+  \tilde{x}_i^{(k+1)} = \frac{1}{a_{ii}}\Bigl(b_i - \sum_{j<i}a_{ij}\,x_j^{(k+1)} - \sum_{j>i}a_{ij}\,x_j^{(k)}\Bigr).
+\]
+Substituting, the full SOR update is
+\[
+  x_i^{(k+1)} = x_i^{(k)} + \frac{\omega}{a_{ii}}\Bigl(b_i - \sum_{j<i}a_{ij}\,x_j^{(k+1)} - a_{ii}\,x_i^{(k)} - \sum_{j>i}a_{ij}\,x_j^{(k)}\Bigr).
+\]
+Special cases: $\omega = 1$ recovers Gauss-Seidel; $\omega \in (1,2)$ is over-relaxation; $\omega \in (0,1)$ is under-relaxation (useful for stabilizing slowly divergent iterations).
+}
+
+\addThm{Kahan's Necessary Condition for SOR}{%
+The SOR iteration can converge only if $0 < \omega < 2$.
+}
+
+\addPrf{%
+The iteration matrix for SOR is $\bT_\omega = (\bD + \omega\bL)^{-1}((1-\omega)\bD - \omega\bU)$ where $\bL, \bU$ are the strictly lower/upper triangular parts of $\bA$. Its determinant equals $(1-\omega)^n$ (product of the eigenvalues). Since $\rho(\bT_\omega) \geq |\det(\bT_\omega)|^{1/n} = |1-\omega|$, convergence requires $\rho(\bT_\omega) < 1$, which forces $|1-\omega| < 1$, i.e., $0 < \omega < 2$.
+}
+
+\addThm{Optimal SOR for Consistently Ordered Matrices}{%
+For a consistently ordered matrix (e.g., tridiagonal systems arising from discretizing PDEs) with Jacobi spectral radius $\rho_J = \rho(\bT_J)$, the optimal relaxation parameter and corresponding spectral radius are
+\[
+  \omega^* = \frac{2}{1 + \sqrt{1 - \rho_J^2}}, \qquad \rho(\bT_{\omega^*}) = \omega^* - 1 = \frac{1 - \sqrt{1-\rho_J^2}}{1 + \sqrt{1-\rho_J^2}}.
+\]
+When $\rho_J \approx 1 - \varepsilon$ (slow Jacobi convergence), $\omega^* \approx 2 - 2\sqrt{\varepsilon}$ and $\rho(\bT_{\omega^*}) \approx 1 - 2\sqrt{\varepsilon} \ll \rho_J$.
+}
+
+\addPrf{%
+For consistently ordered matrices, the eigenvalues $\mu$ of $\bT_\omega$ relate to the eigenvalues $\lambda$ of $\bT_J$ via $(\mu + \omega - 1)^2 = \lambda^2\omega^2\mu$. Minimizing $\max|\mu|$ over $\omega$ gives the stated formulas. The key inequality $\rho(\bT_{\omega^*}) \approx 1 - 2\sqrt{\varepsilon}$ versus $\rho_J \approx 1 - \varepsilon$ shows SOR reduces the number of iterations by a factor of roughly $\sqrt{\varepsilon}^{-1}/2$ --- a square-root speedup.
+}
+
+\addNote{%
+For the $n$-point 1D Poisson problem (tridiagonal, $h = 1/(n+1)$), Jacobi has $\rho_J = \cos(\pi h) \approx 1 - \frac{\pi^2 h^2}{2}$, requiring $O(n^2)$ iterations. With optimal SOR, $\rho(\bT_{\omega^*}) \approx 1 - 2\pi h$, requiring only $O(n)$ iterations --- a dramatic improvement. The 2D Poisson problem shows similar gains.
+}
+
+\addExmpl{%
+\textbf{Effect of $\omega$ on convergence rate.}
+
+For the $n = 9$ tridiagonal system (1D Poisson), $h = 0.1$, so $\rho_J = \cos(\pi/10) \approx 0.951$. The optimal parameter is
+\[
+  \omega^* = \frac{2}{1 + \sqrt{1 - 0.951^2}} \approx \frac{2}{1 + 0.309} \approx 1.527,
+\]
+giving $\rho(\bT_{\omega^*}) \approx 0.527$. With Gauss-Seidel ($\omega=1$), $\rho \approx 0.904$. The number of iterations to reduce the error by $10^{-8}$ is approximately $8\log_{10} / \log_{10}(1/\rho)$, which is about 169 for Gauss-Seidel but only about 35 for SOR — nearly a fivefold speedup.
+}
+
+\addExcr{%
+\textbf{(Gauss-Seidel implementation and comparison)}
+\begin{enumerate}
+  \item Implement \texttt{gauss\_seidel(A, b, x0, tol, max\_iter)} in Python. The key difference from Jacobi is to update $x[i]$ \emph{in place} at each step.
+  \item Run both Jacobi and Gauss-Seidel on the $10\times10$ tridiagonal system with $4$ on the diagonal and $-1$ on the off-diagonals, $\bb = \mathbf{1}$. Plot the residual norm versus iteration count on a semi-log scale for both methods. Estimate the ratio of iterations needed to reach $10^{-8}$ residual.
+  \item Compute $\rho(\bT_J)$ and $\rho(\bT_{GS})$ numerically. Is the observed convergence ratio consistent with $\rho(\bT_{GS}) \approx \rho(\bT_J)^2$? (This relation holds exactly for consistently ordered matrices.)
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(SOR parameter tuning)}
+\begin{enumerate}
+  \item Implement \texttt{sor(A, b, x0, omega, tol, max\_iter)}.
+  \item For the same $10\times10$ tridiagonal system, compute the theoretical optimal $\omega^*$ using the formula in the Optimal SOR theorem. Run SOR with $\omega \in \{1.0, 1.2, 1.4, \omega^*, 1.8, 1.9\}$.
+  \item Plot iterations to convergence (residual $< 10^{-8}$) versus $\omega$. Verify that $\omega^*$ is indeed optimal and that convergence fails for $\omega \geq 2$.
+  \item At the optimal $\omega^*$, compare the convergence rate to Jacobi and Gauss-Seidel from the previous exercise.
+\end{enumerate}
+}
+
 \end{document}

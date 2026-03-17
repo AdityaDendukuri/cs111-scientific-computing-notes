@@ -193,4 +193,122 @@ Implement the Conjugate Gradient method in Python.
 \end{enumerate}
 }
 
+\newpage
+\subsection{GMRES}
+\label{subsec:gmres}
+
+\textBox{%
+Conjugate Gradient requires symmetry and positive definiteness. For general (possibly non-symmetric, non-definite) linear systems, the \emph{Generalized Minimal Residual} method (GMRES) is the standard Krylov solver. It minimizes the residual norm over a growing Krylov subspace using the Arnoldi process to build an orthonormal basis, achieving the smallest possible residual at each step without any symmetry assumption.
+}
+
+\subsubsection{Krylov Subspaces and the Arnoldi Process}
+
+\addDef{Krylov Subspace}{%
+Given $\bA \in \fR^{n\times n}$ and $\br \in \fR^n$, the \emph{$k$-th Krylov subspace} is
+\[
+  \mathcal{K}_k(\bA, \br) = \mathrm{span}\{\br, \bA\br, \bA^2\br, \ldots, \bA^{k-1}\br\}.
+\]
+As $k$ increases, $\mathcal{K}_k$ grows (until it reaches an invariant subspace), capturing increasingly refined information about the action of $\bA$.
+}
+
+\addNote{%
+Krylov methods compute approximations $\bx^{(k)} \in \bx^{(0)} + \mathcal{K}_k(\bA, \br^{(0)})$ by exploiting the structure of $\mathcal{K}_k$. The key insight is that matrix powers $\bA^j\br$ can be formed iteratively with only matrix-vector products — no matrix factorization required. For sparse $\bA$ with $\mathrm{nnz}(\bA)$ nonzeros, each step costs $O(\mathrm{nnz}(\bA))$.
+}
+
+\addDef{Arnoldi Process}{%
+The \emph{Arnoldi process} builds an orthonormal basis $\{\bq_1, \bq_2, \ldots, \bq_k\}$ for $\mathcal{K}_k(\bA, \br)$ via modified Gram-Schmidt. Starting with $\bq_1 = \br/\|\br\|$, for $j = 1, \ldots, k$:
+\begin{enumerate}
+  \item Compute $\bz = \bA\bq_j$.
+  \item For $i = 1, \ldots, j$: set $h_{ij} = \bq_i^T\bz$, $\bz \leftarrow \bz - h_{ij}\bq_i$.
+  \item Set $h_{j+1,j} = \|\bz\|$; if $h_{j+1,j} = 0$, stop (invariant subspace found).
+  \item Set $\bq_{j+1} = \bz / h_{j+1,j}$.
+\end{enumerate}
+The coefficients $h_{ij}$ form an upper Hessenberg matrix $\bH_k \in \fR^{(k+1)\times k}$.
+}
+
+\addThm{Arnoldi Relation}{%
+Let $\bQ_k = [\bq_1, \ldots, \bq_k]$ and $\bH_k \in \fR^{(k+1)\times k}$ be the Hessenberg matrix produced by the Arnoldi process. Then
+\[
+  \bA\bQ_k = \bQ_{k+1}\bH_k,
+\]
+or equivalently, the leading $k\times k$ submatrix $\tilde{\bH}_k$ of $\bH_k$ satisfies $\bQ_k^T\bA\bQ_k = \tilde{\bH}_k$.
+}
+
+\addPrf{%
+By construction, each $\bA\bq_j = \sum_{i=1}^{j+1}h_{ij}\bq_i$, which is precisely the $j$-th column of $\bQ_{k+1}\bH_k$. Combining all $k$ columns yields $\bA\bQ_k = \bQ_{k+1}\bH_k$. Multiplying on the left by $\bQ_k^T$ and using $\bQ_{k+1}^T\bQ_k = [\bI_k; \bzero^T]$ gives $\bQ_k^T\bA\bQ_k = \tilde{\bH}_k$.
+}
+
+\subsubsection{The GMRES Algorithm}
+
+\addDef{GMRES Iterate}{%
+GMRES seeks an approximation $\bx^{(k)} = \bx^{(0)} + \bQ_k\by_k$ that minimizes the residual norm:
+\[
+  \bx^{(k)} = \arg\min_{\bx \in \bx^{(0)} + \mathcal{K}_k} \|\bb - \bA\bx\|_2.
+\]
+Using the Arnoldi relation, the residual becomes
+\[
+  \|\bb - \bA\bx^{(k)}\|_2 = \|\beta\be_1 - \bH_k\by_k\|_2, \qquad \beta = \|\br^{(0)}\|_2,
+\]
+where $\be_1 = (1, 0, \ldots, 0)^T \in \fR^{k+1}$. This is a small $(k+1)\times k$ least squares problem solved via QR factorization of $\bH_k$.
+}
+
+\addThm{GMRES Optimality}{%
+Among all methods producing iterates in $\bx^{(0)} + \mathcal{K}_k(\bA, \br^{(0)})$, GMRES achieves the smallest possible residual norm $\|\bb - \bA\bx^{(k)}\|_2$ at each step $k$. In exact arithmetic, GMRES terminates with $\bx^{(n)} = \bx^*$ (or earlier if an invariant subspace is encountered).
+}
+
+\addPrf{%
+The optimality is immediate from the definition: $\bx^{(k)}$ is precisely the minimizer of $\|\bb - \bA\bx\|_2$ over the affine subspace $\bx^{(0)} + \mathcal{K}_k$. Since $\mathcal{K}_n = \fR^n$ (for generic $\bA$), termination within $n$ steps follows.
+}
+
+\addNote{%
+The cost of GMRES grows with each iteration: at step $k$, the Arnoldi process requires $k$ dot products and the Hessenberg least squares problem is $(k+1)\times k$. After $m$ steps, the total cost is $O(mn^2 + m^2 n)$ flops and $O(mn)$ storage (to retain all $m$ Arnoldi vectors). This motivates \emph{restarted GMRES}, denoted GMRES($m$): after $m$ steps, restart from the current iterate.
+}
+
+\addDef{Restarted GMRES — GMRES($m$)}{%
+\emph{GMRES($m$)} runs GMRES for at most $m$ iterations, then restarts from the current approximate solution $\bx^{(m)}$:
+\[
+  \text{Outer loop:} \quad \bx_0^{\text{new}} \leftarrow \bx^{(m)}, \quad \br_0^{\text{new}} \leftarrow \bb - \bA\bx^{(m)}, \quad \text{repeat}.
+\]
+Each restart cycle has fixed cost $O(m^2 n)$ and storage $O(mn)$. The tradeoff: small $m$ reduces memory but may stall; large $m$ recovers full GMRES but costs more. Typical default: $m = 30$ to $50$.
+}
+
+\addNote{%
+GMRES($m$) is not guaranteed to converge for all $m$: restarting can discard important information and the method may stagnate. Full GMRES always converges (monotonically decreasing residual), but is impractical for large problems. Preconditioning is essential in practice: left preconditioning replaces $\bA$ by $\bM^{-1}\bA$; right preconditioning by $\bA\bM^{-1}$. A good preconditioner drastically reduces the number of restarts needed.
+}
+
+\addThm{GMRES Convergence Bound}{%
+For a diagonalizable matrix $\bA = \bV\bD\bV^{-1}$ with eigenvalues $\lambda_1, \ldots, \lambda_n$,
+\[
+  \frac{\|\br^{(k)}\|_2}{\|\br^{(0)}\|_2} \leq \kappa_2(\bV) \cdot \min_{\substack{p \in \mathcal{P}_k \\ p(0)=1}} \max_{i}|p(\lambda_i)|,
+\]
+where $\kappa_2(\bV)$ measures how far $\bA$ is from normal. If $\bA$ is normal ($\kappa_2(\bV) = 1$) and eigenvalues are clustered away from zero, the Chebyshev polynomial gives fast convergence.
+}
+
+\addExcr{%
+\textbf{(GMRES vs.\ CG on SPD systems)}
+\begin{enumerate}
+  \item For the $50\times50$ tridiagonal SPD matrix $\bA = \mathrm{tridiag}(-1, 4, -1)$, solve $\bA\bx = \bb$ using both CG (\texttt{scipy.sparse.linalg.cg}) and GMRES (\texttt{scipy.sparse.linalg.gmres}). Compare residual histories.
+  \item Why is CG preferred over GMRES for SPD systems? (Consider both theory and cost per iteration.)
+  \item Now take a random non-symmetric $50\times50$ matrix $\bA$ with $\kappa_2(\bA) \approx 20$. Can CG be applied? Apply GMRES and plot the residual.
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(Effect of restart parameter $m$)}
+\begin{enumerate}
+  \item Generate a $100\times100$ non-symmetric sparse matrix using \texttt{scipy.sparse.random(100, 100, density=0.1)} plus $5\bI$ (for nonsingularity).
+  \item Run GMRES($m$) with $m \in \{5, 10, 20, 50, 100\}$ (full GMRES is $m = 100$). For each $m$, record total iterations (across all restarts) and total matvecs to reach residual $< 10^{-8}$.
+  \item Plot total matvecs versus $m$. What restart parameter gives the best tradeoff between convergence speed and memory cost?
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(Arnoldi orthogonality)} Implement the Arnoldi process for $k = 10$ steps on a random $20\times20$ matrix.
+\begin{enumerate}
+  \item Verify the Arnoldi relation $\bA\bQ_k = \bQ_{k+1}\bH_k$ by computing the Frobenius norm of the difference.
+  \item Check that $\bQ_k^T\bQ_k = \bI_k$ (orthonormality of Arnoldi vectors). Does floating-point error accumulate over iterations?
+  \item Compare classical Gram-Schmidt (CGS) vs.\ modified Gram-Schmidt (MGS) for the Arnoldi process. Which preserves orthogonality better? Use \texttt{np.linalg.cond($\bQ_k$)} to assess.
+\end{enumerate}
+}
+
 \end{document}

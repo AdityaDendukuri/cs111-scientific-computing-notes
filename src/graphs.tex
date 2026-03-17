@@ -93,49 +93,28 @@ Its eigenvalues are $\lambda_1 = 0$, $\lambda_2 = 2 - \sqrt{2} \approx 0.59$, $\
 The low $\lambda_2$ for $P_3$ compared to $K_3$ reflects its weaker connectivity.
 }
 
-\addDef{Variational Characterization}{%
-The Courant-Fischer theorem provides a variational characterization of Laplacian eigenvalues:
+\addThm{Courant-Fischer Min-Max Theorem}{%
+Let $\bB \in \fR^{n\times n}$ be symmetric with eigenvalues $\lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n$ and corresponding orthonormal eigenvectors $\bv_1, \ldots, \bv_n$. Then for each $k = 1, \ldots, n$:
+\[
+  \lambda_k = \min_{\substack{\mathcal{S} \subseteq \fR^n \\ \dim(\mathcal{S}) = k}} \max_{\bx \in \mathcal{S},\, \bx \neq \bzero} \frac{\bx^T\bB\bx}{\bx^T\bx} = \max_{\substack{\mathcal{S} \subseteq \fR^n \\ \dim(\mathcal{S}) = n-k+1}} \min_{\bx \in \mathcal{S},\, \bx \neq \bzero} \frac{\bx^T\bB\bx}{\bx^T\bx}.
+\]
+In particular, $\lambda_1 = \min_{\bx \neq \bzero} \bx^T\bB\bx/\bx^T\bx$ and $\lambda_n = \max_{\bx \neq \bzero} \bx^T\bB\bx/\bx^T\bx$.
+}
 
-$$\lambda_k = \min_{\substack{S \subset \mathbb{R}^n, \dim(S) = k\\ S \perp \text{span}\{\mathbf{v}_1, \ldots, \mathbf{v}_{k-1}\}}} \max_{\mathbf{x} \in S, \mathbf{x} \neq \mathbf{0}} \frac{\mathbf{x}^T\bL\mathbf{x}}{\mathbf{x}^T\mathbf{x}}$$
-
-For the second eigenvalue (Fiedler value):
-
-$$\lambda_2 = \min_{\mathbf{x} \perp \mathbf{1}, \mathbf{x} \neq \mathbf{0}} \frac{\mathbf{x}^T\bL\mathbf{x}}{\mathbf{x}^T\mathbf{x}} = \min_{\mathbf{x} \perp \mathbf{1}, \mathbf{x} \neq \mathbf{0}} \frac{\sum_{(i,j) \in E} w_{ij}(x_i - x_j)^2}{\sum_{i=1}^n x_i^2}$$
-
-This connects the Fiedler value to the optimal solution of a continuous relaxation of the graph partitioning problem.
+\addPrf{%
+For the min-max characterization: given any $k$-dimensional subspace $\mathcal{S}$, it must intersect $\text{span}\{\bv_k, \ldots, \bv_n\}$ (dimension $n-k+1$) nontrivially. For any $\bx$ in this intersection, $\bx = \sum_{i=k}^n c_i\bv_i$, so $\bx^T\bB\bx/\bx^T\bx = \sum_{i\geq k}\lambda_i c_i^2/\sum c_i^2 \geq \lambda_k$. Hence $\max_{\bx \in \mathcal{S}} \bx^T\bB\bx/\bx^T\bx \geq \lambda_k$ for every $\mathcal{S}$. The minimum is achieved by taking $\mathcal{S} = \text{span}\{\bv_1,\ldots,\bv_k\}$, for which the maximum equals $\lambda_k$.
 }
 
 \addNote{%
-The Fiedler vector $\mathbf{v}_2$ carries significant structural information about the graph. Its components can be interpreted as an embedding of vertices on a line that minimizes the sum of squared distances between connected vertices, subject to orthogonality to the constant vector and unit norm constraint. This provides a natural ordering of vertices that tends to place connected vertices close together.
+Applied to the graph Laplacian $\bL$, Courant-Fischer gives the Fiedler value as
+\[
+  \lambda_2 = \min_{\bx \perp \mathbf{1},\, \bx \neq \bzero} \frac{\bx^T\bL\bx}{\bx^T\bx} = \min_{\bx \perp \mathbf{1},\, \bx \neq \bzero} \frac{\sum_{(i,j)\in E} w_{ij}(x_i - x_j)^2}{\sum_i x_i^2}.
+\]
+This connects $\lambda_2$ to graph partitioning: the Fiedler vector minimizes the weighted sum of squared differences across edges, subject to orthogonality to the constant vector. This is a continuous relaxation of the graph bisection problem.
+}
 
-\begin{figure}[h]
-\centering
-% \begin{tikzpicture}[scale=0.8]
-%   % Draw a simple graph
-%   \node[circle,draw] (1) at (0,0) {1};
-%   \node[circle,draw] (2) at (2,0) {2};
-%   \node[circle,draw] (3) at (4,0) {3};
-%   \node[circle,draw] (4) at (0,-2) {4};
-%   \node[circle,draw] (5) at (2,-2) {5};
-%   \node[circle,draw] (6) at (4,-2) {6};
-%   
-%   \draw (1) -- (2) -- (3);
-%   \draw (4) -- (5) -- (6);
-%   \draw (1) -- (4);
-%   \draw (2) -- (5);
-%   \draw (3) -- (6);
-%   
-%   % Draw Fiedler embedding below
-%   \draw[->] (-1,-4) -- (5,-4) node[right] {Fiedler embedding};
-%   \node[circle,fill=red!50] at (0,-4) {1};
-%   \node[circle,fill=red!50] at (1,-4) {4};
-%   \node[circle,fill=blue!50] at (3,-4) {3};
-%   \node[circle,fill=blue!50] at (4,-4) {6};
-%   \node[circle,fill=white] at (2,-4) {2};
-%   \node[circle,fill=white] at (2.2,-4) {5};
-% \end{tikzpicture}
-\caption{Graph with vertices embedded according to Fiedler vector values. The signs of the components suggest a natural bipartition.}
-\end{figure}
+\addNote{%
+The Fiedler vector $\mathbf{v}_2$ carries significant structural information about the graph. Its components can be interpreted as an embedding of vertices on a line that minimizes the sum of squared distances between connected vertices, subject to orthogonality to the constant vector and unit norm constraint. This provides a natural ordering of vertices that tends to place connected vertices close together. The signs of the Fiedler vector components suggest a natural bipartition: vertices with positive components form one cluster and vertices with negative components form another.
 }
 
 \addDef{Normalized Laplacians}{%
@@ -276,6 +255,33 @@ where $\bL_{i,i}$ is the $(i,i)$-minor of $\bL$, obtained by removing the $i$-th
 This theorem connects the purely combinatorial concept of spanning tree enumeration with the analytical properties of the Laplacian spectrum.
 }
 
+\addExcr{%
+\textbf{(Laplacian spectrum by hand)} Consider the cycle graph $C_4$ on 4 vertices with edges $\{1\text{--}2, 2\text{--}3, 3\text{--}4, 4\text{--}1\}$.
+\begin{enumerate}
+  \item Write down the Laplacian $\bL$. Verify that $\mathbf{1}^T\bL = \bzero^T$ and $\bL\mathbf{1} = \bzero$.
+  \item Compute all four eigenvalues of $\bL$ (use the fact that for $C_n$, $\lambda_k = 2(1 - \cos(2\pi k/n))$). What is the algebraic connectivity $\lambda_2$? How does it compare to $C_3$ and $K_4$?
+  \item Using the Matrix Tree Theorem, compute the number of spanning trees of $C_4$. Verify by enumeration.
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(Fiedler vector and graph partitioning)} Build the following weighted graph in NumPy/SciPy: a path of 6 nodes where the edge $(3,4)$ (the middle edge) has weight $0.01$ and all other edges have weight $1$.
+\begin{enumerate}
+  \item Compute the Laplacian and find $\lambda_2$ and the Fiedler vector $\bv_2$ using \texttt{scipy.linalg.eigh}.
+  \item Partition the graph by the sign of $\bv_2$. Does the partition correctly identify the weak edge $(3,4)$ as the graph cut?
+  \item Now increase the weak edge weight gradually from $0.01$ to $1$. Plot $\lambda_2$ vs.\ edge weight. At what weight does the natural partition become ambiguous?
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(Spectral clustering)} Generate a synthetic dataset of $n = 100$ points in $\mathbb{R}^2$ drawn from two circular clusters (use \texttt{sklearn.datasets.make\_circles} with \texttt{noise=0.05}). Apply spectral clustering:
+\begin{enumerate}
+  \item Construct a Gaussian similarity graph: $w_{ij} = \exp(-\|x_i - x_j\|^2 / (2\sigma^2))$ for $\sigma = 0.3$; set $w_{ij} = 0$ for pairs with $\|x_i - x_j\| > 3\sigma$.
+  \item Build the normalized Laplacian $\bL_{sym} = \bD^{-1/2}\bL\bD^{-1/2}$.
+  \item Compute the two smallest eigenvectors and run $k$-means with $k=2$ on the rows of the eigenvector matrix. Visualize the result. Does spectral clustering succeed where $k$-means on raw data fails?
+\end{enumerate}
+}
+
 \subsection{The PageRank Algorithm}
 \label{sub:pagerank}
 
@@ -299,7 +305,8 @@ $$ PR(p_i) = \sum_{p_j \in B(p_i)} \frac{PR(p_j)}{L(p_j)} $$
 This is a recursive definition: the rank of a page depends on the rank of other pages.
 }
 
-\textBox{Matrix Formulation and Power Iteration}{%
+\textBox{%
+\textbf{Matrix Formulation and Power Iteration}\\[2mm]
 Let $\mathbf{r}$ be a column vector of PageRank scores, where $r_i = PR(p_i)$, and $\sum_i r_i = 1$. We can define a hyperlink transition matrix $\bH \in \mathbb{R}^{N \times N}$ (sometimes denoted $\bM^T$ or $\bP^T$ if $\bP$ is row-stochastic) where:
 $$ H_{ij} = \begin{cases} 1/L(p_j) & \text{if page } p_j \text{ links to page } p_i \text{ and } L(p_j) > 0 \\ 0 & \text{otherwise} \end{cases} $$
 The PageRank equation can then be written as an eigenvector problem: $\mathbf{r} = \bH \mathbf{r}$. The PageRank vector $\mathbf{r}$ is the principal eigenvector of $\bH$ corresponding to the eigenvalue $1$. This can be found using the power iteration method:
@@ -312,6 +319,20 @@ However, this basic formulation has issues:
     \item \textbf{Dangling Nodes:} Pages with no outbound links ($L(p_j)=0$). Columns in $\bH$ corresponding to dangling nodes would be all zero, causing rank to "leak out" of the system during power iteration.
     \item \textbf{Sink Regions (Rank Traps):} If the graph has groups of pages that link to each other but not to outside pages (or if the graph is not strongly connected), the random surfer can get trapped, and power iteration may not converge to a unique, meaningful PageRank distribution.
 \end{itemize}
+}
+
+\addThm{Perron-Frobenius Theorem}{%
+Let $\bB \in \fR^{n\times n}$ be a matrix with all positive entries ($B_{ij} > 0$). Then:
+\begin{enumerate}
+  \item $\bB$ has a unique largest eigenvalue $\lambda_1 > 0$ (the \emph{Perron root}), and $\lambda_1 > |\lambda_j|$ for all other eigenvalues $\lambda_j$.
+  \item The corresponding eigenvector $\bv_1$ (the \emph{Perron vector}) has all strictly positive entries.
+  \item $\lambda_1$ is a simple eigenvalue.
+\end{enumerate}
+More generally, if $\bB$ is nonnegative, irreducible, and primitive (i.e., some power $\bB^k$ has all positive entries), then the same conclusions hold.
+}
+
+\addNote{%
+A column-stochastic matrix $\bB$ (columns sum to 1, all entries nonneg.) always has $\lambda_1 = 1$ as an eigenvalue (since $\mathbf{1}^T\bB = \mathbf{1}^T$). Perron-Frobenius guarantees this eigenvalue is unique and the corresponding stationary distribution has positive entries, provided $\bB$ is irreducible and primitive. This is the theoretical foundation for PageRank's well-posedness.
 }
 
 \addDef{The Damped PageRank Algorithm (Google Matrix)}{%
@@ -331,7 +352,8 @@ where $\mathbf{J}$ is an $N \times N$ matrix of all ones. The matrix $\mathbf{G}
 The PageRank vector $\mathbf{r}$ is the solution to $\mathbf{r} = \mathbf{G}\mathbf{r}$.
 }
 
-\textBox{Solving for PageRank with the Google Matrix}{%
+\textBox{%
+\textbf{Solving for PageRank with the Google Matrix}\\[2mm]
 The PageRank vector $\mathbf{r}$ is typically computed using the power iteration method:
 1. Initialize $\mathbf{r}^{(0)}$ with $r_i^{(0)} = 1/N$ for all $i=1, \ldots, N$. Ensure $\|\mathbf{r}^{(0)}\|_1 = 1$.
 2. Iterate for $k=0, 1, 2, \ldots$:
@@ -379,5 +401,34 @@ Iterations would continue until convergence. $P_1$ appears to receive the most r
     \item \textbf{Robustness:} While PageRank provides a robust measure of importance, it is not entirely immune to manipulation (e.g., link farms), leading to ongoing refinements in search engine algorithms.
 \end{itemize}
 PageRank revolutionized web search by providing a query-independent measure of page quality, which, when combined with content relevance, significantly improved search results.
+}
+
+\addExcr{%
+\textbf{(PageRank by hand)} Consider the 4-page web graph with edges $P_1 \to P_2$, $P_1 \to P_3$, $P_2 \to P_4$, $P_3 \to P_2$, $P_3 \to P_4$, $P_4 \to P_1$.
+\begin{enumerate}
+  \item Write the transition matrix $\bS$ (column-stochastic). Are there any dangling nodes?
+  \item Set $d = 0.85$ and construct the Google matrix $\mathbf{G}$.
+  \item Perform 5 iterations of power iteration starting from $\mathbf{r}^{(0)} = (1/4, 1/4, 1/4, 1/4)^T$. Report the PageRank vector at each step.
+  \item Solve for the exact PageRank vector by finding the dominant eigenvector of $\mathbf{G}$ (solve the linear system $(\mathbf{I} - d\bS)\mathbf{r} = (1-d)/N \cdot \mathbf{1}$). Which page is most important?
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(PageRank implementation and convergence)}
+\begin{enumerate}
+  \item Implement the PageRank power iteration in Python. Use a sparse adjacency matrix (SciPy CSR format) to store the web graph.
+  \item Generate a random directed graph on $N = 500$ nodes using \texttt{nx.gnm\_random\_graph(500, 2000, directed=True)} (from NetworkX). Add a small fraction of dangling nodes.
+  \item Run power iteration with $d = 0.85$ until $\|\mathbf{r}^{(k+1)} - \mathbf{r}^{(k)}\|_1 < 10^{-8}$. Plot the $\ell^1$-convergence gap vs.\ iteration $k$ on a semi-log scale. Estimate the convergence rate; how does it relate to $d$?
+  \item Vary the damping factor $d \in \{0.5, 0.7, 0.85, 0.95\}$. How does the top-10 ranking change? How does convergence speed change?
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(Convergence rate of PageRank)} The convergence rate of power iteration on $\mathbf{G}$ is governed by $d \cdot |\lambda_2(\bS)|$, where $\lambda_2(\bS)$ is the second-largest eigenvalue of $\bS$ in absolute value.
+\begin{enumerate}
+  \item For the 4-page example in the previous exercise, compute all eigenvalues of $\mathbf{G}$. What is the spectral gap $1 - |\lambda_2(\mathbf{G})|$?
+  \item How does setting $d = 0.85$ guarantee convergence regardless of the graph structure? (Hint: $\mathbf{G}$ is a convex combination of $d\bS$ and the rank-1 matrix $(1-d)/N\cdot\mathbf{J}$.)
+  \item For a web graph where the actual second eigenvalue of $\bS$ is $1$ (e.g., a graph with two disconnected components), explain why the teleportation factor $1-d$ is essential for convergence.
+\end{enumerate}
 }
 \end{document}

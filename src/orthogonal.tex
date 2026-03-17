@@ -122,6 +122,68 @@ If $\bA \in \fR^{m \times n}$ ($m \geq n$) has full column rank, the first $n$ c
 In the QR factorization of a full-column-rank matrix $\bA$, the diagonal entries of $\bR$ satisfy $|r_{ii}| = \|\bA[:,i] - \text{proj}\|_2 > 0$ for each $i$. In particular, $\bR$ is invertible.
 }
 
+\subsubsection{Householder Reflectors}
+
+\addDef{Householder Reflector}{%
+Given a nonzero vector $\bv \in \fR^m$, the \emph{Householder reflector} is the matrix
+\[
+  \bH = \bI - \frac{2\bv\bv^T}{\bv^T\bv}.
+\]
+Geometrically, $\bH\bx$ reflects $\bx$ across the hyperplane $\bv^\perp = \{\bw : \bv^T\bw = 0\}$.
+}
+
+\addThm{Properties of Householder Reflectors}{%
+For any nonzero $\bv \in \fR^m$, the Householder matrix $\bH = \bI - 2\bv\bv^T/\|\bv\|_2^2$ satisfies:
+\begin{enumerate}
+  \item $\bH^T = \bH$ \quad (symmetric)
+  \item $\bH^T\bH = \bI$ \quad (orthogonal)
+  \item $\bH^2 = \bI$, so $\bH^{-1} = \bH$ \quad (involution)
+  \item $\det(\bH) = -1$ \quad (reflection, not rotation)
+\end{enumerate}
+}
+
+\addPrf{%
+Let $\tau = \bv^T\bv = \|\bv\|_2^2 > 0$.
+
+(1): $\bH^T = (\bI - 2\bv\bv^T/\tau)^T = \bI - 2\bv\bv^T/\tau = \bH$.
+
+(2): $\bH^T\bH = \bH^2 = (\bI - 2\bv\bv^T/\tau)^2 = \bI - 4\bv\bv^T/\tau + 4\bv(\bv^T\bv)\bv^T/\tau^2 = \bI - 4\bv\bv^T/\tau + 4\bv\bv^T/\tau = \bI$.
+
+(3): Follows from (1) and (2): $\bH^2 = \bH^T\bH = \bI$.
+
+(4): $\bH$ has eigenvalue $-1$ (for any $\bx \parallel \bv$: $\bH\bv = \bv - 2\bv = -\bv$) and eigenvalue $+1$ (for any $\bx \perp \bv$: $\bH\bx = \bx$). The eigenvalue $-1$ has multiplicity $1$ and $+1$ has multiplicity $m-1$, so $\det(\bH) = (-1)^1 \cdot 1^{m-1} = -1$.
+}
+
+\addThm{Householder Zeroing}{%
+For any $\bx \in \fR^m$ with $\bx \neq \pm\|\bx\|_2\be_1$, there exists a Householder vector $\bv$ such that
+\[
+  \bH\bx = \pm\|\bx\|_2\be_1,
+\]
+where $\be_1 = (1,0,\ldots,0)^T$. The choice $\bv = \bx + \|\bx\|_2\be_1$ (taking the $+$ sign) avoids cancellation and is numerically preferred.
+}
+
+\addPrf{%
+We want $\bH\bx = \alpha\be_1$ for some scalar $\alpha$. Since $\bH$ is orthogonal, $|\alpha| = \|\bx\|_2$. Setting $\bv = \bx - \alpha\be_1$:
+\[
+  \bH\bx = \bx - \frac{2\bv\bv^T\bx}{\bv^T\bv}.
+\]
+We compute $\bv^T\bx = (\bx - \alpha\be_1)^T\bx = \|\bx\|_2^2 - \alpha x_1$, and $\bv^T\bv = \|\bx\|_2^2 - 2\alpha x_1 + \alpha^2 = 2(\|\bx\|_2^2 - \alpha x_1) = 2\bv^T\bx$. Therefore $\bH\bx = \bx - \bv = \alpha\be_1$. Choosing $\alpha = -\text{sign}(x_1)\|\bx\|_2$ (opposite sign to $x_1$) avoids cancellation in $x_1 - \alpha x_1$ when $x_1$ is large.
+}
+
+\addNote{%
+The key use of Householder reflectors in QR factorization is iterative zeroing: at step $k$, choose $\bH_k$ to zero out all entries below the $(k,k)$ position in column $k$ of the current matrix. After $n$ such reflections, the result is upper triangular. Since each $\bH_k$ is orthogonal, the product $\bQ = \bH_1\bH_2\cdots\bH_n$ is orthogonal, giving $\bA = \bQ\bR$. Each reflector is applied as $\bH\bx = \bx - 2\bv(\bv^T\bx)/\|\bv\|^2$ — a rank-1 update costing only $O(m)$, not $O(m^2)$.
+}
+
+\addExcr{%
+\begin{enumerate}
+  \item Let $\bx = (3, 4)^T \in \fR^2$. Find the Householder vector $\bv$ such that $\bH\bx = -5\be_1$. Write $\bH$ explicitly and verify $\bH\bx = (-5, 0)^T$.
+  \item For $\bx = (1,2,2)^T$, find $\bv$ and $\bH$ such that $\bH\bx = -3\be_1$. Verify $\bH$ is symmetric and $\bH^2 = \bI$.
+  \item In NumPy, apply two successive Householder reflectors to triangularize
+  $\bA = \begin{pmatrix} 1 & 2 \\ 2 & 3 \\ 2 & 4 \end{pmatrix}$
+  and recover $\bQ$ and $\bR$. Compare with \texttt{np.linalg.qr(A)}.
+\end{enumerate}
+}
+
 \addLem{QR Factorization Cost}{%
 The QR factorization of $\bA \in \fR^{m \times n}$ (via Householder reflections) costs approximately $2mn^2 - \frac{2}{3}n^3$ flops.
 }
@@ -133,7 +195,7 @@ The QR factorization of $\bA \in \fR^{m \times n}$ (via Householder reflections)
     \item In NumPy, \texttt{np.linalg.qr(A)} returns the thin QR by default (\texttt{mode='reduced'}). What are the shapes of $\bQ$ and $\bR$ for a $5 \times 3$ matrix? When would you want the full QR (\texttt{mode='complete'})?
 \end{enumerate}
 }
-\subsubsection{Grahm Schmidt}
+\subsubsection{Gram-Schmidt}
 
 \addDef{Orthogonal Complement}{%
 Let $S \subseteq \fR^n$ be a subspace. Its \emph{orthogonal complement} is

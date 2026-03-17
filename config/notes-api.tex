@@ -5,16 +5,23 @@
 %   Left margin  → colored label  (type + number)
 %   Body text    → content        (inline term/title + matter)
 %
+% Labels use \llap so they extend leftward into the margin as a
+% zero-width box.  Body text therefore always starts at the same
+% \textwidth edge regardless of label length — no marginnote
+% drift, no marginparwidth overflow.
+%
+% Requires: left margin ≥ ~30mm  (set once in import-packages).
+%
 % Public API (all source files should use only these):
-%   \addDef{Term}{Content}
-%   \addThm{Name}{Content}    — numbered
+%   \addDef{Term}{Content}    — numbered (own counter)
+%   \addThm{Name}{Content}    — numbered (shared counter with Lem/Cor/Prop)
 %   \addLem{Name}{Content}    — numbered (shared counter with Thm)
 %   \addCor{Name}{Content}    — numbered (shared counter with Thm)
 %   \addProp{Name}{Content}   — numbered (shared counter with Thm)
 %   \addPrf{Content}
-%   \addNote{Content}
+%   \addNote{Content}         — numbered (own counter)
 %   \addExmpl{Content}
-%   \addExcr{Content}         — numbered
+%   \addExcr{Content}         — numbered (own counter)
 %   \textBox{Content}         — unnumbered expository block
 %   \sectionend
 % ============================================================
@@ -25,99 +32,99 @@
 \newcommand{\newentry}{\vskip 13pt}
 
 %% ── Internal primitive ───────────────────────────────────────
-%% \mLabel{color}{text} is the ONLY place a margin note is written.
-%% All add* commands below call this; nothing else should.
-\makeatletter
+%% \mLabel{color}{text}
+%%   \llap places a zero-width right-aligned box at the start of
+%%   the line; its content extends LEFT into the margin.
+%%   The 6mm \hspace creates a consistent gap between label and text.
 \newcommand{\mLabel}[2]{%
-  \reversemarginpar\marginnote{\textcolor{#1}{\textbf{#2}}}%
+  \llap{\textcolor{#1}{\textbf{#2}}\hspace{6mm}}%
 }
-\makeatother
 
 %% ── Counters ─────────────────────────────────────────────────
-%% Theorems, Lemmas, Corollaries, and Propositions share one
-%% counter (standard math-textbook convention), reset each section.
+%% Thm/Lem/Cor/Prop share one counter; Def and Note have their own.
 \newcounter{thmctr}[section]
 \renewcommand{\thethmctr}{\thesection.\arabic{thmctr}}
 
-%% Exercises have their own counter, also reset each section.
+\newcounter{defctr}[section]
+\renewcommand{\thedefctr}{\thesection.\arabic{defctr}}
+
+\newcounter{notectr}[section]
+\renewcommand{\thenotectr}{\thesection.\arabic{notectr}}
+
 \newcounter{excrctr}[section]
 \renewcommand{\theexcrctr}{\thesection.\arabic{excrctr}}
 
 %% ── Definitions ──────────────────────────────────────────────
-%% Margin: "Def" in navy.  Inline: bold term followed by content.
 \newcommand{\addDef}[2]{%
+  \refstepcounter{defctr}%
   \newentry
-  \mLabel{ucsb_blue}{Def}%
-  \textbf{#1.}\enspace #2%
+  \noindent\mLabel{ucsb_blue}{Def~\thedefctr}%
+  \textbf{(#1)}\enspace #2%
 }
 
 %% ── Theorems ─────────────────────────────────────────────────
 \newcommand{\addThm}[2]{%
   \refstepcounter{thmctr}%
   \newentry
-  \mLabel{ucsb_blue}{Thm~\thethmctr}%
-  \textit{Theorem~\thethmctr} \textbf{(#1).}\enspace #2%
+  \noindent\mLabel{ucsb_blue}{Thm~\thethmctr}%
+  \textbf{(#1)}\enspace #2%
 }
 
 %% ── Lemmas ───────────────────────────────────────────────────
 \newcommand{\addLem}[2]{%
   \refstepcounter{thmctr}%
   \newentry
-  \mLabel{ucsb_blue}{Lem~\thethmctr}%
-  \textit{Lemma~\thethmctr} \textbf{(#1).}\enspace #2%
+  \noindent\mLabel{ucsb_blue}{Lem~\thethmctr}%
+  \textbf{(#1)}\enspace #2%
 }
 
 %% ── Corollaries ──────────────────────────────────────────────
-%% Green label to visually distinguish "follows from" statements.
 \newcommand{\addCor}[2]{%
   \refstepcounter{thmctr}%
   \newentry
-  \mLabel{ucsb_green}{Cor~\thethmctr}%
-  \textit{Corollary~\thethmctr} \textbf{(#1).}\enspace #2%
+  \noindent\mLabel{ucsb_green}{Cor~\thethmctr}%
+  \textbf{(#1)}\enspace #2%
 }
 
 %% ── Propositions ─────────────────────────────────────────────
 \newcommand{\addProp}[2]{%
   \refstepcounter{thmctr}%
   \newentry
-  \mLabel{ucsb_blue}{Prop~\thethmctr}%
-  \textit{Proposition~\thethmctr} \textbf{(#1).}\enspace #2%
+  \noindent\mLabel{ucsb_blue}{Prop~\thethmctr}%
+  \textbf{(#1)}\enspace #2%
 }
 
 %% ── Proofs ───────────────────────────────────────────────────
-%% Opens with italic "Proof." and closes with □.
 \newcommand{\addPrf}[1]{%
   \newentry
-  \mLabel{ucsb_green}{Proof}%
+  \noindent\mLabel{ucsb_green}{Proof}%
   \textit{Proof.}\enspace #1\hfill$\square$%
 }
 
 %% ── Notes ────────────────────────────────────────────────────
 \newcommand{\addNote}[1]{%
+  \refstepcounter{notectr}%
   \newentry
-  \mLabel{ucsb_green}{Note}%
+  \noindent\mLabel{ucsb_green}{Note~\thenotectr}%
   #1%
 }
 
 %% ── Examples ─────────────────────────────────────────────────
 \newcommand{\addExmpl}[1]{%
   \newentry
-  \mLabel{ucsb_gold}{Example}%
+  \noindent\mLabel{ucsb_gold}{Example}%
   #1%
 }
 
 %% ── Exercises ────────────────────────────────────────────────
-%% Numbered per section.  \label/\ref works on these.
 \newcommand{\addExcr}[1]{%
   \refstepcounter{excrctr}%
   \newentry
-  \mLabel{ucsb_coral}{Ex~\theexcrctr}%
+  \noindent\mLabel{ucsb_coral}{Ex~\theexcrctr}%
   #1%
 }
 
 %% ── Expository blocks (no margin label) ──────────────────────
-%% For derivations, extended calculations, and narrative text
-%% that sits between labeled entries.
 \newcommand{\textBox}[1]{%
   \newentry
   #1%
@@ -125,5 +132,5 @@
 
 %% ── Section-end marker ───────────────────────────────────────
 \newcommand{\sectionend}{%
-  \mLabel{ucsb_coral}{\S~end}%
+  \noindent\mLabel{ucsb_coral}{\S~end}%
 }

@@ -40,6 +40,20 @@ The \emph{spectral radius} of a matrix $\bB \in \fR^{n\times n}$ is
 the largest absolute value among all eigenvalues of $\bB$.
 }
 
+\addThm{Gelfand's Formula}{%
+For any matrix $\bB \in \fR^{n\times n}$ and any submultiplicative matrix norm $\|\cdot\|$,
+\[
+  \rho(\bB) = \lim_{k\to\infty} \|\bB^k\|^{1/k}.
+\]
+In particular, for every $\epsilon > 0$ there exists $C_\epsilon > 0$ such that $\|\bB^k\| \leq C_\epsilon(\rho(\bB)+\epsilon)^k$ for all $k \geq 0$.
+}
+
+\addPrf{%
+\textit{Lower bound}: For any eigenvalue $\lambda$ of $\bB$ with eigenvector $\bv$, $\bB^k\bv = \lambda^k\bv$, so $\|\bB^k\|\|\bv\| \geq \|\bB^k\bv\| = |\lambda|^k\|\bv\|$. Hence $\|\bB^k\|^{1/k} \geq |\lambda|$ for all $k$, giving $\liminf_{k}\|\bB^k\|^{1/k} \geq \rho(\bB)$.
+
+\textit{Upper bound}: Fix $\epsilon > 0$. The Jordan decomposition gives $\bB = \bV\bJ_0\bV^{-1}$ where $\bJ_0$ is block upper triangular with the eigenvalues of $\bB$ on the diagonal. The entries of $\bJ_0^k$ grow at most as $k^{n-1}|\lambda_{\max}|^k$ (from Jordan block structure). Since $k^{n-1} \leq C_\epsilon(1+\epsilon/\rho(\bB))^k$ for large $k$, we get $\|\bB^k\| \leq C_\epsilon(\rho(\bB)+\epsilon)^k$, so $\limsup_k\|\bB^k\|^{1/k} \leq \rho(\bB)+\epsilon$. Since $\epsilon$ was arbitrary, the limit exists and equals $\rho(\bB)$.
+}
+
 \addThm{Convergence of Stationary Iteration}{%
 The stationary iteration $\bx^{(k+1)} = \bT\bx^{(k)} + \bc$ converges to the fixed point $\bx^* = \bT\bx^* + \bc$ for \emph{every} initial vector $\bx^{(0)}$ if and only if $\rho(\bT) < 1$.
 }

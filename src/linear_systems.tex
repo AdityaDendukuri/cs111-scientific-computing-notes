@@ -221,7 +221,7 @@ Since there are two nonzero rows (pivot rows), the rank of \(\bA\) is \(2\).
 \addDef{Rank-Nullity Theorem}{%
 For any \(m \times n\) matrix \(\bA\),
 \[
-\text{rank}(\bA) + \text{dim}(\bA) = n,
+\text{rank}(\bA) + \text{nullity}(\bA) = n,
 \]
 where the nullity of \(\bA\) is the dimension of its null space. This relationship is fundamental in understanding the solution structure of the homogeneous system \(\bA\bx = \mathbf{0}\).
 }
@@ -245,6 +245,74 @@ In NumPy, \texttt{np.linalg.matrix\_rank(A)} computes the rank numerically (via 
 
 \addNote{%
 In many applications such as data compression, signal processing, and machine learning, the rank of a matrix is used to identify redundancy in data. Low-rank approximations can help reduce dimensionality while preserving essential information.
+}
+
+\subsubsection{Subspaces and the Four Fundamental Subspaces}
+
+\addDef{Subspace}{%
+A nonempty subset $\mathcal{S} \subseteq \fR^n$ is a \emph{subspace} if it is closed under addition and scalar multiplication:
+\begin{enumerate}
+  \item $\bzero \in \mathcal{S}$,
+  \item $\bu, \bv \in \mathcal{S} \Rightarrow \bu + \bv \in \mathcal{S}$,
+  \item $\bu \in \mathcal{S},\, \alpha \in \fR \Rightarrow \alpha\bu \in \mathcal{S}$.
+\end{enumerate}
+Equivalently, $\mathcal{S}$ is a subspace if and only if it is closed under all linear combinations: $\alpha\bu + \beta\bv \in \mathcal{S}$ for all $\bu, \bv \in \mathcal{S}$ and $\alpha, \beta \in \fR$.
+}
+
+\addNote{%
+Every subspace of $\fR^n$ must contain $\bzero$ (set $\alpha = 0$ in condition 3). Conversely, a set that does not contain $\bzero$ cannot be a subspace. Geometrically, subspaces are flat (no curvature) and always pass through the origin — lines and planes through the origin in $\fR^3$ are subspaces; lines and planes that do not pass through the origin are \emph{affine subspaces} (translates of subspaces).
+}
+
+\addDef{The Four Fundamental Subspaces}{%
+For any matrix $\bA \in \fR^{m \times n}$ of rank $r$, four subspaces arise naturally:
+\begin{enumerate}
+  \item \textbf{Column space} (range): $\mathcal{R}(\bA) = \{\bA\bx : \bx \in \fR^n\} \subseteq \fR^m$, \quad $\dim = r$.
+  \item \textbf{Null space} (kernel): $\mathcal{N}(\bA) = \{\bx \in \fR^n : \bA\bx = \bzero\} \subseteq \fR^n$, \quad $\dim = n - r$.
+  \item \textbf{Row space}: $\mathcal{R}(\bA^T) = \{\bA^T\by : \by \in \fR^m\} \subseteq \fR^n$, \quad $\dim = r$.
+  \item \textbf{Left null space}: $\mathcal{N}(\bA^T) = \{\by \in \fR^m : \bA^T\by = \bzero\} \subseteq \fR^m$, \quad $\dim = m - r$.
+\end{enumerate}
+The dimensions are given by the Rank-Nullity Theorem: $r + (n-r) = n$ and $r + (m-r) = m$.
+}
+
+\addThm{Fundamental Theorem of Linear Algebra}{%
+The four fundamental subspaces of $\bA \in \fR^{m \times n}$ satisfy two orthogonality relations:
+\[
+  \mathcal{R}(\bA^T) \perp \mathcal{N}(\bA) \quad \text{in } \fR^n, \qquad \mathcal{R}(\bA) \perp \mathcal{N}(\bA^T) \quad \text{in } \fR^m.
+\]
+Moreover, these pairs are \emph{orthogonal complements}: $\mathcal{R}(\bA^T) \oplus \mathcal{N}(\bA) = \fR^n$ and $\mathcal{R}(\bA) \oplus \mathcal{N}(\bA^T) = \fR^m$.
+}
+
+\addPrf{%
+For the first relation: if $\bv \in \mathcal{R}(\bA^T)$, then $\bv = \bA^T\by$ for some $\by$. For any $\bx \in \mathcal{N}(\bA)$, $\bA\bx = \bzero$, so
+\[
+  \bv^T\bx = (\bA^T\by)^T\bx = \by^T(\bA\bx) = \by^T\bzero = 0.
+\]
+Hence every row space vector is orthogonal to every null space vector. The complementarity (their dimensions sum to $n$, and they have only $\bzero$ in common) follows from the Rank-Nullity Theorem.
+The second relation follows by applying the first to $\bA^T$.
+}
+
+\addNote{%
+The orthogonal complement picture has an immediate payoff for solving $\bA\bx = \bb$:
+\begin{itemize}
+  \item \textbf{Solvability}: $\bA\bx = \bb$ has a solution if and only if $\bb \in \mathcal{R}(\bA)$, equivalently $\bb \perp \mathcal{N}(\bA^T)$ (i.e., $\by^T\bb = 0$ for all $\by$ with $\bA^T\by = \bzero$).
+  \item \textbf{Solution structure}: If $\hat{\bx}$ is any particular solution, the full solution set is $\hat{\bx} + \mathcal{N}(\bA)$ — a translate of the null space.
+  \item \textbf{Uniqueness}: The solution is unique iff $\mathcal{N}(\bA) = \{\bzero\}$, i.e., $\bA$ has full column rank.
+\end{itemize}
+}
+
+\addExmpl{%
+Let $\bA = \begin{pmatrix}1 & 2 & 3 \\ 2 & 4 & 6\end{pmatrix}$. Row 2 is twice row 1, so $\text{rank}(\bA) = 1$.
+\begin{itemize}
+  \item $\mathcal{R}(\bA) = \text{span}\{(1,2)^T\} \subset \fR^2$ — a line through the origin (dimension 1).
+  \item $\mathcal{N}(\bA^T) = \text{span}\{(2,-1)^T\} \subset \fR^2$ — its orthogonal complement (dimension 1). Check: $(1,2)\cdot(2,-1)=0$. $\checkmark$
+  \item $\mathcal{R}(\bA^T) = \text{span}\{(1,2,3)^T\} \subset \fR^3$ — a line (dimension 1).
+  \item $\mathcal{N}(\bA) \subset \fR^3$ — a plane (dimension 2), spanned by $(-2,1,0)^T$ and $(-3,0,1)^T$. Every vector in this plane is orthogonal to $(1,2,3)^T$.
+\end{itemize}
+The system $\bA\bx = \bb$ has a solution only when $\bb = \alpha(1,2)^T$ for some scalar $\alpha$.
+}
+
+\textBox{%
+These four subspaces reappear in every major topic of these notes. In least squares (\S\ref{subsec:least-squares}), the residual $\bb - \bA\hat{\bx}$ lands in $\mathcal{N}(\bA^T)$ — orthogonal to $\mathcal{R}(\bA)$. In SVD, the right singular vectors split into a basis for $\mathcal{R}(\bA^T)$ and $\mathcal{N}(\bA)$; the left singular vectors split into $\mathcal{R}(\bA)$ and $\mathcal{N}(\bA^T)$. In eigenvalue problems, the concept generalizes to \emph{invariant subspaces} — subspaces that are mapped into themselves under $\bA$.
 }
 
 \addDef{Linear Span}{%
