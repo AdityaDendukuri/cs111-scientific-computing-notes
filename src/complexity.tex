@@ -1,0 +1,127 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Computational Complexity}
+\label{sub:complexity}
+
+Every algorithm in scientific computing carries a cost: the number of arithmetic
+operations it performs. Understanding that cost determines whether an algorithm is
+practical at scale and lets us compare competing methods objectively. The flop counts
+derived here will be referenced throughout the course whenever we compare algorithms.
+
+\subsubsection{Big-O Notation}
+
+\addDef{Big-O Notation}{%
+We write $f(n) = O(g(n))$ (read ``$f$ is big-O of $g$'') if there exist constants
+$C > 0$ and $n_0 \geq 1$ such that
+\[
+  |f(n)| \leq C\,|g(n)| \quad \text{for all } n \geq n_0.
+\]
+Informally, $f$ grows no faster than $g$ asymptotically. Related notations:
+\begin{itemize}
+  \item $f = \Omega(g)$: $f$ grows at least as fast as $g$ (i.e., $g = O(f)$).
+  \item $f = \Theta(g)$: $f$ and $g$ grow at the same rate ($f = O(g)$ and $g = O(f)$).
+  \item $f = o(g)$: $f$ grows strictly slower than $g$, i.e., $f(n)/g(n) \to 0$.
+\end{itemize}
+}
+\label{def:big-o}
+
+\addExmpl{%
+Common growth rates, ordered from fastest to slowest for large $n$:
+\[
+  O(n!) \;\gg\; O(2^n) \;\gg\; O(n^3) \;\gg\; O(n^2) \;\gg\; O(n \log n) \;\gg\; O(n) \;\gg\; O(\log n) \;\gg\; O(1).
+\]
+For $n = 1000$: an $O(n^2)$ algorithm performs $\sim 10^6$ operations; an $O(n^3)$
+algorithm performs $\sim 10^9$ --- three orders of magnitude slower. The distinction
+between $O(n^2)$ and $O(n^3)$ is the difference between milliseconds and seconds.
+}
+
+\addThm{Properties of Big-O}{%
+Let $f, g, h$ be positive functions of $n$. Then:
+\begin{enumerate}
+  \item (Transitivity) If $f = O(g)$ and $g = O(h)$, then $f = O(h)$.
+  \item (Sum rule) $O(f) + O(g) = O(\max(f, g))$. In particular, $O(n^3) + O(n^2) = O(n^3)$.
+  \item (Product rule) $O(f) \cdot O(g) = O(fg)$.
+  \item (Constant factors) $O(cf) = O(f)$ for any constant $c > 0$.
+\end{enumerate}
+}
+\label{thm:big-o-properties}
+
+\addPrf{%
+All four follow directly from the definition. For the sum rule: if $|f_1| \leq C_1 g$ and
+$|f_2| \leq C_2 h$ for large $n$, then $|f_1 + f_2| \leq C_1 g + C_2 h \leq
+(C_1 + C_2)\max(g, h)$. For the product rule: $|f_1 f_2| \leq C_1 C_2 \cdot gh$.
+}
+
+\addExcr{%
+Refer to Def~\ref{def:big-o} and Thm~\ref{thm:big-o-properties}.
+\begin{enumerate}
+  \item Show that $3n^2 + 100n + 5 = O(n^2)$ by finding explicit constants $C$ and $n_0$.
+  \item Is $n \log n = O(n^2)$? Is $n^2 = O(n \log n)$? Justify both.
+  \item Rank the following by asymptotic cost for large $n$:
+  (a)~$5n^3 + n$, \enspace (b)~$100n^2$, \enspace (c)~$n^2 \log n$, \enspace (d)~$2^{10} n^2$.
+  \item An algorithm has cost $T(n) = 2T(n/2) + n$. Use the master theorem (or unroll
+  the recurrence) to show $T(n) = O(n \log n)$.
+\end{enumerate}
+}
+
+\subsubsection{Flop Counting}
+
+\addDef{Floating-Point Operation (flop)}{%
+A \emph{floating-point operation} (\emph{flop}) is a single arithmetic operation
+(addition, subtraction, multiplication, or division) on floating-point numbers.
+Flop counts give a hardware-independent measure of algorithmic work.
+Modern CPUs execute billions of flops per second (GFlop/s); GPUs achieve TFlop/s.
+}
+\label{def:flop}
+
+\addThm{Basic Operation Costs}{%
+For vectors $\bx, \by \in \fR^n$ and matrices $\bA \in \fR^{m \times n}$,
+$\bB \in \fR^{n \times p}$:
+\begin{itemize}
+  \item \textbf{Dot product} $\bx^T\by$: $n$ multiplications $+$ $(n-1)$ additions $= 2n - 1 \approx 2n$ flops.
+  \item \textbf{Matrix-vector product} $\bA\bx$: $m$ dot products of length $n$ $= 2mn - m \approx 2mn$ flops.
+  \item \textbf{Matrix-matrix product} $\bA\bB$: $p$ matrix-vector products $= 2mnp$ flops; for square $n \times n$ matrices, $2n^3$ flops.
+  \item \textbf{Triangular solve} $\bL\bx = \bb$ (lower triangular): $n^2$ flops.
+\end{itemize}
+}
+\label{thm:basic-flops}
+
+\addPrf{%
+Each row $i$ of $\bA\bx$ is the dot product $\ba_i^T\bx$, costing $2n - 1$ flops.
+Summing over $m$ rows gives $m(2n-1) = 2mn - m$ flops. For $\bA\bB$, column $j$ of
+the product is $\bA\bb_j$, a matrix-vector product costing $2mn - m$ flops; summing
+over $p$ columns gives $p(2mn - m) \approx 2mnp$. For the triangular solve,
+substituting entry $k$ of $\bx$ costs $2k - 1$ flops; summing $k = 1, \ldots, n$
+gives $\sum_{k=1}^{n}(2k - 1) = n^2$.
+}
+
+\addNote{%
+These baseline costs appear throughout the course. For reference:
+LU factorization costs $\frac{2}{3}n^3$ flops (Section~\ref{sub:lu-factorization});
+Cholesky costs $\frac{1}{3}n^3$ --- half the price for symmetric positive definite
+systems; the QR factorization via Householder reflections costs $\frac{4}{3}n^3$ flops
+(Lem~\ref{lem:qr-cost}).
+}
+
+\addExcr{%
+Refer to Def~\ref{def:flop} and Thm~\ref{thm:basic-flops}.
+\begin{enumerate}
+  \item Verify the exact flop count for $\bA\bx$ ($\bA \in \fR^{m \times n}$) by
+  counting each multiply-add in each row.
+  \item A computer performs $10^9$ flops/second. Estimate wall-clock times for:
+  \begin{itemize}
+    \item $\bA\bx$ with $\bA \in \fR^{1000 \times 1000}$.
+    \item $\bA\bB$ with $\bA, \bB \in \fR^{1000 \times 1000}$.
+    \item $\bA\bB$ with $\bA, \bB \in \fR^{10000 \times 10000}$.
+  \end{itemize}
+  \item In Python, time \texttt{np.dot(A, B)} for $n \in \{100, 500, 1000, 2000\}$
+  with random $n \times n$ matrices. Plot wall-clock time vs.\ $n$ on a log-log scale
+  and estimate the empirical exponent. Does it match $O(n^3)$?
+  \item Explain why the empirical exponent from the previous part may be less than 3.
+  (\textit{Hint: BLAS libraries exploit cache hierarchy and vectorized instructions.})
+\end{enumerate}
+}
+
+\end{document}

@@ -1,0 +1,133 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Python and NumPy Primer}
+\label{sub:numpy-primer}
+
+Every exercise in these notes uses Python with NumPy. This subsection is a
+condensed reference --- not a full tutorial. If you are new to NumPy, work through
+the exercises here before proceeding; if you are experienced, use this as a quick lookup.
+
+\subsubsection{Arrays and Basic Operations}
+
+\addDef{NumPy Arrays}{%
+The core object in NumPy is the \texttt{ndarray}. Key creation patterns:
+\begin{itemize}
+  \item \texttt{np.array([1.0, 2.0, 3.0])} --- 1-D array (vector) from a Python list.
+  \item \texttt{np.array([[1, 2], [3, 4]])} --- 2-D array (matrix).
+  \item \texttt{np.zeros((m, n))}, \texttt{np.ones((m, n))}, \texttt{np.eye(n)} --- special matrices.
+  \item \texttt{np.random.randn(m, n)} --- $m \times n$ matrix with i.i.d.\ $\mathcal{N}(0,1)$ entries.
+  \item \texttt{np.arange(start, stop, step)}, \texttt{np.linspace(a, b, n)} --- ranges.
+\end{itemize}
+Arrays are 0-indexed: \texttt{A[i, j]} accesses row $i$, column $j$;
+\texttt{A[i, :]} is row $i$; \texttt{A[:, j]} is column $j$.
+}
+\label{def:numpy-arrays}
+
+\addNote{%
+\textbf{Shape and dtype.}\enspace
+\texttt{A.shape} returns a tuple \texttt{(m, n)}; \texttt{x.shape} for a 1-D array
+returns \texttt{(n,)}, \emph{not} \texttt{(n, 1)}. Use \texttt{x.reshape(-1, 1)} or
+\texttt{x[:, None]} to convert to a column vector. The default floating-point dtype is
+\texttt{float64} (IEEE double precision, $\varepsilon_{\text{mach}} \approx 2.2 \times 10^{-16}$).
+}
+
+\addExcr{%
+Refer to Def~\ref{def:numpy-arrays}.
+\begin{enumerate}
+  \item Create a $4 \times 4$ identity matrix. Print its \texttt{shape} and \texttt{dtype}.
+  \item Create a $3 \times 3$ random matrix \texttt{A}. Extract its second row and third column as separate arrays.
+  \item Verify that \texttt{np.zeros((3,))} and \texttt{np.zeros((3, 1))} have different
+  shapes. What error occurs if you pass a shape-\texttt{(3,)} array where a column vector
+  is expected in a matrix-vector multiply?
+\end{enumerate}
+}
+
+\subsubsection{Linear Algebra Operations}
+
+\addDef{Key \texttt{np.linalg} Functions}{%
+The \texttt{numpy.linalg} module provides the core linear algebra routines used
+throughout this course:
+\begin{center}
+\begin{tabular}{ll}
+\textbf{Function} & \textbf{Computes} \\ \hline
+\texttt{A @ B} \enspace (or \texttt{np.dot(A, B)}) & Matrix product $\bA\bB$ \\
+\texttt{np.linalg.solve(A, b)} & Solution $\bx$ to $\bA\bx = \bb$ \\
+\texttt{np.linalg.inv(A)} & Matrix inverse $\bA^{-1}$ (avoid; use \texttt{solve}) \\
+\texttt{np.linalg.det(A)} & Determinant $\det(\bA)$ \\
+\texttt{np.linalg.norm(x)} & Euclidean norm $\|\bx\|_2$ \\
+\texttt{np.linalg.norm(A, 'fro')} & Frobenius norm $\|\bA\|_F$ \\
+\texttt{np.linalg.eig(A)} & Eigenvalues and eigenvectors of $\bA$ \\
+\texttt{np.linalg.eigh(A)} & Eigenvalues of symmetric $\bA$ (more stable) \\
+\texttt{np.linalg.svd(A)} & Full SVD: returns $\bU$, $\bsigma$, $\bV^T$ \\
+\texttt{np.linalg.qr(A)} & QR factorization: returns $\bQ$, $\bR$ \\
+\texttt{np.linalg.cond(A)} & Condition number $\kappa_2(\bA) = \sigma_{\max}/\sigma_{\min}$ \\
+\end{tabular}
+\end{center}
+}
+\label{def:numpy-linalg}
+
+\addNote{%
+\textbf{Use \texttt{solve}, not \texttt{inv}.}\enspace
+\texttt{np.linalg.solve(A, b)} computes the solution to $\bA\bx = \bb$ via LU
+factorization in $O(n^3)$ flops. The alternative \texttt{np.linalg.inv(A) @ b} also
+costs $O(n^3)$ but performs an extra matrix-vector multiply and accumulates more rounding
+error. Computing $\bA^{-1}$ explicitly is almost never necessary or desirable in
+numerical computing.
+}
+
+\addExcr{%
+Refer to Def~\ref{def:numpy-linalg}.
+\begin{enumerate}
+  \item Solve
+  $\begin{pmatrix} 2 & 1 \\ 5 & 7 \end{pmatrix} \bx = \begin{pmatrix} 11 \\ 13 \end{pmatrix}$
+  using \texttt{np.linalg.solve}. Verify your solution by computing the residual $\bA\bx - \bb$.
+  \item For a random $500 \times 500$ matrix, time \texttt{np.linalg.solve(A, b)}
+  vs.\ \texttt{np.linalg.inv(A) @ b} over 10 trials. Which is faster, and by how much?
+  \item Use \texttt{np.linalg.eig} on a $3 \times 3$ symmetric matrix. Do any
+  eigenvalues have nonzero imaginary parts? Repeat with \texttt{np.linalg.eigh}
+  and compare the results.
+\end{enumerate}
+}
+
+\subsubsection{Useful Idioms}
+
+\addNote{%
+\textbf{Element-wise vs.\ matrix operations.}\enspace
+\texttt{*} between two arrays is \emph{element-wise} multiplication (Hadamard product),
+not matrix multiplication. Use \texttt{@} for matrix products. Similarly, \texttt{A**2}
+squares every entry; \texttt{np.linalg.matrix\_power(A, 2)} computes $\bA^2 = \bA\bA$.
+}
+
+\addNote{%
+\textbf{Broadcasting.}\enspace
+NumPy broadcasts operations across dimensions when shapes are compatible.
+\texttt{A + 1} adds 1 to every entry of $\bA$; \texttt{A * v} for a length-$n$ vector
+\texttt{v} scales column $j$ of an $m \times n$ matrix by \texttt{v[j]}.
+Broadcasting avoids explicit loops and is critical for performance.
+}
+
+\addNote{%
+\textbf{Views vs.\ copies.}\enspace
+\texttt{B = A} does \emph{not} copy the array --- \texttt{B} is a view (alias) of the
+same data. Modifying \texttt{B} modifies \texttt{A}. Use \texttt{B = A.copy()} to
+create an independent copy. Slices (\texttt{A[i, :]}) are also views.
+}
+
+\addExcr{%
+\begin{enumerate}
+  \item Let \texttt{A = np.array([[1,2],[3,4]])}. Compute \texttt{A * A} and
+  \texttt{A @ A}. Which gives $\bA^2 = \bA\bA$?
+  \item Demonstrate the view pitfall: set \texttt{B = A}, then \texttt{B[0, 0] = 99}.
+  What is \texttt{A[0, 0]}? Repeat with \texttt{B = A.copy()}.
+  \item For a diagonal scaling $\bA\bD$ where $\bD = \mathrm{diag}(\mathbf{d})$, compute the
+  product using broadcasting (\texttt{A * d}) instead of \texttt{A @ np.diag(d)}.
+  Verify the two agree. Why is the broadcasting version preferred for large $n$?
+  \item In Python, construct the matrix $\bA = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}$
+  and compute $\bA^k$ for $k = 1, 2, 5, 10$ using \texttt{np.linalg.matrix\_power}.
+  Describe the pattern in the $(1,2)$ entry.
+\end{enumerate}
+}
+
+\end{document}

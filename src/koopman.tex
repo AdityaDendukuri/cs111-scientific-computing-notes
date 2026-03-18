@@ -1,0 +1,229 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+\subsection{Koopman Operator Theory, DMD, and SINDy}
+\label{sub:koopman}
+
+\textBox{%
+Most real-world dynamical systems are nonlinear: a pendulum, a turbulent flow, an epidemic. The spectral methods developed in this course apply cleanly only to \emph{linear} operators. Koopman operator theory resolves this tension by a remarkable lifting: every nonlinear dynamical system induces a \emph{linear} operator acting on the space of \emph{observable functions} of the state. This section develops Koopman theory from the operator perspective of \S\ref{sub:operators}, then introduces two data-driven algorithms for approximating the Koopman operator from measurement data: Dynamic Mode Decomposition (DMD), which uses the SVD (see \S\ref{sub-svd-four-subspaces}) to extract dominant dynamical modes, and SINDy, which identifies governing equations via sparse regression (see \S\ref{subsec:least-squares}).
+}
+
+\subsubsection{The Koopman Operator}
+
+\textBox{%
+Recall from \S\ref{sub:operators} that a linear operator maps functions to functions, and that even simple operators such as differentiation require careful treatment of domains and ranges. The Koopman operator lives in this world: it acts on the space of scalar-valued functions of the state, and it is linear regardless of whether the underlying dynamics are nonlinear. The remarkable consequence is that nonlinear dynamics can always be analyzed with linear spectral theory, at the cost of working in a higher (often infinite) dimensional function space.
+}
+
+\addDef{Dynamical System and Observable}{%
+A \emph{discrete-time dynamical system} on state space $\mathcal{M} \subseteq \fR^n$ is defined by a (possibly nonlinear) map $\mathbf{F}: \mathcal{M} \to \mathcal{M}$, with trajectories $\bx^{(k+1)} = \mathbf{F}(\bx^{(k)})$. An \emph{observable} is any function $g: \mathcal{M} \to \fR$ (or $\fC$) that measures some feature of the state, such as $g(\bx) = x_1$, $g(\bx) = \|\bx\|^2$, or $g(\bx) = \sin(x_1 + x_2)$.
+}
+\label{def:dynamical-system}
+
+\addExcr{%
+\textbf{(Observables and measurements)} For the logistic map $F(x) = rx(1-x)$ on $[0,1]$ with $r = 3.8$:
+\begin{enumerate}
+  \item Write a Python function that evolves the map for $N = 300$ steps from $x_0 = 0.4$.
+  \item Consider the three observables $g_1(x) = x$, $g_2(x) = x^2$, and $g_3(x) = x(1-x)$. Plot the time series $g_i(x^{(k)})$ for each. Do any of the observable sequences look more regular or predictable than the state $x^{(k)}$ itself?
+  \item This map is nonlinear. Does it have a fixed point? If so, find it and classify its stability.
+\end{enumerate}
+}
+
+\addDef{Koopman Operator}{%
+Given a dynamical system $\bx^{(k+1)} = \mathbf{F}(\bx^{(k)})$, the \emph{Koopman operator} $\mathcal{K}$ acts on observables by composition with $\mathbf{F}$:
+\[
+  (\mathcal{K}\,g)(\bx) \;=\; g\bigl(\mathbf{F}(\bx)\bigr).
+\]
+The operator $\mathcal{K}$ is \emph{linear} on the space of observables even when $\mathbf{F}$ is nonlinear: for any observables $g$, $h$ and scalars $\alpha$, $\beta$, $\mathcal{K}(\alpha g + \beta h) = \alpha\mathcal{K}g + \beta\mathcal{K}h$.
+}
+\label{def:koopman-operator}
+
+\addPrf{%
+\textbf{(Linearity of $\mathcal{K}$)} For any $\bx \in \mathcal{M}$:
+\[
+  \bigl[\mathcal{K}(\alpha g + \beta h)\bigr](\bx) = (\alpha g + \beta h)\bigl(\mathbf{F}(\bx)\bigr) = \alpha\,g\bigl(\mathbf{F}(\bx)\bigr) + \beta\,h\bigl(\mathbf{F}(\bx)\bigr) = (\alpha\mathcal{K}g + \beta\mathcal{K}h)(\bx). \qquad \square
+\]
+}
+
+\addNote{%
+The tradeoff in passing from $\mathbf{F}$ to $\mathcal{K}$ is dimensionality: $\mathbf{F}$ acts on $\fR^n$ (finite-dimensional) while $\mathcal{K}$ acts on an infinite-dimensional function space (analogous to the infinite-dimensional operators discussed in \S\ref{sub:operators}). For linear systems $\mathbf{F}(\bx) = \bA\bx$, the Koopman operator restricted to linear observables $g(\bx) = \bc^T\bx$ is represented exactly by $\bA^T$, recovering the finite matrix picture. For nonlinear systems, the goal is to find a finite-dimensional \emph{approximation} to $\mathcal{K}$ from data.
+}
+
+\addExcr{%
+\textbf{(Koopman eigenfunctions for linear systems)} For the linear system $\bx^{(k+1)} = \bA\bx^{(k)}$ with $\bA \in \fR^{n\times n}$:
+\begin{enumerate}
+  \item Show that if $\bA^T\bw = \lambda\bw$ (i.e., $\bw$ is a left eigenvector of $\bA$), then $\varphi(\bx) = \bw^T\bx$ is a Koopman eigenfunction with eigenvalue $\lambda$: $\varphi(\bA\bx) = \lambda\varphi(\bx)$.
+  \item For $\bA = \begin{pmatrix}0.9 & 0 \\ 0 & 0.5\end{pmatrix}$, write down two explicit Koopman eigenfunctions and verify them by computing $\varphi(\bA\bx)$ directly.
+  \item Explain why $g(\bx) = x_1 x_2$ is \emph{not} a Koopman eigenfunction for this $\bA$.
+\end{enumerate}
+}
+
+\addDef{Koopman Eigenfunction}{%
+A nonzero observable $\varphi: \mathcal{M} \to \fC$ is a \emph{Koopman eigenfunction} with eigenvalue $\mu \in \fC$ if
+\[
+  \mathcal{K}\,\varphi = \mu\,\varphi, \qquad \text{i.e.,} \qquad \varphi\bigl(\mathbf{F}(\bx)\bigr) = \mu\,\varphi(\bx) \quad \text{for all } \bx \in \mathcal{M}.
+\]
+Along any trajectory, $\varphi(\bx^{(k)}) = \mu^k\,\varphi(\bx^{(0)})$: the eigenfunction evolves as a pure geometric sequence, regardless of the nonlinearity of $\mathbf{F}$.
+}
+\label{def:koopman-eigenfunction}
+
+\addExcr{%
+\textbf{(Eigenfunction time series)} For the logistic map $F(x) = 3.2\,x(1-x)$ (period-2 regime):
+\begin{enumerate}
+  \item Find the two fixed points of $F^2 = F \circ F$ (the period-2 orbit). Call them $p_1$ and $p_2$.
+  \item Consider $\varphi(x) = (x - p_1)(x - p_2)$. Check numerically whether $\varphi(F(x)) = \mu\,\varphi(x)$ for some constant $\mu$ by computing $\varphi(F(x))/\varphi(x)$ at several $x$ values. Is $\varphi$ an eigenfunction?
+  \item Plot the time series $\varphi(x^{(k)})$ for 50 steps. Does it evolve as a pure geometric sequence?
+\end{enumerate}
+}
+
+\addDef{EDMD Finite-Dimensional Approximation}{%
+To approximate $\mathcal{K}$ numerically, choose a dictionary of $p$ observables $\boldsymbol{\psi}(\bx) = (\psi_1(\bx), \ldots, \psi_p(\bx))^T$. Given $m$ pairs of consecutive snapshots $\{(\bx^{(k)}, \bx^{(k+1)})\}_{k=0}^{m-1}$, form the dictionary matrices
+\[
+  \boldsymbol{\Psi}_X = \begin{bmatrix}\boldsymbol{\psi}(\bx^{(0)}) & \cdots & \boldsymbol{\psi}(\bx^{(m-1)})\end{bmatrix} \in \fR^{p \times m}, \qquad \boldsymbol{\Psi}_Y = \begin{bmatrix}\boldsymbol{\psi}(\bx^{(1)}) & \cdots & \boldsymbol{\psi}(\bx^{(m)})\end{bmatrix} \in \fR^{p \times m}.
+\]
+The \emph{Extended Dynamic Mode Decomposition (EDMD)} matrix is the least squares solution
+\[
+  \mathbf{K} = \argmin_{\mathbf{K} \in \fR^{p\times p}} \|\boldsymbol{\Psi}_Y - \mathbf{K}\,\boldsymbol{\Psi}_X\|_F^2 = \boldsymbol{\Psi}_Y\,\boldsymbol{\Psi}_X^+.
+\]
+}
+\label{def:edmd}
+
+\addNote{%
+EDMD reduces to standard DMD when $\boldsymbol{\psi}(\bx) = \bx$ (the identity dictionary). The quality of the approximation depends on the dictionary: polynomial dictionaries work well for polynomial dynamics, but may fail for systems with complex invariant sets. This is a bias-variance tradeoff: a richer dictionary reduces bias but increases variance and cost.
+}
+
+\subsubsection{Dynamic Mode Decomposition}
+
+\textBox{%
+DMD is the most widely used data-driven spectral method in computational science. Given a sequence of state snapshots, DMD computes the best-fit linear operator $\bA$ satisfying $\bx^{(k+1)} \approx \bA\bx^{(k)}$ and decomposes the data into spatial modes oscillating at identified frequencies. The algorithm is built entirely on the truncated SVD (see \S\ref{sub-svd-four-subspaces}), making it both numerically stable and scalable to high-dimensional systems.
+}
+
+\addDef{DMD Data Matrices}{%
+Given $m+1$ state snapshots $\bx^{(0)}, \bx^{(1)}, \ldots, \bx^{(m)} \in \fR^n$, form the two snapshot matrices
+\[
+  \bX = \begin{bmatrix}\bx^{(0)} & \bx^{(1)} & \cdots & \bx^{(m-1)}\end{bmatrix} \in \fR^{n \times m}, \qquad
+  \bY = \begin{bmatrix}\bx^{(1)} & \bx^{(2)} & \cdots & \bx^{(m)}\end{bmatrix} \in \fR^{n \times m}.
+\]
+DMD seeks the best-fit matrix $\bA \in \fR^{n\times n}$ minimizing $\|\bY - \bA\bX\|_F$.
+}
+\label{def:dmd-matrices}
+
+\addThm{DMD via Truncated SVD}{%
+Let $\bX \approx \hat{\bU}\hat{\bS}\hat{\bV}^T$ be the rank-$r$ truncated SVD of $\bX$. Define
+\[
+  \tilde{\bA} = \hat{\bU}^T\bY\hat{\bV}\hat{\bS}^{-1} \in \fR^{r \times r}.
+\]
+The DMD eigenvalues $\{\lambda_i\}$ are the eigenvalues of $\tilde{\bA}$. The corresponding full-space DMD modes are the columns of $\boldsymbol{\Phi} = \bY\hat{\bV}\hat{\bS}^{-1}\mathbf{W}$, where $\mathbf{W}$ contains the eigenvectors of $\tilde{\bA}$.
+}
+\label{thm:dmd-svd}
+
+\addPrf{%
+\textbf{Step 1: Least squares for $\bA$.} The best-fit operator is $\bA = \bY\bX^+$ where $\bX^+ = \hat{\bV}\hat{\bS}^{-1}\hat{\bU}^T$ is the pseudoinverse of $\bX$ (from the SVD-based least squares formula of \S\ref{subsec:least-squares}). This follows from the normal equations $\bA\bX\bX^T = \bY\bX^T$, whose minimum-norm solution uses the pseudoinverse.
+
+\textbf{Step 2: Projection onto dominant subspace.} When $n$ is large (e.g., $n = 10^6$ spatial degrees of freedom from a fluid simulation), forming and diagonalizing the $n \times n$ matrix $\bA$ is infeasible. Instead, we project onto the $r$-dimensional column space of $\hat{\bU}$:
+\[
+  \tilde{\bA} = \hat{\bU}^T\bA\hat{\bU} = \hat{\bU}^T(\bY\bX^+)\hat{\bU} = \hat{\bU}^T\bY\hat{\bV}\hat{\bS}^{-1}.
+\]
+The $r \times r$ matrix $\tilde{\bA}$ captures the dominant dynamics at cost $O(nmr + r^3)$ rather than $O(n^3)$.
+
+\textbf{Step 3: Mode reconstruction.} If $\tilde{\bA}\mathbf{w}_i = \lambda_i\mathbf{w}_i$, the full-space DMD mode is $\boldsymbol{\phi}_i = \hat{\bU}\mathbf{w}_i$ in the projected formulation, or more accurately $\boldsymbol{\phi}_i = \bY\hat{\bV}\hat{\bS}^{-1}\mathbf{w}_i / \lambda_i$ (the ``exact DMD'' formula), which lies in the range of $\bY$ rather than $\bX$.
+}
+
+\addNote{%
+The DMD expansion $\bx^{(k)} \approx \sum_{i=1}^r b_i\,\lambda_i^k\,\boldsymbol{\phi}_i$ decomposes the data into $r$ spatiotemporal modes. Each mode $\boldsymbol{\phi}_i$ is a spatial pattern oscillating at frequency $\arg(\lambda_i)/(2\pi)$ and growing or decaying at rate $|\lambda_i|$ per time step. Stable modes lie on the unit circle ($|\lambda_i| = 1$). The amplitudes $b_i$ satisfy a small least squares problem $\boldsymbol{\Phi}\mathbf{b} \approx \bx^{(0)}$.
+}
+
+\addExcr{%
+\textbf{(DMD on a coupled oscillator)} Generate data from the linear system $\dot{\bx} = \bA_c\bx$ with
+\[
+  \bA_c = \begin{pmatrix}-0.1 & 2 \\ -2 & -0.1\end{pmatrix}
+\]
+using \texttt{scipy.integrate.solve\_ivp} for $t \in [0, 10]$ with 201 time steps and $\bx^{(0)} = (1,0)^T$.
+\begin{enumerate}
+  \item Form $\bX$ and $\bY$ from consecutive snapshots. Compute the rank-2 truncated SVD of $\bX$.
+  \item Compute $\tilde{\bA}$ and its eigenvalues $\lambda_i$. The continuous-time eigenvalues of $\bA_c$ are $-0.1 \pm 2i$. Convert DMD eigenvalues to continuous time via $\omega_i = \log(\lambda_i)/\Delta t$ and compare.
+  \item Reconstruct the time series $\hat{\bx}^{(k)} = \sum_i b_i\lambda_i^k\boldsymbol{\phi}_i$ and plot against the true solution. What is the relative reconstruction error $\|\bX - \hat{\bX}\|_F / \|\bX\|_F$?
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(Effect of noise and truncation rank)} Using the same oscillator system, add measurement noise: $\tilde{\bx}^{(k)} = \bx^{(k)} + \sigma\boldsymbol{\varepsilon}^{(k)}$ where $\boldsymbol{\varepsilon}^{(k)} \sim \mathcal{N}(\bzero, \bI)$.
+\begin{enumerate}
+  \item For noise levels $\sigma \in \{0, 0.01, 0.1, 0.5\}$, plot the singular value decay of $\bX$ in each case. Where does the numerical rank appear to be?
+  \item Run DMD with truncation ranks $r \in \{1, 2, 3, 5\}$ on the $\sigma = 0.1$ case. Compare the identified eigenvalues and reconstruction errors.
+  \item Which $r$ gives the best tradeoff between model accuracy and robustness to noise? How does this relate to the singular value spectrum?
+\end{enumerate}
+}
+
+\subsubsection{SINDy: Sparse Identification of Nonlinear Dynamics}
+
+\textBox{%
+DMD finds the best-fit \emph{linear} model $\bx^{(k+1)} = \bA\bx^{(k)}$. But many systems of scientific interest are nonlinear in a structured, interpretable way: the Lorenz equations are quadratic, the logistic map is a degree-2 polynomial. SINDy (Sparse Identification of Nonlinear Dynamics) exploits this by positing that the governing equations involve only a few terms from a large library of candidate nonlinear functions. The identification problem then reduces to sparse regression: a natural extension of the regularized least squares of \S\ref{subsec:least-squares}.
+}
+
+\addDef{SINDy Library Matrix}{%
+Given $m$ state snapshots forming the rows of $\bX \in \fR^{m \times n}$, define a library of $p$ candidate functions $\psi_1, \ldots, \psi_p$ (e.g., monomials up to degree $d$, trigonometric functions). Evaluating each library function on each snapshot yields the \emph{library matrix}
+\[
+  \boldsymbol{\Theta}(\bX) = \begin{bmatrix} \boldsymbol{\psi}_1(\bX) & \boldsymbol{\psi}_2(\bX) & \cdots & \boldsymbol{\psi}_p(\bX) \end{bmatrix} \in \fR^{m \times p},
+\]
+where $\boldsymbol{\psi}_j(\bX) \in \fR^m$ evaluates $\psi_j$ on each row of $\bX$. For an $n$-dimensional system with degree-2 polynomial library, $p = 1 + n + \binom{n+2}{2} - 1$.
+}
+\label{def:sindy-library}
+
+\addNote{%
+Each column $\boldsymbol{\xi}_i$ of the coefficient matrix $\boldsymbol{\Xi} \in \fR^{p \times n}$ gives the right-hand side equation for $\dot{x}_i$ as a linear combination of library terms. For the Lorenz system, the $\dot{x}$ equation is $\dot{x} = \sigma(y - x) = -\sigma x + \sigma y$, so $\boldsymbol{\xi}_1$ has nonzeros only in the $x$ and $y$ positions with values $-\sigma$ and $+\sigma$. Identifying which entries are nonzero, and their values, from data is the core SINDy problem.
+}
+
+\addExcr{%
+\textbf{(Library construction)} For states in $\fR^2$ with $\bx = (x_1, x_2)^T$:
+\begin{enumerate}
+  \item Write out all degree-2 polynomial library functions $\{1, x_1, x_2, x_1^2, x_1 x_2, x_2^2\}$ and construct $\boldsymbol{\Theta}(\bX)$ for $m = 5$ random snapshots in NumPy.
+  \item If the true dynamics are $\dot{x}_1 = -2x_1 + x_1 x_2$, $\dot{x}_2 = x_2 - x_1 x_2$, write down the true coefficient matrix $\boldsymbol{\Xi}$.
+  \item What is the sparsity (fraction of zeros) of $\boldsymbol{\Xi}$ for this example? How does it change as $n$ or the polynomial degree increases?
+\end{enumerate}
+}
+
+\addDef{Sparse Thresholded Least Squares (STLS)}{%
+Given the library regression problem $\dot{\bX} \approx \boldsymbol{\Theta}(\bX)\,\boldsymbol{\Xi}$, the \emph{STLS algorithm} finds a sparse $\boldsymbol{\Xi}$ by iterating between least squares regression on the active terms and hard thresholding to eliminate small coefficients:
+\begin{enumerate}
+  \item \textbf{Initialize:} $\boldsymbol{\Xi}^{(0)} = \boldsymbol{\Theta}(\bX)^+\,\dot{\bX}$ (unconstrained least squares solution via \texttt{numpy.linalg.lstsq}).
+  \item \textbf{Threshold:} Set $\xi^{(j)}_{ij} \leftarrow 0$ whenever $|\xi^{(j)}_{ij}| < \lambda$.
+  \item \textbf{Regress:} For each state variable $i$, let $\mathcal{A}_i^{(j)}$ be the set of active (nonzero) library indices. Solve
+  \[
+    \boldsymbol{\xi}_i^{(j+1)} = \argmin_{\boldsymbol{\xi}}\,\|\boldsymbol{\Theta}_{\mathcal{A}_i^{(j)}}\,\boldsymbol{\xi} - \dot{\bX}_{:,i}\|_2^2,
+  \]
+  where $\boldsymbol{\Theta}_{\mathcal{A}}$ denotes the columns of $\boldsymbol{\Theta}$ indexed by $\mathcal{A}$.
+  \item Repeat steps 2 and 3 until $\boldsymbol{\Xi}$ does not change.
+\end{enumerate}
+}
+\label{def:stls}
+
+\addNote{%
+STLS approximates the LASSO problem $\min_{\boldsymbol{\Xi}} \|\dot{\bX} - \boldsymbol{\Theta}\boldsymbol{\Xi}\|_F^2 + \lambda\|\boldsymbol{\Xi}\|_1$ using hard rather than soft thresholding, which tends to produce sparser solutions. Step 3 is a standard (underdetermined or overdetermined) least squares solve on a reduced column set, directly reusing the QR-based \texttt{lstsq} routine. The threshold $\lambda$ plays the same role as the regularization parameter in ridge regression: too small yields a dense, overfit $\boldsymbol{\Xi}$; too large prunes true terms and underspecifies the model.
+}
+
+\addExcr{%
+\textbf{(SINDy on the Lorenz system)} The Lorenz system is
+\[
+  \dot{x} = \sigma(y - x), \quad \dot{y} = x(\rho - z) - y, \quad \dot{z} = xy - \beta z,
+\]
+with parameters $\sigma = 10$, $\rho = 28$, $\beta = 8/3$.
+\begin{enumerate}
+  \item Simulate with \texttt{scipy.integrate.solve\_ivp} for $t \in [0,10]$, 2001 time steps, initial condition $(1,1,1)$. Store $\bX \in \fR^{2001 \times 3}$.
+  \item Build the degree-2 polynomial library $\boldsymbol{\Theta}(\bX) \in \fR^{2001 \times 10}$ with columns $\{1, x, y, z, x^2, xy, xz, y^2, yz, z^2\}$.
+  \item Estimate $\dot{\bX}$ by central finite differences: $\dot{\bx}^{(k)} \approx (\bx^{(k+1)} - \bx^{(k-1)})/(2\Delta t)$ for interior points.
+  \item Implement STLS with $\lambda = 0.5$. Print the identified $\boldsymbol{\Xi}$ and compare to the true equations. Do you recover $\sigma$, $\rho$, and $\beta$?
+  \item Repeat with $\lambda = 0.05$ and $\lambda = 2.0$. How does the sparsity of $\boldsymbol{\Xi}$ change? Which $\lambda$ gives the most physically interpretable result?
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(Model selection and cross-validation)} Using the Lorenz simulation from the previous exercise:
+\begin{enumerate}
+  \item Split the trajectory: use the first 70\% for training and the last 30\% for testing.
+  \item Run STLS on the training data for $\lambda \in \{0.02, 0.05, 0.1, 0.5, 1.5\}$. For each $\lambda$, integrate the identified model forward from the test initial condition using \texttt{solve\_ivp} and compute the prediction error $\|\bx_{\text{pred}}(T) - \bx_{\text{true}}(T)\|_2$ at the final test time $T$.
+  \item Plot two curves against $\lambda$: (a) the number of nonzero terms in $\boldsymbol{\Xi}$, and (b) the test prediction error. Identify the best $\lambda$.
+  \item Instead of STLS, use ridge regression (replace step 3 with $\boldsymbol{\Xi} = (\boldsymbol{\Theta}^T\boldsymbol{\Theta} + \mu\bI)^{-1}\boldsymbol{\Theta}^T\dot{\bX}$ from Def~\ref{subsec:least-squares}) for the same $\mu$ values. Compare the sparsity and interpretability of the two approaches.
+\end{enumerate}
+}
+
+\end{document}

@@ -86,7 +86,7 @@ The second term is independent of $\bx$, so minimizing over $\bx$ is equivalent 
 }
 
 \addNote{%
-The QR approach avoids forming $\bA^T\bA$ and thus does not suffer from condition number squaring. Its cost is $O(mn^2)$ for the QR factorization plus $O(n^2)$ for the triangular solve---comparable to the normal equations but numerically far superior. In NumPy, \texttt{np.linalg.lstsq(A, b)} uses this approach internally (QR or SVD depending on shape and rank).
+The QR approach avoids forming $\bA^T\bA$ and thus does not suffer from condition number squaring. Its cost is $O(mn^2)$ for the QR factorization plus $O(n^2)$ for the triangular solve, comparable to the normal equations but numerically far superior. In NumPy, \texttt{np.linalg.lstsq(A, b)} uses this approach internally (QR or SVD depending on shape and rank).
 }
 
 \addDef{Weighted Least Squares}{%
@@ -100,6 +100,26 @@ When $\bA$ is rank-deficient or nearly so, the least squares solution can have e
 \addNote{%
 The least squares framework extends to many important problems: nonlinear least squares fits nonlinear models by iteratively linearizing (Gauss-Newton/Levenberg-Marquardt); sparse regression (LASSO) replaces the $\ell^2$ penalty by an $\ell^1$ penalty to promote sparsity; total least squares accounts for errors in both $\bA$ and $\bb$.
 }
+
+\addDef{Vandermonde Matrix}{%
+Given $m$ sample points $t_1, \ldots, t_m$ and the monomial basis
+$\{1, t, t^2, \ldots, t^n\}$, the \emph{Vandermonde matrix} is
+\[
+  \bV =
+  \begin{pmatrix}
+    1 & t_1 & t_1^2 & \cdots & t_1^n \\
+    1 & t_2 & t_2^2 & \cdots & t_2^n \\
+    \vdots & \vdots & \vdots & & \vdots \\
+    1 & t_m & t_m^2 & \cdots & t_m^n
+  \end{pmatrix}
+  \in \fR^{m \times (n+1)}.
+\]
+The polynomial fitting problem with monomial coefficients $\bc = (c_0, \ldots, c_n)^T$
+is $\bV\bc \approx \mathbf{f}$, solved as a least squares problem when $m > n+1$.
+For square systems ($m = n+1$, interpolation), $\bV$ is invertible whenever the
+nodes $t_i$ are distinct.
+}
+\label{def:vandermonde}
 
 \addExcr{%
 \textbf{(Polynomial regression)} Fit a degree-2 polynomial $p(t) = c_0 + c_1 t + c_2 t^2$ to the data $(t_i, y_i)$ for $i = 1,\ldots, 6$: $t = (0, 0.5, 1, 1.5, 2, 2.5)$, $y = (1.0, 1.8, 2.3, 2.5, 2.3, 2.0)$.

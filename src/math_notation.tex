@@ -1,0 +1,134 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+
+\subsection{Mathematical Notation and Proof Techniques}
+\label{sub:math-notation}
+
+These notes assume familiarity with calculus and basic proof writing, but the conventions
+below establish a shared vocabulary used throughout. Skimming this subsection now will
+prevent confusion when proofs appear later.
+
+\subsubsection{Logic and Set Notation}
+
+\addDef{Logical Quantifiers}{%
+The \emph{universal quantifier} $\forall$ means ``for all''; the \emph{existential quantifier}
+$\exists$ means ``there exists''. For example, ``$\forall \varepsilon > 0,\;\exists \delta > 0$
+such that\ldots'' reads as ``for every positive $\varepsilon$ there is a positive $\delta$
+such that\ldots''. The negation of $\forall x,\, P(x)$ is $\exists x,\, \neg P(x)$, and vice versa.
+}
+\label{def:quantifiers}
+
+\addDef{Implication and Equivalence}{%
+$P \Rightarrow Q$ (``$P$ implies $Q$'') means: whenever $P$ is true, $Q$ is also true.
+$P \Leftrightarrow Q$ (``$P$ if and only if $Q$'', abbreviated \emph{iff}) means
+$P \Rightarrow Q$ and $Q \Rightarrow P$.
+The \emph{contrapositive} of $P \Rightarrow Q$ is $\neg Q \Rightarrow \neg P$, which is
+logically equivalent and often easier to prove.
+}
+\label{def:implication}
+
+\addDef{Set Notation}{%
+A \emph{set} is a collection of distinct objects. Common notation:
+\begin{itemize}
+  \item $x \in S$: $x$ is an element of $S$; \quad $x \notin S$: $x$ is not.
+  \item $S \subseteq T$: $S$ is a subset of $T$ (every element of $S$ is in $T$).
+  \item $S \cup T$: union; \quad $S \cap T$: intersection; \quad $S \setminus T$: set difference.
+  \item $\{x \in S : P(x)\}$: the set of elements in $S$ satisfying property $P$.
+\end{itemize}
+Common number sets used throughout these notes: $\fZ$ (integers), $\fR$ (reals),
+$\fC$ (complex numbers), $\fR^n$ (real $n$-vectors), $\fR^{m \times n}$
+(real $m \times n$ matrices).
+}
+\label{def:set-notation}
+
+\addExcr{%
+\begin{enumerate}
+  \item Write the statement ``every invertible matrix has a nonzero determinant'' using
+  quantifiers and implication.
+  \item State the contrapositive of: ``if $\bA$ is invertible, then $\bA\bx = \bzero$
+  implies $\bx = \bzero$.''
+  \item Let $S = \{1, 2, 3, 4\}$ and $T = \{3, 4, 5, 6\}$. Compute $S \cup T$,
+  $S \cap T$, and $S \setminus T$.
+\end{enumerate}
+}
+
+\subsubsection{Proof Techniques}
+
+\textBox{%
+Nearly every claim in these notes is accompanied by a proof. There are three main
+strategies used here; recognizing which applies is the first step in writing your own proofs.
+}
+
+\addDef{Direct Proof}{%
+A \emph{direct proof} of $P \Rightarrow Q$ assumes $P$ is true and derives $Q$ through a
+chain of valid logical steps. Most proofs in these notes are direct.
+}
+\label{def:direct-proof}
+
+\addDef{Proof by Contradiction}{%
+To prove statement $P$: assume $\neg P$ and derive a logical contradiction
+($R$ and $\neg R$ simultaneously, for some statement $R$). This shows $\neg P$ is
+impossible, so $P$ must hold.
+}
+\label{def:proof-contradiction}
+
+\addDef{Proof by Induction}{%
+To prove $P(n)$ holds for all integers $n \geq n_0$:
+\begin{enumerate}
+  \item \emph{Base case}: verify $P(n_0)$ directly.
+  \item \emph{Inductive step}: assume $P(k)$ (the \emph{inductive hypothesis}) and prove $P(k+1)$.
+\end{enumerate}
+Mathematical induction appears whenever an algorithm or formula is defined recursively.
+}
+\label{def:proof-induction}
+
+\addExcr{%
+\begin{enumerate}
+  \item Use a direct proof to show: if $\bA$ and $\bB$ are symmetric
+  ($\bA^T = \bA$, $\bB^T = \bB$), then $\bA + \bB$ is symmetric.
+  \item Use proof by contradiction to show: if $\bA\bx = \bzero$ implies $\bx = \bzero$,
+  then $\bA$ has no zero eigenvalue.
+  \item By induction, prove $\displaystyle\sum_{k=1}^{n} k = \frac{n(n+1)}{2}$.
+\end{enumerate}
+}
+
+\subsubsection{Notation Conventions}
+
+\textBox{%
+The following conventions are used consistently throughout these notes.
+}
+
+\addNote{%
+\textbf{Scalars, Vectors, and Matrices.}\enspace
+Scalars are lowercase italic: $a, b, c, x$.
+Vectors are lowercase bold: $\bx, \by, \ba$.
+Matrices are uppercase bold: $\bA, \bB, \bQ$.
+The $i$-th entry of $\bx$ is $x_i$; the $(i,j)$ entry of $\bA$ is $a_{ij}$ or $(\bA)_{ij}$.
+Indexing is 1-based throughout (unlike Python).
+}
+
+\addNote{%
+\textbf{Transpose and Inverse.}\enspace
+$\bA^T$ is the transpose of $\bA$; $\bA^{-1}$ is the matrix inverse (exists only for
+square, invertible $\bA$). The notation $\bA^{-T}$ means $(\bA^{-1})^T = (\bA^T)^{-1}$.
+$\bA^k$ denotes $\bA$ multiplied by itself $k$ times; $\bA^0 = \bI$.
+}
+
+\addNote{%
+\textbf{Sums and Products.}\enspace
+\[
+  \sum_{i=1}^{n} a_i = a_1 + a_2 + \cdots + a_n, \qquad
+  \prod_{i=1}^{n} a_i = a_1 a_2 \cdots a_n.
+\]
+When the index set is clear from context we write $\sum_i a_i$.
+}
+
+\addNote{%
+\textbf{Functions.}\enspace
+$f : \fR^n \to \fR^m$ means $f$ maps $n$-vectors to $m$-vectors.
+$f \circ g$ denotes function composition: $(f \circ g)(\bx) = f(g(\bx))$.
+A function $f : \fR^{m \times n} \to \fR$ maps matrices to scalars (e.g., a norm or the determinant).
+}
+
+\end{document}

@@ -4,38 +4,57 @@
 
 \subsection{Matrix Arithmetic}
 
-We are all familiar with scalar arithmetic, including operations like addition, subtraction, and multiplication, as well as fundamental properties such as associativity and distributivity. In the following sections, we extend these familiar concepts to vectors and matrices, exploring how these operations are defined and applied in higher dimensions.
+We are all familiar with scalar arithmetic: addition, subtraction, multiplication, and
+properties such as associativity and distributivity.  In the following sections we extend
+these operations to vectors and matrices, building the algebraic machinery used throughout
+scientific computing.
 
 \subsubsection{Addition and Subtraction}
 
-Matrix addition is performed element-wise. Note that matrices can only be added (or subtracted) if they have the same dimensions.
+Matrix addition generalizes scalar addition by operating entry-wise.  The key constraint
+is dimensional compatibility: two matrices can be added only when they share the same shape.
 
 \addDef{Matrix Sum}{%
-Let $\bA, \bB \in \fR^{m \times n}$ be matrices. Their sum is defined as
+Let $\bA, \bB \in \fR^{m \times n}$.  Their sum is defined as
 \[
 \bA + \bB = \printmatsq{a} + \printmatsq{b} = \printmatsq{(a+b)},
 \]
-where each entry satisfies $(a+b)_{ij} = a_{ij} + b_{ij}$ for $1 \le i \le m$ and $1 \le j \le n$.
+where each entry satisfies $(a+b)_{ij} = a_{ij} + b_{ij}$ for $1 \le i \le m$ and
+$1 \le j \le n$.
 }
+\label{def:matrix-sum}
 
 \addNote{%
-For two matrices $\bA \in \fR^{m \times n}$ and $\bB \in \fR^{p \times q}$, the sum $\bA+\bB$ is defined if and only if $m=p$ and $n=q$.
+For $\bA \in \fR^{m \times n}$ and $\bB \in \fR^{p \times q}$, the sum $\bA + \bB$ is
+defined if and only if $m = p$ and $n = q$.
+}
+
+\addExcr{%
+Refer to Def~\ref{def:matrix-sum}.
+\begin{enumerate}
+    \item Let $\bA = \begin{pmatrix}1 & 2 \\ 3 & 4\end{pmatrix}$ and
+    $\bB = \begin{pmatrix}5 & 6 \\ 7 & 8\end{pmatrix}$.  Compute $\bA + \bB$ and
+    $2\bA - \bB$ by hand.
+    \item In NumPy, verify your answers using \texttt{np.array}.  Then check whether
+    \texttt{np.array([1,2,3])} $+$ \texttt{np.array([1,2])} raises an error and explain why.
+\end{enumerate}
 }
 
 \textBox{%
-\textbf{ Commutativity and Associativity of Matrix Addition}\\[2mm]
-Let 
+\textbf{Commutativity and Associativity of Matrix Addition}\\[2mm]
+Let
 \[
-\bA = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \quad \text{and} \quad \bB = \begin{pmatrix} e & f \\ g & h \end{pmatrix}.
+\bA = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \quad \text{and} \quad
+\bB = \begin{pmatrix} e & f \\ g & h \end{pmatrix}.
 \]
 Then,
 \[
-\bA + \bB = \begin{pmatrix} a+e & b+f \\ c+g & d+h \end{pmatrix} 
-\quad \text{and} \quad 
+\bA + \bB = \begin{pmatrix} a+e & b+f \\ c+g & d+h \end{pmatrix}
+\quad \text{and} \quad
 \bB + \bA = \begin{pmatrix} e+a & f+b \\ g+c & h+d \end{pmatrix}.
 \]
-Since addition of real numbers is commutative, we have $\bA+\bB = \bB+\bA$. Furthermore, for any third matrix 
-\(\mathbf{C} = \begin{pmatrix} i & j \\ k & l \end{pmatrix}\),
+Since addition of real numbers is commutative, $\bA + \bB = \bB + \bA$.  Furthermore,
+for any third matrix $\mathbf{C} = \begin{pmatrix} i & j \\ k & l \end{pmatrix}$,
 \[
 (\bA+\bB)+\mathbf{C} = \begin{pmatrix} (a+e)+i & (b+f)+j \\ (c+g)+k & (d+h)+l \end{pmatrix},
 \]
@@ -43,95 +62,151 @@ and
 \[
 \bA+(\bB+\mathbf{C}) = \begin{pmatrix} a+(e+i) & b+(f+j) \\ c+(g+k) & d+(h+l) \end{pmatrix}.
 \]
-By associativity of addition for real numbers, these two results are identical. Hence, matrix addition is both commutative and associative.
+By associativity of real addition, these are identical.  Hence matrix addition is both
+commutative and associative.
 }
 
 \addThm{$\fR^{m \times n}$ as a Vector Space}{%
-The set $\fR^{m \times n}$ equipped with matrix addition and scalar multiplication forms a real vector space of dimension $mn$.
+The set $\fR^{m \times n}$ equipped with matrix addition and scalar multiplication forms a
+real vector space of dimension $mn$.
 }
+\label{thm:Rmn-vecspace}
 
 \addPrf{%
-Each axiom follows from the corresponding property of $\fR$ applied entry-wise. For \textbf{commutativity}:
+Each axiom follows from the corresponding property of $\fR$ applied entry-wise.
+For \textbf{commutativity}:
 \[
     (\bA + \bB)_{ij} = a_{ij} + b_{ij} = b_{ij} + a_{ij} = (\bB + \bA)_{ij}.
 \]
-The \textbf{additive identity} is $\mathbf{0}$ since $(\bA + \mathbf{0})_{ij} = a_{ij} + 0 = a_{ij}$. The \textbf{additive inverse} of $\bA$ is $-\bA$ (negate every entry), satisfying $(\bA + (-\bA))_{ij} = 0$.
+The \textbf{additive identity} is $\mathbf{0}$ since $(\bA + \mathbf{0})_{ij} = a_{ij}$.
+The \textbf{additive inverse} of $\bA$ is $-\bA$ (negate every entry), satisfying
+$(\bA + (-\bA))_{ij} = 0$.
 
-For the \textbf{dimension}: the $mn$ matrices $\bE^{(ij)}$ with a $1$ in position $(i,j)$ and zeros elsewhere are linearly independent and every $\bA \in \fR^{m \times n}$ decomposes as $\bA = \sum_{i=1}^m\sum_{j=1}^n a_{ij}\,\bE^{(ij)}$, so they form a basis of size $mn$.
+For the \textbf{dimension}: the $mn$ matrices $\bE^{(ij)}$ with a $1$ in position $(i,j)$
+and zeros elsewhere are linearly independent, and every $\bA \in \fR^{m \times n}$
+decomposes as $\bA = \sum_{i,j} a_{ij}\,\bE^{(ij)}$, so they form a basis of size $mn$.
 }
 
-\newpage
 \addDef{Scalar Multiplication}{%
-Let $\bA \in \fR^{m \times n}$ and $c \in \fR$. Then scalar multiplication is defined as
+Let $\bA \in \fR^{m \times n}$ and $c \in \fR$.  Then scalar multiplication is defined as
 \[
 c\bA = c \printmatsq{a} = \printmatsq{c a},
 \]
-where each entry satisfies $(c a)_{ij} = c \cdot a_{ij}$.
+where each entry satisfies $(ca)_{ij} = c \cdot a_{ij}$.
 }
+\label{def:scalar-mult}
 
 \textBox{%
-\textbf{ Distributivity of Scalar Multiplication over Matrix Addition}\\[2mm]
-Let \(\alpha \in \fR\) and 
+\textbf{Distributivity of Scalar Multiplication over Matrix Addition}\\[2mm]
+Let $\alpha \in \fR$ and
 \[
-\bA = \begin{pmatrix} a & b \\ c & d \end{pmatrix}, \quad \bB = \begin{pmatrix} e & f \\ g & h \end{pmatrix}.
+\bA = \begin{pmatrix} a & b \\ c & d \end{pmatrix}, \quad
+\bB = \begin{pmatrix} e & f \\ g & h \end{pmatrix}.
 \]
 Then,
 \[
-\alpha(\bA + \bB) = \alpha \begin{pmatrix} a+e & b+f \\ c+g & d+h \end{pmatrix} = \begin{pmatrix} \alpha(a+e) & \alpha(b+f) \\ \alpha(c+g) & \alpha(d+h) \end{pmatrix}.
+\alpha(\bA + \bB)
+= \alpha \begin{pmatrix} a+e & b+f \\ c+g & d+h \end{pmatrix}
+= \begin{pmatrix} \alpha(a+e) & \alpha(b+f) \\ \alpha(c+g) & \alpha(d+h) \end{pmatrix}.
 \]
 Since scalar multiplication distributes over addition for real numbers, this equals
 \[
-\begin{pmatrix} \alpha a+\alpha e & \alpha b+\alpha f \\ \alpha c+\alpha g & \alpha d+\alpha h \end{pmatrix} = \alpha\bA + \alpha\bB.
+\begin{pmatrix} \alpha a+\alpha e & \alpha b+\alpha f \\ \alpha c+\alpha g & \alpha d+\alpha h \end{pmatrix}
+= \alpha\bA + \alpha\bB.
 \]
+}
+
+\addExcr{%
+Refer to Def~\ref{def:scalar-mult} and Thm~\ref{thm:Rmn-vecspace}.
+\begin{enumerate}
+    \item Compute $3\bA - 2\bB$ for
+    $\bA = \begin{pmatrix}1 & 0 \\ -1 & 2\end{pmatrix}$ and
+    $\bB = \begin{pmatrix}2 & 1 \\ 0 & -1\end{pmatrix}$.
+    \item The standard basis for $\fR^{2 \times 2}$ consists of four matrices $\bE^{(ij)}$.
+    Write them out explicitly and verify that $\bA = \sum_{i,j} a_{ij}\bE^{(ij)}$ holds for
+    your $\bA$ above.
+\end{enumerate}
 }
 
 \subsubsection{Dot Product}
 
+Before defining the general matrix product, we introduce the dot product of two vectors.
+The matrix product will then be understood entry-wise as a collection of dot products.
+
 \addDef{Dot Product}{%
 \index{dot|product}%
-For vectors $\ba, \bb \in \fR^{n}$, the dot product (or inner product) is defined as
+For vectors $\ba, \bb \in \fR^{n}$, the \textbf{dot product} (or inner product) is defined as
 \begin{equation}
-    \ba \cdot \bb = \ba^t \bb = \printrowvec{a} \printcolvec{b} = \sum_{i=1}^{n} a_{i} b_{i}.
+    \ba \cdot \bb = \ba^T \bb = \printrowvec{a} \printcolvec{b} = \sum_{i=1}^{n} a_{i} b_{i}.
 \end{equation}
+}
+\label{def:dot-product}
+
+\addExcr{%
+Refer to Def~\ref{def:dot-product}.
+\begin{enumerate}
+    \item Compute $\ba \cdot \bb$ for $\ba = (1, 2, 3)^T$ and $\bb = (-1, 0, 2)^T$ by hand.
+    \item In NumPy, evaluate this using \texttt{np.dot(a, b)} and also with \texttt{a @ b}.
+    Confirm both give the same result.
+    \item Show that $\ba \cdot \ba \ge 0$ with equality iff $\ba = \bzero$.  What geometric
+    quantity does $\sqrt{\ba \cdot \ba}$ represent?
+\end{enumerate}
 }
 
 \addDef{Matrix Product}{%
-Let $\bA \in \mathbb{R}^{m \times n}$ and $\bB \in \mathbb{R}^{n \times p}$. Their product $\bA\bB$ is an $m \times p$ matrix defined by
+Let $\bA \in \mathbb{R}^{m \times n}$ and $\bB \in \mathbb{R}^{n \times p}$.  Their product
+$\bA\bB$ is an $m \times p$ matrix defined by
 \[
 (\bA\bB)_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj},
 \]
-or equivalently, if we consider the rows of $\bA$ as vectors $\ba_i$ and the columns of $\bB$ as vectors $\bb_j$, then
+or equivalently, if $\ba_i$ denotes the $i$-th row of $\bA$ and $\bb_j$ the $j$-th column
+of $\bB$:
 \[
-\bA \bB = 
+\bA \bB =
 \begin{pmatrix}
 \ba_1 \cdot \bb_1 & \cdots & \ba_1 \cdot \bb_p \\
-\vdots & \ddots & \vdots \\ 
-\ba_m \cdot \bb_1 & \cdots & \ba_m \cdot \bb_p 
+\vdots & \ddots & \vdots \\
+\ba_m \cdot \bb_1 & \cdots & \ba_m \cdot \bb_p
 \end{pmatrix}.
 \]
 }
+\label{def:matrix-product}
 
 \addNote{%
-Matrix multiplication is defined only when the number of columns of $\bA$ equals the number of rows of $\bB$. Moreover, it is associative and distributive over addition, but in general it is not commutative; that is, $\bA\bB \neq \bB\bA$ for most matrices.
+Matrix multiplication is defined only when the number of columns of $\bA$ equals the number
+of rows of $\bB$.  It is associative and distributive over addition, but in general not
+commutative: $\bA\bB \neq \bB\bA$ for most matrices.
 }
 
 \addLem{Computational Cost of Matrix Multiplication}{%
-Computing $\bA\bB$ where $\bA \in \fR^{m \times n}$ and $\bB \in \fR^{n \times p}$ requires exactly $mnp$ multiplications and $m(n-1)p$ additions using the standard algorithm, giving $O(mnp)$ floating-point operations (flops). For two square $n \times n$ matrices this reduces to $O(n^3)$ flops.
+Computing $\bA\bB$ where $\bA \in \fR^{m \times n}$ and $\bB \in \fR^{n \times p}$ requires
+exactly $mnp$ multiplications and $m(n-1)p$ additions using the standard algorithm, giving
+$O(mnp)$ floating-point operations (flops).  For two square $n \times n$ matrices this
+reduces to $O(n^3)$ flops.
 }
+\label{lem:matmul-cost}
 
 \addNote{%
-The $O(n^3)$ cost of naive matrix multiplication is a central bottleneck in scientific computing. Strassen's algorithm reduces this to $O(n^{\log_2 7}) \approx O(n^{2.807})$, but is rarely used in practice due to numerical stability concerns and cache-unfriendly memory access. Modern BLAS/LAPACK implementations approach peak hardware throughput via blocking strategies, but the asymptotic cost remains $O(n^3)$. For many applications, avoiding explicit matrix-matrix products entirely (e.g., exploiting sparsity or factored structure) is more impactful than algorithmic improvements.
+The $O(n^3)$ cost of naive matrix multiplication is a central bottleneck in scientific
+computing.  Strassen's algorithm reduces this to $O(n^{\log_2 7}) \approx O(n^{2.807})$,
+but is rarely used in practice due to numerical stability concerns and cache-unfriendly
+memory access.  Modern BLAS/LAPACK implementations approach peak hardware throughput via
+blocking strategies, but the asymptotic cost remains $O(n^3)$.  For many applications,
+avoiding explicit matrix-matrix products entirely (e.g., exploiting sparsity or factored
+structure) is more impactful than algorithmic improvements.
 }
 
-\newpage
 \textBox{%
-\textbf{ Compatibility for Matrix Multiplication}\\[2mm]
-Let \(\bA\) be a \(3 \times 4\) matrix and \(\bB\) be a \(4 \times 2\) matrix. Since the number of columns in \(\bA\) (4) equals the number of rows in \(\bB\) (4), the product \(\bA\bB\) is defined and will result in a \(3 \times 2\) matrix. Conversely, if \(\bB\) were instead a \(5 \times 2\) matrix, the product would be undefined.
+\textbf{Compatibility for Matrix Multiplication}\\[2mm]
+Let $\bA$ be a $3 \times 4$ matrix and $\bB$ a $4 \times 2$ matrix.  Since the number of
+columns of $\bA$ (4) equals the number of rows of $\bB$ (4), the product $\bA\bB$ is
+defined and results in a $3 \times 2$ matrix.  Conversely, if $\bB$ were a $5 \times 2$
+matrix, the product would be undefined.
 }
 
 \textBox{%
-\textbf{ Distributive Property of Matrix Multiplication}\\[2mm]
-Let 
+\textbf{Distributive Property of Matrix Multiplication}\\[2mm]
+Let
 \[
 \bA = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}, \quad
 \bB = \begin{pmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{pmatrix}, \quad
@@ -141,86 +216,117 @@ Then,
 \[
 \bA(\bB + \mathbf{C}) = \bA \begin{pmatrix} b_{11}+c_{11} & b_{12}+c_{12} \\ b_{21}+c_{21} & b_{22}+c_{22} \end{pmatrix},
 \]
-and by computing the entries using the definition of matrix multiplication, one can verify that
+and by computing the entries using Def~\ref{def:matrix-product}, one can verify that
 \[
 \bA(\bB + \mathbf{C}) = \bA\bB + \bA\mathbf{C}.
 \]
 }
 
 \textBox{%
-\textbf{ Non-Commutativity of Matrix Multiplication}\\[2mm]
-Consider the matrices
+\textbf{Non-Commutativity of Matrix Multiplication}\\[2mm]
+Consider
 \[
-\bA = \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix} \quad \text{and} \quad \bB = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.
+\bA = \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix} \quad \text{and} \quad
+\bB = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.
 \]
 Then,
 \[
-\bA\bB = \begin{pmatrix} 1\cdot0+0\cdot1 & 1\cdot1+0\cdot0 \\ 0\cdot0+2\cdot1 & 0\cdot1+2\cdot0 \end{pmatrix} = \begin{pmatrix} 0 & 1 \\ 2 & 0 \end{pmatrix},
+\bA\bB = \begin{pmatrix} 0 & 1 \\ 2 & 0 \end{pmatrix}
+\quad \text{and} \quad
+\bB\bA = \begin{pmatrix} 0 & 2 \\ 1 & 0 \end{pmatrix}.
 \]
-and
-\[
-\bB\bA = \begin{pmatrix} 0\cdot1+1\cdot0 & 0\cdot0+1\cdot2 \\ 1\cdot1+0\cdot0 & 1\cdot0+0\cdot2 \end{pmatrix} = \begin{pmatrix} 0 & 2 \\ 1 & 0 \end{pmatrix}.
-\]
-Since \(\bA\bB \neq \bB\bA\) and clearly \(\bA \neq \bB\), this example shows that matrix multiplication is not commutative.
+Since $\bA\bB \neq \bB\bA$, matrix multiplication is not commutative.
 }
 
 \addExcr{%
-Let $\bA = \begin{pmatrix} 2 & 1 \\ 0 & 3 \end{pmatrix}$ and $\bB = \begin{pmatrix} 1 & -1 \\ 2 & 4 \end{pmatrix}$.
+Refer to Def~\ref{def:matrix-product} and Lem~\ref{lem:matmul-cost}.
+Let $\bA = \begin{pmatrix} 2 & 1 \\ 0 & 3 \end{pmatrix}$ and
+$\bB = \begin{pmatrix} 1 & -1 \\ 2 & 4 \end{pmatrix}$.
 \begin{enumerate}
-    \item Compute $\bA\bB$ and $\bB\bA$ by hand. Confirm $\bA\bB \neq \bB\bA$.
-    \item Find a nonzero matrix $\mathbf{C} \neq \bI$ that commutes with $\bA$ (i.e., $\bA\mathbf{C} = \mathbf{C}\bA$). \textit{Hint: diagonal matrices always commute with diagonal matrices. What if you try $\mathbf{C} = \alpha\bA + \beta\bI$?}
-    \item Verify associativity: compute $(\bA\bB)\bc$ and $\bA(\bB\bc)$ for $\bc = (1,0)^T$ and confirm they are equal.
-    \item For $\bA, \bB \in \fR^{n\times n}$ and $\bc \in \fR^n$, compare the flop count of $(\bA\bB)\bc$ versus $\bA(\bB\bc)$. Which order is cheaper and by what factor?
+    \item Compute $\bA\bB$ and $\bB\bA$ by hand.  Confirm $\bA\bB \neq \bB\bA$.
+    \item Find a nonzero matrix $\mathbf{C} \neq \bI$ that commutes with $\bA$
+    (i.e., $\bA\mathbf{C} = \mathbf{C}\bA$).  \textit{Hint: try $\mathbf{C} = \alpha\bA + \beta\bI$.}
+    \item Verify associativity: compute $(\bA\bB)\bc$ and $\bA(\bB\bc)$ for $\bc = (1,0)^T$
+    and confirm they are equal.
+    \item Using Lem~\ref{lem:matmul-cost}, compare the flop count of $(\bA\bB)\bc$ versus
+    $\bA(\bB\bc)$ for general $\bA, \bB \in \fR^{n \times n}$ and $\bc \in \fR^n$.  Which
+    order is cheaper and by what factor?
 \end{enumerate}
 }
 
-Many properties of scalar arithmetic extend naturally to both vectors and matrices. In fact, matrices can be viewed as elements of a higher-dimensional vector space, and matrix multiplication can be interpreted as the composition of linear transformations. While the notations for vectors and matrices are similar, their roles in linear algebra differ:
+Many properties of scalar arithmetic extend naturally to vectors and matrices.  In fact,
+matrices can be viewed as elements of a higher-dimensional vector space (see
+Thm~\ref{thm:Rmn-vecspace}), and matrix multiplication can be interpreted as the
+composition of linear transformations.  While the notations for vectors and matrices are
+similar, their roles differ:
 \begin{itemize}
     \item Vectors typically represent points or directions in space.
     \item Matrices often represent linear maps or transformations between vector spaces.
 \end{itemize}
-This conceptual distinction becomes crucial when discussing topics such as vector spaces, eigenvalues, and linear transformations.
+This conceptual distinction becomes crucial when discussing eigenvalues and linear
+transformations.
+
+\addCor{Parenthesization Reduces Cost from $O(n^3)$ to $O(n^2)$}{%
+For $\bA, \bB \in \fR^{n \times n}$ and $\bx \in \fR^n$, computing $\bA(\bB\bx)$ via two
+matrix-vector products costs $O(n^2)$ flops, whereas forming $(\bA\bB)\bx$ via a
+matrix-matrix product costs $O(n^3)$ flops.
+}
+\label{cor:parenthesization}
 
 \addExcr{%
-\textbf{(Associativity and Computational Cost)} Suppose $\bA, \bB \in \fR^{n \times n}$ and $\bx \in \fR^n$. We wish to compute $\bA\bB\bx$.
+In this exercise, we will prove Cor~\ref{cor:parenthesization}.
+Refer to Lem~\ref{lem:matmul-cost}.
+
+Suppose $\bA, \bB \in \fR^{n \times n}$ and $\bx \in \fR^n$.
 \begin{enumerate}
-    \item \textit{Approach 1:} Compute $\bM = \bA\bB$ first, then $\bM\bx$. What is the total flop count?
-    \item \textit{Approach 2:} Compute $\bA(\bB\bx)$ via two sequential matrix-vector products. What is the total flop count?
-    \item For large $n$, which approach is more efficient and by what asymptotic factor?
-    \item Write NumPy code for both approaches using \texttt{@}. Does NumPy automatically choose the optimal evaluation order for a chain like \texttt{A @ B @ x}?
+    \item \textit{Approach 1:} Compute $\bM = \bA\bB$ first (cost?), then $\bM\bx$ (cost?).
+    Write the total flop count.
+    \item \textit{Approach 2:} Compute $\by = \bB\bx$ first (cost?), then $\bA\by$ (cost?).
+    Write the total flop count.
+    \item Conclude the asymptotic improvement factor as $n \to \infty$.  This proves
+    Cor~\ref{cor:parenthesization}.
+    \item Write NumPy code for both approaches using \texttt{@}.  Does NumPy automatically
+    choose the optimal evaluation order for a chain like \texttt{A @ B @ x}?
 \end{enumerate}
 }
 
-\newpage
 
 \subsubsection{Matrix Inverse}
+
+We now turn to a fundamental question: when can we ``divide'' by a matrix?  The matrix
+inverse plays the role of reciprocal in scalar arithmetic, but it exists only under a
+specific condition, and computing it explicitly is almost always the wrong approach in
+practice.
+
 \addDef{Matrix Inverse}{%
-For a square matrix $\bA \in \fR^{n \times n}$, the inverse of $\bA$, denoted $\bA^{-1}$, is defined as the unique matrix satisfying
+For a square matrix $\bA \in \fR^{n \times n}$, the \textbf{inverse} of $\bA$, denoted
+$\bA^{-1}$, is the unique matrix satisfying
 \[
 \bA \bA^{-1} = \bA^{-1} \bA = \mathbf{I},
 \]
-where $\mathbf{I}$ is the \(n \times n\) identity matrix. A matrix that has an inverse is called \emph{invertible} or \emph{nonsingular}.
+where $\mathbf{I}$ is the $n \times n$ identity matrix.  A matrix that has an inverse is
+called \emph{invertible} or \emph{nonsingular}.
 }
+\label{def:matrix-inverse}
 
 \addNote{%
-A square matrix \(\bA\) is invertible if and only if \(\det(\bA) \neq 0\), which also implies that \(\bA\) has full rank.
+A square matrix $\bA$ is invertible if and only if $\det(\bA) \neq 0$, which also implies
+that $\bA$ has full rank.
 }
 
 \textBox{%
-\textbf{ Uniqueness of the Inverse}\\[2mm]
-Suppose \(\bA\) is an invertible matrix and that \(\bB\) and \(\mathbf{C}\) are both inverses of \(\bA\); that is,
-\[
-\bA\bB = \bB\bA = \mathbf{I} \quad \text{and} \quad \bA\mathbf{C} = \mathbf{C}\bA = \mathbf{I}.
-\]
-Then,
+\textbf{Uniqueness of the Inverse}\\[2mm]
+Suppose $\bA$ is invertible and both $\bB$ and $\mathbf{C}$ satisfy the conditions of
+Def~\ref{def:matrix-inverse}.  Then,
 \[
 \bB = \bB\mathbf{I} = \bB(\bA\mathbf{C}) = (\bB\bA)\mathbf{C} = \mathbf{I}\mathbf{C} = \mathbf{C}.
 \]
-Thus, the inverse of \(\bA\) is unique.
+Thus the inverse of $\bA$ is unique.
 }
 
 \addThm{Properties of the Matrix Inverse}{%
-Let $\bA, \bB \in \fR^{n \times n}$ be invertible and $\alpha \in \fR \setminus \{0\}$. Then:
+Let $\bA, \bB \in \fR^{n \times n}$ be invertible and $\alpha \in \fR \setminus \{0\}$.
+Then:
 \begin{enumerate}
     \item $(\bA^{-1})^{-1} = \bA$
     \item $(\bA\bB)^{-1} = \bB^{-1}\bA^{-1}$ \quad \textbf{(Reversal Law)}
@@ -228,43 +334,80 @@ Let $\bA, \bB \in \fR^{n \times n}$ be invertible and $\alpha \in \fR \setminus 
     \item $(\bA^T)^{-1} = (\bA^{-1})^T$
 \end{enumerate}
 }
+\label{thm:inverse-props}
 
 \addPrf{%
-\textbf{(1):} $\bA^{-1}\bA = \bI$ and $\bA\bA^{-1} = \bI$ show $\bA$ is both a left and right inverse of $\bA^{-1}$, so $(\bA^{-1})^{-1} = \bA$.
+\textbf{(1):} $\bA^{-1}\bA = \bI$ and $\bA\bA^{-1} = \bI$ show $\bA$ is both a left and
+right inverse of $\bA^{-1}$, so $(\bA^{-1})^{-1} = \bA$.
 
 \textbf{(2):} Check the right-inverse condition:
 \[
-    (\bA\bB)(\bB^{-1}\bA^{-1}) = \bA(\bB\bB^{-1})\bA^{-1} = \bA\bI\bA^{-1} = \bA\bA^{-1} = \bI.
+    (\bA\bB)(\bB^{-1}\bA^{-1}) = \bA(\bB\bB^{-1})\bA^{-1} = \bA\bI\bA^{-1}
+    = \bA\bA^{-1} = \bI.
 \]
-Left-inverse: $(\bB^{-1}\bA^{-1})(\bA\bB) = \bB^{-1}(\bA^{-1}\bA)\bB = \bB^{-1}\bI\bB = \bI$.
+Left-inverse: $(\bB^{-1}\bA^{-1})(\bA\bB) = \bB^{-1}(\bA^{-1}\bA)\bB = \bI$.
 By uniqueness of the inverse, $(\bA\bB)^{-1} = \bB^{-1}\bA^{-1}$.
 
-\textbf{(3):} $(\alpha\bA)\!\left(\tfrac{1}{\alpha}\bA^{-1}\right) = \tfrac{\alpha}{\alpha}\bA\bA^{-1} = \bI$.
+\textbf{(3):} $(\alpha\bA)\!\left(\tfrac{1}{\alpha}\bA^{-1}\right) =
+\tfrac{\alpha}{\alpha}\bA\bA^{-1} = \bI$.
 
-\textbf{(4):} Transpose both sides of $\bA\bA^{-1} = \bI$ using the Reversal Law: $(\bA^{-1})^T\bA^T = \bI$, so $(\bA^T)^{-1} = (\bA^{-1})^T$.
+\textbf{(4):} Transpose both sides of $\bA\bA^{-1} = \bI$ using the Reversal Law
+(see the transpose analogue): $(\bA^{-1})^T\bA^T = \bI$, so
+$(\bA^T)^{-1} = (\bA^{-1})^T$.
 }
 
 \addNote{%
-Property (2) is critical in scientific computing. To solve $(\bA\bB)\bx = \bc$, we should \emph{not} compute $(\bA\bB)^{-1}$ explicitly (cost: $O(n^3)$ with a large constant and numerical error amplification). Instead, use the reversal law: first solve $\bA\by = \bc$ for $\by$ via LU factorization, then solve $\bB\bx = \by$. The function \texttt{np.linalg.solve} does exactly this.
+Property (2) is critical in scientific computing.  To solve $(\bA\bB)\bx = \bc$, we should
+\emph{not} compute $(\bA\bB)^{-1}$ explicitly (large constant factor, numerical error
+amplification).  Instead, use the Reversal Law: first solve $\bA\by = \bc$ for $\by$ via
+LU factorization, then solve $\bB\bx = \by$.  The function \texttt{np.linalg.solve} does
+exactly this.
 }
 
 \addExcr{%
+Refer to Def~\ref{def:matrix-inverse} and Thm~\ref{thm:inverse-props}.
 \begin{enumerate}
-    \item For $\bA = \begin{pmatrix} 2 & 1 \\ 5 & 3 \end{pmatrix}$, compute $\bA^{-1}$ by hand using the $2\times 2$ formula $\bA^{-1} = \frac{1}{\det\bA}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$. Verify by checking $\bA\bA^{-1} = \bI$.
-    \item Given $\bB = \begin{pmatrix} 1 & 0 \\ -1 & 1 \end{pmatrix}$, use the Reversal Law to compute $(\bA\bB)^{-1}$ without re-inverting a $2\times 2$ system from scratch.
-    \item Explain why \texttt{np.linalg.solve(A, b)} is preferred over \texttt{np.linalg.inv(A) @ b} for solving $\bA\bx = \bb$. Address both numerical accuracy and computational cost.
-    \item True or False: if $\bA^2 = \bI$, then $\bA^{-1} = \bA$. Prove your answer and give a concrete $2\times 2$ example beyond $\bI$ itself.
+    \item For $\bA = \begin{pmatrix} 2 & 1 \\ 5 & 3 \end{pmatrix}$, compute $\bA^{-1}$
+    by hand using the $2 \times 2$ formula
+    $\bA^{-1} = \frac{1}{\det\bA}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$.
+    Verify $\bA\bA^{-1} = \bI$.
+    \item Given $\bB = \begin{pmatrix} 1 & 0 \\ -1 & 1 \end{pmatrix}$, use the Reversal Law
+    (Thm~\ref{thm:inverse-props}(2)) to compute $(\bA\bB)^{-1}$ without inverting a new
+    $2 \times 2$ system.
+    \item Explain why \texttt{np.linalg.solve(A, b)} is preferred over
+    \texttt{np.linalg.inv(A) @ b} for solving $\bA\bx = \bb$.  Address both numerical
+    accuracy and computational cost.
+\end{enumerate}
+}
+
+\addDef{Involutory Matrix}{%
+A square matrix $\bA \in \fR^{n \times n}$ is called \textbf{involutory} if $\bA^2 = \bI$.
+}
+\label{def:involutory}
+
+\addExcr{%
+In this exercise, we will prove that a matrix is involutory (Def~\ref{def:involutory}) if
+and only if it is its own inverse.
+Refer to Def~\ref{def:matrix-inverse} and Thm~\ref{thm:inverse-props}.
+\begin{enumerate}
+    \item Suppose $\bA^2 = \bI$.  Multiply both sides of $\bA\bA = \bI$ on the right by
+    $\bA^{-1}$ to deduce $\bA^{-1} = \bA$.
+    \item Conversely, suppose $\bA^{-1} = \bA$.  Show $\bA^2 = \bI$ directly from
+    Def~\ref{def:matrix-inverse}.
+    \item Give a concrete $2 \times 2$ example of an involutory matrix other than $\pm\bI$.
+    Verify it satisfies $\bA^2 = \bI$.
 \end{enumerate}
 }
 
 \addExcr{%
-\textbf{(Identifying Invertibility)} For each matrix below, determine without computing the inverse whether it is invertible. Give a one-sentence justification.
-\begin{enumerate}
-    \item $\begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix}$
-    \item $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$
-    \item $\begin{pmatrix} 3 & 0 & 0 \\ 0 & 5 & 0 \\ 0 & 0 & -1 \end{pmatrix}$
-    \item $\begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 1 & 2 & 1 \end{pmatrix}$
-\end{enumerate}
+\textbf{(Identifying Invertibility)} For each matrix below, determine without computing
+the inverse whether it is invertible.  Give a one-sentence justification.
+\[
+  (a)\ \begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix} \qquad
+  (b)\ \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} \qquad
+  (c)\ \begin{pmatrix} 3 & 0 & 0 \\ 0 & 5 & 0 \\ 0 & 0 & -1 \end{pmatrix} \qquad
+  (d)\ \begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 1 & 2 & 1 \end{pmatrix}
+\]
 }
 
 \end{document}

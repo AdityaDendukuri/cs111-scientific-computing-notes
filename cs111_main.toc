@@ -1,0 +1,25 @@
+\contentsline {section}{\numberline {1}Linear Algebra Review}{4}{}%
+\contentsline {subsection}{\numberline {1.1}Vectors and Matrices}{4}{}%
+\contentsline {subsection}{\numberline {1.2}Matrix Arithmetic}{6}{}%
+\contentsline {subsubsection}{\numberline {1.2.1}Adding and Subtracting Matrices}{6}{}%
+\contentsline {subsubsection}{\numberline {1.2.2}Multiplication}{6}{}%
+\contentsline {subsubsection}{\numberline {1.2.3}Matrices as Vectors and Linear Maps}{7}{}%
+\contentsline {subsubsection}{\numberline {1.2.4}Matrix Inverse}{7}{}%
+\contentsline {subsection}{\numberline {1.3}Vector Spaces}{9}{}%
+\contentsline {subsection}{\numberline {1.4}Linearity}{12}{}%
+\contentsline {section}{\numberline {2}Numerical Linear Algebra}{14}{}%
+\contentsline {subsection}{\numberline {2.1}From Analytical to Numerical}{14}{}%
+\contentsline {subsection}{\numberline {2.2}Floating Point Error}{15}{}%
+\contentsline {subsection}{\numberline {2.3}LU Factorization}{17}{}%
+\contentsline {subsection}{\numberline {2.4}Pivoting and LUP Decomposition}{19}{}%
+\contentsline {subsection}{\numberline {2.5}Cholesky Decomposition}{20}{}%
+\contentsline {subsection}{\numberline {2.6}QR Decomposition and Orthogonal Transformations}{20}{}%
+\contentsline {subsubsection}{\numberline {2.6.1}Householder Transformations}{21}{}%
+\contentsline {subsubsection}{\numberline {2.6.2}Givens Rotations}{21}{}%
+\contentsline {subsection}{\numberline {2.7}Eigenvalue Decomposition}{22}{}%
+\contentsline {subsection}{\numberline {2.8}Singular Value Decomposition and the Four Fundamental Subspaces}{22}{}%
+\contentsline {subsection}{\numberline {2.9}Rank Truncation via the SVD: Full Mathematical Explanation}{24}{}%
+\contentsline {subsection}{\numberline {2.10}Conditioning and Stability Revisited}{25}{}%
+\contentsline {subsection}{\numberline {2.11}Overdetermined and Underdetermined Systems}{26}{}%
+\contentsline {subsection}{\numberline {2.12}Conditioning and Stability Revisited}{26}{}%
+\contentsline {subsection}{\numberline {2.13}Least Squares}{27}{}%

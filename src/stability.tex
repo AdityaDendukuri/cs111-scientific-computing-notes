@@ -4,181 +4,405 @@
 \label{subsec:stability-condition}
 
 \textBox{%
-In an idealized mathematical setting, the solution to $\bA\bx = \bb$ is simply $\bx = \bA^{-1}\bb$. In practice, two separate issues corrupt the computed answer: the \emph{inherent sensitivity} of the problem to perturbations in the data (measured by the condition number) and the \emph{algorithm's ability to avoid amplifying errors} beyond this inherent sensitivity (measured by numerical stability). Understanding both is essential for reliable scientific computing.
+In an idealized mathematical setting, the solution to $\bA\bx = \bb$ is simply
+$\bx = \bA^{-1}\bb$. In practice, two separate issues corrupt the computed answer:
+the \emph{inherent sensitivity} of the problem to perturbations in the data, measured
+by the condition number, and the \emph{algorithm's ability to avoid amplifying errors}
+beyond this inherent sensitivity, measured by numerical stability. Understanding both
+is essential for reliable scientific computing. This section develops the theory
+behind each and shows how they interact in the matrix factorizations studied so far.
 }
 
 \subsubsection{Why Not Invert Directly?}
 
-\addDef{Computational Cost of Explicit Inversion}{%
-Computing $\bA^{-1}$ requires solving $n$ linear systems $\bA\mathbf{x}_i = \mathbf{e}_i$. After the LU factorization (one-time cost $\frac{2}{3}n^3$), each solve costs $2n^2$, giving a total of $\frac{2}{3}n^3 + 2n^3 \approx \frac{8}{3}n^3$ flops. Forming and storing the $n\times n$ inverse requires $O(n^2)$ memory and provides no benefit when only the product $\bA^{-1}\bb$ is needed.
-}
-
-\addDef{Numerical Instability of Explicit Inversion}{%
-When $\bA$ is nearly singular, explicitly forming $\bA^{-1}$ amplifies round-off errors severely. A single erroneous column of $\bA^{-1}$ propagates into the entire solution $\bA^{-1}\bb$, whereas solving via a stable factorization confines errors to the individual triangular solve steps.
-}
-
-\addDef{Preferred Strategy: Factorize Once, Solve Many}{%
-Given the LU factorization $\bA = \bP\bL\bU$ (computed once at cost $\frac{2}{3}n^3$), each new right-hand side $\bb$ requires only two triangular solves at cost $2n^2$. For $k$ right-hand sides, total cost is $\frac{2}{3}n^3 + 2kn^2$, far better than $k$ separate $O(n^3)$ solves or storing $\bA^{-1}$.
+\textBox{%
+The formula $\bx = \bA^{-1}\bb$ is mathematically correct but computationally
+inadvisable. Computing the full inverse $\bA^{-1}$ is unnecessary for solving a
+single system, wastes memory, and is less numerically stable than factorization-based
+approaches. The arguments below quantify exactly what is lost.
 }
 
 \addNote{%
-The practical rule: \textbf{never explicitly form $\bA^{-1}$}. Use \texttt{np.linalg.solve(A, b)} for a single system, or \texttt{scipy.linalg.lu\_factor} / \texttt{scipy.linalg.lu\_solve} when solving multiple systems with the same $\bA$.
+\textbf{Cost of explicit inversion.}
+Computing $\bA^{-1}$ requires solving $n$ systems $\bA\mathbf{x}_i = \be_i$. After
+the LU factorization (cost $\tfrac{2}{3}n^3$), each solve costs $2n^2$, giving a
+total of $\tfrac{2}{3}n^3 + 2n^3 \approx \tfrac{8}{3}n^3$ flops. Compare this to
+solving $\bA\bx = \bb$ for a single $\bb$: factorize once at $\tfrac{2}{3}n^3$, then
+one triangular solve at $2n^2$. Explicitly forming $\bA^{-1}$ costs four times as much
+as necessary.
+}
+
+\addNote{%
+\textbf{Stability of explicit inversion.}
+When $\bA$ is nearly singular, explicitly forming $\bA^{-1}$ amplifies round-off
+errors severely. A single erroneous column of $\bA^{-1}$ propagates into the entire
+product $\bA^{-1}\bb$, whereas solving via a stable factorization confines errors
+to individual triangular solve steps. The practical rule is: never explicitly form
+$\bA^{-1}$. Use \texttt{np.linalg.solve(A, b)} for a single system, or
+\texttt{scipy.linalg.lu\_factor} and \texttt{scipy.linalg.lu\_solve} for multiple
+right-hand sides.
+}
+
+\addNote{%
+\textbf{Factorize once, solve many.}
+Given the LU factorization $\bA = \bP\bL\bU$ computed once at cost $\tfrac{2}{3}n^3$,
+each new right-hand side $\bb$ requires only two triangular solves at cost $2n^2$.
+For $k$ right-hand sides the total is $\tfrac{2}{3}n^3 + 2kn^2$, far better than
+$k$ separate $O(n^3)$ solves or storing and applying $\bA^{-1}$.
+}
+
+\addExcr{%
+\begin{enumerate}
+  \item For $n = 500$, estimate the flop counts for (a) computing $\bA^{-1}$ and
+  then applying it to 10 right-hand sides, versus (b) computing the LU factorization
+  once and solving 10 triangular systems. Which is faster, and by what factor?
+  \item In Python, time \texttt{np.linalg.inv(A) @ b} vs.\
+  \texttt{np.linalg.solve(A, b)} for a random $500 \times 500$ matrix over 20 solves.
+  Which is faster? Does the timing match your flop count estimate?
+  \item Construct a nearly singular matrix \texttt{A = np.diag([1, 1, 1e-12])} and
+  a right-hand side \texttt{b = [1, 1, 1]}. Solve via \texttt{np.linalg.inv(A) @ b}
+  and \texttt{np.linalg.solve(A, b)}. Compare the residuals $\|\bA\hat{\bx} - \bb\|$.
+\end{enumerate}
 }
 
 \subsubsection{Numerical Stability}
 
-\addDef{Backward Stability}{%
-An algorithm for $\bA\bx = \bb$ is \emph{backward stable} if the computed solution $\hat{\bx}$ satisfies
-\[
-  (\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb
-\]
-for some \emph{backward errors} with $\|\delta\bA\|/\|\bA\| = O(\epsilon_{\mathrm{mach}})$ and $\|\delta\bb\|/\|\bb\| = O(\epsilon_{\mathrm{mach}})$. In words: the computed answer is the exact answer to a slightly perturbed problem.
+\textBox{%
+Even after choosing a factorization-based approach, there are good and bad ways to
+implement the factorization. The concept of backward stability gives a precise
+criterion for what ``good'' means: a backward stable algorithm is one whose computed
+output is the exact output for a slightly perturbed input. This is the best one can
+hope for in finite-precision arithmetic.
 }
 
+\addDef{Backward Stability}{%
+An algorithm for computing $f(\bx)$ is \emph{backward stable} if for every input
+$\bx$, the computed output $\hat{f}(\bx)$ satisfies
+\[
+  \hat{f}(\bx) = f(\bx + \delta\bx)
+\]
+for some perturbation $\|\delta\bx\| / \|\bx\| = O(\varepsilon_{\mathrm{mach}})$.
+Applied to $\bA\bx = \bb$: an algorithm is backward stable if the computed solution
+$\hat{\bx}$ satisfies $(\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb$ with
+$\|\delta\bA\|/\|\bA\| = O(\varepsilon_{\mathrm{mach}})$ and
+$\|\delta\bb\|/\|\bb\| = O(\varepsilon_{\mathrm{mach}})$.
+}
+\label{def:backward-stable}
+
 \addNote{%
-Backward stability is a property of the \emph{algorithm}, not the problem. Gaussian elimination without pivoting can be unstable; with partial pivoting it is backward stable for virtually all practical matrices.
+Backward stability is a property of the \emph{algorithm}, not the problem.
+Gaussian elimination without pivoting can be unstable; with partial pivoting it is
+backward stable for virtually all practical matrices.
+}
+
+\addExcr{%
+Refer to Def~\ref{def:backward-stable}.
+\begin{enumerate}
+  \item Explain in your own words the difference between a backward stable algorithm
+  and one that simply produces a small residual $\|\bA\hat{\bx} - \bb\|$. Are the
+  two equivalent? (\textit{Hint: think about the relationship between backward error
+  and residual.})
+  \item Consider computing $e^x$ for large negative $x$ directly versus via
+  $1/e^{-x}$. Which is backward stable? (\textit{Hint: evaluate both at
+  $x = -30$ in Python and compare to the true value.})
+\end{enumerate}
 }
 
 \addProp{Gaussian Elimination with Partial Pivoting is Backward Stable}{%
-Gaussian elimination with partial pivoting (GEPP) produces a computed solution $\hat{\bx}$ satisfying $(\bA + \delta\bA)\hat{\bx} = \bb$ with
+Gaussian elimination with partial pivoting (GEPP) produces a computed solution
+$\hat{\bx}$ satisfying $(\bA + \delta\bA)\hat{\bx} = \bb$ with
 \[
-  \|\delta\bA\|_\infty \leq g_n \cdot \epsilon_{\mathrm{mach}} \cdot \|\bA\|_\infty,
+  \|\delta\bA\|_\infty \leq g_n \cdot \varepsilon_{\mathrm{mach}} \cdot \|\bA\|_\infty,
 \]
-where $g_n$ is the \emph{growth factor}. In the worst case $g_n \leq 2^{n-1}$, but for random matrices in practice $g_n = O(n^{2/3})$.
+where $g_n$ is the \emph{growth factor}. In the worst case $g_n \leq 2^{n-1}$, but
+for random matrices in practice $g_n = O(n^{2/3})$.
 }
+\label{prop:gepp-stable}
 
 \addPrf{%
-At each elimination step, partial pivoting selects the largest entry in the current column as pivot, ensuring all multipliers satisfy $|m_{ij}| \leq 1$. This prevents exponential amplification of round-off at each stage. A detailed rounding error analysis over the $O(n^3)$ scalar operations shows that the accumulated backward error satisfies the stated bound. For a complete proof see Higham, \textit{Accuracy and Stability of Numerical Algorithms}, Ch.~9.
+At each elimination step, partial pivoting selects the largest entry in the current
+column as pivot, ensuring all multipliers satisfy $|m_{ij}| \leq 1$. This prevents
+exponential amplification of round-off at each stage. A detailed rounding error
+analysis over the $O(n^3)$ scalar operations shows the accumulated backward error
+satisfies the stated bound. For a complete proof see Higham, \textit{Accuracy and
+Stability of Numerical Algorithms}, Ch.~9.
+}
+
+\addExcr{%
+Refer to Prop~\ref{prop:gepp-stable}.
+\begin{enumerate}
+  \item The growth factor for a random $n \times n$ matrix is typically much smaller
+  than $2^{n-1}$. In Python, construct 100 random $50 \times 50$ matrices and compute
+  the LU factorization via \texttt{scipy.linalg.lu}. For each, compute the growth
+  factor $g_n = \|\bU\|_\infty / \|\bA\|_\infty$. Plot a histogram. Does $g_n$
+  stay small in practice?
+  \item Construct the $n \times n$ Kahan matrix (a known worst-case for GEPP) and
+  verify the growth factor can be large. Use \texttt{scipy.linalg.khatri\_rao} or
+  build it manually.
+\end{enumerate}
 }
 
 \subsubsection{Condition Number}
 
+\textBox{%
+Backward stability tells us about the algorithm; the condition number tells us about
+the problem. Even a perfectly backward stable algorithm cannot produce an accurate
+solution when the problem itself is ill-conditioned: small perturbations in the input
+lead to large changes in the output. The condition number quantifies exactly how bad
+this amplification can be.
+}
+
 \addDef{Condition Number}{%
-The \emph{condition number} of an invertible matrix $\bA \in \fR^{n\times n}$ with respect to a matrix norm $\|\cdot\|$ is
+The \emph{condition number} of an invertible matrix $\bA \in \fR^{n\times n}$ with
+respect to a norm $\|\cdot\|$ is
 \[
   \kappa(\bA) = \|\bA\|\,\|\bA^{-1}\|.
 \]
-For the 2-norm, $\kappa_2(\bA) = \sigma_{\max}/\sigma_{\min}$ (ratio of largest to smallest singular values); for a symmetric matrix, $\kappa_2(\bA) = |\lambda_{\max}|/|\lambda_{\min}|$.
+For the 2-norm, $\kappa_2(\bA) = \sigma_{\max}/\sigma_{\min}$ (ratio of largest to
+smallest singular values). For a symmetric matrix, $\kappa_2(\bA) = |\lambda_{\max}|/|\lambda_{\min}|$.
+}
+\label{def:condition-number}
+
+\addExcr{%
+Refer to Def~\ref{def:condition-number}.
+\begin{enumerate}
+  \item Compute $\kappa_2(\bA)$ for $\bA = \begin{pmatrix}3&1\\1&3\end{pmatrix}$ by
+  hand using the singular values. Verify with \texttt{np.linalg.cond(A)}.
+  \item For $\bA = \mathrm{diag}(1, 10^{-3}, 10^{-6})$, compute $\kappa_2(\bA)$,
+  $\kappa_1(\bA)$, and $\kappa_\infty(\bA)$. How do they compare?
+  \item The Hilbert matrix $H_{ij} = 1/(i+j-1)$ is notoriously ill-conditioned.
+  Compute $\kappa_2(H_n)$ for $n = 3, 5, 8, 10$ using \texttt{scipy.linalg.hilbert}.
+  How fast does the condition number grow with $n$?
+\end{enumerate}
 }
 
 \addThm{Perturbation Bound for Linear Systems}{%
-Let $\bA\bx = \bb$ with $\bA$ invertible and $\bb \neq \bzero$. Suppose $\hat{\bx}$ satisfies $(\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb$. If $\|\bA^{-1}\|\,\|\delta\bA\| < 1$, then
+Let $\bA\bx = \bb$ with $\bA$ invertible and $\bb \neq \bzero$.
+If $\hat{\bx}$ satisfies $(\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb$ and
+$\|\bA^{-1}\|\,\|\delta\bA\| < 1$, then
 \[
-  \frac{\|\hat{\bx} - \bx\|}{\|\bx\|} \leq \frac{\kappa(\bA)}{1 - \kappa(\bA)\,\|\delta\bA\|/\|\bA\|} \left(\frac{\|\delta\bA\|}{\|\bA\|} + \frac{\|\delta\bb\|}{\|\bb\|}\right).
+  \frac{\|\hat{\bx} - \bx\|}{\|\bx\|}
+  \leq \frac{\kappa(\bA)}{1 - \kappa(\bA)\,\|\delta\bA\|/\|\bA\|}
+  \left(\frac{\|\delta\bA\|}{\|\bA\|} + \frac{\|\delta\bb\|}{\|\bb\|}\right).
 \]
 }
+\label{thm:perturbation-bound}
 
 \addPrf{%
-Subtracting $\bA\bx = \bb$ from $(\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb$ gives
+\textbf{Step 1.}
+Subtract $\bA\bx = \bb$ from $(\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb$:
 \[
   (\bA + \delta\bA)(\hat{\bx} - \bx) = \delta\bb - \delta\bA\,\bx.
 \]
-Since $\|\bA^{-1}\delta\bA\| \leq \|\bA^{-1}\|\,\|\delta\bA\| < 1$, the matrix $\bI + \bA^{-1}\delta\bA$ is invertible by the Neumann lemma, and
+
+\textbf{Step 2.}
+Since $\|\bA^{-1}\delta\bA\| \leq \|\bA^{-1}\|\,\|\delta\bA\| < 1$, the Neumann
+series gives $(\bI + \bA^{-1}\delta\bA)^{-1} = \sum_{k=0}^\infty (-\bA^{-1}\delta\bA)^k$,
+so $\bA + \delta\bA$ is invertible and
 \[
-  \|(\bA + \delta\bA)^{-1}\| = \|\bA^{-1}(\bI + \bA^{-1}\delta\bA)^{-1}\| \leq \frac{\|\bA^{-1}\|}{1 - \|\bA^{-1}\|\,\|\delta\bA\|}.
+  \|(\bA + \delta\bA)^{-1}\| \leq \frac{\|\bA^{-1}\|}{1 - \|\bA^{-1}\|\,\|\delta\bA\|}.
 \]
-Therefore:
+
+\textbf{Step 3.}
+Applying this bound to the error from Step 1:
 \[
-  \|\hat{\bx} - \bx\| \leq \frac{\|\bA^{-1}\|}{1 - \|\bA^{-1}\|\,\|\delta\bA\|}\bigl(\|\delta\bb\| + \|\delta\bA\|\,\|\bx\|\bigr).
+  \|\hat{\bx} - \bx\|
+  \leq \frac{\|\bA^{-1}\|}{1 - \|\bA^{-1}\|\,\|\delta\bA\|}
+  \bigl(\|\delta\bb\| + \|\delta\bA\|\,\|\bx\|\bigr).
 \]
-Dividing by $\|\bx\|$ and using $\|\bb\| \leq \|\bA\|\,\|\bx\|$ (so $1/\|\bx\| \leq \|\bA\|/\|\bb\|$) yields the stated bound.
+Divide by $\|\bx\|$ and use $\|\bb\| \leq \|\bA\|\,\|\bx\|$ to convert
+$\|\bx\|$ terms to $\|\bb\|$ terms. This yields the stated bound.
 }
 
-\addCor{Effect of Right-Hand Side Perturbation}{%
+\addCor{Perturbation in the Right-Hand Side Only}{%
 If only $\bb$ is perturbed ($\delta\bA = \bzero$), then
 \[
   \frac{\|\hat{\bx} - \bx\|}{\|\bx\|} \leq \kappa(\bA)\,\frac{\|\delta\bb\|}{\|\bb\|}.
 \]
 }
+\label{cor:rhs-perturbation}
 
 \addPrf{%
-Set $\delta\bA = \bzero$ in the perturbation bound. Then $\hat{\bx} - \bx = \bA^{-1}\delta\bb$, so $\|\hat{\bx}-\bx\| \leq \|\bA^{-1}\|\,\|\delta\bb\|$. Using $\|\bx\| \geq \|\bb\|/\|\bA\|$ gives $\|\hat{\bx}-\bx\|/\|\bx\| \leq \|\bA\|\,\|\bA^{-1}\|\,\|\delta\bb\|/\|\bb\| = \kappa(\bA)\,\|\delta\bb\|/\|\bb\|$.
+Set $\delta\bA = \bzero$ in Thm~\ref{thm:perturbation-bound}. Then
+$\hat{\bx} - \bx = \bA^{-1}\delta\bb$, so $\|\hat{\bx}-\bx\| \leq \|\bA^{-1}\|\,\|\delta\bb\|$.
+Dividing by $\|\bx\| \geq \|\bb\|/\|\bA\|$ gives $\kappa(\bA)\,\|\delta\bb\|/\|\bb\|$.
 }
 
 \addNote{%
-The condition number tells us the worst-case amplification factor. A relative perturbation of size $\epsilon$ in the data can produce a relative error up to $\kappa(\bA)\cdot\epsilon$ in the solution. In double precision $\epsilon_{\mathrm{mach}} \approx 10^{-16}$, so we can expect at most $\lfloor 16 - \log_{10}\kappa(\bA)\rfloor$ correct decimal digits in the computed solution.
+The condition number is the worst-case amplification factor: a relative perturbation
+of size $\varepsilon$ in the data can produce a relative error up to $\kappa(\bA)\cdot\varepsilon$
+in the solution. In double precision $\varepsilon_{\mathrm{mach}} \approx 10^{-16}$, so
+we can expect at most $\lfloor 16 - \log_{10}\kappa(\bA)\rfloor$ correct decimal digits
+in the computed solution.
 }
 
 \addExmpl{%
-Let $\bA = \begin{pmatrix} 1 & 0 \\ 0 & 10^{-6} \end{pmatrix}$, $\bb = (1,1)^T$. The exact solution is $\bx^* = (1, 10^6)^T$ and $\kappa_2(\bA) = 10^6$. A perturbation $\delta\bb = (10^{-4}, 0)^T$ has $\|\delta\bb\|/\|\bb\| \approx 10^{-4}$. The bound predicts a relative solution error up to $\kappa(\bA)\cdot10^{-4} = 100$. Indeed, the perturbed solution is $\hat{\bx} = (1+10^{-4}, 10^6)^T$, giving $\|\hat{\bx}-\bx^*\|/\|\bx^*\| \approx 10^{-10}$ — much smaller than the bound, since the perturbation was in the well-conditioned direction.
+Let $\bA = \begin{pmatrix} 1 & 0 \\ 0 & 10^{-6} \end{pmatrix}$, $\bb = (1,1)^T$.
+The exact solution is $\bx^* = (1, 10^6)^T$ and $\kappa_2(\bA) = 10^6$.
+Perturbing $\bb$ to $\tilde{\bb} = (1 + 10^{-4}, 1)^T$ has
+$\|\delta\bb\|/\|\bb\| \approx 10^{-4}$, and the bound predicts relative error up to
+$10^6 \cdot 10^{-4} = 100$. The actual perturbed solution is $(1+10^{-4}, 10^6)^T$,
+giving relative error $\approx 10^{-10}$: much smaller than the bound because the
+perturbation was in the well-conditioned direction. The bound is worst-case.
+}
+
+\addExcr{%
+Refer to Thm~\ref{thm:perturbation-bound} and Cor~\ref{cor:rhs-perturbation}.
+\begin{enumerate}
+  \item For $\bA_\epsilon = \begin{pmatrix}1 & 0 \\ 0 & \epsilon\end{pmatrix}$
+  and $\bb = (1,1)^T$, compute $\kappa_2(\bA_\epsilon)$ for
+  $\epsilon = 10^{-4}, 10^{-8}, 10^{-12}$.
+  Perturb $\bb$ to $\tilde{\bb} = (1+10^{-4},1)^T$, solve both systems, and compare
+  the actual relative error to the bound $\kappa_2(\bA_\epsilon)\cdot\|\delta\bb\|/\|\bb\|$.
+  \item At which $\epsilon$ does \texttt{np.linalg.solve} give an unreliable answer
+  in double precision? Explain in terms of the number of correct digits formula.
+  \item Show that for a symmetric matrix $\bA$ with eigenvalues $\lambda_1, \ldots, \lambda_n$,
+  $\kappa_2(\bA) = |\lambda_{\max}|/|\lambda_{\min}|$.
+  (\textit{Hint: use the Spectral Theorem and the formula $\kappa_2 = \sigma_{\max}/\sigma_{\min}$.})
+\end{enumerate}
 }
 
 \subsubsection{Conditioning vs.\ Stability}
 
-\addDef{Conditioning (Problem Property)}{%
-\emph{Conditioning} is an intrinsic property of the \emph{mathematical problem}: it measures the sensitivity of the exact solution to perturbations in the data. A matrix is \emph{ill-conditioned} if $\kappa(\bA) \gg 1$ and \emph{well-conditioned} if $\kappa(\bA)$ is small.
+\textBox{%
+Conditioning and stability are often conflated but are fundamentally different.
+Conditioning is a property of the mathematical problem; stability is a property of the
+algorithm. The two interact through the forward error bound: for a backward stable
+algorithm applied to a problem with condition number $\kappa$, the forward error is
+at most $O(\kappa \cdot \varepsilon_{\mathrm{mach}})$. Neither property alone is
+sufficient: good conditioning with an unstable algorithm, or bad conditioning with
+a stable one, both lead to inaccurate results.
 }
 
-\addDef{Numerical Stability (Algorithm Property)}{%
-\emph{Numerical stability} is a property of the \emph{algorithm}: it measures how well the algorithm avoids introducing errors beyond those inherent to the problem. A backward stable algorithm introduces no more error than is forced by the problem's conditioning.
+\addDef{Conditioning}{%
+\emph{Conditioning} is an intrinsic property of the mathematical problem. It measures
+the sensitivity of the exact solution to perturbations in the data. A matrix is
+\emph{ill-conditioned} if $\kappa(\bA) \gg 1$ and \emph{well-conditioned} if $\kappa(\bA)$
+is modest. Conditioning cannot be improved by choosing a better algorithm; it can only
+be improved by reformulating the problem or preconditioning.
 }
+\label{def:conditioning}
+
+\addDef{Numerical Stability}{%
+\emph{Numerical stability} is a property of the algorithm. It measures how well the
+algorithm avoids introducing errors beyond those forced by the problem's conditioning.
+A backward stable algorithm introduces no more error than is intrinsic to the problem.
+}
+\label{def:numerical-stability}
 
 \addNote{%
-A well-conditioned problem solved by an unstable algorithm may yield inaccurate results. An ill-conditioned problem solved by a stable algorithm is still inherently sensitive — no algorithm can overcome poor conditioning. The best strategy is: use a numerically stable algorithm, and if $\kappa(\bA)$ is large, reformulate or precondition the problem before solving.
+A well-conditioned problem solved by an unstable algorithm may yield inaccurate results.
+An ill-conditioned problem solved by a stable algorithm is still inherently sensitive:
+no algorithm can overcome poor conditioning. The best strategy is to use a numerically
+stable algorithm, and if $\kappa(\bA)$ is large, reformulate or precondition the problem.
+}
+
+\addExcr{%
+Refer to Defs~\ref{def:conditioning} and~\ref{def:numerical-stability}.
+\begin{enumerate}
+  \item Give an example of a well-conditioned problem solved inaccurately due to an
+  unstable algorithm. (\textit{Hint: evaluate $e^x - 1$ for small $x$ in Python
+  directly vs.\ via \texttt{np.expm1(x)}.})
+  \item The Hilbert matrix $H_n$ is ill-conditioned. Compute $\kappa_2(H_{12})$ and
+  estimate how many correct digits to expect from double-precision arithmetic.
+  Verify by solving $H_{12}\bx = H_{12}\cdot\mathbf{1}$ and checking the error.
+  \item Can you make an ill-conditioned problem well-conditioned by scaling? Construct
+  a diagonal scaling matrix $\bD = \mathrm{diag}(d_1, \ldots, d_n)$ such that
+  $\kappa_2(\bD\bA\bD)$ is minimized, and apply it to a $3\times 3$ example.
+\end{enumerate}
 }
 
 \subsubsection{Stability of Matrix Factorizations}
 
-\addProp{Stability of LU with Partial Pivoting}{%
-Gaussian elimination with partial pivoting is backward stable with growth factor bounded by $2^{n-1}$ in the worst case. This worst-case bound is rarely achieved; for random dense matrices the expected growth factor is $O(n^{2/3})$.
-}
-
-\addPrf{%
-Partial pivoting ensures all multipliers satisfy $|m_{ij}| \leq 1$. At each elimination step, entries can at most double, giving a growth factor bound of $2^{n-1}$. Worst-case matrices achieving this bound are known but are extremely rare in practice. For most scientific problems, GEPP is effectively backward stable.
+\textBox{%
+The three main factorizations studied in this course have different stability properties,
+and the right choice depends on the structure of the problem.
 }
 
 \addProp{Stability of Cholesky Factorization}{%
-For symmetric positive definite $\bA$, Cholesky factorization $\bA = \bL\bL^T$ is backward stable without any pivoting. All pivot elements $\ell_{kk} = \sqrt{a_{kk} - \sum_{j<k}\ell_{kj}^2}$ remain positive and bounded by $\sqrt{\|\bA\|_2}$, so no element growth occurs.
+For symmetric positive definite $\bA$, Cholesky factorization $\bA = \bL\bL^T$ is
+backward stable without pivoting. All diagonal entries $\ell_{kk}$ remain positive and
+bounded by $\sqrt{\|\bA\|_2}$, so no element growth occurs.
 }
+\label{prop:cholesky-stable}
 
 \addPrf{%
-For an SPD matrix, all principal submatrices are SPD (their Schur complements are positive definite), so each diagonal entry encountered during Cholesky is positive. Since no cancellation or sign change can occur, the factorization is inherently stable. A rounding error analysis shows the backward error satisfies $\|\bA + \delta\bA - \hat{\bL}\hat{\bL}^T\|_F \leq c_n\epsilon_{\mathrm{mach}}\|\bA\|_F$ for a modest constant $c_n$.
+For an SPD matrix, all principal submatrices are SPD, so each diagonal entry
+encountered during Cholesky is positive and the square root is well-defined.
+Since no cancellation or sign change can occur, the factorization is inherently stable.
+A rounding error analysis shows the backward error satisfies
+$\|\bA + \delta\bA - \hat{\bL}\hat{\bL}^T\|_F \leq c_n\varepsilon_{\mathrm{mach}}\|\bA\|_F$
+for a modest constant $c_n$.
 }
 
 \addProp{Stability of QR via Householder Reflections}{%
-QR decomposition using Householder reflections is backward stable with no growth factor. Each Householder reflector $\bH = \bI - 2\bv\bv^T/\|\bv\|^2$ is orthogonal with $\kappa_2(\bH) = 1$, so orthogonal transformations cannot amplify errors.
+QR decomposition using Householder reflections is backward stable with no growth
+factor. Each Householder reflector $\bH = \bI - 2\bv\bv^T/\|\bv\|_2^2$ is orthogonal
+with $\kappa_2(\bH) = 1$, so orthogonal transformations cannot amplify errors.
 }
+\label{prop:qr-stable}
 
 \addPrf{%
-Each Householder reflection is an orthogonal transformation, so $\|\bH\|_2 = 1$ and $\|\bH^{-1}\|_2 = 1$. Round-off errors introduced at each step are not amplified by subsequent orthogonal transformations. A detailed analysis shows the overall backward error satisfies $\|(\hat{\bQ} + \delta\bQ)(\hat{\bR} + \delta\bR) - \bA\|_F = O(\epsilon_{\mathrm{mach}}\|\bA\|_F)$.
+Each Householder reflection is orthogonal, so $\|\bH\|_2 = \|\bH^{-1}\|_2 = 1$.
+Round-off errors at each step are not amplified by subsequent orthogonal transformations.
+A detailed analysis shows the overall backward error satisfies
+$\|(\hat{\bQ} + \delta\bQ)(\hat{\bR} + \delta\bR) - \bA\|_F = O(\varepsilon_{\mathrm{mach}}\|\bA\|_F)$.
 }
 
 \addNote{%
-\textbf{Hierarchy of stability:} SVD $\geq$ QR (Householder) $>$ Cholesky (SPD only) $\approx$ LU with partial pivoting $\gg$ LU without pivoting. SVD is the most stable but also the most expensive. For general systems, GEPP is the standard; for SPD systems, Cholesky is preferred; for least squares or ill-conditioned problems, QR is recommended.
+\textbf{Hierarchy of stability.}
+SVD $\geq$ QR (Householder) $\geq$ Cholesky (SPD only) $\approx$ LU with partial
+pivoting $\gg$ LU without pivoting. SVD is the most stable but most expensive. For
+general systems, GEPP is standard; for SPD systems, Cholesky is preferred; for least
+squares or ill-conditioned problems, QR is recommended.
 }
 
 \addDef{Iterative Refinement}{%
-After computing $\hat{\bx}$ via a factorization, \emph{iterative refinement} improves accuracy by: (1) compute the residual $\br = \bb - \bA\hat{\bx}$; (2) solve $\bA\boldsymbol{\delta} = \br$ using the \emph{same} factorization; (3) update $\hat{\bx} \leftarrow \hat{\bx} + \boldsymbol{\delta}$. Each cycle recovers roughly $\lfloor\log_{10}(1/\kappa(\bA))\rfloor$ additional correct digits, up to the precision limit.
+After computing $\hat{\bx}$ via a factorization, \emph{iterative refinement} improves
+accuracy by three steps: (1) compute the residual $\br = \bb - \bA\hat{\bx}$; (2) solve
+$\bA\boldsymbol{\delta} = \br$ using the same factorization; (3) update
+$\hat{\bx} \leftarrow \hat{\bx} + \boldsymbol{\delta}$. Each cycle recovers roughly
+$\lfloor\log_{10}(1/\kappa(\bA))\rfloor$ additional correct digits, up to the precision
+limit.
 }
-
-\addDef{Condition Number and Convergence of Iterative Methods}{%
-For iterative methods, the condition number governs convergence rate. For a stationary splitting with $\bT = \bI - \bM^{-1}\bA$, the spectral radius $\rho(\bT)$ is close to $1$ when $\bM^{-1}\bA$ has eigenvalues far from $1$, which happens when $\kappa(\bA)$ is large and $\bM$ is a poor approximation to $\bA$. Preconditioning reduces the effective condition number $\kappa(\bM^{-1}\bA)$ to accelerate convergence.
-}
+\label{def:iterative-refinement}
 
 \addExcr{%
-\textbf{(Condition number and solution sensitivity)} Let $\bA_\epsilon = \begin{pmatrix} 1 & 0 \\ 0 & \epsilon \end{pmatrix}$, $\bb = (1,1)^T$.
+Refer to Def~\ref{def:iterative-refinement}.
 \begin{enumerate}
-  \item Compute $\kappa_2(\bA_\epsilon)$ for $\epsilon = 10^{-4}, 10^{-8}, 10^{-12}$.
-  \item The exact solution is $\bx^* = (1, 1/\epsilon)^T$. Perturb $\bb$ to $\tilde{\bb} = (1+10^{-4},1)^T$. Compute the relative error $\|\tilde{\bx} - \bx^*\|/\|\bx^*\|$ and compare it to the bound $\kappa_2(\bA_\epsilon)\cdot\|\delta\bb\|/\|\bb\|$.
-  \item Using NumPy, solve both systems for each $\epsilon$. At which $\epsilon$ does the computed solution become unreliable in double precision?
+  \item Implement one step of iterative refinement for $H_{10}\bx = H_{10}\cdot\mathbf{1}$
+  (Hilbert matrix, $n=10$). Compare the error before and after refinement.
+  How many digits did you recover?
+  \item Apply two steps of refinement. Does a second step help? Is there a limit
+  to how many digits can be recovered?
 \end{enumerate}
 }
 
 \addExcr{%
-\textbf{(Comparing factorization stability)} Build the $n\times n$ Hilbert matrix $H_{ij} = 1/(i+j-1)$ using \texttt{scipy.linalg.hilbert(n)}, which is famously ill-conditioned.
+\textbf{(Comparing factorization stability.)}
+Build the $n \times n$ Hilbert matrix via \texttt{scipy.linalg.hilbert(n)}.
 \begin{enumerate}
-  \item For $n = 10$: compute $\kappa_2(H)$ and predict how many correct digits to expect. Solve $H\bx = H\cdot\mathbf{1}$ (exact solution $\bx^* = \mathbf{1}$) via \texttt{np.linalg.solve} (LU) and \texttt{np.linalg.lstsq} (QR-based). Compare the errors.
-  \item Use the \texttt{mpmath} library with \texttt{mp.dps = 50} to solve the same system in high precision. Does the error decrease significantly? What does this tell you about conditioning vs.\ precision?
-  \item Apply one step of iterative refinement to the LU solution. How much improvement do you observe?
+  \item For $n = 10$: compute $\kappa_2(H)$ and predict how many correct digits to
+  expect. Solve $H\bx = H\cdot\mathbf{1}$ via \texttt{np.linalg.solve} (LU) and
+  \texttt{np.linalg.lstsq} (QR-based). Compare the errors
+  $\|\hat{\bx} - \mathbf{1}\|_2$.
+  \item Use \texttt{mpmath} with \texttt{mp.dps = 50} to solve the same system in
+  high precision. Does the error decrease significantly compared to double precision?
+  What does this tell you about conditioning vs.\ precision?
+  \item Apply one step of iterative refinement to the LU solution. How much
+  improvement do you observe?
 \end{enumerate}
 }
 
 \addExcr{%
-\textbf{(Backward error analysis in practice)} For the system $\bA\bx = \bb$ with $\bA$ and $\bb$ of your choice (e.g., a random $10\times10$ matrix scaled so $\kappa(\bA) \approx 10^4$):
+\textbf{(Backward error analysis in practice.)}
+For $\bA\bx = \bb$ with a random $10 \times 10$ matrix scaled so $\kappa(\bA) \approx 10^4$:
 \begin{enumerate}
-  \item Compute $\hat{\bx}$ via \texttt{np.linalg.solve}. Compute the backward error $\|\bA\hat{\bx} - \bb\|/\|\bb\|$. Is it consistent with $O(\epsilon_{\mathrm{mach}})$?
-  \item Compute the forward error $\|\hat{\bx} - \bx^*\|/\|\bx^*\|$ (using a solution computed in high precision as ground truth). Is the ratio (forward error)/(backward error) consistent with $\kappa(\bA)$?
-  \item Repeat with a worse-conditioned matrix ($\kappa \approx 10^{12}$) and interpret the results.
+  \item Compute $\hat{\bx}$ via \texttt{np.linalg.solve}. Compute the backward error
+  $\|\bA\hat{\bx} - \bb\|_2/\|\bb\|_2$. Is it consistent with $O(\varepsilon_{\mathrm{mach}})$?
+  \item Compute the forward error $\|\hat{\bx} - \bx^*\|_2/\|\bx^*\|_2$ (using the
+  true solution). Is the ratio (forward error)/(backward error) consistent with $\kappa(\bA)$?
+  \item Repeat with $\kappa \approx 10^{12}$ and interpret the results.
 \end{enumerate}
 }
 

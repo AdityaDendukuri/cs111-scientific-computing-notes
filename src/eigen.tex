@@ -5,114 +5,177 @@
 \subsection{Eigenvalues and Eigenvectors}
 \label{subsec:eigenvalues}
 
+Eigenvalues and eigenvectors reveal the fundamental character of a linear transformation:
+the special directions along which the matrix acts by pure scaling. This section develops
+the theory from the characteristic polynomial through the Spectral Theorem, then turns to
+practical algorithms --- power iteration, inverse iteration, and the QR algorithm --- for
+computing eigenvalues numerically.
+
 \addDef{Eigenvalues and Eigenvectors}{%
-For a matrix \(\bA \in \mathbb{R}^{n \times n}\), a scalar \(\lambda \in \mathbb{C}\) is called an \emph{eigenvalue} of \(\bA\) if there exists a nonzero vector \(\bv \in \mathbb{C}^n\) such that
+For a matrix $\bA \in \fR^{n \times n}$, a scalar $\lambda \in \fC$ is called an
+\emph{eigenvalue} of $\bA$ if there exists a nonzero vector $\bv \in \fC^n$ such that
 \[
 \bA\bv = \lambda\bv.
 \]
-The nonzero vector \(\bv\) is called an \emph{eigenvector} of \(\bA\) corresponding to the eigenvalue \(\lambda\). The set of all eigenvalues of \(\bA\) is called the \emph{spectrum} of \(\bA\), denoted by \(\sigma(\bA)\).
+The nonzero vector $\bv$ is called an \emph{eigenvector} of $\bA$ corresponding to
+$\lambda$. The set of all eigenvalues of $\bA$ is called the \emph{spectrum} of $\bA$,
+denoted $\sigma(\bA)$.
 }
+\label{def:eigenvalue}
 
 \textBox{%
-Intuitively, an eigenvector is a vector whose direction remains unchanged when transformed by the matrix \(\bA\)—it may be stretched, compressed, or reversed, but it stays on the same line. The eigenvalue tells us the factor by which the eigenvector is scaled. Eigenvalues and eigenvectors reveal the fundamental character of a linear transformation, showing the directions in which the transformation behaves most simply.
+Intuitively, an eigenvector is a vector whose direction remains unchanged when transformed
+by $\bA$ --- it may be stretched, compressed, or reversed, but it stays on the same line.
+The eigenvalue tells us the factor by which the eigenvector is scaled. Eigenvalues and
+eigenvectors reveal the fundamental character of a linear transformation, showing the
+directions in which the transformation behaves most simply.
+}
+
+\addExcr{%
+Refer to Def~\ref{def:eigenvalue}.
+\begin{enumerate}
+    \item Verify that $\bv = (1, 1)^T$ is an eigenvector of
+    $\bA = \begin{pmatrix}3&1\\1&3\end{pmatrix}$. What is the corresponding eigenvalue?
+    \item If $\bv$ is an eigenvector of $\bA$ with eigenvalue $\lambda$, show that $c\bv$
+    is also an eigenvector for any nonzero scalar $c$.
+    \item Can the zero vector be an eigenvector? Why is it explicitly excluded from the
+    definition?
+\end{enumerate}
 }
 
 \addDef{Characteristic Polynomial}{%
-For a matrix \(\bA \in \mathbb{R}^{n \times n}\), the \emph{characteristic polynomial} is defined as
+For a matrix $\bA \in \fR^{n \times n}$, the \emph{characteristic polynomial} is
 \[
 p_{\bA}(\lambda) = \det(\bA - \lambda \bI),
 \]
-where \(\bI\) is the \(n \times n\) identity matrix. The equation
-\[
-\det(\bA - \lambda \bI) = 0
-\]
-is called the \emph{characteristic equation} of \(\bA\). The roots of the characteristic polynomial are precisely the eigenvalues of \(\bA\).
+where $\bI$ is the $n \times n$ identity matrix. The equation $\det(\bA - \lambda \bI) = 0$
+is the \emph{characteristic equation} of $\bA$. The roots of the characteristic polynomial
+are precisely the eigenvalues of $\bA$.
 }
+\label{def:char-poly}
 
 \addExmpl{%
-Consider the matrix 
-\[
-\bA = \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}.
-\]
+Consider the matrix
+$\bA = \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}$.
 
 To find its eigenvalues, we compute the characteristic polynomial:
 \begin{align}
-p_{\bA}(\lambda) &= \det(\bA - \lambda \bI) \\
-&= \det\begin{pmatrix} 3-\lambda & 1 \\ 1 & 3-\lambda \end{pmatrix} \\
-&= (3-\lambda)(3-\lambda) - 1 \cdot 1 \\
-&= (3-\lambda)^2 - 1 \\
-&= 9 - 6\lambda + \lambda^2 - 1 \\
-&= \lambda^2 - 6\lambda + 8 \\
-&= (\lambda - 4)(\lambda - 2)
+p_{\bA}(\lambda)
+&= \det\begin{pmatrix} 3-\lambda & 1 \\ 1 & 3-\lambda \end{pmatrix}
+= (3-\lambda)^2 - 1
+= \lambda^2 - 6\lambda + 8
+= (\lambda - 4)(\lambda - 2).
 \end{align}
 
-Setting $p_{\bA}(\lambda) = 0$, we get the eigenvalues $\lambda_1 = 4$ and $\lambda_2 = 2$.
+Setting $p_{\bA}(\lambda) = 0$ gives eigenvalues $\lambda_1 = 4$ and $\lambda_2 = 2$.
 
-For $\lambda_1 = 4$, we find the corresponding eigenvector by solving $(\bA - 4\bI)\bv = \mathbf{0}$:
-\begin{align}
-\begin{pmatrix} 3-4 & 1 \\ 1 & 3-4 \end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} &= \begin{pmatrix} 0 \\ 0 \end{pmatrix} \\
-\begin{pmatrix} -1 & 1 \\ 1 & -1 \end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} &= \begin{pmatrix} 0 \\ 0 \end{pmatrix}
-\end{align}
+For $\lambda_1 = 4$: solving $(\bA - 4\bI)\bv = \bzero$ gives $-v_1 + v_2 = 0$, so
+$\bv_1 = \frac{1}{\sqrt{2}}(1, 1)^T$ (normalized).
 
-This gives us $-v_1 + v_2 = 0$, so $v_1 = v_2$. Any nonzero vector of the form $\bv_1 = (t, t)^T$ for $t \neq 0$ is an eigenvector. A normalized eigenvector would be $\bv_1 = \frac{1}{\sqrt{2}}(1, 1)^T$.
+For $\lambda_2 = 2$: solving $(\bA - 2\bI)\bv = \bzero$ gives $v_1 + v_2 = 0$, so
+$\bv_2 = \frac{1}{\sqrt{2}}(1, -1)^T$ (normalized).
+}
 
-Similarly, for $\lambda_2 = 2$, we solve $(\bA - 2\bI)\bv = \mathbf{0}$:
-\begin{align}
-\begin{pmatrix} 3-2 & 1 \\ 1 & 3-2 \end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} &= \begin{pmatrix} 0 \\ 0 \end{pmatrix} \\
-\begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix} \begin{pmatrix} v_1 \\ v_2 \end{pmatrix} &= \begin{pmatrix} 0 \\ 0 \end{pmatrix}
-\end{align}
-
-This gives us $v_1 + v_2 = 0$, so $v_1 = -v_2$. Any nonzero vector of the form $\bv_2 = (t, -t)^T$ for $t \neq 0$ is an eigenvector. A normalized eigenvector would be $\bv_2 = \frac{1}{\sqrt{2}}(1, -1)^T$.
+\addExcr{%
+Refer to Def~\ref{def:char-poly}.
+\begin{enumerate}
+    \item Compute the characteristic polynomial and eigenvalues of
+    $\bA = \begin{pmatrix}1 & 2 \\ 2 & 1\end{pmatrix}$.
+    Verify using trace: $\lambda_1 + \lambda_2 = \text{tr}(\bA)$.
+    \item For the $2 \times 2$ rotation matrix
+    $\bB = \begin{pmatrix}0 & -1 \\ 1 & 0\end{pmatrix}$, compute the characteristic
+    polynomial. Are the eigenvalues real? What does this say geometrically?
+    \item In NumPy, use \texttt{np.linalg.eigvals(A)} to find the eigenvalues of each
+    matrix above and verify they match your hand computations.
+\end{enumerate}
 }
 
 \addProp{Eigenvalues of Triangular Matrices}{%
-If $\bA$ is upper or lower triangular, its eigenvalues are precisely the diagonal entries $a_{11}, a_{22}, \ldots, a_{nn}$.
+If $\bA$ is upper or lower triangular, its eigenvalues are precisely the diagonal entries
+$a_{11}, a_{22}, \ldots, a_{nn}$.
 }
+\label{prop:triangular-eigenvalues}
 
 \addPrf{%
-The characteristic polynomial $\det(\bA - \lambda\bI)$ for a triangular matrix is the product of its diagonal entries $(a_{ii} - \lambda)$, giving $p_\bA(\lambda) = \prod_{i=1}^n (a_{ii} - \lambda)$. The roots are $\lambda_i = a_{ii}$.
+The characteristic polynomial $\det(\bA - \lambda\bI)$ for a triangular matrix is the
+product of its diagonal entries $(a_{ii} - \lambda)$, giving
+$p_\bA(\lambda) = \prod_{i=1}^n (a_{ii} - \lambda)$. The roots are $\lambda_i = a_{ii}$.
 }
 
 \addProp{Similar Matrices Share Eigenvalues}{%
-If $\bB = \bV^{-1}\bA\bV$ for some invertible $\bV$, then $\bA$ and $\bB$ have the same characteristic polynomial and hence the same eigenvalues.
+If $\bB = \bV^{-1}\bA\bV$ for some invertible $\bV$, then $\bA$ and $\bB$ have the same
+characteristic polynomial and hence the same eigenvalues.
 }
+\label{prop:similar-eigenvalues}
 
 \addPrf{%
-$\det(\bB - \lambda\bI) = \det(\bV^{-1}\bA\bV - \lambda\bI) = \det(\bV^{-1}(\bA - \lambda\bI)\bV) = \det(\bV^{-1})\det(\bA - \lambda\bI)\det(\bV) = \det(\bA - \lambda\bI)$.
+$\det(\bB - \lambda\bI) = \det(\bV^{-1}\bA\bV - \lambda\bI)
+= \det(\bV^{-1}(\bA - \lambda\bI)\bV)
+= \det(\bV^{-1})\det(\bA - \lambda\bI)\det(\bV)
+= \det(\bA - \lambda\bI)$.
 }
 
 \addThm{Key Eigenvalue Properties}{%
-For $\bA \in \fR^{n \times n}$ with eigenvalues $\lambda_1, \ldots, \lambda_n$ (counting algebraic multiplicity):
+For $\bA \in \fR^{n \times n}$ with eigenvalues $\lambda_1, \ldots, \lambda_n$ (counting
+algebraic multiplicity):
 \begin{enumerate}
     \item $\displaystyle\text{tr}(\bA) = \sum_{i=1}^n \lambda_i$
     \item $\displaystyle\det(\bA) = \prod_{i=1}^n \lambda_i$
     \item $\bA$ is singular if and only if $0 \in \sigma(\bA)$.
-    \item If $\bA$ is invertible, the eigenvalues of $\bA^{-1}$ are $1/\lambda_1, \ldots, 1/\lambda_n$.
+    \item If $\bA$ is invertible, the eigenvalues of $\bA^{-1}$ are
+    $1/\lambda_1, \ldots, 1/\lambda_n$.
 \end{enumerate}
 }
+\label{thm:eigenvalue-properties}
 
 \addPrf{%
 (1) and (2): Both follow from comparing the characteristic polynomial
 \[
     p_\bA(\lambda) = \det(\bA - \lambda\bI) = (-1)^n(\lambda - \lambda_1)\cdots(\lambda - \lambda_n)
 \]
-with the direct expansion of the determinant. Setting $\lambda = 0$ gives $\det(\bA) = \prod_i \lambda_i$. The coefficient of $\lambda^{n-1}$ gives $-\text{tr}(\bA) = -\sum_i \lambda_i$.
+with the direct expansion of the determinant. Setting $\lambda = 0$ gives
+$\det(\bA) = \prod_i \lambda_i$. The coefficient of $\lambda^{n-1}$ gives
+$-\text{tr}(\bA) = -\sum_i \lambda_i$.
 
 (3): Direct from (2): $\det(\bA) = 0 \iff \prod_i \lambda_i = 0 \iff$ some $\lambda_i = 0$.
 
-(4): If $\bA\bv = \lambda\bv$ with $\lambda \neq 0$, multiply both sides by $\frac{1}{\lambda}\bA^{-1}$ to get $\bA^{-1}\bv = \frac{1}{\lambda}\bv$.
+(4): If $\bA\bv = \lambda\bv$ with $\lambda \neq 0$, multiply both sides by
+$\frac{1}{\lambda}\bA^{-1}$ to get $\bA^{-1}\bv = \frac{1}{\lambda}\bv$.
 }
 
 \addLem{Eigenvectors for Distinct Eigenvalues are Linearly Independent}{%
-Let $\lambda_1, \ldots, \lambda_k$ be distinct eigenvalues of $\bA$ with corresponding eigenvectors $\bv_1, \ldots, \bv_k$. Then $\{\bv_1, \ldots, \bv_k\}$ is linearly independent.
+Let $\lambda_1, \ldots, \lambda_k$ be distinct eigenvalues of $\bA$ with corresponding
+eigenvectors $\bv_1, \ldots, \bv_k$. Then $\{\bv_1, \ldots, \bv_k\}$ is linearly
+independent.
 }
+\label{lem:distinct-eigenvectors}
 
 \addPrf{%
-By induction on $k$. The case $k=1$ holds since eigenvectors are nonzero. Assume $\{\bv_1, \ldots, \bv_{k-1}\}$ is independent. Suppose $\sum_{i=1}^k c_i\bv_i = \bzero$. Apply $(\bA - \lambda_k\bI)$ to both sides:
+By induction on $k$. The case $k=1$ holds since eigenvectors are nonzero. Assume
+$\{\bv_1, \ldots, \bv_{k-1}\}$ is independent. Suppose $\sum_{i=1}^k c_i\bv_i = \bzero$.
+Apply $(\bA - \lambda_k\bI)$ to both sides:
 \[
     \sum_{i=1}^{k-1} c_i(\lambda_i - \lambda_k)\bv_i = \bzero.
 \]
-By the inductive hypothesis, $c_i(\lambda_i - \lambda_k) = 0$ for each $i < k$. Since $\lambda_i \neq \lambda_k$, each $c_i = 0$. Substituting back gives $c_k\bv_k = \bzero$, so $c_k = 0$.
+By the inductive hypothesis, $c_i(\lambda_i - \lambda_k) = 0$ for each $i < k$. Since
+$\lambda_i \neq \lambda_k$, each $c_i = 0$. Substituting back gives $c_k\bv_k = \bzero$,
+so $c_k = 0$.
+}
+
+\addExcr{%
+Refer to Props~\ref{prop:triangular-eigenvalues}--\ref{prop:similar-eigenvalues},
+Thm~\ref{thm:eigenvalue-properties}, and Lem~\ref{lem:distinct-eigenvectors}.
+\begin{enumerate}
+    \item Read off the eigenvalues of $\bT = \begin{pmatrix}4&2&1\\0&-1&3\\0&0&2\end{pmatrix}$
+    without any computation. Verify using \texttt{np.linalg.eigvals(T)}.
+    \item For $\bA = \begin{pmatrix}5&2\\2&2\end{pmatrix}$, use properties (1) and (2) of
+    Thm~\ref{thm:eigenvalue-properties} to check your eigenvalue computation: verify
+    $\lambda_1 + \lambda_2 = \text{tr}(\bA)$ and $\lambda_1\lambda_2 = \det(\bA)$.
+    \item Let $\bA$ have eigenvalues $2, 3, 5$. What are the eigenvalues of $\bA^{-1}$?
+    Of $\bA^2$? Of $\bA - 2\bI$?
+    \item If $\bA$ has three distinct eigenvalues, does it follow that its three
+    eigenvectors form a basis for $\fR^3$? Cite the relevant lemma.
+\end{enumerate}
 }
 
 \addThm{Spectral Theorem for Real Symmetric Matrices}{%
@@ -120,12 +183,18 @@ Let $\bA \in \fR^{n \times n}$ be symmetric. Then:
 \begin{enumerate}
     \item All eigenvalues of $\bA$ are real.
     \item Eigenvectors corresponding to distinct eigenvalues are orthogonal.
-    \item $\bA$ is orthogonally diagonalizable: $\bA = \bQ\bD\bQ^T$ where $\bQ$ is orthogonal and $\bD = \text{diag}(\lambda_1, \ldots, \lambda_n) \in \fR^{n\times n}$.
+    \item $\bA$ is orthogonally diagonalizable: $\bA = \bQ\bD\bQ^T$ where $\bQ$ is
+    orthogonal and $\bD = \text{diag}(\lambda_1, \ldots, \lambda_n) \in \fR^{n\times n}$.
 \end{enumerate}
 }
+\label{thm:spectral-theorem}
 
 \addPrf{%
-(1): Let $\lambda \in \fC$ be an eigenvalue with eigenvector $\bv \in \fC^n$, $\bA\bv = \lambda\bv$. Then $\bar{\bv}^T\bA\bv = \lambda\,\bar{\bv}^T\bv$. But also $\bar{\bv}^T\bA\bv = (\bA\bar{\bv})^T\bv = \overline{(\bA\bv)}^T\bv = \bar{\lambda}\,\bar{\bv}^T\bv$. Since $\bar{\bv}^T\bv = \|\bv\|_2^2 > 0$, we conclude $\lambda = \bar{\lambda}$, so $\lambda \in \fR$.
+(1): Let $\lambda \in \fC$ be an eigenvalue with eigenvector $\bv \in \fC^n$,
+$\bA\bv = \lambda\bv$. Then $\bar{\bv}^T\bA\bv = \lambda\,\bar{\bv}^T\bv$. But also
+$\bar{\bv}^T\bA\bv = (\bA\bar{\bv})^T\bv = \overline{(\bA\bv)}^T\bv =
+\bar{\lambda}\,\bar{\bv}^T\bv$. Since $\bar{\bv}^T\bv = \|\bv\|_2^2 > 0$, we conclude
+$\lambda = \bar{\lambda}$, so $\lambda \in \fR$.
 
 (2): Let $\bA\bv = \lambda\bv$ and $\bA\bw = \mu\bw$ with $\lambda \neq \mu$. Then:
 \[
@@ -133,205 +202,423 @@ Let $\bA \in \fR^{n \times n}$ be symmetric. Then:
 \]
 Since $\lambda \neq \mu$, we get $\bv^T\bw = 0$.
 
-(3): Existence of a full orthonormal eigenbasis follows from (1), (2), and the fact that the characteristic polynomial splits over $\fR$ for symmetric matrices (proven via induction on dimension in a full course).
+(3): Existence of a full orthonormal eigenbasis follows from (1), (2), and the fact that the
+characteristic polynomial splits over $\fR$ for symmetric matrices (proven via induction on
+dimension in a full course).
+}
+
+\addDef{Hermitian Matrix}{%
+A matrix $\bA \in \fC^{n \times n}$ is \emph{Hermitian} if $\bA = \bA^*$, where
+$\bA^* = \bar{\bA}^T$ is the \emph{conjugate transpose}: each entry $a_{ij}$ is
+replaced by its complex conjugate $\overline{a_{ji}}$. For real matrices, $\bA^* = \bA^T$,
+so symmetric matrices are exactly the real Hermitian matrices.
+}
+\label{def:hermitian}
+
+\addExcr{%
+Refer to Def~\ref{def:hermitian}.
+\begin{enumerate}
+    \item Verify that $\bA = \begin{pmatrix} 2 & 1+i \\ 1-i & 3 \end{pmatrix}$ is
+    Hermitian by computing $\bA^*$.
+    \item Show that for any $\bA \in \fC^{n \times n}$, the matrix $\bA + \bA^*$ is
+    always Hermitian and $\bA - \bA^*$ is always \emph{skew-Hermitian} ($\bM^* = -\bM$).
+    \item Show that the diagonal entries of a Hermitian matrix must be real.
+\end{enumerate}
+}
+
+\addThm{Spectral Theorem for Hermitian Matrices}{%
+Let $\bA \in \fC^{n \times n}$ be Hermitian. Then:
+\begin{enumerate}
+    \item All eigenvalues of $\bA$ are real.
+    \item Eigenvectors for distinct eigenvalues are orthogonal with respect to the
+    complex inner product $\langle \bu, \bv \rangle = \bu^*\bv$.
+    \item $\bA$ is unitarily diagonalizable: $\bA = \bQ\bD\bQ^*$, where
+    $\bQ \in \fC^{n \times n}$ is unitary ($\bQ^*\bQ = \bI$) and
+    $\bD = \mathrm{diag}(\lambda_1, \ldots, \lambda_n) \in \fR^{n \times n}$.
+\end{enumerate}
+}
+\label{thm:spectral-theorem-hermitian}
+
+\addPrf{%
+The proof mirrors the real symmetric case, replacing transposes with conjugate transposes.
+
+\medskip
+\textbf{(1) Eigenvalues are real.}
+Let $\bA\bv = \lambda\bv$ with $\bv \neq \bzero$. Compute $\bv^*\bA\bv$ in two ways.
+On one hand, $\bv^*\bA\bv = \bv^*(\lambda\bv) = \lambda\|\bv\|_2^2$.
+On the other, since $\bA = \bA^*$:
+\[
+  \bv^*\bA\bv = \bv^*\bA^*\bv = (\bA\bv)^*\bv = (\lambda\bv)^*\bv = \bar{\lambda}\|\bv\|_2^2.
+\]
+Since $\|\bv\|_2^2 > 0$, we get $\lambda = \bar{\lambda}$, so $\lambda \in \fR$.
+
+\medskip
+\textbf{(2) Eigenvectors for distinct eigenvalues are orthogonal.}
+Let $\bA\bv = \lambda\bv$ and $\bA\bw = \mu\bw$ with $\lambda \neq \mu$ (both real).
+Then:
+\[
+  \lambda\,\bv^*\bw = (\bA\bv)^*\bw = \bv^*\bA^*\bw = \bv^*\bA\bw = \mu\,\bv^*\bw.
+\]
+Since $\lambda \neq \mu$, we conclude $\bv^*\bw = 0$.
+
+\medskip
+\textbf{(3) Unitary diagonalizability.}
+That a complete unitary eigenbasis always exists follows from induction on dimension
+(analogous to the real symmetric case) and is covered in a full linear algebra course.
+}
+
+\addNote{%
+\textbf{Hermitian vs.\ symmetric, unitary vs.\ orthogonal.}
+The complex analogs pair up cleanly:
+real symmetric $\leftrightarrow$ complex Hermitian (both have real eigenvalues and an orthonormal eigenbasis),
+and real orthogonal $\leftrightarrow$ complex unitary (both preserve the norm of every vector).
+The DFT matrix, which you will see in the Fourier analysis section, is unitary but
+not Hermitian. The discrete Laplacian matrix $\bT$ from the operators section is real
+symmetric, a special case of Hermitian.
+}
+
+\addExcr{%
+Refer to Thm~\ref{thm:spectral-theorem-hermitian}.
+\begin{enumerate}
+    \item Find the eigenvalues and a unitary eigenbasis for
+    $\bA = \begin{pmatrix} 2 & 1+i \\ 1-i & 3 \end{pmatrix}$.
+    Verify the eigenvalues are real and the eigenvectors are orthogonal.
+    \item In NumPy, \texttt{np.linalg.eigh} is designed for Hermitian matrices.
+    Apply it to the matrix above and confirm it returns real eigenvalues.
+    What happens if you use \texttt{np.linalg.eig} instead?
+    \item Show that $\bA^2$ is also Hermitian whenever $\bA$ is Hermitian.
+    What are the eigenvalues of $\bA^2$ in terms of those of $\bA$?
+\end{enumerate}
 }
 
 \addDef{Diagonalization}{%
-A matrix $\bA \in \mathbb{R}^{n \times n}$ is \emph{diagonalizable} if there exists an invertible matrix $\bV$ and a diagonal matrix $\mathbf{\Lambda}$ such that
+A matrix $\bA \in \fR^{n \times n}$ is \emph{diagonalizable} if there exists an invertible
+matrix $\bV$ and a diagonal matrix $\mathbf{\Lambda}$ such that
 \[
-\bA = \bV\mathbf{\Lambda}\bV^{-1}
+\bA = \bV\mathbf{\Lambda}\bV^{-1},
 \]
-where the diagonal entries of $\mathbf{\Lambda}$ are the eigenvalues of $\bA$ and the columns of $\bV$ are the corresponding eigenvectors.
+where the diagonal entries of $\mathbf{\Lambda}$ are the eigenvalues of $\bA$ and the columns of
+$\bV$ are the corresponding eigenvectors.
 }
+\label{def:diagonalization}
 
-\addNote{
-A matrix $\bA$ is diagonalizable if and only if there exist $n$ linearly independent eigenvectors, which occurs if and only if the geometric multiplicity of each eigenvalue equals its algebraic multiplicity.
+\addNote{%
+A matrix $\bA$ is diagonalizable if and only if there exist $n$ linearly independent
+eigenvectors, which occurs if and only if the geometric multiplicity of each eigenvalue
+equals its algebraic multiplicity.
 }
 
 \textBox{%
-The eigenvalue problem is one of the most fundamental in numerical linear algebra, with applications ranging from structural engineering (vibration analysis) to quantum mechanics (energy states), machine learning (principal component analysis), and dynamical systems (stability analysis). The efficiency and accuracy of eigenvalue algorithms have direct implications for these applications, making them a central focus in scientific computing.
+The eigenvalue problem is one of the most fundamental in numerical linear algebra, with
+applications ranging from structural engineering (vibration analysis) to quantum mechanics
+(energy states), machine learning (principal component analysis), and dynamical systems
+(stability analysis). The efficiency and accuracy of eigenvalue algorithms have direct
+implications for these applications, making them a central focus in scientific computing.
 }
 
 \addExcr{%
-For each matrix, find all eigenvalues and a corresponding eigenvector for each, showing all steps.
+Refer to Thm~\ref{thm:spectral-theorem} and Def~\ref{def:diagonalization}.
 \begin{enumerate}
-    \item $\bA = \begin{pmatrix} 5 & 2 \\ 2 & 2 \end{pmatrix}$ \quad (verify using trace and determinant)
-    \item $\bB = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ \quad (rotation by 90°; are eigenvalues real?)
-    \item $\mathbf{C} = \begin{pmatrix} 1 & 1 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 2 \end{pmatrix}$ \quad (use property (5) of Key Properties)
+    \item For $\bA = \begin{pmatrix}4&1\\1&4\end{pmatrix}$, find eigenvalues and an
+    orthonormal eigenbasis $\{\bq_1, \bq_2\}$. Write $\bA = \bQ\bD\bQ^T$ explicitly.
+    \item Use the decomposition to compute $\bA^{10}$ efficiently.
+    (\textit{Hint: $\bA^k = \bQ\bD^k\bQ^T$, and $\bD^k$ is easy.})
+    \item In NumPy, use \texttt{np.linalg.eig(A)} and \texttt{np.linalg.eigh(A)} (the
+    latter exploits symmetry). Compare the results and explain why \texttt{eigh} is
+    preferred for symmetric matrices.
 \end{enumerate}
 }
 
 \addExcr{%
-\textbf{(Spectral Theorem in Practice)} Let $\bA = \begin{pmatrix} 4 & 1 \\ 1 & 4 \end{pmatrix}$.
+For each matrix, find all eigenvalues and a corresponding eigenvector for each.
 \begin{enumerate}
-    \item Find the eigenvalues and verify: $\text{tr}(\bA) = \lambda_1 + \lambda_2$ and $\det(\bA) = \lambda_1\lambda_2$.
-    \item Find an orthonormal eigenbasis $\{\bq_1, \bq_2\}$ and write $\bA = \bQ\bD\bQ^T$ explicitly.
-    \item Use the decomposition to compute $\bA^{10}$ efficiently. (\textit{Hint: $\bA^k = \bQ\bD^k\bQ^T$, and $\bD^k$ is easy.})
-    \item In NumPy, use \texttt{np.linalg.eig(A)} and \texttt{np.linalg.eigh(A)} (the latter exploits symmetry). Compare the results and explain why \texttt{eigh} is preferred for symmetric matrices.
+    \item $\bA = \begin{pmatrix} 5 & 2 \\ 2 & 2 \end{pmatrix}$ \quad (verify using trace
+    and determinant)
+    \item $\bB = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ \quad (rotation by 90°;
+    are eigenvalues real?)
+    \item $\mathbf{C} = \begin{pmatrix} 1 & 1 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 2 \end{pmatrix}$
+    \quad (use Prop~\ref{prop:triangular-eigenvalues})
 \end{enumerate}
 }
 
 \addExcr{%
-\textbf{(Diagonalizability and the Geometric Multiplicity)} The matrix $\bA = \begin{pmatrix} 2 & 1 \\ 0 & 2 \end{pmatrix}$ has a repeated eigenvalue $\lambda = 2$.
+\textbf{(Diagonalizability and the Geometric Multiplicity)} The matrix
+$\bA = \begin{pmatrix} 2 & 1 \\ 0 & 2 \end{pmatrix}$ has a repeated eigenvalue $\lambda = 2$.
 \begin{enumerate}
-    \item Find the eigenspace $\ker(\bA - 2\bI)$. What is its dimension (geometric multiplicity)?
+    \item Find the eigenspace $\ker(\bA - 2\bI)$. What is its dimension (geometric
+    multiplicity)?
     \item Is $\bA$ diagonalizable? Why or why not?
-    \item Compute $\bA^k$ for general $k$ using the Jordan form $\bA = 2\bI + \mathbf{N}$ where $\mathbf{N} = \begin{pmatrix}0&1\\0&0\end{pmatrix}$ is nilpotent. (\textit{Hint: $\mathbf{N}^2 = \mathbf{0}$, so $(2\bI + \mathbf{N})^k = \sum_{j=0}^{1}\binom{k}{j}2^{k-j}\mathbf{N}^{j}$.})
-    \item What does \texttt{np.linalg.eig(A)} return for this matrix? Are the eigenvectors linearly independent?
+    \item Compute $\bA^k$ for general $k$ using the Jordan form $\bA = 2\bI + \mathbf{N}$
+    where $\mathbf{N} = \begin{pmatrix}0&1\\0&0\end{pmatrix}$ is nilpotent. (\textit{Hint:
+    $\mathbf{N}^2 = \mathbf{0}$, so $(2\bI + \mathbf{N})^k = \sum_{j=0}^{1}\binom{k}{j}
+    2^{k-j}\mathbf{N}^{j}$.})
+    \item What does \texttt{np.linalg.eig(A)} return for this matrix? Are the eigenvectors
+    linearly independent?
 \end{enumerate}
 }
 
-\newpage
 \subsubsection{Power Iteration and Inverse Iteration}
 
 \textBox{%
-The spectral theorem tells us eigenvalues exist and what they look like structurally. Power iteration gives a practical way to \emph{compute} them. The fundamental idea is that repeated multiplication by $\bA$ amplifies the dominant eigenvector component — the one corresponding to the largest eigenvalue — while the rest decay away.
+The spectral theorem tells us eigenvalues exist and what they look like structurally. Power
+iteration gives a practical way to \emph{compute} them. The fundamental idea is that
+repeated multiplication by $\bA$ amplifies the dominant eigenvector component --- the one
+corresponding to the largest eigenvalue --- while the rest decay away.
 }
 
 \addDef{Power Iteration}{%
-Given $\bA \in \fR^{n\times n}$ and a starting vector $\bv^{(0)}$ with $\|\bv^{(0)}\|_2 = 1$, the \emph{power iteration} produces a sequence of unit vectors and Rayleigh quotients:
+Given $\bA \in \fR^{n\times n}$ and a starting vector $\bv^{(0)}$ with
+$\|\bv^{(0)}\|_2 = 1$, the \emph{power iteration} produces a sequence of unit vectors and
+Rayleigh quotients:
 \[
-  \bw^{(k)} = \bA\bv^{(k-1)}, \quad \bv^{(k)} = \frac{\bw^{(k)}}{\|\bw^{(k)}\|_2}, \quad \lambda^{(k)} = (\bv^{(k)})^T\bA\bv^{(k)}.
+  \bw^{(k)} = \bA\bv^{(k-1)}, \quad
+  \bv^{(k)} = \frac{\bw^{(k)}}{\|\bw^{(k)}\|_2}, \quad
+  \lambda^{(k)} = (\bv^{(k)})^T\bA\bv^{(k)}.
 \]
-The scalar $\lambda^{(k)}$ is the \emph{Rayleigh quotient} at step $k$ and serves as an estimate of the dominant eigenvalue.
+The scalar $\lambda^{(k)}$ is the \emph{Rayleigh quotient} at step $k$ and serves as an
+estimate of the dominant eigenvalue.
 }
+\label{def:power-iteration}
 
 \addThm{Convergence of Power Iteration}{%
-Let $\bA \in \fR^{n\times n}$ be diagonalizable with eigenvalues $|\lambda_1| > |\lambda_2| \geq \cdots \geq |\lambda_n|$ and corresponding eigenvectors $\{\bv_1, \ldots, \bv_n\}$. Suppose $\bv^{(0)}$ has a nonzero component in the $\bv_1$ direction. Then:
+Let $\bA \in \fR^{n\times n}$ be diagonalizable with eigenvalues
+$|\lambda_1| > |\lambda_2| \geq \cdots \geq |\lambda_n|$ and corresponding eigenvectors
+$\{\bv_1, \ldots, \bv_n\}$. Suppose $\bv^{(0)}$ has a nonzero component in the $\bv_1$
+direction. Then:
 \[
-  \bv^{(k)} \to \pm\bv_1 \quad \text{and} \quad \lambda^{(k)} \to \lambda_1 \quad \text{as } k \to \infty,
+  \bv^{(k)} \to \pm\bv_1 \quad \text{and} \quad \lambda^{(k)} \to \lambda_1
+  \quad \text{as } k \to \infty,
 \]
 with convergence rate $|\lambda_2/\lambda_1|^k$.
 }
+\label{thm:power-iteration}
 
 \addPrf{%
 Write $\bv^{(0)} = c_1\bv_1 + c_2\bv_2 + \cdots + c_n\bv_n$ with $c_1 \neq 0$. Then:
 \[
-  \bA^k\bv^{(0)} = c_1\lambda_1^k\bv_1 + c_2\lambda_2^k\bv_2 + \cdots + c_n\lambda_n^k\bv_n = \lambda_1^k\Bigl(c_1\bv_1 + \sum_{i>1} c_i\Bigl(\frac{\lambda_i}{\lambda_1}\Bigr)^k\bv_i\Bigr).
+  \bA^k\bv^{(0)} = c_1\lambda_1^k\bv_1 + \cdots + c_n\lambda_n^k\bv_n
+  = \lambda_1^k\Bigl(c_1\bv_1 + \sum_{i>1} c_i\Bigl(\frac{\lambda_i}{\lambda_1}\Bigr)^k\bv_i\Bigr).
 \]
-Since $|\lambda_i/\lambda_1| < 1$ for $i > 1$, the sum decays to zero and $\bA^k\bv^{(0)}/\|\bA^k\bv^{(0)}\| \to \pm\bv_1$. The Rayleigh quotient then satisfies $\lambda^{(k)} = \bv_1^T\bA\bv_1 + O(|\lambda_2/\lambda_1|^{2k}) \to \lambda_1$.
+Since $|\lambda_i/\lambda_1| < 1$ for $i > 1$, the sum decays to zero and
+$\bA^k\bv^{(0)}/\|\bA^k\bv^{(0)}\| \to \pm\bv_1$. The Rayleigh quotient satisfies
+$\lambda^{(k)} \to \lambda_1$ with error $O(|\lambda_2/\lambda_1|^{2k})$.
 }
 
 \addNote{%
-Power iteration fails when: (1) $|\lambda_1| = |\lambda_2|$ (e.g., complex conjugate pairs); (2) $\bv^{(0)}$ has no component along $\bv_1$ (measure zero, but numerically can happen due to floating-point orthogonalization). Normalization at each step prevents overflow/underflow. The convergence rate $|\lambda_2/\lambda_1|$ can be very slow if the two dominant eigenvalues are close in magnitude.
+Power iteration fails when: (1) $|\lambda_1| = |\lambda_2|$ (e.g., complex conjugate pairs);
+(2) $\bv^{(0)}$ has no component along $\bv_1$ (measure zero, but can happen numerically).
+Normalization at each step prevents overflow/underflow. The convergence rate $|\lambda_2/\lambda_1|$
+can be very slow if the two dominant eigenvalues are close in magnitude.
 }
 
 \addDef{Inverse Iteration}{%
-\emph{Inverse iteration} applies power iteration to $(\bA - \sigma\bI)^{-1}$ for a shift $\sigma$ near a target eigenvalue $\mu$. The dominant eigenvalue of $(\bA - \sigma\bI)^{-1}$ is $1/(\mu - \sigma)$. The iteration is:
+\emph{Inverse iteration} applies power iteration to $(\bA - \sigma\bI)^{-1}$ for a shift
+$\sigma$ near a target eigenvalue $\mu$. The iteration is:
 \[
-  \text{Solve } (\bA - \sigma\bI)\bw^{(k)} = \bv^{(k-1)}, \quad \bv^{(k)} = \frac{\bw^{(k)}}{\|\bw^{(k)}\|_2}.
+  \text{Solve } (\bA - \sigma\bI)\bw^{(k)} = \bv^{(k-1)}, \quad
+  \bv^{(k)} = \frac{\bw^{(k)}}{\|\bw^{(k)}\|_2}.
 \]
-The eigenvalue estimate is updated as the Rayleigh quotient $\lambda^{(k)} = (\bv^{(k)})^T\bA\bv^{(k)}$.
+The eigenvalue estimate is updated as the Rayleigh quotient
+$\lambda^{(k)} = (\bv^{(k)})^T\bA\bv^{(k)}$.
 }
+\label{def:inverse-iteration}
 
 \addNote{%
-When $\sigma$ is close to $\mu$, the matrix $\bA - \sigma\bI$ is nearly singular, but the solve still yields the correct eigenvector direction (the residual of the near-singular system points toward the eigenvector). In practice, $\bA - \sigma\bI$ is factored once (LU or Cholesky), making each inverse iteration step $O(n^2)$ (for dense $\bA$) instead of $O(n^3)$. The convergence rate is $|(\mu - \sigma)/(\tilde{\mu} - \sigma)|$ where $\tilde{\mu}$ is the nearest eigenvalue to $\sigma$ besides $\mu$.
+When $\sigma$ is close to $\mu$, the matrix $\bA - \sigma\bI$ is nearly singular, but the
+solve still yields the correct eigenvector direction. In practice, $\bA - \sigma\bI$ is
+factored once (LU or Cholesky), making each inverse iteration step $O(n^2)$ (for dense
+$\bA$) instead of $O(n^3)$. The convergence rate is $|(\mu - \sigma)/(\tilde{\mu} - \sigma)|$
+where $\tilde{\mu}$ is the nearest eigenvalue to $\sigma$ besides $\mu$.
 }
 
 \addDef{Rayleigh Quotient Iteration}{%
-\emph{Rayleigh Quotient Iteration} (RQI) applies inverse iteration with the shift $\sigma_k = \lambda^{(k)}$ updated at each step. Starting from a unit vector $\bv^{(0)}$:
+\emph{Rayleigh Quotient Iteration} (RQI) applies inverse iteration with the shift
+$\sigma_k = \lambda^{(k)}$ updated at each step. Starting from a unit vector $\bv^{(0)}$:
 \[
-  \sigma_k = (\bv^{(k)})^T\bA\bv^{(k)}, \quad \text{solve } (\bA - \sigma_k\bI)\bw^{(k+1)} = \bv^{(k)}, \quad \bv^{(k+1)} = \bw^{(k+1)}/\|\bw^{(k+1)}\|.
+  \sigma_k = (\bv^{(k)})^T\bA\bv^{(k)}, \quad
+  \text{solve } (\bA - \sigma_k\bI)\bw^{(k+1)} = \bv^{(k)}, \quad
+  \bv^{(k+1)} = \bw^{(k+1)}/\|\bw^{(k+1)}\|.
 \]
-RQI converges \emph{cubically} for symmetric matrices: once near an eigenvector, the number of correct digits roughly triples each step.
+RQI converges \emph{cubically} for symmetric matrices: once near an eigenvector, the number
+of correct digits roughly triples each step.
 }
+\label{def:rayleigh-quotient-iter}
 
 \addExmpl{%
 \textbf{Power iteration on a $3\times3$ symmetric matrix.}
 
-Let $\bA = \begin{pmatrix}4&1&0\\1&3&1\\0&1&2\end{pmatrix}$, $\bv^{(0)} = (1,0,0)^T/1$. The eigenvalues (computed via characteristic polynomial or numerically) are approximately $\lambda_1 \approx 5.21$, $\lambda_2 \approx 2.79$, $\lambda_3 \approx 1.00$.
+Let $\bA = \begin{pmatrix}4&1&0\\1&3&1\\0&1&2\end{pmatrix}$,
+$\bv^{(0)} = (1,0,0)^T$. The eigenvalues are approximately
+$\lambda_1 \approx 5.21$, $\lambda_2 \approx 2.79$, $\lambda_3 \approx 1.00$.
 
 Starting power iteration:
 \begin{align*}
-\bw^{(1)} &= \bA\bv^{(0)} = (4,1,0)^T, \quad \bv^{(1)} = (4,1,0)^T/\sqrt{17} \approx (0.970, 0.243, 0)^T, \\
+\bw^{(1)} &= \bA\bv^{(0)} = (4,1,0)^T, \quad
+\bv^{(1)} = (4,1,0)^T/\sqrt{17} \approx (0.970, 0.243, 0)^T, \\
 \lambda^{(1)} &= (\bv^{(1)})^T\bA\bv^{(1)} \approx 4.12.
 \end{align*}
-The ratio $|\lambda_2/\lambda_1| \approx 0.535$, so convergence is moderately fast; after $\sim 10$ iterations the estimate $\lambda^{(k)} \approx 5.21$ to 4 digits.
+The ratio $|\lambda_2/\lambda_1| \approx 0.535$, so convergence is moderately fast;
+after $\sim 10$ iterations the estimate $\lambda^{(k)} \approx 5.21$ to 4 digits.
 }
 
 \addExcr{%
+Refer to Defs~\ref{def:power-iteration}--\ref{def:rayleigh-quotient-iter} and
+Thm~\ref{thm:power-iteration}.
 \begin{enumerate}
-  \item Implement \texttt{power\_iteration(A, v0, tol, max\_iter)} that returns the dominant eigenvalue and eigenvector. Apply it to the tridiagonal $5\times5$ matrix with $3$ on the diagonal and $-1$ on the off-diagonals. Plot the Rayleigh quotient error vs.\ $k$ on a semi-log scale; verify the slope equals $\log|\lambda_2/\lambda_1|$.
-  \item Implement inverse iteration to find the \emph{smallest} eigenvalue of the same matrix (use $\sigma = 0$). Compare the convergence rate to power iteration.
-  \item For a random $4\times4$ symmetric matrix, apply Rayleigh Quotient Iteration from a random starting vector. Plot the error in the eigenvalue estimate vs.\ $k$ on a log scale. Can you observe cubic convergence?
-  \item What happens to power iteration when $|\lambda_1| = |\lambda_2|$? Construct an example (e.g., a rotation matrix scaled to have two equal-magnitude eigenvalues) and observe the behavior in NumPy.
+  \item Implement \texttt{power\_iteration(A, v0, tol, max\_iter)} that returns the
+  dominant eigenvalue and eigenvector. Apply it to the tridiagonal $5\times5$ matrix with
+  $3$ on the diagonal and $-1$ on the off-diagonals. Plot the Rayleigh quotient error
+  vs.\ $k$ on a semi-log scale; verify the slope equals $\log|\lambda_2/\lambda_1|$.
+  \item Implement inverse iteration to find the \emph{smallest} eigenvalue of the same
+  matrix (use $\sigma = 0$). Compare the convergence rate to power iteration.
+  \item For a random $4\times4$ symmetric matrix, apply Rayleigh Quotient Iteration from a
+  random starting vector. Plot the error in the eigenvalue estimate vs.\ $k$ on a log
+  scale. Can you observe cubic convergence?
+  \item What happens to power iteration when $|\lambda_1| = |\lambda_2|$? Construct an
+  example (e.g., a rotation matrix scaled to have two equal-magnitude eigenvalues) and
+  observe the behavior in NumPy.
 \end{enumerate}
 }
 
-\newpage
 \subsubsection{Invariant Subspaces}
 
+Eigenvectors are special one-dimensional invariant subspaces. The notion of an invariant
+subspace generalizes this: a subspace that $\bA$ maps into itself. Understanding invariant
+subspaces is the key to the Schur decomposition and the convergence of the QR algorithm.
+
 \addDef{Invariant Subspace}{%
-A subspace $\mathcal{S} \subseteq \fC^n$ is \emph{invariant} under $\bA \in \fC^{n \times n}$ if
+A subspace $\mathcal{S} \subseteq \fC^n$ is \emph{invariant} under $\bA \in \fC^{n \times n}$
+if
 \[
-  \bA\mathcal{S} \subseteq \mathcal{S}, \qquad \text{i.e., } \bA\bv \in \mathcal{S} \text{ for every } \bv \in \mathcal{S}.
+  \bA\mathcal{S} \subseteq \mathcal{S}, \qquad
+  \text{i.e., } \bA\bv \in \mathcal{S} \text{ for every } \bv \in \mathcal{S}.
 \]
-$\bA$ maps $\mathcal{S}$ into itself — not necessarily with the same vector, but staying within $\mathcal{S}$.
 }
+\label{def:invariant-subspace}
 
 \addExmpl{%
 The canonical invariant subspaces of $\bA$:
 \begin{itemize}
-  \item $\{\bzero\}$ and $\fC^n$ — trivially invariant for any $\bA$.
-  \item $\text{span}\{\bv\}$ for any eigenvector $\bv$ — since $\bA\bv = \lambda\bv \in \text{span}\{\bv\}$.
-  \item $\ker(\bA - \lambda\bI)^k$ — the \emph{generalized eigenspace} for eigenvalue $\lambda$ (Jordan block structure).
-  \item $\mathcal{R}(\bA)$ — the column space is invariant iff $\bA^2\bx \in \mathcal{R}(\bA)$ for all $\bx$, which holds since $\bA^2\bx = \bA(\bA\bx)$.
+  \item $\{\bzero\}$ and $\fC^n$ --- trivially invariant for any $\bA$.
+  \item $\text{span}\{\bv\}$ for any eigenvector $\bv$ --- since
+  $\bA\bv = \lambda\bv \in \text{span}\{\bv\}$.
+  \item $\ker(\bA - \lambda\bI)^k$ --- the \emph{generalized eigenspace} for eigenvalue
+  $\lambda$ (Jordan block structure).
+  \item $\mathcal{R}(\bA)$ --- the column space is invariant since
+  $\bA^2\bx = \bA(\bA\bx) \in \mathcal{R}(\bA)$ for all $\bx$.
 \end{itemize}
 }
 
 \addThm{Invariant Subspace and Block Triangular Form}{%
-Let $\mathcal{S} = \text{span}\{\bq_1, \ldots, \bq_k\}$ be a $k$-dimensional invariant subspace of $\bA$, with $\bQ_1 = [\bq_1, \ldots, \bq_k]$ having orthonormal columns. Extend to an orthonormal basis $\bQ = [\bQ_1 \mid \bQ_2]$ of $\fC^n$. Then:
+Let $\mathcal{S} = \text{span}\{\bq_1, \ldots, \bq_k\}$ be a $k$-dimensional invariant
+subspace of $\bA$, with $\bQ_1 = [\bq_1, \ldots, \bq_k]$ having orthonormal columns.
+Extend to an orthonormal basis $\bQ = [\bQ_1 \mid \bQ_2]$ of $\fC^n$. Then:
 \[
   \bQ^*\bA\bQ = \begin{pmatrix} \bA_{11} & \bA_{12} \\ \bzero & \bA_{22} \end{pmatrix},
 \]
-where $\bA_{11} \in \fC^{k \times k}$. The eigenvalues of $\bA_{11}$ are a subset of the eigenvalues of $\bA$.
+where $\bA_{11} \in \fC^{k \times k}$. The eigenvalues of $\bA_{11}$ are a subset of the
+eigenvalues of $\bA$.
 }
+\label{thm:invariant-block}
 
 \addPrf{%
-Since $\mathcal{S}$ is invariant, $\bA\bQ_1 = \bQ_1\bA_{11}$ for some $\bA_{11} \in \fC^{k\times k}$ (each $\bA\bq_i$ lies in $\mathcal{S}$, so it expands in $\{\bq_1,\ldots,\bq_k\}$). Multiplying on the left by $\bQ^*$:
+Since $\mathcal{S}$ is invariant, $\bA\bQ_1 = \bQ_1\bA_{11}$ for some
+$\bA_{11} \in \fC^{k\times k}$. Multiplying on the left by $\bQ^*$:
 \[
-  \bQ^*\bA\bQ = \bQ^*[\bA\bQ_1 \mid \bA\bQ_2] = \bQ^*[\bQ_1\bA_{11} \mid \bA\bQ_2] = \begin{pmatrix}\bQ_1^*\bQ_1\bA_{11} & \bQ_1^*\bA\bQ_2 \\ \bQ_2^*\bQ_1\bA_{11} & \bQ_2^*\bA\bQ_2\end{pmatrix} = \begin{pmatrix}\bA_{11} & \bA_{12} \\ \bzero & \bA_{22}\end{pmatrix},
+  \bQ^*\bA\bQ = \bQ^*[\bA\bQ_1 \mid \bA\bQ_2]
+  = \begin{pmatrix}\bQ_1^*\bQ_1\bA_{11} & \bQ_1^*\bA\bQ_2 \\
+  \bQ_2^*\bQ_1\bA_{11} & \bQ_2^*\bA\bQ_2\end{pmatrix}
+  = \begin{pmatrix}\bA_{11} & \bA_{12} \\ \bzero & \bA_{22}\end{pmatrix},
 \]
-using $\bQ_1^*\bQ_1 = \bI$, $\bQ_2^*\bQ_1 = \bzero$ (orthonormality). The eigenvalues of the block upper triangular matrix are the union of eigenvalues of $\bA_{11}$ and $\bA_{22}$, so $\sigma(\bA_{11}) \subseteq \sigma(\bA)$.
+using $\bQ_1^*\bQ_1 = \bI$, $\bQ_2^*\bQ_1 = \bzero$ (orthonormality). The eigenvalues
+of the block upper triangular matrix are the union of eigenvalues of $\bA_{11}$ and
+$\bA_{22}$, so $\sigma(\bA_{11}) \subseteq \sigma(\bA)$.
 }
 
 \addNote{%
-This is why invariant subspaces are central to eigenvalue computation. If you can find a nontrivial invariant subspace $\mathcal{S}$, you \emph{deflate} the problem: reduce finding all $n$ eigenvalues to finding the eigenvalues of the smaller matrix $\bA_{11}$ (dimension $k$) and $\bA_{22}$ (dimension $n-k$) independently. The QR algorithm works precisely by building up an invariant subspace one eigenvector (or complex-conjugate pair) at a time.
+This is why invariant subspaces are central to eigenvalue computation. If you can find a
+nontrivial invariant subspace $\mathcal{S}$, you \emph{deflate} the problem: reduce finding
+all $n$ eigenvalues to finding the eigenvalues of $\bA_{11}$ (dimension $k$) and $\bA_{22}$
+(dimension $n-k$) independently. The QR algorithm works precisely by building up an
+invariant subspace one eigenvector (or complex-conjugate pair) at a time.
 }
 
 \addDef{Eigenspace and Generalized Eigenspace}{%
-For $\lambda \in \sigma(\bA)$, the \emph{eigenspace} is $\ker(\bA - \lambda\bI)$ — the set of all eigenvectors (plus $\bzero$). Its dimension is the \emph{geometric multiplicity} of $\lambda$. The \emph{generalized eigenspace} is $\ker(\bA - \lambda\bI)^n$, which captures all vectors associated with $\lambda$ through the Jordan structure. Both are invariant subspaces.
+For $\lambda \in \sigma(\bA)$, the \emph{eigenspace} is $\ker(\bA - \lambda\bI)$ --- the
+set of all eigenvectors (plus $\bzero$). Its dimension is the \emph{geometric multiplicity}
+of $\lambda$. The \emph{generalized eigenspace} is $\ker(\bA - \lambda\bI)^n$, which
+captures all vectors associated with $\lambda$ through the Jordan structure. Both are
+invariant subspaces.
 }
-
-\addDef{Stable, Unstable, and Center Subspaces}{%
-For a matrix $\bA$ representing a dynamical system $\bx^{(k+1)} = \bA\bx^{(k)}$, the eigenvalues partition the spectrum into three sets:
-\begin{itemize}
-  \item $\sigma^- = \{\lambda \in \sigma(\bA) : |\lambda| < 1\}$ — \emph{stable}: orbits decay to zero.
-  \item $\sigma^+ = \{\lambda \in \sigma(\bA) : |\lambda| > 1\}$ — \emph{unstable}: orbits grow without bound.
-  \item $\sigma^0 = \{\lambda \in \sigma(\bA) : |\lambda| = 1\}$ — \emph{center}: orbits neither grow nor decay.
-\end{itemize}
-The corresponding generalized eigenspaces span the \emph{stable subspace} $\mathcal{S}^-$, \emph{unstable subspace} $\mathcal{S}^+$, and \emph{center subspace} $\mathcal{S}^0$ — each is invariant under $\bA$, and $\fC^n = \mathcal{S}^- \oplus \mathcal{S}^+ \oplus \mathcal{S}^0$.
-}
-
-\addNote{%
-In the continuous-time system $\dot{\bx} = \bA\bx$, stability is governed by the \emph{real parts} of eigenvalues instead: $\sigma^- = \{\lambda : \text{Re}(\lambda) < 0\}$ (stable), etc. The stable/unstable subspace decomposition is identical in structure — only the threshold changes from $|\lambda|=1$ to $\text{Re}(\lambda)=0$.
-}
+\label{def:eigenspace}
 
 \addExcr{%
-\textbf{(Identifying and using invariant subspaces)}
+Refer to Def~\ref{def:eigenspace} and Thm~\ref{thm:invariant-block}.
 \begin{enumerate}
-  \item For $\bA = \begin{pmatrix}3&1&0\\0&3&0\\0&0&5\end{pmatrix}$, identify two nontrivial invariant subspaces. For each, write the block triangular form $\bQ^T\bA\bQ$ explicitly and read off the eigenvalues.
-  \item Prove that if $\mathcal{S}$ and $\mathcal{T}$ are both invariant under $\bA$, then so are $\mathcal{S} \cap \mathcal{T}$ and $\mathcal{S} + \mathcal{T} = \{\bu + \bw : \bu \in \mathcal{S},\, \bw \in \mathcal{T}\}$.
-  \item For a $4\times4$ matrix $\bA$ with eigenvalues $0.5, 0.8, 1.2, 1.5$, identify which eigenvalues belong to the stable and unstable subspaces (discrete-time). What are the dimensions of each invariant subspace?
-  \item In NumPy, compute the Schur decomposition of a random $4\times4$ matrix. Verify that the first column of $\bQ$ is an eigenvector and that $\text{span}\{\bq_1, \bq_2\}$ is invariant: check that $\bA\bQ[:, :2]$ lies in the column space of $\bQ[:, :2]$.
+    \item For $\bA = \begin{pmatrix}3&1\\0&3\end{pmatrix}$, find the eigenspace
+    $\ker(\bA - 3\bI)$ and the generalized eigenspace $\ker(\bA - 3\bI)^2$. What is the
+    dimension of each?
+    \item Identify two nontrivial invariant subspaces of
+    $\bB = \begin{pmatrix}3&0\\0&5\end{pmatrix}$ and write the block triangular form
+    $\bQ^T\bB\bQ$ for each.
+    \item In NumPy, compute the Schur decomposition of a random $4\times4$ matrix and
+    verify that $\text{span}\{\bq_1, \bq_2\}$ (first two Schur vectors) is invariant:
+    check that $\bA\bQ[:, :2]$ lies in the column space of $\bQ[:, :2]$.
 \end{enumerate}
 }
 
-\newpage
+\addDef{Stable, Unstable, and Center Subspaces}{%
+For a matrix $\bA$ representing a dynamical system $\bx^{(k+1)} = \bA\bx^{(k)}$, the
+eigenvalues partition the spectrum into three sets:
+\begin{itemize}
+  \item $\sigma^- = \{\lambda \in \sigma(\bA) : |\lambda| < 1\}$ --- \emph{stable}: orbits
+  decay to zero.
+  \item $\sigma^+ = \{\lambda \in \sigma(\bA) : |\lambda| > 1\}$ --- \emph{unstable}: orbits
+  grow without bound.
+  \item $\sigma^0 = \{\lambda \in \sigma(\bA) : |\lambda| = 1\}$ --- \emph{center}: orbits
+  neither grow nor decay.
+\end{itemize}
+The corresponding generalized eigenspaces span the \emph{stable subspace} $\mathcal{S}^-$,
+\emph{unstable subspace} $\mathcal{S}^+$, and \emph{center subspace} $\mathcal{S}^0$ ---
+each invariant under $\bA$, and $\fC^n = \mathcal{S}^- \oplus \mathcal{S}^+ \oplus
+\mathcal{S}^0$.
+}
+\label{def:stable-unstable}
+
+\addNote{%
+In the continuous-time system $\dot{\bx} = \bA\bx$, stability is governed by the
+\emph{real parts} of eigenvalues instead: $\sigma^- = \{\lambda : \text{Re}(\lambda) < 0\}$
+(stable), etc. The stable/unstable subspace decomposition is identical in structure --- only
+the threshold changes from $|\lambda|=1$ to $\text{Re}(\lambda)=0$.
+}
+
+\addExcr{%
+\textbf{(Identifying and using invariant subspaces)} Refer to
+Defs~\ref{def:invariant-subspace}--\ref{def:stable-unstable} and
+Thm~\ref{thm:invariant-block}.
+\begin{enumerate}
+  \item For $\bA = \begin{pmatrix}3&1&0\\0&3&0\\0&0&5\end{pmatrix}$, identify two
+  nontrivial invariant subspaces. For each, write the block triangular form
+  $\bQ^T\bA\bQ$ explicitly and read off the eigenvalues.
+  \item Prove that if $\mathcal{S}$ and $\mathcal{T}$ are both invariant under $\bA$,
+  then so are $\mathcal{S} \cap \mathcal{T}$ and
+  $\mathcal{S} + \mathcal{T} = \{\bu + \bw : \bu \in \mathcal{S},\, \bw \in \mathcal{T}\}$.
+  \item For a $4\times4$ matrix $\bA$ with eigenvalues $0.5, 0.8, 1.2, 1.5$, identify
+  which belong to the stable and unstable subspaces (discrete-time). What are the
+  dimensions of each?
+  \item In NumPy, compute the Schur decomposition of a random $4\times4$ matrix. Verify
+  that the first column of $\bQ$ is an eigenvector and that $\text{span}\{\bq_1, \bq_2\}$
+  is invariant: check that $\bA\bQ[:, :2]$ lies in the column space of $\bQ[:, :2]$.
+\end{enumerate}
+}
+
 \subsubsection{Schur Decomposition}
 
 \textBox{%
-Not every matrix is diagonalizable, but every square matrix can be reduced to triangular form via a unitary similarity. The Schur decomposition is the theoretical foundation for practical eigenvalue algorithms: the QR algorithm computes the Schur form iteratively, revealing all eigenvalues on the diagonal of the triangular factor.
+Not every matrix is diagonalizable, but every square matrix can be reduced to triangular
+form via a unitary similarity. The Schur decomposition is the theoretical foundation for
+practical eigenvalue algorithms: the QR algorithm computes the Schur form iteratively,
+revealing all eigenvalues on the diagonal of the triangular factor.
 }
 
 \addThm{Schur Decomposition}{%
@@ -339,48 +626,120 @@ Every matrix $\bA \in \fC^{n \times n}$ has a \emph{Schur decomposition}
 \[
   \bA = \bQ\bT\bQ^*,
 \]
-where $\bQ \in \fC^{n \times n}$ is unitary ($\bQ^*\bQ = \bI$) and $\bT \in \fC^{n \times n}$ is upper triangular. The diagonal entries of $\bT$ are the eigenvalues of $\bA$ (in any order). If $\bA \in \fR^{n \times n}$ has all real eigenvalues, then $\bQ$ and $\bT$ can be taken to be real.
+where $\bQ \in \fC^{n \times n}$ is unitary ($\bQ^*\bQ = \bI$) and $\bT \in \fC^{n \times n}$
+is upper triangular. The diagonal entries of $\bT$ are the eigenvalues of $\bA$ (in any
+order). If $\bA \in \fR^{n \times n}$ has all real eigenvalues, then $\bQ$ and $\bT$ can be
+taken to be real.
 }
+\label{thm:schur-decomp}
 
 \addPrf{%
-By induction on $n$. The base case $n = 1$ is trivial. For the inductive step, let $\lambda_1$ be any eigenvalue of $\bA$ (it exists over $\fC$ by the fundamental theorem of algebra) with unit eigenvector $\bq_1$. Extend $\bq_1$ to an orthonormal basis $\{\bq_1, \bu_2, \ldots, \bu_n\}$ of $\fC^n$ and let $\bQ_1 = [\bq_1 \mid \bu_2 \mid \cdots \mid \bu_n]$. Then:
+By induction on $n$. The base case $n = 1$ is trivial. For the inductive step, let
+$\lambda_1$ be any eigenvalue of $\bA$ (it exists over $\fC$) with unit eigenvector
+$\bq_1$. Extend $\bq_1$ to an orthonormal basis $\{\bq_1, \bu_2, \ldots, \bu_n\}$ and let
+$\bQ_1 = [\bq_1 \mid \bu_2 \mid \cdots \mid \bu_n]$. Then:
 \[
   \bQ_1^*\bA\bQ_1 = \begin{pmatrix} \lambda_1 & \star \\ \bzero & \bB \end{pmatrix},
 \]
-where $\bB \in \fC^{(n-1)\times(n-1)}$. By the inductive hypothesis, $\bB = \bQ_2\bT'\bQ_2^*$ for some unitary $\bQ_2$ and upper triangular $\bT'$. Setting $\bQ = \bQ_1\,\mathrm{diag}(1, \bQ_2)$ gives the Schur decomposition $\bA = \bQ\bT\bQ^*$ with $\bT = \begin{pmatrix}\lambda_1 & \star \\ \bzero & \bT'\end{pmatrix}$.
+where $\bB \in \fC^{(n-1)\times(n-1)}$. By the inductive hypothesis,
+$\bB = \bQ_2\bT'\bQ_2^*$ for some unitary $\bQ_2$ and upper triangular $\bT'$. Setting
+$\bQ = \bQ_1\,\mathrm{diag}(1, \bQ_2)$ gives the Schur decomposition with
+$\bT = \begin{pmatrix}\lambda_1 & \star \\ \bzero & \bT'\end{pmatrix}$.
 }
 
 \addNote{%
-The Schur decomposition is a generalization of diagonalization: if $\bA$ is normal ($\bA^*\bA = \bA\bA^*$), then $\bT$ is diagonal (the Spectral Theorem). For non-normal matrices, off-diagonal entries of $\bT$ are generally nonzero, but the eigenvalues are still read from the diagonal.
+The Schur decomposition is a generalization of diagonalization: if $\bA$ is normal
+($\bA^*\bA = \bA\bA^*$), then $\bT$ is diagonal (the Spectral Theorem). For non-normal
+matrices, off-diagonal entries of $\bT$ are generally nonzero, but the eigenvalues are
+still read from the diagonal.
 }
 
 \addDef{Real Schur Form}{%
-For $\bA \in \fR^{n \times n}$, the \emph{real Schur decomposition} is $\bA = \bQ\bT\bQ^T$ where $\bQ \in \fR^{n \times n}$ is orthogonal and $\bT$ is \emph{quasi-upper triangular}: block upper triangular with $1\times1$ diagonal blocks (for real eigenvalues) and $2\times2$ diagonal blocks (for complex-conjugate eigenvalue pairs). This avoids complex arithmetic entirely and is the form computed by \texttt{scipy.linalg.schur(A)}.
+For $\bA \in \fR^{n \times n}$, the \emph{real Schur decomposition} is $\bA = \bQ\bT\bQ^T$
+where $\bQ \in \fR^{n \times n}$ is orthogonal and $\bT$ is \emph{quasi-upper triangular}:
+block upper triangular with $1\times1$ diagonal blocks (for real eigenvalues) and $2\times2$
+diagonal blocks (for complex-conjugate eigenvalue pairs). This avoids complex arithmetic
+entirely and is the form computed by \texttt{scipy.linalg.schur(A)}.
 }
+\label{def:real-schur}
 
 \addDef{Schur Vectors}{%
-The columns of $\bQ$ in the Schur decomposition $\bA = \bQ\bT\bQ^*$ are called \emph{Schur vectors}. Unlike eigenvectors, Schur vectors always exist and form a complete orthonormal basis, even when $\bA$ is defective. The first $k$ Schur vectors span an \emph{invariant subspace} of $\bA$: if $\bQ_k = [\bq_1, \ldots, \bq_k]$, then $\bA\bQ_k = \bQ_k\bT_{11}$ where $\bT_{11}$ is the leading $k\times k$ block of $\bT$.
+The columns of $\bQ$ in the Schur decomposition $\bA = \bQ\bT\bQ^*$ are called
+\emph{Schur vectors}. Unlike eigenvectors, Schur vectors always exist and form a complete
+orthonormal basis, even when $\bA$ is defective. The first $k$ Schur vectors span an
+invariant subspace of $\bA$: if $\bQ_k = [\bq_1, \ldots, \bq_k]$, then
+$\bA\bQ_k = \bQ_k\bT_{11}$ where $\bT_{11}$ is the leading $k\times k$ block of $\bT$.
+}
+\label{def:schur-vectors}
+
+\addExcr{%
+Refer to Defs~\ref{def:real-schur}--\ref{def:schur-vectors} and
+Thm~\ref{thm:schur-decomp}.
+\begin{enumerate}
+    \item For $\bA = \begin{pmatrix}3&1&0\\0&2&1\\0&0&2\end{pmatrix}$, is $\bA$ already in
+    Schur form? What are its Schur vectors? What are the eigenvalues?
+    \item For a $2\times2$ matrix with complex-conjugate eigenvalues $a \pm bi$, write out
+    the $2\times2$ real Schur form block explicitly in terms of $a$ and $b$.
+    \item In Python, compute \texttt{T, Q = scipy.linalg.schur(A)} for a random
+    $4\times4$ matrix. Verify: (a) $\bQ\bT\bQ^T = \bA$, (b) $\bQ$ is orthogonal, (c) the
+    diagonal of $\bT$ matches \texttt{np.linalg.eigvals(A)}.
+\end{enumerate}
 }
 
 \addThm{Connection to the QR Algorithm}{%
-The basic QR algorithm for computing eigenvalues proceeds by iteratively applying QR factorizations:
+The basic QR algorithm for computing eigenvalues proceeds by iteratively applying QR
+factorizations:
 \[
-  \bA_0 = \bA, \quad \bA_k = \bR_k\bQ_k, \quad \bA_{k+1} = \bQ_k\bR_k = \bQ_k^T\bA_k\bQ_k.
+  \bA_0 = \bA, \quad \bA_k = \bR_k\bQ_k, \quad
+  \bA_{k+1} = \bQ_k\bR_k = \bQ_k^T\bA_k\bQ_k.
 \]
-Each $\bA_{k+1}$ is orthogonally similar to $\bA$, so all matrices share the same eigenvalues. Under mild conditions, the sequence $\bA_k$ converges to the Schur form $\bT$, with eigenvalues appearing on the diagonal.
+Each $\bA_{k+1}$ is orthogonally similar to $\bA$, so all matrices share the same
+eigenvalues. Under mild conditions, the sequence $\bA_k$ converges to the Schur form
+$\bT$, with eigenvalues appearing on the diagonal.
 }
+\label{thm:qr-algorithm}
 
-\addNote{%
-The practical QR algorithm incorporates two key enhancements over the basic version: (1) \emph{Hessenberg reduction} — first reduce $\bA$ to upper Hessenberg form (zero entries below the first subdiagonal) via orthogonal similarity, reducing each QR step from $O(n^3)$ to $O(n^2)$; (2) \emph{shifts} — replace $\bA_k$ by $\bA_k - \sigma_k\bI$ before factoring to accelerate convergence, where $\sigma_k$ is a shift chosen near an eigenvalue (e.g., Wilkinson shift). With these, convergence is typically cubic per eigenvalue. In NumPy, \texttt{np.linalg.eig(A)} calls LAPACK's \texttt{dgeev}, which implements this.
+\addExcr{%
+In this exercise, we explore two practical enhancements of the basic QR algorithm
+(Thm~\ref{thm:qr-algorithm}): Hessenberg reduction and shifts.
+\begin{enumerate}
+    \item \textbf{(Hessenberg reduction cost.)}
+    An upper Hessenberg matrix has zeros below the first subdiagonal.
+    A single QR factorization step on a general $n \times n$ matrix costs $O(n^3)$ flops,
+    but on an upper Hessenberg matrix it costs only $O(n^2)$.
+    Explain why: how many Givens rotations are needed to reduce an upper Hessenberg matrix
+    to triangular form, and what does each rotation cost?
+    \item \textbf{(Shifts preserve eigenvalues.)}
+    A shifted QR step factors $\bA_k - \sigma_k\bI = \bQ_k\bR_k$, then forms
+    $\bA_{k+1} = \bR_k\bQ_k + \sigma_k\bI$.
+    Show that $\bA_{k+1}$ is orthogonally similar to $\bA_k$, and hence has the same
+    eigenvalues.
+    \item \textbf{(Convergence comparison in NumPy.)}
+    Let $\bA = \begin{pmatrix}4&1&0\\1&3&1\\0&1&2\end{pmatrix}$.
+    \begin{enumerate}
+        \item Run 30 basic QR steps (no shifts) and record $|(\bA_k)_{32}|$ at each step.
+        \item Repeat with the Rayleigh quotient shift $\sigma_k = (\bA_k)_{nn}$.
+        Compare the number of steps required to reach $|(\bA_k)_{32}| < 10^{-10}$.
+    \end{enumerate}
+    \item Verify using \texttt{np.linalg.eig(A)} that the final diagonal entries of your
+    converged $\bA_k$ match the computed eigenvalues.
+    What LAPACK routine does \texttt{np.linalg.eig} call internally?
+\end{enumerate}
 }
 
 \addExcr{%
 \textbf{(Schur decomposition in practice)}
 \begin{enumerate}
-  \item For $\bA = \begin{pmatrix}3&1&0\\0&2&1\\0&0&2\end{pmatrix}$, compute the Schur decomposition by hand. Is $\bA$ already in Schur form? What are its Schur vectors?
-  \item In Python, compute \texttt{T, Q = scipy.linalg.schur(A)} for a random $4\times4$ matrix. Verify: (a) $\bQ\bT\bQ^T = \bA$, (b) $\bQ$ is orthogonal, (c) the diagonal of $\bT$ matches \texttt{np.linalg.eigvals(A)}.
-  \item For the non-diagonalizable matrix $\bA = \begin{pmatrix}2&1\\0&2\end{pmatrix}$, find its Schur decomposition. How does it differ from the (impossible) diagonalization?
-  \item Implement one step of the basic QR iteration: compute $\bA_1 = \bR_0\bQ_0$ where $\bA_0 = \bQ_0\bR_0$ is the QR factorization. Apply 50 steps to a random $3\times3$ symmetric matrix and verify that the off-diagonal entries converge to zero.
+  \item For $\bA = \begin{pmatrix}3&1&0\\0&2&1\\0&0&2\end{pmatrix}$, compute the Schur
+  decomposition by hand. Is $\bA$ already in Schur form? What are its Schur vectors?
+  \item In Python, compute \texttt{T, Q = scipy.linalg.schur(A)} for a random $4\times4$
+  matrix. Verify: (a) $\bQ\bT\bQ^T = \bA$, (b) $\bQ$ is orthogonal, (c) the diagonal of
+  $\bT$ matches \texttt{np.linalg.eigvals(A)}.
+  \item For the non-diagonalizable matrix $\bA = \begin{pmatrix}2&1\\0&2\end{pmatrix}$,
+  find its Schur decomposition. How does it differ from the (impossible) diagonalization?
+  \item Implement one step of the basic QR iteration: compute $\bA_1 = \bR_0\bQ_0$ where
+  $\bA_0 = \bQ_0\bR_0$ is the QR factorization. Apply 50 steps to a random $3\times3$
+  symmetric matrix and verify that the off-diagonal entries converge to zero.
 \end{enumerate}
 }
 
