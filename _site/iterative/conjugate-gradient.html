@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>21&nbsp; Conjugate Gradient Method – Introduction to Scientific Computing</title>
+<title>23&nbsp; Conjugate Gradient Method – Scientific Computing</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,7 +33,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../applications/pca.html" rel="next">
+<link href="../iterative/gmres.html" rel="next">
 <link href="../iterative/jacobi.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -335,7 +335,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../iterative/iterative.html">Iterative Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../iterative/conjugate-gradient.html"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../iterative/iterative.html">Iterative Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../iterative/conjugate-gradient.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -350,9 +350,9 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Introduction to Scientific Computing</a> 
+      <a href="../">Scientific Computing</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/numerics/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
@@ -514,6 +514,18 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/lanczos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lanczos Algorithm</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/jacobi-eig.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Jacobi Eigenvalue Algorithm</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -528,19 +540,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/iterative.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Iterative Methods for Linear Systems</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Iterative Methods for Linear Systems</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/conjugate-gradient.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/gmres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GMRES</span></span></a>
   </div>
 </li>
       </ul>
@@ -548,7 +566,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Applications</span></a>
+ <span class="menu-text">Numerical Analysis</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -556,38 +574,78 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/quadrature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/root-finding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Root Finding</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">ODEs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../odes/ode-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Numerical Methods for ODEs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/graphs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/operators.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/fourier.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/markov.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -602,25 +660,25 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#from-linear-systems-to-optimization" id="toc-from-linear-systems-to-optimization" class="nav-link active" data-scroll-target="#from-linear-systems-to-optimization"><span class="header-section-number">21.1</span> From Linear Systems to Optimization</a></li>
-  <li><a href="#ba-conjugate-directions" id="toc-ba-conjugate-directions" class="nav-link" data-scroll-target="#ba-conjugate-directions"><span class="header-section-number">21.2</span> <span class="math inline">\(\bA\)</span>-Conjugate Directions</a></li>
-  <li><a href="#the-cg-algorithm-and-convergence" id="toc-the-cg-algorithm-and-convergence" class="nav-link" data-scroll-target="#the-cg-algorithm-and-convergence"><span class="header-section-number">21.3</span> The CG Algorithm and Convergence</a></li>
-  <li><a href="#preconditioning" id="toc-preconditioning" class="nav-link" data-scroll-target="#preconditioning"><span class="header-section-number">21.4</span> Preconditioning</a></li>
-  <li><a href="#gmres" id="toc-gmres" class="nav-link" data-scroll-target="#gmres"><span class="header-section-number">22</span> GMRES</a>
+  <li><a href="#from-linear-systems-to-optimization" id="toc-from-linear-systems-to-optimization" class="nav-link active" data-scroll-target="#from-linear-systems-to-optimization"><span class="header-section-number">23.1</span> From Linear Systems to Optimization</a></li>
+  <li><a href="#ba-conjugate-directions" id="toc-ba-conjugate-directions" class="nav-link" data-scroll-target="#ba-conjugate-directions"><span class="header-section-number">23.2</span> <span class="math inline">\(\bA\)</span>-Conjugate Directions</a></li>
+  <li><a href="#the-cg-algorithm-and-convergence" id="toc-the-cg-algorithm-and-convergence" class="nav-link" data-scroll-target="#the-cg-algorithm-and-convergence"><span class="header-section-number">23.3</span> The CG Algorithm and Convergence</a></li>
+  <li><a href="#preconditioning" id="toc-preconditioning" class="nav-link" data-scroll-target="#preconditioning"><span class="header-section-number">23.4</span> Preconditioning</a></li>
+  <li><a href="#gmres" id="toc-gmres" class="nav-link" data-scroll-target="#gmres"><span class="header-section-number">24</span> GMRES</a>
   <ul class="collapse">
-  <li><a href="#krylov-subspaces-and-the-arnoldi-process" id="toc-krylov-subspaces-and-the-arnoldi-process" class="nav-link" data-scroll-target="#krylov-subspaces-and-the-arnoldi-process"><span class="header-section-number">22.1</span> Krylov Subspaces and the Arnoldi Process</a></li>
-  <li><a href="#the-gmres-algorithm" id="toc-the-gmres-algorithm" class="nav-link" data-scroll-target="#the-gmres-algorithm"><span class="header-section-number">22.2</span> The GMRES Algorithm</a></li>
+  <li><a href="#krylov-subspaces-and-the-arnoldi-process" id="toc-krylov-subspaces-and-the-arnoldi-process" class="nav-link" data-scroll-target="#krylov-subspaces-and-the-arnoldi-process"><span class="header-section-number">24.1</span> Krylov Subspaces and the Arnoldi Process</a></li>
+  <li><a href="#the-gmres-algorithm" id="toc-the-gmres-algorithm" class="nav-link" data-scroll-target="#the-gmres-algorithm"><span class="header-section-number">24.2</span> The GMRES Algorithm</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/numerics/cs111-scientific-computing-notes/edit/main/iterative/conjugate-gradient.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/numerics/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/conjugate-gradient.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../iterative/iterative.html">Iterative Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../iterative/conjugate-gradient.html"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../iterative/iterative.html">Iterative Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../iterative/conjugate-gradient.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></h1>
+<h1 class="title"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></h1>
 </div>
 
 
@@ -638,8 +696,8 @@ window.Quarto = {
 
 
 <p>The Conjugate Gradient (CG) method is an efficient iterative solver for symmetric positive definite linear systems. By maintaining a set of <span class="math inline">\(\bA\)</span>-conjugate search directions built from the residuals, it converges to the exact solution in at most <span class="math inline">\(n\)</span> steps in exact arithmetic, while requiring only <span class="math inline">\(O(n)\)</span> storage and one matrix–vector product per iteration. Its convergence rate depends on <span class="math inline">\(\sqrt{\kappa(\bA)}\)</span> rather than <span class="math inline">\(\kappa(\bA)\)</span>, giving a dramatic speedup over stationary methods on ill-conditioned systems.</p>
-<section id="from-linear-systems-to-optimization" class="level2" data-number="21.1">
-<h2 data-number="21.1" class="anchored" data-anchor-id="from-linear-systems-to-optimization"><span class="header-section-number">21.1</span> From Linear Systems to Optimization</h2>
+<section id="from-linear-systems-to-optimization" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="from-linear-systems-to-optimization"><span class="header-section-number">23.1</span> From Linear Systems to Optimization</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -722,8 +780,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="ba-conjugate-directions" class="level2" data-number="21.2">
-<h2 data-number="21.2" class="anchored" data-anchor-id="ba-conjugate-directions"><span class="header-section-number">21.2</span> <span class="math inline">\(\bA\)</span>-Conjugate Directions</h2>
+<section id="ba-conjugate-directions" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="ba-conjugate-directions"><span class="header-section-number">23.2</span> <span class="math inline">\(\bA\)</span>-Conjugate Directions</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -809,8 +867,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="the-cg-algorithm-and-convergence" class="level2" data-number="21.3">
-<h2 data-number="21.3" class="anchored" data-anchor-id="the-cg-algorithm-and-convergence"><span class="header-section-number">21.3</span> The CG Algorithm and Convergence</h2>
+<section id="the-cg-algorithm-and-convergence" class="level2" data-number="23.3">
+<h2 data-number="23.3" class="anchored" data-anchor-id="the-cg-algorithm-and-convergence"><span class="header-section-number">23.3</span> The CG Algorithm and Convergence</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -938,8 +996,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="preconditioning" class="level2" data-number="21.4">
-<h2 data-number="21.4" class="anchored" data-anchor-id="preconditioning"><span class="header-section-number">21.4</span> Preconditioning</h2>
+<section id="preconditioning" class="level2" data-number="23.4">
+<h2 data-number="23.4" class="anchored" data-anchor-id="preconditioning"><span class="header-section-number">23.4</span> Preconditioning</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1021,11 +1079,11 @@ Tip
 </div>
 </div>
 </section>
-<section id="gmres" class="level1" data-number="22">
-<h1 data-number="22"><span class="header-section-number">22</span> GMRES</h1>
+<section id="gmres" class="level1" data-number="24">
+<h1 data-number="24"><span class="header-section-number">24</span> GMRES</h1>
 <p>Conjugate Gradient requires symmetry and positive definiteness. For general (possibly non-symmetric, non-definite) linear systems, the <em>Generalized Minimal Residual</em> method (GMRES) is the standard Krylov solver. It minimizes the residual norm over a growing Krylov subspace using the Arnoldi process to build an orthonormal basis, achieving the smallest possible residual at each step without any symmetry assumption.</p>
-<section id="krylov-subspaces-and-the-arnoldi-process" class="level2" data-number="22.1">
-<h2 data-number="22.1" class="anchored" data-anchor-id="krylov-subspaces-and-the-arnoldi-process"><span class="header-section-number">22.1</span> Krylov Subspaces and the Arnoldi Process</h2>
+<section id="krylov-subspaces-and-the-arnoldi-process" class="level2" data-number="24.1">
+<h2 data-number="24.1" class="anchored" data-anchor-id="krylov-subspaces-and-the-arnoldi-process"><span class="header-section-number">24.1</span> Krylov Subspaces and the Arnoldi Process</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1102,8 +1160,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="the-gmres-algorithm" class="level2" data-number="22.2">
-<h2 data-number="22.2" class="anchored" data-anchor-id="the-gmres-algorithm"><span class="header-section-number">22.2</span> The GMRES Algorithm</h2>
+<section id="the-gmres-algorithm" class="level2" data-number="24.2">
+<h2 data-number="24.2" class="anchored" data-anchor-id="the-gmres-algorithm"><span class="header-section-number">24.2</span> The GMRES Algorithm</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1674,12 +1732,12 @@ Tip
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../iterative/jacobi.html" class="pagination-link" aria-label="Jacobi Iteration">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../applications/pca.html" class="pagination-link" aria-label="Principal Component Analysis via SVD">
-        <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../iterative/gmres.html" class="pagination-link" aria-label="GMRES">
+        <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GMRES</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1688,4 +1746,4 @@ Tip
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/numerics/cs111-scientific-computing-notes/edit/main/iterative/conjugate-gradient.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/numerics/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/conjugate-gradient.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

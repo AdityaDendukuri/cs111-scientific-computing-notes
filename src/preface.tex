@@ -5,23 +5,27 @@
 \addcontentsline{toc}{section}{Preface}
 \section*{Preface}
 
-Every time I encountered a concept I could not explain from scratch, I wrote it down. Richard Feynman held that the surest test of understanding is whether you can teach something in plain terms. These notes exist because that test kept exposing gaps. They started as a study guide for CS 111 at UC Santa Barbara and grew as topics came up in research: eigenvalue algorithms, iterative solvers, spectral graph methods, Koopman theory. The result is a reference guide written by a graduate student for himself, not a textbook. Treat it accordingly.
+These notes began as a study guide for CS 111 (Scientific Computing) at UC Santa Barbara and expanded as topics arose in research and graduate coursework: eigenvalue algorithms, iterative solvers, spectral methods, Koopman operator theory. The guiding principle throughout is Feynman's criterion for understanding: you have not truly grasped a concept until you can reconstruct it from first principles. Each section was written when that test failed.
 
 \medskip
 
-For a rigorous treatment of this material, use the lecture notes of Professor David Bindel (Cornell, CS 6210: Matrix Computations), publicly available on his course website.
+The notes are organized around theorems, definitions, and proofs in the style of a mathematical reference, with worked examples and exercises at the end of each section. The goal is not breadth but precision: to state exactly what is true, under exactly what conditions, with exactly what cost. Where a result is standard, the proof is included so the reader can verify the hypotheses rather than trust the citation.
 
 \medskip
 
-Computers were built to do numerical computation. The word ``computer'' originally meant a person whose job was to evaluate functions by hand. The U.S. Army employed hundreds of them during the Second World War to compute artillery firing tables, a task so large it directly motivated the construction of ENIAC (1945). The machine's first classified application was thermonuclear weapon simulation, directed by John von Neumann, who also contributed early work on numerical stability. In 1950, Jule Charney used ENIAC to run the first machine weather forecast --- Lewis Fry Richardson had estimated the same computation would require 64,000 human computers working in parallel. The Apollo guidance computer navigated to the Moon in real time with 4 kilobytes of memory. The Cooley-Tukey FFT (1965) reduced a core signal processing computation from $O(n^2)$ to $O(n \log n)$. The demand for numerical computation at scale was the original motivation for programmable machines.
+For a more comprehensive treatment, the reader is referred to \textit{Numerical Analysis} by Bindel and Goodman, and \textit{Numerical Linear Algebra} by Trefethen and Bau.
 
 \medskip
 
-Almost every numerical algorithm reduces a nonlinear problem to a sequence of linear ones, because linear systems are the only class of problems we understand completely: their solution structure, their sensitivity to perturbations, their reliable algorithms. Newton's method, finite element discretization, PCA, gradient-based optimization --- each is, at its core, a repeated linearization. Linear algebra is the substrate of scientific computing.
+The historical context is worth keeping in view. The word ``computer'' originally denoted a person employed to evaluate functions by hand; the U.S. Army employed hundreds of them during the Second World War to compile artillery firing tables, a computation so large it directly motivated the construction of ENIAC (1945). Von Neumann's early work on rounding error and stability grew from those same practical demands. In 1950, Jule Charney used ENIAC to produce the first machine weather forecast, a calculation Richardson had estimated would require 64,000 human computers working simultaneously. The Cooley-Tukey FFT (1965) reduced a central computation in signal processing from $O(n^2)$ to $O(n \log n)$. The algorithms in these notes descend directly from that tradition.
 
 \medskip
 
-Much of the perspective here came from \textbf{CS 210A: Matrix Analysis}, taught by Professor Shivkumar Chandrasekaran in the ECE department at UC Santa Barbara. If you have the chance to take that course, take it.
+Almost every numerical algorithm reduces a nonlinear problem to a sequence of linear ones. Linear systems are the only class of problems we understand completely: their solution structure, their sensitivity to perturbations, and their reliable algorithms are all known. Newton's method, finite element discretization, PCA, and gradient-based optimization are each, at their core, a repeated linearization. Linear algebra is the substrate of scientific computing, and it is where these notes begin.
+
+\medskip
+
+Much of the perspective here was shaped by \textbf{CS 210A: Matrix Analysis}, taught by Professor Shivkumar Chandrasekaran in the ECE department at UC Santa Barbara.
 
 \vspace{1em}
 \begin{flushright}

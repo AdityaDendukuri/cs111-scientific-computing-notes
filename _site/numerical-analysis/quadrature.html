@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>22&nbsp; Jacobi Iteration – Scientific Computing</title>
+<title>25&nbsp; Numerical Quadrature – Scientific Computing</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../iterative/conjugate-gradient.html" rel="next">
-<link href="../iterative/iterative.html" rel="prev">
+<link href="../numerical-analysis/root-finding.html" rel="next">
+<link href="../iterative/gmres.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -335,7 +335,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../iterative/iterative.html">Iterative Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../iterative/jacobi.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html">Numerical Analysis</a></li><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -545,7 +545,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link active">
+  <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
   </div>
 </li>
@@ -574,7 +574,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../numerical-analysis/quadrature.html" class="sidebar-item-text sidebar-link">
+  <a href="../numerical-analysis/quadrature.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></span></a>
   </div>
 </li>
@@ -660,21 +660,21 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#jacobi-iteration" id="toc-jacobi-iteration" class="nav-link active" data-scroll-target="#jacobi-iteration"><span class="header-section-number">22.1</span> Jacobi Iteration</a></li>
-  <li><a href="#convergence-of-jacobi-iteration" id="toc-convergence-of-jacobi-iteration" class="nav-link" data-scroll-target="#convergence-of-jacobi-iteration"><span class="header-section-number">22.2</span> Convergence of Jacobi Iteration</a></li>
-  <li><a href="#stopping-criteria" id="toc-stopping-criteria" class="nav-link" data-scroll-target="#stopping-criteria"><span class="header-section-number">22.3</span> Stopping Criteria</a></li>
-  <li><a href="#gauss-seidel-iteration" id="toc-gauss-seidel-iteration" class="nav-link" data-scroll-target="#gauss-seidel-iteration"><span class="header-section-number">22.4</span> Gauss-Seidel Iteration</a></li>
-  <li><a href="#successive-over-relaxation-sor" id="toc-successive-over-relaxation-sor" class="nav-link" data-scroll-target="#successive-over-relaxation-sor"><span class="header-section-number">22.5</span> Successive Over-Relaxation (SOR)</a></li>
+  <li><a href="#newton-cotes-rules" id="toc-newton-cotes-rules" class="nav-link active" data-scroll-target="#newton-cotes-rules"><span class="header-section-number">25.1</span> Newton-Cotes Rules</a></li>
+  <li><a href="#gaussian-quadrature" id="toc-gaussian-quadrature" class="nav-link" data-scroll-target="#gaussian-quadrature"><span class="header-section-number">25.2</span> Gaussian Quadrature</a></li>
+  <li><a href="#romberg-integration" id="toc-romberg-integration" class="nav-link" data-scroll-target="#romberg-integration"><span class="header-section-number">25.3</span> Romberg Integration</a></li>
+  <li><a href="#adaptive-quadrature" id="toc-adaptive-quadrature" class="nav-link" data-scroll-target="#adaptive-quadrature"><span class="header-section-number">25.4</span> Adaptive Quadrature</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">25.5</span> Exercises</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/jacobi.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/numerical-analysis/quadrature.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../iterative/iterative.html">Iterative Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../iterative/jacobi.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html">Numerical Analysis</a></li><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></h1>
+<h1 class="title"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></h1>
 </div>
 
 
@@ -691,19 +691,21 @@ window.Quarto = {
 </header>
 
 
-<section id="jacobi-iteration" class="level2" data-number="22.1">
-<h2 data-number="22.1" class="anchored" data-anchor-id="jacobi-iteration"><span class="header-section-number">22.1</span> Jacobi Iteration</h2>
+<p>Compute <span class="math inline">\(I = \int_a^b f(x)\,dx\)</span> when an antiderivative is unavailable or too expensive to evaluate. Quadrature methods approximate the integral by a weighted sum of function values: <span class="math display">\[I \approx \sum_{i=1}^n w_i f(x_i).\]</span> The choice of <em>nodes</em> <span class="math inline">\(x_i\)</span> and <em>weights</em> <span class="math inline">\(w_i\)</span> determines the accuracy and efficiency of the method.</p>
+<section id="newton-cotes-rules" class="level2" data-number="25.1">
+<h2 data-number="25.1" class="anchored" data-anchor-id="newton-cotes-rules"><span class="header-section-number">25.1</span> Newton-Cotes Rules</h2>
+<p>Newton-Cotes methods fix equally-spaced nodes and choose weights so that the rule integrates polynomials exactly.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Splitting of <span class="math inline">\(\bA\)</span>
+<span class="screen-reader-only">Note</span>Definition: Composite Trapezoidal Rule
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>To derive a stationary iteration from <span class="math inline">\(\bA\bx = \bb\)</span>, we decompose <span class="math inline">\(\bA\)</span> as <span class="math display">\[\bA = \bD + \bR, \qquad \bD = \mathrm{diag}(a_{11},...,a_{nn}), \quad \bR = \bA - \bD.\]</span> Assuming all diagonal entries are nonzero (<span class="math inline">\(a_{ii} \neq 0\)</span> for all <span class="math inline">\(i\)</span>), we can rearrange <span class="math inline">\((\bD + \bR)\bx = \bb\)</span> to obtain the fixed-point equation <span class="math inline">\(\bx = -\bD^{-1}\bR\bx + \bD^{-1}\bb\)</span>.</p>
+<p>On <span class="math inline">\(n\)</span> equally-spaced panels of width <span class="math inline">\(h = (b-a)/n\)</span>, the <em>composite trapezoidal rule</em> is <span class="math display">\[T_n = h\left[\frac{f(a) + f(b)}{2} + \sum_{i=1}^{n-1} f(a + ih)\right].\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -712,31 +714,74 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Jacobi Iteration
+<span class="screen-reader-only">Note</span>Theorem: Trapezoidal Error
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>Jacobi iteration</em> for <span class="math inline">\(\bA\bx = \bb\)</span> is the stationary scheme <span class="math display">\[\bx^{(k+1)} = \bT_J\bx^{(k)} + \bD^{-1}\bb, \qquad \bT_J = -\bD^{-1}\bR,\]</span> or in component form, <span class="math display">\[x_i^{(k+1)} = \frac{1}{a_{ii}}\Bigl(b_i - \sum_{j \neq i} a_{ij}x_j^{(k)}\Bigr), \quad i = 1,...,n.\]</span> Each component <span class="math inline">\(x_i^{(k+1)}\)</span> depends only on values from the <em>previous</em> iterate <span class="math inline">\(\bx^{(k)}\)</span>, so all <span class="math inline">\(n\)</span> components may be updated simultaneously (or in any order).</p>
+<p><span class="math display">\[\left|I - T_n\right| \leq \frac{(b-a)^3}{12n^2}\max_{x \in [a,b]}|f''(x)|.\]</span> The global error is <span class="math inline">\(O(h^2)\)</span>: doubling <span class="math inline">\(n\)</span> reduces the error by a factor of 4.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>On a single panel <span class="math inline">\([x_i, x_{i+1}]\)</span>, the trapezoidal rule integrates the linear interpolant <span class="math inline">\(p_1(x)\)</span> of <span class="math inline">\(f\)</span> at the endpoints. The pointwise interpolation error is <span class="math inline">\(f(x) - p_1(x) = \frac{f''(\xi)}{2}(x - x_i)(x - x_{i+1})\)</span> for some <span class="math inline">\(\xi \in [x_i, x_{i+1}]\)</span>. Integrating and bounding <span class="math inline">\(|f''|\)</span> gives a local error of <span class="math inline">\(O(h^3)\)</span>. Summing over <span class="math inline">\(n\)</span> panels gives the global <span class="math inline">\(O(h^2) = O((b-a)^2/n^2)\)</span> bound.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Composite Simpson’s Rule
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <em>composite Simpson’s rule</em> (<span class="math inline">\(n\)</span> even) uses piecewise quadratic interpolation: <span class="math display">\[S_n = \frac{h}{3}\left[f(a) + f(b) + 4\sum_{\text{odd}\;i} f(a+ih) + 2\sum_{\text{even}\;i} f(a+ih)\right].\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Simpson’s Error
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[\left|I - S_n\right| \leq \frac{(b-a)^5}{180n^4}\max_{x \in [a,b]}|f^{(4)}(x)|.\]</span> The global error is <span class="math inline">\(O(h^4)\)</span>. Simpson’s rule is exact for all polynomials of degree <span class="math inline">\(\leq 3\)</span>.</p>
 </div>
 </div>
 </section>
-<section id="convergence-of-jacobi-iteration" class="level2" data-number="22.2">
-<h2 data-number="22.2" class="anchored" data-anchor-id="convergence-of-jacobi-iteration"><span class="header-section-number">22.2</span> Convergence of Jacobi Iteration</h2>
+<section id="gaussian-quadrature" class="level2" data-number="25.2">
+<h2 data-number="25.2" class="anchored" data-anchor-id="gaussian-quadrature"><span class="header-section-number">25.2</span> Gaussian Quadrature</h2>
+<p>Newton-Cotes fixes the nodes. Gaussian quadrature optimizes <em>both</em> nodes and weights to maximize the polynomial degree integrated exactly.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Convergence of Jacobi Iteration
+<span class="screen-reader-only">Note</span>Theorem: Gauss-Legendre Quadrature
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The Jacobi iteration converges to the solution of <span class="math inline">\(\bA\bx = \bb\)</span> for every initial vector <span class="math inline">\(\bx^{(0)}\)</span> if and only if <span class="math inline">\(\rho(\bT_J) &lt; 1\)</span>.</p>
+<p>With <span class="math inline">\(p\)</span> optimally chosen nodes and weights, <em>Gauss-Legendre quadrature</em> integrates all polynomials of degree <span class="math inline">\(\leq 2p-1\)</span> exactly: <span class="math display">\[\int_{-1}^{1} f(x)\,dx = \sum_{i=1}^{p} w_i f(x_i) + E_p(f).\]</span> The nodes <span class="math inline">\(x_i\)</span> are the roots of the Legendre polynomial <span class="math inline">\(P_p(x)\)</span>, and the weights are <span class="math display">\[w_i = \frac{2}{(1 - x_i^2)[P_p'(x_i)]^2}.\]</span> For a general interval <span class="math inline">\([a, b]\)</span>, substitute <span class="math inline">\(x = \frac{a+b}{2} + \frac{b-a}{2}t\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -745,363 +790,9 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>This is a direct application of the general convergence theorem for stationary iterations: convergence for all <span class="math inline">\(\bx^{(0)}\)</span> is equivalent to <span class="math inline">\(\rho(\bT) &lt; 1\)</span> for the iteration matrix. Here <span class="math inline">\(\bT_J = -\bD^{-1}\bR = \bI - \bD^{-1}\bA\)</span>, so the fixed-point equation <span class="math inline">\(\bx^* = \bT_J\bx^* + \bD^{-1}\bb\)</span> simplifies to <span class="math inline">\(\bD^{-1}\bA\bx^* = \bD^{-1}\bb\)</span>, i.e., <span class="math inline">\(\bA\bx^* = \bb\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Jacobi Convergence for Strictly Diagonally Dominant Matrices
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\bA\)</span> is strictly diagonally dominant, meaning <span class="math display">\[|a_{ii}| &gt; \sum_{j \neq i} |a_{ij}|, \quad \text{for all } i = 1, ..., n,\]</span> then <span class="math inline">\(\rho(\bT_J) &lt; 1\)</span> and the Jacobi iteration converges for every <span class="math inline">\(\bx^{(0)}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\lambda\)</span> be any eigenvalue of <span class="math inline">\(\bT_J = -\bD^{-1}\bR\)</span> with eigenvector <span class="math inline">\(\bv \neq \bzero\)</span>. Let index <span class="math inline">\(i^*\)</span> satisfy <span class="math inline">\(|v_{i^*}| = \|\bv\|_\infty &gt; 0\)</span>. The eigenvalue equation <span class="math inline">\(\bT_J\bv = \lambda\bv\)</span> gives, for row <span class="math inline">\(i^*\)</span>: <span class="math display">\[\lambda v_{i^*} = -\frac{1}{a_{i^*i^*}}\sum_{j \neq i^*} a_{i^*j}\,v_j.\]</span> Taking absolute values and dividing by <span class="math inline">\(|v_{i^*}|\)</span>: <span class="math display">\[|\lambda| \leq \frac{1}{|a_{i^*i^*}|} \sum_{j \neq i^*} |a_{i^*j}| \cdot \frac{|v_j|}{|v_{i^*}|} \leq \frac{\sum_{j \neq i^*} |a_{i^*j}|}{|a_{i^*i^*}|} &lt; 1,\]</span> where the last inequality is strict diagonal dominance. Since <span class="math inline">\(\lambda\)</span> was arbitrary, <span class="math inline">\(\rho(\bT_J) &lt; 1\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Effect of matrix structure on convergence.</strong></p>
-<p><em>Case 1 — Strictly diagonally dominant:</em> <span class="math inline">\(\bA_1 = \begin{pmatrix} 5 &amp; 1 &amp; 1 \\ 1 &amp; 5 &amp; 1 \\ 1 &amp; 1 &amp; 5 \end{pmatrix}\)</span>. Each row satisfies <span class="math inline">\(|a_{ii}| = 5 &gt; 2 = \sum_{j\neq i}|a_{ij}|\)</span>, so the theorem guarantees convergence. One can compute <span class="math inline">\(\rho(\bT_J) = 2/5 = 0.4\)</span>.</p>
-<p><em>Case 2 — Diagonal dominance violated in one row:</em> <span class="math inline">\(\bA_2 = \begin{pmatrix} 2 &amp; 1 &amp; 3 \\ 1 &amp; 3 &amp; 1 \\ 2 &amp; 2 &amp; 2 \end{pmatrix}\)</span>. Row 3 violates strict diagonal dominance. The theorem gives no guarantee; <span class="math inline">\(\rho(\bT_J)\)</span> must be checked numerically.</p>
-<p><em>Case 3 — Divergent case:</em> <span class="math inline">\(\bA_3 = \begin{pmatrix} 1 &amp; 3 &amp; 1 \\ 1 &amp; 2 &amp; 1 \\ 1 &amp; 1 &amp; 2 \end{pmatrix}\)</span>. Here <span class="math inline">\(\rho(\bT_J) &gt; 1\)</span> and the Jacobi iteration diverges for every <span class="math inline">\(\bx^{(0)} \neq \bx^*\)</span>.</p>
-</div>
-</div>
-</section>
-<section id="stopping-criteria" class="level2" data-number="22.3">
-<h2 data-number="22.3" class="anchored" data-anchor-id="stopping-criteria"><span class="header-section-number">22.3</span> Stopping Criteria</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Residual-Based Stopping Criterion
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Stop when the norm of the residual falls below a tolerance: <span class="math display">\[\|\bA\bx^{(k)} - \bb\| &lt; \epsilon_{\mathrm{res}}.\]</span> This directly measures how well <span class="math inline">\(\bx^{(k)}\)</span> satisfies the linear system.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Increment-Based Stopping Criterion
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Stop when the change between successive iterates is small: <span class="math display">\[\|\bx^{(k+1)} - \bx^{(k)}\| &lt; \epsilon_{\mathrm{inc}}.\]</span> This is cheap (no matrix–vector product needed), but measures the rate of change of the iteration rather than the accuracy of the solution directly.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Relative Residual Criterion
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Stop when the residual is small relative to the right-hand side: <span class="math display">\[\frac{\|\bA\bx^{(k)} - \bb\|}{\|\bb\|} &lt; \epsilon_{\mathrm{rel}}.\]</span> This is scale-invariant: multiplying <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bb\)</span> by a constant does not alter the stopping condition.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A <em>maximum iteration count</em> is always imposed as a safeguard against slow convergence or divergence. Typical practice is to set <span class="math inline">\(k_{\max}\)</span> based on the problem size and report non-convergence if the tolerance is not met within the budget.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: A Priori Error Bound for Jacobi Iteration
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\rho = \rho(\bT_J) &lt; 1\)</span>. For all <span class="math inline">\(k \geq 1\)</span>, <span class="math display">\[\|\bx^{(k)} - \bx^*\| \leq \frac{\rho^k}{1-\rho}\,\|\bx^{(1)} - \bx^{(0)}\|.\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The basic contraction estimate gives <span class="math inline">\(\|\bx^{(k)} - \bx^*\| \leq \rho^k\|\bx^{(0)} - \bx^*\|\)</span>. We bound <span class="math inline">\(\|\bx^{(0)} - \bx^*\|\)</span> via the telescoping sum: <span class="math display">\[\|\bx^{(0)} - \bx^*\| \leq \sum_{j=0}^{\infty}\|\bx^{(j+1)} - \bx^{(j)}\|.\]</span> Since <span class="math inline">\(\|\bx^{(j+1)} - \bx^{(j)}\| = \|\bT_J^j(\bx^{(1)}-\bx^{(0)})\| \leq \rho^j\|\bx^{(1)}-\bx^{(0)}\|\)</span>, the geometric series gives <span class="math inline">\(\|\bx^{(0)} - \bx^*\| \leq \|\bx^{(1)}-\bx^{(0)}\|/(1-\rho)\)</span>. Combining yields the stated bound.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Implement the Jacobi method in Python.</p>
-<ol type="1">
-<li><p>Write <code>jacobi(A, b, x0, tol, max\_iter)</code> that returns the iterate at convergence (relative residual below <code>tol</code>) and the number of iterations used.</p></li>
-<li><p>Test on <span class="math inline">\(\bA_1\)</span> from the example with <span class="math inline">\(\bb = (7,7,7)^T\)</span>. Compute the exact solution by hand. How many iterations are needed for <span class="math inline">\(\epsilon_{\mathrm{rel}} = 10^{-8}\)</span>?</p></li>
-<li><p>Plot <span class="math inline">\(\|\bA\bx^{(k)} - \bb\|\)</span> versus <span class="math inline">\(k\)</span> on a semi-log scale. What is the observed slope? Compare to <span class="math inline">\(\log_{10}\rho(\bT_J)\)</span>.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(A priori vs.&nbsp;observed convergence)</strong> For the system with <span class="math inline">\(\bA_1\)</span> and <span class="math inline">\(\bb = (7,7,7)^T\)</span>:</p>
-<ol type="1">
-<li><p>Evaluate the a priori bound for <span class="math inline">\(k = 20\)</span> iterations. How many times larger is the bound than the actual error <span class="math inline">\(\|\bx^{(20)} - \bx^*\|\)</span>?</p></li>
-<li><p>Consider the <span class="math inline">\(5\times5\)</span> tridiagonal matrix with <span class="math inline">\(4\)</span> on the diagonal and <span class="math inline">\(-1\)</span> on the off-diagonals. Verify that it is strictly diagonally dominant, compute <span class="math inline">\(\rho(\bT_J)\)</span> numerically, and determine how many iterations are needed to achieve <span class="math inline">\(\|\bx^{(k)}-\bx^*\| &lt; 10^{-10}\)</span>.</p></li>
-</ol>
-</div>
-</div>
-</section>
-<section id="gauss-seidel-iteration" class="level2" data-number="22.4">
-<h2 data-number="22.4" class="anchored" data-anchor-id="gauss-seidel-iteration"><span class="header-section-number">22.4</span> Gauss-Seidel Iteration</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Splitting of <span class="math inline">\(\bA\)</span> for Gauss-Seidel
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Decompose <span class="math inline">\(\bA = \bL_* + \bU_*\)</span>, where <span class="math inline">\(\bL_*\)</span> is the lower triangular part (including the diagonal) and <span class="math inline">\(\bU_*\)</span> is the strictly upper triangular part: <span class="math display">\[\bA = \bL_* + \bU_*, \qquad (\bL_*)_{ij} = \begin{cases} a_{ij} &amp; j \leq i \\ 0 &amp; j &gt; i \end{cases}, \quad (\bU_*)_{ij} = \begin{cases} a_{ij} &amp; j &gt; i \\ 0 &amp; j \leq i \end{cases}.\]</span> Rearranging <span class="math inline">\((\bL_* + \bU_*)\bx = \bb\)</span> as <span class="math inline">\(\bL_*\bx = \bb - \bU_*\bx\)</span> yields the Gauss-Seidel fixed-point equation.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Gauss-Seidel Iteration
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>Gauss-Seidel iteration</em> for <span class="math inline">\(\bA\bx = \bb\)</span> is <span class="math display">\[\bx^{(k+1)} = \bT_{GS}\bx^{(k)} + \bL_*^{-1}\bb, \qquad \bT_{GS} = -\bL_*^{-1}\bU_*.\]</span> In component form, updating in order <span class="math inline">\(i = 1, ..., n\)</span>: <span class="math display">\[x_i^{(k+1)} = \frac{1}{a_{ii}}\Bigl(b_i - \sum_{j &lt; i} a_{ij}\,x_j^{(k+1)} - \sum_{j &gt; i} a_{ij}\,x_j^{(k)}\Bigr).\]</span> The key distinction from Jacobi: components <span class="math inline">\(x_1^{(k+1)}, ..., x_{i-1}^{(k+1)}\)</span> already computed in the current sweep are used <em>immediately</em>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Because updated values are used as soon as they are available, Gauss-Seidel typically converges roughly twice as fast as Jacobi in practice. However, the sequential dependence among components means updates cannot be parallelized directly, unlike Jacobi.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Gauss-Seidel Convergence for SPD Matrices
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\bA\)</span> is symmetric positive definite, then the Gauss-Seidel iteration converges for every initial vector <span class="math inline">\(\bx^{(0)}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-20" class="callout-20-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>We show <span class="math inline">\(\rho(\bT_{GS}) &lt; 1\)</span>. Write <span class="math inline">\(\bA = \bL_* + \bU_*\)</span>. Since <span class="math inline">\(\bA\)</span> is symmetric, <span class="math inline">\(\bU_* = \bL_*^T - \bD\)</span>. The iteration matrix is <span class="math inline">\(\bT_{GS} = -\bL_*^{-1}\bU_*\)</span>. To show all eigenvalues satisfy <span class="math inline">\(|\lambda| &lt; 1\)</span>, suppose <span class="math inline">\(\bT_{GS}\bv = \lambda\bv\)</span> for <span class="math inline">\(\bv \neq \bzero\)</span>. Then <span class="math inline">\(-\bU_*\bv = \lambda\bL_*\bv\)</span>, i.e., <span class="math inline">\((\bA - \bL_*)\bv = -\lambda\bL_*\bv\)</span>, giving <span class="math inline">\(\bA\bv = (1-\lambda)\bL_*\bv\)</span>. Taking the inner product with <span class="math inline">\(\bv\)</span> and using <span class="math inline">\(\bA \succ 0\)</span>: <span class="math display">\[(1-\lambda)\,\bv^T\bL_*\bv = \bv^T\bA\bv &gt; 0.\]</span> Decompose <span class="math inline">\(\bv^T\bL_*\bv = \bv^T\bD\bv/2 + \tfrac{1}{2}\bv^T\bA\bv &gt; 0\)</span> (both terms positive since <span class="math inline">\(\bD \succ 0\)</span> and <span class="math inline">\(\bA \succ 0\)</span>), so <span class="math inline">\(1 - \lambda &gt; 0\)</span>, meaning <span class="math inline">\(\lambda &lt; 1\)</span>. A symmetric argument using conjugates shows <span class="math inline">\(|\lambda| &lt; 1\)</span>, hence <span class="math inline">\(\rho(\bT_{GS}) &lt; 1\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Gauss-Seidel Convergence for Strictly Diagonally Dominant Matrices
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\bA\)</span> is strictly diagonally dominant, the Gauss-Seidel iteration converges for every <span class="math inline">\(\bx^{(0)}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-22" class="callout-22-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The proof parallels the Jacobi case. Let <span class="math inline">\(\bT_{GS}\bv = \lambda\bv\)</span>, <span class="math inline">\(\bv \neq \bzero\)</span>. Pick <span class="math inline">\(i^*\)</span> with <span class="math inline">\(|v_{i^*}| = \|\bv\|_\infty\)</span>. The <span class="math inline">\(i^*\)</span>-th component of <span class="math inline">\(-\bU_*\bv = \lambda\bL_*\bv\)</span> gives <span class="math display">\[\lambda a_{i^*i^*} v_{i^*} = -\sum_{j &lt; i^*} a_{i^*j}(\lambda v_j) - \sum_{j &gt; i^*} a_{i^*j} v_j.\]</span> Taking absolute values and using <span class="math inline">\(|v_j| \leq |v_{i^*}|\)</span>: <span class="math display">\[|\lambda|\,|a_{i^*i^*}| \leq |\lambda| \sum_{j &lt; i^*}|a_{i^*j}| + \sum_{j &gt; i^*}|a_{i^*j}|.\]</span> If <span class="math inline">\(|\lambda| \geq 1\)</span>, then <span class="math inline">\(|\lambda|\,|a_{i^*i^*}| \leq |\lambda|\sum_{j \neq i^*}|a_{i^*j}|\)</span>, contradicting strict diagonal dominance. Hence <span class="math inline">\(|\lambda| &lt; 1\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Jacobi vs.&nbsp;Gauss-Seidel on a tridiagonal system.</strong></p>
-<p>Consider the <span class="math inline">\(3 \times 3\)</span> tridiagonal system with <span class="math inline">\(\bA = \begin{pmatrix}4&amp;-1&amp;0\\-1&amp;4&amp;-1\\0&amp;-1&amp;4\end{pmatrix}\)</span>, <span class="math inline">\(\bb = (3, 2, 3)^T\)</span> (exact solution <span class="math inline">\(\bx^* = (1,1,1)^T\)</span>).</p>
-<p> <span class="math display">\[x_1^{(1)} = \tfrac{3}{4} = 0.75, \quad x_2^{(1)} = \tfrac{2}{4} = 0.5, \quad x_3^{(1)} = \tfrac{3}{4} = 0.75.\]</span> <span class="math display">\[x_1^{(1)} = \tfrac{3}{4} = 0.75, \quad x_2^{(1)} = \tfrac{2 + 0.75}{4} = \tfrac{2.75}{4} = 0.6875, \quad x_3^{(1)} = \tfrac{3 + 0.6875}{4} = \tfrac{3.6875}{4} \approx 0.922.\]</span> Gauss-Seidel is already significantly closer to <span class="math inline">\(\bx^* = (1,1,1)^T\)</span> after a single sweep.</p>
-</div>
-</div>
-</section>
-<section id="successive-over-relaxation-sor" class="level2" data-number="22.5">
-<h2 data-number="22.5" class="anchored" data-anchor-id="successive-over-relaxation-sor"><span class="header-section-number">22.5</span> Successive Over-Relaxation (SOR)</h2>
-<p>Both Jacobi and Gauss-Seidel can converge slowly when <span class="math inline">\(\rho(\bT)\)</span> is close to 1. The idea behind SOR is simple: take the Gauss-Seidel update as a direction and <em>overshoot</em> by a factor <span class="math inline">\(\omega &gt; 1\)</span> to accelerate convergence. Choosing the optimal <span class="math inline">\(\omega\)</span> can reduce the spectral radius dramatically, turning <span class="math inline">\(O(n^2)\)</span> iterations into <span class="math inline">\(O(n)\)</span> for certain model problems.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: SOR Iteration
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>Successive Over-Relaxation (SOR)</em> method introduces a relaxation parameter <span class="math inline">\(\omega &gt; 0\)</span>. Let <span class="math inline">\(\tilde{x}_i\)</span> denote the Gauss-Seidel update for component <span class="math inline">\(i\)</span>. SOR blends the new and old values: <span class="math display">\[x_i^{(k+1)} = (1-\omega)\,x_i^{(k)} + \omega\,\tilde{x}_i^{(k+1)},\]</span> where <span class="math display">\[\tilde{x}_i^{(k+1)} = \frac{1}{a_{ii}}\Bigl(b_i - \sum_{j&lt;i}a_{ij}\,x_j^{(k+1)} - \sum_{j&gt;i}a_{ij}\,x_j^{(k)}\Bigr).\]</span> Substituting, the full SOR update is <span class="math display">\[x_i^{(k+1)} = x_i^{(k)} + \frac{\omega}{a_{ii}}\Bigl(b_i - \sum_{j&lt;i}a_{ij}\,x_j^{(k+1)} - a_{ii}\,x_i^{(k)} - \sum_{j&gt;i}a_{ij}\,x_j^{(k)}\Bigr).\]</span> Special cases: <span class="math inline">\(\omega = 1\)</span> recovers Gauss-Seidel; <span class="math inline">\(\omega \in (1,2)\)</span> is over-relaxation; <span class="math inline">\(\omega \in (0,1)\)</span> is under-relaxation (useful for stabilizing slowly divergent iterations).</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Kahan’s Necessary Condition for SOR
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The SOR iteration can converge only if <span class="math inline">\(0 &lt; \omega &lt; 2\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-26" class="callout-26-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The iteration matrix for SOR is <span class="math inline">\(\bT_\omega = (\bD + \omega\bL)^{-1}((1-\omega)\bD - \omega\bU)\)</span> where <span class="math inline">\(\bL, \bU\)</span> are the strictly lower/upper triangular parts of <span class="math inline">\(\bA\)</span>. Its determinant equals <span class="math inline">\((1-\omega)^n\)</span> (product of the eigenvalues). Since <span class="math inline">\(\rho(\bT_\omega) \geq |\det(\bT_\omega)|^{1/n} = |1-\omega|\)</span>, convergence requires <span class="math inline">\(\rho(\bT_\omega) &lt; 1\)</span>, which forces <span class="math inline">\(|1-\omega| &lt; 1\)</span>, i.e., <span class="math inline">\(0 &lt; \omega &lt; 2\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Optimal SOR for Consistently Ordered Matrices
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For a consistently ordered matrix (e.g., tridiagonal systems arising from discretizing PDEs) with Jacobi spectral radius <span class="math inline">\(\rho_J = \rho(\bT_J)\)</span>, the optimal relaxation parameter and corresponding spectral radius are <span class="math display">\[\omega^* = \frac{2}{1 + \sqrt{1 - \rho_J^2}}, \qquad \rho(\bT_{\omega^*}) = \omega^* - 1 = \frac{1 - \sqrt{1-\rho_J^2}}{1 + \sqrt{1-\rho_J^2}}.\]</span> When <span class="math inline">\(\rho_J \approx 1 - \varepsilon\)</span> (slow Jacobi convergence), <span class="math inline">\(\omega^* \approx 2 - 2\sqrt{\varepsilon}\)</span> and <span class="math inline">\(\rho(\bT_{\omega^*}) \approx 1 - 2\sqrt{\varepsilon} \ll \rho_J\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-28" class="callout-28-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>For consistently ordered matrices, the eigenvalues <span class="math inline">\(\mu\)</span> of <span class="math inline">\(\bT_\omega\)</span> relate to the eigenvalues <span class="math inline">\(\lambda\)</span> of <span class="math inline">\(\bT_J\)</span> via <span class="math inline">\((\mu + \omega - 1)^2 = \lambda^2\omega^2\mu\)</span>. Minimizing <span class="math inline">\(\max|\mu|\)</span> over <span class="math inline">\(\omega\)</span> gives the stated formulas. The key inequality <span class="math inline">\(\rho(\bT_{\omega^*}) \approx 1 - 2\sqrt{\varepsilon}\)</span> versus <span class="math inline">\(\rho_J \approx 1 - \varepsilon\)</span> shows SOR reduces the number of iterations by a factor of roughly <span class="math inline">\(\sqrt{\varepsilon}^{-1}/2\)</span> — a square-root speedup.</p>
+<p>A <span class="math inline">\(p\)</span>-point quadrature rule has <span class="math inline">\(2p\)</span> free parameters (nodes and weights). For an arbitrary degree-<span class="math inline">\((2p-1)\)</span> polynomial <span class="math inline">\(q\)</span>, write <span class="math inline">\(q = P_p \cdot s + r\)</span> where <span class="math inline">\(s, r\)</span> have degree <span class="math inline">\(\leq p-1\)</span>. If the nodes are roots of <span class="math inline">\(P_p\)</span>, then <span class="math inline">\(q(x_i) = r(x_i)\)</span>. The weights can then be chosen (via Lagrange interpolation) so that <span class="math inline">\(\sum w_i r(x_i) = \int r(x)\,dx\)</span> for all degree-<span class="math inline">\((p-1)\)</span> polynomials <span class="math inline">\(r\)</span>. The <span class="math inline">\(p\)</span> orthogonality conditions on <span class="math inline">\(P_p\)</span> (with respect to <span class="math inline">\(L^2[-1,1]\)</span>) ensure this is achievable, giving exactness for degree <span class="math inline">\(2p-1\)</span>.</p>
 </div>
 </div>
 </div>
@@ -1115,7 +806,23 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For the <span class="math inline">\(n\)</span>-point 1D Poisson problem (tridiagonal, <span class="math inline">\(h = 1/(n+1)\)</span>), Jacobi has <span class="math inline">\(\rho_J = \cos(\pi h) \approx 1 - \frac{\pi^2 h^2}{2}\)</span>, requiring <span class="math inline">\(O(n^2)\)</span> iterations. With optimal SOR, <span class="math inline">\(\rho(\bT_{\omega^*}) \approx 1 - 2\pi h\)</span>, requiring only <span class="math inline">\(O(n)\)</span> iterations — a dramatic improvement. The 2D Poisson problem shows similar gains.</p>
+<p><span class="math inline">\(p\)</span> Gauss points achieve the accuracy of degree-<span class="math inline">\((2p-1)\)</span> polynomial fitting, whereas <span class="math inline">\(p\)</span>-point Newton-Cotes achieves only degree <span class="math inline">\(p-1\)</span> (or <span class="math inline">\(p\)</span> for even <span class="math inline">\(p\)</span>). For smooth <span class="math inline">\(f\)</span>, Gauss-Legendre is spectacularly more efficient.</p>
+</div>
+</div>
+</section>
+<section id="romberg-integration" class="level2" data-number="25.3">
+<h2 data-number="25.3" class="anchored" data-anchor-id="romberg-integration"><span class="header-section-number">25.3</span> Romberg Integration</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Euler-Maclaurin Expansion
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The trapezoidal rule satisfies <span class="math display">\[T(h) = I + c_2 h^2 + c_4 h^4 + c_6 h^6 + \cdots\]</span> for smooth <span class="math inline">\(f\)</span>, where <span class="math inline">\(c_{2k}\)</span> depend on derivatives of <span class="math inline">\(f\)</span> at the endpoints.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -1124,14 +831,61 @@ Tip
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
+<span class="screen-reader-only">Note</span>Definition: Romberg Table
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Effect of <span class="math inline">\(\omega\)</span> on convergence rate.</strong></p>
-<p>For the <span class="math inline">\(n = 9\)</span> tridiagonal system (1D Poisson), <span class="math inline">\(h = 0.1\)</span>, so <span class="math inline">\(\rho_J = \cos(\pi/10) \approx 0.951\)</span>. The optimal parameter is <span class="math display">\[\omega^* = \frac{2}{1 + \sqrt{1 - 0.951^2}} \approx \frac{2}{1 + 0.309} \approx 1.527,\]</span> giving <span class="math inline">\(\rho(\bT_{\omega^*}) \approx 0.527\)</span>. With Gauss-Seidel (<span class="math inline">\(\omega=1\)</span>), <span class="math inline">\(\rho \approx 0.904\)</span>. The number of iterations to reduce the error by <span class="math inline">\(10^{-8}\)</span> is approximately <span class="math inline">\(8\log_{10} / \log_{10}(1/\rho)\)</span>, which is about 169 for Gauss-Seidel but only about 35 for SOR — nearly a fivefold speedup.</p>
+<p><em>Romberg integration</em> eliminates successive error terms via Richardson extrapolation. The tableau <span class="math inline">\(R_{i,j}\)</span> is defined by <span class="math inline">\(R_{i,0} = T(h/2^i)\)</span> and <span class="math display">\[R_{i,j} = \frac{4^j R_{i,j-1} - R_{i-1,j-1}}{4^j - 1}.\]</span> The diagonal entry <span class="math inline">\(R_{k,k}\)</span> has error <span class="math inline">\(O(h^{2k+2})\)</span>, converging faster than any fixed power of <span class="math inline">\(h\)</span> for smooth <span class="math inline">\(f\)</span>.</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Combining <span class="math inline">\(T(h)\)</span> and <span class="math inline">\(T(h/2)\)</span> to eliminate the <span class="math inline">\(c_2 h^2\)</span> term: <span class="math inline">\(T(h/2) = I + c_2(h/2)^2 + \cdots\)</span>, so <span class="math inline">\(\frac{4T(h/2) - T(h)}{3} = I + O(h^4)\)</span>. This is <span class="math inline">\(R_{1,1}\)</span>. Applying the same idea to eliminate <span class="math inline">\(O(h^4)\)</span> gives <span class="math inline">\(R_{2,2}\)</span> with error <span class="math inline">\(O(h^6)\)</span>, and so on.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="adaptive-quadrature" class="level2" data-number="25.4">
+<h2 data-number="25.4" class="anchored" data-anchor-id="adaptive-quadrature"><span class="header-section-number">25.4</span> Adaptive Quadrature</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Adaptive Simpson
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On <span class="math inline">\([a, b]\)</span>, compare the single-panel estimate <span class="math inline">\(S(a,b)\)</span> to <span class="math inline">\(S(a, m) + S(m, b)\)</span> where <span class="math inline">\(m = (a+b)/2\)</span>. If <span class="math display">\[\delta = |S(a,b) - S(a,m) - S(m,b)| &gt; 15\varepsilon,\]</span> recurse on each half. The factor <span class="math inline">\(1/15\)</span> is the Richardson extrapolation constant for Simpson’s <span class="math inline">\(O(h^4)\)</span> rule.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Adaptive methods automatically concentrate evaluations near singularities, sharp peaks, and rapid oscillations, rather than distributing them uniformly.</p>
+</div>
+</div>
+</section>
+<section id="exercises" class="level2" data-number="25.5">
+<h2 data-number="25.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">25.5</span> Exercises</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1142,30 +896,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(Gauss-Seidel implementation and comparison)</strong></p>
 <ol type="1">
-<li><p>Implement <code>gauss\_seidel(A, b, x0, tol, max\_iter)</code> in Python. The key difference from Jacobi is to update <span class="math inline">\(x[i]\)</span> <em>in place</em> at each step.</p></li>
-<li><p>Run both Jacobi and Gauss-Seidel on the <span class="math inline">\(10\times10\)</span> tridiagonal system with <span class="math inline">\(4\)</span> on the diagonal and <span class="math inline">\(-1\)</span> on the off-diagonals, <span class="math inline">\(\bb = \mathbf{1}\)</span>. Plot the residual norm versus iteration count on a semi-log scale for both methods. Estimate the ratio of iterations needed to reach <span class="math inline">\(10^{-8}\)</span> residual.</p></li>
-<li><p>Compute <span class="math inline">\(\rho(\bT_J)\)</span> and <span class="math inline">\(\rho(\bT_{GS})\)</span> numerically. Is the observed convergence ratio consistent with <span class="math inline">\(\rho(\bT_{GS}) \approx \rho(\bT_J)^2\)</span>? (This relation holds exactly for consistently ordered matrices.)</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(SOR parameter tuning)</strong></p>
-<ol type="1">
-<li><p>Implement <code>sor(A, b, x0, omega, tol, max\_iter)</code>.</p></li>
-<li><p>For the same <span class="math inline">\(10\times10\)</span> tridiagonal system, compute the theoretical optimal <span class="math inline">\(\omega^*\)</span> using the formula in the Optimal SOR theorem. Run SOR with <span class="math inline">\(\omega \in \{1.0, 1.2, 1.4, \omega^*, 1.8, 1.9\}\)</span>.</p></li>
-<li><p>Plot iterations to convergence (residual <span class="math inline">\(&lt; 10^{-8}\)</span>) versus <span class="math inline">\(\omega\)</span>. Verify that <span class="math inline">\(\omega^*\)</span> is indeed optimal and that convergence fails for <span class="math inline">\(\omega \geq 2\)</span>.</p></li>
-<li><p>At the optimal <span class="math inline">\(\omega^*\)</span>, compare the convergence rate to Jacobi and Gauss-Seidel from the previous exercise.</p></li>
+<li><p>Derive the trapezoidal weights <span class="math inline">\(w_0 = w_n = h/2\)</span>, <span class="math inline">\(w_i = h\)</span> (<span class="math inline">\(i = 1, ..., n-1\)</span>) by integrating the piecewise linear interpolant of <span class="math inline">\(f\)</span>.</p></li>
+<li><p>Show that the trapezoidal rule is <em>exact</em> for <span class="math inline">\(f(x) = \sin(x)\)</span> integrated over <span class="math inline">\([0, 2\pi]\)</span> for any <span class="math inline">\(n\)</span>. (<em>Hint:</em> use the Euler-Maclaurin expansion or the DFT.)</p></li>
+<li><p>Derive the <span class="math inline">\(p = 2\)</span> Gauss-Legendre nodes and weights on <span class="math inline">\([-1, 1]\)</span> from scratch: find the roots of <span class="math inline">\(P_2(x) = \frac{1}{2}(3x^2 - 1)\)</span> and compute the weights by requiring exactness for <span class="math inline">\(f(x) = 1\)</span> and <span class="math inline">\(f(x) = x^2\)</span>.</p></li>
+<li><p>Build the Romberg table for <span class="math inline">\(\int_0^1 e^x\,dx = e - 1\)</span> using <span class="math inline">\(T(1)\)</span>, <span class="math inline">\(T(1/2)\)</span>, <span class="math inline">\(T(1/4)\)</span>. Compute <span class="math inline">\(R_{1,1}\)</span> and <span class="math inline">\(R_{2,2}\)</span> by hand and compare errors with <span class="math inline">\(T(1/4)\)</span>.</p></li>
+<li><p>The trapezoidal rule is <span class="math inline">\(O(h^2)\)</span> for general <span class="math inline">\(f\)</span> but achieves <em>exponential convergence</em> for periodic, analytic <span class="math inline">\(f\)</span> on <span class="math inline">\([0, 2\pi]\)</span>. Explain why, using the Euler-Maclaurin expansion.</p></li>
 </ol>
 </div>
 </div>
@@ -1589,13 +1325,13 @@ Tip
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../iterative/iterative.html" class="pagination-link" aria-label="Iterative Methods for Linear Systems">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Iterative Methods for Linear Systems</span></span>
+      <a href="../iterative/gmres.html" class="pagination-link" aria-label="GMRES">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GMRES</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../iterative/conjugate-gradient.html" class="pagination-link" aria-label="Conjugate Gradient Method">
-        <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../numerical-analysis/root-finding.html" class="pagination-link" aria-label="Root Finding">
+        <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Root Finding</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1604,4 +1340,4 @@ Tip
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/jacobi.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/numerical-analysis/quadrature.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

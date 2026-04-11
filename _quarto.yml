@@ -3,7 +3,7 @@ project:
   output-dir: _site
 
 book:
-  title: "Introduction to Scientific Computing"
+  title: "Scientific Computing"
   author: "Aditya Dendukuri"
   repo-url: https://github.com/AdityaDendukuri/cs111-scientific-computing-notes
   repo-actions: [edit, issue]
@@ -38,12 +38,24 @@ book:
       chapters:
         - eigenvalues/eigenvalues.qmd
         - eigenvalues/svd.qmd
+        - eigenvalues/lanczos.qmd
+        - eigenvalues/jacobi-eig.qmd
 
     - part: "Iterative Methods for Linear Systems"
       chapters:
         - iterative/iterative.qmd
         - iterative/jacobi.qmd
         - iterative/conjugate-gradient.qmd
+        - iterative/gmres.qmd
+
+    - part: "Numerical Analysis"
+      chapters:
+        - numerical-analysis/quadrature.qmd
+        - numerical-analysis/root-finding.qmd
+
+    - part: "ODEs"
+      chapters:
+        - odes/ode-methods.qmd
 
     - part: "Applications"
       chapters:

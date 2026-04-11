@@ -1,0 +1,167 @@
+# GMRES
+
+
+Solve $\bA\bx = \bb$ where $\bA \in \fR^{n \times n}$ is *non-symmetric*. The conjugate
+gradient method requires symmetry and positive definiteness; GMRES works for any invertible
+$\bA$. At step $k$, GMRES finds the iterate $\bx_k$ in the affine Krylov subspace
+$\bx_0 + \mathcal{K}_k(\bA, \br_0)$ that minimizes the residual norm.
+
+
+## The Arnoldi Process
+
+
+::: {.callout-note icon=false}
+## Definition: Arnoldi Relation
+The *Arnoldi process* builds an orthonormal basis $V_{k+1} = [\bv_1, ..., \bv_{k+1}]$
+for $\mathcal{K}_{k+1}(\bA, \bv_1)$ satisfying the *Arnoldi relation*:
+$$\bA V_k = V_{k+1} \bar{H}_k,$$
+where $V_k = [\bv_1, ..., \bv_k]$ has orthonormal columns and
+$\bar{H}_k \in \fR^{(k+1) \times k}$ is upper Hessenberg (zero below the first
+subdiagonal). The entry $H_{ij} = \bv_i^T(\bA\bv_j)$ for $i \leq j+1$.
+:::
+
+
+::: {.callout-tip icon=false}
+The Arnoldi process is Modified Gram-Schmidt applied to $\{\bA^j\bv_1\}$: at step $j$,
+compute $\bw = \bA\bv_j$, orthogonalize against all previous $\bv_i$, and normalize.
+For symmetric $\bA$, $\bar{H}_k$ reduces to tridiagonal and the Arnoldi process reduces
+to the Lanczos recurrence.
+:::
+
+
+## GMRES as a Least-Squares Problem
+
+
+::: {.callout-note icon=false}
+## Theorem: GMRES Least-Squares Reduction
+Write $\bx_k = \bx_0 + V_k \by_k$ with $\by_k \in \fR^k$.
+Using $\br_0 = \beta\bv_1$ ($\beta = \|\br_0\|_2$) and the Arnoldi relation,
+$$\|\bA\bx_k - \bb\|_2 = \|\bar{H}_k \by_k - \beta\be_1\|_2.$$
+This is a small $(k+1) \times k$ least-squares problem. Its solution $\by_k^*$ minimizes
+the residual over the entire Krylov subspace, and the minimum residual norm is
+$|g_{k+1}|$ where $\bg$ is updated cheaply via Givens rotations.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Since $V_{k+1}$ has orthonormal columns, $\|V_{k+1}\bz\|_2 = \|\bz\|_2$ for any $\bz$.
+Substituting $\bx_k = \bx_0 + V_k\by_k$ and $\bb = \bA\bx_0 + \br_0 = \bA\bx_0 + \beta V_{k+1}\be_1$:
+$$\bA\bx_k - \bb = \bA V_k\by_k - \beta V_{k+1}\be_1 = V_{k+1}(\bar{H}_k\by_k - \beta\be_1).$$
+Taking norms and using the isometry property of $V_{k+1}$ gives the result.
+:::
+
+
+## Givens Rotations for the Hessenberg System
+
+
+At step $j$, one new Givens rotation $G_j$ zeros the entry $H_{j+1,j}$ in column $j$:
+$$\begin{pmatrix} c_j & s_j \\ -s_j & c_j \end{pmatrix}
+\begin{pmatrix} H_{jj} \\ H_{j+1,j} \end{pmatrix}
+= \begin{pmatrix} r_{jj} \\ 0 \end{pmatrix}, \qquad
+c_j = \frac{H_{jj}}{d},\quad s_j = \frac{H_{j+1,j}}{d},\quad d = \sqrt{H_{jj}^2 + H_{j+1,j}^2}.$$
+Applying all rotations $G_1, ..., G_j$ to $\be_1\beta$ yields a vector $\bg$ where
+$|\bg_{j+1}| = \|\br_j\|_2$. This provides a *free convergence estimate* without
+computing $\bx_k$ explicitly.
+
+
+## Restarted GMRES($m$)
+
+
+::: {.callout-tip icon=false}
+Memory usage grows as $O(kn)$ since GMRES must store the entire Krylov basis.
+*Restarted GMRES($m$)* caps memory by restarting every $m$ steps from the current
+best iterate. Typical restart: $m \in [30, 300]$.
+:::
+
+
+```
+
+function GMRES(A, b, x0, tol, m):
+    x <- x0
+    while not converged:
+        r <- b - A*x;   beta <- ||r||
+        if beta < tol: return x
+
+        V[0] <- r / beta
+        g    <- [beta, 0, ..., 0]       // length m+1
+
+        for j = 0 to m-1:
+            w <- A * V[j]
+            for i = 0 to j:             // Modified Gram-Schmidt
+                H[i,j] <- w^T * V[i]
+                w       <- w - H[i,j] * V[i]
+            H[j+1,j] <- ||w||
+            if H[j+1,j] < 1e-14: break
+            V[j+1] <- w / H[j+1,j]
+
+            // Apply previous Givens rotations to column j
+            for i = 0 to j-1:
+                [H[i,j], H[i+1,j]] <- [c[i]*H[i,j] + s[i]*H[i+1,j],
+                                        -s[i]*H[i,j] + c[i]*H[i+1,j]]
+            // New Givens rotation to zero H[j+1,j]
+            d    <- sqrt(H[j,j]^2 + H[j+1,j]^2)
+            c[j] <- H[j,j]/d;   s[j] <- H[j+1,j]/d
+            H[j,j]    <-  c[j]*H[j,j] + s[j]*H[j+1,j]
+            H[j+1,j]  <- 0
+            g[j+1] <- -s[j]*g[j];   g[j] <- c[j]*g[j]
+
+            if |g[j+1]| < tol: break
+
+        // Back-solve upper triangular system
+        y <- back_solve(H[0:j+1,0:j+1], g[0:j+1])
+        x <- x + sum_i y[i]*V[i]
+```
+
+
+## Convergence and Preconditioning
+
+
+::: {.callout-note icon=false}
+## Theorem: GMRES Convergence
+The residual satisfies the *polynomial approximation bound*:
+$$\frac{\|\br_k\|_2}{\|\br_0\|_2} \leq \min_{\substack{p_k \in \mathcal{P}_k \\ p_k(0)=1}}
+\max_{\lambda \in \sigma(\bA)} |p_k(\lambda)|.$$
+GMRES converges in at most $n$ steps. For normal $\bA$ (including symmetric), convergence
+is governed by the eigenvalue distribution; for non-normal $\bA$, the field of values matters.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Preconditioning
+A preconditioner $\bM \approx \bA^{-1}$ replaces the system by $\bM\bA\bx = \bM\bb$
+(left) or $\bA\bM^{-1}(\bM\bx) = \bb$ (right). Right preconditioning minimizes the true
+residual $\|\br_k\|_2$ and is standard. Common choices:
+
+- **ILU($k$)**: incomplete LU with level-$k$ fill --- general purpose.
+    
+- **Block Jacobi**: invert diagonal blocks --- parallelizes well.
+    
+- **AMG**: algebraic multigrid --- near $O(n)$ for elliptic PDE.
+
+:::
+
+
+## Exercises
+
+
+::: {.callout-warning icon=false}
+## Exercise
+
+1. Verify the Arnoldi relation $\bA V_k = V_{k+1}\bar{H}_k$ for $k=1$: show that
+    $\bA\bv_1 = h_{11}\bv_1 + h_{21}\bv_2$ where $h_{11} = \bv_1^T(\bA\bv_1)$ and
+    $h_{21} = \|\bA\bv_1 - h_{11}\bv_1\|_2$.
+    
+1. Show that if $\bA$ is symmetric, then $\bar{H}_k$ is tridiagonal. Conclude that
+    GMRES applied to a symmetric positive definite matrix is equivalent to CG.
+    
+1. Prove that full GMRES (no restart) converges in at most $n$ steps.
+    
+1. (Stagnation) Let $\bA = \mathrm{diag}(1, 2, ..., 9, 100)$ and $\bb = (1, ..., 1)^T$.
+    Run GMRES($m$) for $m = 5$ and $m = 10$. Does GMRES stagnate? Why does the outlier
+    eigenvalue $\lambda = 100$ affect convergence?
+    
+1. Explain why GMRES with left preconditioning $\bM$ minimizes $\|\bM(\bb - \bA\bx_k)\|_2$
+    rather than the true residual. When does this distinction matter?
+
+:::

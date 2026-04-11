@@ -1,0 +1,157 @@
+# Numerical Methods for ODEs
+
+
+Solve the *initial value problem* (IVP): find $y : [t_0, T] \to \fR^d$ satisfying
+$$\frac{dy}{dt} = f(t, y), \qquad y(t_0) = y_0.$$
+Numerical methods advance the solution step by step using a fixed or adaptive step size $h$.
+The fundamental trade-offs are *accuracy* (local truncation error per step),
+*stability* (whether errors grow or decay), and *cost* (function evaluations per step).
+
+
+## Euler's Method
+
+
+::: {.callout-note icon=false}
+## Definition: Forward Euler
+The simplest one-step method replaces $dy/dt$ by a forward difference:
+$$y_{n+1} = y_n + h f(t_n, y_n).$$
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Euler Method Error
+The *local truncation error* (error per step) is $O(h^2)$: for smooth $y$,
+$$y(t_{n+1}) - y_{n+1} = \frac{h^2}{2} y''(t_n) + O(h^3).$$
+The *global error* over $[t_0, T]$ is $O(h)$: halving $h$ halves the total error.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Taylor-expand the exact solution: $y(t_{n+1}) = y(t_n) + hy'(t_n) + \frac{h^2}{2}y''(t_n) + O(h^3)$.
+The Euler step uses $y'(t_n) = f(t_n, y_n)$, so the local error is $\frac{h^2}{2}y''(t_n) + O(h^3)$.
+Over $N = (T - t_0)/h$ steps, the global error is bounded by $N \cdot O(h^2) = O(h)$.
+:::
+
+
+## Classical Runge-Kutta (RK4)
+
+
+::: {.callout-note icon=false}
+## Definition: Classical Fourth-Order Runge-Kutta
+The *RK4* method evaluates $f$ at four intermediate stages:
+$$
+\begin{align}
+k_1 &= f(t_n,\, y_n), \qquad k_2 = f\!\left(t_n + \tfrac{h}{2},\, y_n + \tfrac{h}{2}k_1\right), \\
+k_3 &= f\!\left(t_n + \tfrac{h}{2},\, y_n + \tfrac{h}{2}k_2\right), \qquad k_4 = f(t_n + h,\, y_n + hk_3), \\
+y_{n+1} &= y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4).
+\end{align}
+$$
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: RK4 Accuracy
+The local truncation error of RK4 is $O(h^5)$ and the global error is $O(h^4)$. The four
+stages are chosen so that the Taylor expansion of the numerical update matches $y(t_{n+1})$
+through terms of order $h^4$. Halving $h$ reduces the error by a factor of 16.
+:::
+
+
+## Adaptive Methods: RK45 / Dormand-Prince
+
+
+Fixed step-size methods waste computation in smooth regions and are inaccurate in rapidly
+varying regions. *Adaptive* methods adjust $h$ to maintain a target local error tolerance.
+
+
+::: {.callout-note icon=false}
+## Definition: Embedded Runge-Kutta Methods
+An *embedded* pair uses the same stage evaluations $k_1, ..., k_s$ to produce two
+approximations of different orders:
+$$y_{n+1}^{(4)} = y_n + \sum_{i} b_i k_i, \qquad y_{n+1}^{(5)} = y_n + \sum_{i} \hat{b}_i k_i.$$
+The difference $e_{n+1} = y_{n+1}^{(5)} - y_{n+1}^{(4)}$ estimates the local error without
+extra function evaluations. The step is accepted if $\|e_{n+1}\| \leq \varepsilon_{\mathrm{tol}}$
+and rejected (with $h$ reduced) otherwise.
+:::
+
+
+::: {.callout-tip icon=false}
+The *Dormand-Prince* method (DOPRI5), used by `scipy.integrate.solve\_ivp` with
+`method='RK45'`, uses 6 stages to produce 4th and 5th order estimates with the
+standard step-size controller
+$$h_{\mathrm{new}} = h_{\mathrm{old}} \cdot \min\!\left(h_{\max},\, \max\!\left(h_{\min},\,
+\mathrm{safety} \cdot \left(\frac{\varepsilon_{\mathrm{tol}}}{\|e\|}\right)^{1/5}\right)\right).$$
+:::
+
+
+## Symplectic Integrators
+
+
+For *Hamiltonian systems* $\dot{q} = \partial H/\partial p$, $\dot{p} = -\partial H/\partial q$,
+standard Runge-Kutta methods do not conserve the energy $H(q, p)$ over long integrations ---
+the numerical energy drifts. Symplectic integrators preserve the geometric structure of the flow.
+
+
+::: {.callout-note icon=false}
+## Definition: Velocity Verlet
+For a separable Hamiltonian $H = \frac{1}{2m}p^2 + V(q)$ (so $\dot{q} = p/m$,
+$\dot{p} = -\nabla V(q)$), the *velocity Verlet* integrator is
+$$q_{n+1} = q_n + h v_n + \frac{h^2}{2m} F_n, \qquad v_{n+1} = v_n + \frac{h}{2m}(F_n + F_{n+1}),$$
+where $F_n = -\nabla V(q_n)$. This requires one new force evaluation per step.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Symplectic Structure of Velocity Verlet
+Velocity Verlet is a *symplectic* integrator of order 2: it exactly preserves the
+symplectic 2-form $dq \wedge dp$. As a consequence, there exists a *modified Hamiltonian*
+$\tilde{H}$ that is exactly conserved by the discrete flow. The numerical energy $H(q_n, p_n)$
+oscillates but does not drift --- the error remains bounded for arbitrarily long times.
+:::
+
+
+::: {.callout-tip icon=false}
+By contrast, Euler's method applied to a Hamiltonian system has monotonically *growing*
+energy (it is anti-symplectic), and RK4 also exhibits slow energy drift over very long
+integrations.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Yoshida 4th-Order Symplectic Integrator
+The *Yoshida* method composes three Verlet steps with carefully chosen sub-step sizes
+to achieve 4th-order accuracy while remaining symplectic:
+$$w_1 = \frac{1}{2 - 2^{1/3}}, \qquad w_0 = 1 - 2w_1,$$
+$$\Phi_h = \Phi_{w_1 h}^{\mathrm{Verlet}} \circ \Phi_{w_0 h}^{\mathrm{Verlet}} \circ \Phi_{w_1 h}^{\mathrm{Verlet}}.$$
+This requires 3 force evaluations per step and is 4th-order accurate and symplectic.
+:::
+
+
+## Exercises
+
+
+::: {.callout-warning icon=false}
+## Exercise
+
+1. Apply 4 steps of forward Euler with $h = 0.25$ to solve $y' = -y$, $y(0) = 1$
+    on $[0, 1]$. Compare to $y(t) = e^{-t}$. What is the global error?
+    
+1. Verify that RK4 applied to $y' = \lambda y$ with step $h$ gives
+    $y_{n+1} = R(h\lambda) y_n$ where $R(z) = 1 + z + z^2/2 + z^3/6 + z^4/24$.
+    For which $h\lambda \in \fR$ is $|R(h\lambda)| \leq 1$ (stability)?
+    
+1. Show that forward Euler applied to the harmonic oscillator $\dot{q} = p$,
+    $\dot{p} = -q$ gives $H(q_{n+1}, p_{n+1}) = (1 + h^2) H(q_n, p_n)$. Conclude the
+    energy grows without bound. What does velocity Verlet give instead?
+    
+1. Derive the velocity Verlet update by applying the Störmer-Verlet splitting:
+    decompose the Hamiltonian flow as $\Phi_h \approx \Phi_{h/2}^V \circ \Phi_h^T \circ \Phi_{h/2}^V$
+    where $\Phi_h^T$ advances positions (kinetic step) and $\Phi_h^V$ advances momenta
+    (potential step).
+    
+1. (Adaptive step control) Implement RK45 for $y' = \cos(t^2)$, $y(0) = 0$ on
+    $[0, 10]$ with relative tolerance $10^{-6}$. Plot the step sizes. Where does the
+    integrator take small steps? Explain in terms of $|f'(t)|$.
+
+:::

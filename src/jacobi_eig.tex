@@ -1,0 +1,155 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+\subsection{Jacobi Eigenvalue Algorithm}
+\label{subsec:jacobi-eig}
+
+\textBox{%
+The Jacobi method computes all eigenvalues and eigenvectors of a symmetric matrix
+$\bA \in \fR^{n \times n}$ by iteratively zeroing off-diagonal entries via plane rotations.
+It is conceptually simple, numerically stable, and achieves high relative accuracy on the
+small singular values --- a property not shared by the standard tridiagonalize-then-QR pipeline.
+}
+
+\subsubsection{Givens Rotations}
+
+\addDef{Givens Rotation}{%
+The \emph{Givens rotation} $G(p, q, \theta) \in \fR^{n \times n}$ is the identity matrix
+with a $2 \times 2$ rotation block at rows and columns $p$ and $q$:
+\[
+G_{pp} = c, \quad G_{pq} = -s, \quad G_{qp} = s, \quad G_{qq} = c,
+\]
+where $c = \cos\theta$ and $s = \sin\theta$. All other entries agree with the identity.
+}
+
+\addProp{Effect of a Similarity Transform}{%
+The similarity transform $\bA' = G^T \bA G$ is orthogonal (preserves eigenvalues) and
+modifies only rows and columns $p$ and $q$. The off-diagonal entry $(p, q)$ becomes
+\[
+A'_{pq} = (c^2 - s^2) A_{pq} + cs(A_{pp} - A_{qq}).
+\]
+The diagonal entries transform as
+\[
+A'_{pp} = c^2 A_{pp} - 2cs A_{pq} + s^2 A_{qq}, \qquad A'_{qq} = s^2 A_{pp} + 2cs A_{pq} + c^2 A_{qq}.
+\]
+}
+
+\addPrf{%
+Since $G$ differs from $\bI$ only in columns/rows $p$ and $q$, multiplying $\bA$ on the
+right by $G$ affects only columns $p$ and $q$. Left-multiplying by $G^T$ then affects only
+rows $p$ and $q$. Expanding $(\bA G)_{ij}$ and $(G^T \bA G)_{ij}$ directly yields the
+stated formulas.
+}
+
+\subsubsection{Choosing the Rotation Angle}
+
+\addProp{Optimal Rotation to Zero $A'_{pq}$}{%
+Setting $A'_{pq} = 0$ requires $(c^2 - s^2)A_{pq} + cs(A_{pp} - A_{qq}) = 0$.
+Let $\tau = (A_{qq} - A_{pp})/(2A_{pq})$. Then $t = \tan\theta$ satisfies
+$t^2 + 2\tau t - 1 = 0$, with the numerically preferred solution
+\[
+t = \frac{\mathrm{sign}(\tau)}{|\tau| + \sqrt{1 + \tau^2}}, \qquad c = \frac{1}{\sqrt{1 + t^2}}, \qquad s = ct.
+\]
+Taking the root with $|t| \leq 1$ minimizes the perturbation to all other off-diagonal entries.
+}
+
+\addPrf{%
+Substituting $c^2 - s^2 = (1 - t^2)/(1 + t^2)$ and $cs = t/(1 + t^2)$ into $A'_{pq} = 0$
+and clearing denominators gives $t^2 + 2\tau t - 1 = 0$. The preferred root
+$t = \mathrm{sign}(\tau)/(|\tau| + \sqrt{1+\tau^2})$ is the smaller root in magnitude.
+For $|\tau| \gg 1$, this gives $t \approx 1/(2\tau) \approx 0$: almost no rotation,
+avoiding catastrophic cancellation in $c = 1/\sqrt{1+t^2}$.
+}
+
+\subsubsection{Convergence}
+
+\addThm{Monotone Decrease of Off-Diagonal Norm}{%
+Define $\sigma^2_{\mathrm{off}}(\bA) = \sum_{p < q} A_{pq}^2$ (half the squared off-diagonal
+Frobenius norm). Each Jacobi rotation at $(p,q)$ satisfies
+\[
+\sigma^2_{\mathrm{off}}(\bA') = \sigma^2_{\mathrm{off}}(\bA) - A_{pq}^2.
+\]
+In particular, $\sigma_{\mathrm{off}}$ decreases monotonically and the cyclic Jacobi method
+converges.
+}
+
+\addPrf{%
+The Frobenius norm is invariant under orthogonal similarity: $\|\bA'\|_F = \|\bA\|_F$.
+Since $\|\bA\|_F^2 = \sigma^2_{\mathrm{diag}} + 2\sigma^2_{\mathrm{off}}$ (by symmetry), and
+the rotation zeros $A'_{pq} = A'_{qp} = 0$ while all other off-diagonal entries are unchanged,
+we have $\sigma^2_{\mathrm{off}}(\bA') = \sigma^2_{\mathrm{off}}(\bA) - A_{pq}^2$.
+}
+
+\addThm{Convergence Rate of Cyclic Jacobi}{%
+One sweep visiting all $n(n-1)/2$ pairs satisfies
+\[
+\sigma^2_{\mathrm{off}}(\bA^{(k+1)}) \leq \left(1 - \frac{2}{n(n-1)}\right)\sigma^2_{\mathrm{off}}(\bA^{(k)}).
+\]
+This gives linear convergence. Once $\sigma_{\mathrm{off}}$ is small, the method enters a
+\emph{quadratic ultimate} phase: $\sigma_{\mathrm{off}}(\bA^{(k+1)}) \leq C\,\sigma^2_{\mathrm{off}}(\bA^{(k)})$.
+In practice, 5--15 sweeps achieve double-precision accuracy.
+}
+
+\subsubsection{Algorithm}
+
+\begin{verbatim}
+function jacobi_eig(A, tol, max_sweeps):
+    n  <- A.rows
+    V  <- I_n                          // accumulate eigenvectors
+
+    for sweep = 1 to max_sweeps:
+        off <- sqrt(2 * sum_{p<q} A[p,q]^2)
+        if off < tol: break
+
+        for p = 0 to n-2:
+            for q = p+1 to n-1:
+                if |A[p,q]| < 1e-15: continue
+
+                tau <- (A[q,q] - A[p,p]) / (2 * A[p,q])
+                t   <- sign(tau) / (|tau| + sqrt(1 + tau^2))
+                c   <- 1 / sqrt(1 + t^2);   s <- c * t
+
+                // Update diagonals
+                A[p,p] <- c^2*A[p,p] - 2*c*s*A[p,q] + s^2*A[q,q]
+                A[q,q] <- s^2*A[p,p] + 2*c*s*A[p,q] + c^2*A[q,q]
+                A[p,q] <- A[q,p] <- 0
+
+                // Update off-diagonal rows/columns r != p,q
+                for r != p,q:
+                    (A[r,p], A[r,q]) <- (c*A[r,p] - s*A[r,q],
+                                          s*A[r,p] + c*A[r,q])
+                    A[p,r] <- A[r,p];   A[q,r] <- A[r,q]
+
+                // Accumulate eigenvectors
+                for r = 0 to n-1:
+                    (V[r,p], V[r,q]) <- (c*V[r,p] - s*V[r,q],
+                                          s*V[r,p] + c*V[r,q])
+
+    return diag(A), V                  // eigenvalues, eigenvectors
+\end{verbatim}
+
+\textBox{%
+\textbf{Cost per sweep:} $\frac{n(n-1)}{2}$ rotations $\times$ $O(n)$ flops each $= O(n^3)$.
+\textbf{Stability:} backward stable; achieves high relative accuracy on small eigenvalues.
+}
+
+\subsubsection{Exercises}
+
+\addExcr{%
+\begin{enumerate}
+    \item Apply one Jacobi rotation to zero $A_{12}$ in
+    $\bA = \begin{pmatrix}2 & 1 \\ 1 & 3\end{pmatrix}$.
+    Compute $\tau$, $t$, $c$, $s$, and the resulting $\bA' = G^T\bA G$. Verify that the
+    diagonal entries are the eigenvalues of $\bA$.
+    \item Prove that the Frobenius norm $\|\bA\|_F$ is invariant under
+    $\bA \mapsto G^T\bA G$ when $G$ is orthogonal.
+    \item Show that after zeroing $A_{pq}$, the new diagonal entries $A'_{pp}$ and $A'_{qq}$
+    are exactly the eigenvalues of the $2 \times 2$ submatrix
+    $\begin{pmatrix}A_{pp} & A_{pq} \\ A_{pq} & A_{qq}\end{pmatrix}$.
+    \item Starting from $\bA = \begin{pmatrix}1&1&0\\1&2&1\\0&1&3\end{pmatrix}$, perform
+    one full cyclic sweep by hand (visit pairs $(1,2)$, $(1,3)$, $(2,3)$). Compute
+    $\sigma_{\mathrm{off}}$ before and after. Does it decrease by $A_{12}^2$ at the first step?
+\end{enumerate}
+}
+
+\end{document}

@@ -1,0 +1,166 @@
+# Numerical Quadrature
+
+
+Compute $I = \int_a^b f(x)\,dx$ when an antiderivative is unavailable or too expensive to
+evaluate. Quadrature methods approximate the integral by a weighted sum of function values:
+$$I \approx \sum_{i=1}^n w_i f(x_i).$$
+The choice of *nodes* $x_i$ and *weights* $w_i$ determines the accuracy and
+efficiency of the method.
+
+
+## Newton-Cotes Rules
+
+
+Newton-Cotes methods fix equally-spaced nodes and choose weights so that the rule integrates
+polynomials exactly.
+
+
+::: {.callout-note icon=false}
+## Definition: Composite Trapezoidal Rule
+On $n$ equally-spaced panels of width $h = (b-a)/n$, the *composite trapezoidal rule* is
+$$T_n = h\left[\frac{f(a) + f(b)}{2} + \sum_{i=1}^{n-1} f(a + ih)\right].$$
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Trapezoidal Error
+$$\left|I - T_n\right| \leq \frac{(b-a)^3}{12n^2}\max_{x \in [a,b]}|f''(x)|.$$
+The global error is $O(h^2)$: doubling $n$ reduces the error by a factor of 4.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+On a single panel $[x_i, x_{i+1}]$, the trapezoidal rule integrates the linear interpolant
+$p_1(x)$ of $f$ at the endpoints. The pointwise interpolation error is
+$f(x) - p_1(x) = \frac{f''(\xi)}{2}(x - x_i)(x - x_{i+1})$ for some $\xi \in [x_i, x_{i+1}]$.
+Integrating and bounding $|f''|$ gives a local error of $O(h^3)$. Summing over $n$ panels
+gives the global $O(h^2) = O((b-a)^2/n^2)$ bound.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Composite Simpson's Rule
+The *composite Simpson's rule* ($n$ even) uses piecewise quadratic interpolation:
+$$S_n = \frac{h}{3}\left[f(a) + f(b) + 4\sum_{\text{odd}\;i} f(a+ih) + 2\sum_{\text{even}\;i} f(a+ih)\right].$$
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Simpson's Error
+$$\left|I - S_n\right| \leq \frac{(b-a)^5}{180n^4}\max_{x \in [a,b]}|f^{(4)}(x)|.$$
+The global error is $O(h^4)$. Simpson's rule is exact for all polynomials of degree $\leq 3$.
+:::
+
+
+## Gaussian Quadrature
+
+
+Newton-Cotes fixes the nodes. Gaussian quadrature optimizes *both* nodes and weights
+to maximize the polynomial degree integrated exactly.
+
+
+::: {.callout-note icon=false}
+## Theorem: Gauss-Legendre Quadrature
+With $p$ optimally chosen nodes and weights, *Gauss-Legendre quadrature* integrates all
+polynomials of degree $\leq 2p-1$ exactly:
+$$\int_{-1}^{1} f(x)\,dx = \sum_{i=1}^{p} w_i f(x_i) + E_p(f).$$
+The nodes $x_i$ are the roots of the Legendre polynomial $P_p(x)$, and the weights are
+$$w_i = \frac{2}{(1 - x_i^2)[P_p'(x_i)]^2}.$$
+For a general interval $[a, b]$, substitute $x = \frac{a+b}{2} + \frac{b-a}{2}t$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+A $p$-point quadrature rule has $2p$ free parameters (nodes and weights). For an arbitrary
+degree-$(2p-1)$ polynomial $q$, write $q = P_p \cdot s + r$ where $s, r$ have degree $\leq p-1$.
+If the nodes are roots of $P_p$, then $q(x_i) = r(x_i)$. The weights can then be chosen
+(via Lagrange interpolation) so that $\sum w_i r(x_i) = \int r(x)\,dx$ for all degree-$(p-1)$
+polynomials $r$. The $p$ orthogonality conditions on $P_p$ (with respect to $L^2[-1,1]$)
+ensure this is achievable, giving exactness for degree $2p-1$.
+:::
+
+
+::: {.callout-tip icon=false}
+$p$ Gauss points achieve the accuracy of degree-$(2p-1)$ polynomial fitting, whereas
+$p$-point Newton-Cotes achieves only degree $p-1$ (or $p$ for even $p$). For smooth $f$,
+Gauss-Legendre is spectacularly more efficient.
+:::
+
+
+## Romberg Integration
+
+
+::: {.callout-note icon=false}
+## Theorem: Euler-Maclaurin Expansion
+The trapezoidal rule satisfies
+$$T(h) = I + c_2 h^2 + c_4 h^4 + c_6 h^6 + \cdots$$
+for smooth $f$, where $c_{2k}$ depend on derivatives of $f$ at the endpoints.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Romberg Table
+*Romberg integration* eliminates successive error terms via Richardson extrapolation.
+The tableau $R_{i,j}$ is defined by $R_{i,0} = T(h/2^i)$ and
+$$R_{i,j} = \frac{4^j R_{i,j-1} - R_{i-1,j-1}}{4^j - 1}.$$
+The diagonal entry $R_{k,k}$ has error $O(h^{2k+2})$, converging faster than any fixed
+power of $h$ for smooth $f$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Combining $T(h)$ and $T(h/2)$ to eliminate the $c_2 h^2$ term:
+$T(h/2) = I + c_2(h/2)^2 + \cdots$, so
+$\frac{4T(h/2) - T(h)}{3} = I + O(h^4)$.
+This is $R_{1,1}$. Applying the same idea to eliminate $O(h^4)$ gives $R_{2,2}$ with
+error $O(h^6)$, and so on.
+:::
+
+
+## Adaptive Quadrature
+
+
+::: {.callout-note icon=false}
+## Definition: Adaptive Simpson
+On $[a, b]$, compare the single-panel estimate $S(a,b)$ to $S(a, m) + S(m, b)$ where
+$m = (a+b)/2$. If
+$$\delta = |S(a,b) - S(a,m) - S(m,b)| > 15\varepsilon,$$
+recurse on each half. The factor $1/15$ is the Richardson extrapolation constant for
+Simpson's $O(h^4)$ rule.
+:::
+
+
+::: {.callout-tip icon=false}
+Adaptive methods automatically concentrate evaluations near singularities, sharp peaks,
+and rapid oscillations, rather than distributing them uniformly.
+:::
+
+
+## Exercises
+
+
+::: {.callout-warning icon=false}
+## Exercise
+
+1. Derive the trapezoidal weights $w_0 = w_n = h/2$, $w_i = h$ ($i = 1, ..., n-1$)
+    by integrating the piecewise linear interpolant of $f$.
+    
+1. Show that the trapezoidal rule is *exact* for $f(x) = \sin(x)$ integrated
+    over $[0, 2\pi]$ for any $n$. (*Hint:* use the Euler-Maclaurin expansion or
+    the DFT.)
+    
+1. Derive the $p = 2$ Gauss-Legendre nodes and weights on $[-1, 1]$ from scratch:
+    find the roots of $P_2(x) = \frac{1}{2}(3x^2 - 1)$ and compute the weights by
+    requiring exactness for $f(x) = 1$ and $f(x) = x^2$.
+    
+1. Build the Romberg table for $\int_0^1 e^x\,dx = e - 1$ using $T(1)$, $T(1/2)$,
+    $T(1/4)$. Compute $R_{1,1}$ and $R_{2,2}$ by hand and compare errors with $T(1/4)$.
+    
+1. The trapezoidal rule is $O(h^2)$ for general $f$ but achieves *exponential
+    convergence* for periodic, analytic $f$ on $[0, 2\pi]$. Explain why, using the
+    Euler-Maclaurin expansion.
+
+:::

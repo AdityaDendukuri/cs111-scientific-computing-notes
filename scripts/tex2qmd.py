@@ -114,6 +114,24 @@ def convert_references(text: str) -> str:
 
 # ── Miscellaneous commands ────────────────────────────────────────────────────
 
+def convert_verbatim(text: str) -> str:
+    """Convert verbatim/lstlisting blocks to fenced code blocks."""
+    def make_fence(m: re.Match) -> str:
+        lang = m.group(1) if m.lastindex and m.group(1) else ''
+        return '\n```' + lang.strip() + '\n' + m.group(2 if m.lastindex else 1).rstrip() + '\n```\n'
+
+    # \begin{lstlisting}[language=X] ... \end{lstlisting}
+    text = re.sub(
+        r'\\begin\{lstlisting\}(?:\[language=(\w+)\])?\s*(.*?)\\end\{lstlisting\}',
+        make_fence, text, flags=re.DOTALL)
+    # \begin{verbatim} ... \end{verbatim}
+    text = re.sub(
+        r'\\begin\{verbatim\}(.*?)\\end\{verbatim\}',
+        lambda m: '\n```\n' + m.group(1).rstrip() + '\n```\n',
+        text, flags=re.DOTALL)
+    return text
+
+
 def convert_misc(text: str) -> str:
     text = text.replace(r'\square', r'\square')      # keep inside math
     text = text.replace(r'\checkmark', '✓')
@@ -259,6 +277,7 @@ def cleanup(text: str) -> str:
 
 def convert(tex_text: str, title: str = '', sec_label: str = '') -> str:
     text = strip_preamble(tex_text)
+    text = convert_verbatim(text)     # before macros so verbatim content is protected
     text = convert_macros(text)       # must come before formatting (preserves braces in macro args)
     text = convert_sections(text)
     text = convert_math(text)
@@ -308,13 +327,23 @@ FILE_MAP = [
     # Chapter 4: Eigenvalues and SVD
     ('src/eigen.tex',           'eigenvalues/eigenvalues.qmd',            '',               ''),
     ('src/svd.tex',             'eigenvalues/svd.qmd',                    '',               ''),
+    ('src/lanczos.tex',         'eigenvalues/lanczos.qmd',                '',               ''),
+    ('src/jacobi_eig.tex',      'eigenvalues/jacobi-eig.qmd',             '',               ''),
 
     # Chapter 5: Iterative Methods
     ('src/iterative.tex',       'iterative/iterative.qmd',                '',               ''),
     ('src/jacobi.tex',          'iterative/jacobi.qmd',                   '',               ''),
     ('src/conj_grad.tex',       'iterative/conjugate-gradient.qmd',       '',               ''),
+    ('src/gmres.tex',           'iterative/gmres.qmd',                    '',               ''),
 
-    # Chapter 6: Applications
+    # Chapter 6: Numerical Analysis
+    ('src/quadrature.tex',      'numerical-analysis/quadrature.qmd',      '',               ''),
+    ('src/root_finding.tex',    'numerical-analysis/root-finding.qmd',    '',               ''),
+
+    # Chapter 7: ODEs
+    ('src/ode_methods.tex',     'odes/ode-methods.qmd',                   '',               ''),
+
+    # Chapter 8: Applications
     ('src/pca.tex',             'applications/pca.qmd',                   '',               ''),
     ('src/graphs.tex',          'applications/graphs.qmd',                '',               ''),
     ('src/operators.tex',       'applications/operators.qmd',             '',               ''),

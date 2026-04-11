@@ -5,7 +5,7 @@
 \input{config/symbols} 
 \input{config/ucsb-colors} 
 \makeindex 
-\title{Introduction to Scientific Computing}
+\title{Scientific Computing}
 \author{Aditya Dendukuri} 
 \date{\vskip 10pt UC Santa Barbara} 
 \begin{document}
@@ -44,14 +44,26 @@
     \section{Eigenvalues and the SVD}
     \subfile{src/eigen.tex}
     \subfile{src/svd.tex}
+    \subfile{src/lanczos.tex}
+    \subfile{src/jacobi_eig.tex}
 
     % Chapter 5: Iterative solvers
     \section{Iterative Methods for Linear Systems}
     \subfile{src/iterative}
     \subfile{src/jacobi.tex}
     \subfile{src/conj_grad.tex}
+    \subfile{src/gmres.tex}
 
-    % Chapter 6: Applications
+    % Chapter 6: Numerical Analysis
+    \section{Numerical Analysis}
+    \subfile{src/quadrature.tex}
+    \subfile{src/root_finding.tex}
+
+    % Chapter 7: Ordinary Differential Equations
+    \section{Ordinary Differential Equations}
+    \subfile{src/ode_methods.tex}
+
+    % Chapter 8: Applications
     \section{Applications}
     \subfile{src/pca.tex}
     \subfile{src/graphs}

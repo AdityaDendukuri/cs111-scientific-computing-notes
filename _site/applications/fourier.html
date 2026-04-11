@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>25&nbsp; Fourier Analysis as Change of Basis – Introduction to Scientific Computing</title>
+<title>31&nbsp; Fourier Analysis as Change of Basis – Scientific Computing</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -335,7 +335,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/fourier.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/fourier.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -350,9 +350,9 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="../">Introduction to Scientific Computing</a> 
+      <a href="../">Scientific Computing</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/numerics/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
     </div>
@@ -514,6 +514,18 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/lanczos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lanczos Algorithm</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/jacobi-eig.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Jacobi Eigenvalue Algorithm</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -528,19 +540,25 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/iterative.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Iterative Methods for Linear Systems</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Iterative Methods for Linear Systems</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/conjugate-gradient.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/gmres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GMRES</span></span></a>
   </div>
 </li>
       </ul>
@@ -548,7 +566,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Applications</span></a>
+ <span class="menu-text">Numerical Analysis</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -556,38 +574,78 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/quadrature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/root-finding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Root Finding</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">ODEs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../odes/ode-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Numerical Methods for ODEs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/graphs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/operators.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/fourier.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/markov.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -602,20 +660,20 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-fourier-basis" id="toc-the-fourier-basis" class="nav-link active" data-scroll-target="#the-fourier-basis"><span class="header-section-number">25.1</span> The Fourier Basis</a></li>
-  <li><a href="#the-discrete-fourier-transform" id="toc-the-discrete-fourier-transform" class="nav-link" data-scroll-target="#the-discrete-fourier-transform"><span class="header-section-number">25.2</span> The Discrete Fourier Transform</a></li>
-  <li><a href="#circulant-matrices-and-the-convolution-theorem" id="toc-circulant-matrices-and-the-convolution-theorem" class="nav-link" data-scroll-target="#circulant-matrices-and-the-convolution-theorem"><span class="header-section-number">25.3</span> Circulant Matrices and the Convolution Theorem</a></li>
-  <li><a href="#the-fast-fourier-transform" id="toc-the-fast-fourier-transform" class="nav-link" data-scroll-target="#the-fast-fourier-transform"><span class="header-section-number">25.4</span> The Fast Fourier Transform</a></li>
+  <li><a href="#the-fourier-basis" id="toc-the-fourier-basis" class="nav-link active" data-scroll-target="#the-fourier-basis"><span class="header-section-number">31.1</span> The Fourier Basis</a></li>
+  <li><a href="#the-discrete-fourier-transform" id="toc-the-discrete-fourier-transform" class="nav-link" data-scroll-target="#the-discrete-fourier-transform"><span class="header-section-number">31.2</span> The Discrete Fourier Transform</a></li>
+  <li><a href="#circulant-matrices-and-the-convolution-theorem" id="toc-circulant-matrices-and-the-convolution-theorem" class="nav-link" data-scroll-target="#circulant-matrices-and-the-convolution-theorem"><span class="header-section-number">31.3</span> Circulant Matrices and the Convolution Theorem</a></li>
+  <li><a href="#the-fast-fourier-transform" id="toc-the-fast-fourier-transform" class="nav-link" data-scroll-target="#the-fast-fourier-transform"><span class="header-section-number">31.4</span> The Fast Fourier Transform</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/numerics/cs111-scientific-computing-notes/edit/main/applications/fourier.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/numerics/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/fourier.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/fourier.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/fourier.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></h1>
+<h1 class="title"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></h1>
 </div>
 
 
@@ -633,8 +691,8 @@ window.Quarto = {
 
 
 <p>The Spectral Theorem says that every symmetric (or Hermitian) operator can be diagonalized in an orthonormal eigenbasis. For the Laplacian <span class="math inline">\(-d^2/dx^2\)</span>, that eigenbasis is the set of sinusoids. <em>Fourier analysis is therefore just linear algebra in an infinite-dimensional space</em>: expressing a function as a Fourier series is the same operation as expanding a vector in an eigenbasis. This viewpoint makes Fourier analysis less magical and reveals exactly why it is so powerful: it diagonalizes the Laplacian, turning differential equations into simple algebra in frequency space. The Discrete Fourier Transform (DFT) is the finite-dimensional version of this, represented as a unitary matrix. Computing it efficiently via the Fast Fourier Transform (FFT) is one of the most practically impactful algorithms ever discovered.</p>
-<section id="the-fourier-basis" class="level2" data-number="25.1">
-<h2 data-number="25.1" class="anchored" data-anchor-id="the-fourier-basis"><span class="header-section-number">25.1</span> The Fourier Basis</h2>
+<section id="the-fourier-basis" class="level2" data-number="31.1">
+<h2 data-number="31.1" class="anchored" data-anchor-id="the-fourier-basis"><span class="header-section-number">31.1</span> The Fourier Basis</h2>
 <p>In Section~above, we found that the eigenfunctions of <span class="math inline">\(-d^2/dx^2\)</span> on <span class="math inline">\([0,1]\)</span> are <span class="math inline">\(u_k(x) = \sqrt{2}\sin(k\pi x)\)</span> with eigenvalues <span class="math inline">\(k^2\pi^2\)</span>. These functions are orthonormal in <span class="math inline">\(L^2[0,1]\)</span>, and they span the whole space. Expanding any function <span class="math inline">\(f\)</span> in this basis is the Fourier sine series. On the periodic domain <span class="math inline">\([0, 2\pi]\)</span>, the natural eigenbasis is the complex exponentials <span class="math inline">\(e^{ikx}\)</span>, which give the full (complex) Fourier series. We work with the periodic setting here because it connects most directly to the DFT.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -717,8 +775,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="the-discrete-fourier-transform" class="level2" data-number="25.2">
-<h2 data-number="25.2" class="anchored" data-anchor-id="the-discrete-fourier-transform"><span class="header-section-number">25.2</span> The Discrete Fourier Transform</h2>
+<section id="the-discrete-fourier-transform" class="level2" data-number="31.2">
+<h2 data-number="31.2" class="anchored" data-anchor-id="the-discrete-fourier-transform"><span class="header-section-number">31.2</span> The Discrete Fourier Transform</h2>
 <p>The continuous Fourier series works on functions; the DFT works on finite vectors. Given a vector <span class="math inline">\(\bx \in \fC^n\)</span> (think: <span class="math inline">\(n\)</span> samples of a signal), the DFT produces another vector <span class="math inline">\(\hat{\bx} \in \fC^n\)</span> (think: frequency amplitudes). The key fact is that this transformation is a linear map, so it can be written as a matrix. That matrix turns out to be unitary, which makes the DFT exactly a change of basis in <span class="math inline">\(\fC^n\)</span>.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -839,8 +897,8 @@ e^{-2\pi i(k-j)} = 1\)</span>, so the numerator is zero and the sum is <span cla
 </div>
 </div>
 </section>
-<section id="circulant-matrices-and-the-convolution-theorem" class="level2" data-number="25.3">
-<h2 data-number="25.3" class="anchored" data-anchor-id="circulant-matrices-and-the-convolution-theorem"><span class="header-section-number">25.3</span> Circulant Matrices and the Convolution Theorem</h2>
+<section id="circulant-matrices-and-the-convolution-theorem" class="level2" data-number="31.3">
+<h2 data-number="31.3" class="anchored" data-anchor-id="circulant-matrices-and-the-convolution-theorem"><span class="header-section-number">31.3</span> Circulant Matrices and the Convolution Theorem</h2>
 <p>The DFT is more than just a change of basis for signals: it simultaneously diagonalizes an entire class of matrices. Circulant matrices arise naturally whenever a system has translation symmetry (same local rule everywhere), which includes the periodic discrete Laplacian and discrete convolution operators. Diagonalizing them with the DFT reduces matrix-vector multiplication from <span class="math inline">\(O(n^2)\)</span> to <span class="math inline">\(O(n \log n)\)</span>.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -946,8 +1004,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="the-fast-fourier-transform" class="level2" data-number="25.4">
-<h2 data-number="25.4" class="anchored" data-anchor-id="the-fast-fourier-transform"><span class="header-section-number">25.4</span> The Fast Fourier Transform</h2>
+<section id="the-fast-fourier-transform" class="level2" data-number="31.4">
+<h2 data-number="31.4" class="anchored" data-anchor-id="the-fast-fourier-transform"><span class="header-section-number">31.4</span> The Fast Fourier Transform</h2>
 <p>Computing <span class="math inline">\(\hat{\bx} = \mathbf{F}\bx\)</span> directly costs <span class="math inline">\(O(n^2)\)</span> flops (one row of <span class="math inline">\(\mathbf{F}\)</span> dotted with <span class="math inline">\(\bx\)</span> is <span class="math inline">\(O(n)\)</span>, and there are <span class="math inline">\(n\)</span> rows). For <span class="math inline">\(n = 10^6\)</span>, this is <span class="math inline">\(10^{12}\)</span> operations: unusable. The Fast Fourier Transform (FFT) reduces this to <span class="math inline">\(O(n \log n)\)</span> by exploiting a recursive structure in the DFT matrix. For <span class="math inline">\(n = 10^6\)</span>, that is <span class="math inline">\(2 \times 10^7\)</span> operations: entirely practical. This gap is why FFT appears in audio processing, image compression (JPEG), wireless communications, and numerical PDE solvers.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -1439,12 +1497,12 @@ Tip
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../applications/operators.html" class="pagination-link" aria-label="Linear Operators and the Poisson Equation">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../applications/markov.html" class="pagination-link" aria-label="Markov Chains and Stochastic Matrices">
-        <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1453,4 +1511,4 @@ Tip
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/numerics/cs111-scientific-computing-notes/edit/main/applications/fourier.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/numerics/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/fourier.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

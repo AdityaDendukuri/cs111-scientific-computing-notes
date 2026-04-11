@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>22&nbsp; Jacobi Iteration – Scientific Computing</title>
+<title>19&nbsp; Lanczos Algorithm – Scientific Computing</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -33,8 +33,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../iterative/conjugate-gradient.html" rel="next">
-<link href="../iterative/iterative.html" rel="prev">
+<link href="../eigenvalues/jacobi-eig.html" rel="next">
+<link href="../eigenvalues/svd.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -335,7 +335,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../iterative/iterative.html">Iterative Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../iterative/jacobi.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../eigenvalues/eigenvalues.html">Eigenvalues and the SVD</a></li><li class="breadcrumb-item"><a href="../eigenvalues/lanczos.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lanczos Algorithm</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -516,7 +516,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../eigenvalues/lanczos.html" class="sidebar-item-text sidebar-link">
+  <a href="../eigenvalues/lanczos.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lanczos Algorithm</span></span></a>
   </div>
 </li>
@@ -545,7 +545,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link active">
+  <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
   </div>
 </li>
@@ -660,21 +660,22 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#jacobi-iteration" id="toc-jacobi-iteration" class="nav-link active" data-scroll-target="#jacobi-iteration"><span class="header-section-number">22.1</span> Jacobi Iteration</a></li>
-  <li><a href="#convergence-of-jacobi-iteration" id="toc-convergence-of-jacobi-iteration" class="nav-link" data-scroll-target="#convergence-of-jacobi-iteration"><span class="header-section-number">22.2</span> Convergence of Jacobi Iteration</a></li>
-  <li><a href="#stopping-criteria" id="toc-stopping-criteria" class="nav-link" data-scroll-target="#stopping-criteria"><span class="header-section-number">22.3</span> Stopping Criteria</a></li>
-  <li><a href="#gauss-seidel-iteration" id="toc-gauss-seidel-iteration" class="nav-link" data-scroll-target="#gauss-seidel-iteration"><span class="header-section-number">22.4</span> Gauss-Seidel Iteration</a></li>
-  <li><a href="#successive-over-relaxation-sor" id="toc-successive-over-relaxation-sor" class="nav-link" data-scroll-target="#successive-over-relaxation-sor"><span class="header-section-number">22.5</span> Successive Over-Relaxation (SOR)</a></li>
+  <li><a href="#krylov-subspaces" id="toc-krylov-subspaces" class="nav-link active" data-scroll-target="#krylov-subspaces"><span class="header-section-number">19.1</span> Krylov Subspaces</a></li>
+  <li><a href="#the-lanczos-recurrence" id="toc-the-lanczos-recurrence" class="nav-link" data-scroll-target="#the-lanczos-recurrence"><span class="header-section-number">19.2</span> The Lanczos Recurrence</a></li>
+  <li><a href="#ritz-values-and-the-galerkin-projection" id="toc-ritz-values-and-the-galerkin-projection" class="nav-link" data-scroll-target="#ritz-values-and-the-galerkin-projection"><span class="header-section-number">19.3</span> Ritz Values and the Galerkin Projection</a></li>
+  <li><a href="#convergence" id="toc-convergence" class="nav-link" data-scroll-target="#convergence"><span class="header-section-number">19.4</span> Convergence</a></li>
+  <li><a href="#algorithm" id="toc-algorithm" class="nav-link" data-scroll-target="#algorithm"><span class="header-section-number">19.5</span> Algorithm</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">19.6</span> Exercises</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/jacobi.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/eigenvalues/lanczos.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../iterative/iterative.html">Iterative Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../iterative/jacobi.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../eigenvalues/eigenvalues.html">Eigenvalues and the SVD</a></li><li class="breadcrumb-item"><a href="../eigenvalues/lanczos.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lanczos Algorithm</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></h1>
+<h1 class="title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lanczos Algorithm</span></h1>
 </div>
 
 
@@ -691,52 +692,46 @@ window.Quarto = {
 </header>
 
 
-<section id="jacobi-iteration" class="level2" data-number="22.1">
-<h2 data-number="22.1" class="anchored" data-anchor-id="jacobi-iteration"><span class="header-section-number">22.1</span> Jacobi Iteration</h2>
+<p>Given a <em>symmetric</em> matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, find the <span class="math inline">\(k\)</span> dominant or extreme eigenpairs efficiently when <span class="math inline">\(k \ll n\)</span>. For large, sparse matrices, explicitly computing all <span class="math inline">\(n\)</span> eigenvalues via the QR algorithm costs <span class="math inline">\(O(n^3)\)</span> and is impractical. The Lanczos algorithm builds a <span class="math inline">\(k\)</span>-dimensional Krylov subspace that captures the extreme eigenvalues in <span class="math inline">\(O(k \cdot n)\)</span> work.</p>
+<section id="krylov-subspaces" class="level2" data-number="19.1">
+<h2 data-number="19.1" class="anchored" data-anchor-id="krylov-subspaces"><span class="header-section-number">19.1</span> Krylov Subspaces</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Splitting of <span class="math inline">\(\bA\)</span>
+<span class="screen-reader-only">Note</span>Definition: Krylov Subspace
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>To derive a stationary iteration from <span class="math inline">\(\bA\bx = \bb\)</span>, we decompose <span class="math inline">\(\bA\)</span> as <span class="math display">\[\bA = \bD + \bR, \qquad \bD = \mathrm{diag}(a_{11},...,a_{nn}), \quad \bR = \bA - \bD.\]</span> Assuming all diagonal entries are nonzero (<span class="math inline">\(a_{ii} \neq 0\)</span> for all <span class="math inline">\(i\)</span>), we can rearrange <span class="math inline">\((\bD + \bR)\bx = \bb\)</span> to obtain the fixed-point equation <span class="math inline">\(\bx = -\bD^{-1}\bR\bx + \bD^{-1}\bb\)</span>.</p>
+<p>Given a matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> and a starting vector <span class="math inline">\(\bv \in \fR^n\)</span>, the <span class="math inline">\(k\)</span>-th <em>Krylov subspace</em> is <span class="math display">\[\mathcal{K}_k(\bA, \bv) = \mathrm{span}\{\bv,\, \bA\bv,\, \bA^2\bv,\, ...,\, \bA^{k-1}\bv\}.\]</span></p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Jacobi Iteration
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>Jacobi iteration</em> for <span class="math inline">\(\bA\bx = \bb\)</span> is the stationary scheme <span class="math display">\[\bx^{(k+1)} = \bT_J\bx^{(k)} + \bD^{-1}\bb, \qquad \bT_J = -\bD^{-1}\bR,\]</span> or in component form, <span class="math display">\[x_i^{(k+1)} = \frac{1}{a_{ii}}\Bigl(b_i - \sum_{j \neq i} a_{ij}x_j^{(k)}\Bigr), \quad i = 1,...,n.\]</span> Each component <span class="math inline">\(x_i^{(k+1)}\)</span> depends only on values from the <em>previous</em> iterate <span class="math inline">\(\bx^{(k)}\)</span>, so all <span class="math inline">\(n\)</span> components may be updated simultaneously (or in any order).</p>
-</div>
-</div>
+<p>The intuition: if <span class="math inline">\(\bv = \sum_i \alpha_i \bu_i\)</span> in the eigenbasis of <span class="math inline">\(\bA\)</span>, then <span class="math inline">\(\bA^j\bv = \sum_i \alpha_i \lambda_i^j \bu_i\)</span>. For large <span class="math inline">\(j\)</span>, the component along the dominant eigenvector dominates. The Krylov subspace concentrates information about the extreme eigenvalues.</p>
 </section>
-<section id="convergence-of-jacobi-iteration" class="level2" data-number="22.2">
-<h2 data-number="22.2" class="anchored" data-anchor-id="convergence-of-jacobi-iteration"><span class="header-section-number">22.2</span> Convergence of Jacobi Iteration</h2>
+<section id="the-lanczos-recurrence" class="level2" data-number="19.2">
+<h2 data-number="19.2" class="anchored" data-anchor-id="the-lanczos-recurrence"><span class="header-section-number">19.2</span> The Lanczos Recurrence</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Convergence of Jacobi Iteration
+<span class="screen-reader-only">Note</span>Theorem: Lanczos Relation
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The Jacobi iteration converges to the solution of <span class="math inline">\(\bA\bx = \bb\)</span> for every initial vector <span class="math inline">\(\bx^{(0)}\)</span> if and only if <span class="math inline">\(\rho(\bT_J) &lt; 1\)</span>.</p>
+<p>Starting from a unit vector <span class="math inline">\(\bv_1\)</span>, the <span class="math inline">\(k\)</span>-step Lanczos process builds an orthonormal basis <span class="math inline">\(V_k = [\bv_1, ..., \bv_k]\)</span> for <span class="math inline">\(\mathcal{K}_k(\bA, \bv_1)\)</span> satisfying <span class="math display">\[\bA V_k = V_k T_k + \beta_k \bv_{k+1} \be_k^T,\]</span> where <span class="math inline">\(T_k \in \fR^{k \times k}\)</span> is the <em>symmetric tridiagonal</em> matrix <span class="math display">\[T_k = \begin{pmatrix}
+\alpha_1 &amp; \beta_1 &amp; &amp; \\
+\beta_1 &amp; \alpha_2 &amp; \beta_2 &amp; \\
+&amp; \ddots &amp; \ddots &amp; \ddots \\
+&amp; &amp; \beta_{k-1} &amp; \alpha_k
+\end{pmatrix}.\]</span> The diagonal entries <span class="math inline">\(\alpha_j = \bv_j^T \bA \bv_j\)</span> are Rayleigh quotients and the off-diagonal entries <span class="math inline">\(\beta_j = \|\bw_j\|_2\)</span> are residual norms.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -745,10 +740,26 @@ window.Quarto = {
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>This is a direct application of the general convergence theorem for stationary iterations: convergence for all <span class="math inline">\(\bx^{(0)}\)</span> is equivalent to <span class="math inline">\(\rho(\bT) &lt; 1\)</span> for the iteration matrix. Here <span class="math inline">\(\bT_J = -\bD^{-1}\bR = \bI - \bD^{-1}\bA\)</span>, so the fixed-point equation <span class="math inline">\(\bx^* = \bT_J\bx^* + \bD^{-1}\bb\)</span> simplifies to <span class="math inline">\(\bD^{-1}\bA\bx^* = \bD^{-1}\bb\)</span>, i.e., <span class="math inline">\(\bA\bx^* = \bb\)</span>.</p>
+<p>Each new basis vector is generated by the <em>three-term recurrence</em>: set <span class="math inline">\(\bw = \bA\bv_j\)</span>, subtract the projections onto the two previous basis vectors, <span class="math display">\[\bw \leftarrow \bw - \alpha_j \bv_j - \beta_{j-1}\bv_{j-1}, \qquad \alpha_j = \bv_j^T(\bA\bv_j),\]</span> then normalize: <span class="math inline">\(\beta_j = \|\bw\|\)</span>, <span class="math inline">\(\bv_{j+1} = \bw/\beta_j\)</span>. Assembling these column equations gives <span class="math inline">\(\bA V_k = V_k T_k + \beta_k \bv_{k+1}\be_k^T\)</span>. Since each <span class="math inline">\(\bv_{j+1}\)</span> is obtained by orthogonalizing against <span class="math inline">\(\bv_j\)</span> and <span class="math inline">\(\bv_{j-1}\)</span> only, the columns of <span class="math inline">\(V_k\)</span> are orthonormal by induction in exact arithmetic.</p>
 </div>
+</div>
+</div>
+</section>
+<section id="ritz-values-and-the-galerkin-projection" class="level2" data-number="19.3">
+<h2 data-number="19.3" class="anchored" data-anchor-id="ritz-values-and-the-galerkin-projection"><span class="header-section-number">19.3</span> Ritz Values and the Galerkin Projection</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Ritz Values and Ritz Vectors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The eigenvalues <span class="math inline">\(\theta_1, ..., \theta_k\)</span> of <span class="math inline">\(T_k\)</span> are called the <em>Ritz values</em> of <span class="math inline">\(\bA\)</span> with respect to <span class="math inline">\(\mathcal{K}_k\)</span>. If <span class="math inline">\(T_k \bs_i = \theta_i \bs_i\)</span>, the corresponding <em>Ritz vector</em> is <span class="math inline">\(\tilde{\bu}_i = V_k \bs_i\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -757,11 +768,11 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Jacobi Convergence for Strictly Diagonally Dominant Matrices
+<span class="screen-reader-only">Note</span>Proposition: Galerkin Projection and Cheap Residual Estimate
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\bA\)</span> is strictly diagonally dominant, meaning <span class="math display">\[|a_{ii}| &gt; \sum_{j \neq i} |a_{ij}|, \quad \text{for all } i = 1, ..., n,\]</span> then <span class="math inline">\(\rho(\bT_J) &lt; 1\)</span> and the Jacobi iteration converges for every <span class="math inline">\(\bx^{(0)}\)</span>.</p>
+<p><span class="math inline">\(T_k = V_k^T \bA V_k\)</span> is the <em>Galerkin projection</em> of <span class="math inline">\(\bA\)</span> onto <span class="math inline">\(\mathcal{K}_k\)</span>. The residual of a Ritz pair satisfies <span class="math display">\[\|\bA\tilde{\bu}_i - \theta_i \tilde{\bu}_i\|_2 = \beta_k |s_i(k)|,\]</span> where <span class="math inline">\(s_i(k)\)</span> is the <span class="math inline">\(k\)</span>-th component of the eigenvector <span class="math inline">\(\bs_i\)</span> of <span class="math inline">\(T_k\)</span>. This costs <span class="math inline">\(O(k)\)</span> to compute without forming <span class="math inline">\(\tilde{\bu}_i\)</span> explicitly.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -776,66 +787,25 @@ window.Quarto = {
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\lambda\)</span> be any eigenvalue of <span class="math inline">\(\bT_J = -\bD^{-1}\bR\)</span> with eigenvector <span class="math inline">\(\bv \neq \bzero\)</span>. Let index <span class="math inline">\(i^*\)</span> satisfy <span class="math inline">\(|v_{i^*}| = \|\bv\|_\infty &gt; 0\)</span>. The eigenvalue equation <span class="math inline">\(\bT_J\bv = \lambda\bv\)</span> gives, for row <span class="math inline">\(i^*\)</span>: <span class="math display">\[\lambda v_{i^*} = -\frac{1}{a_{i^*i^*}}\sum_{j \neq i^*} a_{i^*j}\,v_j.\]</span> Taking absolute values and dividing by <span class="math inline">\(|v_{i^*}|\)</span>: <span class="math display">\[|\lambda| \leq \frac{1}{|a_{i^*i^*}|} \sum_{j \neq i^*} |a_{i^*j}| \cdot \frac{|v_j|}{|v_{i^*}|} \leq \frac{\sum_{j \neq i^*} |a_{i^*j}|}{|a_{i^*i^*}|} &lt; 1,\]</span> where the last inequality is strict diagonal dominance. Since <span class="math inline">\(\lambda\)</span> was arbitrary, <span class="math inline">\(\rho(\bT_J) &lt; 1\)</span>.</p>
+<p>Using the Lanczos relation <span class="math inline">\(\bA V_k = V_k T_k + \beta_k \bv_{k+1} \be_k^T\)</span>: <span class="math display">\[\bA\tilde{\bu}_i - \theta_i\tilde{\bu}_i = \bA V_k \bs_i - \theta_i V_k \bs_i
+  = V_k(T_k - \theta_i \bI)\bs_i + \beta_k \bv_{k+1} s_i(k).\]</span> Since <span class="math inline">\(T_k \bs_i = \theta_i \bs_i\)</span>, the first term vanishes, and <span class="math inline">\(\|V_k \bs_i\|_2 = \|\bs_i\|_2 = 1\)</span> with <span class="math inline">\(\|\bv_{k+1}\|_2 = 1\)</span> gives the result.</p>
 </div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Effect of matrix structure on convergence.</strong></p>
-<p><em>Case 1 — Strictly diagonally dominant:</em> <span class="math inline">\(\bA_1 = \begin{pmatrix} 5 &amp; 1 &amp; 1 \\ 1 &amp; 5 &amp; 1 \\ 1 &amp; 1 &amp; 5 \end{pmatrix}\)</span>. Each row satisfies <span class="math inline">\(|a_{ii}| = 5 &gt; 2 = \sum_{j\neq i}|a_{ij}|\)</span>, so the theorem guarantees convergence. One can compute <span class="math inline">\(\rho(\bT_J) = 2/5 = 0.4\)</span>.</p>
-<p><em>Case 2 — Diagonal dominance violated in one row:</em> <span class="math inline">\(\bA_2 = \begin{pmatrix} 2 &amp; 1 &amp; 3 \\ 1 &amp; 3 &amp; 1 \\ 2 &amp; 2 &amp; 2 \end{pmatrix}\)</span>. Row 3 violates strict diagonal dominance. The theorem gives no guarantee; <span class="math inline">\(\rho(\bT_J)\)</span> must be checked numerically.</p>
-<p><em>Case 3 — Divergent case:</em> <span class="math inline">\(\bA_3 = \begin{pmatrix} 1 &amp; 3 &amp; 1 \\ 1 &amp; 2 &amp; 1 \\ 1 &amp; 1 &amp; 2 \end{pmatrix}\)</span>. Here <span class="math inline">\(\rho(\bT_J) &gt; 1\)</span> and the Jacobi iteration diverges for every <span class="math inline">\(\bx^{(0)} \neq \bx^*\)</span>.</p>
 </div>
 </div>
 </section>
-<section id="stopping-criteria" class="level2" data-number="22.3">
-<h2 data-number="22.3" class="anchored" data-anchor-id="stopping-criteria"><span class="header-section-number">22.3</span> Stopping Criteria</h2>
+<section id="convergence" class="level2" data-number="19.4">
+<h2 data-number="19.4" class="anchored" data-anchor-id="convergence"><span class="header-section-number">19.4</span> Convergence</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Residual-Based Stopping Criterion
+<span class="screen-reader-only">Note</span>Theorem: Convergence of Ritz Values
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Stop when the norm of the residual falls below a tolerance: <span class="math display">\[\|\bA\bx^{(k)} - \bb\| &lt; \epsilon_{\mathrm{res}}.\]</span> This directly measures how well <span class="math inline">\(\bx^{(k)}\)</span> satisfies the linear system.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Increment-Based Stopping Criterion
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Stop when the change between successive iterates is small: <span class="math display">\[\|\bx^{(k+1)} - \bx^{(k)}\| &lt; \epsilon_{\mathrm{inc}}.\]</span> This is cheap (no matrix–vector product needed), but measures the rate of change of the iteration rather than the accuracy of the solution directly.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Relative Residual Criterion
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Stop when the residual is small relative to the right-hand side: <span class="math display">\[\frac{\|\bA\bx^{(k)} - \bb\|}{\|\bb\|} &lt; \epsilon_{\mathrm{rel}}.\]</span> This is scale-invariant: multiplying <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bb\)</span> by a constant does not alter the stopping condition.</p>
+<p>The extreme Ritz values converge to the extreme eigenvalues first. For the largest eigenvalue <span class="math inline">\(\lambda_1\)</span> with spectral gap <span class="math inline">\(\delta = (\lambda_1 - \lambda_2)/(\lambda_1 - \lambda_n)\)</span>, the error after <span class="math inline">\(k\)</span> Lanczos steps satisfies <span class="math display">\[|\lambda_1 - \theta_1^{(k)}| \leq (\lambda_1 - \lambda_n) \left(\frac{\tan\angle(\bv_1, \bu_1)}{T_{k-1}(1 + 2\delta)}\right)^2,\]</span> where <span class="math inline">\(T_{k-1}\)</span> is the Chebyshev polynomial of degree <span class="math inline">\(k-1\)</span> and <span class="math inline">\(\bu_1\)</span> is the true eigenvector. For large spectral gap, <span class="math inline">\(T_{k-1}(1+2\delta)\)</span> grows exponentially in <span class="math inline">\(k\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -848,102 +818,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A <em>maximum iteration count</em> is always imposed as a safeguard against slow convergence or divergence. Typical practice is to set <span class="math inline">\(k_{\max}\)</span> based on the problem size and report non-convergence if the tolerance is not met within the budget.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: A Priori Error Bound for Jacobi Iteration
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\rho = \rho(\bT_J) &lt; 1\)</span>. For all <span class="math inline">\(k \geq 1\)</span>, <span class="math display">\[\|\bx^{(k)} - \bx^*\| \leq \frac{\rho^k}{1-\rho}\,\|\bx^{(1)} - \bx^{(0)}\|.\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The basic contraction estimate gives <span class="math inline">\(\|\bx^{(k)} - \bx^*\| \leq \rho^k\|\bx^{(0)} - \bx^*\|\)</span>. We bound <span class="math inline">\(\|\bx^{(0)} - \bx^*\|\)</span> via the telescoping sum: <span class="math display">\[\|\bx^{(0)} - \bx^*\| \leq \sum_{j=0}^{\infty}\|\bx^{(j+1)} - \bx^{(j)}\|.\]</span> Since <span class="math inline">\(\|\bx^{(j+1)} - \bx^{(j)}\| = \|\bT_J^j(\bx^{(1)}-\bx^{(0)})\| \leq \rho^j\|\bx^{(1)}-\bx^{(0)}\|\)</span>, the geometric series gives <span class="math inline">\(\|\bx^{(0)} - \bx^*\| \leq \|\bx^{(1)}-\bx^{(0)}\|/(1-\rho)\)</span>. Combining yields the stated bound.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Implement the Jacobi method in Python.</p>
-<ol type="1">
-<li><p>Write <code>jacobi(A, b, x0, tol, max\_iter)</code> that returns the iterate at convergence (relative residual below <code>tol</code>) and the number of iterations used.</p></li>
-<li><p>Test on <span class="math inline">\(\bA_1\)</span> from the example with <span class="math inline">\(\bb = (7,7,7)^T\)</span>. Compute the exact solution by hand. How many iterations are needed for <span class="math inline">\(\epsilon_{\mathrm{rel}} = 10^{-8}\)</span>?</p></li>
-<li><p>Plot <span class="math inline">\(\|\bA\bx^{(k)} - \bb\|\)</span> versus <span class="math inline">\(k\)</span> on a semi-log scale. What is the observed slope? Compare to <span class="math inline">\(\log_{10}\rho(\bT_J)\)</span>.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(A priori vs.&nbsp;observed convergence)</strong> For the system with <span class="math inline">\(\bA_1\)</span> and <span class="math inline">\(\bb = (7,7,7)^T\)</span>:</p>
-<ol type="1">
-<li><p>Evaluate the a priori bound for <span class="math inline">\(k = 20\)</span> iterations. How many times larger is the bound than the actual error <span class="math inline">\(\|\bx^{(20)} - \bx^*\|\)</span>?</p></li>
-<li><p>Consider the <span class="math inline">\(5\times5\)</span> tridiagonal matrix with <span class="math inline">\(4\)</span> on the diagonal and <span class="math inline">\(-1\)</span> on the off-diagonals. Verify that it is strictly diagonally dominant, compute <span class="math inline">\(\rho(\bT_J)\)</span> numerically, and determine how many iterations are needed to achieve <span class="math inline">\(\|\bx^{(k)}-\bx^*\| &lt; 10^{-10}\)</span>.</p></li>
-</ol>
+<p>Interior eigenvalues converge last. To target an interior eigenvalue <span class="math inline">\(\sigma\)</span>, use <em>shift-and-invert</em> Lanczos with <span class="math inline">\((\bA - \sigma\bI)^{-1}\)</span>, which maps the target eigenvalue to the dominant one.</p>
 </div>
 </div>
 </section>
-<section id="gauss-seidel-iteration" class="level2" data-number="22.4">
-<h2 data-number="22.4" class="anchored" data-anchor-id="gauss-seidel-iteration"><span class="header-section-number">22.4</span> Gauss-Seidel Iteration</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Splitting of <span class="math inline">\(\bA\)</span> for Gauss-Seidel
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Decompose <span class="math inline">\(\bA = \bL_* + \bU_*\)</span>, where <span class="math inline">\(\bL_*\)</span> is the lower triangular part (including the diagonal) and <span class="math inline">\(\bU_*\)</span> is the strictly upper triangular part: <span class="math display">\[\bA = \bL_* + \bU_*, \qquad (\bL_*)_{ij} = \begin{cases} a_{ij} &amp; j \leq i \\ 0 &amp; j &gt; i \end{cases}, \quad (\bU_*)_{ij} = \begin{cases} a_{ij} &amp; j &gt; i \\ 0 &amp; j \leq i \end{cases}.\]</span> Rearranging <span class="math inline">\((\bL_* + \bU_*)\bx = \bb\)</span> as <span class="math inline">\(\bL_*\bx = \bb - \bU_*\bx\)</span> yields the Gauss-Seidel fixed-point equation.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Gauss-Seidel Iteration
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>Gauss-Seidel iteration</em> for <span class="math inline">\(\bA\bx = \bb\)</span> is <span class="math display">\[\bx^{(k+1)} = \bT_{GS}\bx^{(k)} + \bL_*^{-1}\bb, \qquad \bT_{GS} = -\bL_*^{-1}\bU_*.\]</span> In component form, updating in order <span class="math inline">\(i = 1, ..., n\)</span>: <span class="math display">\[x_i^{(k+1)} = \frac{1}{a_{ii}}\Bigl(b_i - \sum_{j &lt; i} a_{ij}\,x_j^{(k+1)} - \sum_{j &gt; i} a_{ij}\,x_j^{(k)}\Bigr).\]</span> The key distinction from Jacobi: components <span class="math inline">\(x_1^{(k+1)}, ..., x_{i-1}^{(k+1)}\)</span> already computed in the current sweep are used <em>immediately</em>.</p>
-</div>
-</div>
+<section id="algorithm" class="level2" data-number="19.5">
+<h2 data-number="19.5" class="anchored" data-anchor-id="algorithm"><span class="header-section-number">19.5</span> Algorithm</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -954,184 +834,39 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Because updated values are used as soon as they are available, Gauss-Seidel typically converges roughly twice as fast as Jacobi in practice. However, the sequential dependence among components means updates cannot be parallelized directly, unlike Jacobi.</p>
+<p>In floating-point arithmetic, the three-term recurrence alone loses orthogonality after many steps, causing <em>ghost eigenvalues</em> (converged Ritz values reappear spuriously). Full reorthogonalization prevents this at cost <span class="math inline">\(O(k^2 n)\)</span>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Gauss-Seidel Convergence for SPD Matrices
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\bA\)</span> is symmetric positive definite, then the Gauss-Seidel iteration converges for every initial vector <span class="math inline">\(\bx^{(0)}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-20" class="callout-20-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>We show <span class="math inline">\(\rho(\bT_{GS}) &lt; 1\)</span>. Write <span class="math inline">\(\bA = \bL_* + \bU_*\)</span>. Since <span class="math inline">\(\bA\)</span> is symmetric, <span class="math inline">\(\bU_* = \bL_*^T - \bD\)</span>. The iteration matrix is <span class="math inline">\(\bT_{GS} = -\bL_*^{-1}\bU_*\)</span>. To show all eigenvalues satisfy <span class="math inline">\(|\lambda| &lt; 1\)</span>, suppose <span class="math inline">\(\bT_{GS}\bv = \lambda\bv\)</span> for <span class="math inline">\(\bv \neq \bzero\)</span>. Then <span class="math inline">\(-\bU_*\bv = \lambda\bL_*\bv\)</span>, i.e., <span class="math inline">\((\bA - \bL_*)\bv = -\lambda\bL_*\bv\)</span>, giving <span class="math inline">\(\bA\bv = (1-\lambda)\bL_*\bv\)</span>. Taking the inner product with <span class="math inline">\(\bv\)</span> and using <span class="math inline">\(\bA \succ 0\)</span>: <span class="math display">\[(1-\lambda)\,\bv^T\bL_*\bv = \bv^T\bA\bv &gt; 0.\]</span> Decompose <span class="math inline">\(\bv^T\bL_*\bv = \bv^T\bD\bv/2 + \tfrac{1}{2}\bv^T\bA\bv &gt; 0\)</span> (both terms positive since <span class="math inline">\(\bD \succ 0\)</span> and <span class="math inline">\(\bA \succ 0\)</span>), so <span class="math inline">\(1 - \lambda &gt; 0\)</span>, meaning <span class="math inline">\(\lambda &lt; 1\)</span>. A symmetric argument using conjugates shows <span class="math inline">\(|\lambda| &lt; 1\)</span>, hence <span class="math inline">\(\rho(\bT_{GS}) &lt; 1\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Gauss-Seidel Convergence for Strictly Diagonally Dominant Matrices
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\bA\)</span> is strictly diagonally dominant, the Gauss-Seidel iteration converges for every <span class="math inline">\(\bx^{(0)}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-22" class="callout-22-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The proof parallels the Jacobi case. Let <span class="math inline">\(\bT_{GS}\bv = \lambda\bv\)</span>, <span class="math inline">\(\bv \neq \bzero\)</span>. Pick <span class="math inline">\(i^*\)</span> with <span class="math inline">\(|v_{i^*}| = \|\bv\|_\infty\)</span>. The <span class="math inline">\(i^*\)</span>-th component of <span class="math inline">\(-\bU_*\bv = \lambda\bL_*\bv\)</span> gives <span class="math display">\[\lambda a_{i^*i^*} v_{i^*} = -\sum_{j &lt; i^*} a_{i^*j}(\lambda v_j) - \sum_{j &gt; i^*} a_{i^*j} v_j.\]</span> Taking absolute values and using <span class="math inline">\(|v_j| \leq |v_{i^*}|\)</span>: <span class="math display">\[|\lambda|\,|a_{i^*i^*}| \leq |\lambda| \sum_{j &lt; i^*}|a_{i^*j}| + \sum_{j &gt; i^*}|a_{i^*j}|.\]</span> If <span class="math inline">\(|\lambda| \geq 1\)</span>, then <span class="math inline">\(|\lambda|\,|a_{i^*i^*}| \leq |\lambda|\sum_{j \neq i^*}|a_{i^*j}|\)</span>, contradicting strict diagonal dominance. Hence <span class="math inline">\(|\lambda| &lt; 1\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Jacobi vs.&nbsp;Gauss-Seidel on a tridiagonal system.</strong></p>
-<p>Consider the <span class="math inline">\(3 \times 3\)</span> tridiagonal system with <span class="math inline">\(\bA = \begin{pmatrix}4&amp;-1&amp;0\\-1&amp;4&amp;-1\\0&amp;-1&amp;4\end{pmatrix}\)</span>, <span class="math inline">\(\bb = (3, 2, 3)^T\)</span> (exact solution <span class="math inline">\(\bx^* = (1,1,1)^T\)</span>).</p>
-<p> <span class="math display">\[x_1^{(1)} = \tfrac{3}{4} = 0.75, \quad x_2^{(1)} = \tfrac{2}{4} = 0.5, \quad x_3^{(1)} = \tfrac{3}{4} = 0.75.\]</span> <span class="math display">\[x_1^{(1)} = \tfrac{3}{4} = 0.75, \quad x_2^{(1)} = \tfrac{2 + 0.75}{4} = \tfrac{2.75}{4} = 0.6875, \quad x_3^{(1)} = \tfrac{3 + 0.6875}{4} = \tfrac{3.6875}{4} \approx 0.922.\]</span> Gauss-Seidel is already significantly closer to <span class="math inline">\(\bx^* = (1,1,1)^T\)</span> after a single sweep.</p>
-</div>
-</div>
+<pre><code>
+function lanczos(A, k, tol):
+    v[0] &lt;- random unit vector
+    beta[-1] &lt;- 0
+
+    for j = 0 to k-1:
+        w &lt;- A * v[j]                    // matvec
+        alpha[j] &lt;- v[j]^T * w          // Rayleigh quotient
+
+        // Three-term recurrence
+        w &lt;- w - alpha[j]*v[j]
+        if j &gt; 0: w &lt;- w - beta[j-1]*v[j-1]
+
+        // Full reorthogonalization (Modified Gram-Schmidt)
+        for l = 0 to j:
+            w &lt;- w - (v[l]^T * w) * v[l]
+
+        beta[j] &lt;- ||w||
+        if beta[j] &lt; 1e-12: break       // exact invariant subspace
+
+        v[j+1] &lt;- w / beta[j]
+
+    T &lt;- tridiag(alpha[0..j], beta[0..j-1])
+    (theta, S) &lt;- eig_sym(T)
+    // Residuals: ||A*u_i - theta_i*u_i|| = beta[j] * |S[j,i]|
+    return theta, S, v[0..j], beta[j]</code></pre>
+<p><strong>Total cost:</strong> <span class="math inline">\(O(k \cdot \mathrm{nnz})\)</span> for matvecs (sparse <span class="math inline">\(\bA\)</span>) plus <span class="math inline">\(O(k^2 n)\)</span> for reorthogonalization plus <span class="math inline">\(O(k^3)\)</span> for the inner eigensolver on <span class="math inline">\(T_k\)</span>.</p>
 </section>
-<section id="successive-over-relaxation-sor" class="level2" data-number="22.5">
-<h2 data-number="22.5" class="anchored" data-anchor-id="successive-over-relaxation-sor"><span class="header-section-number">22.5</span> Successive Over-Relaxation (SOR)</h2>
-<p>Both Jacobi and Gauss-Seidel can converge slowly when <span class="math inline">\(\rho(\bT)\)</span> is close to 1. The idea behind SOR is simple: take the Gauss-Seidel update as a direction and <em>overshoot</em> by a factor <span class="math inline">\(\omega &gt; 1\)</span> to accelerate convergence. Choosing the optimal <span class="math inline">\(\omega\)</span> can reduce the spectral radius dramatically, turning <span class="math inline">\(O(n^2)\)</span> iterations into <span class="math inline">\(O(n)\)</span> for certain model problems.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: SOR Iteration
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>Successive Over-Relaxation (SOR)</em> method introduces a relaxation parameter <span class="math inline">\(\omega &gt; 0\)</span>. Let <span class="math inline">\(\tilde{x}_i\)</span> denote the Gauss-Seidel update for component <span class="math inline">\(i\)</span>. SOR blends the new and old values: <span class="math display">\[x_i^{(k+1)} = (1-\omega)\,x_i^{(k)} + \omega\,\tilde{x}_i^{(k+1)},\]</span> where <span class="math display">\[\tilde{x}_i^{(k+1)} = \frac{1}{a_{ii}}\Bigl(b_i - \sum_{j&lt;i}a_{ij}\,x_j^{(k+1)} - \sum_{j&gt;i}a_{ij}\,x_j^{(k)}\Bigr).\]</span> Substituting, the full SOR update is <span class="math display">\[x_i^{(k+1)} = x_i^{(k)} + \frac{\omega}{a_{ii}}\Bigl(b_i - \sum_{j&lt;i}a_{ij}\,x_j^{(k+1)} - a_{ii}\,x_i^{(k)} - \sum_{j&gt;i}a_{ij}\,x_j^{(k)}\Bigr).\]</span> Special cases: <span class="math inline">\(\omega = 1\)</span> recovers Gauss-Seidel; <span class="math inline">\(\omega \in (1,2)\)</span> is over-relaxation; <span class="math inline">\(\omega \in (0,1)\)</span> is under-relaxation (useful for stabilizing slowly divergent iterations).</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Kahan’s Necessary Condition for SOR
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The SOR iteration can converge only if <span class="math inline">\(0 &lt; \omega &lt; 2\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-26-contents" aria-controls="callout-26" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-26" class="callout-26-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The iteration matrix for SOR is <span class="math inline">\(\bT_\omega = (\bD + \omega\bL)^{-1}((1-\omega)\bD - \omega\bU)\)</span> where <span class="math inline">\(\bL, \bU\)</span> are the strictly lower/upper triangular parts of <span class="math inline">\(\bA\)</span>. Its determinant equals <span class="math inline">\((1-\omega)^n\)</span> (product of the eigenvalues). Since <span class="math inline">\(\rho(\bT_\omega) \geq |\det(\bT_\omega)|^{1/n} = |1-\omega|\)</span>, convergence requires <span class="math inline">\(\rho(\bT_\omega) &lt; 1\)</span>, which forces <span class="math inline">\(|1-\omega| &lt; 1\)</span>, i.e., <span class="math inline">\(0 &lt; \omega &lt; 2\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Optimal SOR for Consistently Ordered Matrices
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For a consistently ordered matrix (e.g., tridiagonal systems arising from discretizing PDEs) with Jacobi spectral radius <span class="math inline">\(\rho_J = \rho(\bT_J)\)</span>, the optimal relaxation parameter and corresponding spectral radius are <span class="math display">\[\omega^* = \frac{2}{1 + \sqrt{1 - \rho_J^2}}, \qquad \rho(\bT_{\omega^*}) = \omega^* - 1 = \frac{1 - \sqrt{1-\rho_J^2}}{1 + \sqrt{1-\rho_J^2}}.\]</span> When <span class="math inline">\(\rho_J \approx 1 - \varepsilon\)</span> (slow Jacobi convergence), <span class="math inline">\(\omega^* \approx 2 - 2\sqrt{\varepsilon}\)</span> and <span class="math inline">\(\rho(\bT_{\omega^*}) \approx 1 - 2\sqrt{\varepsilon} \ll \rho_J\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-28" class="callout-28-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>For consistently ordered matrices, the eigenvalues <span class="math inline">\(\mu\)</span> of <span class="math inline">\(\bT_\omega\)</span> relate to the eigenvalues <span class="math inline">\(\lambda\)</span> of <span class="math inline">\(\bT_J\)</span> via <span class="math inline">\((\mu + \omega - 1)^2 = \lambda^2\omega^2\mu\)</span>. Minimizing <span class="math inline">\(\max|\mu|\)</span> over <span class="math inline">\(\omega\)</span> gives the stated formulas. The key inequality <span class="math inline">\(\rho(\bT_{\omega^*}) \approx 1 - 2\sqrt{\varepsilon}\)</span> versus <span class="math inline">\(\rho_J \approx 1 - \varepsilon\)</span> shows SOR reduces the number of iterations by a factor of roughly <span class="math inline">\(\sqrt{\varepsilon}^{-1}/2\)</span> — a square-root speedup.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For the <span class="math inline">\(n\)</span>-point 1D Poisson problem (tridiagonal, <span class="math inline">\(h = 1/(n+1)\)</span>), Jacobi has <span class="math inline">\(\rho_J = \cos(\pi h) \approx 1 - \frac{\pi^2 h^2}{2}\)</span>, requiring <span class="math inline">\(O(n^2)\)</span> iterations. With optimal SOR, <span class="math inline">\(\rho(\bT_{\omega^*}) \approx 1 - 2\pi h\)</span>, requiring only <span class="math inline">\(O(n)\)</span> iterations — a dramatic improvement. The 2D Poisson problem shows similar gains.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Effect of <span class="math inline">\(\omega\)</span> on convergence rate.</strong></p>
-<p>For the <span class="math inline">\(n = 9\)</span> tridiagonal system (1D Poisson), <span class="math inline">\(h = 0.1\)</span>, so <span class="math inline">\(\rho_J = \cos(\pi/10) \approx 0.951\)</span>. The optimal parameter is <span class="math display">\[\omega^* = \frac{2}{1 + \sqrt{1 - 0.951^2}} \approx \frac{2}{1 + 0.309} \approx 1.527,\]</span> giving <span class="math inline">\(\rho(\bT_{\omega^*}) \approx 0.527\)</span>. With Gauss-Seidel (<span class="math inline">\(\omega=1\)</span>), <span class="math inline">\(\rho \approx 0.904\)</span>. The number of iterations to reduce the error by <span class="math inline">\(10^{-8}\)</span> is approximately <span class="math inline">\(8\log_{10} / \log_{10}(1/\rho)\)</span>, which is about 169 for Gauss-Seidel but only about 35 for SOR — nearly a fivefold speedup.</p>
-</div>
-</div>
+<section id="exercises" class="level2" data-number="19.6">
+<h2 data-number="19.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">19.6</span> Exercises</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1142,30 +877,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(Gauss-Seidel implementation and comparison)</strong></p>
 <ol type="1">
-<li><p>Implement <code>gauss\_seidel(A, b, x0, tol, max\_iter)</code> in Python. The key difference from Jacobi is to update <span class="math inline">\(x[i]\)</span> <em>in place</em> at each step.</p></li>
-<li><p>Run both Jacobi and Gauss-Seidel on the <span class="math inline">\(10\times10\)</span> tridiagonal system with <span class="math inline">\(4\)</span> on the diagonal and <span class="math inline">\(-1\)</span> on the off-diagonals, <span class="math inline">\(\bb = \mathbf{1}\)</span>. Plot the residual norm versus iteration count on a semi-log scale for both methods. Estimate the ratio of iterations needed to reach <span class="math inline">\(10^{-8}\)</span> residual.</p></li>
-<li><p>Compute <span class="math inline">\(\rho(\bT_J)\)</span> and <span class="math inline">\(\rho(\bT_{GS})\)</span> numerically. Is the observed convergence ratio consistent with <span class="math inline">\(\rho(\bT_{GS}) \approx \rho(\bT_J)^2\)</span>? (This relation holds exactly for consistently ordered matrices.)</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(SOR parameter tuning)</strong></p>
-<ol type="1">
-<li><p>Implement <code>sor(A, b, x0, omega, tol, max\_iter)</code>.</p></li>
-<li><p>For the same <span class="math inline">\(10\times10\)</span> tridiagonal system, compute the theoretical optimal <span class="math inline">\(\omega^*\)</span> using the formula in the Optimal SOR theorem. Run SOR with <span class="math inline">\(\omega \in \{1.0, 1.2, 1.4, \omega^*, 1.8, 1.9\}\)</span>.</p></li>
-<li><p>Plot iterations to convergence (residual <span class="math inline">\(&lt; 10^{-8}\)</span>) versus <span class="math inline">\(\omega\)</span>. Verify that <span class="math inline">\(\omega^*\)</span> is indeed optimal and that convergence fails for <span class="math inline">\(\omega \geq 2\)</span>.</p></li>
-<li><p>At the optimal <span class="math inline">\(\omega^*\)</span>, compare the convergence rate to Jacobi and Gauss-Seidel from the previous exercise.</p></li>
+<li><p>Let <span class="math inline">\(\bA = \mathrm{diag}(5, 3, 1)\)</span> and <span class="math inline">\(\bv_1 = \frac{1}{\sqrt{3}}(1,1,1)^T\)</span>. Carry out 2 steps of Lanczos by hand: compute <span class="math inline">\(\alpha_1\)</span>, <span class="math inline">\(\bv_2\)</span>, <span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\alpha_2\)</span>. Write down <span class="math inline">\(T_2\)</span> and find its Ritz values. How close are they to eigenvalues <span class="math inline">\(5\)</span> and <span class="math inline">\(1\)</span>?</p></li>
+<li><p>Prove that in exact arithmetic, the Lanczos algorithm terminates in at most <span class="math inline">\(n\)</span> steps, producing an exact eigendecomposition of <span class="math inline">\(\bA\)</span>.</p></li>
+<li><p>Show that <span class="math inline">\(T_k = V_k^T \bA V_k\)</span> directly from the Lanczos relation.</p></li>
+<li><p>The residual estimate <span class="math inline">\(\|\bA\tilde{\bu}_i - \theta_i\tilde{\bu}_i\| = \beta_k|s_i(k)|\)</span> is cheap. Why is this computationally important? How does it avoid forming the full Ritz vector?</p></li>
+<li><p>(Ghost eigenvalues) Implement Lanczos on <span class="math inline">\(\bA = \mathrm{diag}(n, n-1, ..., 1)\)</span> for <span class="math inline">\(n = 50\)</span>, running 100 steps without reorthogonalization. Plot the Ritz values at each step. How many spurious copies of <span class="math inline">\(\lambda_1 = 50\)</span> appear? Repeat with full reorthogonalization.</p></li>
 </ol>
 </div>
 </div>
@@ -1589,13 +1306,13 @@ Tip
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../iterative/iterative.html" class="pagination-link" aria-label="Iterative Methods for Linear Systems">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Iterative Methods for Linear Systems</span></span>
+      <a href="../eigenvalues/svd.html" class="pagination-link" aria-label="Singular Value Decomposition and the Four Fundamental Subspaces">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../iterative/conjugate-gradient.html" class="pagination-link" aria-label="Conjugate Gradient Method">
-        <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../eigenvalues/jacobi-eig.html" class="pagination-link" aria-label="Jacobi Eigenvalue Algorithm">
+        <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Jacobi Eigenvalue Algorithm</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1604,4 +1321,4 @@ Tip
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/jacobi.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/eigenvalues/lanczos.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
