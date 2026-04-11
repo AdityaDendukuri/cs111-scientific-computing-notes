@@ -24,14 +24,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f _site
-          git stash
+          git fetch origin gh-pages
           git checkout gh-pages
           git rm -rf . --quiet
-          git stash pop
-          mv _site/* .
+          cp -r _site/. .
           rm -rf _site
           touch .nojekyll
           git add -A
-          git commit -m "publish: ${{ github.sha }}"
+          git diff --cached --quiet || git commit -m "publish: ${{ github.sha }}"
           git push origin gh-pages
