@@ -21,15 +21,8 @@ jobs:
         run: quarto render --to html
 
       - name: Deploy to gh-pages
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          mv _site /tmp/site
-          git fetch origin gh-pages
-          git checkout gh-pages
-          git rm -rf . --quiet
-          cp -r /tmp/site/. .
-          touch .nojekyll
-          git add -A
-          git diff --cached --quiet || git commit -m "publish: ${{ github.sha }}"
-          git push origin gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          force_orphan: true
