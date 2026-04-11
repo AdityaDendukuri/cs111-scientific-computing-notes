@@ -1,0 +1,383 @@
+# Fourier Analysis as Change of Basis
+
+
+The Spectral Theorem says that every symmetric (or Hermitian) operator can be
+diagonalized in an orthonormal eigenbasis. For the Laplacian $-d^2/dx^2$, that
+eigenbasis is the set of sinusoids. *Fourier analysis is therefore just linear
+algebra in an infinite-dimensional space*: expressing a function as a Fourier series
+is the same operation as expanding a vector in an eigenbasis. This viewpoint makes
+Fourier analysis less magical and reveals exactly why it is so powerful: it
+diagonalizes the Laplacian, turning differential equations into simple algebra in
+frequency space. The Discrete Fourier Transform (DFT) is the finite-dimensional
+version of this, represented as a unitary matrix. Computing it efficiently via the
+Fast Fourier Transform (FFT) is one of the most practically impactful algorithms
+ever discovered.
+
+
+## The Fourier Basis
+
+
+In Section~above, we found that the eigenfunctions of $-d^2/dx^2$ on
+$[0,1]$ are $u_k(x) = \sqrt{2}\sin(k\pi x)$ with eigenvalues $k^2\pi^2$. These
+functions are orthonormal in $L^2[0,1]$, and they span the whole space. Expanding any
+function $f$ in this basis is the Fourier sine series. On the periodic domain $[0, 2\pi]$,
+the natural eigenbasis is the complex exponentials $e^{ikx}$, which give the full
+(complex) Fourier series. We work with the periodic setting here because it connects
+most directly to the DFT.
+
+
+::: {.callout-note icon=false}
+## Definition: Fourier Series
+For $f \in L^2([0, 2\pi])$ (periodic), the *Fourier series* of $f$ is
+$$f(x) = \sum_{k=-\infty}^{\infty} \hat{f}_k\, e^{ikx},$$
+where the *Fourier coefficients* are
+$$\hat{f}_k = \frac{1}{2\pi}\int_0^{2\pi} f(x)\,e^{-ikx}\,dx.$$
+The coefficient $\hat{f}_k$ is the inner product of $f$ with the basis function
+$e^{ikx}/(2\pi)$, exactly as in a standard change of basis.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Fourier Basis is Orthonormal
+The functions $\phi_k(x) = \frac{1}{\sqrt{2\pi}}e^{ikx}$, $k \in \fZ$, form an
+orthonormal set in $L^2([0, 2\pi])$:
+$$\langle \phi_j, \phi_k \rangle
+  = \frac{1}{2\pi}\int_0^{2\pi} e^{ijx}\overline{e^{ikx}}\,dx
+  = \frac{1}{2\pi}\int_0^{2\pi} e^{i(j-k)x}\,dx
+  = \begin{cases} 1 & j = k, \\ 0 & j \neq k. \end{cases}$$
+Moreover, they form a complete orthonormal basis: every $f \in L^2([0,2\pi])$ can be
+recovered exactly from its Fourier coefficients via the Fourier series.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+**Orthonormality.**
+For $j \neq k$:
+$$\frac{1}{2\pi}\int_0^{2\pi} e^{i(j-k)x}\,dx
+  = \frac{1}{2\pi} \cdot \frac{e^{i(j-k)x}}{i(j-k)}\Bigg|_0^{2\pi}
+  = \frac{e^{2\pi i(j-k)} - 1}{2\pi i(j-k)} = 0,$$
+since $e^{2\pi i m} = 1$ for any integer $m$. For $j = k$, the integrand is 1 and
+the integral equals $2\pi$, giving norm 1 after dividing by $2\pi$.
+
+
+**Completeness.**
+Showing that every $L^2$ function is approximated arbitrarily well by finite Fourier
+sums is a deeper result (the Riesz-Fischer theorem) that goes beyond this course.
+It is the infinite-dimensional analog of the statement that an orthonormal set in
+$\fR^n$ that spans $\fR^n$ is a basis.
+:::
+
+
+::: {.callout-tip icon=false}
+**The change-of-basis picture.**
+In $\fR^n$, changing from the standard basis $\{\be_j\}$ to an orthonormal basis
+$\{\bq_j\}$ is accomplished by the unitary matrix $\bQ$: the $j$-th coordinate of
+$\bx$ in the new basis is $\bq_j^T\bx$. The Fourier transform does exactly the same
+thing in $L^2$: the $k$-th coordinate of $f$ in the Fourier basis is $\hat{f}_k =
+\langle \phi_k, f\rangle$. Just as $\bQ$ diagonalizes a symmetric matrix
+($\bA = \bQ\bD\bQ^T$), the Fourier transform diagonalizes the Laplacian:
+$-\widehat{f''(x)}_k = k^2\hat{f}_k$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above and the result above.
+
+1. Compute the Fourier coefficients $\hat{f}_k$ for $f(x) = x$ on $[0, 2\pi]$
+  by evaluating the integral directly. For which $k$ are the coefficients nonzero?
+  
+1. Verify the diagonalization claim: if $f(x) = e^{ikx}$, compute $-f''(x)$
+  and show that $-\widehat{f''}_k = k^2\hat{f}_k$ without any integration.
+  
+1. Why does the Fourier transform turn the ODE $-u'' = f$ into the algebraic
+  equation $k^2\hat{u}_k = \hat{f}_k$? When is this equation not solvable?
+
+:::
+
+
+## The Discrete Fourier Transform
+
+
+The continuous Fourier series works on functions; the DFT works on finite vectors.
+Given a vector $\bx \in \fC^n$ (think: $n$ samples of a signal), the DFT produces
+another vector $\hat{\bx} \in \fC^n$ (think: frequency amplitudes). The key fact is
+that this transformation is a linear map, so it can be written as a matrix. That matrix
+turns out to be unitary, which makes the DFT exactly a change of basis in $\fC^n$.
+
+
+::: {.callout-note icon=false}
+## Definition: DFT Matrix
+Let $\omega_n = e^{-2\pi i/n}$ be the primitive $n$-th root of unity. The
+*DFT matrix* $\mathbf{F} \in \fC^{n \times n}$ has entries
+$$F_{jk} = \frac{1}{\sqrt{n}}\,\omega_n^{jk}, \quad j, k = 0, 1, ..., n-1.$$
+The DFT of $\bx \in \fC^n$ is $\hat{\bx} = \mathbf{F}\bx$, and its $k$-th entry
+$$\hat{x}_k = \frac{1}{\sqrt{n}}\sum_{j=0}^{n-1} x_j\,e^{-2\pi i jk/n}$$
+is the discrete analog of the Fourier coefficient at frequency $k$.
+:::
+
+
+::: {.callout-note icon=false}
+## Example
+For $n = 4$, $\omega_4 = e^{-\pi i/2} = -i$. The DFT matrix is
+$$\mathbf{F} = \frac{1}{2}
+  \begin{pmatrix}
+    1 &  1 &  1 &  1 \\
+    1 & -i & -1 &  i \\
+    1 & -1 &  1 & -1 \\
+    1 &  i & -1 & -i
+  \end{pmatrix}.$$
+Applying $\mathbf{F}$ to $\bx = (1, 0, 0, 0)^T$ gives $\hat{\bx} = \frac{1}{2}(1, 1, 1, 1)^T$:
+a constant in all frequency components, just like a delta spike has equal energy at all
+frequencies.
+:::
+
+::: {.callout-note icon=false}
+## Theorem: The DFT Matrix is Unitary
+$\mathbf{F}^*\mathbf{F} = \bI$, so $\mathbf{F}$ is a unitary matrix (the result above).
+Equivalently, the columns of $\mathbf{F}$ form an orthonormal basis of $\fC^n$.
+The inverse DFT is $\mathbf{F}^{-1} = \mathbf{F}^*$, with entries
+$(\mathbf{F}^*)_{jk} = \frac{1}{\sqrt{n}}\omega_n^{-jk} = \frac{1}{\sqrt{n}}e^{2\pi i jk/n}$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+We compute the $(j, k)$ entry of $\mathbf{F}^*\mathbf{F}$.
+
+
+**Step 1: Write out the entry.**
+$$(\mathbf{F}^*\mathbf{F})_{jk}
+  = \sum_{m=0}^{n-1} \overline{F_{mj}}\,F_{mk}
+  = \frac{1}{n}\sum_{m=0}^{n-1} \omega_n^{-mj}\,\omega_n^{mk}
+  = \frac{1}{n}\sum_{m=0}^{n-1} \omega_n^{m(k-j)}.$$
+
+**Step 2: Evaluate the geometric sum.**
+
+If $j = k$, each term equals 1, so the sum is $n$ and the entry is $1$.
+
+If $j \neq k$, let $r = \omega_n^{k-j} \neq 1$ (since $k - j \not\equiv 0 \pmod{n}$).
+The sum is $\sum_{m=0}^{n-1}r^m = \frac{r^n - 1}{r - 1}$. But $r^n = \omega_n^{n(k-j)} =
+e^{-2\pi i(k-j)} = 1$, so the numerator is zero and the sum is $0$.
+
+**Step 3: Conclude.**
+
+Therefore $(\mathbf{F}^*\mathbf{F})_{jk} = \delta_{jk}$, confirming $\mathbf{F}^*\mathbf{F} = \bI$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Parseval's Theorem
+For any $\bx \in \fC^n$ with DFT $\hat{\bx} = \mathbf{F}\bx$:
+$$\|\hat{\bx}\|_2 = \|\bx\|_2.$$
+The DFT preserves the $\ell^2$ norm: total energy is the same in the time domain and the
+frequency domain.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Since $\mathbf{F}$ is unitary, it is an isometry (the result above):
+$$\|\hat{\bx}\|_2^2 = \|\mathbf{F}\bx\|_2^2 = (\mathbf{F}\bx)^*(\mathbf{F}\bx) = \bx^*\mathbf{F}^*\mathbf{F}\bx = \bx^*\bx = \|\bx\|_2^2.$$
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to Defs~above--above and the result above.
+
+1. For $n = 4$, write out $\mathbf{F}$ explicitly (using $\omega_4 = -i$).
+  Verify $\mathbf{F}^*\mathbf{F} = \bI$ by hand for the first two columns.
+  
+1. In NumPy, `np.fft.fft(x) / np.sqrt(n)` computes the normalized DFT.
+  Verify Parseval's theorem numerically for a random $\bx \in \fC^{10}$ by comparing
+  `np.linalg.norm(x)` and `np.linalg.norm(np.fft.fft(x) / np.sqrt(n))`.
+  
+1. Compute the DFT of the signal $x_j = \cos(2\pi j / n)$ for $n = 16$.
+  Which frequency bins $\hat{x}_k$ are nonzero? Explain why.
+
+:::
+
+
+## Circulant Matrices and the Convolution Theorem
+
+
+The DFT is more than just a change of basis for signals: it simultaneously diagonalizes
+an entire class of matrices. Circulant matrices arise naturally whenever a system has
+translation symmetry (same local rule everywhere), which includes the periodic discrete
+Laplacian and discrete convolution operators. Diagonalizing them with the DFT reduces
+matrix-vector multiplication from $O(n^2)$ to $O(n \log n)$.
+
+
+::: {.callout-note icon=false}
+## Definition: Circulant Matrix
+A matrix $\mathbf{C} \in \fC^{n \times n}$ is *circulant* if each row is a cyclic
+right-shift of the previous row. It is completely determined by its first column
+$\bc = (c_0, c_1, ..., c_{n-1})^T$:
+$$\mathbf{C} =
+  \begin{pmatrix}
+    c_0     & c_{n-1} & c_{n-2} & \cdots & c_1 \\
+    c_1     & c_0     & c_{n-1} & \cdots & c_2 \\
+    c_2     & c_1     & c_0     & \cdots & c_3 \\
+    \vdots  &         & \ddots  &        & \vdots \\
+    c_{n-1} & c_{n-2} & \cdots  & c_1    & c_0
+  \end{pmatrix}.$$
+The product $\mathbf{C}\bx$ computes the *circular convolution* $\bc * \bx$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: DFT Diagonalizes Every Circulant Matrix
+Every circulant matrix $\mathbf{C}$ with first column $\bc$ satisfies
+$$\mathbf{C} = \mathbf{F}^*\,\mathrm{diag}(\hat{\bc})\,\mathbf{F},$$
+where $\hat{\bc} = \mathbf{F}\bc$ is the DFT of $\bc$. The eigenvalues of $\mathbf{C}$
+are exactly the entries of $\hat{\bc}$ (the DFT coefficients of the first column), and
+the eigenvectors are the columns of $\mathbf{F}^*$.
+:::
+
+
+::: {.callout-note icon=false}
+## Corollary: Convolution Theorem
+For any $\bx, \by \in \fC^n$, the circular convolution satisfies
+$$\mathbf{F}(\bx * \by) = (\mathbf{F}\bx) \odot (\mathbf{F}\by),$$
+where $\odot$ denotes entry-wise (Hadamard) product. Circular convolution in the
+time domain is pointwise multiplication in the frequency domain.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+**Step 1: Express convolution as a matrix-vector product.**
+Circular convolution $\bz = \bx * \by$ means $z_j = \sum_{k=0}^{n-1} x_k y_{(j-k)\bmod n}$.
+This is exactly $\bz = \mathbf{C}_{\bx}\by$ where $\mathbf{C}_{\bx}$ is the circulant
+matrix with first column $\bx$.
+
+**Step 2: Diagonalize.**
+By the result above, $\mathbf{C}_{\bx} = \mathbf{F}^*\mathrm{diag}(\hat{\bx})\mathbf{F}$, so:
+$$\bz = \mathbf{C}_{\bx}\by = \mathbf{F}^*\mathrm{diag}(\hat{\bx})\mathbf{F}\by
+      = \mathbf{F}^*(\hat{\bx} \odot \hat{\by}).$$
+
+\textbf{Step 3: Apply $\mathbf{F}$ to both sides.}
+$$\hat{\bz} = \mathbf{F}\bz = \mathbf{F}\mathbf{F}^*(\hat{\bx} \odot \hat{\by})
+  = \hat{\bx} \odot \hat{\by},$$
+using $\mathbf{F}\mathbf{F}^* = \bI$.
+:::
+
+
+::: {.callout-tip icon=false}
+**Application to the Poisson equation.**
+The 1-D discrete Laplacian with *periodic* boundary conditions is circulant.
+Its eigenvalues are the DFT of the first column $\bc = \frac{1}{h^2}(2, -1, 0, ..., 0, -1)^T$.
+This gives an $O(n \log n)$ solver for the periodic Poisson equation:
+
+1. Compute $\hat{\mathbf{f}} = \mathbf{F}\mathbf{f}$ via FFT.
+  
+1. Divide entry-wise: $\hat{u}_k = \hat{f}_k / \hat{c}_k$.
+  
+1. Invert: $\mathbf{u} = \mathbf{F}^*\hat{\mathbf{u}}$ via inverse FFT.
+
+Compare this to the $O(n^3)$ dense solve or $O(n^{3/2})$ sparse solve.
+On a 2-D grid of size $n \times n$ ($N = n^2$ unknowns), the FFT-based solver costs
+$O(N \log N)$, making it the method of choice for large periodic problems.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above and the result above.
+
+1. Build the $5 \times 5$ circulant matrix with first column
+  $\bc = (2, -1, 0, 0, -1)^T$ (the periodic 1-D Laplacian for $n = 5$).
+  Compute its eigenvalues directly and via $\hat{\bc} = \mathbf{F}\bc$ using
+  `np.fft.fft(c)`. Verify they match.
+  
+1. Implement circular convolution two ways: (a) directly as a matrix-vector
+  product using `scipy.linalg.circulant`, and (b) using `np.fft.fft`
+  and pointwise multiplication. Verify they agree for random $\bx, \by \in \fR^{16}$.
+  
+1. Implement the FFT-based Poisson solver described in the note above for
+  $n = 100$ with $f(x) = \sin(2\pi x)$. The exact solution is
+  $u(x) = \frac{1}{4\pi^2}\sin(2\pi x)$. Verify your solver recovers it.
+
+:::
+
+
+## The Fast Fourier Transform
+
+
+Computing $\hat{\bx} = \mathbf{F}\bx$ directly costs $O(n^2)$ flops (one row of $\mathbf{F}$
+dotted with $\bx$ is $O(n)$, and there are $n$ rows). For $n = 10^6$, this is $10^{12}$
+operations: unusable. The Fast Fourier Transform (FFT) reduces this to $O(n \log n)$
+by exploiting a recursive structure in the DFT matrix. For $n = 10^6$, that is $2 \times 10^7$
+operations: entirely practical. This gap is why FFT appears in audio processing, image
+compression (JPEG), wireless communications, and numerical PDE solvers.
+
+
+::: {.callout-note icon=false}
+## Theorem: Cooley-Tukey FFT Complexity
+When $n = 2^p$ is a power of two, the DFT $\mathbf{F}\bx$ can be computed in
+$O(n \log n)$ flops using the Cooley-Tukey algorithm.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+The key identity splits the $n$-point DFT into two $(n/2)$-point DFTs.
+
+
+**Step 1: Split $\bx$ into even and odd indexed entries.**
+
+Let $\bx^{(e)} = (x_0, x_2, ..., x_{n-2})$ and $\bx^{(o)} = (x_1, x_3, ..., x_{n-1})$.
+
+**Step 2: Rewrite the DFT sum.**
+
+The $k$-th DFT output is
+$$\hat{x}_k = \sum_{j=0}^{n-1} x_j \omega_n^{jk}
+  = \sum_{j=0}^{n/2-1} x_{2j}\,\omega_n^{2jk} + \omega_n^k\sum_{j=0}^{n/2-1} x_{2j+1}\,\omega_n^{2jk}.$$
+
+**Step 3: Recognize the sub-DFTs.**
+
+Since $\omega_n^2 = e^{-4\pi i/n} = \omega_{n/2}$, both sums are $(n/2)$-point DFTs:
+$$\hat{x}_k = \hat{x}^{(e)}_k + \omega_n^k\,\hat{x}^{(o)}_k.$$
+For $k \geq n/2$, a similar relation holds using $\omega_n^{k + n/2} = -\omega_n^k$.
+
+**Step 4: Count the cost.**
+
+Let $T(n)$ be the number of flops. The recursion is $T(n) = 2T(n/2) + O(n)$,
+which has solution $T(n) = O(n \log n)$.
+:::
+
+
+::: {.callout-tip icon=false}
+**FFT in NumPy.**
+`np.fft.fft(x)` computes the DFT using an FFT algorithm.
+`np.fft.ifft(x)` computes the inverse DFT ($\mathbf{F}^*\bx$).
+For real signals, `np.fft.rfft` exploits the symmetry $\hat{x}_{n-k} = \overline{\hat{x}_k}$
+to halve the work. The 2-D FFT (`np.fft.fft2`) applies the 1-D FFT along each
+axis and is the key subroutine for image processing and 2-D PDE solvers.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. In Python, time `np.fft.fft(x)` vs.\ a naive DFT implemented as
+  `F @ x` (build $\mathbf{F}$ explicitly) for $n \in \{64, 256, 1024, 4096\}$.
+  Plot both times vs.\ $n$ on a log-log scale. At what size does the FFT become
+  noticeably faster?
+  
+1. Verify the splitting identity in the proof: for $n = 8$ and a random $\bx$,
+  check that $\hat{x}_k = \hat{x}^{(e)}_k + \omega_8^k\hat{x}^{(o)}_k$ for
+  $k = 0, 1, 2, 3$ (where $\hat{\bx}^{(e)}, \hat{\bx}^{(o)}$ are 4-point DFTs
+  of the even and odd subsequences).
+  
+1. (*Spectral differentiation.*)
+  Given samples $x_j = f(2\pi j/n)$ for $j = 0, ..., n-1$ of a smooth periodic
+  function $f$, one can approximate $f'$ by: (a) FFT to get $\hat{\bx}$, (b) multiply
+  $\hat{x}_k$ by $ik$, (c) IFFT. Implement this for $f(x) = \sin(x) + \cos(3x)$
+  and verify you recover $f'(x) = \cos(x) - 3\sin(3x)$. Compare the accuracy to
+  finite differences as $n$ grows.
+
+:::

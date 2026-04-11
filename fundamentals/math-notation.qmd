@@ -1,0 +1,148 @@
+# Mathematical Notation and Proof Techniques
+
+
+These notes assume familiarity with calculus and basic proof writing, but the conventions
+below establish a shared vocabulary used throughout. Skimming this subsection now will
+prevent confusion when proofs appear later.
+
+## Logic and Set Notation
+
+
+::: {.callout-note icon=false}
+## Definition: Logical Quantifiers
+The *universal quantifier* $\forall$ means ``for all''; the *existential quantifier*
+$\exists$ means ``there exists''. For example, ``$\forall \varepsilon > 0,\;\exists \delta > 0$
+such that...'' reads as ``for every positive $\varepsilon$ there is a positive $\delta$
+such that...''. The negation of $\forall x,\, P(x)$ is $\exists x,\, \neg P(x)$, and vice versa.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Implication and Equivalence
+$P \Rightarrow Q$ (``$P$ implies $Q$'') means: whenever $P$ is true, $Q$ is also true.
+$P \Leftrightarrow Q$ (``$P$ if and only if $Q$'', abbreviated *iff*) means
+$P \Rightarrow Q$ and $Q \Rightarrow P$.
+The *contrapositive* of $P \Rightarrow Q$ is $\neg Q \Rightarrow \neg P$, which is
+logically equivalent and often easier to prove.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Set Notation
+A *set* is a collection of distinct objects. Common notation:
+
+- $x \in S$: $x$ is an element of $S$; \quad $x \notin S$: $x$ is not.
+  
+- $S \subseteq T$: $S$ is a subset of $T$ (every element of $S$ is in $T$).
+  
+- $S \cup T$: union; \quad $S \cap T$: intersection; \quad $S \setminus T$: set difference.
+  
+- $\{x \in S : P(x)\}$: the set of elements in $S$ satisfying property $P$.
+
+Common number sets used throughout these notes: $\fZ$ (integers), $\fR$ (reals),
+$\fC$ (complex numbers), $\fR^n$ (real $n$-vectors), $\fR^{m \times n}$
+(real $m \times n$ matrices).
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+
+1. Write the statement ``every invertible matrix has a nonzero determinant'' using
+  quantifiers and implication.
+  
+1. State the contrapositive of: ``if $\bA$ is invertible, then $\bA\bx = \bzero$
+  implies $\bx = \bzero$.''
+  
+1. Let $S = \{1, 2, 3, 4\}$ and $T = \{3, 4, 5, 6\}$. Compute $S \cup T$,
+  $S \cap T$, and $S \setminus T$.
+
+:::
+
+
+## Proof Techniques
+
+
+Nearly every claim in these notes is accompanied by a proof. There are three main
+strategies used here; recognizing which applies is the first step in writing your own proofs.
+
+
+::: {.callout-note icon=false}
+## Definition: Direct Proof
+A *direct proof* of $P \Rightarrow Q$ assumes $P$ is true and derives $Q$ through a
+chain of valid logical steps. Most proofs in these notes are direct.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Proof by Contradiction
+To prove statement $P$: assume $\neg P$ and derive a logical contradiction
+($R$ and $\neg R$ simultaneously, for some statement $R$). This shows $\neg P$ is
+impossible, so $P$ must hold.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Proof by Induction
+To prove $P(n)$ holds for all integers $n \geq n_0$:
+
+1. *Base case*: verify $P(n_0)$ directly.
+  
+1. *Inductive step*: assume $P(k)$ (the *inductive hypothesis*) and prove $P(k+1)$.
+
+Mathematical induction appears whenever an algorithm or formula is defined recursively.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+
+1. Use a direct proof to show: if $\bA$ and $\bB$ are symmetric
+  ($\bA^T = \bA$, $\bB^T = \bB$), then $\bA + \bB$ is symmetric.
+  
+1. Use proof by contradiction to show: if $\bA\bx = \bzero$ implies $\bx = \bzero$,
+  then $\bA$ has no zero eigenvalue.
+  
+1. By induction, prove $\displaystyle\sum_{k=1}^{n} k = \frac{n(n+1)}{2}$.
+
+:::
+
+
+## Notation Conventions
+
+
+The following conventions are used consistently throughout these notes.
+
+
+::: {.callout-tip icon=false}
+**Scalars, Vectors, and Matrices.** 
+Scalars are lowercase italic: $a, b, c, x$.
+Vectors are lowercase bold: $\bx, \by, \ba$.
+Matrices are uppercase bold: $\bA, \bB, \bQ$.
+The $i$-th entry of $\bx$ is $x_i$; the $(i,j)$ entry of $\bA$ is $a_{ij}$ or $(\bA)_{ij}$.
+Indexing is 1-based throughout (unlike Python).
+:::
+
+
+::: {.callout-tip icon=false}
+**Transpose and Inverse.** 
+$\bA^T$ is the transpose of $\bA$; $\bA^{-1}$ is the matrix inverse (exists only for
+square, invertible $\bA$). The notation $\bA^{-T}$ means $(\bA^{-1})^T = (\bA^T)^{-1}$.
+$\bA^k$ denotes $\bA$ multiplied by itself $k$ times; $\bA^0 = \bI$.
+:::
+
+
+::: {.callout-tip icon=false}
+**Sums and Products.** 
+$$\sum_{i=1}^{n} a_i = a_1 + a_2 + \cdots + a_n, \qquad
+  \prod_{i=1}^{n} a_i = a_1 a_2 \cdots a_n.$$
+When the index set is clear from context we write $\sum_i a_i$.
+:::
+
+
+::: {.callout-tip icon=false}
+**Functions.** 
+$f : \fR^n \to \fR^m$ means $f$ maps $n$-vectors to $m$-vectors.
+$f \circ g$ denotes function composition: $(f \circ g)(\bx) = f(g(\bx))$.
+A function $f : \fR^{m \times n} \to \fR$ maps matrices to scalars (e.g., a norm or the determinant).
+:::

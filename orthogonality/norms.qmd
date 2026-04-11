@@ -1,0 +1,285 @@
+# Vector and Matrix Norms
+
+
+## Vector Norms
+
+
+Before defining norms on matrices, we establish the vector norm foundations on which they rest. A vector norm assigns a non-negative scalar ``length'' to every vector, and the key families each capture a different geometric intuition.
+
+
+::: {.callout-note icon=false}
+## Definition: Vector Norm
+A function $\|\cdot\| : \fR^n \to \fR$ is a *vector norm* if for all $\bx, \by \in \fR^n$ and $c \in \fR$:
+
+1. $\|\bx\| \geq 0$ and $\|\bx\| = 0 \Leftrightarrow \bx = \bzero$ \quad (positive definiteness)
+  
+1. $\|c\bx\| = |c|\|\bx\|$ \quad (absolute homogeneity)
+  
+1. $\|\bx + \by\| \leq \|\bx\| + \|\by\|$ \quad (triangle inequality)
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: $\ell^p$ Norms
+For $\bx \in \fR^n$ and $p \geq 1$, the *$\ell^p$ norm* is
+$$\|\bx\|_p = \left(\sum_{i=1}^n |x_i|^p\right)^{1/p}.$$
+The three most common cases are:
+
+- $\|\bx\|_1 = \sum_{i=1}^n |x_i|$ \quad (*Manhattan norm* — sum of absolute values)
+  
+- $\|\bx\|_2 = \sqrt{\sum_{i=1}^n x_i^2} = \sqrt{\bx^T\bx}$ \quad (*Euclidean norm*)
+  
+- $\|\bx\|_\infty = \max_{1\leq i\leq n}|x_i|$ \quad (*max norm* — limit as $p \to \infty$)
+
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Cauchy-Schwarz Inequality
+For any $\bx, \by \in \fR^n$:
+$$|\bx^T\by| \leq \|\bx\|_2\,\|\by\|_2,$$
+with equality if and only if $\bx$ and $\by$ are linearly dependent.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+If either vector is zero the inequality holds trivially. Otherwise, for any $t \in \fR$:
+$$0 \leq \|\bx - t\by\|_2^2 = \|\bx\|_2^2 - 2t\,\bx^T\by + t^2\|\by\|_2^2.$$
+This is a quadratic in $t$ that is always non-negative, so its discriminant must satisfy $4(\bx^T\by)^2 - 4\|\bx\|_2^2\|\by\|_2^2 \leq 0$, giving $|\bx^T\by| \leq \|\bx\|_2\|\by\|_2$. Equality holds iff $\bx = t\by$ for the optimal $t = \bx^T\by/\|\by\|_2^2$.
+:::
+
+
+::: {.callout-note icon=false}
+## Lemma: Young's Inequality
+For $a, b \geq 0$ and conjugate exponents $p, q \geq 1$ with $\frac{1}{p}+\frac{1}{q}=1$,
+$$ab \leq \frac{a^p}{p} + \frac{b^q}{q}.$$
+Equality holds if and only if $a^p = b^q$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+If $a = 0$ or $b = 0$ the inequality is immediate. Otherwise, the function $f(t) = t/p - t^{1/p}/p + 1/q$ satisfies $f(1) = 0$ and $f'(t) = (1 - t^{1/p-1})/p$, so $f$ has a global minimum at $t = 1$ with $f \geq 0$. Setting $t = a^p/b^q$ and multiplying through by $b^q$ gives the result.
+
+Alternatively: the weighted AM-GM inequality $\alpha u + \beta v \geq u^\alpha v^\beta$ (for $\alpha + \beta = 1$, $u,v > 0$) applied with $\alpha = 1/p$, $\beta = 1/q$, $u = a^p$, $v = b^q$ gives $a^p/p + b^q/q \geq (a^p)^{1/p}(b^q)^{1/q} = ab$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Hölder's Inequality
+For $p, q \geq 1$ with $\frac{1}{p} + \frac{1}{q} = 1$ (conjugate exponents), and any $\bx, \by \in \fR^n$:
+$$|\bx^T\by| \leq \|\bx\|_p\,\|\by\|_q.$$
+Cauchy-Schwarz is the special case $p = q = 2$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+If $\bx = \bzero$ or $\by = \bzero$ the result is immediate. Otherwise, set $a_i = |x_i|/\|\bx\|_p$ and $b_i = |y_i|/\|\by\|_q$. By Young's inequality applied to each $i$:
+$$a_i b_i \leq \frac{a_i^p}{p} + \frac{b_i^q}{q}.$$
+Summing over $i$ and using $\sum a_i^p = 1$, $\sum b_i^q = 1$ gives $\sum a_i b_i \leq 1/p + 1/q = 1$. Multiplying by $\|\bx\|_p\|\by\|_q$ yields $|\bx^T\by| \leq \sum|x_i||y_i| \leq \|\bx\|_p\|\by\|_q$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Equivalence of Vector Norms
+All norms on $\fR^n$ are equivalent: for any two norms $\|\cdot\|_\alpha$ and $\|\cdot\|_\beta$, there exist constants $c_1, c_2 > 0$ such that
+$$c_1\|\bx\|_\beta \leq \|\bx\|_\alpha \leq c_2\|\bx\|_\beta \quad \text{for all } \bx \in \fR^n.$$
+In particular, for $\bx \in \fR^n$:
+$$\|\bx\|_2 \leq \|\bx\|_1 \leq \sqrt{n}\,\|\bx\|_2, \qquad \|\bx\|_\infty \leq \|\bx\|_2 \leq \sqrt{n}\,\|\bx\|_\infty.$$
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Existence of $c_1, c_2$ follows from the compactness of the unit sphere $\{\bx : \|\bx\|_\beta = 1\}$ in $\fR^n$: any norm is a continuous function, so it attains its bounds on a compact set. The explicit inequalities follow from Cauchy-Schwarz: $\|\bx\|_1 = \sum|x_i| \cdot 1 \leq \|\bx\|_2\|\mathbf{1}\|_2 = \sqrt{n}\|\bx\|_2$, and $\|\bx\|_2^2 = \sum x_i^2 \leq \|\bx\|_\infty \sum |x_i| = \|\bx\|_\infty\|\bx\|_1 \leq n\|\bx\|_\infty^2$.
+:::
+
+
+::: {.callout-tip icon=false}
+Norm equivalence means convergence in one norm implies convergence in all norms. In practice, the choice of norm affects constants but not qualitative behavior. The $\ell^2$ norm is preferred for geometric intuition; the $\ell^\infty$ norm is often used in error analysis; the $\ell^1$ norm appears in sparse recovery and optimization.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+
+1. For $\bx = (3, -4, 0)^T$, compute $\|\bx\|_1$, $\|\bx\|_2$, $\|\bx\|_\infty$. Verify all three equivalence inequalities hold.
+  
+1. Prove the triangle inequality for $\|\cdot\|_2$ using Cauchy-Schwarz: expand $\|\bx+\by\|_2^2 = (\bx+\by)^T(\bx+\by)$.
+  
+1. In NumPy, `np.linalg.norm(x, ord=p)` computes $\ell^p$ norms. For a random $\bx \in \fR^{10}$, verify numerically that $\|\bx\|_\infty \leq \|\bx\|_2 \leq \sqrt{10}\|\bx\|_\infty$.
+  
+1. Show that $\|\bx\|_\infty = \lim_{p\to\infty}\|\bx\|_p$. (*Hint: factor out the maximum entry.*)
+
+:::
+
+
+## Matrix Norms
+
+
+Matrix norms assign a scalar ``size'' to a matrix. They are fundamental in numerical analysis: they measure approximation errors in low-rank truncation, bound how much a matrix amplifies vectors, and define the condition number. Every norm inequality we use in convergence analysis ultimately rests on a handful of key theorems proved here.
+
+
+::: {.callout-note icon=false}
+## Definition: Matrix Norm
+A function $\|\cdot\| : \fR^{m\times n} \to \fR$ is a *matrix norm* if for all $\bA, \bB \in \fR^{m\times n}$ and all $c \in \fR$:
+(i)~$\|\bA\| \geq 0$ and $\|\bA\|=0 \Leftrightarrow \bA = \mathbf{0}$ \quad (non-negativity and definiteness);
+(ii)~$\|c\bA\| = |c|\|\bA\|$ \quad (absolute homogeneity);
+(iii)~$\|\bA+\bB\| \leq \|\bA\| + \|\bB\|$ \quad (triangle inequality).
+A square-matrix norm is additionally *submultiplicative* if $\|\bA\bB\| \leq \|\bA\|\|\bB\|$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Induced (Operator) Norm
+Given vector norms $\|\cdot\|_u$ on $\fR^m$ and $\|\cdot\|_v$ on $\fR^n$, the *induced* (or *operator*) norm of $\bA \in \fR^{m\times n}$ is
+$$\|\bA\|_{u,v} = \max_{\bx \neq \bzero} \frac{\|\bA\bx\|_u}{\|\bx\|_v} = \max_{\|\bx\|_v=1}\|\bA\bx\|_u.$$
+It measures the maximum stretching factor applied by $\bA$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Induced Norms are Submultiplicative
+Every induced norm satisfies $\|\bA\bB\| \leq \|\bA\|\|\bB\|$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+For any $\bx \neq \bzero$,
+$$\|\bA\bB\bx\| \leq \|\bA\|\,\|\bB\bx\| \leq \|\bA\|\,\|\bB\|\,\|\bx\|.$$
+Dividing by $\|\bx\|$ and taking the supremum over all $\bx \neq \bzero$ gives $\|\bA\bB\| \leq \|\bA\|\|\bB\|$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: $L_1$ Norm (Maximum Absolute Column Sum)
+The matrix $L_1$ norm, induced by the vector $\ell^1$ norm, is
+$$\|\bA\|_1 = \max_{1 \leq j \leq n} \sum_{i=1}^m |a_{ij}|.$$
+It equals the maximum absolute column sum of $\bA$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: $L_\infty$-Norm (Maximum Absolute Row Sum)
+The matrix $L_\infty$ norm, induced by the vector $\ell^\infty$ norm, is
+$$\|\bA\|_\infty = \max_{1 \leq i \leq m} \sum_{j=1}^n |a_{ij}|.$$
+It equals the maximum absolute row sum of $\bA$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Spectral Norm
+The matrix $L_2$ norm (spectral norm), induced by the vector $\ell^2$ norm, is
+$$\|\bA\|_2 = \sigma_{\max}(\bA) = \sqrt{\lambda_{\max}(\bA^T\bA)}.$$
+It equals the largest singular value and measures the maximum Euclidean stretching factor of $\bA$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Spectral Norm via Singular Values
+$\|\bA\|_2 = \sigma_{\max}(\bA)$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Write the SVD as $\bA = \bU\bsigma\bV^T$. For $\|\bx\|_2 = 1$, let $\by = \bV^T\bx$ (which also satisfies $\|\by\|_2 = 1$, since $\bV$ is orthogonal). Then
+$$\|\bA\bx\|_2 = \|\bU\bsigma\bV^T\bx\|_2 = \|\bsigma\by\|_2 \leq \sigma_1\|\by\|_2 = \sigma_1,$$
+with equality when $\by = \mathbf{e}_1$, i.e., $\bx = \bv_1$ (the first right singular vector). Hence $\|\bA\|_2 = \sigma_1 = \sigma_{\max}(\bA)$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Frobenius Norm
+The *Frobenius norm* treats $\bA$ as a vector in $\fR^{mn}$:
+$$\|\bA\|_F = \sqrt{\sum_{i=1}^m \sum_{j=1}^n a_{ij}^2}.$$
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Frobenius Norm via Trace and Singular Values
+$\|\bA\|_F = \sqrt{\mathrm{Tr}(\bA^T\bA)} = \sqrt{\mathrm{Tr}(\bA\bA^T)} = \sqrt{\sum_{k} \sigma_k^2}$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+By definition, $\|\bA\|_F^2 = \sum_{i,j} a_{ij}^2 = \sum_j (\bA^T\bA)_{jj} = \mathrm{Tr}(\bA^T\bA)$. The matrix $\bA^T\bA$ is symmetric positive semidefinite with eigenvalues $\sigma_1^2 \geq \cdots \geq \sigma_n^2 \geq 0$ (the squared singular values of $\bA$), so $\mathrm{Tr}(\bA^T\bA) = \sum_k \sigma_k^2$. The identity $\mathrm{Tr}(\bA^T\bA) = \mathrm{Tr}(\bA\bA^T)$ follows since both equal $\sum_{i,j} a_{ij}^2$.
+:::
+
+
+::: {.callout-tip icon=false}
+The Frobenius norm is submultiplicative and is consistent with the vector $\ell^2$ norm: $\|\bA\bx\|_2 \leq \|\bA\|_F\|\bx\|_2$. It is *not* induced by any vector norm, but satisfies $\|\bA\|_2 \leq \|\bA\|_F \leq \sqrt{r}\,\|\bA\|_2$ where $r = \mathrm{rank}(\bA)$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Max Norm
+The *max norm* is $\|\bA\|_{\max} = \max_{i,j}|a_{ij}|$. It is a valid matrix norm but is *not* submultiplicative in general ($\|\bA\bB\|_{\max}$ can exceed $\|\bA\|_{\max}\|\bB\|_{\max}$) and is not an induced norm.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Norm Equivalence in Finite Dimensions
+All matrix norms on $\fR^{m\times n}$ are equivalent: for any two norms $\|\cdot\|_\alpha$ and $\|\cdot\|_\beta$, there exist constants $c_1, c_2 > 0$ such that $c_1\|\bA\|_\beta \leq \|\bA\|_\alpha \leq c_2\|\bA\|_\beta$ for all $\bA$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Since $\fR^{m\times n}$ is a finite-dimensional vector space (of dimension $mn$), any norm on it is equivalent to the standard Euclidean norm on $\fR^{mn}$ (which equals the Frobenius norm). Specifically, the unit ball of any norm is compact, so the continuous function $\bA \mapsto \|\bA\|_\alpha / \|\bA\|_\beta$ attains its supremum and infimum on the unit sphere $\{\bA : \|\bA\|_\beta = 1\}$, yielding the constants $c_1$ and $c_2$.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: Consistency with Vector Norms
+An induced norm $\|\bA\|$ satisfies $\|\bA\bx\|_v \leq \|\bA\|\|\bx\|_v$ for all $\bx$ by definition. The Frobenius norm also satisfies $\|\bA\bx\|_2 \leq \|\bA\|_F\|\bx\|_2$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+For the Frobenius norm, use Cauchy-Schwarz: $(\bA\bx)_i = \sum_j a_{ij}x_j$, so $|(\bA\bx)_i|^2 \leq \sum_j a_{ij}^2 \cdot \|\bx\|_2^2$. Summing over $i$ gives $\|\bA\bx\|_2^2 \leq \|\bA\|_F^2\|\bx\|_2^2$.
+:::
+
+
+::: {.callout-tip icon=false}
+Matrix norms appear in the condition number $\kappa(\bA) = \|\bA\|\|\bA^{-1}\|$. For the 2-norm this gives $\kappa_2(\bA) = \sigma_{\max}/\sigma_{\min}$. For the Frobenius norm, $\|\bA\|_F$ prominently features in the Eckart-Young-Mirsky theorem for optimal low-rank approximation.
+:::
+
+
+::: {.callout-note icon=false}
+## Example
+Let $\bA = \begin{pmatrix} 1 & -2 \\ -3 & 4 \end{pmatrix}$.
+
+- $\|\bA\|_1 = \max(1+3,\, 2+4) = 6$ (maximum column sum).
+  
+- $\|\bA\|_\infty = \max(1+2,\, 3+4) = 7$ (maximum row sum).
+  
+- $\|\bA\|_F = \sqrt{1+4+9+16} = \sqrt{30} \approx 5.48$.
+  
+- $\|\bA\|_2 = \sigma_{\max}$: eigenvalues of $\bA^T\bA$ satisfy $\lambda^2 - 30\lambda + 4 = 0$, giving $\lambda_{\max} = 15 + \sqrt{221}$, so $\|\bA\|_2 \approx 5.46$.
+
+Note $\|\bA\|_2 \leq \|\bA\|_F$ as guaranteed by the theorem.
+:::
+
+::: {.callout-warning icon=false}
+## Exercise
+
+1. Prove that $\|\bA\|_2 \leq \|\bA\|_F \leq \sqrt{r}\,\|\bA\|_2$ where $r = \mathrm{rank}(\bA)$. *Hint: use the singular value representation of both norms.*
+  
+1. For $n\times n$ matrices, prove $\|\bA\|_2 \leq \sqrt{n}\|\bA\|_\infty$ and $\|\bA\|_\infty \leq \sqrt{n}\|\bA\|_2$.
+  
+1. Using NumPy, verify these inequalities for 1000 random $5\times 5$ matrices drawn from `np.random.randn`. Plot histograms of the ratios $\|\bA\|_F/\|\bA\|_2$ and $\|\bA\|_\infty/\|\bA\|_2$.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Max norm is not submultiplicative)** Find a pair of $2\times 2$ matrices $\bA, \bB$ such that $\|\bA\bB\|_{\max} > \|\bA\|_{\max}\|\bB\|_{\max}$. Conclude that the max norm cannot be an induced norm.
+:::

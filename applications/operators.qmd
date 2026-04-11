@@ -1,0 +1,395 @@
+# Linear Operators and the Poisson Equation
+
+
+This subsection is a supplement to Lab 4, which asks you to solve the Poisson heat
+equation numerically. The lab will have you build a large sparse matrix and solve a
+linear system with it. Before doing that, it is worth understanding where that matrix
+comes from and why it has the properties it does. We will see that it is a
+finite-dimensional approximation of a differential operator, and that studying its
+eigenvalues gives insight into both the physics of the problem and the difficulty of
+solving it numerically. Spectral theory, which you have already seen for matrices,
+extends to this setting in a way that is both natural and surprising.
+
+
+## From Differential Operators to Matrices
+
+
+::: {.callout-note icon=false}
+## Definition: Linear Operator
+Let $X$ and $Y$ be vector spaces of functions. A map $\mathcal{A} : X \to Y$ is a
+*linear operator* if for all $u, v \in X$ and scalars $\alpha$:
+$$\mathcal{A}(\alpha u + v) = \alpha\,\mathcal{A}u + \mathcal{A}v.$$
+Every matrix $\bA \in \fR^{m \times n}$ is a linear operator from $\fR^n$ to $\fR^m$.
+Differential operators such as $\frac{d}{dx}$ and $\nabla^2$ are linear operators on
+function spaces (e.g., on the space of twice-differentiable functions on $[0,1]$).
+:::
+
+
+The central idea of numerical methods for PDEs is *discretization*: replace an
+infinite-dimensional operator by a finite matrix that approximates it on a grid.
+The accuracy of the approximation improves as the grid is refined (grid spacing $h \to 0$),
+and the resulting matrices get larger ($n \to \infty$). Everything in Lab 4 is an
+instance of this: the $n^2 \times n^2$ matrix you will assemble is the $n$-point
+discretization of the continuous Laplacian $-\nabla^2$.
+
+
+::: {.callout-note icon=false}
+## Definition: Finite Difference Approximation
+The *centered second-difference* approximation to $u''(x)$ at a grid point $x_k$
+with spacing $h$ is
+$$u''(x_k) \approx \frac{u(x_{k-1}) - 2u(x_k) + u(x_{k+1})}{h^2}.$$
+To see why, expand $u$ at $x_k \pm h$ via Taylor series:
+$$u(x_k + h) = u(x_k) + h u'(x_k) + \tfrac{h^2}{2}u''(x_k) + \tfrac{h^3}{6}u'''(x_k) + O(h^4),$$
+$$u(x_k - h) = u(x_k) - h u'(x_k) + \tfrac{h^2}{2}u''(x_k) - \tfrac{h^3}{6}u'''(x_k) + O(h^4).$$
+Adding these two equations cancels the odd-order terms, leaving
+$$u(x_k + h) + u(x_k - h) = 2u(x_k) + h^2 u''(x_k) + O(h^4).$$
+Rearranging gives the formula above, with error $O(h^2)$. This is called
+*second-order accuracy*: halving $h$ reduces the error by a factor of four.
+:::
+
+
+## The Discrete Laplacian
+
+
+::: {.callout-note icon=false}
+## Definition: 1-D Discrete Laplacian
+On $[0,1]$ with $n$ interior grid points $x_k = kh$, $h = 1/(n+1)$, and homogeneous
+Dirichlet boundary conditions $u(0) = u(1) = 0$, the operator $-d^2/dx^2$ is
+discretized by applying the finite difference formula at each interior point.
+The result is the tridiagonal linear system $\bT\mathbf{u} = \mathbf{f}$, where
+$$\bT = \frac{1}{h^2}
+  \begin{pmatrix}
+    2  & -1 &        &        \\
+    -1 &  2 & -1     &        \\
+       & \ddots & \ddots & \ddots \\
+       &        & -1     & 2
+  \end{pmatrix}
+  \in \fR^{n \times n}.$$
+The $-1$ off-diagonals come from the neighbor terms $u(x_{k\pm1})$; the $2$ on the
+diagonal comes from $-2u(x_k)$; and the $1/h^2$ scaling comes from the approximation
+formula. The boundary values $u(0) = u(1) = 0$ are incorporated by simply omitting
+them from the system.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Eigenvalues of the 1-D Discrete Laplacian
+The matrix $\bT \in \fR^{n \times n}$ has eigenvalues
+$$\lambda_k = \frac{4}{h^2}\sin^2\!\left(\frac{k\pi}{2(n+1)}\right), \quad k = 1, ..., n,$$
+with corresponding eigenvectors $(\bv_k)_j = \sin(jk\pi h)$, $j = 1, ..., n$.
+As $n \to \infty$, these eigenvalues satisfy $\lambda_k \to k^2\pi^2$, which are exactly
+the eigenvalues of the continuous operator $-d^2/dx^2$ on $[0,1]$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+We verify by direct substitution that $\bT\bv_k = \lambda_k \bv_k$.
+
+
+**Step 1: Compute the $j$-th entry of $\bT\bv_k$.**
+
+The tridiagonal structure gives
+$$(\bT\bv_k)_j = \frac{1}{h^2}\bigl(-\sin((j-1)k\pi h) + 2\sin(jk\pi h) - \sin((j+1)k\pi h)\bigr).$$
+
+**Step 2: Apply a trigonometric identity.**
+
+Using the sum-to-product identity $-\sin(\theta - \phi) + 2\sin\theta - \sin(\theta + \phi) = 2\sin\theta(1 - \cos\phi)$
+with $\theta = jk\pi h$ and $\phi = k\pi h$, the expression becomes
+$$(\bT\bv_k)_j = \frac{2(1 - \cos(k\pi h))}{h^2}\sin(jk\pi h).$$
+
+**Step 3: Simplify using the half-angle identity.**
+
+Since $1 - \cos\phi = 2\sin^2(\phi/2)$, we get
+$$(\bT\bv_k)_j = \frac{4}{h^2}\sin^2\!\left(\frac{k\pi h}{2}\right) \cdot (\bv_k)_j = \lambda_k\,(\bv_k)_j.$$
+This confirms $\bv_k$ is an eigenvector with eigenvalue $\lambda_k$.
+
+**Step 4: The continuous limit.**
+
+As $h \to 0$, use $\sin(\theta) \approx \theta$ for small $\theta$:
+$$\lambda_k = \frac{4}{h^2}\sin^2\!\left(\frac{k\pi h}{2}\right)
+  \approx \frac{4}{h^2} \cdot \frac{k^2\pi^2 h^2}{4} = k^2\pi^2.$$
+The discrete eigenvalues converge to the continuous eigenvalues $k^2\pi^2$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: 2-D Discrete Laplacian (Poisson Equation)
+On the unit square $[0,1]^2$ with an $n \times n$ interior grid ($N = n^2$ unknowns),
+the five-point finite difference stencil approximates $-\nabla^2 u = f$ at each grid
+point $(x_i, y_j)$ as
+$$\frac{1}{h^2}\bigl(4u_{ij} - u_{i+1,j} - u_{i-1,j} - u_{i,j+1} - u_{i,j-1}\bigr) = f_{ij}.$$
+After flattening the 2-D grid to a 1-D index $k = j + n \cdot i$, this becomes the
+block tridiagonal system $\mathbf{K}\mathbf{u} = \mathbf{f}$ where
+$$\mathbf{K} = \frac{1}{h^2}
+  \begin{pmatrix}
+    \mathbf{C} & -\bI       &            &            \\
+    -\bI       & \mathbf{C} & -\bI       &            \\
+               & \ddots     & \ddots     & \ddots     \\
+               &            & -\bI       & \mathbf{C}
+  \end{pmatrix},
+  \qquad
+  \mathbf{C} = \mathrm{tridiag}(-1,\, 4,\, -1) \in \fR^{n \times n}.$$
+Each diagonal block $\mathbf{C}$ encodes the $x$-direction neighbors of a row of grid
+points. The off-diagonal $-\bI$ blocks connect rows that are adjacent in $y$, which
+appear $n$ positions apart in the flattened index.
+:::
+
+
+::: {.callout-tip icon=false}
+The matrix $\mathbf{K}$ is symmetric positive definite (Section~above),
+so the Poisson system has a unique solution. In practice, $\mathbf{K}$ is extremely sparse
+(at most 5 nonzeros per row out of $N = n^2$), so it is stored and solved using
+`scipy.sparse`, exactly as you will do in Lab 4. A direct sparse solve costs
+$O(N^{3/2})$ for 2-D problems, far better than the $O(N^3)$ dense cost.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+
+1. Using `scipy.sparse.diags`, build the 1-D discrete Laplacian $\bT$
+  for $n = 50$ interior points. Compute its eigenvalues with
+  `np.linalg.eigvalsh` and compare them to the analytical formula
+  $\lambda_k = \frac{4}{h^2}\sin^2(k\pi h/2)$ for $k = 1, ..., 50$.
+  Plot both sets on the same axes.
+  
+1. Verify that the eigenvectors satisfy $(\bv_k)_j = \sin(jk\pi h)$ by calling
+  `np.linalg.eigh(T.toarray())` and plotting the first three eigenvectors.
+  Do they look like $\sin(k\pi x)$?
+  
+1. Extend the Lab 4 code to impose a non-homogeneous Dirichlet boundary condition
+  $u = g$ on the boundary of $[0,1]^2$ by modifying the right-hand side $\mathbf{f}$.
+  (\textit{Hint: for each boundary node $k$, replace row $k$ of $\mathbf{K}$ with
+  the corresponding identity row and set $f_k = g(x_k)$.})
+
+:::
+
+
+## Operator Norms and Boundedness
+
+
+For matrices, the operator norm $\|\bA\|_2 = \sigma_{\max}(\bA)$ is always finite.
+The same is not true for differential operators on function spaces. The distinction
+between *bounded* and *unbounded* operators is one of the fundamental
+differences between finite and infinite dimensions, and it has direct consequences
+for the numerical conditioning of PDE-based linear systems.
+
+
+::: {.callout-note icon=false}
+## Definition: Bounded Linear Operator
+A linear operator $\mathcal{A} : X \to Y$ between normed function spaces is
+*bounded* if there exists a constant $C < \infty$ such that
+$$\|\mathcal{A}u\|_Y \leq C\,\|u\|_X \quad \text{for all } u \in X.$$
+The *operator norm* is defined analogously to the matrix case:
+$$\|\mathcal{A}\|_{\mathrm{op}} = \sup_{\|u\|_X = 1} \|\mathcal{A}u\|_Y.$$
+Every matrix $\bA \in \fR^{m \times n}$ is a bounded operator with
+$\|\bA\|_{\mathrm{op}} = \|\bA\|_2 = \sigma_{\max}(\bA)$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: The Differentiation Operator is Unbounded
+The operator $\mathcal{D} = -d^2/dx^2$ on $L^2[0,1]$ with domain
+$\{u \in L^2[0,1] : u'' \in L^2,\; u(0)=u(1)=0\}$ is *unbounded*: no finite
+constant $C$ satisfies $\|\mathcal{D}u\|_2 \leq C\|u\|_2$ for all $u$ in its domain.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+To show $\mathcal{D}$ is unbounded, we exhibit a sequence of unit-norm functions on
+which $\|\mathcal{D}u_k\|_2$ grows without bound.
+
+
+**Step 1: Define a sequence of test functions.**
+
+Let $u_k(x) = \sqrt{2}\sin(k\pi x)$ for $k = 1, 2, 3, ...$.
+Each $u_k$ satisfies the boundary conditions $u_k(0) = u_k(1) = 0$.
+
+**Step 2: Verify each $u_k$ has unit norm.**
+
+$$\|u_k\|_2^2 = 2\int_0^1 \sin^2(k\pi x)\,dx = 2 \cdot \tfrac{1}{2} = 1.$$
+
+\textbf{Step 3: Compute $\mathcal{D}u_k$.}
+
+Differentiating twice: $-u_k''(x) = k^2\pi^2\sqrt{2}\sin(k\pi x) = k^2\pi^2\,u_k(x)$.
+So $u_k$ is actually an eigenfunction of $\mathcal{D}$, and
+$$\|\mathcal{D}u_k\|_2 = k^2\pi^2\|u_k\|_2 = k^2\pi^2.$$
+
+**Step 4: Conclude.**
+
+For any candidate bound $C$, choose $k > \sqrt{C}/\pi$. Then $k^2\pi^2 > C$, so
+$\|\mathcal{D}u_k\|_2 > C = C\|u_k\|_2$. Since no finite $C$ works, $\mathcal{D}$
+is unbounded.
+:::
+
+
+::: {.callout-tip icon=false}
+Although the continuous operator is unbounded, its $n$-point discretization $\bT$ has
+operator norm $\|\bT\|_2 = \lambda_{\max}(\bT) \approx 4/h^2 = 4(n+1)^2$, which is
+large but finite. This growing norm explains why Poisson systems become increasingly
+ill-conditioned as the grid is refined:
+$$\kappa(\bT) = \frac{\lambda_{\max}}{\lambda_{\min}} \approx \frac{4/h^2}{\pi^2} = O(h^{-2}).$$
+Doubling the grid resolution quadruples the condition number. This is a direct
+numerical consequence of the operator being unbounded in the continuous limit.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+
+1. For $n = 10, 50, 100, 500$, compute $\kappa(\bT) = \lambda_{\max}/\lambda_{\min}$
+  using the analytical eigenvalue formula. Plot $\kappa(\bT)$ vs.\ $n$ on a log-log
+  scale and confirm the $O(n^2)$ growth.
+  
+1. Use `np.linalg.cond` to compute the condition number of the 2-D
+  Laplacian $\mathbf{K}$ for $n = 5, 10, 20$. How does $\kappa(\mathbf{K})$ scale
+  with $n$?
+
+:::
+
+
+## Point Spectrum and Continuous Spectrum
+
+
+For an $n \times n$ matrix, the spectrum is a finite set of eigenvalues. For operators
+on infinite-dimensional spaces, the spectrum can be richer: eigenvalues (point spectrum),
+a continuous range of spectral values with no eigenfunctions (continuous spectrum), or
+both. Which type of spectrum an operator has shapes the numerical algorithms best suited
+to approximate it.
+
+
+::: {.callout-note icon=false}
+## Definition: Spectrum of a Linear Operator
+For an operator $\mathcal{A}$ on a function space, a scalar $\lambda$ belongs to the
+*spectrum* $\sigma(\mathcal{A})$ if $\mathcal{A} - \lambda\mathcal{I}$ is not
+invertible. The spectrum decomposes as follows.
+
+- **Point spectrum** $\sigma_p$: values $\lambda$ for which $\mathcal{A}u = \lambda u$
+  has a nonzero solution (a genuine eigenfunction).
+  
+- **Continuous spectrum** $\sigma_c$: values $\lambda$ for which no eigenfunction
+  exists, but there are approximate eigenfunctions: a sequence $u_k$ with $\|u_k\| = 1$
+  and $\|\mathcal{A}u_k - \lambda u_k\| \to 0$. Intuitively, $\lambda$ is ``almost'' an
+  eigenvalue but the limiting object does not live in the space.
+
+For $n \times n$ matrices, $\sigma(\bA) = \sigma_p(\bA)$: only point spectrum exists.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Spectrum of the 1-D Laplacian on $[0,1]$
+The operator $\mathcal{D} = -d^2/dx^2$ with homogeneous Dirichlet conditions on $[0,1]$
+has purely point spectrum:
+$$\sigma(\mathcal{D}) = \sigma_p(\mathcal{D}) = \{k^2\pi^2 : k = 1, 2, 3, ...\}.$$
+The corresponding eigenfunctions $u_k(x) = \sqrt{2}\sin(k\pi x)$ form an orthonormal
+basis of $L^2[0,1]$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+We solve $-u'' = \lambda u$ subject to $u(0) = u(1) = 0$ and find all $\lambda$ for
+which a nonzero solution exists.
+
+
+**Step 1: Write down the general solution.**
+
+For $\lambda > 0$, the ODE $-u'' = \lambda u$ has general solution
+$$u(x) = A\sin(\sqrt{\lambda}\,x) + B\cos(\sqrt{\lambda}\,x).$$
+
+**Step 2: Apply the boundary condition at $x = 0$.**
+
+Setting $u(0) = 0$ gives $B \cdot 1 = 0$, so $B = 0$ and $u(x) = A\sin(\sqrt{\lambda}\,x)$.
+
+**Step 3: Apply the boundary condition at $x = 1$.**
+
+Setting $u(1) = 0$ requires $A\sin(\sqrt{\lambda}) = 0$. For a nonzero solution we
+need $A \neq 0$, so $\sin(\sqrt{\lambda}) = 0$. This forces $\sqrt{\lambda} = k\pi$
+for some positive integer $k$.
+
+**Step 4: Conclude.**
+
+The admissible eigenvalues are $\lambda_k = k^2\pi^2$, with eigenfunctions
+$u_k(x) = \sqrt{2}\sin(k\pi x)$ (normalized). Completeness of $\{u_k\}$ in $L^2[0,1]$
+is the Fourier sine series, a classical result from Sturm-Liouville theory.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Spectrum of the Laplacian on $\fR$
+The operator $\mathcal{D} = -d^2/dx^2$ on $L^2(\fR)$ has purely continuous spectrum:
+$$\sigma(\mathcal{D}) = \sigma_c(\mathcal{D}) = [0, \infty).$$
+There are no $L^2(\fR)$ eigenfunctions.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+We show two things: no eigenvalues exist, but every $\lambda \geq 0$ is in the spectrum.
+
+
+**Step 1: There are no $L^2$ eigenfunctions.**
+
+For any $\lambda = \xi^2 \geq 0$, the equation $-u'' = \xi^2 u$ has solutions
+$e^{i\xi x}$ and $e^{-i\xi x}$. These are bounded functions, but
+$$\int_\fR |e^{i\xi x}|^2\,dx = \int_\fR 1\,dx = \infty,$$
+so neither is in $L^2(\fR)$. Hence $\sigma_p(\mathcal{D}) = \emptyset$.
+
+**Step 2: Every $\lambda \geq 0$ is still in the spectrum via approximate eigenfunctions.**
+
+Fix $\xi \in \fR$ and let $\lambda = \xi^2$. Choose a smooth bump function $\phi$ that
+is supported on $[-1,1]$ and has $\|\phi\|_2 = 1$. Define the rescaled sequence
+$$u_k(x) = \frac{1}{\sqrt{k}}\,\phi\!\left(\frac{x}{k}\right) e^{i\xi x}, \quad k = 1, 2, 3, ...$$
+Each $u_k$ is in $L^2(\fR)$, normalized ($\|u_k\|_2 = 1$), and one can verify that
+$\|(-\partial_{xx} - \xi^2)u_k\|_2 \to 0$ as $k \to \infty$. So $\lambda = \xi^2$ is
+in the continuous spectrum.
+
+**Step 3: The spectrum is bounded below by $0$.**
+
+For any $u$ in the domain, integration by parts gives
+$\langle -u'', u\rangle_{L^2} = \int_\fR |u'|^2\,dx \geq 0$,
+so $\mathcal{D}$ has no spectrum below $0$.
+:::
+
+
+::: {.callout-tip icon=false}
+**Why this matters for Lab 4.** 
+When you discretize the Laplacian on $[0,1]$ with $n$ points, you obtain $n$
+eigenvalues approximating $\{k^2\pi^2\}_{k=1}^n$. As $n$ grows:
+
+- On a bounded domain, the discrete eigenvalues converge to the countable point
+  spectrum $\{k^2\pi^2\}$. High-frequency modes require finer grids to resolve accurately.
+  
+- On an unbounded or periodic domain, the eigenvalues of the finite discretization
+  fill in densely, converging to the continuous spectrum $[0,\infty)$ as the domain size
+  grows.
+
+This is why the Fourier transform, which diagonalizes $-d^2/dx^2$ on $\fR$ through its
+continuous spectrum, is the natural tool for unbounded or periodic problems, while
+eigenfunction expansions (Fourier sine series) are natural for bounded domains.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+
+1. For $n = 20, 50, 100$, compute all eigenvalues of the 1-D discrete Laplacian
+  $\bT$ and plot them alongside the continuous values $k^2\pi^2$.
+  At what index $k$ do the discrete eigenvalues begin to deviate significantly from
+  $k^2\pi^2$? (*This deviation is related to the Nyquist sampling limit.*)
+  
+1. Modify the 1-D Laplacian to use *periodic* boundary conditions by setting
+  $T_{1n} = T_{n1} = -1/h^2$. Compute the eigenvalues and compare them to the Dirichlet
+  case. What is the smallest eigenvalue, and why does this make physical sense for a
+  domain with no boundaries?
+  
+1. (*Verifying second-order convergence.*)
+  The exact solution to $-u'' = \pi^2\sin(\pi x)$ on $[0,1]$ with $u(0) = u(1) = 0$
+  is $u(x) = \sin(\pi x)$. Solve the discrete system $\bT\mathbf{u} = \mathbf{f}$ for
+  $n = 10, 20, 40, 80$ and compute the error $\|u_h - u\|_\infty$ at each resolution.
+  Plot the error vs.\ $h$ on a log-log scale. What is the slope, and does it confirm
+  $O(h^2)$ convergence?
+
+:::

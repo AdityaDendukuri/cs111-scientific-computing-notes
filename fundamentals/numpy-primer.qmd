@@ -1,0 +1,153 @@
+# Python and NumPy Primer
+
+
+Every exercise in these notes uses Python with NumPy. This subsection is a
+condensed reference --- not a full tutorial. If you are new to NumPy, work through
+the exercises here before proceeding; if you are experienced, use this as a quick lookup.
+
+## Arrays and Basic Operations
+
+
+::: {.callout-note icon=false}
+## Definition: NumPy Arrays
+The core object in NumPy is the `ndarray`. Key creation patterns:
+
+- `np.array([1.0, 2.0, 3.0])` --- 1-D array (vector) from a Python list.
+  
+- `np.array([[1, 2], [3, 4]])` --- 2-D array (matrix).
+  
+- `np.zeros((m, n))`, `np.ones((m, n))`, `np.eye(n)` --- special matrices.
+  
+- `np.random.randn(m, n)` --- $m \times n$ matrix with i.i.d.\ $\mathcal{N}(0,1)$ entries.
+  
+- `np.arange(start, stop, step)`, `np.linspace(a, b, n)` --- ranges.
+
+Arrays are 0-indexed: `A[i, j]` accesses row $i$, column $j$;
+`A[i, :]` is row $i$; `A[:, j]` is column $j$.
+:::
+
+
+::: {.callout-tip icon=false}
+**Shape and dtype.** 
+`A.shape` returns a tuple `(m, n)`; `x.shape` for a 1-D array
+returns `(n,)`, *not* `(n, 1)`. Use `x.reshape(-1, 1)` or
+`x[:, None]` to convert to a column vector. The default floating-point dtype is
+`float64` (IEEE double precision, $\varepsilon_{\text{mach}} \approx 2.2 \times 10^{-16}$).
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. Create a $4 \times 4$ identity matrix. Print its `shape` and `dtype`.
+  
+1. Create a $3 \times 3$ random matrix `A`. Extract its second row and third column as separate arrays.
+  
+1. Verify that `np.zeros((3,))` and `np.zeros((3, 1))` have different
+  shapes. What error occurs if you pass a shape-`(3,)` array where a column vector
+  is expected in a matrix-vector multiply?
+
+:::
+
+
+## Linear Algebra Operations
+
+
+::: {.callout-note icon=false}
+## Definition: Key `np.linalg` Functions
+The `numpy.linalg` module provides the core linear algebra routines used
+throughout this course:
+
+\begin{tabular}{ll}
+**Function** & **Computes** \\ \hline
+`A @ B`   (or `np.dot(A, B)`) & Matrix product $\bA\bB$ \\
+`np.linalg.solve(A, b)` & Solution $\bx$ to $\bA\bx = \bb$ \\
+`np.linalg.inv(A)` & Matrix inverse $\bA^{-1}$ (avoid; use `solve`) \\
+`np.linalg.det(A)` & Determinant $\det(\bA)$ \\
+`np.linalg.norm(x)` & Euclidean norm $\|\bx\|_2$ \\
+`np.linalg.norm(A, 'fro')` & Frobenius norm $\|\bA\|_F$ \\
+`np.linalg.eig(A)` & Eigenvalues and eigenvectors of $\bA$ \\
+`np.linalg.eigh(A)` & Eigenvalues of symmetric $\bA$ (more stable) \\
+`np.linalg.svd(A)` & Full SVD: returns $\bU$, $\bsigma$, $\bV^T$ \\
+`np.linalg.qr(A)` & QR factorization: returns $\bQ$, $\bR$ \\
+`np.linalg.cond(A)` & Condition number $\kappa_2(\bA) = \sigma_{\max}/\sigma_{\min}$ \\
+\end{tabular}
+
+:::
+
+
+::: {.callout-tip icon=false}
+\textbf{Use `solve`, not `inv`.} 
+`np.linalg.solve(A, b)` computes the solution to $\bA\bx = \bb$ via LU
+factorization in $O(n^3)$ flops. The alternative `np.linalg.inv(A) @ b` also
+costs $O(n^3)$ but performs an extra matrix-vector multiply and accumulates more rounding
+error. Computing $\bA^{-1}$ explicitly is almost never necessary or desirable in
+numerical computing.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. Solve
+  $\begin{pmatrix} 2 & 1 \\ 5 & 7 \end{pmatrix} \bx = \begin{pmatrix} 11 \\ 13 \end{pmatrix}$
+  using `np.linalg.solve`. Verify your solution by computing the residual $\bA\bx - \bb$.
+  
+1. For a random $500 \times 500$ matrix, time `np.linalg.solve(A, b)`
+  vs.\ `np.linalg.inv(A) @ b` over 10 trials. Which is faster, and by how much?
+  
+1. Use `np.linalg.eig` on a $3 \times 3$ symmetric matrix. Do any
+  eigenvalues have nonzero imaginary parts? Repeat with `np.linalg.eigh`
+  and compare the results.
+
+:::
+
+
+## Useful Idioms
+
+
+::: {.callout-tip icon=false}
+**Element-wise vs.\ matrix operations.** 
+`*` between two arrays is *element-wise* multiplication (Hadamard product),
+not matrix multiplication. Use `@` for matrix products. Similarly, `A**2`
+squares every entry; `np.linalg.matrix\_power(A, 2)` computes $\bA^2 = \bA\bA$.
+:::
+
+
+::: {.callout-tip icon=false}
+**Broadcasting.** 
+NumPy broadcasts operations across dimensions when shapes are compatible.
+`A + 1` adds 1 to every entry of $\bA$; `A * v` for a length-$n$ vector
+`v` scales column $j$ of an $m \times n$ matrix by `v[j]`.
+Broadcasting avoids explicit loops and is critical for performance.
+:::
+
+
+::: {.callout-tip icon=false}
+**Views vs.\ copies.** 
+`B = A` does *not* copy the array --- `B` is a view (alias) of the
+same data. Modifying `B` modifies `A`. Use `B = A.copy()` to
+create an independent copy. Slices (`A[i, :]`) are also views.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+
+1. Let `A = np.array([[1,2],[3,4]])`. Compute `A * A` and
+  `A @ A`. Which gives $\bA^2 = \bA\bA$?
+  
+1. Demonstrate the view pitfall: set `B = A`, then `B[0, 0] = 99`.
+  What is `A[0, 0]`? Repeat with `B = A.copy()`.
+  
+1. For a diagonal scaling $\bA\bD$ where $\bD = \mathrm{diag}(\mathbf{d})$, compute the
+  product using broadcasting (`A * d`) instead of `A @ np.diag(d)`.
+  Verify the two agree. Why is the broadcasting version preferred for large $n$?
+  
+1. In Python, construct the matrix $\bA = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}$
+  and compute $\bA^k$ for $k = 1, 2, 5, 10$ using `np.linalg.matrix\_power`.
+  Describe the pattern in the $(1,2)$ entry.
+
+:::

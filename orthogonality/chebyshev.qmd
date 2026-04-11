@@ -1,0 +1,437 @@
+# Chebyshev Polynomials and Polynomial Approximation
+
+
+In the least squares exercises above, you built Vandermonde matrices (the result above)
+to fit polynomials to data. That worked fine for low degrees, but something goes wrong
+as the degree grows: the matrix becomes catastrophically ill-conditioned, and even
+a carefully placed set of interpolation points leads to a polynomial that oscillates
+wildly. Both failures have the same root cause: the monomial basis
+$\{1, x, x^2, ..., x^n\}$ is a poor basis for polynomial approximation.
+Chebyshev polynomials fix both problems simultaneously. They are orthogonal, bounded,
+and satisfy a minimax optimality property that makes them the best possible basis for
+approximating smooth functions on a bounded interval. This subsection demonstrates
+each failure mode and shows precisely how Chebyshev polynomials resolve it.
+
+
+## Why the Monomial Basis Fails
+
+
+There are two distinct ways the monomial basis breaks down. The first is numerical:
+the Vandermonde matrix built from $\{1, x, x^2, ..., x^n\}$ has a condition number
+that grows exponentially with degree, regardless of the node placement. The second is
+analytical: even if the linear system could be solved exactly, interpolating a smooth
+function at equally spaced points leads to a polynomial that diverges near the
+endpoints as the degree grows. Understanding both failures motivates every design
+choice in the Chebyshev approach.
+
+
+Recall from the result above that the Vandermonde matrix $\bV$ encodes a
+polynomial fitting problem in the monomial basis: given nodes $x_0, ..., x_n$ and
+values $f(x_0), ..., f(x_n)$, the coefficients of the interpolating polynomial
+satisfy $\bV\bc = \mathbf{f}$. The matrix is invertible whenever the nodes are distinct
+(since its determinant equals $\prod_{i>j}(x_i - x_j)$). The question we focus on
+here is not whether a solution exists, but how reliably it can be computed.
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. Build the square Vandermonde matrix for $n+1$ equally spaced nodes on $[-1,1]$
+  in NumPy for $n = 5, 10, 15, 20$. Compute $\kappa_2(\bV)$ for each. Plot $\kappa_2(\bV)$
+  vs.\ $n$ on a log scale. How fast does the condition number grow?
+  
+1. For $n = 10$, solve $\bV\bc = \mathbf{f}$ with $f(x_i) = \cos(\pi x_i)$
+  using `np.linalg.solve`, then using `np.linalg.lstsq`. Do you get
+  the same coefficients? Compute the residual $\|\bV\bc - \mathbf{f}\|_2$ for both.
+  
+1. If $\mathbf{f}$ has noise at level $10^{-12}$ and $\kappa(\bV) = 10^{10}$,
+  what is the worst-case relative error in $\bc$?
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Runge's Phenomenon
+*Runge's phenomenon* is the divergence of polynomial interpolants at equally
+spaced nodes as the degree grows. The prototypical example is Runge's function
+$f(x) = \frac{1}{1 + 25x^2}$ on $[-1, 1]$: although $f$ is infinitely differentiable,
+the degree-$n$ interpolant at $n+1$ equally spaced nodes satisfies
+$$\max_{x \in [-1,1]}|f(x) - p_n(x)| \to \infty \quad \text{as } n \to \infty.$$
+The oscillations are largest near the endpoints $\pm 1$.
+:::
+
+
+::: {.callout-tip icon=false}
+The interpolation error at a point $x$ is bounded by
+$$|f(x) - p_n(x)| \leq \frac{\|f^{(n+1)}\|_\infty}{(n+1)!}\,|\omega_n(x)|,
+  \qquad \omega_n(x) = \prod_{k=0}^{n}(x - x_k).$$
+For equally spaced nodes, $\|\omega_n\|_\infty$ grows like $(n/2e)^n$ near the endpoints
+(even though $(n+1)!$ also grows, the numerator wins). For Runge's function, the
+derivatives $\|f^{(n+1)}\|_\infty$ also blow up, compounding the problem.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Runge's phenomenon.)**
+Refer to the result above.
+
+1. In NumPy, interpolate $f(x) = 1/(1+25x^2)$ at $n+1$ equally spaced nodes
+  on $[-1,1]$ for $n = 5, 10, 15, 20$ using `np.polyfit` or by solving the
+  Vandermonde system. For each $n$, plot both $f$ and $p_n$ on the same axes.
+  Describe what happens near $x = \pm 1$ as $n$ grows.
+  
+1. Compute $\max_{x}|f(x) - p_n(x)|$ (use 500 evaluation points) for
+  $n = 5, 10, 15, 20$. Plot the maximum error vs.\ $n$. Does it decrease?
+  
+1. (*The node polynomial.*)
+  For $n = 10$ equally spaced nodes on $[-1,1]$, plot $|\omega_{10}(x)|$ vs.\ $x$.
+  Where is $|\omega_{10}|$ largest? How does this explain the shape of the
+  interpolation error in part 1?
+
+:::
+
+
+## Chebyshev Polynomials
+
+
+The failures of the monomial basis come down to two causes: the monomials $x^k$ are
+nearly linearly dependent on $[-1,1]$ for large $k$ (leading to ill-conditioning), and
+equispaced nodes concentrate the node polynomial near the boundary (leading to Runge's
+phenomenon). Chebyshev polynomials are the natural remedy: they are bounded by 1 on
+$[-1,1]$, form an orthogonal basis, and their zeros (the Chebyshev nodes) distribute
+mass towards the endpoints in exactly the way needed to suppress boundary oscillations.
+
+
+::: {.callout-note icon=false}
+## Definition: Chebyshev Polynomials
+The *Chebyshev polynomials of the first kind* $T_k : [-1,1] \to \fR$ are defined by
+$$T_k(x) = \cos(k\arccos x), \quad k = 0, 1, 2, ...$$
+They satisfy the three-term recurrence
+$$T_0(x) = 1, \quad T_1(x) = x, \quad T_{k+1}(x) = 2x\,T_k(x) - T_{k-1}(x),$$
+and the first few are $T_0 = 1$, $T_1 = x$, $T_2 = 2x^2 - 1$,
+$T_3 = 4x^3 - 3x$, $T_4 = 8x^4 - 8x^2 + 1$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Key Properties of Chebyshev Polynomials
+For all $k \geq 0$ and $x \in [-1,1]$:
+
+1. **Boundedness**: $|T_k(x)| \leq 1$, with $T_k(\cos\theta) = \cos(k\theta)$.
+  
+1. **Equioscillation**: $T_k$ attains the values $\pm 1$ exactly $k+1$ times
+  on $[-1,1]$ (at $x_j = \cos(j\pi/k)$ for $j = 0, ..., k$).
+  
+1. **Zeros**: $T_k$ has $k$ simple roots at
+  $\tilde{x}_j = \cos\!\left(\tfrac{(2j-1)\pi}{2k}\right)$ for $j = 1, ..., k$.
+  
+1. **Leading coefficient**: $T_k$ is a polynomial of degree $k$ with
+  leading coefficient $2^{k-1}$ (for $k \geq 1$).
+
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+All four properties follow directly from the definition $T_k(x) = \cos(k\arccos x)$.
+
+
+**(1) and (2):** Setting $x = \cos\theta$ gives $T_k(\cos\theta) = \cos(k\theta)$.
+Since $|\cos(k\theta)| \leq 1$ for all $\theta$, we have $|T_k(x)| \leq 1$.
+The cosine equals $\pm 1$ at $\theta = j\pi/k$, giving the equioscillation points.
+
+**(3):** The roots are where $\cos(k\theta) = 0$, i.e., $k\theta = (2j-1)\pi/2$,
+giving $\theta = (2j-1)\pi/(2k)$ and $x = \cos((2j-1)\pi/(2k))$.
+
+**(4):** The recurrence $T_{k+1} = 2x\,T_k - T_{k-1}$ starts from $T_1(x) = x$
+(leading coefficient $1 = 2^0$) and $T_2(x) = 2x^2 - 1$ (leading coefficient $2 = 2^1$).
+By induction, the recurrence doubles the leading coefficient at each step,
+giving $2^{k-1}$ for $T_k$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above and the result above.
+
+1. Using the recurrence, compute $T_5(x)$ and $T_6(x)$ by hand. Verify your
+  results with `numpy.polynomial.chebyshev.chebval`.
+  
+1. Plot $T_0, T_1, ..., T_5$ on $[-1, 1]$ on the same axes. Confirm that
+  each $T_k$ stays within $[-1,1]$ and oscillates exactly $k$ times.
+  
+1. Verify numerically that the roots of $T_5$ are
+  $x_j = \cos((2j-1)\pi/10)$ for $j = 1, ..., 5$.
+  
+1. Confirm the leading coefficient of $T_k$ is $2^{k-1}$ for $k = 2, 3, 4$ by
+  expanding the recurrence and reading off the coefficient of $x^k$.
+
+:::
+
+
+## Orthogonality and Chebyshev Nodes
+
+
+The cosine definition immediately reveals an orthogonality structure. Under the change
+of variables $x = \cos\theta$, the Chebyshev polynomials become ordinary cosines, and
+their orthogonality follows from the orthogonality of cosines. In the $x$ variable, the
+weight function $w(x) = 1/\sqrt{1-x^2}$ appears, which concentrates mass near the
+endpoints $\pm 1$. The zeros of $T_n$ (the Chebyshev nodes) are exactly the points
+where this endpoint clustering is captured in a finite node set. Using them for
+interpolation produces a Vandermonde-type system that is dramatically better conditioned
+than the equispaced case.
+
+
+::: {.callout-note icon=false}
+## Theorem: Chebyshev Orthogonality
+The Chebyshev polynomials are orthogonal on $[-1,1]$ with weight $w(x) = 1/\sqrt{1-x^2}$:
+$$\int_{-1}^{1} T_j(x)\,T_k(x)\,\frac{dx}{\sqrt{1-x^2}} =
+  \begin{cases}
+    0     & j \neq k, \\
+    \pi/2 & j = k \geq 1, \\
+    \pi   & j = k = 0.
+  \end{cases}$$
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Substitute $x = \cos\theta$, $dx = -\sin\theta\,d\theta$, $\sqrt{1-x^2} = \sin\theta$:
+$$\int_{-1}^{1} T_j(x)\,T_k(x)\,\frac{dx}{\sqrt{1-x^2}}
+  = \int_\pi^0 \cos(j\theta)\cos(k\theta)\,\frac{-\sin\theta\,d\theta}{\sin\theta}
+  = \int_0^\pi \cos(j\theta)\cos(k\theta)\,d\theta.$$
+The last integral is the standard cosine orthogonality relation, which equals $0$ for
+$j \neq k$, $\pi/2$ for $j = k \geq 1$, and $\pi$ for $j = k = 0$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Chebyshev Nodes
+The $n$ *Chebyshev nodes of the first kind* on $[-1,1]$ are the zeros of $T_n$:
+$$x_k = \cos\!\left(\frac{(2k-1)\pi}{2n}\right), \quad k = 1, ..., n.$$
+They cluster near the endpoints $\pm 1$ (the density of nodes near $x$ is proportional
+to $1/\sqrt{1-x^2}$, exactly matching the weight in the orthogonality relation).
+For nodes on a general interval $[a,b]$, shift and scale:
+$x_k^{[a,b]} = \frac{a+b}{2} + \frac{b-a}{2}\,x_k$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: The Node Polynomial at Chebyshev Nodes
+For the $n$ Chebyshev nodes $x_1, ..., x_n$, the node polynomial satisfies
+$$\prod_{k=1}^{n}(x - x_k) = \frac{T_n(x)}{2^{n-1}}.$$
+Its supremum norm on $[-1,1]$ is $1/2^{n-1}$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+The zeros of $T_n$ are exactly the Chebyshev nodes $x_k$. The leading coefficient of
+$T_n$ is $2^{n-1}$ (the result above(4)), so the monic polynomial with
+the same roots is $T_n(x)/2^{n-1}$. Since $|T_n(x)| \leq 1$ on $[-1,1]$, the supremum
+norm of the node polynomial is at most $1/2^{n-1}$, and it is attained at the
+equioscillation points of $T_n$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to Defs~above and~above.
+
+1. Compute the 10 Chebyshev nodes on $[-1,1]$ and plot them alongside
+  10 equally spaced nodes. Describe the qualitative difference in their distribution.
+  
+1. For $n = 10$, plot $|\omega_n(x)|$ for both equispaced nodes and Chebyshev
+  nodes on $[-1, 1]$ using 500 evaluation points.
+  Compare $\max_x |\omega_n(x)|$ for both. How much smaller is the Chebyshev version?
+  
+1. Now repeat the Runge function experiment (Exercise from
+  the result above) but using Chebyshev nodes instead of equispaced nodes.
+  Plot the max interpolation error vs.\ $n$ for both node sets on the same axes.
+  Does the error decrease with Chebyshev nodes?
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Condition numbers: monomial vs.\ Chebyshev basis.)**
+Let $\bV_{\mathrm{mono}}$ be the Vandermonde matrix with $n+1$ Chebyshev nodes and
+the monomial basis $V_{ij} = x_i^j$. Let $\bV_{\mathrm{cheb}}$ be the same nodes but
+with the Chebyshev basis $V_{ij} = T_j(x_i)$.
+
+1. Build both matrices in NumPy for $n = 5, 10, 15, 20$. Compute $\kappa_2$ for
+  each. Plot both condition numbers vs.\ $n$ on the same log-scale axes.
+  
+1. Explain why $\bV_{\mathrm{cheb}}$ has a much better condition number, using
+  the orthogonality of $\{T_k\}$ (the result above).
+  
+1. Using both matrices, solve the interpolation problem for
+  $f(x) = 1/(1+25x^2)$ at $n = 20$ Chebyshev nodes. Do both systems give the same
+  polynomial? Which system is safer to solve numerically?
+
+:::
+
+
+## The Minimax Property
+
+
+The node polynomial theorem says Chebyshev nodes minimize $\|\omega_n\|_\infty$ over
+all choices of $n$ nodes. But Chebyshev polynomials satisfy something even stronger:
+$T_n/2^{n-1}$ is the unique monic polynomial of degree $n$ that has the smallest
+possible sup-norm on $[-1,1]$, among all monic polynomials of degree $n$. This
+minimax property is the algebraic reason Chebyshev nodes and basis are optimal, and
+it connects directly to the equioscillation characterization of best polynomial
+approximations.
+
+
+::: {.callout-note icon=false}
+## Theorem: Chebyshev Minimax Property
+Among all monic polynomials of degree $n$, the scaled Chebyshev polynomial
+$\tilde{T}_n(x) = T_n(x)/2^{n-1}$ has the smallest sup-norm on $[-1,1]$:
+$$\|\tilde{T}_n\|_\infty = \frac{1}{2^{n-1}} \leq \|q\|_\infty$$
+for every monic polynomial $q$ of degree $n$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+We argue by contradiction.
+
+
+**Step 1: Suppose a better monic polynomial exists.**
+
+Assume $q$ is monic of degree $n$ and $\|q\|_\infty < 1/2^{n-1}$.
+
+**Step 2: Form the difference.**
+
+Let $r = \tilde{T}_n - q$. Since both are monic of degree $n$, their leading coefficients
+cancel and $r$ has degree at most $n-1$.
+
+**Step 3: Count sign changes.**
+
+The polynomial $\tilde{T}_n$ equioscillates between $+1/2^{n-1}$ and $-1/2^{n-1}$ at
+$n+1$ points $x_0 > x_1 > \cdots > x_n$ (the extrema of $T_n$). At each $x_j$,
+$|\tilde{T}_n(x_j)| = 1/2^{n-1}$ and $|q(x_j)| < 1/2^{n-1}$, so $r(x_j) =
+\tilde{T}_n(x_j) - q(x_j)$ has the same sign as $\tilde{T}_n(x_j)$.
+Since $\tilde{T}_n$ alternates sign at consecutive extrema, so does $r$.
+
+**Step 4: Derive a contradiction.**
+
+$r$ changes sign at least $n$ times, so $r$ has at least $n$ roots.
+But $\deg(r) \leq n-1$, so $r$ can have at most $n-1$ roots unless $r \equiv 0$.
+This is a contradiction, so no such $q$ exists.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. For $n = 1, 2, 3$, write out $\tilde{T}_n(x) = T_n(x)/2^{n-1}$ explicitly
+  and verify $\|\tilde{T}_n\|_\infty = 1/2^{n-1}$ by finding its maximum on $[-1,1]$.
+  
+1. Show that among all polynomials $p$ of degree $\leq n-1$, the best approximation
+  to $x^n$ in the sup-norm on $[-1,1]$ is $x^n - \tilde{T}_n(x)$.
+  (\textit{Hint: write $x^n = \tilde{T}_n(x) + (x^n - \tilde{T}_n(x))$ and apply the
+  minimax theorem.})
+  
+1. In NumPy, generate 10 random monic polynomials of degree 5 with coefficients
+  drawn from $\mathcal{N}(0,1)$ (for the lower-degree terms). Compare their
+  $\|\cdot\|_\infty$ norms on $[-1,1]$ to $1/2^4 = 1/16$. How many beat $1/16$?
+
+:::
+
+
+## Chebyshev Series and Approximation
+
+
+Just as the Fourier series expands a periodic function in the basis $\{e^{ikx}\}$,
+the Chebyshev series expands a function on $[-1,1]$ in the basis $\{T_k\}$.
+Under the substitution $x = \cos\theta$, a function $f(x)$ on $[-1,1]$ becomes
+$g(\theta) = f(\cos\theta)$ on $[0,\pi]$, and the Chebyshev series of $f$ is exactly
+the cosine series of $g$. This is yet another instance of the Fourier change-of-basis
+from Section~above, now applied to the interval $[-1,1]$ via the
+substitution $x = \cos\theta$.
+
+
+::: {.callout-note icon=false}
+## Definition: Chebyshev Series
+For $f : [-1,1] \to \fR$, the *Chebyshev series* is
+$$f(x) = \sum_{k=0}^{\infty} {}' c_k T_k(x),$$
+where the prime on the sum means the $k=0$ term is halved, and the coefficients are
+$$c_k = \frac{2}{\pi}\int_{-1}^{1} f(x)\,T_k(x)\,\frac{dx}{\sqrt{1-x^2}}.$$
+The truncation $p_n(x) = \sum_{k=0}^{n} {}' c_k T_k(x)$ is the degree-$n$ Chebyshev
+approximation to $f$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Exponential Convergence for Analytic Functions
+If $f$ is analytic on $[-1,1]$ and can be analytically continued to a Bernstein
+ellipse with parameter $\rho > 1$ (an ellipse with foci at $\pm 1$ and sum of
+semi-axes equal to $\rho$), then the Chebyshev coefficients satisfy
+$$|c_k| \leq M\,\rho^{-k}$$
+for some constant $M$. Consequently, the truncation error satisfies
+$\|f - p_n\|_\infty = O(\rho^{-n})$ as $n \to \infty$.
+:::
+
+
+::: {.callout-tip icon=false}
+The exponential convergence rate contrasts sharply with the polynomial convergence of
+finite-difference approximations ($O(h^p)$ for order-$p$ methods). For smooth functions,
+increasing the polynomial degree by 1 multiplies the error by $1/\rho < 1$. In practice,
+just 20 to 30 Chebyshev terms often give errors near machine precision for analytic
+functions. This is called *spectral accuracy*.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above and the result above.
+
+1. Use `numpy.polynomial.chebyshev.chebfit(x, f, deg)` to compute the
+  degree-$n$ Chebyshev approximation to $f(x) = e^x$ on $[-1,1]$ for
+  $n = 2, 4, 8, 16$. Plot $\|f - p_n\|_\infty$ vs.\ $n$ on a log scale.
+  Does the error decrease exponentially?
+  
+1. Repeat for $f(x) = |x|$ (not analytic at $x=0$). Compare the convergence
+  rate for $e^x$ and $|x|$. What does the result above predict
+  for $|x|$, given that it cannot be analytically continued past any ellipse?
+  
+1. (*Comparison of all three methods.*)
+  For $f(x) = 1/(1+25x^2)$, compute the degree-$n$ approximation error
+  $\|f - p_n\|_\infty$ for $n = 5, 10, 15, 20$ using three methods:
+  (a) monomial basis with equispaced nodes (Vandermonde solve),
+  (b) monomial basis with Chebyshev nodes,
+  (c) Chebyshev basis with Chebyshev nodes (`chebfit`).
+  Plot all three error curves on the same log-scale axes.
+  Which methods converge? Which diverge? Explain each result using the theory above.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Chebyshev differentiation.)**
+Because the Chebyshev basis diagonalizes the right operations, differentiation in the
+Chebyshev basis is a structured recurrence rather than a full matrix-vector product.
+
+1. Show that $T_k'(x) = k U_{k-1}(x)$ where $U_{k-1}(x) = \sin(k\arccos x)/\sin(\arccos x)$
+  are the Chebyshev polynomials of the second kind. (*Hint: differentiate
+  $T_k(x) = \cos(k\arccos x)$ using the chain rule.*)
+  
+1. The derivative of $f(x) = \sum_k c_k T_k(x)$ has Chebyshev coefficients
+  $c_k^{(1)}$ satisfying the recurrence $c_{k-1}^{(1)} = c_{k+1}^{(1)} + 2k c_k$
+  (summing from $k = n$ down to $1$). Use this to differentiate $p(x) = T_3(x) + 2T_2(x)$
+  and verify against the exact derivative.
+  
+1. Implement spectral differentiation via `numpy.polynomial.chebyshev.chebder`
+  and compare the accuracy of differentiating $f(x) = \sin(\pi x)$ using (a) second-order
+  finite differences with $n$ equispaced points and (b) the Chebyshev spectral derivative
+  with $n$ Chebyshev nodes. Plot the error vs.\ $n$ for both. At $n = 20$, which method
+  is more accurate?
+
+:::

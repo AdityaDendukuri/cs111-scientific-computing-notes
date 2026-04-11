@@ -1,0 +1,173 @@
+# Overdetermined Systems and Least Squares
+
+
+So far we have focused on square invertible systems $\bA\bx = \bb$. In practice, data fitting and regression produce overdetermined systems ($m > n$ equations, $n$ unknowns) that typically have no exact solution. The method of least squares provides the principled approach: find the $\bx$ minimizing $\|\bA\bx - \bb\|_2$. The geometry, optimality conditions, and numerically stable algorithms for this problem form the core of this section.
+
+
+## Overdetermined Systems
+
+
+::: {.callout-note icon=false}
+## Definition: Overdetermined Linear System
+A system $\bA\bx = \bb$ with $\bA \in \fR^{m\times n}$, $m > n$, is *overdetermined*. Since the range of $\bA$ has dimension at most $n < m$, a generic $\bb \in \fR^m$ lies outside $\mathcal{R}(\bA)$ and no exact solution exists.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Least Squares Problem
+Given $\bA \in \fR^{m\times n}$ and $\bb \in \fR^m$, the *least squares problem* is
+$$\hat{\bx} = \arg\min_{\bx \in \fR^n} \|\bA\bx - \bb\|_2^2.$$
+The minimizer $\hat{\bx}$ makes $\bA\hat{\bx}$ the closest point in $\mathcal{R}(\bA)$ to $\bb$ in the Euclidean norm.
+:::
+
+
+::: {.callout-tip icon=false}
+Overdetermined systems arise throughout science: fitting a model with $n$ parameters to $m \gg n$ measurements, regression in statistics, signal denoising, and computer vision. The key insight is that the least squares solution corresponds to the orthogonal projection of $\bb$ onto the column space of $\bA$.
+:::
+
+
+## Normal Equations
+
+
+::: {.callout-note icon=false}
+## Theorem: Normal Equations
+The vector $\hat{\bx}$ minimizes $\|\bA\bx - \bb\|_2^2$ if and only if it satisfies the *normal equations*
+$$\bA^T\bA\hat{\bx} = \bA^T\bb.$$
+If $\bA$ has full column rank, the unique least squares solution is $\hat{\bx} = (\bA^T\bA)^{-1}\bA^T\bb$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Let $f(\bx) = \|\bA\bx - \bb\|_2^2 = \bx^T\bA^T\bA\bx - 2\bb^T\bA\bx + \bb^T\bb$. Since $\bA^T\bA$ is symmetric, the gradient is $\nabla f = 2\bA^T\bA\bx - 2\bA^T\bb$. Setting $\nabla f = \bzero$ gives $\bA^T\bA\hat{\bx} = \bA^T\bb$. The Hessian is $2\bA^T\bA \succeq 0$, so this critical point is a global minimum; it is unique when $\bA^T\bA \succ 0$, i.e.\ when $\bA$ has full column rank. *Geometric view:* $\br = \bb - \bA\hat{\bx}$ must satisfy $\bA^T\br = \bzero$ (residual is orthogonal to each column of $\bA$), which is exactly the normal equations.
+:::
+
+
+::: {.callout-tip icon=false}
+The name ``normal equations'' comes from the fact that the residual $\br = \bb - \bA\hat{\bx}$ is *normal* (perpendicular) to the column space of $\bA$. This orthogonality principle $\bA^T\br = \bzero$ is fundamental to least squares theory.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Condition Number Squaring
+If $\bA$ has full column rank, then $\kappa_2(\bA^T\bA) = \kappa_2(\bA)^2$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+The singular values of $\bA$ are $\sigma_1 \geq \cdots \geq \sigma_n > 0$. The matrix $\bA^T\bA$ is symmetric positive definite with eigenvalues equal to the squared singular values $\sigma_1^2 \geq \cdots \geq \sigma_n^2 > 0$ (since $\bA^T\bA\bv_i = \sigma_i^2\bv_i$ where $\bv_i$ are right singular vectors). Therefore
+$$\kappa_2(\bA^T\bA) = \frac{\sigma_1^2}{\sigma_n^2} = \left(\frac{\sigma_1}{\sigma_n}\right)^2 = \kappa_2(\bA)^2.$$
+:::
+
+
+::: {.callout-tip icon=false}
+Condition number squaring is a serious practical concern. If $\kappa_2(\bA) = 10^6$ (a moderately ill-conditioned design matrix), then $\kappa_2(\bA^T\bA) = 10^{12}$, and we lose 12 decimal digits of accuracy in the normal equations solution. This motivates QR-based methods that avoid forming $\bA^T\bA$ entirely. See \Sabove for how condition number governs forward error in computed solutions generally.
+:::
+
+
+::: {.callout-note icon=false}
+## Example
+Fitting a line $y = mx + b$ to four data points $(1,2),(2,3),(3,5),(4,4)$. The design matrix is
+$$\bA = \begin{pmatrix} 1 & 1 \\ 1 & 2 \\ 1 & 3 \\ 1 & 4 \end{pmatrix}, \quad \bb = \begin{pmatrix}2\\3\\5\\4\end{pmatrix}, \quad
+  \bA^T\bA = \begin{pmatrix}4 & 10 \\ 10 & 30\end{pmatrix}, \quad \bA^T\bb = \begin{pmatrix}14\\41\end{pmatrix}.$$
+Solving $(\bA^T\bA)\hat{\bx} = \bA^T\bb$ gives $\hat{b} = 1.3$ and $\hat{m} = 0.9$, so the best-fit line is $y = 0.9x + 1.3$.
+:::
+## QR-Based Least Squares
+
+
+::: {.callout-note icon=false}
+## Theorem: Least Squares via QR Decomposition
+Let $\bA \in \fR^{m\times n}$ ($m \geq n$) have full column rank with thin QR decomposition $\bA = \bQ\bR$ ($\bQ \in \fR^{m\times n}$ with orthonormal columns, $\bR \in \fR^{n\times n}$ upper triangular and invertible). Then the unique least squares solution is found by solving the triangular system
+$$\bR\hat{\bx} = \bQ^T\bb.$$
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Since $\bQ$ has orthonormal columns, $\|\bQ\bv\|_2 = \|\bv\|_2$ for any $\bv$. Using $\bA = \bQ\bR$, write $\|\bA\bx - \bb\|_2 = \|\bQ\bR\bx - \bb\|_2$. Split $\bb = \bQ\bQ^T\bb + (\bI - \bQ\bQ^T)\bb$ into its projection onto $\mathcal{R}(\bA)$ and orthogonal complement. Expanding and using orthogonality of the two components:
+$$\|\bQ\bR\bx - \bb\|_2^2 = \|\bR\bx - \bQ^T\bb\|_2^2 + \|(\bI - \bQ\bQ^T)\bb\|_2^2.$$
+The second term is independent of $\bx$, so minimizing over $\bx$ is equivalent to solving $\bR\hat{\bx} = \bQ^T\bb$, which has unique solution $\hat{\bx} = \bR^{-1}\bQ^T\bb$ since $\bR$ is invertible.
+:::
+
+
+::: {.callout-tip icon=false}
+The QR approach avoids forming $\bA^T\bA$ and thus does not suffer from condition number squaring. Its cost is $O(mn^2)$ for the QR factorization plus $O(n^2)$ for the triangular solve, comparable to the normal equations but numerically far superior. In NumPy, `np.linalg.lstsq(A, b)` uses this approach internally (QR or SVD depending on shape and rank).
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Weighted Least Squares
+If measurements have unequal reliability, one assigns a weight $w_i > 0$ to the $i$-th equation. The *weighted least squares* problem minimizes $\sum_i w_i((\bA\bx)_i - b_i)^2 = \|\mathbf{W}^{1/2}(\bA\bx - \bb)\|_2^2$ where $\mathbf{W} = \mathrm{diag}(w_1,...,w_m)$. Its normal equations are $(\bA^T\mathbf{W}\bA)\hat{\bx} = \bA^T\mathbf{W}\bb$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Regularized Least Squares (Ridge Regression)
+When $\bA$ is rank-deficient or nearly so, the least squares solution can have enormous norm. *Tikhonov regularization* (ridge regression) adds a penalty: $\hat{\bx}_\lambda = \argmin_{\bx} (\|\bA\bx - \bb\|_2^2 + \lambda\|\bx\|_2^2) = (\bA^T\bA + \lambda\bI)^{-1}\bA^T\bb$. The parameter $\lambda > 0$ reduces the effective condition number to $(\sigma_1^2 + \lambda)/(\sigma_n^2 + \lambda)$.
+:::
+
+
+::: {.callout-tip icon=false}
+The least squares framework extends to many important problems: nonlinear least squares fits nonlinear models by iteratively linearizing (Gauss-Newton/Levenberg-Marquardt); sparse regression (LASSO) replaces the $\ell^2$ penalty by an $\ell^1$ penalty to promote sparsity; total least squares accounts for errors in both $\bA$ and $\bb$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Vandermonde Matrix
+Given $m$ sample points $t_1, ..., t_m$ and the monomial basis
+$\{1, t, t^2, ..., t^n\}$, the *Vandermonde matrix* is
+$$\bV =
+  \begin{pmatrix}
+    1 & t_1 & t_1^2 & \cdots & t_1^n \\
+    1 & t_2 & t_2^2 & \cdots & t_2^n \\
+    \vdots & \vdots & \vdots & & \vdots \\
+    1 & t_m & t_m^2 & \cdots & t_m^n
+  \end{pmatrix}
+  \in \fR^{m \times (n+1)}.$$
+The polynomial fitting problem with monomial coefficients $\bc = (c_0, ..., c_n)^T$
+is $\bV\bc \approx \mathbf{f}$, solved as a least squares problem when $m > n+1$.
+For square systems ($m = n+1$, interpolation), $\bV$ is invertible whenever the
+nodes $t_i$ are distinct.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Polynomial regression)** Fit a degree-2 polynomial $p(t) = c_0 + c_1 t + c_2 t^2$ to the data $(t_i, y_i)$ for $i = 1,..., 6$: $t = (0, 0.5, 1, 1.5, 2, 2.5)$, $y = (1.0, 1.8, 2.3, 2.5, 2.3, 2.0)$.
+
+1. Write down the Vandermonde design matrix $\bA \in \fR^{6\times 3}$ explicitly.
+  
+1. Solve the normal equations by hand (or with NumPy). State the fitted polynomial.
+  
+1. Compute the residual $\|\bA\hat{\bx} - \bb\|_2$ and the coefficient of determination $R^2 = 1 - \|\bA\hat{\bx} - \bb\|_2^2/\|\bb - \bar{b}\mathbf{1}\|_2^2$.
+  
+1. Now solve via QR using `np.linalg.lstsq` and verify you get the same coefficients. Compare $\kappa_2(\bA)$ with $\kappa_2(\bA^T\bA)$ to illustrate condition number squaring.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Effect of regularization)** Use the Vandermonde design matrix for fitting a degree-8 polynomial to 10 equally spaced points on $[0,1]$ with $y_i = \sin(2\pi t_i) + 0.1\varepsilon_i$ (small noise).
+
+1. Compute the least squares fit without regularization. Plot the fitted polynomial. Does it overfit?
+  
+1. Compute $\hat{\bx}_\lambda$ for $\lambda = 10^{-4}, 10^{-2}, 1$. How does the fit change?
+  
+1. Plot $\|\hat{\bx}_\lambda\|_2$ and the residual $\|\bA\hat{\bx}_\lambda - \bb\|_2$ as functions of $\lambda$ (the bias-variance tradeoff curve). Which $\lambda$ gives the best fit?
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Numerical stability of normal equations vs.\ QR)** Construct the $m\times n$ matrix $\bA$ from `np.random.randn(m, n)` scaled so $\kappa_2(\bA) \approx 10^6$ (use SVD to rescale singular values). Let $\bb = \bA\bx_{\mathrm{true}} + \boldsymbol{\varepsilon}$ with $\bx_{\mathrm{true}} = \mathbf{1}$ and small noise.
+
+1. Solve via normal equations: `np.linalg.solve(A.T @ A, A.T @ b)`.
+  
+1. Solve via QR: `np.linalg.lstsq(A, b)`.
+  
+1. Compare the errors $\|\hat{\bx} - \bx_{\mathrm{true}}\|_2$. Which method is more accurate? Explain in terms of condition numbers.
+
+:::

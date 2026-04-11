@@ -1,0 +1,222 @@
+# Principal Component Analysis via SVD
+
+
+Principal Component Analysis (PCA) is a fundamental technique for dimensionality reduction. It seeks an orthogonal change of basis that aligns the coordinate axes with the directions of maximum variance in the data. Via the SVD, PCA is both theoretically elegant — it is the optimal linear dimensionality reduction — and computationally efficient. Understanding PCA requires understanding orthogonal projections, eigendecompositions, and the Eckart-Young theorem.
+
+
+::: {.callout-note icon=false}
+## Definition: Data Centering
+For PCA, the data matrix $\bX \in \fR^{n\times p}$ ($n$ samples, $p$ features) must be *centered*: subtract the column mean $\bar{x}_j = \frac{1}{n}\sum_i X_{ij}$ from each entry in column $j$. Throughout this section, $\bX$ denotes a centered data matrix.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Sample Covariance Matrix
+For a centered data matrix $\bX \in \fR^{n\times p}$, the *sample covariance matrix* is
+$$\bS = \frac{1}{n-1}\bX^T\bX \in \fR^{p\times p}.$$
+$\bS$ is symmetric and positive semidefinite. Its diagonal entry $S_{jj}$ is the sample variance of feature $j$, and $S_{ij}$ is the sample covariance between features $i$ and $j$.
+:::
+
+
+## Principal Components as Variance-Maximizing Directions
+
+
+::: {.callout-note icon=false}
+## Theorem: First Principal Component Maximizes Variance
+Among all unit vectors $\bw \in \fR^p$, the direction that maximizes the variance of the projected data $\bX\bw$ is the eigenvector $\bv_1$ of $\bS$ corresponding to the largest eigenvalue $\lambda_1$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+The sample variance of $\bX\bw$ is
+$$\mathrm{Var}(\bX\bw) = \frac{1}{n-1}\|\bX\bw\|_2^2 = \bw^T\bS\bw.$$
+We maximize $\bw^T\bS\bw$ subject to $\|\bw\|_2 = 1$. By the Rayleigh quotient theorem (a consequence of the spectral theorem for symmetric matrices), this maximum is $\lambda_1$, attained at $\bw = \bv_1$ (the eigenvector of $\bS$ for $\lambda_1$). To verify: $\bv_1^T\bS\bv_1 = \lambda_1\bv_1^T\bv_1 = \lambda_1$, and for any unit $\bw = \sum_i c_i\bv_i$, $\bw^T\bS\bw = \sum_i \lambda_i c_i^2 \leq \lambda_1\sum_i c_i^2 = \lambda_1$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Principal Directions (Loading Vectors)
+The *principal directions* $\bv_1, \bv_2, ..., \bv_p$ are the eigenvectors of $\bS$ ordered by decreasing eigenvalue $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_p \geq 0$. The $k$-th principal direction $\bv_k$ maximizes variance among all unit vectors orthogonal to $\bv_1,...,\bv_{k-1}$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Principal Component Scores
+The *principal component scores* are the projections of the data onto the principal directions:
+$$\bZ = \bX\bV, \qquad \bV = [\bv_1 \mid \cdots \mid \bv_p].$$
+The $k$-th column $\bz_k = \bX\bv_k$ is the $k$-th principal component. Its sample variance is $\lambda_k$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Principal Components are Uncorrelated
+The principal component scores are pairwise uncorrelated: $\mathrm{Cov}(\bz_j, \bz_k) = 0$ for $j \neq k$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+The sample covariance matrix of the scores $\bZ = \bX\bV$ is
+$$\frac{1}{n-1}\bZ^T\bZ = \frac{1}{n-1}\bV^T\bX^T\bX\bV = \bV^T\bS\bV = \boldsymbol{\Lambda} = \mathrm{diag}(\lambda_1,...,\lambda_p),$$
+where the last equality uses $\bS\bV = \bV\boldsymbol{\Lambda}$ (eigendecomposition) and $\bV^T\bV = \bI$ (orthogonality). The off-diagonal entries of $\boldsymbol{\Lambda}$ are zero, confirming the principal components are uncorrelated.
+:::
+
+
+## The SVD-PCA Connection
+
+
+::: {.callout-note icon=false}
+## Theorem: PCA via SVD
+Let $\bX = \bU\bsigma\bV^T$ be the SVD of the centered data matrix. Then:
+the columns of $\bV$ are the principal directions (eigenvectors of $\bS$);
+the eigenvalues of $\bS$ satisfy $\lambda_i = \sigma_i^2/(n-1)$;
+the principal component scores satisfy $\bZ = \bX\bV = \bU\bsigma$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Substitute the SVD into the covariance matrix:
+$$\bS = \frac{1}{n-1}\bX^T\bX = \frac{1}{n-1}(\bU\bsigma\bV^T)^T(\bU\bsigma\bV^T) = \frac{1}{n-1}\bV\bsigma^T(\bU^T\bU)\bsigma\bV^T = \frac{1}{n-1}\bV\bsigma^2\bV^T,$$
+using $\bU^T\bU = \bI$ (orthogonality of $\bU$) and $\bsigma^T\bsigma = \bsigma^2 = \mathrm{diag}(\sigma_1^2,...)$. Comparing with $\bS = \bV\boldsymbol{\Lambda}\bV^T$ identifies the columns of $\bV$ as eigenvectors and $\lambda_i = \sigma_i^2/(n-1)$.
+
+For the scores: $\bZ = \bX\bV = \bU\bsigma\bV^T\bV = \bU\bsigma$.
+:::
+
+
+::: {.callout-tip icon=false}
+This theorem shows that PCA can be performed directly from the SVD of $\bX$, avoiding the explicit formation of $\bS$. Since $\bS = \bX^T\bX/(n-1)$ squares the condition number, the SVD route is numerically more stable. In NumPy: `U, s, Vt = np.linalg.svd(X, full\_matrices=False); Z = U * s`.
+:::
+
+
+## Dimensionality Reduction
+
+
+::: {.callout-note icon=false}
+## Definition: Rank-$k$ Approximation via PCA
+The best rank-$k$ approximation of $\bX$ using PCA retains only the first $k$ principal components:
+$$\bX_k = \bU_k\bsigma_k\bV_k^T = \bZ_k\bV_k^T = \bX\bV_k\bV_k^T,$$
+where $\bU_k, \bV_k$ are the first $k$ columns of $\bU, \bV$ and $\bsigma_k = \mathrm{diag}(\sigma_1,...,\sigma_k)$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: PCA is the Optimal Linear Dimensionality Reduction
+Among all rank-$k$ approximations, $\bX_k$ minimizes the reconstruction error:
+$$\|\bX - \bX_k\|_F^2 = \sum_{i=k+1}^r \sigma_i^2 = (n-1)\sum_{i=k+1}^r \lambda_i,$$
+and $\bX_k$ is the best rank-$k$ matrix approximation to $\bX$ in the Frobenius norm.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+This is a direct consequence of the Eckart-Young-Mirsky theorem applied to $\bX$: $\bX_k$ is the best rank-$k$ approximation and the error is $\|\bX - \bX_k\|_F^2 = \sum_{i>k}\sigma_i^2$. Converting via $\lambda_i = \sigma_i^2/(n-1)$ gives the formula in terms of eigenvalues.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Proportion of Variance Explained
+The *proportion of variance explained* (PVE) by the first $k$ principal components is
+$$\mathrm{PVE}_k = \frac{\sum_{i=1}^k \lambda_i}{\sum_{i=1}^p \lambda_i} = \frac{\sum_{i=1}^k \sigma_i^2}{\sum_{i=1}^p \sigma_i^2}.$$
+A common criterion is to choose $k$ such that $\mathrm{PVE}_k \geq 0.90$ or $0.95$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Scree Plot
+A *scree plot* displays the eigenvalues $\lambda_1 \geq \cdots \geq \lambda_p$ (or singular values $\sigma_i$) in decreasing order. The ``elbow'' — the point where the values level off — suggests a natural cutoff for $k$. Components beyond the elbow likely represent noise rather than signal.
+:::
+
+
+::: {.callout-tip icon=false}
+The choice of $k$ should also be guided by downstream tasks: visualization typically uses $k = 2$ or $k = 3$; clustering may need more components; the goal is to retain enough variance for the application while discarding noisy dimensions.
+:::
+
+
+## Statistical Interpretation
+
+
+::: {.callout-note icon=false}
+## Definition: Loadings
+The entries of the principal directions $\bv_i$ are called *loadings*. The loading $v_{ji}$ quantifies the contribution of the $j$-th original feature to the $i$-th principal component. When data are standardized (unit-variance features), $v_{ji}$ equals the correlation between feature $j$ and PC score $\bz_i$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: High-Dimensional PCA ($p \gg n$)
+When $p \gg n$, forming the $p\times p$ covariance matrix $\bS$ is prohibitively expensive. Instead, one works with the $n\times n$ Gram matrix $\mathbf{K} = \bX\bX^T$. If $\bu_i$ is an eigenvector of $\mathbf{K}$ with eigenvalue $\sigma_i^2$, then $\bv_i = \bX^T\bu_i / \sigma_i$ is the corresponding principal direction. This kernel trick has complexity $O(n^2 p + n^3)$ vs.\ $O(np^2 + p^3)$ for the direct approach.
+:::
+
+
+::: {.callout-tip icon=false}
+**Limitations of PCA.**
+PCA assumes linear structure: it finds directions of high variance in the *original* feature space. If the data lies on a nonlinear manifold (e.g., a sphere), PCA may fail to capture its intrinsic geometry (Kernel PCA addresses this).
+
+PCA is sensitive to outliers, since they strongly influence the variance and hence the principal directions.
+
+PCA is unsupervised: it maximizes variance regardless of class labels. In classification tasks, directions that best separate classes may have low variance and be discarded by PCA (Linear Discriminant Analysis is supervised and addresses this).
+
+The effectiveness of PCA depends on whether high-variance directions are truly informative. Rapid decay of singular values is a reliable indicator that PCA will achieve effective compression.
+:::
+
+
+::: {.callout-note icon=false}
+## Example
+Consider a centered data matrix $\bX \in \fR^{100\times 3}$ with singular values $\sigma_1 = 10\sqrt{99}$, $\sigma_2 = 5\sqrt{99}$, $\sigma_3 = 0.5\sqrt{99}$. The covariance eigenvalues are $\lambda_1 = 100$, $\lambda_2 = 25$, $\lambda_3 = 0.25$.
+
+- PVE for $k=1$: $100/125.25 \approx 79.8\%$.
+  
+- PVE for $k=2$: $125/125.25 \approx 99.8\%$.
+
+The data is nearly coplanar: 99.8\% of variance lies in a 2D subspace. A rank-2 approximation $\bX_2$ has reconstruction error $\|\bX - \bX_2\|_F = |\sigma_3| = 0.5\sqrt{99} \approx 4.97$.
+:::
+
+::: {.callout-tip icon=false}
+The SVD $\bX = \bU\bsigma\bV^T$ gives a geometric picture: $\bV$ rotates the feature space to align the axes with principal directions; $\bsigma$ reveals the variance captured by each direction; $\bU$ contains the normalized principal component scores. The transformation $\bX \mapsto \bX\bV = \bU\bsigma$ is simply a rigid rotation in feature space followed by reading off coordinates in the new basis.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(PCA by hand)** Let $\bX = \begin{pmatrix} 2 & 1 \\ -1 & 3 \\ -1 & -4 \end{pmatrix}$ (already centered: verify $\sum_i X_{i1} = \sum_i X_{i2} = 0$).
+
+1. Compute $\bS = \bX^T\bX/(n-1)$ with $n=3$.
+  
+1. Find the eigenvalues and eigenvectors of $\bS$. What are $\lambda_1, \lambda_2$ and the principal directions $\bv_1, \bv_2$?
+  
+1. Compute the principal component scores $\bZ = \bX\bV$. Verify that $\bZ^T\bZ/(n-1)$ is diagonal.
+  
+1. Compute the SVD of $\bX$ and verify that the right singular vectors match the principal directions from step 2.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(PCA for dimensionality reduction)** Load the Iris dataset from `sklearn.datasets.load\_iris`. The data matrix $\bX$ has $n=150$ samples and $p=4$ features.
+
+1. Center the data. Compute the SVD and plot the first two principal components as a scatter plot colored by species. Do the classes separate?
+  
+1. Plot the scree plot (singular values vs.\ index). How many components capture 95\% of the variance?
+  
+1. Compute the loadings $\bv_1$ and $\bv_2$. Which original features contribute most to each principal component? What is the biological interpretation?
+  
+1. Reconstruct the data from rank-$k$ approximation for $k=1,2,3,4$. Plot the relative reconstruction error $\|\bX - \bX_k\|_F / \|\bX\|_F$ vs.\ $k$.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(High-dimensional PCA)** Generate a data matrix $\bX \in \fR^{n\times p}$ with $n=50, p=500$ from `np.random.randn`.
+
+1. Compute the $p\times p$ covariance matrix $\bS = \bX^T\bX/49$ and time its eigendecomposition. How long does it take?
+  
+1. Compute the $n\times n$ Gram matrix $\mathbf{K} = \bX\bX^T/49$ and time its eigendecomposition. Which is faster?
+  
+1. Recover the principal directions $\bv_i = \bX^T\bu_i/\sigma_i$ from the Gram matrix eigenvectors. Verify these match the top eigenvectors of $\bS$ (up to sign).
+  
+1. For $n \ll p$, how many nonzero eigenvalues does $\bS$ have? Explain using the rank-nullity theorem.
+
+:::

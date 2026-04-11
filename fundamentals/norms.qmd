@@ -1,0 +1,97 @@
+# Introduction to Norms
+
+
+A *norm* is a function that assigns a non-negative scalar ``size'' to a vector or
+matrix. Norms are the fundamental tool for measuring errors, bounding perturbations,
+and defining convergence throughout scientific computing. This subsection introduces the
+key vector norm definitions and the families most used in practice. We will study norms
+more rigorously in Section~above, where we develop matrix norms, operator
+inequalities, Cauchy-Schwarz, Hölder's inequality, and the condition number.
+
+
+::: {.callout-note icon=false}
+## Definition: Vector Norm
+A function $\|\cdot\| : \fR^n \to \fR$ is a *vector norm* if for all
+$\bx, \by \in \fR^n$ and $c \in \fR$:
+
+1. $\|\bx\| \geq 0$ and $\|\bx\| = 0 \Leftrightarrow \bx = \bzero$ \quad (positive definiteness)
+  
+1. $\|c\bx\| = |c|\|\bx\|$ \quad (absolute homogeneity)
+  
+1. $\|\bx + \by\| \leq \|\bx\| + \|\by\|$ \quad (triangle inequality)
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: $\ell^p$ Norms
+For $\bx \in \fR^n$ and $p \geq 1$, the *$\ell^p$ norm* is
+$$\|\bx\|_p = \left(\sum_{i=1}^n |x_i|^p\right)^{1/p}.$$
+The three most common cases are:
+
+- $\|\bx\|_1 = \displaystyle\sum_{i=1}^n |x_i|$ \quad (*Manhattan norm* --- sum of absolute values)
+  
+- $\|\bx\|_2 = \sqrt{\displaystyle\sum_{i=1}^n x_i^2} = \sqrt{\bx^T\bx}$ \quad (*Euclidean norm*)
+  
+- $\|\bx\|_\infty = \max_{1 \leq i \leq n} |x_i|$ \quad (*max norm*, the limit as $p \to \infty$)
+
+:::
+
+
+::: {.callout-note icon=false}
+## Example
+For $\bx = (3, -4, 0)^T$:
+$$\|\bx\|_1 = 3 + 4 + 0 = 7, \qquad
+  \|\bx\|_2 = \sqrt{9 + 16 + 0} = 5, \qquad
+  \|\bx\|_\infty = 4.$$
+The unit balls $\{\bx : \|\bx\|_p \leq 1\}$ in $\fR^2$ are: a diamond ($p = 1$), a
+circle ($p = 2$), and a square ($p = \infty$). As $p$ increases, the unit ball grows
+toward the $\ell^\infty$ square.
+:::
+
+::: {.callout-tip icon=false}
+Throughout these notes, $\|\cdot\|$ without a subscript denotes the Euclidean norm
+$\|\cdot\|_2$ unless stated otherwise. Errors and residuals are almost always measured
+in $\|\cdot\|_2$. In NumPy: `np.linalg.norm(x)` computes $\|\bx\|_2$;
+`np.linalg.norm(x, ord=p)` computes $\|\bx\|_p$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: All Norms are Equivalent on $\fR^n$
+For any two norms $\|\cdot\|_\alpha$ and $\|\cdot\|_\beta$ on $\fR^n$, there exist
+constants $c_1, c_2 > 0$ such that
+$$c_1\|\bx\|_\beta \leq \|\bx\|_\alpha \leq c_2\|\bx\|_\beta \quad \text{for all } \bx \in \fR^n.$$
+In particular: $\|\bx\|_2 \leq \|\bx\|_1 \leq \sqrt{n}\,\|\bx\|_2$ and
+$\|\bx\|_\infty \leq \|\bx\|_2 \leq \sqrt{n}\,\|\bx\|_\infty$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Since $\fR^n$ is finite-dimensional, the unit sphere $\{\bx : \|\bx\|_\beta = 1\}$ is
+compact. Any norm is a continuous function, so it attains its minimum and maximum on a
+compact set --- these extremal values are $c_1$ and $1/c_2$. The explicit inequalities
+follow from Cauchy-Schwarz: $\|\bx\|_1 = \sum|x_i| \cdot 1 \leq \|\bx\|_2\,\|\mathbf{1}\|_2 = \sqrt{n}\|\bx\|_2$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to Defs~above--above and
+the result above.
+
+1. For $\bx = (-1, 2, -3, 4)^T$, compute $\|\bx\|_1$, $\|\bx\|_2$, $\|\bx\|_\infty$
+  by hand. Verify all three norm-equivalence inequalities hold.
+  
+1. Verify the triangle inequality $\|\bx + \by\|_2 \leq \|\bx\|_2 + \|\by\|_2$
+  for $\bx = (1, 2)^T$, $\by = (-3, 1)^T$ by computing both sides.
+  
+1. Using NumPy, confirm your hand calculations with
+  `np.linalg.norm(x, 1)`, `np.linalg.norm(x)`, and
+  `np.linalg.norm(x, np.inf)`.
+  
+1. Show that $\|\bx\|_\infty = \lim_{p \to \infty}\|\bx\|_p$.
+  (*Hint: let $M = \max_i|x_i|$; factor $M$ out of $\|\bx\|_p$ and take the limit.*)
+
+:::

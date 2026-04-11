@@ -1,0 +1,699 @@
+# Orthogonal Matrices
+
+Orthogonal matrices represent the class of linear transformations that preserve lengths and
+angles --- rotations and reflections. They are numerically ideal: multiplying by an orthogonal
+matrix introduces no error amplification ($\kappa_2(\bQ) = 1$). This section develops
+orthogonal matrices and their role in the QR factorization, which underpins least-squares
+solvers and the QR eigenvalue algorithm.
+
+
+::: {.callout-note icon=false}
+## Definition: Orthogonal Vectors
+Two vectors $\bx, \by \in \fR^n$ are called *orthogonal* if their inner product is
+zero:
+$$\bx^T\by = 0.$$
+Geometrically, orthogonal vectors are perpendicular. A set of vectors
+$\{\bv_1, \bv_2, ..., \bv_k\}$ is *mutually orthogonal* if every pair of distinct
+vectors is orthogonal:
+$$\bv_i^T\bv_j = 0 \quad \text{for all } i \neq j.$$
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. Are $(1, 2)^T$ and $(4, -2)^T$ orthogonal? Are $(1, 1)^T$ and $(1, -1)^T$
+    orthogonal?
+    
+1. If $\bx \perp \by$ and $\bx \perp \bz$, show that
+    $\bx \perp (\alpha\by + \beta\bz)$ for any scalars $\alpha, \beta$.
+    
+1. In $\fR^3$, find a nonzero vector orthogonal to both $(1, 0, 1)^T$ and
+    $(0, 1, 1)^T$. (*Hint: solve a homogeneous system or use the cross product.*)
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Orthonormal Basis
+A set of vectors $\{\bq_1, \bq_2, ..., \bq_n\}$ in $\fR^n$ is an *orthonormal
+basis* if the vectors are mutually orthogonal and each has unit length:
+$$\bq_i^T\bq_j = \delta_{ij} =
+\begin{cases}
+1 & \text{if } i = j \\
+0 & \text{if } i \neq j.
+\end{cases}$$
+Any $n$ such vectors in $\fR^n$ are automatically linearly independent and span $\fR^n$.
+If we arrange them as columns of $\bQ = [\bq_1, ..., \bq_n]$, then $\bQ^T\bQ = \bI$.
+:::
+
+
+::: {.callout-tip icon=false}
+Any vector $\bv \in \fR^n$ can be expressed uniquely as a linear combination of an
+orthonormal basis $\{\bq_1, ..., \bq_n\}$:
+$$\bv = \sum_{i=1}^n (\bq_i^T\bv)\,\bq_i.$$
+The coefficients $\bq_i^T\bv$ are simple inner products --- no linear system needs to be
+solved. This is the key computational advantage of orthonormal bases.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. Verify that $\bq_1 = (1/\sqrt{2},\,1/\sqrt{2})^T$ and
+    $\bq_2 = (1/\sqrt{2},\,-1/\sqrt{2})^T$ form an orthonormal basis for $\fR^2$.
+    
+1. Express $\bv = (3, -1)^T$ as $\sum_i (\bq_i^T\bv)\bq_i$ using the basis above.
+    Verify the result equals $\bv$.
+    
+1. A set of $n$ mutually orthogonal nonzero vectors in $\fR^n$ is linearly
+    independent. Prove this. (*Hint: assume $\sum c_i\bv_i = \bzero$ and take the
+    inner product with each $\bv_j$.*)
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Orthogonal Matrix
+A square matrix $\bQ \in \fR^{n \times n}$ is *orthogonal* if its columns form an
+orthonormal set:
+$$\bQ^T\bQ = \bQ\bQ^T = \bI_n.$$
+Equivalently, $\bQ^T = \bQ^{-1}$, meaning the transpose is its own inverse.
+:::
+
+
+Orthogonal matrices represent rotations, reflections, or combinations of these in $\fR^n$.
+They preserve vector lengths and angles between vectors, making them particularly valuable
+in scientific computing where maintaining geometric properties is important.
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. Verify that $\bQ = \begin{pmatrix}\cos\theta & -\sin\theta \\ \sin\theta &
+    \cos\theta\end{pmatrix}$ is orthogonal for any $\theta$. What geometric operation does
+    multiplication by $\bQ$ perform?
+    
+1. Is $\bM = \begin{pmatrix}1/\sqrt{2} & 1/\sqrt{2} \\ 1/\sqrt{2} &
+    1/\sqrt{2}\end{pmatrix}$ orthogonal? Why or why not?
+    
+1. If $\bQ$ is orthogonal, show that $\bQ^T$ is also orthogonal.
+
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Orthogonal Matrices Preserve Norms and Inner Products
+Let $\bQ \in \fR^{n \times n}$ be an orthogonal matrix. For all $\bx, \by \in \fR^n$:
+
+1. $(\bQ\bx)^T(\bQ\by) = \bx^T\by$ \quad (inner-product-preserving)
+    
+1. $\|\bQ\bx\|_2 = \|\bx\|_2$ \quad (isometry)
+    
+1. $\kappa_2(\bQ) = 1$ \quad (optimally conditioned)
+
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+(1): $(\bQ\bx)^T(\bQ\by) = \bx^T\bQ^T\bQ\by = \bx^T\bI\by = \bx^T\by$.
+
+(2): Set $\bx = \by$ in (1): $\|\bQ\bx\|_2^2 = \bx^T\bx = \|\bx\|_2^2$.
+
+(3): By (2), $\|\bQ\|_2 = \max_{\|\bx\|=1}\|\bQ\bx\|_2 = 1$. Since $\bQ^{-1} = \bQ^T$ is
+also orthogonal, $\|\bQ^{-1}\|_2 = 1$. Thus $\kappa_2(\bQ) = \|\bQ\|_2\|\bQ^{-1}\|_2 = 1$.
+:::
+
+
+::: {.callout-tip icon=false}
+The condition number of 1 is the best possible. Multiplying by an orthogonal matrix
+introduces no amplification of errors, which is why orthogonal transformations (Householder
+reflections, Givens rotations) are preferred over Gaussian elimination when stability is
+paramount.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: Rows of an Orthogonal Matrix are Orthonormal
+If $\bQ \in \fR^{n \times n}$ satisfies $\bQ^T\bQ = \bI$, then $\bQ\bQ^T = \bI$ as well,
+so the rows of $\bQ$ also form an orthonormal basis for $\fR^n$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+$\bQ^T\bQ = \bI$ implies $\bQ$ is invertible with $\bQ^{-1} = \bQ^T$. Left-multiplying by
+$\bQ$ and right-multiplying by $\bQ^T$ gives $\bQ\bQ^T = \bI$.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: Determinant of an Orthogonal Matrix
+For any orthogonal $\bQ$, $\det(\bQ) = \pm 1$. When $\det(\bQ) = +1$, $\bQ$ is a rotation;
+when $\det(\bQ) = -1$, it includes a reflection.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+From $\bQ^T\bQ = \bI$: $\det(\bQ^T)\det(\bQ) = 1$, and $\det(\bQ^T) = \det(\bQ)$, so
+$\det(\bQ)^2 = 1$.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: Product of Orthogonal Matrices is Orthogonal
+If $\bQ_1, \bQ_2 \in \fR^{n \times n}$ are orthogonal, then $\bQ_1\bQ_2$ is also
+orthogonal.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+$(\bQ_1\bQ_2)^T(\bQ_1\bQ_2) = \bQ_2^T(\bQ_1^T\bQ_1)\bQ_2 = \bQ_2^T\bI\bQ_2 = \bI$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to Props~above--above.
+
+1. For $\bQ = \begin{pmatrix}0 & -1 \\ 1 & 0\end{pmatrix}$ (rotation by 90°),
+    compute $\det(\bQ)$ and verify the rows are orthonormal.
+    
+1. For the reflection $\bQ = \begin{pmatrix}1 & 0 \\ 0 & -1\end{pmatrix}$, verify
+    $\det(\bQ) = -1$ and $\bQ\bQ^T = \bI$.
+    
+1. Is $\bQ_1 + \bQ_2$ necessarily orthogonal when $\bQ_1$ and $\bQ_2$ are? Give a
+    counterexample.
+
+:::
+
+
+## QR Decomposition
+
+The QR decomposition factors a matrix into an orthogonal factor $\bQ$ and an upper
+triangular factor $\bR$, combining the stability benefits of orthogonal transformations with
+the efficiency of triangular solves. It is the factorization of choice for least-squares
+problems and forms the basis of the QR eigenvalue algorithm.
+
+
+::: {.callout-note icon=false}
+## Definition: QR Decomposition
+For a matrix $\bA \in \fR^{m \times n}$ with $m \geq n$, the *QR decomposition*
+factors $\bA$ as
+$$\bA = \bQ\bR,$$
+where $\bQ \in \fR^{m \times m}$ is orthogonal ($\bQ^T\bQ = \bI$) and $\bR \in \fR^{m \times n}$
+is upper triangular with zeros below the main diagonal.
+:::
+
+
+The QR factorization is particularly valuable in scientific computing because it transforms
+problems involving arbitrary matrices into problems with triangular matrices, which are much
+easier to solve. The orthogonality of $\bQ$ ensures numerical stability in many applications,
+as orthogonal transformations preserve Euclidean norms and do not amplify errors.
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. If $\bA = \bQ\bR$, explain how to solve $\bA\bx = \bb$ using $\bQ$ and $\bR$
+    separately. What is the cost of each step?
+    
+1. For $\bA = \begin{pmatrix}1 & 0 \\ 0 & 1 \\ 0 & 0\end{pmatrix}$, write a QR
+    factorization by inspection. (*Hint: $\bA$ already has orthonormal columns.*)
+    
+1. Why does the QR decomposition always exist for any $\bA \in \fR^{m \times n}$ with
+    $m \geq n$? (*Hint: consider Gram-Schmidt applied to the columns of $\bA$.*)
+
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: QR and the Column Space
+If $\bA \in \fR^{m \times n}$ ($m \geq n$) has full column rank, the first $n$ columns of
+$\bQ$ (from the full QR factorization $\bA = \bQ\bR$) form an orthonormal basis for
+$\text{col}(\bA)$.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: Diagonal Entries of $\bR$
+In the QR factorization of a full-column-rank matrix $\bA$, the diagonal entries of $\bR$
+satisfy $|r_{ii}| > 0$ for each $i$. In particular, $\bR$ is invertible.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to Props~above--above.
+
+1. If $r_{11} = 0$ in the QR factorization of $\bA$, what does this imply about the
+    first column of $\bA$?
+    
+1. For a $3 \times 2$ full-rank matrix $\bA$, identify which columns of the full
+    $\bQ \in \fR^{3 \times 3}$ span $\text{col}(\bA)$ and which span
+    $\text{col}(\bA)^\perp$.
+    
+1. In NumPy, compute the full and thin QR of a $4 \times 3$ matrix and verify:
+    (a) the first 3 columns of $\bQ$ span $\text{col}(\bA)$, (b) the 4th column of $\bQ$
+    is orthogonal to each column of $\bA$.
+
+:::
+
+
+## Householder Reflectors
+
+A key method for computing the QR factorization is via *Householder reflectors*:
+orthogonal matrices that reflect a vector across a hyperplane and can zero out all entries
+below a chosen position in a column. Applying $n$ such reflectors in sequence reduces $\bA$
+to upper triangular form.
+
+
+::: {.callout-note icon=false}
+## Definition: Householder Reflector
+Given a nonzero vector $\bv \in \fR^m$, the *Householder reflector* is the matrix
+$$\bH = \bI - \frac{2\bv\bv^T}{\bv^T\bv}.$$
+Geometrically, $\bH\bx$ reflects $\bx$ across the hyperplane
+$\bv^\perp = \{\bw : \bv^T\bw = 0\}$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Properties of Householder Reflectors
+For any nonzero $\bv \in \fR^m$, the Householder matrix $\bH = \bI - 2\bv\bv^T/\|\bv\|_2^2$
+satisfies:
+
+1. $\bH^T = \bH$ \quad (symmetric)
+  
+1. $\bH^T\bH = \bI$ \quad (orthogonal)
+  
+1. $\bH^2 = \bI$, so $\bH^{-1} = \bH$ \quad (involution)
+  
+1. $\det(\bH) = -1$ \quad (reflection, not rotation)
+
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Let $\tau = \bv^T\bv = \|\bv\|_2^2 > 0$.
+
+(1): $\bH^T = (\bI - 2\bv\bv^T/\tau)^T = \bI - 2\bv\bv^T/\tau = \bH$.
+
+(2): $\bH^T\bH = \bH^2 = (\bI - 2\bv\bv^T/\tau)^2 = \bI - 4\bv\bv^T/\tau +
+4\bv(\bv^T\bv)\bv^T/\tau^2 = \bI - 4\bv\bv^T/\tau + 4\bv\bv^T/\tau = \bI$.
+
+(3): Follows from (1) and (2): $\bH^2 = \bH^T\bH = \bI$.
+
+(4): $\bH$ has eigenvalue $-1$ (for any $\bx \parallel \bv$: $\bH\bv = \bv - 2\bv = -\bv$)
+with multiplicity 1, and eigenvalue $+1$ (for $\bx \perp \bv$) with multiplicity $m-1$, so
+$\det(\bH) = (-1)^1 \cdot 1^{m-1} = -1$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Householder Zeroing
+For any $\bx \in \fR^m$ with $\bx \neq \pm\|\bx\|_2\be_1$, there exists a Householder
+vector $\bv$ such that
+$$\bH\bx = \pm\|\bx\|_2\be_1,$$
+where $\be_1 = (1,0,...,0)^T$. The choice $\bv = \bx + \|\bx\|_2\be_1$ (taking the
+$+$ sign) avoids cancellation and is numerically preferred.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+We want $\bH\bx = \alpha\be_1$ for some scalar $\alpha$. Since $\bH$ is orthogonal,
+$|\alpha| = \|\bx\|_2$. Setting $\bv = \bx - \alpha\be_1$:
+$$\bH\bx = \bx - \frac{2\bv\bv^T\bx}{\bv^T\bv}.$$
+We compute $\bv^T\bx = \|\bx\|_2^2 - \alpha x_1$ and
+$\bv^T\bv = 2(\|\bx\|_2^2 - \alpha x_1) = 2\bv^T\bx$, so $\bH\bx = \bx - \bv = \alpha\be_1$.
+Choosing $\alpha = -\text{sign}(x_1)\|\bx\|_2$ avoids cancellation when $x_1$ is large.
+:::
+
+
+::: {.callout-tip icon=false}
+The key use of Householder reflectors in QR factorization is iterative zeroing: at step $k$,
+choose $\bH_k$ to zero all entries below the $(k,k)$ position in column $k$ of the current
+matrix. After $n$ such reflections, the result is upper triangular. Since each $\bH_k$ is
+orthogonal, the product $\bQ = \bH_1\bH_2\cdots\bH_n$ is orthogonal, giving $\bA = \bQ\bR$.
+Each reflector is applied as $\bH\bx = \bx - 2\bv(\bv^T\bx)/\|\bv\|^2$ --- a rank-1 update
+costing only $O(m)$, not $O(m^2)$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above and the result above.
+
+1. Let $\bx = (3, 4)^T \in \fR^2$. Find the Householder vector $\bv$ such that
+  $\bH\bx = -5\be_1$. Write $\bH$ explicitly and verify $\bH\bx = (-5, 0)^T$.
+  
+1. For $\bx = (1,2,2)^T$, find $\bv$ and $\bH$ such that $\bH\bx = -3\be_1$. Verify
+  $\bH$ is symmetric and $\bH^2 = \bI$.
+  
+1. In NumPy, apply two successive Householder reflectors to triangularize
+  $\bA = \begin{pmatrix} 1 & 2 \\ 2 & 3 \\ 2 & 4 \end{pmatrix}$
+  and recover $\bQ$ and $\bR$. Compare with `np.linalg.qr(A)`.
+
+:::
+
+
+::: {.callout-note icon=false}
+## Lemma: QR Factorization Cost
+The QR factorization of $\bA \in \fR^{m \times n}$ (via Householder reflections) costs
+approximately $2mn^2 - \frac{2}{3}n^3$ flops.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. For $\bA \in \fR^{n \times n}$ (square), simplify the QR cost formula. Compare it
+    to LU factorization cost ($\frac{2}{3}n^3$). Which is cheaper and by what factor?
+    
+1. Why does a zero diagonal entry in $\bR$ imply $\bA$ is rank-deficient?
+    (*Hint: $\bA = \bQ\bR$ and $\bQ$ is invertible.*)
+    
+1. In NumPy, `np.linalg.qr(A)` returns the thin QR by default
+    (`mode='reduced'`). What are the shapes of $\bQ$ and $\bR$ for a $5 \times 3$
+    matrix? When would you want the full QR (`mode='complete'`)?
+
+:::
+
+
+## Gram-Schmidt
+
+The Gram-Schmidt process is a constructive algorithm for building an orthonormal basis from
+any set of linearly independent vectors. It directly yields the QR factorization: the
+orthonormal vectors form the columns of $\bQ$ and the projection coefficients populate
+$\bR$. Two variants exist --- classical and modified --- with different numerical stability
+properties.
+
+
+::: {.callout-note icon=false}
+## Definition: Orthogonal Complement
+Let $S \subseteq \fR^n$ be a subspace. Its *orthogonal complement* is
+$$S^\perp = \{\bw \in \fR^n : \bw^T\bv = 0 \text{ for all } \bv \in S\}.$$
+$S^\perp$ is itself a subspace of $\fR^n$.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: Dimension of the Orthogonal Complement
+If $S \subseteq \fR^n$ has dimension $k$, then $\dim(S^\perp) = n - k$ and
+$S \cap S^\perp = \{\bzero\}$.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: Orthogonal Decomposition
+Every vector $\bx \in \fR^n$ decomposes uniquely as $\bx = \bx_S + \bx_{S^\perp}$ where
+$\bx_S \in S$ and $\bx_{S^\perp} \in S^\perp$. The component $\bx_S$ is the orthogonal
+projection of $\bx$ onto $S$.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: Null Space as an Orthogonal Complement
+For $\bA \in \fR^{m \times n}$ with columns spanning $S = \text{col}(\bA)$, the orthogonal
+complement satisfies $S^\perp = \ker(\bA^T)$, i.e.,
+$S^\perp = \{\bw : \bA^T\bw = \bzero\}$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above and
+Props~above--above.
+
+1. Let $S = \text{span}\{(1,1,0)^T, (0,1,1)^T\}$ in $\fR^3$. Find a basis for
+    $S^\perp$ by solving $\bA^T\bw = \bzero$ where $\bA$ has the spanning vectors as
+    columns.
+    
+1. Verify that your answer to (1) satisfies $\dim(S) + \dim(S^\perp) = 3$.
+    
+1. In NumPy, use the QR factorization of $\bA$ to extract an orthonormal basis for
+    $\text{col}(\bA)$ and for $\text{col}(\bA)^\perp = \ker(\bA^T)$.
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Gram-Schmidt Process
+The *Gram-Schmidt process* converts a set of linearly independent vectors
+$\{\bv_1, \bv_2, ..., \bv_n\}$ into an orthonormal basis for the same subspace, by
+sequentially removing each vector's projection onto the span of previously orthogonalized
+vectors.
+:::
+
+
+**Classical Gram-Schmidt Algorithm.**\ Given linearly independent vectors
+$\{\bv_1, ..., \bv_n\}$, compute an orthogonal set $\{\bu_1, ..., \bu_n\}$ by:
+$$
+\begin{align}
+\bu_1 &= \bv_1, \\
+\bu_k &= \bv_k - \sum_{j=1}^{k-1}\frac{\bu_j^T\bv_k}{\bu_j^T\bu_j}\bu_j,
+\quad k = 2, ..., n.
+\end{align}
+$$
+Normalize each vector to obtain an orthonormal basis: $\bq_i = \bu_i / \|\bu_i\|_2$.
+
+
+::: {.callout-tip icon=false}
+The Gram-Schmidt process can be interpreted geometrically:
+
+- $\bu_1$ is simply the first vector $\bv_1$.
+
+- $\bu_2$ is $\bv_2$ minus its projection onto $\bu_1$.
+
+- $\bu_3$ is $\bv_3$ minus its projections onto both $\bu_1$ and $\bu_2$.
+
+Each $\bu_k$ is the component of $\bv_k$ that is orthogonal to the subspace spanned by
+$\{\bu_1, ..., \bu_{k-1}\}$.
+:::
+
+
+::: {.callout-note icon=false}
+## Example: Gram-Schmidt Process
+Let $\bv_1 = (1, 1, 1)^T$ and $\bv_2 = (0, 1, 2)^T$ in $\fR^3$.
+
+*Step 1:* $\bu_1 = \bv_1 = (1, 1, 1)^T$.
+
+*Step 2:*
+$$
+\begin{align}
+\bu_2 &= \bv_2 - \frac{\bu_1^T\bv_2}{\bu_1^T\bu_1}\bu_1
+       = (0,1,2)^T - \frac{3}{3}(1,1,1)^T = (-1, 0, 1)^T.
+\end{align}
+$$
+
+Normalizing:
+$$
+\begin{align}
+\bq_1 &= \tfrac{1}{\sqrt{3}}(1, 1, 1)^T, \qquad
+\bq_2 = \tfrac{1}{\sqrt{2}}(-1, 0, 1)^T.
+\end{align}
+$$
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. Apply Gram-Schmidt to $\bv_1 = (1, 0, 1)^T$, $\bv_2 = (1, 1, 0)^T$,
+    $\bv_3 = (0, 1, 1)^T$. Verify each pair of output vectors is orthogonal.
+    
+1. Show that the Gram-Schmidt process fails (produces $\bu_k = \bzero$) if and only
+    if the input vectors are linearly dependent.
+    
+1. In NumPy, implement the classical Gram-Schmidt algorithm for a $4 \times 3$
+    matrix $\bA$ and compare your output $\bQ$ with `np.linalg.qr(A)[0]`.
+
+:::
+
+
+The Gram-Schmidt process provides a constructive proof of the existence of an orthonormal
+basis for any subspace of $\fR^n$. In practice, however, the classical algorithm can suffer
+from numerical instability due to accumulated rounding errors, especially for large sets of
+nearly dependent vectors. The modified Gram-Schmidt algorithm, which applies
+orthogonalization against each previous vector sequentially (using the partially
+orthogonalized vector at each step), offers better numerical stability and is preferred in
+computational applications.
+
+
+**Modified Gram-Schmidt Algorithm.**\ Instead of computing all projections from the
+original vector $\bv_k$, modified Gram-Schmidt re-uses the *partially orthogonalized*
+vector at each step:
+$$
+\begin{align}
+\bv_k^{(1)} &= \bv_k, \\
+\bv_k^{(j+1)} &= \bv_k^{(j)} - \frac{\bu_j^T\,\bv_k^{(j)}}{\bu_j^T\bu_j}\bu_j,
+\quad j = 1, ..., k-1, \\
+\bu_k &= \bv_k^{(k)}.
+\end{align}
+$$
+Normalize as before: $\bq_i = \bu_i / \|\bu_i\|_2$.
+
+In exact arithmetic, classical and modified Gram-Schmidt produce identical results. The
+difference is numerical: modified Gram-Schmidt limits error accumulation by immediately
+removing components already seen.
+
+
+::: {.callout-note icon=false}
+## Example: Gram-Schmidt and QR Decomposition
+Consider the matrix $\bA = \begin{bmatrix} 1 & 0 \\ 1 & 1 \\ 1 & 2 \end{bmatrix}$ whose
+columns are $\bv_1 = (1,1,1)^T$ and $\bv_2 = (0,1,2)^T$ from the previous example.
+
+From the Gram-Schmidt process, $\bq_1 = \frac{1}{\sqrt{3}}(1,1,1)^T$ and
+$\bq_2 = \frac{1}{\sqrt{2}}(-1,0,1)^T$. The $\bR$ matrix entries are:
+$$
+\begin{align}
+r_{11} &= \bq_1^T\bv_1 = \sqrt{3}, \quad r_{12} = \bq_1^T\bv_2 = \sqrt{3}, \quad
+r_{22} = \bq_2^T\bu_2 = \sqrt{2}.
+\end{align}
+$$
+
+Therefore:
+$$\bR = \begin{bmatrix} \sqrt{3} & \sqrt{3} \\ 0 & \sqrt{2} \end{bmatrix}, \qquad
+\bQ\bR = \begin{bmatrix} \frac{1}{\sqrt{3}} & -\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{3}} & 0 \\ \frac{1}{\sqrt{3}} & \frac{1}{\sqrt{2}} \end{bmatrix}
+\begin{bmatrix} \sqrt{3} & \sqrt{3} \\ 0 & \sqrt{2} \end{bmatrix}
+= \begin{bmatrix} 1 & 0 \\ 1 & 1 \\ 1 & 2 \end{bmatrix} = \bA.\;✓$$
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Classical vs.\ Modified Gram-Schmidt Numerical Stability
+Both CGS and MGS produce the QR factorization in exact arithmetic, but differ numerically.
+Let $\hat{\bQ}$ denote the computed factor. Then:
+
+- **Classical (CGS):**
+    $\|\hat{\bQ}^T\hat{\bQ} - \bI\|_2 = O\!\left(\varepsilon_{\text{mach}}\,\kappa(\bA)^2\right)$
+    
+- **Modified (MGS):**
+    $\|\hat{\bQ}^T\hat{\bQ} - \bI\|_2 = O\!\left(\varepsilon_{\text{mach}}\,\kappa(\bA)\right)$
+
+Both algorithms cost $O(mn^2)$ flops for $\bA \in \fR^{m \times n}$.
+:::
+
+
+::: {.callout-tip icon=false}
+The key difference: CGS computes all projections from the *original* vector $\bv_k$,
+so rounding errors in early projections contaminate all subsequent ones. MGS re-uses the
+*partially orthogonalized* vector at each step, immediately removing components
+already seen, which limits error accumulation. For maximum stability (at the same
+$O(mn^2)$ cost), Householder QR achieves $O(\varepsilon_{\text{mach}})$ loss of
+orthogonality regardless of $\kappa(\bA)$; it is what `np.linalg.qr` actually uses.
+:::
+
+
+::: {.callout-tip icon=false}
+The Gram-Schmidt process is closely related to the QR decomposition. Arranging the original
+vectors as columns of $\bA$ and the orthonormal vectors as columns of $\bQ$, we have
+$\bA = \bQ\bR$ where $\bR$ is upper triangular with entries:
+$$r_{ij} =
+\begin{cases}
+\bq_i^T\bv_j & \text{if } i \leq j \\
+0 & \text{if } i > j.
+\end{cases}$$
+The elements of $\bR$ are precisely the projection coefficients computed during the
+Gram-Schmidt process.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Let $\bA = \begin{pmatrix} 1 & 1 \\ 1 & 2 \\ 0 & 1 \end{pmatrix}$.
+
+1. Apply classical Gram-Schmidt by hand to the columns of $\bA$ to find an
+    orthonormal basis $\{\bq_1, \bq_2\}$ for $\text{col}(\bA)$.
+    
+1. Write out $\bQ \in \fR^{3 \times 2}$ and $\bR \in \fR^{2 \times 2}$ and verify
+    $\bA = \bQ\bR$.
+    
+1. Apply modified Gram-Schmidt to the same columns. Do you get the same $\bQ, \bR$
+    (in exact arithmetic)?
+    
+1. In NumPy, compute `np.linalg.qr(A)` and compare. Verify
+    `Q.T @ Q` is close to $\bI$.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Orthogonal Projection)** Let $\bQ \in \fR^{m \times n}$ (with $m > n$) have
+orthonormal columns (thin QR). The orthogonal projector onto $\text{col}(\bQ)$ is
+$\bP = \bQ\bQ^T$.
+
+1. Show that $\bP^2 = \bP$ (idempotent) and $\bP^T = \bP$ (symmetric).
+    
+1. Show that $\bP\bx$ is the closest vector in $\text{col}(\bQ)$ to $\bx$, i.e.,
+    $\|\bx - \bP\bx\|_2 \leq \|\bx - \by\|_2$ for all $\by \in \text{col}(\bQ)$.
+    
+1. If $\bA = \bQ\bR$ (full QR with $\bQ \in \fR^{m \times m}$ orthogonal), what is
+    the projection onto $\text{col}(\bA)$ in terms of the thin $\bQ_1$ (first $n$ columns
+    of $\bQ$)?
+    
+1. Write NumPy code to project a vector `x = np.random.randn(5)` onto the
+    column space of a random $5 \times 3$ matrix `A`. Verify the residual
+    `x - P @ x` is orthogonal to each column of `A`.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Stability Experiment)** Generate a nearly linearly dependent set of vectors:
+
+`V = np.column\_stack([np.ones(50), np.linspace(0,1,50)**k for k in range(1,6)])`
+
+This is a Vandermonde-like matrix with $\kappa(\bV) \gg 1$.
+
+1. Implement classical Gram-Schmidt and compute $\|\hat{\bQ}^T\hat{\bQ} - \bI\|_F$.
+    
+1. Implement modified Gram-Schmidt and compute the same quantity. Compare.
+    
+1. Use `np.linalg.qr(V)` (Householder) and compute the same quantity.
+    What do you observe?
+    
+1. Compute $\kappa(\bV)$ via `np.linalg.cond(V)`. Does the stability gap
+    between CGS and MGS scale as the result above predicts?
+
+:::
+
+
+::: {.callout-tip icon=false}
+The Gram-Schmidt process and QR factorization are foundational tools in numerical linear
+algebra, underlying algorithms for solving linear systems, least-squares problems,
+eigenvalue computation (the QR algorithm), and orthogonal basis construction in iterative
+solvers.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+For each application below, identify which property of QR (orthogonality of $\bQ$,
+triangularity of $\bR$, or both) is the key ingredient and write one sentence explaining
+why.
+
+1. Solving a square linear system $\bA\bx = \bb$ via $\bA = \bQ\bR$.
+    
+1. Computing the least-squares solution to an overdetermined system
+    $\bA\bx \approx \bb$.
+    
+1. One step of the QR eigenvalue algorithm: $\bA_k = \bQ_k\bR_k$,
+    $\bA_{k+1} = \bR_k\bQ_k$.
+    
+1. Constructing a coordinate system aligned with a given set of data directions.
+
+:::

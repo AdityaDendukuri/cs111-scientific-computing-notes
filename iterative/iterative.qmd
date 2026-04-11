@@ -1,0 +1,112 @@
+# Iterative Methods for Linear Systems
+
+
+So far we have examined direct methods for solving $\bA\bx = \bb$: computing the answer in a fixed, predictable number of operations. For large sparse systems, however, direct methods become impractical — even when $\bA$ is sparse, its LU factors may be dense (*fill-in*), destroying the memory advantage. Iterative methods offer an alternative: refine an initial guess through successive approximations, exploiting sparsity at every step.
+
+
+::: {.callout-note icon=false}
+## Definition: Direct Inverse Method
+The analytical formula $\bx = \bA^{-1}\bb$ requires explicitly forming $\bA^{-1}$, which costs $O(n^3)$ flops and can suffer from severe numerical instability when $\bA$ is nearly singular.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Matrix Factorization Methods
+Methods such as LU, Cholesky, and QR decompose $\bA$ into simpler factors at a one-time cost of $O(n^3)$. Each subsequent solve with a new right-hand side then requires only $O(n^2)$ operations via triangular solves.
+:::
+
+
+::: {.callout-tip icon=false}
+Factorization methods are effective for small to medium-sized problems, but become impractical for very large sparse systems: even when $\bA$ is sparse, the factors $\bL$ and $\bU$ may be dense (fill-in), destroying the memory advantage. For example, the $n^2 \times n^2$ matrix arising from a 2D finite difference discretization on an $n\times n$ grid has $O(n^2)$ nonzeros, but its LU factors have $O(n^3)$ nonzeros.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Stationary Iterative Scheme
+A *stationary iterative method* for $\bA\bx = \bb$ takes the form
+$$\bx^{(k+1)} = \bT\bx^{(k)} + \bc, \quad k = 0, 1, 2, ...$$
+for a fixed *iteration matrix* $\bT \in \fR^{n\times n}$ and a fixed vector $\bc \in \fR^n$ derived from $\bA$ and $\bb$. Starting from an initial guess $\bx^{(0)}$, the method generates a sequence $\{\bx^{(k)}\}$.
+:::
+
+
+::: {.callout-tip icon=false}
+The iteration is consistent with $\bA\bx = \bb$ if every fixed point $\bx^* = \bT\bx^* + \bc$ satisfies $\bA\bx^* = \bb$. Rearranging $\bA\bx = \bb$ as $\bx = (\bI - \bM^{-1}\bA)\bx + \bM^{-1}\bb$ for some invertible *splitting matrix* $\bM$ yields $\bT = \bI - \bM^{-1}\bA$ and $\bc = \bM^{-1}\bb$. The art lies in choosing $\bM$ so that $\bT$ has small spectral radius and $\bM^{-1}$ is cheap to apply.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Spectral Radius
+The *spectral radius* of a matrix $\bB \in \fR^{n\times n}$ is
+$$\rho(\bB) = \max\{|\lambda| : \lambda \in \sigma(\bB)\},$$
+the largest absolute value among all eigenvalues of $\bB$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Gelfand's Formula
+For any matrix $\bB \in \fR^{n\times n}$ and any submultiplicative matrix norm $\|\cdot\|$,
+$$\rho(\bB) = \lim_{k\to\infty} \|\bB^k\|^{1/k}.$$
+In particular, for every $\epsilon > 0$ there exists $C_\epsilon > 0$ such that $\|\bB^k\| \leq C_\epsilon(\rho(\bB)+\epsilon)^k$ for all $k \geq 0$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+*Lower bound*: For any eigenvalue $\lambda$ of $\bB$ with eigenvector $\bv$, $\bB^k\bv = \lambda^k\bv$, so $\|\bB^k\|\|\bv\| \geq \|\bB^k\bv\| = |\lambda|^k\|\bv\|$. Hence $\|\bB^k\|^{1/k} \geq |\lambda|$ for all $k$, giving $\liminf_{k}\|\bB^k\|^{1/k} \geq \rho(\bB)$.
+
+*Upper bound*: Fix $\epsilon > 0$. The Jordan decomposition gives $\bB = \bV\bJ_0\bV^{-1}$ where $\bJ_0$ is block upper triangular with the eigenvalues of $\bB$ on the diagonal. The entries of $\bJ_0^k$ grow at most as $k^{n-1}|\lambda_{\max}|^k$ (from Jordan block structure). Since $k^{n-1} \leq C_\epsilon(1+\epsilon/\rho(\bB))^k$ for large $k$, we get $\|\bB^k\| \leq C_\epsilon(\rho(\bB)+\epsilon)^k$, so $\limsup_k\|\bB^k\|^{1/k} \leq \rho(\bB)+\epsilon$. Since $\epsilon$ was arbitrary, the limit exists and equals $\rho(\bB)$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Convergence of Stationary Iteration
+The stationary iteration $\bx^{(k+1)} = \bT\bx^{(k)} + \bc$ converges to the fixed point $\bx^* = \bT\bx^* + \bc$ for *every* initial vector $\bx^{(0)}$ if and only if $\rho(\bT) < 1$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Let $\boldsymbol{e}^{(k)} = \bx^{(k)} - \bx^*$. Subtracting the fixed-point equation from the iteration gives $\boldsymbol{e}^{(k+1)} = \bT\boldsymbol{e}^{(k)}$, so $\boldsymbol{e}^{(k)} = \bT^k\boldsymbol{e}^{(0)}$.
+
+*($\Leftarrow$) If $\rho(\bT) < 1$:* Choose $\epsilon > 0$ small enough that $\rho(\bT) + \epsilon < 1$. By Gelfand's formula, $\lim_{k\to\infty}\|\bT^k\|^{1/k} = \rho(\bT)$, so $\|\bT^k\| \leq C(\rho(\bT)+\epsilon)^k$ for some constant $C > 0$. Hence $\|\boldsymbol{e}^{(k)}\| \leq C(\rho(\bT)+\epsilon)^k\|\boldsymbol{e}^{(0)}\| \to 0$ for all $\bx^{(0)}$.
+
+*($\Rightarrow$) If $\rho(\bT) \geq 1$:* There exists an eigenvalue $\lambda$ with $|\lambda| \geq 1$ and eigenvector $\bv \neq \bzero$. Take $\bx^{(0)} = \bx^* + \bv$; then $\boldsymbol{e}^{(k)} = \lambda^k\bv$, so $\|\boldsymbol{e}^{(k)}\| = |\lambda|^k\|\bv\| \not\to 0$.
+:::
+
+
+::: {.callout-note icon=false}
+## Corollary: Geometric Convergence Rate
+When $\rho(\bT) < 1$, the error satisfies $\|\bx^{(k)} - \bx^*\| = O(\rho(\bT)^k)$. To reduce the error by a factor of $10^{-p}$, approximately $p/\log_{10}(1/\rho(\bT))$ iterations are required.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+From Gelfand's formula, $\|\bT^k\| \leq C\rho(\bT)^k$ (up to a constant). Solving $C\rho(\bT)^k \leq 10^{-p}$ for $k$ and taking logarithms gives $k \geq (\log C + p) / \log_{10}(1/\rho(\bT))$, which is $O(p/\log_{10}(1/\rho(\bT)))$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Let $\bA = \begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}$, $\bb = \begin{pmatrix} 4 \\ 4 \end{pmatrix}$ (exact solution $\bx^* = (1,1)^T$).
+
+1. Split $\bA = \bD + (\bA - \bD)$ where $\bD = \mathrm{diag}(3,3)$. Write the stationary iteration in the form $\bx^{(k+1)} = \bT\bx^{(k)} + \bc$, stating $\bT$ and $\bc$ explicitly.
+  
+1. Compute $\rho(\bT)$ and predict the number of iterations needed to reduce the initial error by $10^{-6}$.
+  
+1. Starting from $\bx^{(0)} = (0,0)^T$, carry out three iterations by hand and verify that the error decreases at the rate predicted by $\rho(\bT)$.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Fill-in phenomenon)** Let $\bA$ be the $n\times n$ tridiagonal matrix with $2$ on the main diagonal and $-1$ on the super- and sub-diagonals (arising from finite differences for $-u'' = f$ on $[0,1]$).
+
+1. How many nonzeros does $\bA$ have? Is it $O(n)$ or $O(n^2)$?
+  
+1. Use `scipy.linalg.lu` to compute the LU factorization for $n = 20$. Count the nonzeros in $\bL$ and $\bU$. Is there fill-in? Explain why or why not.
+  
+1. Use `scipy.sparse.linalg.spsolve` to solve $\bA\bx = \mathbf{1}$ in sparse format. Compare timing against dense LU for $n = 1000$.
+
+:::

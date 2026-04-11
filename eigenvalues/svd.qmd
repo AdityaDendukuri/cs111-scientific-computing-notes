@@ -1,0 +1,188 @@
+# Singular Value Decomposition and the Four Fundamental Subspaces
+
+
+The SVD is often regarded as the culmination of linear algebra. It reveals that any matrix — regardless of shape or rank — can be decomposed into two orthogonal transformations and a diagonal scaling. This structure simultaneously provides orthonormal bases for all four fundamental subspaces, the optimal low-rank approximation, and the numerically stable pseudoinverse.
+
+
+::: {.callout-note icon=false}
+## Theorem: Singular Value Decomposition (SVD)
+For any $\bA \in \fR^{m\times n}$, there exist orthogonal matrices $\bU \in \fR^{m\times m}$ and $\bV \in \fR^{n\times n}$ and a rectangular diagonal matrix $\bsigma \in \fR^{m\times n}$ with diagonal entries $\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_{\min(m,n)} \geq 0$ such that
+$$\bA = \bU\bsigma\bV^T.$$
+The values $\sigma_i$ are the *singular values* of $\bA$. The columns of $\bU$ and $\bV$ are the *left* and *right singular vectors*.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+We sketch the constructive proof. The matrix $\bA^T\bA \in \fR^{n\times n}$ is symmetric positive semidefinite (since $\bx^T\bA^T\bA\bx = \|\bA\bx\|_2^2 \geq 0$). By the spectral theorem, there exists an orthonormal eigenbasis: $\bA^T\bA\bv_i = \lambda_i\bv_i$ with $\lambda_1 \geq \cdots \geq \lambda_n \geq 0$. Set $\sigma_i = \sqrt{\lambda_i}$ and, for $\sigma_i > 0$, define $\bu_i = \bA\bv_i/\sigma_i$. Then $\{\bu_i\}$ are orthonormal (since $\bu_i^T\bu_j = \bv_i^T\bA^T\bA\bv_j/(\sigma_i\sigma_j) = \lambda_j\delta_{ij}/(\sigma_i\sigma_j) = \delta_{ij}$). Extending $\{\bu_i\}$ to an orthonormal basis of $\fR^m$ gives $\bU$. One verifies $\bA\bV = \bU\bsigma$ column-by-column, hence $\bA = \bU\bsigma\bV^T$.
+:::
+
+
+::: {.callout-tip icon=false}
+Geometrically, $\bA$ acts as: (1) rotate/reflect the input space via $\bV^T$; (2) scale along the coordinate axes (and possibly embed into a higher or lower dimensional space) via $\bsigma$; (3) rotate/reflect the output space via $\bU$. The outer product expansion $\bA = \sum_{i=1}^r \sigma_i\bu_i\bv_i^T$ expresses $\bA$ as a sum of rank-1 matrices, each capturing one ``mode'' of the transformation.
+:::
+
+
+## The Four Fundamental Subspaces
+
+
+::: {.callout-note icon=false}
+## Definition: Column Space (Range)
+The *column space* of $\bA \in \fR^{m\times n}$ is $\mathcal{R}(\bA) = \{\bA\bx : \bx \in \fR^n\} \subseteq \fR^m$. It is spanned by the columns of $\bA$ and has dimension equal to the rank $r = \mathrm{rank}(\bA)$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Null Space (Kernel)
+The *null space* of $\bA$ is $\mathcal{N}(\bA) = \{\bx \in \fR^n : \bA\bx = \bzero\}$. It consists of all inputs mapped to zero and has dimension $n - r$ (the *nullity* of $\bA$).
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Row Space
+The *row space* of $\bA$ is $\mathcal{R}(\bA^T) = \{\bA^T\by : \by \in \fR^m\} \subseteq \fR^n$, spanned by the rows of $\bA$. It has dimension $r$ and is the orthogonal complement of $\mathcal{N}(\bA)$ in $\fR^n$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Left Null Space
+The *left null space* of $\bA$ is $\mathcal{N}(\bA^T) = \{\by \in \fR^m : \bA^T\by = \bzero\}$. It has dimension $m - r$ and is the orthogonal complement of $\mathcal{R}(\bA)$ in $\fR^m$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Rank-Nullity via SVD
+$\mathrm{rank}(\bA) + \dim\mathcal{N}(\bA) = n$ and $\mathrm{rank}(\bA) + \dim\mathcal{N}(\bA^T) = m$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+From the SVD $\bA = \bU\bsigma\bV^T$, the number of positive singular values equals $r = \mathrm{rank}(\bA)$. The right singular vectors $\bv_1,...,\bv_r$ (corresponding to $\sigma_i > 0$) span $\mathcal{R}(\bA^T)$, while $\bv_{r+1},...,\bv_n$ span $\mathcal{N}(\bA)$ (since $\bA\bv_i = \sigma_i\bu_i = \bzero$ for $i > r$). Since $\{\bv_i\}$ is an orthonormal basis of $\fR^n$, we have $r + (n-r) = n$. The second identity follows symmetrically from the left singular vectors.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: SVD Provides Orthonormal Bases for All Four Subspaces
+In the SVD $\bA = \bU\bsigma\bV^T$ with $r = \mathrm{rank}(\bA)$:
+the first $r$ columns of $\bU$ span $\mathcal{R}(\bA)$;
+the last $m-r$ columns of $\bU$ span $\mathcal{N}(\bA^T)$;
+the first $r$ columns of $\bV$ span $\mathcal{R}(\bA^T)$;
+the last $n-r$ columns of $\bV$ span $\mathcal{N}(\bA)$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+For any $\bx$, $\bA\bx = \bU\bsigma\bV^T\bx = \sum_{i=1}^r \sigma_i(\bv_i^T\bx)\bu_i$, which is a linear combination of $\bu_1,...,\bu_r$. Conversely, $\bA\bv_i = \sigma_i\bu_i$ for $i \leq r$, so each $\bu_i$ ($i \leq r$) is in $\mathcal{R}(\bA)$. Hence $\mathcal{R}(\bA) = \mathrm{span}\{\bu_1,...,\bu_r\}$. Since $\mathcal{N}(\bA^T)$ is the orthogonal complement of $\mathcal{R}(\bA)$ in $\fR^m$ and $\bu_{r+1},...,\bu_m$ are orthogonal to $\bu_1,...,\bu_r$, they span $\mathcal{N}(\bA^T)$. The arguments for $\mathcal{R}(\bA^T)$ and $\mathcal{N}(\bA)$ are symmetric.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: Existence and Uniqueness of the Least Squares Solution
+The system $\bA\bx = \bb$ has an exact solution if and only if $\bb \in \mathcal{R}(\bA)$. When it does, the general solution is any particular solution $\hat{\bx}$ plus an arbitrary vector from $\mathcal{N}(\bA)$. The *minimum-norm* least squares solution is $\hat{\bx} = \bA^+\bb = \bV\bsigma^+\bU^T\bb$, where $\bsigma^+$ has $1/\sigma_i$ for each positive singular value.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+$\bA\bx = \bb$ is solvable iff $\bb \perp \mathcal{N}(\bA^T)$, i.e., $\bb \in \mathcal{R}(\bA)$ (since the two are orthogonal complements). The general solution is $\bx = \bV\bsigma^+\bU^T\bb + \bP_{\mathcal{N}(\bA)}\bw$ for any $\bw$, where the second term lies in $\mathcal{N}(\bA)$ and contributes zero to $\bA\bx$ but increases $\|\bx\|_2$. The minimum-norm solution has zero $\mathcal{N}(\bA)$ component, giving $\hat{\bx} = \bA^+\bb$.
+:::
+
+
+## Rank Truncation and the Eckart-Young-Mirsky Theorem
+
+
+::: {.callout-note icon=false}
+## Definition: Rank-$r$ Approximation
+The *rank-$r$ truncated SVD* of $\bA$ is
+$$\bA_r = \sum_{i=1}^r \sigma_i\bu_i\bv_i^T = \bU_r\bsigma_r\bV_r^T,$$
+where $\bU_r, \bV_r$ are the first $r$ columns of $\bU, \bV$ and $\bsigma_r \in \fR^{r\times r}$ contains the $r$ largest singular values.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Eckart-Young-Mirsky Theorem
+Among all matrices of rank at most $r$, $\bA_r$ is the closest to $\bA$ in both the spectral norm and the Frobenius norm:
+$$\|\bA - \bA_r\|_2 = \sigma_{r+1}, \qquad \|\bA - \bA_r\|_F = \sqrt{\sum_{i=r+1}^{p} \sigma_i^2},$$
+where $p = \min(m,n)$. For any $\bB$ with $\mathrm{rank}(\bB) \leq r$: $\|\bA - \bB\|_2 \geq \sigma_{r+1}$ and $\|\bA - \bB\|_F \geq \|\bA - \bA_r\|_F$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+The error formula follows immediately: $\bA - \bA_r = \sum_{i=r+1}^p \sigma_i\bu_i\bv_i^T$ is itself an SVD, so $\|\bA - \bA_r\|_2 = \sigma_{r+1}$ and $\|\bA - \bA_r\|_F = \sqrt{\sum_{i>r}\sigma_i^2}$.
+
+For the lower bound: suppose $\mathrm{rank}(\bB) \leq r$, so $\dim\mathcal{N}(\bB) \geq n-r$. The subspace $\mathcal{N}(\bB) \cap \mathrm{span}\{\bv_1,...,\bv_{r+1}\}$ has dimension at least $(n-r) + (r+1) - n = 1$ by dimension counting, so there exists a unit vector $\bz$ in this intersection. Then
+$$\|\bA - \bB\|_2 \geq \|(\bA-\bB)\bz\|_2 = \|\bA\bz\|_2 = \left\|\sum_{i=1}^{r+1}\sigma_i(\bv_i^T\bz)\bv_i\right\|_2 \geq \sigma_{r+1}\|\bz\|_2 = \sigma_{r+1}.$$
+The Frobenius norm lower bound follows similarly using the Frobenius norm version of the argument.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: SVD-Eigendecomposition Relationship
+The singular values and vectors of $\bA$ satisfy:
+the right singular vectors $\bv_i$ are eigenvectors of $\bA^T\bA$ with eigenvalues $\sigma_i^2$;
+the left singular vectors $\bu_i$ are eigenvectors of $\bA\bA^T$ with eigenvalues $\sigma_i^2$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+From $\bA = \bU\bsigma\bV^T$: $\bA^T\bA = \bV\bsigma^T\bU^T\bU\bsigma\bV^T = \bV\bsigma^T\bsigma\bV^T$. Since $\bsigma^T\bsigma = \mathrm{diag}(\sigma_1^2,...,\sigma_n^2)$ and $\bV$ is orthogonal, this is the eigendecomposition $\bA^T\bA\bv_i = \sigma_i^2\bv_i$. Symmetrically, $\bA\bA^T = \bU\bsigma\bsigma^T\bU^T$ gives $\bA\bA^T\bu_i = \sigma_i^2\bu_i$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Pseudoinverse via SVD
+The *Moore-Penrose pseudoinverse* of $\bA \in \fR^{m\times n}$ is
+$$\bA^+ = \bV\bsigma^+\bU^T, \quad \text{where } (\bsigma^+)_{ii} = \begin{cases} 1/\sigma_i & \text{if } \sigma_i > 0 \\ 0 & \text{otherwise.} \end{cases}$$
+For full column rank, $\bA^+ = (\bA^T\bA)^{-1}\bA^T$. For full row rank, $\bA^+ = \bA^T(\bA\bA^T)^{-1}$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: SVD-Based Regularization
+For an ill-conditioned system, the truncated SVD solution
+$$\hat{\bx}_k = \sum_{i=1}^k \frac{\bu_i^T\bb}{\sigma_i}\bv_i$$
+ignores directions corresponding to small singular values, reducing sensitivity to perturbations. The effective condition number of the regularized system is $\sigma_1/\sigma_k \ll \sigma_1/\sigma_n$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Let $\bA = \begin{pmatrix} 3 & 1 \\ 1 & 2 \end{pmatrix}$.
+
+1. Compute the SVD of $\bA$ by hand: find the eigenvalues of $\bA^T\bA$, then the singular values, right singular vectors (eigenvectors of $\bA^T\bA$), and left singular vectors ($\bu_i = \bA\bv_i/\sigma_i$).
+  
+1. Verify that $\bU$, $\bsigma$, $\bV$ recover $\bA$ via $\bU\bsigma\bV^T$.
+  
+1. What are the four fundamental subspaces of $\bA$? (Since $\bA$ is $2\times2$ and invertible, what are their dimensions?)
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Image compression via truncated SVD)** Load a grayscale image (e.g., `from skimage import data; A = data.camera().astype(float)`) and compute its SVD using `np.linalg.svd(A, full\_matrices=False)`.
+
+1. Plot the singular values on a log scale. Where do they start to level off?
+  
+1. Compute the rank-$r$ approximation $\bA_r$ for $r = 5, 20, 50, 100$. Display the images.
+  
+1. For each $r$, compute the storage savings ($(m + n + 1) \times r$ vs.\ $mn$ entries) and the relative Frobenius error $\|\bA - \bA_r\|_F / \|\bA\|_F$. Plot error vs.\ compression ratio.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Four fundamental subspaces)** Let $\bA = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9 \end{pmatrix}$.
+
+1. Use `np.linalg.svd` to find the singular values. How many are zero (up to numerical precision)? What is $\mathrm{rank}(\bA)$?
+  
+1. Extract bases for all four fundamental subspaces from the SVD. Verify that $\mathcal{R}(\bA) \perp \mathcal{N}(\bA^T)$ and $\mathcal{R}(\bA^T) \perp \mathcal{N}(\bA)$.
+  
+1. For $\bb = (1, 1, 1)^T$, determine whether the system $\bA\bx = \bb$ has a solution. If not, compute the least squares solution using the pseudoinverse `np.linalg.pinv(A) @ b`.
+
+:::

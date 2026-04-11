@@ -1,0 +1,271 @@
+# LU Factorization
+
+
+The LU factorization expresses a square matrix $\bA \in \fR^{n \times n}$ as
+$$\bA = \bL\bU,$$
+where $\bL$ is unit lower triangular (ones on the diagonal) and $\bU$ is upper triangular.
+Solving $\bA\bx = \bb$ then reduces to two triangular solves: forward substitution for
+$\bL\by = \bb$, then backward substitution for $\bU\bx = \by$.  Each triangular solve costs
+$O(n^2)$, far cheaper than the $O(n^3)$ factorization that is paid only once.
+
+
+## LU Factorization and Gaussian Elimination
+
+Gaussian elimination is the standard algorithm for computing the LU factorization.
+Understanding the elimination procedure is essential for analyzing both the cost and the
+conditions under which the factorization exists.
+
+
+::: {.callout-note icon=false}
+## Definition: LU Factorization
+An **LU factorization** of $\bA \in \fR^{n \times n}$ is a decomposition $\bA = \bL\bU$
+with
+$$\bL = \begin{pmatrix}
+1 & 0 & \cdots & 0\\[1mm]
+\ell_{21} & 1 & \cdots & 0\\[1mm]
+\vdots & \vdots & \ddots & \vdots\\[1mm]
+\ell_{n1} & \ell_{n2} & \cdots & 1
+\end{pmatrix} \quad \text{and} \quad
+\bU = \begin{pmatrix}
+u_{11} & u_{12} & \cdots & u_{1n}\\[1mm]
+0 & u_{22} & \cdots & u_{2n}\\[1mm]
+\vdots & \vdots & \ddots & \vdots\\[1mm]
+0 & 0 & \cdots & u_{nn}
+\end{pmatrix}.$$
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. How many free parameters does an $n \times n$ unit lower triangular matrix $\bL$
+    have?  How many does $\bU$ have?  Together, can they encode $n^2$ free parameters (as
+    required to represent a general $\bA$)?
+    
+1. If $\bA = \bL\bU$ and $\bA$ is invertible, show that $\bL$ and $\bU$ are each
+    individually invertible.  (*Hint: $\det(\bA) = \det(\bL)\det(\bU)$ and diagonal
+    entries of $\bL$ are all 1.*)
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Gaussian Elimination
+To compute $\bA = \bL\bU$, Gaussian elimination eliminates entries below the pivot in each
+column.  At step $k$, for each row $i > k$, compute the multiplier
+$$\ell_{ik} = \frac{a_{ik}^{(k)}}{a_{kk}^{(k)}},$$
+and update:
+$$a_{ij}^{(k+1)} = a_{ij}^{(k)} - \ell_{ik}\,a_{kj}^{(k)}, \quad j = k+1, ..., n.$$
+After $n-1$ steps, the updated matrix is $\bU$ and the multipliers $\ell_{ik}$ form $\bL$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: LU Factorization Existence and Uniqueness
+$\bA \in \fR^{n \times n}$ has a unique LU factorization (without pivoting) if and only if
+all leading principal submatrices $\bA_k \in \fR^{k \times k}$ are nonsingular for
+$k = 1, ..., n-1$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+At step $k$, the pivot equals $\det(\bA_k)/\det(\bA_{k-1})$ (by induction).  This is
+nonzero iff $\det(\bA_k) \neq 0$.  If all $n-1$ pivots are nonzero, elimination completes
+and each multiplier $\ell_{ik} = a_{ik}/a_{kk}$ and updated entry is uniquely determined,
+giving a unique $\bL, \bU$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: LU Factorization Cost
+Computing the LU factorization of $\bA \in \fR^{n \times n}$ by Gaussian elimination costs
+$$\frac{2}{3}n^3 + O(n^2) \text{ flops.}$$
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+At step $k$, we compute $n-k$ multipliers and update an $(n-k)\times(n-k)$ submatrix,
+costing $2(n-k)^2$ flops.  Summing:
+$$\sum_{k=1}^{n-1} 2(n-k)^2 = 2\sum_{j=1}^{n-1} j^2 = 2\cdot\frac{(n-1)n(2n-1)}{6}
+    = \frac{2n^3}{3} + O(n^2).$$
+:::
+
+
+::: {.callout-tip icon=false}
+The $\frac{2}{3}n^3$ factorization cost is paid once.  Each subsequent triangular solve
+costs only $O(n^2)$.  When solving $k$ systems with the same $\bA$, the total cost is
+$\frac{2}{3}n^3 + 2kn^2$, versus $k \cdot \frac{2}{3}n^3$ if factorizing each time.
+:::
+
+
+::: {.callout-note icon=false}
+## Example
+Consider
+$$\bA = \begin{pmatrix}
+2 & 3 & 1 \\ 4 & 7 & 3 \\ -2 & -3 & 1
+\end{pmatrix}.$$
+*Step 1*: Take row 1 of $\bU$: $u_{11}=2$, $u_{12}=3$, $u_{13}=1$.
+Multipliers: $\ell_{21} = 4/2 = 2$, $\ell_{31} = -2/2 = -1$.
+After elimination: $u_{22} = 7-2\cdot3=1$, $u_{23}=3-2\cdot1=1$;
+$\tilde{a}_{32}=-3+3=0$, $\tilde{a}_{33}=1+1=2$.
+*Step 2*: $\ell_{32} = 0/1 = 0$, $u_{33}=2$.
+$$\bL = \begin{pmatrix}1&0&0\\2&1&0\\-1&0&1\end{pmatrix}, \quad
+\bU = \begin{pmatrix}2&3&1\\0&1&1\\0&0&2\end{pmatrix}.$$
+Verify: $\bL\bU = \bA$. $✓$
+:::
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above and the result above.
+Compute the LU factorization (without pivoting) of
+$$\bA = \begin{pmatrix} 1 & 2 & 1 \\ 3 & 8 & 1 \\ 0 & 4 & 1 \end{pmatrix}.$$
+
+1. Carry out elimination: compute multipliers $\ell_{21}, \ell_{31}$ at step 1,
+    update the submatrix, then compute $\ell_{32}$ at step 2.
+    
+1. Write $\bL$ and $\bU$ explicitly and verify $\bL\bU = \bA$.
+    
+1. Use the factorization to solve $\bA\bx = (5, 15, 4)^T$ via forward then backward
+    substitution.
+    
+1. In Python, verify with `from scipy.linalg import lu` and `lu(A)`.
+    Why does SciPy always return a permutation $\mathbf{P}$ even if no row swaps are needed?
+
+:::
+
+
+## Pivoting and LUP Decomposition
+
+When a pivot is zero (or dangerously small), Gaussian elimination breaks down.  Pivoting
+resolves this by reordering rows before each elimination step.
+
+
+::: {.callout-note icon=false}
+## Definition: LUP Decomposition
+When zero or near-zero pivots arise, row interchanges are recorded by a permutation matrix
+$\mathbf{P}$, giving the **LUP decomposition**:
+$$\mathbf{P}\bA = \bL\bU,$$
+where $\bL$ is unit lower triangular and $\bU$ is upper triangular.  **Partial
+pivoting** selects the largest-magnitude entry in the current column as the pivot; this
+minimizes division by small numbers and limits error growth.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. Give a concrete $2 \times 2$ matrix where Gaussian elimination without pivoting
+    fails (division by zero) but LUP succeeds.  Write out $\mathbf{P}$, $\bL$, $\bU$.
+    
+1. A permutation matrix satisfies $\mathbf{P}^T\mathbf{P} = \bI$.  Why does this
+    make $\mathbf{P}^{-1}$ trivial to compute?
+
+:::
+
+
+**Why partial pivoting?**  Partial pivoting selects the largest available
+pivot (in absolute value) by interchanging rows.  This limits the *growth factor*
+$\rho = \max|u_{ij}|/\max|a_{ij}|$, which controls how much rounding errors can amplify
+during elimination.  Complete pivoting (swapping rows and columns) further bounds $\rho$
+but is rarely used in practice due to its extra cost and bookkeeping.
+
+
+::: {.callout-note icon=false}
+## Example
+For
+$$\bA = \begin{pmatrix}0 & 2 & 1\\2 & 1 & 0\\1 & 0 & 2\end{pmatrix},$$
+column 1 has a zero pivot.  The largest entry in column 1 is $2$ (row 2), so swap rows 1
+and 2:
+$$\mathbf{P} = \begin{pmatrix}0&1&0\\1&0&0\\0&0&1\end{pmatrix}, \quad
+\mathbf{P}\bA = \begin{pmatrix}2&1&0\\0&2&1\\1&0&2\end{pmatrix}.$$
+Elimination on $\mathbf{P}\bA$ now proceeds without issue:
+multipliers $\ell_{21}=0$, $\ell_{31}=0.5$; then $\ell_{32}=-0.25$; yielding
+$$\bL = \begin{pmatrix}1&0&0\\0&1&0\\0.5&-0.25&1\end{pmatrix}, \quad
+\bU = \begin{pmatrix}2&1&0\\0&2&1\\0&0&2.25\end{pmatrix}.$$
+:::
+## Solving Linear Systems using LU Factorization
+
+Once $\bA = \bL\bU$ (or $\mathbf{P}\bA = \bL\bU$), solving $\bA\bx = \bb$ costs only
+$O(n^2)$ via two triangular solves.  Crucially, the same factorization can be reused for
+multiple right-hand sides.
+
+
+::: {.callout-note icon=false}
+## Definition: LU Solve
+Given the LU factorization $\bA = \bL\bU$, solve $\bA\bx = \bb$ in two steps:
+
+1. **Forward substitution**: solve $\bL\by = \bb$ for $\by$:
+    $$y_i = b_i - \sum_{j=1}^{i-1}\ell_{ij}\,y_j, \quad i = 1, ..., n.$$
+    
+1. **Backward substitution**: solve $\bU\bx = \by$ for $\bx$:
+    $$x_i = \frac{1}{u_{ii}}\!\left(y_i - \sum_{j=i+1}^{n}u_{ij}\,x_j\right), \quad i = n, ..., 1.$$
+
+:::
+
+
+::: {.callout-tip icon=false}
+Each triangular solve requires $O(n^2)$ operations: forward substitution costs
+$\sum_{i=1}^{n}(i-1) = \frac{n(n-1)}{2}$ multiply-adds, and backward substitution the same.
+Together they are far cheaper than the $O(n^3)$ factorization.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Total Cost of LU-Based Solve
+Solving $k$ linear systems $\bA\bx_i = \bb_i$ with the same $\bA \in \fR^{n \times n}$
+via LU factorization costs
+$$\frac{2}{3}n^3 + 2kn^2 + O(n)$$
+flops, versus $k\!\cdot\!\left(\frac{2}{3}n^3 + O(n^2)\right)$ if $\bA$ is re-factorized
+each time.
+:::
+
+
+::: {.callout-note icon=false}
+## Corollary: Cost of Each Triangular Solve
+Forward substitution (solving $\bL\by = \bb$) and backward substitution (solving
+$\bU\bx = \by$) each cost exactly $n^2 - n$ arithmetic operations.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+In this exercise, we will prove the result above.
+Refer to the result above and the result above.
+
+1. At step $i$ of forward substitution, how many multiplications and additions are
+    needed to compute $y_i$?  Sum over $i = 1, ..., n$ and show the total is $n^2 - n$.
+    
+1. Conclude the asymptotic cost is $O(n^2)$.  Compare this to the $O(n^3)$ cost of
+    the factorization (the result above) for large $n$.
+    
+1. Suppose $\bA$ is $1000 \times 1000$ and you need to solve for 500 right-hand
+    sides.  How many flops does the LU-then-solve approach save compared to calling
+    `np.linalg.solve` 500 times (assuming each call re-factorizes)?
+    
+1. In Python, use `scipy.linalg.lu\_factor(A)` once and
+    `scipy.linalg.lu\_solve` for each right-hand side.
+    Write code for 3 right-hand sides and verify each residual is near machine precision.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Stability of Gaussian Elimination)**
+Refer to the result above and the result above.
+
+1. The **growth factor** of LU with partial pivoting is
+    $\rho = \max_{i,j,k}|u_{ij}^{(k)}|/\max_{i,j}|a_{ij}|$.
+    The theoretical bound is $\rho \leq 2^{n-1}$.  What is this for $n = 50$?
+    
+1. In practice $\rho$ is almost always $O(n)$ or smaller.  Does this make LU with
+    partial pivoting backward stable in theory or just in practice?
+    
+1. Complete pivoting (interchanging both rows and columns) guarantees
+    $\rho = O(n^{2/3})$ but is rarely used.  What is the computational reason?
+
+:::

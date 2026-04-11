@@ -1,0 +1,436 @@
+# Markov Chains and Stochastic Matrices
+
+
+A Markov chain models a random process that moves between states with probabilities depending only on the current state. The evolution of probability distributions is governed by repeated multiplication by a *stochastic matrix*, making Markov chain analysis a direct application of the linear algebra developed in earlier chapters. This section views stochastic matrices as linear operators (building on \Sabove), characterizes their stationary distributions via the Perron-Frobenius theorem, and develops three numerically stable methods for computing these distributions. The connection to power iteration (the result above) will be central throughout.
+
+
+## Stochastic Matrices as Linear Operators
+
+
+The random walk on a graph (see \Sabove) is described by a transition matrix $\bP = \bD^{-1}\bA$. Here we abstract that concrete example: we study the class of *column-stochastic matrices* and identify which structural properties guarantee that repeated application of $\bP$ converges.
+
+
+::: {.callout-note icon=false}
+## Definition: Column-Stochastic Matrix
+A matrix $\bP \in \fR^{n \times n}$ is *column-stochastic* if
+
+1. $P_{ij} \geq 0$ for all $i, j$ (all entries are nonnegative), and
+  
+1. $\sum_{i=1}^n P_{ij} = 1$ for every column $j$ (columns sum to 1).
+
+The entry $P_{ij}$ is the probability of transitioning *from* state $j$ *to* state $i$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Stochastic matrix basics)** Let $\bP = \frac{1}{3}\begin{pmatrix}1 & 2 & 0 \\ 1 & 0 & 2 \\ 1 & 1 & 1\end{pmatrix}$.
+
+1. Verify that $\bP$ is column-stochastic.
+  
+1. Compute $\mathbf{1}^T \bP$ and $\bP \mathbf{1}$. What vectors do you get, and what do they mean probabilistically?
+  
+1. Show that $\lambda = 1$ is always an eigenvalue of a column-stochastic matrix by exhibiting a left eigenvector. (Hint: multiply $\bP$ on the left by $\mathbf{1}^T$.)
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Markov Chain
+A *discrete-time homogeneous Markov chain* on $n$ states is a sequence of probability distributions $\bx^{(0)}, \bx^{(1)}, \bx^{(2)}, ... \in \fR^n$ evolving by
+$$\bx^{(k+1)} = \bP\,\bx^{(k)}, \qquad k = 0, 1, 2, ...$$
+where $\bP$ is column-stochastic and $\bx^{(0)}$ satisfies $x^{(0)}_i \geq 0$ and $\sum_i x^{(0)}_i = 1$. The $i$-th entry $x^{(k)}_i$ is the probability of being in state $i$ at time $k$. After $k$ steps, $\bx^{(k)} = \bP^k\,\bx^{(0)}$.
+:::
+
+
+::: {.callout-tip icon=false}
+The Markov chain evolution $\bx^{(k+1)} = \bP\bx^{(k)}$ is exactly the power iteration of the result above applied to the stochastic matrix $\bP$. This means the long-run behavior is entirely governed by the eigenstructure of $\bP$: the dominant eigenvalue $\lambda_1 = 1$ selects the stationary distribution, while the subdominant eigenvalue $\lambda_2$ controls how fast the chain converges to it.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Two-state chain)** Consider the transition matrix
+$$\bP = \begin{pmatrix} 1-\alpha & \beta \\ \alpha & 1-\beta \end{pmatrix}, \qquad \alpha, \beta \in (0,1).$$
+
+1. Verify that $\bP$ is column-stochastic for any $\alpha, \beta \in (0,1)$.
+  
+1. Compute $\bP^2$ symbolically and identify the pattern. What do the columns of $\bP^k$ approach as $k \to \infty$?
+  
+1. Using NumPy with $\alpha = 0.3$, $\beta = 0.2$: compute `numpy.linalg.matrix\_power(P, k)` for $k = 1, 5, 20, 100$. Print the columns and observe their convergence.
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Irreducibility and Primitivity
+A column-stochastic matrix $\bP$ is *irreducible* if for every pair of states $i, j$ there exists $k \geq 1$ such that $(\bP^k)_{ij} > 0$ (every state is reachable from every state). It is *primitive* (aperiodic) if in addition the greatest common divisor of all cycle lengths in the state transition graph is 1.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Reducibility)** Consider the block transition matrix
+$$\bP = \begin{pmatrix} 1/2 & 1/3 & 0 \\ 1/2 & 2/3 & 0 \\ 0 & 0 & 1 \end{pmatrix}.$$
+
+1. Draw the state transition graph. Which states can reach which others?
+  
+1. Starting from $\bx^{(0)} = (0, 0, 1)^T$, compute $\bx^{(k)}$ for $k = 1, 2, 5, 20$. What happens?
+  
+1. Modify $\bP$ by adding a small teleportation term: $\bP' = (1-\varepsilon)\bP + \frac{\varepsilon}{3}\mathbf{1}\mathbf{1}^T/3$ for $\varepsilon = 0.15$. Is $\bP'$ irreducible and primitive? (This is precisely the PageRank construction; see \Sabove.)
+
+:::
+
+
+## Stationary Distributions
+
+
+The central question for a Markov chain is: does the distribution $\bx^{(k)}$ converge as $k \to \infty$, and if so, to what limit? The answer is provided by the Perron-Frobenius theorem, which guarantees that irreducible primitive stochastic matrices have a unique stationary distribution with all positive entries.
+
+
+::: {.callout-note icon=false}
+## Definition: Stationary Distribution
+A probability vector $\boldsymbol{\pi} \in \fR^n$ (with $\pi_i \geq 0$ and $\sum_i \pi_i = 1$) is a *stationary distribution* of the stochastic matrix $\bP$ if
+$$\bP\,\boldsymbol{\pi} = \boldsymbol{\pi}.$$
+Equivalently, $\boldsymbol{\pi}$ is a right eigenvector of $\bP$ with eigenvalue 1. Starting from $\boldsymbol{\pi}$, the chain does not move.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Stationary distribution by inspection)** For the two-state chain $\bP = \begin{pmatrix}1-\alpha & \beta \\ \alpha & 1-\beta\end{pmatrix}$:
+
+1. Show by direct computation that $\boldsymbol{\pi} = \frac{1}{\alpha+\beta}\begin{pmatrix}\beta \\ \alpha\end{pmatrix}$ satisfies $\bP\boldsymbol{\pi} = \boldsymbol{\pi}$.
+  
+1. Verify that $\pi_1 + \pi_2 = 1$.
+  
+1. For $\alpha = 0.3$, $\beta = 0.2$: compute $\boldsymbol{\pi}$ and verify numerically with `numpy.linalg.eig(P)`, extracting the eigenvector for $\lambda = 1$ and normalizing it.
+
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Perron-Frobenius for Stochastic Matrices
+Let $\bP \in \fR^{n\times n}$ be column-stochastic, irreducible, and primitive. Then:
+
+1. $\lambda_1 = 1$ is a simple eigenvalue (algebraic and geometric multiplicity 1).
+  
+1. All other eigenvalues satisfy $|\lambda_i| < 1$ for $i \geq 2$.
+  
+1. The eigenvector $\boldsymbol{\pi}$ for $\lambda_1 = 1$ has all strictly positive entries and is unique up to scaling.
+  
+1. For any initial probability distribution $\bx^{(0)}$,
+  $$\lim_{k \to \infty} \bP^k\,\bx^{(0)} = \boldsymbol{\pi}.$$
+
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+**Step 1: $\lambda = 1$ is an eigenvalue.** Since columns of $\bP$ sum to 1, $\mathbf{1}^T\bP = \mathbf{1}^T$, so $\mathbf{1}$ is a left eigenvector for $\lambda = 1$.
+
+**Step 2: $|\lambda| \leq 1$ for all eigenvalues.** Let $\bP\bv = \lambda\bv$ and let $i^*$ achieve $|v_{i^*}| = \|\bv\|_\infty$. Then
+$$|\lambda|\,|v_{i^*}| = \left|\sum_j P_{i^*j}\,v_j\right| \leq \sum_j P_{i^*j}\,|v_j| \leq |v_{i^*}|\sum_j P_{i^*j} = |v_{i^*}|.$$
+
+**Step 3: Strict dominance under irreducibility.** Irreducibility implies $\bP^m > 0$ for some $m$. By the general Perron-Frobenius theorem (the result above), $\bP^m$ has a unique Perron root, so the eigenspace for $\lambda_1 = 1$ is one-dimensional and $|\lambda_i| < 1$ for $i \geq 2$ (primitivity prevents $|\lambda_2| = 1$ by ruling out periodic orbits).
+
+**Step 4: Convergence.** Expand $\bx^{(0)} = \boldsymbol{\pi} + \sum_{i=2}^n c_i\bv_i$. Then $\bP^k\bx^{(0)} = \boldsymbol{\pi} + \sum_{i=2}^n c_i\lambda_i^k\bv_i \to \boldsymbol{\pi}$ since $|\lambda_i|^k \to 0$.
+:::
+
+
+::: {.callout-tip icon=false}
+the result above is the theoretical foundation for PageRank (see \Sabove). The Google matrix $\mathbf{G}$ is made irreducible and primitive by adding the teleportation term $\frac{1-d}{N}\mathbf{J}$, which introduces a small positive probability of jumping to any page. Without this, dangling nodes and disconnected components would prevent $\lambda_1 = 1$ from being simple, and power iteration might not converge to a unique vector.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Failure modes without irreducibility)** Construct a $4 \times 4$ column-stochastic matrix $\bP$ that is *not* irreducible by having states $\{1,2\}$ and $\{3,4\}$ form two absorbing groups.
+
+1. How many linearly independent stationary distributions does $\bP$ have?
+  
+1. Starting from $\bx^{(0)} = (1/4,1/4,1/4,1/4)^T$, run power iteration for 50 steps. What does $\bx^{(k)}$ converge to?
+  
+1. Perturb $\bP$ with teleportation ($\varepsilon = 0.05$) to restore irreducibility. How does the stationary distribution change?
+
+:::
+
+
+## Spectral Gap and Mixing Time
+
+
+the result above guarantees convergence, but gives no information about how fast the chain reaches stationarity. The *spectral gap*, the distance between 1 and the next-largest eigenvalue in magnitude, is the key quantity controlling convergence speed. Chains with a large spectral gap mix quickly; chains with a small spectral gap may require exponentially many steps to mix.
+
+
+::: {.callout-note icon=false}
+## Definition: Spectral Gap
+For an irreducible primitive column-stochastic matrix $\bP$ with eigenvalues ordered as $1 = |\lambda_1| > |\lambda_2| \geq |\lambda_3| \geq \cdots \geq |\lambda_n|$, the *spectral gap* is
+$$\delta = 1 - |\lambda_2|.$$
+A large spectral gap ($\delta$ close to 1) indicates fast mixing; a small spectral gap ($\delta$ close to 0) indicates slow mixing.
+:::
+
+
+::: {.callout-tip icon=false}
+For the random walk transition matrix $\bP = \bD^{-1}\bA$ on a graph, the eigenvalues of $\bP$ relate to those of the random-walk Laplacian $\mathbf{L}_{\mathrm{rw}} = \bI - \bP$ by $\lambda_i(\bP) = 1 - \lambda_i(\mathbf{L}_{\mathrm{rw}})$. The spectral gap of $\bP$ therefore equals the Fiedler value (second-smallest eigenvalue) of $\mathbf{L}_{\mathrm{rw}}$, as discussed in \Sabove. Well-connected graphs have large Fiedler values and small mixing times.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Spectral gap and mixing speed)** Compute the spectral gap using `numpy.linalg.eig` for the following stochastic matrices, then simulate 200 steps from $\bx^{(0)} = \be_1$ and plot $\|\bx^{(k)} - \boldsymbol{\pi}\|_1$ versus $k$:
+
+1. $\bP_1 = \begin{pmatrix}0.85 & 0.1 & 0.05 \\ 0.1 & 0.8 & 0.1 \\ 0.05 & 0.1 & 0.85\end{pmatrix}$ (nearly self-absorbing states).
+  
+1. $\bP_2 = \frac{1}{3}\mathbf{1}\mathbf{1}^T$ (fully mixed at every step).
+  
+1. Which chain mixes faster? How does the empirical mixing time compare to the theoretical bound $k \approx \log(n)/\delta$?
+
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Geometric Mixing Bound
+Let $\bP$ be column-stochastic, irreducible, and primitive with spectral gap $\delta = 1 - |\lambda_2|$. For any initial probability distribution $\bx^{(0)}$ and any $k \geq 0$,
+$$\|\bP^k\,\bx^{(0)} - \boldsymbol{\pi}\|_1 \leq C\,(1-\delta)^k,$$
+where $C$ depends on the eigenvectors of $\bP$ and the initial condition. The number of steps to reduce the $\ell^1$ error below $\varepsilon$ is at most $k_\varepsilon \approx \frac{\log(C/\varepsilon)}{\delta}$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+**Step 1: Eigendecomposition.** Write $\bx^{(0)} = \boldsymbol{\pi} + \sum_{i=2}^n c_i\bv_i$ where $\{\bv_i\}$ are eigenvectors of $\bP$. Then
+$$\bP^k\,\bx^{(0)} - \boldsymbol{\pi} = \sum_{i=2}^n c_i\,\lambda_i^k\,\bv_i.$$
+
+**Step 2: Norm bound.** By the triangle inequality and $|\lambda_i| \leq |\lambda_2| = 1 - \delta$ for $i \geq 2$:
+$$\|\bP^k\bx^{(0)} - \boldsymbol{\pi}\|_1 \leq \sum_{i=2}^n |c_i|\,|\lambda_i|^k\,\|\bv_i\|_1 \leq (1-\delta)^k \underbrace{\sum_{i=2}^n |c_i|\,\|\bv_i\|_1}_{= C}.$$
+
+**Step 3: Mixing time.** Solve $(1-\delta)^{k} \leq \varepsilon/C$ for $k$: taking logarithms gives $k\log(1-\delta) \leq \log(\varepsilon/C)$. Using the bound $\log(1-\delta) \leq -\delta$ yields the stated estimate.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Mixing on graphs)** For the following $n = 20$ vertex graphs, construct $\bP = \bD^{-1}\bA$, compute the spectral gap $\delta$ via `numpy.linalg.eig`, and simulate the chain from $\bx^{(0)} = \be_1$ to estimate the empirical mixing time (steps until $\|\bx^{(k)} - \boldsymbol{\pi}\|_1 < 0.01$):
+
+1. The path graph $P_{20}$ (chain of 20 vertices).
+  
+1. The cycle graph $C_{20}$ (path with endpoints connected). Is this chain aperiodic?
+  
+1. The complete graph $K_{20}$ (all pairs connected). What is $\delta$ exactly?
+  
+1. Rank the three graphs by mixing speed. Explain the ranking using the graph structure.
+
+:::
+
+
+## Ergodic Theory and Time Averages
+
+
+The mixing theory of the previous section describes how the *distribution* $\bx^{(k)}$ converges to $\boldsymbol{\pi}$. But in practice, we never observe a distribution: we observe a single trajectory $X_0, X_1, X_2, ...$ of state visits. Ergodic theory asks whether time averages along a single trajectory converge to the spatial average under $\boldsymbol{\pi}$, and if so, how fast. This is the bridge between the measure-theoretic picture (probability distributions) and the empirical picture (data from a simulation), and it is the theoretical foundation for Markov Chain Monte Carlo methods.
+
+
+::: {.callout-note icon=false}
+## Definition: Ergodic Markov Chain
+A Markov chain with transition matrix $\bP$ is *ergodic* if it is both irreducible and aperiodic (primitive, in the sense of the result above). Ergodicity is the minimal condition that guarantees a unique stationary distribution and convergence of time averages.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Ergodicity check)** Classify each of the following chains as ergodic or not, and justify your answer by examining the structure of $\bP$:
+
+1. The transition matrix $\bP = \begin{pmatrix}0 & 1 \\ 1 & 0\end{pmatrix}$ (two-state swap).
+  
+1. The Google matrix $\mathbf{G} = d\bS + \frac{1-d}{N}\mathbf{J}$ from \Sabove with $d \in (0,1)$.
+  
+1. The random walk on the $n$-cycle $C_n$ (transitions to left/right neighbor with probability $1/2$ each). Does the answer depend on $n$?
+
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Ergodic Theorem for Markov Chains
+Let $\bP$ be an ergodic (irreducible, aperiodic) column-stochastic matrix with stationary distribution $\boldsymbol{\pi}$. For any observable $\boldsymbol{f} = (f(1), ..., f(n))^T \in \fR^n$ and any initial distribution $\bx^{(0)}$,
+$$\frac{1}{K}\sum_{k=0}^{K-1} \boldsymbol{f}^T\bx^{(k)} \;\xrightarrow{K \to \infty}\; \boldsymbol{f}^T\boldsymbol{\pi} = \sum_{i=1}^n \pi_i f(i),$$
+i.e., the time average of $f$ along the chain converges to its expectation under the stationary distribution.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+**Step 1: Average of iterates.** Define the Cesàro mean $\bar{\bP}_K = \frac{1}{K}\sum_{k=0}^{K-1}\bP^k$. Then
+$$\frac{1}{K}\sum_{k=0}^{K-1}\boldsymbol{f}^T\bx^{(k)} = \boldsymbol{f}^T\!\left(\frac{1}{K}\sum_{k=0}^{K-1}\bP^k\bx^{(0)}\right) = \boldsymbol{f}^T\bar{\bP}_K\bx^{(0)}.$$
+
+\textbf{Step 2: Convergence of $\bar{\bP}_K$.} Expand $\bP^k = \boldsymbol{\pi}\mathbf{1}^T + \sum_{i=2}^n \lambda_i^k\bv_i\bw_i^T$ where $\{\bv_i, \bw_i\}$ are right and left eigenvectors. Summing:
+$$\bar{\bP}_K = \boldsymbol{\pi}\mathbf{1}^T + \sum_{i=2}^n \frac{1}{K}\cdot\frac{1 - \lambda_i^K}{1 - \lambda_i}\,\bv_i\bw_i^T.$$
+Since $|\lambda_i| \leq 1 - \delta < 1$ for $i \geq 2$, each term satisfies $\frac{1}{K}\left|\frac{1-\lambda_i^K}{1-\lambda_i}\right| \leq \frac{2}{K\delta} \to 0$. Therefore $\bar{\bP}_K \to \boldsymbol{\pi}\mathbf{1}^T$.
+
+**Step 3: Conclusion.** Since $\mathbf{1}^T\bx^{(0)} = 1$ (probability vector),
+$$\boldsymbol{f}^T\bar{\bP}_K\bx^{(0)} \;\to\; \boldsymbol{f}^T(\boldsymbol{\pi}\mathbf{1}^T)\bx^{(0)} = \boldsymbol{f}^T\boldsymbol{\pi}. \qquad \square$$
+:::
+
+
+::: {.callout-tip icon=false}
+The ergodic theorem is the theoretical basis for *Markov Chain Monte Carlo (MCMC)*: to compute the integral $\mathbb{E}_\pi[f] = \sum_i \pi_i f(i)$ for a complicated distribution $\boldsymbol{\pi}$, design a Markov chain with stationary distribution $\boldsymbol{\pi}$, simulate a long trajectory, and use the time average as an approximation. The error decays as $O(1/\sqrt{K})$ (by a central limit theorem for ergodic chains), at the same rate as independent Monte Carlo but without requiring independent samples from $\boldsymbol{\pi}$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Ergodic theorem numerically)** For the three-state chain $\bP = \begin{pmatrix}0.7 & 0.2 & 0.1 \\ 0.2 & 0.5 & 0.3 \\ 0.1 & 0.3 & 0.6\end{pmatrix}$:
+
+1. Compute the stationary distribution $\boldsymbol{\pi}$ (use any method from \Sabove).
+  
+1. Define the observable $f(i) = i$ (state index). Compute the exact time-average limit $\mathbb{E}_\pi[f] = \sum_i i\pi_i$.
+  
+1. Simulate a trajectory of length $K = 10{,}000$ starting from state 1: at each step, draw the next state from column $X_k$ of $\bP$ using `numpy.random.choice`. Compute the running time average $\frac{1}{k}\sum_{j=0}^{k-1} f(X_j)$ for $k = 1, ..., K$ and plot it. How quickly does it converge to $\mathbb{E}_\pi[f]$?
+  
+1. Repeat with $f(i) = i^2$. Compare the empirical time average to $\sum_i i^2\pi_i$.
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Detailed Balance (Reversibility)
+An ergodic Markov chain with transition matrix $\bP$ and stationary distribution $\boldsymbol{\pi}$ satisfies *detailed balance* if
+$$\pi_j P_{ij} = \pi_i P_{ji} \quad \text{for all } i, j.$$
+Equivalently, the matrix $\bP\,\bD_{\boldsymbol{\pi}}$ is symmetric, where $\bD_{\boldsymbol{\pi}} = \mathrm{diag}(\pi_1, ..., \pi_n)$. A chain satisfying detailed balance is called *reversible*: the process looks statistically identical run forwards or backwards in time.
+:::
+
+
+::: {.callout-tip icon=false}
+Detailed balance is a *sufficient* condition for $\boldsymbol{\pi}$ to be stationary (but not necessary). Proof: $(\bP\boldsymbol{\pi})_i = \sum_j P_{ij}\pi_j = \sum_j P_{ji}\pi_i = \pi_i\sum_j P_{ji} = \pi_i$, where the second step uses $P_{ij}\pi_j = P_{ji}\pi_i$ and the last step uses the column-stochastic property $\sum_j P_{ji} = 1$. Detailed balance is far easier to verify than the full stationarity equation, making it the standard tool for designing MCMC chains.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Checking and building reversible chains)** \phantom{.}
+
+1. For the two-state chain $\bP = \begin{pmatrix}1-\alpha & \beta \\ \alpha & 1-\beta\end{pmatrix}$ with stationary distribution $\boldsymbol{\pi} = \frac{1}{\alpha+\beta}(\beta, \alpha)^T$, verify detailed balance $\pi_j P_{ij} = \pi_i P_{ji}$ for all four pairs $(i,j)$.
+  
+1. For states $\{1,2,3\}$ with desired stationary distribution $\boldsymbol{\pi} = (0.2, 0.5, 0.3)^T$, construct a $3\times 3$ column-stochastic matrix $\bP$ satisfying detailed balance. (There are many solutions; pick any valid one.) Verify that $\bP\boldsymbol{\pi} = \boldsymbol{\pi}$.
+  
+1. For the random walk on a path graph $P_5$, is the transition matrix $\bP = \bD^{-1}\bA$ reversible? If so, what is $\boldsymbol{\pi}$?
+
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Reversible Chains Have Real Eigenvalues
+Let $\bP$ be an ergodic column-stochastic matrix satisfying detailed balance with stationary distribution $\boldsymbol{\pi}$. Then all eigenvalues of $\bP$ are real, and $\bP$ has a complete set of eigenvectors orthogonal with respect to the $\boldsymbol{\pi}$-weighted inner product $\langle \bu, \bv\rangle_\pi = \sum_i \pi_i^{-1} u_i v_i$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+**Step 1: Symmetrization.** Let $\bD_{\boldsymbol{\pi}} = \mathrm{diag}(\pi_1, ..., \pi_n)$ and define the conjugated matrix
+$$\bS = \bD_{\boldsymbol{\pi}}^{-1/2}\,\bP\,\bD_{\boldsymbol{\pi}}^{1/2}.$$
+
+**Step 2: $\bS$ is symmetric.** Compute the transpose using detailed balance $\bP\bD_{\boldsymbol{\pi}} = \bD_{\boldsymbol{\pi}}\bP^T$ (the matrix form of $P_{ij}\pi_j = P_{ji}\pi_i$):
+$$\bS^T = \bD_{\boldsymbol{\pi}}^{1/2}\bP^T\bD_{\boldsymbol{\pi}}^{-1/2} = \bD_{\boldsymbol{\pi}}^{1/2}(\bD_{\boldsymbol{\pi}}^{-1}\bP\bD_{\boldsymbol{\pi}})\bD_{\boldsymbol{\pi}}^{-1/2} = \bD_{\boldsymbol{\pi}}^{-1/2}\bP\bD_{\boldsymbol{\pi}}^{1/2} = \bS.$$
+
+**Step 3: Transfer eigenvalues.** Since $\bS$ is real symmetric, it has real eigenvalues and orthonormal eigenvectors $\{\bw_i\}$ (Spectral Theorem). If $\bS\bw_i = \lambda_i\bw_i$, then $\bP(\bD_{\boldsymbol{\pi}}^{1/2}\bw_i) = \lambda_i(\bD_{\boldsymbol{\pi}}^{1/2}\bw_i)$, so $\bv_i = \bD_{\boldsymbol{\pi}}^{1/2}\bw_i$ are eigenvectors of $\bP$ with the same real eigenvalues. Orthogonality in the $\boldsymbol{\pi}$-weighted inner product follows from $\bw_i^T\bw_j = 0$.
+:::
+
+
+::: {.callout-tip icon=false}
+The real-eigenvalue property is significant in three ways. First, it means we can use symmetric eigenvalue solvers (faster and more stable than the general case; see \Sabove) to find the spectrum of $\bP$. Second, the spectral gap $\delta = 1 - \lambda_2$ now involves a real $\lambda_2 \in (-1, 1)$, giving a sharper mixing bound. Third, in MCMC design, one constructs a reversible chain by the *Metropolis-Hastings algorithm*: given a proposal distribution $Q_{ij}$, accept moves with probability $\min(1, \pi_i Q_{ji}/(\pi_j Q_{ij}))$, which enforces detailed balance by construction.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Reversibility and spectral structure)** \phantom{.}
+
+1. For the matrix $\bP = \begin{pmatrix}1/2 & 1/4 \\ 1/2 & 3/4\end{pmatrix}$ with $\boldsymbol{\pi} = (1/3, 2/3)^T$: verify detailed balance, construct $\bS = \bD_{\boldsymbol{\pi}}^{-1/2}\bP\bD_{\boldsymbol{\pi}}^{1/2}$ numerically, and confirm it is symmetric. Compute the eigenvalues of $\bS$ and $\bP$ and verify they are the same real numbers.
+  
+1. Construct a $4\times 4$ reversible chain on states $\{1,2,3,4\}$ with $\boldsymbol{\pi} = (0.1, 0.4, 0.3, 0.2)^T$. Use `numpy.linalg.eig` and verify all eigenvalues are real.
+  
+1. Now construct a non-reversible chain with the same $\boldsymbol{\pi}$ (add a circulation: some of the probability flux goes around a cycle without satisfying detailed balance). Compare the eigenvalues. Are they still real?
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Metropolis-Hastings MCMC)** In this exercise we implement a basic Metropolis-Hastings chain on a discrete state space $\{1, ..., n\}$ with $n = 10$, targeting the stationary distribution $\pi_i \propto e^{-i/3}$ (a truncated geometric distribution).
+
+1. Normalize $\pi_i$ and compute the exact distribution as a vector $\boldsymbol{\pi} \in \fR^{10}$.
+  
+1. Implement the Metropolis-Hastings algorithm with symmetric proposal $Q_{ij} = Q_{ji} = 1/2$ for $|i-j|=1$ (random walk proposal on a path). At each step, propose a new state $j \sim Q(i,\cdot)$ and accept with probability $\min(1, \pi_j/\pi_i)$.
+  
+1. Run the chain for $K = 100{,}000$ steps from state 1. Estimate $\boldsymbol{\pi}$ from the empirical visit frequencies and compare to the true $\boldsymbol{\pi}$ using a bar chart.
+  
+1. Construct the transition matrix $\bP$ of the Metropolis-Hastings chain explicitly and verify that it satisfies detailed balance with $\boldsymbol{\pi}$. Compute its eigenvalues and spectral gap.
+
+:::
+
+
+## Computing Stationary Distributions
+
+
+Given a stochastic matrix $\bP$, three numerically distinct algorithms compute the stationary distribution $\boldsymbol{\pi}$: solving a linear system, extracting the dominant eigenvector, and running power iteration. These approaches have different costs, accuracy characteristics, and scalability. The right choice depends on the problem size and structure, and understanding the tradeoffs requires the condition number theory from \Sabove.
+
+
+::: {.callout-note icon=false}
+## Definition: Null-Space Formulation
+The stationary distribution satisfies $(\bP - \bI)\boldsymbol{\pi} = \bzero$ with the normalization constraint $\mathbf{1}^T\boldsymbol{\pi} = 1$. Since $\bP - \bI$ has rank $n-1$ (by irreducibility), we append the normalization row to get the overdetermined system
+$$\begin{pmatrix} \bP - \bI \\ \mathbf{1}^T \end{pmatrix} \boldsymbol{\pi} = \begin{pmatrix} \bzero \\ 1 \end{pmatrix} \in \fR^{(n+1)},$$
+solvable as a least squares problem via `numpy.linalg.lstsq`.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Null-space method)** For the $3 \times 3$ stochastic matrix
+$$\bP = \begin{pmatrix} 0.7 & 0.4 & 0.2 \\ 0.2 & 0.4 & 0.5 \\ 0.1 & 0.2 & 0.3 \end{pmatrix},$$
+
+1. Construct the augmented matrix $\bA = \begin{pmatrix}(\bP-\bI)^T & \mathbf{1}\end{pmatrix}^T$ and the right-hand side $\mathbf{b} = (0,...,0,1)^T$.
+  
+1. Solve using `numpy.linalg.lstsq(A, b)`. Report $\boldsymbol{\pi}$ and verify $\bP\boldsymbol{\pi} = \boldsymbol{\pi}$.
+  
+1. Compute $\kappa_2(\bA)$. Is the system well-conditioned?
+
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Power Iteration Convergence for Markov Chains
+Let $\bP$ be column-stochastic, irreducible, and primitive with spectral gap $\delta$. For any initial probability distribution $\bx^{(0)}$, the iterates $\bx^{(k+1)} = \bP\bx^{(k)}$ satisfy
+$$\|\bx^{(k)} - \boldsymbol{\pi}\|_1 \leq C\,(1-\delta)^k,$$
+i.e., the Markov chain simulation is exactly power iteration (the result above) applied to $\bP$, with convergence rate $|\lambda_2| = 1 - \delta$.
+:::
+
+
+::: {.callout-tip icon=false}
+For large sparse systems such as the web graph used in PageRank, factoring $\bP - \bI$ is prohibitive (the matrix is $n \times n$ with $n \sim 10^9$). Power iteration is preferred because each step requires only a sparse matrix-vector product. The price is slower convergence: with the Google damping factor $d = 0.85$, the spectral gap is $\delta \geq 1 - d = 0.15$, so about $k \approx \log(n)/0.15 \approx 130$ iterations suffice for $n = 10^9$ (see \Sabove).
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Three methods comparison)** For the same $3 \times 3$ matrix from the null-space exercise:
+
+1. **Eigenvector:** Use `numpy.linalg.eig(P)`, identify $\lambda = 1$, extract and normalize the eigenvector.
+  
+1. **Power iteration:** Iterate $\bx^{(k+1)} = \bP\bx^{(k)}$ from $\bx^{(0)} = (1/3,1/3,1/3)^T$. Count iterations until $\|\bx^{(k)} - \boldsymbol{\pi}\|_1 < 10^{-10}$.
+  
+1. **Null-space:** Use the approach from the result above.
+  
+1. Compare the three results and time each method using `time.perf\_counter`. Which is fastest? Which is most accurate (smallest residual $\|\bP\boldsymbol{\pi} - \boldsymbol{\pi}\|$)?
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(In this exercise, we will prove a property of doubly-stochastic matrices.)** A matrix is *doubly-stochastic* if both its rows and columns sum to 1.
+
+1. Show that the uniform distribution $\boldsymbol{\pi} = \frac{1}{n}\mathbf{1}$ is always stationary for any doubly-stochastic matrix $\bP$.
+  
+1. For an unweighted $d$-regular graph (every vertex has degree $d$), show that $\bP = \bD^{-1}\bA = \frac{1}{d}\bA$ is doubly-stochastic and that $\boldsymbol{\pi} = \frac{1}{n}\mathbf{1}$ without computing any eigenvalues. (Use only the column-sum and row-sum properties of $\bA$.)
+  
+1. Construct the transition matrix for the $5$-cycle $C_5$ and verify the uniform stationary distribution numerically.
+
+:::

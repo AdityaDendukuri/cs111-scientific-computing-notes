@@ -1,0 +1,197 @@
+\documentclass[11pt]{article}
+\newcommand{\numpy}{{\tt numpy}}    % tt font for numpy
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{listings}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=cyan,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+\usepackage{fancyhdr}
+\renewcommand\headrulewidth{0pt}
+\setlength{\headheight}{13.6pt}
+\pagestyle{fancy}
+\fancyfoot[L]{\tiny {(c) Z.Matni, 2026} }
+\fancyfoot[C]{\small {CMPSC 111, S26} }
+
+\begin{document}
+\noindent\fbox{%
+    \parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{%
+    $$\mbox{\Large \textbf {CS 111 S26: Homework 1}}$$
+    $$\mbox{\textbf {Due Monday, April 6 by 11:59 PM}}$$ 
+    }%
+}
+$$\mbox{\textbf {NAME and PERM ID No.:} Gaucho Ol\'e, 1234567 (replace with yours)}$$
+$$\mbox{\textbf {UCSB EMAIL:} GauchoOle@ucsb.edu (replace with yours)}$$
+$$\mbox{\textbf {Homework Buddy:} ( remove entire line if not applicable)}$$
+
+\medskip
+
+The purpose of this homework assignment is to review some of the math background for the class (MATH 4A, 4B, 6), and to help you decide if there is anything you want to brush up on. 
+It also allows you to work through using LaTeX for your homework assignments.
+If any of these questions seem hard to you, it will be easier to pick up the concepts right now than struggle with them later. 
+Remember to cite any outside sources for your answers, especially if you use online ones, per this course's policies. If you don't, you risk getting a zero on this homework (the professor can check on this and ask you separately to explain any of the answers you give).
+
+Each question is worth 10 points. The grade is then normalized out of 100.
+
+\vspace{1 em}
+\textbf{PLEASE SHOW ALL YOUR WORK - DON'T JUST WRITE THE ANSWER!}
+\vspace{2 em}
+
+\begin{enumerate}
+
+\item
+\textbf{Linear Algebra:}
+
+Let
+$$ A = \left(
+\begin{array}{ccc}
+4 & -1 & 3 \\   
+0 & 1 & -2 \\ 
+2 & 0 & 1 \\
+\end{array} 
+\right)$$
+
+
+
+What is $A^T$?  What is $A^2$?  What is $A^TA$?
+
+Do these computations both by hand and with \numpy (show the code you used).
+
+\item
+The notation $||x||_2$ means the Euclidean norm (also called the 2-norm, or just the `length') of the vector $x$. 
+What is $||(3, 2, 4, 1, -3)^T||_2$? Show how you calculate this.
+
+\item
+Consider the following system of three equations in three unknowns.
+\begin{eqnarray}
+ 2x_1 - 3x_2 + x_3  & =  & 1 \\
+ 2x_2 + 3x_3  & =  & 7 \\
+ x_1 + x_3  & = & 4 
+\end{eqnarray}
+
+\begin{enumerate}
+    \item 
+    First write this system in the form $Ax=b$, 
+where $A$ is a matrix and $x$ and $b$ are vectors. 
+    \item 
+    Second, write two lines of \numpy\ code that use {\tt np.array()} to create $A$ and $b$ as \numpy\ arrays. 
+    \item
+    What vector $x$ solves the system above? Do this solution by hand first and show your work.
+    \item
+    Write the \numpy\ code that solves for $x$. Are your answers \textit{exactly} the same? If not, explain further.
+\end{enumerate}
+
+\newpage
+\item
+Write down a 2-by-2 matrix $A$ and a 2-vector $b$ such that $Ax=b$ has \textit{no solution}. Explain in a sentence why there are no solutions.
+
+\item
+Write down a 2-by-2 matrix $A$ and a 2-vector $b$ such that $Ax=b$ has \textit{more than one solution}. Give two different solutions to your example.
+
+\item
+Recall that a number $\lambda$ is called an {\em eigenvalue} of a matrix $A$ if there is some vector $x$ (called an {\em eigenvector}) for which $Ax = \lambda x$.
+Give an eigenvalue and a corresponding eigenvector of the following matrix. Do this by hand only and show all your work.
+$$ A = \left(
+\begin{array}{cc}
+-2 & 1 \\   
+-1 & 4 \\
+\end{array} 
+\right) $$
+
+\item 
+Find the eigenvalue(s) for this matrix by hand only and show all your work:
+$$ A = \left(
+\begin{array}{cc}
+1 & 1 \\    
+-1 & 2 \\
+\end{array} 
+\right)$$
+
+
+\item
+\textbf{Calculus:}
+
+If $f(x)=6x^3-3x^2+2x-3$, what is $f'(x)$, the derivative of $f(x)$ and what is $f''(x)$, the $2^{nd}$ derivative of $f(x)$?
+What are the values of $df(1)/dx$ and $d^2f(-1)/dx^2$?
+
+Show all your work.
+
+\item
+The height in feet of a bullet fired straight up is
+given by $h=1340t-16t^2$, where $t$ is in seconds.
+What is the maximum height the bullet will reach? 
+When will it hit the ground? Show how you arrived at each of your answers.
+
+\item
+\textbf{Ordinary Differential Equations:}
+
+Suppose $y$ is a function of $x$ that satisfies
+$dy/dx = 3$, and also suppose $y=1$ when $x=0$.
+Write $y$ as a function of $x$. Show all your work.
+
+
+\item 
+Suppose $y$ is a function of $x$ that satisfies
+$dy/dx = 3y$, and also suppose $y=2$ when $x=0$.
+Write $y$ as a function of $x$. Show all your work.
+
+
+\item
+If $f'(x) = x^2 + \cos x$, what is $f(x)$? 
+Show all your work.
+
+\item
+\textbf{Partial Differential Equations:}
+
+If $z(x,y) = xe^{y/2}$, what are:
+
+$\partial z / \partial x$, 
+
+$\partial ^2z / \partial x^2$, and  
+
+$\partial z / \partial y$? 
+
+Show all your work.
+
+
+\begin{lstlisting}
+import numpy as np
+    
+def incmatrix(genl1,genl2):
+    m = len(genl1)
+    n = len(genl2)
+    M = None #to become the incidence matrix
+    VT = np.zeros((n*m,1), int)  #dummy variable
+    
+    #compute the bitwise xor matrix
+    M1 = bitxormatrix(genl1)
+    M2 = np.triu(bitxormatrix(genl2),1) 
+
+    for i in range(m-1):
+        for j in range(i+1, m):
+            [r,c] = np.where(M2 == M1[i,j])
+            for k in range(len(r)):
+                VT[(i)*n + r[k]] = 1;
+                VT[(i)*n + c[k]] = 1;
+                VT[(j)*n + r[k]] = 1;
+                VT[(j)*n + c[k]] = 1;
+                
+                if M is None:
+                    M = np.copy(VT)
+                else:
+                    M = np.concatenate((M, VT), 1)
+                
+                VT = np.zeros((n*m,1), int)
+    
+    return M
+\end{lstlisting}
+
+
+\end{enumerate}
+
+\end{document}

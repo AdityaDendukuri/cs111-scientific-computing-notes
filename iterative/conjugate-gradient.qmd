@@ -1,0 +1,368 @@
+# Conjugate Gradient Method
+
+
+The Conjugate Gradient (CG) method is an efficient iterative solver for symmetric positive definite linear systems. By maintaining a set of $\bA$-conjugate search directions built from the residuals, it converges to the exact solution in at most $n$ steps in exact arithmetic, while requiring only $O(n)$ storage and one matrix–vector product per iteration. Its convergence rate depends on $\sqrt{\kappa(\bA)}$ rather than $\kappa(\bA)$, giving a dramatic speedup over stationary methods on ill-conditioned systems.
+
+
+## From Linear Systems to Optimization
+
+
+::: {.callout-note icon=false}
+## Theorem: Equivalence of Linear System and Quadratic Minimization
+Let $\bA \in \fR^{n\times n}$ be symmetric positive definite and $\bb \in \fR^n$. Define
+$$\phi(\bx) = \tfrac{1}{2}\bx^T\bA\bx - \bx^T\bb.$$
+Then $\bx^*$ solves $\bA\bx = \bb$ if and only if $\bx^*$ minimizes $\phi$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Since $\bA$ is symmetric, $\nabla\phi(\bx) = \bA\bx - \bb$. A point $\bx^*$ is a critical point of $\phi$ if and only if $\nabla\phi(\bx^*) = \bzero$, i.e., $\bA\bx^* = \bb$. Since $\bA$ is positive definite, $\phi$ is strictly convex (its Hessian $\bA \succ 0$), so the unique critical point is the global minimum.
+:::
+
+
+::: {.callout-tip icon=false}
+When $\bA$ is symmetric positive definite, $\phi(\bx)$ is a paraboloid with elliptical level sets in $\fR^n$. The condition number $\kappa_2(\bA) = \lambda_{\max}/\lambda_{\min}$ controls the eccentricity: high $\kappa(\bA)$ produces narrow, elongated valleys. Gradient-based methods zigzag inefficiently in these valleys, while CG exploits the geometry via $\bA$-conjugate directions.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Residual and Steepest Descent
+At iterate $\bx^{(k)}$, the *residual* $\br^{(k)} = \bb - \bA\bx^{(k)} = -\nabla\phi(\bx^{(k)})$ points in the direction of steepest descent. The *steepest descent* update
+$$\bx^{(k+1)} = \bx^{(k)} + \alpha_k\br^{(k)}, \qquad \alpha_k = \frac{(\br^{(k)})^T\br^{(k)}}{(\br^{(k)})^T\bA\br^{(k)}}$$
+minimizes $\phi$ along the direction $\br^{(k)}$ but often exhibits zigzagging in ill-conditioned systems.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Stationary Method Limitations
+A stationary iterative method $\bx^{(k+1)} = \bT\bx^{(k)} + \bc$ reduces the error by a constant factor $\rho(\bT)$ per step. Its convergence rate for the Jacobi splitting satisfies $\rho(\bT_J) \leq (\kappa(\bA)-1)/(\kappa(\bA)+1)$, which approaches $1$ as $\kappa(\bA) \to \infty$.
+:::
+
+
+::: {.callout-tip icon=false}
+For $\kappa(\bA) = 100$, the Jacobi factor is $\approx 0.98$, requiring $\sim\!500$ iterations to reduce the error by $10^{-4}$. Steepest descent suffers the same limitation. Conjugate Gradient breaks this barrier by adapting its search directions to the problem geometry.
+:::
+
+
+## $\bA$-Conjugate Directions
+
+
+::: {.callout-note icon=false}
+## Definition: $\bA$-Conjugacy
+Two vectors $\bp, \bq \in \fR^n$ are *$\bA$-conjugate* (or *$\bA$-orthogonal*) if $\bp^T\bA\bq = 0$. A set $\{\bp_0, ..., \bp_{m-1}\}$ of nonzero vectors is $\bA$-conjugate if $\bp_i^T\bA\bp_j = 0$ for all $i \neq j$.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: $\bA$-Conjugate Vectors are Linearly Independent
+If $\bA$ is positive definite, every set of $\bA$-conjugate nonzero vectors is linearly independent.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Suppose $\sum_{i=0}^{m-1} c_i\bp_i = \bzero$. Multiply on the left by $\bp_j^T\bA$:
+$$0 = \bp_j^T\bA\Bigl(\sum_i c_i\bp_i\Bigr) = c_j\,\bp_j^T\bA\bp_j.$$
+Since $\bA \succ 0$, $\bp_j^T\bA\bp_j > 0$. Hence $c_j = 0$ for each $j$.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: Exact Minimization Along $n$ Conjugate Directions
+Let $\bA$ be symmetric positive definite and $\{\bp_0, ..., \bp_{n-1}\}$ be $\bA$-conjugate in $\fR^n$. Starting from $\bx^{(0)}$, define
+$$\bx^{(k)} = \bx^{(0)} + \sum_{i=0}^{k-1}\alpha_i\bp_i, \qquad \alpha_i = \frac{\bp_i^T\br^{(i)}}{\bp_i^T\bA\bp_i},$$
+where $\br^{(i)} = \bb - \bA\bx^{(i)}$. Then $\bx^{(n)} = \bx^*$ exactly.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Since the $\bp_i$ are linearly independent in $\fR^n$, they form a basis. Write $\bx^* - \bx^{(0)} = \sum_i \alpha_i^*\bp_i$. Multiplying by $\bp_j^T\bA$:
+$$\bp_j^T\bA(\bx^*-\bx^{(0)}) = \alpha_j^*\,\bp_j^T\bA\bp_j.$$
+Since $\bA(\bx^*-\bx^{(0)}) = \bb - \bA\bx^{(0)} = \br^{(0)}$, we get $\alpha_j^* = \bp_j^T\br^{(0)}/(\bp_j^T\bA\bp_j)$. One verifies by induction that $\bp_j^T\br^{(j)} = \bp_j^T\br^{(0)}$ (because $\br^{(j)}$ differs from $\br^{(0)}$ only by $\bA$-multiples of previous $\bp_i$, which are $\bA$-conjugate to $\bp_j$). Hence $\alpha_j^* = \alpha_j$ and $\bx^{(n)} = \bx^*$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Iterative Generation of $\bA$-Conjugate Directions
+The CG method builds $\bA$-conjugate directions iteratively via a three-term recurrence. Given residual $\br^{(k+1)}$, the next search direction is:
+$$\bp^{(k+1)} = \br^{(k+1)} + \beta_k\bp^{(k)}, \qquad \beta_k = \frac{(\br^{(k+1)})^T\br^{(k+1)}}{(\br^{(k)})^T\br^{(k)}}.$$
+The choice of $\beta_k$ ensures $\bp^{(k+1)}$ is $\bA$-conjugate to *all* previous directions, not just $\bp^{(k)}$.
+:::
+
+
+## The CG Algorithm and Convergence
+
+
+::: {.callout-note icon=false}
+## Definition: Conjugate Gradient Algorithm
+**Initialize:** $\bx^{(0)}$ (arbitrary), $\br^{(0)} = \bb - \bA\bx^{(0)}$, $\bp^{(0)} = \br^{(0)}$.
+
+\textbf{For $k = 0, 1, 2, ...$ until $\|\br^{(k)}\| < \epsilon$:}
+$$
+\begin{align}
+\alpha_k    &= \frac{(\br^{(k)})^T\br^{(k)}}{(\bp^{(k)})^T\bA\bp^{(k)}}, \\
+  \bx^{(k+1)} &= \bx^{(k)} + \alpha_k\bp^{(k)}, \\
+  \br^{(k+1)} &= \br^{(k)} - \alpha_k\bA\bp^{(k)}, \\
+  \beta_k     &= \frac{(\br^{(k+1)})^T\br^{(k+1)}}{(\br^{(k)})^T\br^{(k)}}, \\
+  \bp^{(k+1)} &= \br^{(k+1)} + \beta_k\bp^{(k)}.
+\end{align}
+$$
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: CG Storage Requirement
+At each step, only $\bx^{(k)}$, $\br^{(k)}$, $\bp^{(k)}$, and the product $\bA\bp^{(k)}$ need to be stored simultaneously — a constant number of $n$-vectors, independent of the iteration count.
+:::
+
+
+::: {.callout-note icon=false}
+## Proposition: CG Cost Per Iteration
+Each CG iteration requires one matrix–vector product $\bA\bp^{(k)}$ (cost $O(n^2)$ for a dense matrix, $O(\mathrm{nnz}(\bA))$ for a sparse matrix), two vector dot products, and three vector updates — all at $O(n)$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Finite Termination of Conjugate Gradient
+Let $\bA \in \fR^{n\times n}$ be symmetric positive definite. The CG iterates satisfy:
+
+1. $(\br^{(i)})^T\br^{(j)} = 0$ for $i \neq j$ (residuals are mutually orthogonal).
+  
+1. $(\bp^{(i)})^T\bA\bp^{(j)} = 0$ for $i \neq j$ (search directions are $\bA$-conjugate).
+
+Consequently, CG terminates with $\bx^{(m)} = \bx^*$ for some $m \leq n$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+We prove both properties by induction. Both hold vacuously for $k = 0$.
+
+Assume (1) and (2) hold through step $k$. For the orthogonality of residuals: using $\br^{(k+1)} = \br^{(k)} - \alpha_k\bA\bp^{(k)}$,
+$$(\br^{(k+1)})^T\br^{(j)} = (\br^{(k)})^T\br^{(j)} - \alpha_k(\bp^{(k)})^T\bA\br^{(j)}.$$
+Since each residual $\br^{(j)}$ is a linear combination of $\bp^{(0)},...,\bp^{(j)}$, and the search directions satisfy $\bA$-conjugacy, the term $(\bp^{(k)})^T\bA\br^{(j)}$ vanishes for $j < k$ and equals $(\br^{(k)})^T\br^{(k)}$ for $j = k$, which is cancelled by the choice of $\alpha_k$. For the $\bA$-conjugacy of directions: by construction of $\beta_k$,
+$$(\bp^{(k+1)})^T\bA\bp^{(k)} = (\br^{(k+1)})^T\bA\bp^{(k)} + \beta_k(\bp^{(k)})^T\bA\bp^{(k)} = 0$$
+by the choice of $\beta_k$; inner products with earlier directions vanish by the inductive hypothesis.
+
+Since there can be at most $n$ mutually orthogonal nonzero residuals in $\fR^n$, the algorithm must produce $\br^{(m)} = \bzero$ for some $m \leq n$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: CG Convergence Rate Bound
+Let $\bA$ be symmetric positive definite with condition number $\kappa = \kappa_2(\bA)$. Then for all $k \geq 0$:
+$$\frac{\|\bx^{(k)} - \bx^*\|_\bA}{\|\bx^{(0)} - \bx^*\|_\bA} \leq 2\left(\frac{\sqrt{\kappa}-1}{\sqrt{\kappa}+1}\right)^k,$$
+where $\|\bv\|_\bA = \sqrt{\bv^T\bA\bv}$ is the $\bA$-norm (energy norm).
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+One can show that $\bx^{(k)}$ minimizes $\|\bx - \bx^*\|_\bA$ over all $\bx^{(0)} + \mathcal{K}_k$, where $\mathcal{K}_k = \mathrm{span}\{\br^{(0)}, \bA\br^{(0)}, ..., \bA^{k-1}\br^{(0)}\}$ is the $k$-th Krylov subspace. Hence
+$$\frac{\|\bx^{(k)} - \bx^*\|_\bA}{\|\bx^{(0)} - \bx^*\|_\bA} \leq \min_{\substack{p \in \mathcal{P}_k \\ p(0) = 1}} \max_{\lambda \in \sigma(\bA)} |p(\lambda)|,$$
+where the minimum is over polynomials of degree $k$ satisfying $p(0) = 1$. The Chebyshev polynomial $T_k$ minimizes the maximum absolute value over $[\lambda_{\min}, \lambda_{\max}]$ among all such polynomials, and satisfies
+$$\min_{\substack{p \in \mathcal{P}_k \\ p(0)=1}}\max_{\lambda \in [\lambda_{\min},\lambda_{\max}]}|p(\lambda)| = \frac{1}{T_k((\lambda_{\max}+\lambda_{\min})/(\lambda_{\max}-\lambda_{\min}))} \leq 2\left(\frac{\sqrt{\kappa}-1}{\sqrt{\kappa}+1}\right)^k,$$
+where the last bound follows from the identity $T_k(\cosh\theta) = \cosh(k\theta)$ with $\cosh\theta = (\kappa+1)/(\kappa-1)$.
+:::
+
+
+::: {.callout-tip icon=false}
+The CG convergence factor $(\sqrt{\kappa}-1)/(\sqrt{\kappa}+1)$ is far smaller than the stationary method factor $(\kappa-1)/(\kappa+1)$ for large $\kappa$. For $\kappa = 100$: CG factor $\approx 0.82$ (needs $\approx 22$ iterations for $10^{-4}$ reduction), versus Jacobi factor $\approx 0.98$ (needs $\approx 500$ iterations). Moreover, if the eigenvalues of $\bA$ are clustered into $m$ distinct groups, CG converges in roughly $m$ steps — this is *superlinear convergence*, far better than the worst-case bound.
+:::
+
+
+## Preconditioning
+
+
+::: {.callout-note icon=false}
+## Definition: Preconditioner
+A *preconditioner* for $\bA\bx = \bb$ is a symmetric positive definite matrix $\bM$ such that $\bM \approx \bA$ and $\bM^{-1}$ is cheap to apply. The preconditioned system $\bM^{-1/2}\bA\bM^{-1/2}\by = \bM^{-1/2}\bb$ (where $\by = \bM^{1/2}\bx$) has the same solution but ideally satisfies $\kappa(\bM^{-1/2}\bA\bM^{-1/2}) \ll \kappa(\bA)$.
+:::
+
+
+::: {.callout-tip icon=false}
+In practice, the Preconditioned Conjugate Gradient (PCG) algorithm applies $\bM^{-1}$ at each step without forming $\bM^{1/2}$ explicitly. Common preconditioners include: **Jacobi** ($\bM = \mathrm{diag}(\bA)$, cheap but limited benefit), **incomplete Cholesky** ($\bM \approx \bL\bL^T$ with controlled fill-in, far more effective), and **multigrid** (near-optimal $O(n)$ convergence for PDE-derived systems).
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Implement the Conjugate Gradient method in Python.
+
+1. Write `conjugate\_gradient(A, b, x0, tol)` following the CG algorithm, stopping when $\|\br^{(k)}\|/\|\br^{(0)}\| < `tol`$.
+  
+1. Test on the $100\times 100$ SPD tridiagonal matrix $\bA = \mathrm{tridiag}(-1,2,-1)$. Plot the $\bA$-norm error vs.\ iteration count and compare to the theoretical bound.
+  
+1. Verify your implementation against `scipy.sparse.linalg.cg`.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Preconditioning effect)** Using the tridiagonal $\bA$ for $n = 200$:
+
+1. Compute $\kappa_2(\bA)$ with `np.linalg.cond`. How many CG iterations does the bound predict for $10^{-8}$ accuracy?
+  
+1. Apply the Jacobi preconditioner $\bM = \mathrm{diag}(\bA)$. What is $\kappa(\bM^{-1}\bA)$? Why does it barely help here?
+  
+1. Implement incomplete Cholesky preconditioning via `scipy.sparse.linalg.spilu`. Compare iteration counts for the original and preconditioned CG.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Eigenvalue clustering and superlinear convergence)** Build a $50\times50$ SPD matrix with eigenvalues: 40 eigenvalues equal to $1$, 5 equal to $10$, and 5 equal to $100$.
+
+1. What is $\kappa(\bA)$? What does the CG bound predict for the number of iterations needed to achieve $\|\bx^{(k)}-\bx^*\|_\bA/\|\bx^{(0)}-\bx^*\|_\bA < 10^{-10}$?
+  
+1. Construct the matrix using `Q @ np.diag(eigs) @ Q.T` with a random orthogonal $\bQ$ from `scipy.stats.ortho\_group.rvs(50)`. Run CG and plot the actual error versus the bound.
+  
+1. How many iterations does CG actually need? Explain why superlinear convergence occurs when eigenvalues are clustered.
+
+:::
+
+
+# GMRES
+
+
+Conjugate Gradient requires symmetry and positive definiteness. For general (possibly non-symmetric, non-definite) linear systems, the *Generalized Minimal Residual* method (GMRES) is the standard Krylov solver. It minimizes the residual norm over a growing Krylov subspace using the Arnoldi process to build an orthonormal basis, achieving the smallest possible residual at each step without any symmetry assumption.
+
+
+## Krylov Subspaces and the Arnoldi Process
+
+
+::: {.callout-note icon=false}
+## Definition: Krylov Subspace
+Given $\bA \in \fR^{n\times n}$ and $\br \in \fR^n$, the *$k$-th Krylov subspace* is
+$$\mathcal{K}_k(\bA, \br) = \mathrm{span}\{\br, \bA\br, \bA^2\br, ..., \bA^{k-1}\br\}.$$
+As $k$ increases, $\mathcal{K}_k$ grows (until it reaches an invariant subspace), capturing increasingly refined information about the action of $\bA$.
+:::
+
+
+::: {.callout-tip icon=false}
+Krylov methods compute approximations $\bx^{(k)} \in \bx^{(0)} + \mathcal{K}_k(\bA, \br^{(0)})$ by exploiting the structure of $\mathcal{K}_k$. The key insight is that matrix powers $\bA^j\br$ can be formed iteratively with only matrix-vector products — no matrix factorization required. For sparse $\bA$ with $\mathrm{nnz}(\bA)$ nonzeros, each step costs $O(\mathrm{nnz}(\bA))$.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Arnoldi Process
+The *Arnoldi process* builds an orthonormal basis $\{\bq_1, \bq_2, ..., \bq_k\}$ for $\mathcal{K}_k(\bA, \br)$ via modified Gram-Schmidt. Starting with $\bq_1 = \br/\|\br\|$, for $j = 1, ..., k$:
+
+1. Compute $\bz = \bA\bq_j$.
+  
+1. For $i = 1, ..., j$: set $h_{ij} = \bq_i^T\bz$, $\bz \leftarrow \bz - h_{ij}\bq_i$.
+  
+1. Set $h_{j+1,j} = \|\bz\|$; if $h_{j+1,j} = 0$, stop (invariant subspace found).
+  
+1. Set $\bq_{j+1} = \bz / h_{j+1,j}$.
+
+The coefficients $h_{ij}$ form an upper Hessenberg matrix $\bH_k \in \fR^{(k+1)\times k}$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Arnoldi Relation
+Let $\bQ_k = [\bq_1, ..., \bq_k]$ and $\bH_k \in \fR^{(k+1)\times k}$ be the Hessenberg matrix produced by the Arnoldi process. Then
+$$\bA\bQ_k = \bQ_{k+1}\bH_k,$$
+or equivalently, the leading $k\times k$ submatrix $\tilde{\bH}_k$ of $\bH_k$ satisfies $\bQ_k^T\bA\bQ_k = \tilde{\bH}_k$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+By construction, each $\bA\bq_j = \sum_{i=1}^{j+1}h_{ij}\bq_i$, which is precisely the $j$-th column of $\bQ_{k+1}\bH_k$. Combining all $k$ columns yields $\bA\bQ_k = \bQ_{k+1}\bH_k$. Multiplying on the left by $\bQ_k^T$ and using $\bQ_{k+1}^T\bQ_k = [\bI_k; \bzero^T]$ gives $\bQ_k^T\bA\bQ_k = \tilde{\bH}_k$.
+:::
+
+
+## The GMRES Algorithm
+
+
+::: {.callout-note icon=false}
+## Definition: GMRES Iterate
+GMRES seeks an approximation $\bx^{(k)} = \bx^{(0)} + \bQ_k\by_k$ that minimizes the residual norm:
+$$\bx^{(k)} = \arg\min_{\bx \in \bx^{(0)} + \mathcal{K}_k} \|\bb - \bA\bx\|_2.$$
+Using the Arnoldi relation, the residual becomes
+$$\|\bb - \bA\bx^{(k)}\|_2 = \|\beta\be_1 - \bH_k\by_k\|_2, \qquad \beta = \|\br^{(0)}\|_2,$$
+where $\be_1 = (1, 0, ..., 0)^T \in \fR^{k+1}$. This is a small $(k+1)\times k$ least squares problem solved via QR factorization of $\bH_k$.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: GMRES Optimality
+Among all methods producing iterates in $\bx^{(0)} + \mathcal{K}_k(\bA, \br^{(0)})$, GMRES achieves the smallest possible residual norm $\|\bb - \bA\bx^{(k)}\|_2$ at each step $k$. In exact arithmetic, GMRES terminates with $\bx^{(n)} = \bx^*$ (or earlier if an invariant subspace is encountered).
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+The optimality is immediate from the definition: $\bx^{(k)}$ is precisely the minimizer of $\|\bb - \bA\bx\|_2$ over the affine subspace $\bx^{(0)} + \mathcal{K}_k$. Since $\mathcal{K}_n = \fR^n$ (for generic $\bA$), termination within $n$ steps follows.
+:::
+
+
+::: {.callout-tip icon=false}
+The cost of GMRES grows with each iteration: at step $k$, the Arnoldi process requires $k$ dot products and the Hessenberg least squares problem is $(k+1)\times k$. After $m$ steps, the total cost is $O(mn^2 + m^2 n)$ flops and $O(mn)$ storage (to retain all $m$ Arnoldi vectors). This motivates *restarted GMRES*, denoted GMRES($m$): after $m$ steps, restart from the current iterate.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Restarted GMRES — GMRES($m$)
+*GMRES($m$)* runs GMRES for at most $m$ iterations, then restarts from the current approximate solution $\bx^{(m)}$:
+$$\text{Outer loop:} \quad \bx_0^{\text{new}} \leftarrow \bx^{(m)}, \quad \br_0^{\text{new}} \leftarrow \bb - \bA\bx^{(m)}, \quad \text{repeat}.$$
+Each restart cycle has fixed cost $O(m^2 n)$ and storage $O(mn)$. The tradeoff: small $m$ reduces memory but may stall; large $m$ recovers full GMRES but costs more. Typical default: $m = 30$ to $50$.
+:::
+
+
+::: {.callout-tip icon=false}
+GMRES($m$) is not guaranteed to converge for all $m$: restarting can discard important information and the method may stagnate. Full GMRES always converges (monotonically decreasing residual), but is impractical for large problems. Preconditioning is essential in practice: left preconditioning replaces $\bA$ by $\bM^{-1}\bA$; right preconditioning by $\bA\bM^{-1}$. A good preconditioner drastically reduces the number of restarts needed.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: GMRES Convergence Bound
+For a diagonalizable matrix $\bA = \bV\bD\bV^{-1}$ with eigenvalues $\lambda_1, ..., \lambda_n$,
+$$\frac{\|\br^{(k)}\|_2}{\|\br^{(0)}\|_2} \leq \kappa_2(\bV) \cdot \min_{\substack{p \in \mathcal{P}_k \\ p(0)=1}} \max_{i}|p(\lambda_i)|,$$
+where $\kappa_2(\bV)$ measures how far $\bA$ is from normal. If $\bA$ is normal ($\kappa_2(\bV) = 1$) and eigenvalues are clustered away from zero, the Chebyshev polynomial gives fast convergence.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(GMRES vs.\ CG on SPD systems)**
+
+1. For the $50\times50$ tridiagonal SPD matrix $\bA = \mathrm{tridiag}(-1, 4, -1)$, solve $\bA\bx = \bb$ using both CG (`scipy.sparse.linalg.cg`) and GMRES (`scipy.sparse.linalg.gmres`). Compare residual histories.
+  
+1. Why is CG preferred over GMRES for SPD systems? (Consider both theory and cost per iteration.)
+  
+1. Now take a random non-symmetric $50\times50$ matrix $\bA$ with $\kappa_2(\bA) \approx 20$. Can CG be applied? Apply GMRES and plot the residual.
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Effect of restart parameter $m$)**
+
+1. Generate a $100\times100$ non-symmetric sparse matrix using `scipy.sparse.random(100, 100, density=0.1)` plus $5\bI$ (for nonsingularity).
+  
+1. Run GMRES($m$) with $m \in \{5, 10, 20, 50, 100\}$ (full GMRES is $m = 100$). For each $m$, record total iterations (across all restarts) and total matvecs to reach residual $< 10^{-8}$.
+  
+1. Plot total matvecs versus $m$. What restart parameter gives the best tradeoff between convergence speed and memory cost?
+
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+**(Arnoldi orthogonality)** Implement the Arnoldi process for $k = 10$ steps on a random $20\times20$ matrix.
+
+1. Verify the Arnoldi relation $\bA\bQ_k = \bQ_{k+1}\bH_k$ by computing the Frobenius norm of the difference.
+  
+1. Check that $\bQ_k^T\bQ_k = \bI_k$ (orthonormality of Arnoldi vectors). Does floating-point error accumulate over iterations?
+  
+1. Compare classical Gram-Schmidt (CGS) vs.\ modified Gram-Schmidt (MGS) for the Arnoldi process. Which preserves orthogonality better? Use `np.linalg.cond($\bQ_k$)` to assess.
+
+:::

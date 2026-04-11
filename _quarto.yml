@@ -1,0 +1,126 @@
+project:
+  type: book
+  output-dir: _site
+
+book:
+  title: "Introduction to Scientific Computing"
+  author: "Aditya Dendukuri"
+  repo-url: https://github.com/numerics/cs111-scientific-computing-notes
+  repo-actions: [edit, issue]
+  chapters:
+    - index.qmd
+
+    - part: "Fundamentals"
+      chapters:
+        - fundamentals/math-notation.qmd
+        - fundamentals/vectors-matrices.qmd
+        - fundamentals/arithmetic.qmd
+        - fundamentals/norms.qmd
+        - fundamentals/complexity.qmd
+        - fundamentals/floating-point.qmd
+        - fundamentals/numpy-primer.qmd
+
+    - part: "Direct Methods for Linear Systems"
+      chapters:
+        - direct-methods/linear-systems.qmd
+        - direct-methods/lu.qmd
+        - direct-methods/spd.qmd
+
+    - part: "Orthogonality and Least Squares"
+      chapters:
+        - orthogonality/orthogonal.qmd
+        - orthogonality/norms.qmd
+        - orthogonality/stability.qmd
+        - orthogonality/least-squares.qmd
+        - orthogonality/chebyshev.qmd
+
+    - part: "Eigenvalues and the SVD"
+      chapters:
+        - eigenvalues/eigenvalues.qmd
+        - eigenvalues/svd.qmd
+
+    - part: "Iterative Methods for Linear Systems"
+      chapters:
+        - iterative/iterative.qmd
+        - iterative/jacobi.qmd
+        - iterative/conjugate-gradient.qmd
+
+    - part: "Applications"
+      chapters:
+        - applications/pca.qmd
+        - applications/graphs.qmd
+        - applications/operators.qmd
+        - applications/fourier.qmd
+        - applications/markov.qmd
+        - applications/koopman.qmd
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+    highlight-style: github
+    code-copy: true
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    include-in-header:
+      text: |
+        <script>
+        window.MathJax = {
+          tex: {
+            macros: {
+              fR: ["\\mathbb{R}"],
+              fC: ["\\mathbb{C}"],
+              fZ: ["\\mathbb{Z}"],
+              bx: ["\\boldsymbol{x}"],
+              bX: ["\\mathbf{X}"],
+              by: ["\\boldsymbol{y}"],
+              bY: ["\\mathbf{Y}"],
+              bL: ["\\mathbf{L}"],
+              bU: ["\\mathbf{U}"],
+              bV: ["\\mathbf{V}"],
+              bH: ["\\mathbf{H}"],
+              bI: ["\\mathbf{I}"],
+              bv: ["\\boldsymbol{v}"],
+              ba: ["\\boldsymbol{a}"],
+              bA: ["\\mathbf{A}"],
+              bQ: ["\\mathbf{Q}"],
+              bR: ["\\mathbf{R}"],
+              bP: ["\\mathbf{P}"],
+              bD: ["\\mathbf{D}"],
+              bM: ["\\mathbf{M}"],
+              bS: ["\\mathbf{S}"],
+              bZ: ["\\mathbf{Z}"],
+              bsigma: ["\\mathbf{\\Sigma}"],
+              bE: ["\\mathbf{E}"],
+              bT: ["\\mathbf{T}"],
+              bb: ["\\boldsymbol{b}"],
+              bz: ["\\boldsymbol{z}"],
+              bB: ["\\mathbf{B}"],
+              br: ["\\boldsymbol{r}"],
+              bu: ["\\boldsymbol{u}"],
+              bw: ["\\boldsymbol{w}"],
+              bq: ["\\boldsymbol{q}"],
+              bp: ["\\boldsymbol{p}"],
+              bc: ["\\boldsymbol{c}"],
+              bzero: ["\\mathbf{0}"],
+              be: ["\\boldsymbol{e}"],
+              bJ: ["\\mathbf{J}"],
+              bG: ["\\mathbf{G}"],
+              bK: ["\\mathbf{K}"],
+              argmin: ["\\operatorname{arg\\,min}"],
+              argmax: ["\\operatorname{arg\\,max}"],
+              printmatsq: ["\\begin{pmatrix} #1_{11} & \\cdots & #1_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ #1_{n1} & \\cdots & #1_{nn} \\end{pmatrix}", 1],
+              printmat:   ["\\begin{pmatrix} #1_{11} & \\cdots & #1_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ #1_{m1} & \\cdots & #1_{mn} \\end{pmatrix}", 1],
+              printrowvec: ["\\begin{pmatrix} #1_1 & \\cdots & #1_n \\end{pmatrix}", 1],
+              printcolvec: ["\\begin{pmatrix} #1_1 \\\\ \\vdots \\\\ #1_n \\end{pmatrix}", 1],
+              printmatrow: ["\\begin{pmatrix} \\cdots & \\boldsymbol{#1}_1 & \\cdots \\\\ & \\vdots & \\\\ \\cdots & \\boldsymbol{#1}_n & \\cdots \\end{pmatrix}", 1],
+              printmatcol: ["\\begin{pmatrix} \\vdots & & \\vdots \\\\ \\boldsymbol{#1}_1 & \\cdots & \\boldsymbol{#1}_n \\\\ \\vdots & & \\vdots \\end{pmatrix}", 1]
+            }
+          }
+        };
+        </script>
+
+  # PDF is produced by the existing latexmk pipeline (main.tex).
+  # Quarto only renders HTML for the web book.

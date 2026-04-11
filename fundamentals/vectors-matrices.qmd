@@ -1,0 +1,295 @@
+# Vectors and Matrices
+
+Scientific computing is built on two fundamental data structures: vectors and matrices.
+Before introducing these formally, we fix notation for the standard number systems that
+provide the raw material for all numerical computation.
+
+
+**Standard Number Systems.**  Throughout these notes, $\mathbb{R}$ denotes
+the set of all real numbers, $\mathbb{Z}$ the set of all integers, and $\mathbb{C}$ the
+set of all complex numbers.  Our primary focus is real-valued computation; complex numbers
+arise naturally in eigenvalue analysis and signal processing.
+
+
+::: {.callout-note icon=false}
+## Definition: Scalar
+An element of a number system ($\mathbb{R}$, $\mathbb{Z}$, or $\mathbb{C}$) is called a
+**scalar**.  Scalars represent individual numerical quantities and serve as the
+atomic building blocks from which vectors and matrices are constructed.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. Classify each of the following as a real scalar, an integer, a complex (non-real)
+    scalar, or *not* a scalar: $\;3.14$;\; $-7$;\; $2+3i$;\; $\begin{pmatrix}1\\0\end{pmatrix}$.
+    
+1. In Python, evaluate `type(3.14)`, `type(3)`, and `type(3+2j)`.
+    Which NumPy `dtype` would you use to store each?
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Vectors
+A **vector** is a one-dimensional ordered array of scalars.  Vectors can represent
+points, directions, or more abstract quantities within a vector space, and are fundamental
+in encoding data and linear relationships.
+:::
+
+
+::: {.callout-tip icon=false}
+Vectors may be written as row vectors or column vectors.  Although both forms carry the
+same information, the distinction matters when applying linear transformations and
+computing inner products.
+:::
+
+
+::: {.callout-note icon=false}
+## Example
+$$
+\begin{pmatrix} 1 & 2 & 3 \end{pmatrix}, \quad
+\begin{pmatrix} 1 \\ 2 \\ 3 \end{pmatrix}, \quad
+\begin{pmatrix} 1+2i \\ 7i \\ 3 \end{pmatrix}, ...
+$$
+:::
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. Write a column vector $\bx \in \fR^4$ whose $i$-th entry equals $2^i$ for
+    $i = 1, 2, 3, 4$.
+    
+1. In NumPy, construct this vector with `np.array([...])` and confirm
+    `x.shape == (4,)`.  Why does NumPy report shape `(4,)` rather than
+    `(4,1)`?
+    
+1. Can a vector in $\fR^3$ be added to a vector in $\fR^4$?  Justify in one sentence.
+
+:::
+
+
+Just as scalars belong to number systems like $\mathbb{R}$ or $\mathbb{C}$, vectors inhabit
+**vector spaces**.  While these notes treat vector spaces informally, subsequent
+chapters provide more rigorous definitions and properties.
+
+
+::: {.callout-note icon=false}
+## Definition: $\fR^n$
+The set of all real vectors of size $n$.  When we write $\bx \in \fR^n$, it means $\bx$
+has $n$ real entries.  Vectors in $\fR^n$ take one of the following forms:
+$$
+\begin{align}
+\boldsymbol{x} \in \fR^{n \times 1} &= \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
+\quad \text{(column vector, default convention)}\$$1mm]
+\boldsymbol{x} \in \fR^{1 \times n} &= \begin{pmatrix} x_1 & x_2 & \cdots & x_n \end{pmatrix}
+\quad \text{(row vector)}
+\end{align}
+$$
+:::
+
+
+::: {.callout-tip icon=false}
+These notes focus on finite-dimensional spaces.  Infinite-dimensional vector spaces, central
+to functional analysis, arise in differential equations and quantum mechanics but are beyond
+our scope here.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. Let $\bx = (1, -2, 3)^T \in \fR^3$.  Identify the value of entry $x_2$.  What
+    is the dimension of $\fR^3$?
+    
+1. In NumPy, create a column vector (shape `(3,1)`) from the list
+    `[1, -2, 3]` in two ways: using `np.reshape` and using
+    `[:, np.newaxis]`.
+    
+1. What does `x.T` return when `x.shape == (3,)`?  How does the result
+    differ when `x.shape == (3,1)`?
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Matrices
+A **matrix** is a two-dimensional array of scalars.  A matrix $\bA \in \fR^{m \times n}$
+is written as
+$$
+\bA = \begin{pmatrix}
+a_{11} & a_{12} & \cdots & a_{1n} \\
+a_{21} & a_{22} & \cdots & a_{2n} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{pmatrix}.
+$$
+Matrices are used to represent linear transformations, systems of linear equations, and
+more complex data structures.
+:::
+
+
+::: {.callout-note icon=false}
+## Example
+Two-dimensional matrices include:
+$$
+\begin{pmatrix}
+1 & 2 & 3 \\[1mm]
+4 & 5 & 6
+\end{pmatrix} \in \fR^{2 \times 3}, \quad
+\begin{pmatrix}
+1 & 2 \\[1mm]
+4 & 5 \\[1mm]
+6 & 7
+\end{pmatrix} \in \fR^{3 \times 2}.
+$$
+:::
+
+::: {.callout-tip icon=false}
+Matrices can be interpreted as vectors whose entries are themselves vectors:
+$$
+\bA = \printmatrow{r} = \printmatcol{c},
+$$
+where $r_i = \bA[i,:]$ is the $i$-th row and $c_i = \bA[:,i]$ is the $i$-th column.
+This viewpoint is useful when studying block matrices and matrix factorizations.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above.
+
+1. State the dimensions $(m, n)$ of $\bA = \begin{pmatrix}1 & 2 & 3 \\ 4 & 5 & 6\end{pmatrix}$.
+    What is the shape of its second column as a vector?
+    
+1. In NumPy (0-based indexing), write the expression to access entry $a_{12}$
+    (first row, second column in 1-based notation).  Then extract the second column of $\bA$
+    and verify its shape is `(2,)`.
+    
+1. True or False: a vector in $\fR^n$ is a special case of a matrix in
+    $\fR^{n \times 1}$.  How does NumPy handle this distinction in practice?
+
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Matrix Transpose
+The **transpose** of $\bA \in \fR^{m \times n}$, denoted $\bA^T$, is the $n \times m$
+matrix obtained by interchanging rows and columns:
+\[
+    (\bA^T)_{ij} = a_{ji}, \quad 1 \le i \le n,\ 1 \le j \le m.$$
+For a column vector $\bx \in \fR^n$, the transpose $\bx^T$ is its corresponding row vector
+and vice versa.
+:::
+
+
+::: {.callout-note icon=false}
+## Definition: Symmetric and Skew-Symmetric Matrices
+A square matrix $\bA \in \fR^{n \times n}$ is:
+
+- **symmetric** if $\bA^T = \bA$, equivalently $a_{ij} = a_{ji}$ for all $i,j$.
+    
+- **skew-symmetric** if $\bA^T = -\bA$, equivalently $a_{ij} = -a_{ji}$ for all $i,j$.
+
+:::
+
+
+::: {.callout-tip icon=false}
+Every square matrix $\bA$ decomposes uniquely into a symmetric part and a skew-symmetric part:
+$$\bA = \underbrace{\tfrac{1}{2}(\bA + \bA^T)}_{\text{symmetric}} +
+          \underbrace{\tfrac{1}{2}(\bA - \bA^T)}_{\text{skew-symmetric}}.$$
+Symmetric matrices arise constantly in scientific computing: covariance matrices in statistics,
+graph Laplacians in network problems, and Hessians of quadratic objectives in optimization
+are all symmetric.
+:::
+
+
+::: {.callout-note icon=false}
+## Theorem: Properties of the Transpose
+Let $\bA \in \fR^{m \times n}$, $\bB \in \fR^{n \times p}$, and $\alpha \in \fR$. Then:
+
+1. $(\bA^T)^T = \bA$
+    
+1. $(\bA + \bB)^T = \bA^T + \bB^T$ \quad (for conformable $\bA, \bB$)
+    
+1. $(\alpha\bA)^T = \alpha\bA^T$
+    
+1. $(\bA\bB)^T = \bB^T\bA^T$ \quad **(Reversal Law)**
+
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Properties (1)--(3) follow directly from the definition $(\bA^T)_{ij} = a_{ji}$ applied
+entry-wise. For example, for (2):
+$$(\bA+\bB)^T_{ij} = (\bA+\bB)_{ji} = a_{ji} + b_{ji} = (\bA^T)_{ij} + (\bB^T)_{ij}
+    = (\bA^T + \bB^T)_{ij}.$$
+
+For (4), let $\mathbf{C} = \bA\bB \in \fR^{m \times p}$. By definition of transpose and
+matrix product:
+$$(\mathbf{C}^T)_{ij} = c_{ji} = \sum_{k=1}^{n} a_{jk}\,b_{ki}.$$
+Expanding $\bB^T\bA^T$ using $(\bB^T)_{ik} = b_{ki}$ and $(\bA^T)_{kj} = a_{jk}$:
+$$(\bB^T\bA^T)_{ij} = \sum_{k=1}^{n} (\bB^T)_{ik}\,(\bA^T)_{kj} = \sum_{k=1}^{n} b_{ki}\,a_{jk}.$$
+Both sums are identical, so $(\bA\bB)^T = \bB^T\bA^T$.
+:::
+
+
+::: {.callout-note icon=false}
+## Corollary: Reversal Law for Multiple Factors
+By induction on the result above(4):
+$$(\bA_1 \bA_2 \cdots \bA_k)^T = \bA_k^T \cdots \bA_2^T \bA_1^T.$$
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+Refer to the result above and the result above.
+Let $\bA = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}$.
+
+1. State the dimensions of $\bA$, $\bA^T$, $\bA\bA^T$, and $\bA^T\bA$.
+    
+1. Compute $\bA^T$ explicitly.  Then compute $\bA\bA^T$ and verify it is symmetric
+    using the result above.
+    
+1. In NumPy (0-based indexing), write the expression to retrieve element $a_{12}$
+    (first row, second column in 1-based notation).  Then write a one-liner for $\bA\bA^T$.
+    
+1. Is $\bA\bA^T = \bA^T\bA$ in general?  What can you say about each product
+    individually?
+
+:::
+
+
+::: {.callout-note icon=false}
+## Corollary: Outer Product is Symmetric of Rank 1
+For any nonzero $\bx \in \fR^n$, the outer product $\bx\bx^T \in \fR^{n \times n}$ is
+symmetric and has rank 1.  The inner product $\bx^T\bx \in \fR$ satisfies
+$\bx^T\bx \ge 0$ with equality iff $\bx = \bzero$.
+:::
+
+
+::: {.callout-warning icon=false}
+## Exercise
+In this exercise, we will prove the result above.
+Refer to the result above and the result above.
+
+Let $\bx = (x_1, ..., x_n)^T \in \fR^n$ be a nonzero column vector.
+
+1. The **outer product** is $\bx\bx^T \in \fR^{n \times n}$.  Write out entry
+    $(i,j)$ explicitly.
+    
+1. Use the Reversal Law (the result above(4)) to show $\bx\bx^T$ is
+    symmetric.
+    
+1. Show that $\bx\bx^T$ has rank 1 by arguing about the column space.
+    (*Hint: every column of $\bx\bx^T$ is a scalar multiple of $\bx$.*)
+    
+1. Express $\bx^T\bx$ as a sum of squares.  Conclude $\bx^T\bx \ge 0$ with equality
+    iff $\bx = \bzero$, and identify the geometric quantity $\sqrt{\bx^T\bx}$.
+
+:::
