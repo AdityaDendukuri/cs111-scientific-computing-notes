@@ -5,7 +5,7 @@ project:
 book:
   title: "Introduction to Scientific Computing"
   author: "Aditya Dendukuri"
-  repo-url: https://github.com/numerics/cs111-scientific-computing-notes
+  repo-url: https://github.com/AdityaDendukuri/cs111-scientific-computing-notes
   repo-actions: [edit, issue]
   chapters:
     - index.qmd
