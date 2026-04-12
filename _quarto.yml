@@ -7,6 +7,11 @@ book:
   author: "Aditya Dendukuri"
   repo-url: https://github.com/AdityaDendukuri/cs111-scientific-computing-notes
   repo-actions: [edit, issue]
+  navbar:
+    right:
+      - text: "PDF"
+        icon: file-pdf
+        href: https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf
   chapters:
     - index.qmd
 
@@ -114,6 +119,8 @@ format:
               bu: ["\\boldsymbol{u}"],
               bw: ["\\boldsymbol{w}"],
               bq: ["\\boldsymbol{q}"],
+              bs: ["\\boldsymbol{s}"],
+              bg: ["\\boldsymbol{g}"],
               bp: ["\\boldsymbol{p}"],
               bc: ["\\boldsymbol{c}"],
               bzero: ["\\mathbf{0}"],

@@ -1,4 +1,5 @@
 .PHONY: pdf html all clean
+.DEFAULT_GOAL := all
 
 # Build the PDF (latexmk from main.tex)
 pdf:
