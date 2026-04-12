@@ -93,6 +93,7 @@ def convert_lists(text: str) -> str:
 def convert_formatting(text: str) -> str:
     # Multi-line safe versions using brace extraction would be more robust,
     # but these cover the vast majority of cases in these notes.
+    text = re.sub(r'\\href\{([^{}]+)\}\{([^{}]+)\}', r'[\2](\1)', text)
     text = re.sub(r'\\textbf\{([^{}]+)\}', r'**\1**', text)
     text = re.sub(r'\\textit\{([^{}]+)\}', r'*\1*', text)
     text = re.sub(r'\\emph\{([^{}]+)\}', r'*\1*', text)
