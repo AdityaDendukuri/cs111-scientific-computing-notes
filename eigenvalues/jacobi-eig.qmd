@@ -4,8 +4,7 @@
 The Jacobi method computes all eigenvalues and eigenvectors of a symmetric matrix
 $\bA \in \fR^{n \times n}$ by iteratively zeroing off-diagonal entries via plane rotations.
 It is conceptually simple, numerically stable, and achieves high relative accuracy on the
-small singular values --- a property not shared by the standard tridiagonalize-then-QR pipeline.
-
+small singular values.
 
 ## Givens Rotations
 
