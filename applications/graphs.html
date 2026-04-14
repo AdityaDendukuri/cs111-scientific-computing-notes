@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>29&nbsp; Spectral Graph Theory and PageRank – Scientific Computing</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../applications/operators.html" rel="next">
+<link href="../applications/pca.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b264dfeb48c53531446732b0b956c16e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-80d606c5edd7687d9c87341935aee57f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-b264dfeb48c53531446732b0b956c16e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+window.MathJax = {
+  tex: {
+    macros: {
+      fR: ["\\mathbb{R}"],
+      fC: ["\\mathbb{C}"],
+      fZ: ["\\mathbb{Z}"],
+      bx: ["\\boldsymbol{x}"],
+      bX: ["\\mathbf{X}"],
+      by: ["\\boldsymbol{y}"],
+      bY: ["\\mathbf{Y}"],
+      bL: ["\\mathbf{L}"],
+      bU: ["\\mathbf{U}"],
+      bV: ["\\mathbf{V}"],
+      bH: ["\\mathbf{H}"],
+      bI: ["\\mathbf{I}"],
+      bv: ["\\boldsymbol{v}"],
+      ba: ["\\boldsymbol{a}"],
+      bA: ["\\mathbf{A}"],
+      bQ: ["\\mathbf{Q}"],
+      bR: ["\\mathbf{R}"],
+      bP: ["\\mathbf{P}"],
+      bD: ["\\mathbf{D}"],
+      bM: ["\\mathbf{M}"],
+      bS: ["\\mathbf{S}"],
+      bZ: ["\\mathbf{Z}"],
+      bsigma: ["\\mathbf{\\Sigma}"],
+      bE: ["\\mathbf{E}"],
+      bT: ["\\mathbf{T}"],
+      bb: ["\\boldsymbol{b}"],
+      bz: ["\\boldsymbol{z}"],
+      bB: ["\\mathbf{B}"],
+      br: ["\\boldsymbol{r}"],
+      bu: ["\\boldsymbol{u}"],
+      bw: ["\\boldsymbol{w}"],
+      bq: ["\\boldsymbol{q}"],
+      bs: ["\\boldsymbol{s}"],
+      bg: ["\\boldsymbol{g}"],
+      bp: ["\\boldsymbol{p}"],
+      bc: ["\\boldsymbol{c}"],
+      bzero: ["\\mathbf{0}"],
+      be: ["\\boldsymbol{e}"],
+      bJ: ["\\mathbf{J}"],
+      bG: ["\\mathbf{G}"],
+      bK: ["\\mathbf{K}"],
+      argmin: ["\\operatorname{arg\\,min}"],
+      argmax: ["\\operatorname{arg\\,max}"],
+      printmatsq: ["\\begin{pmatrix} #1_{11} & \\cdots & #1_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ #1_{n1} & \\cdots & #1_{nn} \\end{pmatrix}", 1],
+      printmat:   ["\\begin{pmatrix} #1_{11} & \\cdots & #1_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ #1_{m1} & \\cdots & #1_{mn} \\end{pmatrix}", 1],
+      printrowvec: ["\\begin{pmatrix} #1_1 & \\cdots & #1_n \\end{pmatrix}", 1],
+      printcolvec: ["\\begin{pmatrix} #1_1 \\\\ \\vdots \\\\ #1_n \\end{pmatrix}", 1],
+      printmatrow: ["\\begin{pmatrix} \\cdots & \\boldsymbol{#1}_1 & \\cdots \\\\ & \\vdots & \\\\ \\cdots & \\boldsymbol{#1}_n & \\cdots \\end{pmatrix}", 1],
+      printmatcol: ["\\begin{pmatrix} \\vdots & & \\vdots \\\\ \\boldsymbol{#1}_1 & \\cdots & \\boldsymbol{#1}_n \\\\ \\vdots & & \\vdots \\end{pmatrix}", 1]
+    }
+  }
+};
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/graphs.html"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Fundamentals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/math-notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Mathematical Notation and Proof Techniques</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/vectors-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vectors and Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrix Arithmetic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/norms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to Norms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/complexity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Computational Complexity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/floating-point.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Floating Point Arithmetic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/numpy-primer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Python and NumPy Primer</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Direct Methods for Linear Systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/linear-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linearity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/lu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">LU Factorization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/spd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Symmetric Positive Definite (SPD) Matrices</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Orthogonality and Least Squares</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/orthogonal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Orthogonal Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/norms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Vector and Matrix Norms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Stability and Condition Number</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Overdetermined Systems and Least Squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Eigenvalues and the SVD</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/eigenvalues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Eigenvalues and Eigenvectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/lanczos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lanczos Algorithm</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/jacobi-eig.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Jacobi Eigenvalue Algorithm</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Iterative Methods for Linear Systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/iterative.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Iterative Methods for Linear Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/conjugate-gradient.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/gmres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GMRES</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/quadrature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/root-finding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Root Finding</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">ODEs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../odes/ode-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Numerical Methods for ODEs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/graphs.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/operators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/fourier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/markov.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#graph-matrices" id="toc-graph-matrices" class="nav-link active" data-scroll-target="#graph-matrices"><span class="header-section-number">29.1</span> Graph Matrices</a></li>
+  <li><a href="#the-graph-laplacian" id="toc-the-graph-laplacian" class="nav-link" data-scroll-target="#the-graph-laplacian"><span class="header-section-number">29.2</span> The Graph Laplacian</a></li>
+  <li><a href="#courant-fischer-and-graph-cuts" id="toc-courant-fischer-and-graph-cuts" class="nav-link" data-scroll-target="#courant-fischer-and-graph-cuts"><span class="header-section-number">29.3</span> Courant-Fischer and Graph Cuts</a></li>
+  <li><a href="#random-walks-and-spectral-gap" id="toc-random-walks-and-spectral-gap" class="nav-link" data-scroll-target="#random-walks-and-spectral-gap"><span class="header-section-number">29.4</span> Random Walks and Spectral Gap</a></li>
+  <li><a href="#pagerank" id="toc-pagerank" class="nav-link" data-scroll-target="#pagerank"><span class="header-section-number">29.5</span> PageRank</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/graphs.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/graphs.html"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>A graph encodes pairwise relationships between objects. Spectral graph theory extracts quantitative information about connectivity, partitioning, and flow by studying the eigenvalues and eigenvectors of matrices associated with the graph. This section develops the theory of the graph Laplacian, connects its spectrum to graph structure via the Courant-Fischer theorem, applies spectral methods to graph partitioning and clustering, and culminates in the PageRank algorithm, which models the web as a Markov chain and identifies important pages as the dominant eigenvector of a specially constructed stochastic matrix.</p>
+<section id="graph-matrices" class="level2" data-number="29.1">
+<h2 data-number="29.1" class="anchored" data-anchor-id="graph-matrices"><span class="header-section-number">29.1</span> Graph Matrices</h2>
+<p>Before studying eigenvalues, we need the matrices. The adjacency and degree matrices encode the raw connectivity, while the Laplacian combines them into a single operator that will carry the full spectral information about the graph.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Graph
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <em>weighted undirected graph</em> <span class="math inline">\(G = (V, E)\)</span> consists of a vertex set <span class="math inline">\(V\)</span> with <span class="math inline">\(n = |V|\)</span> vertices and an edge set <span class="math inline">\(E \subseteq \binom{V}{2}\)</span> with <span class="math inline">\(m = |E|\)</span> edges. Each edge <span class="math inline">\((i,j) \in E\)</span> carries a positive weight <span class="math inline">\(w_{ij} = w_{ji} &gt; 0\)</span>; for unweighted graphs <span class="math inline">\(w_{ij} = 1\)</span>. The <em>degree</em> of vertex <span class="math inline">\(i\)</span> is <span class="math inline">\(d_i = \sum_{j:(i,j)\in E} w_{ij}\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Graph degrees)</strong> For the unweighted path graph <span class="math inline">\(P_5\)</span> on vertices <span class="math inline">\(\{1,2,3,4,5\}\)</span> with edges <span class="math inline">\(\{1\text{--}2, 2\text{--}3, 3\text{--}4, 4\text{--}5\}\)</span>:</p>
+<ol type="1">
+<li><p>List the degree of each vertex. What is <span class="math inline">\(\sum_i d_i\)</span>? Why does this always equal <span class="math inline">\(2m\)</span>?</p></li>
+<li><p>Repeat for the cycle <span class="math inline">\(C_5\)</span> (add edge <span class="math inline">\(5\text{--}1\)</span>). What changed?</p></li>
+<li><p>For the complete graph <span class="math inline">\(K_n\)</span>, what is <span class="math inline">\(d_i\)</span> for all <span class="math inline">\(i\)</span>? What is <span class="math inline">\(\sum_i d_i\)</span>?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Graph Matrices
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A graph <span class="math inline">\(G\)</span> is associated with several matrices:</p>
+<ul>
+<li><p><strong>Adjacency matrix</strong> <span class="math inline">\(\bA \in \fR^{n\times n}\)</span>: <span class="math inline">\(A_{ij} = w_{ij}\)</span> if <span class="math inline">\((i,j)\in E\)</span>, zero otherwise. Always symmetric.</p></li>
+<li><p><strong>Degree matrix</strong> <span class="math inline">\(\bD \in \fR^{n\times n}\)</span>: diagonal with <span class="math inline">\(D_{ii} = d_i\)</span>.</p></li>
+<li><p><strong>Incidence matrix</strong> <span class="math inline">\(\bM \in \fR^{n\times m}\)</span>: for an arbitrary orientation of edges, <span class="math inline">\(M_{ie} = +1\)</span> if <span class="math inline">\(i\)</span> is the head of edge <span class="math inline">\(e\)</span>, <span class="math inline">\(M_{ie} = -1\)</span> if <span class="math inline">\(i\)</span> is the tail, zero otherwise.</p></li>
+<li><p><strong>Graph Laplacian</strong> <span class="math inline">\(\bL = \bD - \bA = \bM\bM^T \in \fR^{n\times n}\)</span>.</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Building graph matrices)</strong> For the unweighted path <span class="math inline">\(P_3\)</span> on vertices <span class="math inline">\(\{1,2,3\}\)</span> with edges <span class="math inline">\(\{1\text{--}2, 2\text{--}3\}\)</span>:</p>
+<ol type="1">
+<li><p>Write down <span class="math inline">\(\bA\)</span>, <span class="math inline">\(\bD\)</span>, and <span class="math inline">\(\bL = \bD - \bA\)</span> explicitly.</p></li>
+<li><p>Orient both edges from lower to higher vertex and write the incidence matrix <span class="math inline">\(\bM \in \fR^{3\times 2}\)</span>. Compute <span class="math inline">\(\bM\bM^T\)</span> and verify it equals <span class="math inline">\(\bL\)</span>.</p></li>
+<li><p>In NumPy, build the Laplacian for <span class="math inline">\(P_5\)</span> and <span class="math inline">\(K_4\)</span> using <code>numpy.diag</code> and <code>numpy.ones</code>. Verify <span class="math inline">\(\bL\mathbf{1} = \bzero\)</span> for both.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="the-graph-laplacian" class="level2" data-number="29.2">
+<h2 data-number="29.2" class="anchored" data-anchor-id="the-graph-laplacian"><span class="header-section-number">29.2</span> The Graph Laplacian</h2>
+<p>The graph Laplacian is the central object of spectral graph theory. We establish two fundamental facts: it is positive semidefinite (with a proof via its quadratic form), and its spectrum directly encodes the graph’s connectivity. These results together make the eigenvalues of <span class="math inline">\(\bL\)</span> computable proxies for qualitative graph properties.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Laplacian as a Discrete Derivative
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For any function <span class="math inline">\(f: V \to \fR\)</span> (a vector <span class="math inline">\(\boldsymbol{f} \in \fR^n\)</span>), the Laplacian acts as <span class="math display">\[(\bL\boldsymbol{f})_i = \sum_{j:(i,j)\in E} w_{ij}(f_i - f_j).\]</span> At each vertex <span class="math inline">\(i\)</span>, the Laplacian measures how <span class="math inline">\(f_i\)</span> deviates from the weighted average of its neighbors, making <span class="math inline">\(\bL\)</span> the discrete analogue of the continuous Laplace operator <span class="math inline">\(-\nabla^2\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Laplacian as a smoother)</strong> For the path graph <span class="math inline">\(P_4\)</span> on vertices <span class="math inline">\(\{1,2,3,4\}\)</span>, let <span class="math inline">\(\boldsymbol{f} = (1, 2, 3, 4)^T\)</span> (linear function) and <span class="math inline">\(\boldsymbol{g} = (0, 1, 0, 1)^T\)</span> (oscillating function).</p>
+<ol type="1">
+<li><p>Compute <span class="math inline">\(\bL\boldsymbol{f}\)</span> and <span class="math inline">\(\bL\boldsymbol{g}\)</span> by hand using the formula <span class="math inline">\((\bL\boldsymbol{f})_i = \sum_{j\sim i}(f_i - f_j)\)</span>.</p></li>
+<li><p>Which function has a larger <span class="math inline">\(\bL\)</span>-response? What does this say about the Laplacian as a ``roughness’’ detector?</p></li>
+<li><p>For the constant function <span class="math inline">\(\boldsymbol{f} = \mathbf{1}\)</span>, compute <span class="math inline">\(\bL\mathbf{1}\)</span> without any computation. Explain from the definition why this is always zero.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Graph Laplacian is Positive Semidefinite
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For any weighted graph <span class="math inline">\(G\)</span> and any vector <span class="math inline">\(\bx \in \fR^n\)</span>, <span class="math display">\[\bx^T\bL\bx = \sum_{(i,j)\in E} w_{ij}(x_i - x_j)^2 \geq 0.\]</span> Therefore <span class="math inline">\(\bL\)</span> is symmetric positive semidefinite, with <span class="math inline">\(\lambda_1 = 0\)</span> always.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Step 1: Expand using <span class="math inline">\(\bL = \bD - \bA\)</span>.</strong> <span class="math display">\[\bx^T\bL\bx = \bx^T\bD\bx - \bx^T\bA\bx = \sum_i d_i x_i^2 - \sum_{(i,j)\in E} 2w_{ij}x_i x_j.\]</span></p>
+<p><strong>Step 2: Rewrite the degree sum.</strong> Since <span class="math inline">\(d_i = \sum_{j:(i,j)\in E} w_{ij}\)</span>, we can write <span class="math inline">\(\sum_i d_i x_i^2 = \sum_{(i,j)\in E} w_{ij}(x_i^2 + x_j^2)\)</span>, where each edge <span class="math inline">\((i,j)\)</span> contributes to both vertex <span class="math inline">\(i\)</span> and vertex <span class="math inline">\(j\)</span>.</p>
+<p><strong>Step 3: Complete the square.</strong> Combining the two terms: <span class="math display">\[\bx^T\bL\bx = \sum_{(i,j)\in E} w_{ij}(x_i^2 + x_j^2 - 2x_ix_j) = \sum_{(i,j)\in E} w_{ij}(x_i - x_j)^2 \geq 0,\]</span> since each term <span class="math inline">\(w_{ij} &gt; 0\)</span> and <span class="math inline">\((x_i - x_j)^2 \geq 0\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The quadratic form <span class="math inline">\(\bx^T\bL\bx = \sum_{(i,j)\in E}w_{ij}(x_i-x_j)^2\)</span> measures the total variation of <span class="math inline">\(\bx\)</span> across the graph. A smooth signal (nearby vertices have similar values) gives a small quadratic form; a rough signal gives a large one. This is the discrete analogue of <span class="math inline">\(\int |\nabla f|^2\,d\mu\)</span> in the continuous setting, and it connects the Laplacian to regularization (smoothing) operators.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Spectral Properties of the Laplacian
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(G\)</span> be a connected weighted graph with Laplacian <span class="math inline">\(\bL\)</span> and eigenvalues <span class="math inline">\(0 = \lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n\)</span>. Then:</p>
+<ol type="1">
+<li><p><span class="math inline">\(\lambda_1 = 0\)</span> with eigenvector <span class="math inline">\(\mathbf{1}/\sqrt{n}\)</span>, and the multiplicity of eigenvalue <span class="math inline">\(0\)</span> equals the number of connected components of <span class="math inline">\(G\)</span>.</p></li>
+<li><p><span class="math inline">\(\lambda_2 &gt; 0\)</span> if and only if <span class="math inline">\(G\)</span> is connected. This <em>Fiedler value</em> (algebraic connectivity) quantifies how well-connected <span class="math inline">\(G\)</span> is.</p></li>
+<li><p><span class="math inline">\(\lambda_n \leq 2\max_i d_i\)</span>.</p></li>
+<li><p>(Cheeger inequality) <span class="math inline">\(\frac{\lambda_2}{2} \leq h(G) \leq \sqrt{2\lambda_2}\)</span>, where <span class="math inline">\(h(G) = \min_{S \subseteq V} \frac{\mathrm{cut}(S,\bar{S})}{\min(\mathrm{vol}(S),\mathrm{vol}(\bar{S}))}\)</span> is the Cheeger constant.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p> <span class="math inline">\((\bL\mathbf{1})_i = \sum_{j \sim i} w_{ij}(1-1) = 0\)</span> for all <span class="math inline">\(i\)</span>, so <span class="math inline">\(\lambda_1 = 0\)</span> with eigenvector <span class="math inline">\(\mathbf{1}\)</span>.</p>
+<p><strong>Step 2: Null space and components.</strong> Since <span class="math inline">\(\bL \succeq 0\)</span>, <span class="math inline">\(\bx \in \ker(\bL)\)</span> if and only if <span class="math inline">\(\bx^T\bL\bx = 0\)</span>, i.e., <span class="math inline">\(\sum_{(i,j)\in E} w_{ij}(x_i - x_j)^2 = 0\)</span>. Since <span class="math inline">\(w_{ij} &gt; 0\)</span>, this forces <span class="math inline">\(x_i = x_j\)</span> for all edges <span class="math inline">\((i,j)\)</span>. If <span class="math inline">\(G\)</span> is connected, any such <span class="math inline">\(\bx\)</span> must be constant, so <span class="math inline">\(\dim\ker(\bL) = 1\)</span>. For a graph with <span class="math inline">\(c\)</span> components, <span class="math inline">\(\bx\)</span> can take a different constant value on each component, giving <span class="math inline">\(\dim\ker(\bL) = c\)</span>.</p>
+<p><strong>Step 3: Fiedler value.</strong> By Step 2, <span class="math inline">\(G\)</span> is connected <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(\ker(\bL) = \mathrm{span}(\mathbf{1})\)</span> <span class="math inline">\(\Leftrightarrow\)</span> <span class="math inline">\(\lambda_2 &gt; 0\)</span>.</p>
+<p><strong>Step 4: Upper bound.</strong> By Courant-Fischer (the result above), <span class="math inline">\(\lambda_n = \max_{\bx \neq \bzero} \bx^T\bL\bx/\|\bx\|^2\)</span>. For the standard basis vector <span class="math inline">\(\be_i\)</span>, <span class="math inline">\(\be_i^T\bL\be_i = d_i\)</span>, so <span class="math inline">\(\lambda_n \leq 2\max_i d_i\)</span> (a tighter bound uses the sum of degrees of adjacent pairs). The Cheeger inequality is stated without proof; it is proved in the theory of expander graphs.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <em>Fiedler vector</em> <span class="math inline">\(\bv_2\)</span> (eigenvector for <span class="math inline">\(\lambda_2\)</span>) carries structural information beyond the eigenvalue itself. Its components embed the vertices on a line in a way that minimizes <span class="math inline">\(\sum_{(i,j)\in E}w_{ij}(v_{2,i} - v_{2,j})^2\)</span> subject to <span class="math inline">\(\bv_2 \perp \mathbf{1}\)</span> and <span class="math inline">\(\|\bv_2\|=1\)</span>. Vertices with similar Fiedler vector components tend to be well-connected to each other, making the sign of <span class="math inline">\(\bv_2\)</span> a natural partition: positive components form one cluster, negative components form another.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Laplacian spectrum by hand and numerically)</strong> </p>
+<ol type="1">
+<li><p>For the cycle graph <span class="math inline">\(C_4\)</span> on vertices <span class="math inline">\(\{1,2,3,4\}\)</span>: write down <span class="math inline">\(\bL\)</span> and compute all four eigenvalues. (For <span class="math inline">\(C_n\)</span>, <span class="math inline">\(\lambda_k = 2(1-\cos(2\pi k/n))\)</span>.) What is <span class="math inline">\(\lambda_2\)</span>? How does it compare to <span class="math inline">\(K_4\)</span>?</p></li>
+<li><p>Use <code>scipy.linalg.eigh</code> to compute the full spectrum of <span class="math inline">\(\bL\)</span> for <span class="math inline">\(P_5\)</span>, <span class="math inline">\(C_5\)</span>, <span class="math inline">\(K_5\)</span>, and the path with a weak middle edge (<span class="math inline">\(w_{3,4} = 0.01\)</span>, all others 1). Rank them by <span class="math inline">\(\lambda_2\)</span>. Which is most and least connected?</p></li>
+<li><p>Using the Matrix Tree Theorem <span class="math inline">\(\tau(G) = \frac{1}{n}\prod_{i=2}^n \lambda_i\)</span>: compute the number of spanning trees of <span class="math inline">\(C_4\)</span> from its eigenvalues and verify by listing all spanning trees.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Normalized Laplacians
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Two normalized versions of the Laplacian correct for the bias toward high-degree vertices:</p>
+<ul>
+<li><p><em>Symmetric normalized Laplacian</em>: <span class="math inline">\(\mathbf{L}_{\mathrm{sym}} = \bD^{-1/2}\bL\bD^{-1/2} = \bI - \bD^{-1/2}\bA\bD^{-1/2}\)</span>.</p></li>
+<li><p><em>Random-walk Laplacian</em>: <span class="math inline">\(\mathbf{L}_{\mathrm{rw}} = \bD^{-1}\bL = \bI - \bD^{-1}\bA\)</span>.</p></li>
+</ul>
+<p>Both have eigenvalues in <span class="math inline">\([0,2]\)</span>. They share the same eigenvalues: if <span class="math inline">\(\bv\)</span> is an eigenvector of <span class="math inline">\(\mathbf{L}_{\mathrm{sym}}\)</span> with eigenvalue <span class="math inline">\(\lambda\)</span>, then <span class="math inline">\(\bD^{-1/2}\bv\)</span> is an eigenvector of <span class="math inline">\(\mathbf{L}_{\mathrm{rw}}\)</span> with the same <span class="math inline">\(\lambda\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The random-walk Laplacian <span class="math inline">\(\mathbf{L}_{\mathrm{rw}} = \bI - \bP\)</span> where <span class="math inline">\(\bP = \bD^{-1}\bA\)</span> is the transition matrix for the simple random walk (see ). Its eigenvalues <span class="math inline">\(\lambda_i(\mathbf{L}_{\mathrm{rw}}) = 1 - \lambda_i(\bP)\)</span> directly measure mixing rates: the spectral gap of <span class="math inline">\(\bP\)</span> equals the Fiedler value of <span class="math inline">\(\mathbf{L}_{\mathrm{rw}}\)</span>. Using <span class="math inline">\(\mathbf{L}_{\mathrm{sym}}\)</span> (which is symmetric) allows stable symmetric eigensolvers even though <span class="math inline">\(\bP\)</span> is not symmetric for non-regular graphs.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Normalized Laplacians and irregular graphs)</strong> For the star graph <span class="math inline">\(K_{1,4}\)</span> (one hub connected to four leaves):</p>
+<ol type="1">
+<li><p>Compute <span class="math inline">\(\bL\)</span>, <span class="math inline">\(\mathbf{L}_{\mathrm{sym}}\)</span>, and <span class="math inline">\(\mathbf{L}_{\mathrm{rw}}\)</span> by hand.</p></li>
+<li><p>Find the eigenvalues of <span class="math inline">\(\bL\)</span> and <span class="math inline">\(\mathbf{L}_{\mathrm{sym}}\)</span> using <code>scipy.linalg.eigh</code>. Do the two matrices have the same eigenvalues? The same eigenvectors?</p></li>
+<li><p>The hub vertex has degree 4, the leaves degree 1. How does <span class="math inline">\(\mathbf{L}_{\mathrm{sym}}\)</span> compensate for this imbalance relative to <span class="math inline">\(\bL\)</span>?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="courant-fischer-and-graph-cuts" class="level2" data-number="29.3">
+<h2 data-number="29.3" class="anchored" data-anchor-id="courant-fischer-and-graph-cuts"><span class="header-section-number">29.3</span> Courant-Fischer and Graph Cuts</h2>
+<p>The Fiedler value <span class="math inline">\(\lambda_2\)</span> is the key spectral quantity for graph connectivity, but to use it for graph partitioning we need a precise characterization of <span class="math inline">\(\lambda_2\)</span> as a variational problem. The Courant-Fischer theorem provides this, and the resulting variational formula reveals a deep connection between the spectral relaxation of the NP-hard graph bisection problem and the Fiedler vector.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Courant-Fischer Min-Max
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\bB \in \fR^{n\times n}\)</span> be symmetric with eigenvalues <span class="math inline">\(\lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n\)</span> and orthonormal eigenvectors <span class="math inline">\(\bv_1, ..., \bv_n\)</span>. For each <span class="math inline">\(k = 1, ..., n\)</span>: <span class="math display">\[\lambda_k = \min_{\substack{\mathcal{S} \subseteq \fR^n \\ \dim(\mathcal{S}) = k}} \max_{\bx \in \mathcal{S},\, \bx \neq \bzero} \frac{\bx^T\bB\bx}{\bx^T\bx}.\]</span> In particular, <span class="math inline">\(\lambda_1 = \min_{\bx \neq \bzero} \frac{\bx^T\bB\bx}{\bx^T\bx}\)</span> and <span class="math inline">\(\lambda_n = \max_{\bx \neq \bzero} \frac{\bx^T\bB\bx}{\bx^T\bx}\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Step 1: Lower bound.</strong> Fix any <span class="math inline">\(k\)</span>-dimensional subspace <span class="math inline">\(\mathcal{S}\)</span>. It must intersect <span class="math inline">\(\mathrm{span}\{\bv_k, \bv_{k+1},..., \bv_n\}\)</span> nontrivially (both spaces together span at least <span class="math inline">\(n\)</span> dimensions, and their sum has dimension at most <span class="math inline">\(n\)</span>, so they must share a nonzero vector). Take any <span class="math inline">\(\bx \neq \bzero\)</span> in this intersection; writing <span class="math inline">\(\bx = \sum_{i=k}^n c_i\bv_i\)</span>: <span class="math display">\[\frac{\bx^T\bB\bx}{\bx^T\bx} = \frac{\sum_{i=k}^n \lambda_i c_i^2}{\sum_{i=k}^n c_i^2} \geq \lambda_k.\]</span> So <span class="math inline">\(\max_{\bx \in \mathcal{S}} \frac{\bx^T\bB\bx}{\bx^T\bx} \geq \lambda_k\)</span> for every <span class="math inline">\(\mathcal{S}\)</span>, giving <span class="math inline">\(\min_{\mathcal{S}}\max \geq \lambda_k\)</span>.</p>
+<p><strong>Step 2: Achievability.</strong> Take <span class="math inline">\(\mathcal{S}^* = \mathrm{span}\{\bv_1,...,\bv_k\}\)</span>. For any <span class="math inline">\(\bx \in \mathcal{S}^*\)</span>, <span class="math inline">\(\bx = \sum_{i=1}^k c_i\bv_i\)</span>, so <span class="math inline">\(\frac{\bx^T\bB\bx}{\bx^T\bx} = \frac{\sum_{i=1}^k\lambda_i c_i^2}{\sum c_i^2} \leq \lambda_k\)</span>. The maximum over <span class="math inline">\(\bx \in \mathcal{S}^*\)</span> is exactly <span class="math inline">\(\lambda_k\)</span> (achieved by <span class="math inline">\(\bx = \bv_k\)</span>). Therefore <span class="math inline">\(\min_{\mathcal{S}}\max = \lambda_k\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Applied to the graph Laplacian <span class="math inline">\(\bL\)</span> with the constraint <span class="math inline">\(\bx \perp \mathbf{1}\)</span> (since <span class="math inline">\(\bv_1 = \mathbf{1}/\sqrt{n}\)</span> is the trivial eigenvector), Courant-Fischer gives: <span class="math display">\[\lambda_2 = \min_{\bx \perp \mathbf{1},\, \bx \neq \bzero} \frac{\bx^T\bL\bx}{\bx^T\bx} = \min_{\bx \perp \mathbf{1},\, \bx \neq \bzero} \frac{\displaystyle\sum_{(i,j)\in E}w_{ij}(x_i-x_j)^2}{\displaystyle\sum_i x_i^2}.\]</span> The Fiedler vector <span class="math inline">\(\bv_2\)</span> is the smooth, zero-mean signal that maximally respects the graph structure.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Courant-Fischer in practice)</strong> For the path graph <span class="math inline">\(P_5\)</span>:</p>
+<ol type="1">
+<li><p>Use the result above to find <span class="math inline">\(\lambda_2\)</span> by minimizing the Rayleigh quotient <span class="math inline">\(\frac{\bx^T\bL\bx}{\bx^T\bx}\)</span> numerically over vectors <span class="math inline">\(\bx \perp \mathbf{1}\)</span>. Use <code>scipy.optimize.minimize</code> with a projection step to enforce the constraint.</p></li>
+<li><p>Compare to <code>scipy.linalg.eigh(L)</code>’s second eigenvalue. They should match.</p></li>
+<li><p>The barbell graph consists of two copies of <span class="math inline">\(K_3\)</span> joined by a single edge. Build it in NumPy, compute <span class="math inline">\(\lambda_2\)</span>, and plot the Fiedler vector. What does the Fiedler vector reveal about the graph structure?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Graph Cut
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a partition of <span class="math inline">\(V\)</span> into disjoint sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B = V \setminus A\)</span>, the <em>cut</em> is <span class="math inline">\(\mathrm{cut}(A,B) = \sum_{i\in A, j\in B} w_{ij}\)</span>. Two normalized cut objectives are:</p>
+<ul>
+<li><p><em>RatioCut</em>: <span class="math inline">\(\mathrm{RatioCut}(A,B) = \mathrm{cut}(A,B)\left(\frac{1}{|A|} + \frac{1}{|B|}\right)\)</span>.</p></li>
+<li><p><em>NCut (Normalized Cut)</em>: <span class="math inline">\(\mathrm{NCut}(A,B) = \mathrm{cut}(A,B)\left(\frac{1}{\mathrm{vol}(A)} + \frac{1}{\mathrm{vol}(B)}\right)\)</span>, where <span class="math inline">\(\mathrm{vol}(A) = \sum_{i\in A} d_i\)</span>.</p></li>
+</ul>
+<p>Both objectives are NP-hard to minimize over all partitions.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Spectral Relaxation of RatioCut
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The RatioCut minimization over binary partitions relaxes to: find <span class="math inline">\(\bx \perp \mathbf{1}\)</span>, <span class="math inline">\(\|\bx\| = \sqrt{n}\)</span>, minimizing <span class="math inline">\(\bx^T\bL\bx\)</span>. The solution is the Fiedler vector <span class="math inline">\(\bv_2\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Step 1: Binary formulation.</strong> For partition <span class="math inline">\((A,B)\)</span>, define the indicator vector <span class="math inline">\(\mathbf{h} \in \fR^n\)</span> by <span class="math inline">\(h_i = \sqrt{|B|/|A|}\)</span> if <span class="math inline">\(i \in A\)</span> and <span class="math inline">\(h_i = -\sqrt{|A|/|B|}\)</span> if <span class="math inline">\(i \in B\)</span>. A direct calculation shows <span class="math inline">\(\mathbf{h} \perp \mathbf{1}\)</span>, <span class="math inline">\(\|\mathbf{h}\|^2 = n\)</span>, and <span class="math display">\[\mathbf{h}^T\bL\mathbf{h} = \mathrm{cut}(A,B)\left(\frac{1}{|A|} + \frac{1}{|B|}\right)\cdot n = n\,\mathrm{RatioCut}(A,B).\]</span></p>
+<p><strong>Step 2: Relaxation.</strong> The NP-hard problem <span class="math inline">\(\min_{\mathbf{h} \text{ binary}} \mathbf{h}^T\bL\mathbf{h}\)</span> relaxes to <span class="math inline">\(\min_{\bx \perp \mathbf{1}, \|\bx\|=\sqrt{n}} \bx^T\bL\bx\)</span>, allowing <span class="math inline">\(\bx\)</span> to take continuous values. By Courant-Fischer (the result above), the minimizer is <span class="math inline">\(\bx = \sqrt{n}\,\bv_2\)</span>.</p>
+<p><strong>Step 3: Round to partition.</strong> From the relaxed solution <span class="math inline">\(\bv_2\)</span>, recover a partition by thresholding: assign vertex <span class="math inline">\(i\)</span> to <span class="math inline">\(A\)</span> if <span class="math inline">\(v_{2,i} \geq 0\)</span> and to <span class="math inline">\(B\)</span> otherwise.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The spectral clustering algorithm uses this approach. Build the graph, compute the <span class="math inline">\(k\)</span> smallest eigenvectors <span class="math inline">\(\bv_2, ..., \bv_{k+1}\)</span> of <span class="math inline">\(\bL\)</span> (or <span class="math inline">\(\mathbf{L}_{\mathrm{sym}}\)</span> for the NCut objective), form the matrix <span class="math inline">\(\bZ = [\bv_2 \mid \cdots \mid \bv_{k+1}] \in \fR^{n\times k}\)</span>, and cluster the rows of <span class="math inline">\(\bZ\)</span> using <span class="math inline">\(k\)</span>-means. The eigenvectors map vertices to a low-dimensional space where Euclidean clustering captures graph community structure.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example: Barbell Graph and Fiedler Vector
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The barbell graph consists of two copies of <span class="math inline">\(K_5\)</span> joined by a single bridge edge.</p>
+<p>The Fiedler value <span class="math inline">\(\lambda_2\)</span> is very small (the bridge edge is a bottleneck), and the Fiedler vector takes approximately <span class="math inline">\(-1/\sqrt{5}\)</span> on the left clique and <span class="math inline">\(+1/\sqrt{5}\)</span> on the right, cleanly exposing the natural partition.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Spectral clustering on circles)</strong> Generate <span class="math inline">\(n = 200\)</span> points sampled from two concentric circles using <code>sklearn.datasets.make\_circles(n\_samples=200, noise=0.05, factor=0.4)</code>.</p>
+<ol type="1">
+<li><p>Apply standard <span class="math inline">\(k\)</span>-means (<span class="math inline">\(k=2\)</span>) directly to the 2D coordinates. Does it succeed?</p></li>
+<li><p>Construct a Gaussian similarity graph: <span class="math inline">\(w_{ij} = \exp(-\|x_i - x_j\|^2/(2\sigma^2))\)</span> for <span class="math inline">\(\sigma = 0.3\)</span>; zero out edges with <span class="math inline">\(\|x_i - x_j\| &gt; 3\sigma\)</span>.</p></li>
+<li><p>Build <span class="math inline">\(\mathbf{L}_{\mathrm{sym}}\)</span>, compute its two smallest eigenvectors, and run <span class="math inline">\(k\)</span>-means on the rows of <span class="math inline">\([\bv_1, \bv_2]\)</span>. Compare to the direct <span class="math inline">\(k\)</span>-means result.</p></li>
+<li><p>Plot <span class="math inline">\(\lambda_2\)</span> vs.&nbsp;<span class="math inline">\(\sigma \in \{0.1, 0.2, 0.3, 0.5, 1.0\}\)</span>. Which <span class="math inline">\(\sigma\)</span> gives the best-separated clusters?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="random-walks-and-spectral-gap" class="level2" data-number="29.4">
+<h2 data-number="29.4" class="anchored" data-anchor-id="random-walks-and-spectral-gap"><span class="header-section-number">29.4</span> Random Walks and Spectral Gap</h2>
+<p>The matrix <span class="math inline">\(\bP = \bD^{-1}\bA\)</span> defines the transition probabilities for a simple random walk on the graph: from vertex <span class="math inline">\(i\)</span>, move to neighbor <span class="math inline">\(j\)</span> with probability <span class="math inline">\(w_{ij}/d_i\)</span>. This is a Markov chain (see for the full theory), and the spectral properties of the Laplacian directly control its mixing behavior.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Random Walk on a Graph
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <em>simple random walk</em> on <span class="math inline">\(G\)</span> is the Markov chain with column-stochastic transition matrix <span class="math display">\[\bP = \bD^{-1}\bA, \qquad P_{ij} = \frac{w_{ij}}{d_j} \quad \text{if } (i,j)\in E, \quad 0 \text{ otherwise}.\]</span> The matrix <span class="math inline">\(\bP\)</span> is related to the random-walk Laplacian by <span class="math inline">\(\mathbf{L}_{\mathrm{rw}} = \bI - \bP\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a connected, non-bipartite graph, the random walk chain is irreducible and aperiodic (ergodic in the sense of the result above). By the Perron-Frobenius theorem (the result above), it has a unique stationary distribution. For the simple random walk, detailed balance holds with <span class="math inline">\(\boldsymbol{\pi} = \boldsymbol{d}/\|\boldsymbol{d}\|_1\)</span> where <span class="math inline">\(\boldsymbol{d} = (d_1,...,d_n)^T\)</span>: in this sense the walk is reversible. For a <span class="math inline">\(d\)</span>-regular graph, <span class="math inline">\(\boldsymbol{\pi} = \mathbf{1}/n\)</span> (uniform distribution). The spectral gap of <span class="math inline">\(\bP\)</span> equals the Fiedler value <span class="math inline">\(\lambda_2(\mathbf{L}_{\mathrm{rw}})\)</span>, so the mixing time <span class="math inline">\(k_\varepsilon \approx \log(n)/\lambda_2\)</span> is determined entirely by the graph’s spectral connectivity.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Random walk mixing on graphs)</strong> For the path <span class="math inline">\(P_{10}\)</span>, cycle <span class="math inline">\(C_{10}\)</span>, and complete graph <span class="math inline">\(K_{10}\)</span>:</p>
+<ol type="1">
+<li><p>Build <span class="math inline">\(\bP = \bD^{-1}\bA\)</span> and compute the spectral gap <span class="math inline">\(\delta = 1 - |\lambda_2(\bP)|\)</span> for each.</p></li>
+<li><p>Simulate the random walk for 200 steps from <span class="math inline">\(\bx^{(0)} = \be_1\)</span>. Plot <span class="math inline">\(\|\bx^{(k)} - \boldsymbol{\pi}\|_1\)</span> vs.&nbsp;<span class="math inline">\(k\)</span> on a semi-log scale.</p></li>
+<li><p>The theoretical mixing time is <span class="math inline">\(k_\varepsilon \approx \log(n)/\delta\)</span> for <span class="math inline">\(\varepsilon = 0.01\)</span>. How does the empirical mixing time compare across the three graphs?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="pagerank" class="level2" data-number="29.5">
+<h2 data-number="29.5" class="anchored" data-anchor-id="pagerank"><span class="header-section-number">29.5</span> PageRank</h2>
+<p>PageRank, developed by Brin and Page at Google, measures the importance of web pages by modeling a random surfer navigating the web graph. Its mathematical foundation is the Perron-Frobenius theorem applied to a specially constructed column-stochastic matrix. The algorithm reduces to power iteration on the random walk chain, connecting web search to the spectral graph theory developed in this section.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Web Graph and Random Surfer
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The web is modeled as a directed graph <span class="math inline">\(G = (V,E)\)</span> where <span class="math inline">\(V\)</span> is the set of <span class="math inline">\(N\)</span> pages and <span class="math inline">\((p_j, p_i) \in E\)</span> if page <span class="math inline">\(p_j\)</span> links to page <span class="math inline">\(p_i\)</span>. Let <span class="math inline">\(L(p_j)\)</span> denote the number of outbound links from <span class="math inline">\(p_j\)</span>. The <em>random surfer</em> navigates by: at each step, clicking a uniformly random outbound link from the current page (or, if the current page has no outbound links, jumping uniformly to any page).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Web graph modeling)</strong> For the 4-page web graph with edges <span class="math inline">\(P_1 \to P_2\)</span>, <span class="math inline">\(P_1 \to P_3\)</span>, <span class="math inline">\(P_2 \to P_4\)</span>, <span class="math inline">\(P_3 \to P_2\)</span>, <span class="math inline">\(P_3 \to P_4\)</span>, <span class="math inline">\(P_4 \to P_1\)</span>:</p>
+<ol type="1">
+<li><p>Draw the directed graph. Which pages are most-linked-to?</p></li>
+<li><p>Identify any dangling nodes (pages with <span class="math inline">\(L(p_j) = 0\)</span>). What should the random surfer do at a dangling node?</p></li>
+<li><p>Without any computation, rank the four pages by expected importance based on the graph structure. Record your guess to compare against the computed PageRank.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Hyperlink and Stochastic Matrices
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Define the <em>hyperlink matrix</em> <span class="math inline">\(\bH \in \fR^{N\times N}\)</span> by <span class="math inline">\(H_{ij} = 1/L(p_j)\)</span> if <span class="math inline">\(p_j\)</span> links to <span class="math inline">\(p_i\)</span> and <span class="math inline">\(L(p_j) &gt; 0\)</span>, zero otherwise. Since columns for dangling nodes (where <span class="math inline">\(L(p_j) = 0\)</span>) sum to zero, <span class="math inline">\(\bH\)</span> is not stochastic. The <em>stochastic matrix</em> <span class="math inline">\(\bS\)</span> fixes this: <span class="math display">\[S_{ij} = \begin{cases} 1/L(p_j) &amp; \text{if } (p_j, p_i) \in E \text{ and } L(p_j) &gt; 0, \\ 1/N &amp; \text{if } L(p_j) = 0 \text{ (dangling node column)}, \\ 0 &amp; \text{otherwise.}\end{cases}\]</span> Every column of <span class="math inline">\(\bS\)</span> sums to 1, so <span class="math inline">\(\bS\)</span> is column-stochastic.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The basic PageRank equation <span class="math inline">\(\mathbf{r} = \bS\mathbf{r}\)</span> requires <span class="math inline">\(\bS\)</span> to be irreducible and primitive to guarantee a unique stationary distribution. However, <span class="math inline">\(\bS\)</span> can fail both conditions: a set of pages that link only among themselves (a <em>rank sink</em>) can trap the surfer. Even with dangling node corrections, <span class="math inline">\(\bS\)</span> may have multiple eigenvalues equal to 1, making the stationary distribution non-unique and power iteration non-convergent.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Perron-Frobenius Theorem
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\mathbf{G} \in \fR^{n\times n}\)</span> be a matrix with all positive entries (<span class="math inline">\(G_{ij} &gt; 0\)</span>). Then:</p>
+<ol type="1">
+<li><p><span class="math inline">\(\mathbf{G}\)</span> has a unique largest eigenvalue <span class="math inline">\(\rho &gt; 0\)</span> (the <em>Perron root</em>) with <span class="math inline">\(\rho &gt; |\lambda_j|\)</span> for all other eigenvalues <span class="math inline">\(\lambda_j\)</span>.</p></li>
+<li><p>The corresponding eigenvector <span class="math inline">\(\bv_1\)</span> (the <em>Perron vector</em>) has all strictly positive entries and is unique up to scaling.</p></li>
+<li><p><span class="math inline">\(\rho\)</span> is a simple eigenvalue.</p></li>
+</ol>
+<p>If <span class="math inline">\(\mathbf{G}\)</span> is nonnegative, irreducible, and primitive, the same three conclusions hold.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-35-contents" aria-controls="callout-35" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-35" class="callout-35-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Step 1: Existence via Brouwer.</strong> Define the simplex <span class="math inline">\(\Delta = \{\bx \geq \bzero : \|\bx\|_1 = 1\}\)</span> and the normalized map <span class="math inline">\(T(\bx) = \mathbf{G}\bx/\|\mathbf{G}\bx\|_1\)</span>. Since <span class="math inline">\(\mathbf{G} &gt; 0\)</span>, <span class="math inline">\(T\)</span> maps <span class="math inline">\(\Delta\)</span> into its interior and is continuous, so Brouwer’s fixed-point theorem gives a <span class="math inline">\(\bv &gt; 0\)</span> with <span class="math inline">\(T(\bv) = \bv\)</span>, i.e., <span class="math inline">\(\mathbf{G}\bv = \rho\bv\)</span> for <span class="math inline">\(\rho = \|\mathbf{G}\bv\|_1 &gt; 0\)</span>.</p>
+<p><strong>Step 2: Dominance <span class="math inline">\(\rho &gt; |\lambda_j|\)</span>.</strong> For any eigenvalue <span class="math inline">\(\lambda\)</span> with eigenvector <span class="math inline">\(\bw\)</span>, let <span class="math inline">\(i^*\)</span> maximize <span class="math inline">\(|w_{i^*}| = \|\bw\|_\infty\)</span>. Then <span class="math inline">\(|\lambda||w_{i^*}| = |(\mathbf{G}\bw)_{i^*}| \leq \sum_j G_{i^*j}|w_j| &lt; |w_{i^*}|\sum_j G_{i^*j} \leq |w_{i^*}|\rho\)</span> (using <span class="math inline">\(G &gt; 0\)</span> and $= $ spectral radius). This gives <span class="math inline">\(|\lambda| &lt; \rho\)</span> strictly (since all <span class="math inline">\(G_{ij} &gt; 0\)</span> prevents equality in the second step unless <span class="math inline">\(\bw\)</span> is a multiple of <span class="math inline">\(\bv\)</span>).</p>
+<p><strong>Step 3: Uniqueness and simplicity.</strong> Since <span class="math inline">\(\rho\)</span> is strictly larger than all other eigenvalues in magnitude, its eigenspace is one-dimensional and <span class="math inline">\(\rho\)</span> is algebraically simple.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Google Matrix
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <em>Google matrix</em> introduces a <em>damping factor</em> <span class="math inline">\(d \in (0,1)\)</span> (typically <span class="math inline">\(d = 0.85\)</span>): with probability <span class="math inline">\(d\)</span> the surfer follows a random link, and with probability <span class="math inline">\(1-d\)</span> the surfer teleports to a uniformly random page. This gives <span class="math display">\[\mathbf{G} = d\,\bS + \frac{1-d}{N}\,\mathbf{J},\]</span> where <span class="math inline">\(\mathbf{J} = \mathbf{1}\mathbf{1}^T\)</span> is the <span class="math inline">\(N\times N\)</span> all-ones matrix. The PageRank vector <span class="math inline">\(\mathbf{r}\)</span> is the unique stationary distribution of <span class="math inline">\(\mathbf{G}\)</span>: <span class="math inline">\(\mathbf{G}\mathbf{r} = \mathbf{r}\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: PageRank Is Well-Posed
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Google matrix <span class="math inline">\(\mathbf{G} = d\bS + \frac{1-d}{N}\mathbf{J}\)</span> is column-stochastic, irreducible, and primitive for any <span class="math inline">\(d \in (0,1)\)</span> and any <span class="math inline">\(\bS\)</span>. By the Perron-Frobenius theorem (the result above), <span class="math inline">\(\mathbf{G}\)</span> has a unique positive stationary distribution <span class="math inline">\(\mathbf{r}\)</span> with <span class="math inline">\(\sum_i r_i = 1\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-38-contents" aria-controls="callout-38" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-38" class="callout-38-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Step 1: Column-stochastic.</strong> Since <span class="math inline">\(\bS\)</span> is column-stochastic and <span class="math inline">\(\frac{1}{N}\mathbf{J}\)</span> has all columns equal to <span class="math inline">\(\frac{1}{N}\mathbf{1}\)</span> (which sums to 1), the convex combination <span class="math inline">\(\mathbf{G} = d\bS + (1-d)\frac{\mathbf{J}}{N}\)</span> is also column-stochastic.</p>
+<p><strong>Step 2: All entries positive.</strong> The term <span class="math inline">\(\frac{1-d}{N}\mathbf{J}\)</span> has all entries equal to <span class="math inline">\(\frac{1-d}{N} &gt; 0\)</span> (since <span class="math inline">\(d &lt; 1\)</span>). Adding any nonnegative matrix <span class="math inline">\(d\bS \geq 0\)</span> preserves positivity, so all entries of <span class="math inline">\(\mathbf{G}\)</span> are at least <span class="math inline">\(\frac{1-d}{N} &gt; 0\)</span>.</p>
+<p><strong>Step 3: Perron-Frobenius applies.</strong> Since <span class="math inline">\(\mathbf{G}\)</span> has all positive entries, the result above applies: the Perron root is <span class="math inline">\(\rho = 1\)</span> (column-stochastic implies <span class="math inline">\(\mathbf{1}^T\mathbf{G} = \mathbf{1}^T\)</span>, so <span class="math inline">\(\rho = 1\)</span>), it is simple, and the Perron vector <span class="math inline">\(\mathbf{r} &gt; 0\)</span> is unique up to scaling. Normalizing to <span class="math inline">\(\|\mathbf{r}\|_1 = 1\)</span> gives the unique PageRank vector.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The PageRank power iteration <span class="math inline">\(\mathbf{r}^{(k+1)} = \mathbf{G}\mathbf{r}^{(k)}\)</span> does not require forming <span class="math inline">\(\mathbf{G}\)</span> explicitly (which is dense). Using <span class="math inline">\(\mathbf{J}\mathbf{r}^{(k)} = \mathbf{1}\)</span> (since <span class="math inline">\(\|\mathbf{r}^{(k)}\|_1 = 1\)</span>): <span class="math display">\[\mathbf{r}^{(k+1)} = d\,\bS\mathbf{r}^{(k)} + \frac{1-d}{N}\mathbf{1}.\]</span> Only the sparse <span class="math inline">\(\bS\)</span> multiply is needed. The convergence rate is <span class="math inline">\(d\cdot|\lambda_2(\bS)|\)</span>, and since all eigenvalues of <span class="math inline">\(\mathbf{G}\)</span> beyond the first satisfy <span class="math inline">\(|\lambda_i(\mathbf{G})| \leq d\)</span>, the spectral gap is at least <span class="math inline">\(1 - d = 0.15\)</span> for <span class="math inline">\(d = 0.85\)</span>. With <span class="math inline">\(n \sim 10^9\)</span> pages, about 130 iterations suffice.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(PageRank by hand and by power iteration)</strong> For the 4-page web graph from the first exercise in this subsubsection:</p>
+<ol type="1">
+<li><p>Construct <span class="math inline">\(\bS\)</span> (column-stochastic). Are there dangling nodes?</p></li>
+<li><p>Set <span class="math inline">\(d = 0.85\)</span> and build <span class="math inline">\(\mathbf{G}\)</span>. Verify all columns sum to 1 and all entries are positive.</p></li>
+<li><p>Run 10 steps of <span class="math inline">\(\mathbf{r}^{(k+1)} = d\bS\mathbf{r}^{(k)} + \frac{1-d}{N}\mathbf{1}\)</span> from <span class="math inline">\(\mathbf{r}^{(0)} = \frac{1}{4}\mathbf{1}\)</span>. Report <span class="math inline">\(\mathbf{r}^{(k)}\)</span> at steps 1, 5, and 10.</p></li>
+<li><p>Solve for the exact <span class="math inline">\(\mathbf{r}\)</span> using <code>numpy.linalg.eig(G)</code> and compare to your power iteration result. Which page is most important? Does it match your initial guess?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Convergence rate and damping factor)</strong> For the 4-page graph above:</p>
+<ol type="1">
+<li><p>Compute all eigenvalues of <span class="math inline">\(\mathbf{G}\)</span> for <span class="math inline">\(d = 0.85\)</span>. What is the spectral gap <span class="math inline">\(1 - |\lambda_2(\mathbf{G})|\)</span>?</p></li>
+<li><p>Repeat for <span class="math inline">\(d \in \{0.5, 0.7, 0.85, 0.95\}\)</span>. Plot the spectral gap vs.&nbsp;<span class="math inline">\(d\)</span>. For which <span class="math inline">\(d\)</span> does power iteration converge fastest?</p></li>
+<li><p>For a disconnected graph with two components (no cross-links), <span class="math inline">\(\bS\)</span> has eigenvalue 1 with multiplicity 2. Explain why the teleportation term <span class="math inline">\(\frac{1-d}{N}\mathbf{J}\)</span> is essential: what happens to the second eigenvalue of <span class="math inline">\(\mathbf{G}\)</span> as <span class="math inline">\(d \to 1\)</span>?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Large-scale PageRank implementation)</strong> Implement the efficient PageRank iteration using sparse matrices:</p>
+<ol type="1">
+<li><p>Generate a random directed graph on <span class="math inline">\(N = 1000\)</span> nodes using <code>networkx.gnm\_random\_graph(1000, 5000, directed=True)</code>. Identify and handle dangling nodes.</p></li>
+<li><p>Store <span class="math inline">\(\bS\)</span> as a SciPy CSR sparse matrix. Implement the iteration <span class="math inline">\(\mathbf{r}^{(k+1)} = d\bS\mathbf{r}^{(k)} + \frac{1-d}{N}\mathbf{1}\)</span> and run until <span class="math inline">\(\|\mathbf{r}^{(k+1)} - \mathbf{r}^{(k)}\|_1 &lt; 10^{-8}\)</span>.</p></li>
+<li><p>Plot the <span class="math inline">\(\ell^1\)</span> convergence gap vs.&nbsp;iteration on a semi-log scale. Measure the empirical convergence rate and compare to the theoretical bound <span class="math inline">\(d = 0.85\)</span>.</p></li>
+<li><p>Report the top-10 pages by PageRank. How does the ranking change when <span class="math inline">\(d\)</span> is varied from 0.5 to 0.95?</p></li>
+</ol>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../applications/pca.html" class="pagination-link" aria-label="Principal Component Analysis via SVD">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../applications/operators.html" class="pagination-link" aria-label="Linear Operators and the Poisson Equation">
+        <span class="nav-page-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/graphs.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
+
+
+
+
+</body></html>

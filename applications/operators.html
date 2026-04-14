@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>30&nbsp; Linear Operators and the Poisson Equation – Scientific Computing</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../applications/fourier.html" rel="next">
+<link href="../applications/graphs.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b264dfeb48c53531446732b0b956c16e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-80d606c5edd7687d9c87341935aee57f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-b264dfeb48c53531446732b0b956c16e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+window.MathJax = {
+  tex: {
+    macros: {
+      fR: ["\\mathbb{R}"],
+      fC: ["\\mathbb{C}"],
+      fZ: ["\\mathbb{Z}"],
+      bx: ["\\boldsymbol{x}"],
+      bX: ["\\mathbf{X}"],
+      by: ["\\boldsymbol{y}"],
+      bY: ["\\mathbf{Y}"],
+      bL: ["\\mathbf{L}"],
+      bU: ["\\mathbf{U}"],
+      bV: ["\\mathbf{V}"],
+      bH: ["\\mathbf{H}"],
+      bI: ["\\mathbf{I}"],
+      bv: ["\\boldsymbol{v}"],
+      ba: ["\\boldsymbol{a}"],
+      bA: ["\\mathbf{A}"],
+      bQ: ["\\mathbf{Q}"],
+      bR: ["\\mathbf{R}"],
+      bP: ["\\mathbf{P}"],
+      bD: ["\\mathbf{D}"],
+      bM: ["\\mathbf{M}"],
+      bS: ["\\mathbf{S}"],
+      bZ: ["\\mathbf{Z}"],
+      bsigma: ["\\mathbf{\\Sigma}"],
+      bE: ["\\mathbf{E}"],
+      bT: ["\\mathbf{T}"],
+      bb: ["\\boldsymbol{b}"],
+      bz: ["\\boldsymbol{z}"],
+      bB: ["\\mathbf{B}"],
+      br: ["\\boldsymbol{r}"],
+      bu: ["\\boldsymbol{u}"],
+      bw: ["\\boldsymbol{w}"],
+      bq: ["\\boldsymbol{q}"],
+      bs: ["\\boldsymbol{s}"],
+      bg: ["\\boldsymbol{g}"],
+      bp: ["\\boldsymbol{p}"],
+      bc: ["\\boldsymbol{c}"],
+      bzero: ["\\mathbf{0}"],
+      be: ["\\boldsymbol{e}"],
+      bJ: ["\\mathbf{J}"],
+      bG: ["\\mathbf{G}"],
+      bK: ["\\mathbf{K}"],
+      argmin: ["\\operatorname{arg\\,min}"],
+      argmax: ["\\operatorname{arg\\,max}"],
+      printmatsq: ["\\begin{pmatrix} #1_{11} & \\cdots & #1_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ #1_{n1} & \\cdots & #1_{nn} \\end{pmatrix}", 1],
+      printmat:   ["\\begin{pmatrix} #1_{11} & \\cdots & #1_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ #1_{m1} & \\cdots & #1_{mn} \\end{pmatrix}", 1],
+      printrowvec: ["\\begin{pmatrix} #1_1 & \\cdots & #1_n \\end{pmatrix}", 1],
+      printcolvec: ["\\begin{pmatrix} #1_1 \\\\ \\vdots \\\\ #1_n \\end{pmatrix}", 1],
+      printmatrow: ["\\begin{pmatrix} \\cdots & \\boldsymbol{#1}_1 & \\cdots \\\\ & \\vdots & \\\\ \\cdots & \\boldsymbol{#1}_n & \\cdots \\end{pmatrix}", 1],
+      printmatcol: ["\\begin{pmatrix} \\vdots & & \\vdots \\\\ \\boldsymbol{#1}_1 & \\cdots & \\boldsymbol{#1}_n \\\\ \\vdots & & \\vdots \\end{pmatrix}", 1]
+    }
+  }
+};
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/operators.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Fundamentals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/math-notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Mathematical Notation and Proof Techniques</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/vectors-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vectors and Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrix Arithmetic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/norms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to Norms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/complexity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Computational Complexity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/floating-point.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Floating Point Arithmetic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/numpy-primer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Python and NumPy Primer</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Direct Methods for Linear Systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/linear-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linearity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/lu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">LU Factorization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/spd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Symmetric Positive Definite (SPD) Matrices</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Orthogonality and Least Squares</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/orthogonal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Orthogonal Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/norms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Vector and Matrix Norms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Stability and Condition Number</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Overdetermined Systems and Least Squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Eigenvalues and the SVD</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/eigenvalues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Eigenvalues and Eigenvectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/lanczos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lanczos Algorithm</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/jacobi-eig.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Jacobi Eigenvalue Algorithm</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Iterative Methods for Linear Systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/iterative.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Iterative Methods for Linear Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/conjugate-gradient.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/gmres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GMRES</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/quadrature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/root-finding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Root Finding</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">ODEs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../odes/ode-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Numerical Methods for ODEs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/operators.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/fourier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/markov.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#from-differential-operators-to-matrices" id="toc-from-differential-operators-to-matrices" class="nav-link active" data-scroll-target="#from-differential-operators-to-matrices"><span class="header-section-number">30.1</span> From Differential Operators to Matrices</a></li>
+  <li><a href="#the-discrete-laplacian" id="toc-the-discrete-laplacian" class="nav-link" data-scroll-target="#the-discrete-laplacian"><span class="header-section-number">30.2</span> The Discrete Laplacian</a></li>
+  <li><a href="#operator-norms-and-boundedness" id="toc-operator-norms-and-boundedness" class="nav-link" data-scroll-target="#operator-norms-and-boundedness"><span class="header-section-number">30.3</span> Operator Norms and Boundedness</a></li>
+  <li><a href="#point-spectrum-and-continuous-spectrum" id="toc-point-spectrum-and-continuous-spectrum" class="nav-link" data-scroll-target="#point-spectrum-and-continuous-spectrum"><span class="header-section-number">30.4</span> Point Spectrum and Continuous Spectrum</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/operators.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/operators.html"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>This subsection is a supplement to Lab 4, which asks you to solve the Poisson heat equation numerically. The lab will have you build a large sparse matrix and solve a linear system with it. Before doing that, it is worth understanding where that matrix comes from and why it has the properties it does. We will see that it is a finite-dimensional approximation of a differential operator, and that studying its eigenvalues gives insight into both the physics of the problem and the difficulty of solving it numerically. Spectral theory, which you have already seen for matrices, extends to this setting in a way that is both natural and surprising.</p>
+<section id="from-differential-operators-to-matrices" class="level2" data-number="30.1">
+<h2 data-number="30.1" class="anchored" data-anchor-id="from-differential-operators-to-matrices"><span class="header-section-number">30.1</span> From Differential Operators to Matrices</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Linear Operator
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> be vector spaces of functions. A map <span class="math inline">\(\mathcal{A} : X \to Y\)</span> is a <em>linear operator</em> if for all <span class="math inline">\(u, v \in X\)</span> and scalars <span class="math inline">\(\alpha\)</span>: <span class="math display">\[\mathcal{A}(\alpha u + v) = \alpha\,\mathcal{A}u + \mathcal{A}v.\]</span> Every matrix <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> is a linear operator from <span class="math inline">\(\fR^n\)</span> to <span class="math inline">\(\fR^m\)</span>. Differential operators such as <span class="math inline">\(\frac{d}{dx}\)</span> and <span class="math inline">\(\nabla^2\)</span> are linear operators on function spaces (e.g., on the space of twice-differentiable functions on <span class="math inline">\([0,1]\)</span>).</p>
+</div>
+</div>
+<p>The central idea of numerical methods for PDEs is <em>discretization</em>: replace an infinite-dimensional operator by a finite matrix that approximates it on a grid. The accuracy of the approximation improves as the grid is refined (grid spacing <span class="math inline">\(h \to 0\)</span>), and the resulting matrices get larger (<span class="math inline">\(n \to \infty\)</span>). Everything in Lab 4 is an instance of this: the <span class="math inline">\(n^2 \times n^2\)</span> matrix you will assemble is the <span class="math inline">\(n\)</span>-point discretization of the continuous Laplacian <span class="math inline">\(-\nabla^2\)</span>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Finite Difference Approximation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <em>centered second-difference</em> approximation to <span class="math inline">\(u''(x)\)</span> at a grid point <span class="math inline">\(x_k\)</span> with spacing <span class="math inline">\(h\)</span> is <span class="math display">\[u''(x_k) \approx \frac{u(x_{k-1}) - 2u(x_k) + u(x_{k+1})}{h^2}.\]</span> To see why, expand <span class="math inline">\(u\)</span> at <span class="math inline">\(x_k \pm h\)</span> via Taylor series: <span class="math display">\[u(x_k + h) = u(x_k) + h u'(x_k) + \tfrac{h^2}{2}u''(x_k) + \tfrac{h^3}{6}u'''(x_k) + O(h^4),\]</span> <span class="math display">\[u(x_k - h) = u(x_k) - h u'(x_k) + \tfrac{h^2}{2}u''(x_k) - \tfrac{h^3}{6}u'''(x_k) + O(h^4).\]</span> Adding these two equations cancels the odd-order terms, leaving <span class="math display">\[u(x_k + h) + u(x_k - h) = 2u(x_k) + h^2 u''(x_k) + O(h^4).\]</span> Rearranging gives the formula above, with error <span class="math inline">\(O(h^2)\)</span>. This is called <em>second-order accuracy</em>: halving <span class="math inline">\(h\)</span> reduces the error by a factor of four.</p>
+</div>
+</div>
+</section>
+<section id="the-discrete-laplacian" class="level2" data-number="30.2">
+<h2 data-number="30.2" class="anchored" data-anchor-id="the-discrete-laplacian"><span class="header-section-number">30.2</span> The Discrete Laplacian</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: 1-D Discrete Laplacian
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On <span class="math inline">\([0,1]\)</span> with <span class="math inline">\(n\)</span> interior grid points <span class="math inline">\(x_k = kh\)</span>, <span class="math inline">\(h = 1/(n+1)\)</span>, and homogeneous Dirichlet boundary conditions <span class="math inline">\(u(0) = u(1) = 0\)</span>, the operator <span class="math inline">\(-d^2/dx^2\)</span> is discretized by applying the finite difference formula at each interior point. The result is the tridiagonal linear system <span class="math inline">\(\bT\mathbf{u} = \mathbf{f}\)</span>, where <span class="math display">\[\bT = \frac{1}{h^2}
+  \begin{pmatrix}
+    2  &amp; -1 &amp;        &amp;        \\
+    -1 &amp;  2 &amp; -1     &amp;        \\
+       &amp; \ddots &amp; \ddots &amp; \ddots \\
+       &amp;        &amp; -1     &amp; 2
+  \end{pmatrix}
+  \in \fR^{n \times n}.\]</span> The <span class="math inline">\(-1\)</span> off-diagonals come from the neighbor terms <span class="math inline">\(u(x_{k\pm1})\)</span>; the <span class="math inline">\(2\)</span> on the diagonal comes from <span class="math inline">\(-2u(x_k)\)</span>; and the <span class="math inline">\(1/h^2\)</span> scaling comes from the approximation formula. The boundary values <span class="math inline">\(u(0) = u(1) = 0\)</span> are incorporated by simply omitting them from the system.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Eigenvalues of the 1-D Discrete Laplacian
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The matrix <span class="math inline">\(\bT \in \fR^{n \times n}\)</span> has eigenvalues <span class="math display">\[\lambda_k = \frac{4}{h^2}\sin^2\!\left(\frac{k\pi}{2(n+1)}\right), \quad k = 1, ..., n,\]</span> with corresponding eigenvectors <span class="math inline">\((\bv_k)_j = \sin(jk\pi h)\)</span>, <span class="math inline">\(j = 1, ..., n\)</span>. As <span class="math inline">\(n \to \infty\)</span>, these eigenvalues satisfy <span class="math inline">\(\lambda_k \to k^2\pi^2\)</span>, which are exactly the eigenvalues of the continuous operator <span class="math inline">\(-d^2/dx^2\)</span> on <span class="math inline">\([0,1]\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We verify by direct substitution that <span class="math inline">\(\bT\bv_k = \lambda_k \bv_k\)</span>.</p>
+<p><strong>Step 1: Compute the <span class="math inline">\(j\)</span>-th entry of <span class="math inline">\(\bT\bv_k\)</span>.</strong></p>
+<p>The tridiagonal structure gives <span class="math display">\[(\bT\bv_k)_j = \frac{1}{h^2}\bigl(-\sin((j-1)k\pi h) + 2\sin(jk\pi h) - \sin((j+1)k\pi h)\bigr).\]</span></p>
+<p><strong>Step 2: Apply a trigonometric identity.</strong></p>
+<p>Using the sum-to-product identity <span class="math inline">\(-\sin(\theta - \phi) + 2\sin\theta - \sin(\theta + \phi) = 2\sin\theta(1 - \cos\phi)\)</span> with <span class="math inline">\(\theta = jk\pi h\)</span> and <span class="math inline">\(\phi = k\pi h\)</span>, the expression becomes <span class="math display">\[(\bT\bv_k)_j = \frac{2(1 - \cos(k\pi h))}{h^2}\sin(jk\pi h).\]</span></p>
+<p><strong>Step 3: Simplify using the half-angle identity.</strong></p>
+<p>Since <span class="math inline">\(1 - \cos\phi = 2\sin^2(\phi/2)\)</span>, we get <span class="math display">\[(\bT\bv_k)_j = \frac{4}{h^2}\sin^2\!\left(\frac{k\pi h}{2}\right) \cdot (\bv_k)_j = \lambda_k\,(\bv_k)_j.\]</span> This confirms <span class="math inline">\(\bv_k\)</span> is an eigenvector with eigenvalue <span class="math inline">\(\lambda_k\)</span>.</p>
+<p><strong>Step 4: The continuous limit.</strong></p>
+<p>As <span class="math inline">\(h \to 0\)</span>, use <span class="math inline">\(\sin(\theta) \approx \theta\)</span> for small <span class="math inline">\(\theta\)</span>: <span class="math display">\[\lambda_k = \frac{4}{h^2}\sin^2\!\left(\frac{k\pi h}{2}\right)
+  \approx \frac{4}{h^2} \cdot \frac{k^2\pi^2 h^2}{4} = k^2\pi^2.\]</span> The discrete eigenvalues converge to the continuous eigenvalues <span class="math inline">\(k^2\pi^2\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: 2-D Discrete Laplacian (Poisson Equation)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>On the unit square <span class="math inline">\([0,1]^2\)</span> with an <span class="math inline">\(n \times n\)</span> interior grid (<span class="math inline">\(N = n^2\)</span> unknowns), the five-point finite difference stencil approximates <span class="math inline">\(-\nabla^2 u = f\)</span> at each grid point <span class="math inline">\((x_i, y_j)\)</span> as <span class="math display">\[\frac{1}{h^2}\bigl(4u_{ij} - u_{i+1,j} - u_{i-1,j} - u_{i,j+1} - u_{i,j-1}\bigr) = f_{ij}.\]</span> After flattening the 2-D grid to a 1-D index <span class="math inline">\(k = j + n \cdot i\)</span>, this becomes the block tridiagonal system <span class="math inline">\(\mathbf{K}\mathbf{u} = \mathbf{f}\)</span> where <span class="math display">\[\mathbf{K} = \frac{1}{h^2}
+  \begin{pmatrix}
+    \mathbf{C} &amp; -\bI       &amp;            &amp;            \\
+    -\bI       &amp; \mathbf{C} &amp; -\bI       &amp;            \\
+               &amp; \ddots     &amp; \ddots     &amp; \ddots     \\
+               &amp;            &amp; -\bI       &amp; \mathbf{C}
+  \end{pmatrix},
+  \qquad
+  \mathbf{C} = \mathrm{tridiag}(-1,\, 4,\, -1) \in \fR^{n \times n}.\]</span> Each diagonal block <span class="math inline">\(\mathbf{C}\)</span> encodes the <span class="math inline">\(x\)</span>-direction neighbors of a row of grid points. The off-diagonal <span class="math inline">\(-\bI\)</span> blocks connect rows that are adjacent in <span class="math inline">\(y\)</span>, which appear <span class="math inline">\(n\)</span> positions apart in the flattened index.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The matrix <span class="math inline">\(\mathbf{K}\)</span> is symmetric positive definite (Section~above), so the Poisson system has a unique solution. In practice, <span class="math inline">\(\mathbf{K}\)</span> is extremely sparse (at most 5 nonzeros per row out of <span class="math inline">\(N = n^2\)</span>), so it is stored and solved using <code>scipy.sparse</code>, exactly as you will do in Lab 4. A direct sparse solve costs <span class="math inline">\(O(N^{3/2})\)</span> for 2-D problems, far better than the <span class="math inline">\(O(N^3)\)</span> dense cost.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Using <code>scipy.sparse.diags</code>, build the 1-D discrete Laplacian <span class="math inline">\(\bT\)</span> for <span class="math inline">\(n = 50\)</span> interior points. Compute its eigenvalues with <code>np.linalg.eigvalsh</code> and compare them to the analytical formula <span class="math inline">\(\lambda_k = \frac{4}{h^2}\sin^2(k\pi h/2)\)</span> for <span class="math inline">\(k = 1, ..., 50\)</span>. Plot both sets on the same axes.</p></li>
+<li><p>Verify that the eigenvectors satisfy <span class="math inline">\((\bv_k)_j = \sin(jk\pi h)\)</span> by calling <code>np.linalg.eigh(T.toarray())</code> and plotting the first three eigenvectors. Do they look like <span class="math inline">\(\sin(k\pi x)\)</span>?</p></li>
+<li><p>Extend the Lab 4 code to impose a non-homogeneous Dirichlet boundary condition <span class="math inline">\(u = g\)</span> on the boundary of <span class="math inline">\([0,1]^2\)</span> by modifying the right-hand side <span class="math inline">\(\mathbf{f}\)</span>. ()</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="operator-norms-and-boundedness" class="level2" data-number="30.3">
+<h2 data-number="30.3" class="anchored" data-anchor-id="operator-norms-and-boundedness"><span class="header-section-number">30.3</span> Operator Norms and Boundedness</h2>
+<p>For matrices, the operator norm <span class="math inline">\(\|\bA\|_2 = \sigma_{\max}(\bA)\)</span> is always finite. The same is not true for differential operators on function spaces. The distinction between <em>bounded</em> and <em>unbounded</em> operators is one of the fundamental differences between finite and infinite dimensions, and it has direct consequences for the numerical conditioning of PDE-based linear systems.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Bounded Linear Operator
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A linear operator <span class="math inline">\(\mathcal{A} : X \to Y\)</span> between normed function spaces is <em>bounded</em> if there exists a constant <span class="math inline">\(C &lt; \infty\)</span> such that <span class="math display">\[\|\mathcal{A}u\|_Y \leq C\,\|u\|_X \quad \text{for all } u \in X.\]</span> The <em>operator norm</em> is defined analogously to the matrix case: <span class="math display">\[\|\mathcal{A}\|_{\mathrm{op}} = \sup_{\|u\|_X = 1} \|\mathcal{A}u\|_Y.\]</span> Every matrix <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> is a bounded operator with <span class="math inline">\(\|\bA\|_{\mathrm{op}} = \|\bA\|_2 = \sigma_{\max}(\bA)\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: The Differentiation Operator is Unbounded
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The operator <span class="math inline">\(\mathcal{D} = -d^2/dx^2\)</span> on <span class="math inline">\(L^2[0,1]\)</span> with domain <span class="math inline">\(\{u \in L^2[0,1] : u'' \in L^2,\; u(0)=u(1)=0\}\)</span> is <em>unbounded</em>: no finite constant <span class="math inline">\(C\)</span> satisfies <span class="math inline">\(\|\mathcal{D}u\|_2 \leq C\|u\|_2\)</span> for all <span class="math inline">\(u\)</span> in its domain.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>To show <span class="math inline">\(\mathcal{D}\)</span> is unbounded, we exhibit a sequence of unit-norm functions on which <span class="math inline">\(\|\mathcal{D}u_k\|_2\)</span> grows without bound.</p>
+<p><strong>Step 1: Define a sequence of test functions.</strong></p>
+<p>Let <span class="math inline">\(u_k(x) = \sqrt{2}\sin(k\pi x)\)</span> for <span class="math inline">\(k = 1, 2, 3, ...\)</span>. Each <span class="math inline">\(u_k\)</span> satisfies the boundary conditions <span class="math inline">\(u_k(0) = u_k(1) = 0\)</span>.</p>
+<p><strong>Step 2: Verify each <span class="math inline">\(u_k\)</span> has unit norm.</strong></p>
+<p><span class="math display">\[\|u_k\|_2^2 = 2\int_0^1 \sin^2(k\pi x)\,dx = 2 \cdot \tfrac{1}{2} = 1.\]</span></p>
+<p></p>
+<p>Differentiating twice: <span class="math inline">\(-u_k''(x) = k^2\pi^2\sqrt{2}\sin(k\pi x) = k^2\pi^2\,u_k(x)\)</span>. So <span class="math inline">\(u_k\)</span> is actually an eigenfunction of <span class="math inline">\(\mathcal{D}\)</span>, and <span class="math display">\[\|\mathcal{D}u_k\|_2 = k^2\pi^2\|u_k\|_2 = k^2\pi^2.\]</span></p>
+<p><strong>Step 4: Conclude.</strong></p>
+<p>For any candidate bound <span class="math inline">\(C\)</span>, choose <span class="math inline">\(k &gt; \sqrt{C}/\pi\)</span>. Then <span class="math inline">\(k^2\pi^2 &gt; C\)</span>, so <span class="math inline">\(\|\mathcal{D}u_k\|_2 &gt; C = C\|u_k\|_2\)</span>. Since no finite <span class="math inline">\(C\)</span> works, <span class="math inline">\(\mathcal{D}\)</span> is unbounded.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Although the continuous operator is unbounded, its <span class="math inline">\(n\)</span>-point discretization <span class="math inline">\(\bT\)</span> has operator norm <span class="math inline">\(\|\bT\|_2 = \lambda_{\max}(\bT) \approx 4/h^2 = 4(n+1)^2\)</span>, which is large but finite. This growing norm explains why Poisson systems become increasingly ill-conditioned as the grid is refined: <span class="math display">\[\kappa(\bT) = \frac{\lambda_{\max}}{\lambda_{\min}} \approx \frac{4/h^2}{\pi^2} = O(h^{-2}).\]</span> Doubling the grid resolution quadruples the condition number. This is a direct numerical consequence of the operator being unbounded in the continuous limit.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>For <span class="math inline">\(n = 10, 50, 100, 500\)</span>, compute <span class="math inline">\(\kappa(\bT) = \lambda_{\max}/\lambda_{\min}\)</span> using the analytical eigenvalue formula. Plot <span class="math inline">\(\kappa(\bT)\)</span> vs.&nbsp;<span class="math inline">\(n\)</span> on a log-log scale and confirm the <span class="math inline">\(O(n^2)\)</span> growth.</p></li>
+<li><p>Use <code>np.linalg.cond</code> to compute the condition number of the 2-D Laplacian <span class="math inline">\(\mathbf{K}\)</span> for <span class="math inline">\(n = 5, 10, 20\)</span>. How does <span class="math inline">\(\kappa(\mathbf{K})\)</span> scale with <span class="math inline">\(n\)</span>?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="point-spectrum-and-continuous-spectrum" class="level2" data-number="30.4">
+<h2 data-number="30.4" class="anchored" data-anchor-id="point-spectrum-and-continuous-spectrum"><span class="header-section-number">30.4</span> Point Spectrum and Continuous Spectrum</h2>
+<p>For an <span class="math inline">\(n \times n\)</span> matrix, the spectrum is a finite set of eigenvalues. For operators on infinite-dimensional spaces, the spectrum can be richer: eigenvalues (point spectrum), a continuous range of spectral values with no eigenfunctions (continuous spectrum), or both. Which type of spectrum an operator has shapes the numerical algorithms best suited to approximate it.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Spectrum of a Linear Operator
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For an operator <span class="math inline">\(\mathcal{A}\)</span> on a function space, a scalar <span class="math inline">\(\lambda\)</span> belongs to the <em>spectrum</em> <span class="math inline">\(\sigma(\mathcal{A})\)</span> if <span class="math inline">\(\mathcal{A} - \lambda\mathcal{I}\)</span> is not invertible. The spectrum decomposes as follows.</p>
+<ul>
+<li><p><strong>Point spectrum</strong> <span class="math inline">\(\sigma_p\)</span>: values <span class="math inline">\(\lambda\)</span> for which <span class="math inline">\(\mathcal{A}u = \lambda u\)</span> has a nonzero solution (a genuine eigenfunction).</p></li>
+<li><p><strong>Continuous spectrum</strong> <span class="math inline">\(\sigma_c\)</span>: values <span class="math inline">\(\lambda\)</span> for which no eigenfunction exists, but there are approximate eigenfunctions: a sequence <span class="math inline">\(u_k\)</span> with <span class="math inline">\(\|u_k\| = 1\)</span> and <span class="math inline">\(\|\mathcal{A}u_k - \lambda u_k\| \to 0\)</span>. Intuitively, <span class="math inline">\(\lambda\)</span> is ``almost’’ an eigenvalue but the limiting object does not live in the space.</p></li>
+</ul>
+<p>For <span class="math inline">\(n \times n\)</span> matrices, <span class="math inline">\(\sigma(\bA) = \sigma_p(\bA)\)</span>: only point spectrum exists.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Spectrum of the 1-D Laplacian on <span class="math inline">\([0,1]\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The operator <span class="math inline">\(\mathcal{D} = -d^2/dx^2\)</span> with homogeneous Dirichlet conditions on <span class="math inline">\([0,1]\)</span> has purely point spectrum: <span class="math display">\[\sigma(\mathcal{D}) = \sigma_p(\mathcal{D}) = \{k^2\pi^2 : k = 1, 2, 3, ...\}.\]</span> The corresponding eigenfunctions <span class="math inline">\(u_k(x) = \sqrt{2}\sin(k\pi x)\)</span> form an orthonormal basis of <span class="math inline">\(L^2[0,1]\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We solve <span class="math inline">\(-u'' = \lambda u\)</span> subject to <span class="math inline">\(u(0) = u(1) = 0\)</span> and find all <span class="math inline">\(\lambda\)</span> for which a nonzero solution exists.</p>
+<p><strong>Step 1: Write down the general solution.</strong></p>
+<p>For <span class="math inline">\(\lambda &gt; 0\)</span>, the ODE <span class="math inline">\(-u'' = \lambda u\)</span> has general solution <span class="math display">\[u(x) = A\sin(\sqrt{\lambda}\,x) + B\cos(\sqrt{\lambda}\,x).\]</span></p>
+<p><strong>Step 2: Apply the boundary condition at <span class="math inline">\(x = 0\)</span>.</strong></p>
+<p>Setting <span class="math inline">\(u(0) = 0\)</span> gives <span class="math inline">\(B \cdot 1 = 0\)</span>, so <span class="math inline">\(B = 0\)</span> and <span class="math inline">\(u(x) = A\sin(\sqrt{\lambda}\,x)\)</span>.</p>
+<p><strong>Step 3: Apply the boundary condition at <span class="math inline">\(x = 1\)</span>.</strong></p>
+<p>Setting <span class="math inline">\(u(1) = 0\)</span> requires <span class="math inline">\(A\sin(\sqrt{\lambda}) = 0\)</span>. For a nonzero solution we need <span class="math inline">\(A \neq 0\)</span>, so <span class="math inline">\(\sin(\sqrt{\lambda}) = 0\)</span>. This forces <span class="math inline">\(\sqrt{\lambda} = k\pi\)</span> for some positive integer <span class="math inline">\(k\)</span>.</p>
+<p><strong>Step 4: Conclude.</strong></p>
+<p>The admissible eigenvalues are <span class="math inline">\(\lambda_k = k^2\pi^2\)</span>, with eigenfunctions <span class="math inline">\(u_k(x) = \sqrt{2}\sin(k\pi x)\)</span> (normalized). Completeness of <span class="math inline">\(\{u_k\}\)</span> in <span class="math inline">\(L^2[0,1]\)</span> is the Fourier sine series, a classical result from Sturm-Liouville theory.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Spectrum of the Laplacian on <span class="math inline">\(\fR\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The operator <span class="math inline">\(\mathcal{D} = -d^2/dx^2\)</span> on <span class="math inline">\(L^2(\fR)\)</span> has purely continuous spectrum: <span class="math display">\[\sigma(\mathcal{D}) = \sigma_c(\mathcal{D}) = [0, \infty).\]</span> There are no <span class="math inline">\(L^2(\fR)\)</span> eigenfunctions.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We show two things: no eigenvalues exist, but every <span class="math inline">\(\lambda \geq 0\)</span> is in the spectrum.</p>
+<p><strong>Step 1: There are no <span class="math inline">\(L^2\)</span> eigenfunctions.</strong></p>
+<p>For any <span class="math inline">\(\lambda = \xi^2 \geq 0\)</span>, the equation <span class="math inline">\(-u'' = \xi^2 u\)</span> has solutions <span class="math inline">\(e^{i\xi x}\)</span> and <span class="math inline">\(e^{-i\xi x}\)</span>. These are bounded functions, but <span class="math display">\[\int_\fR |e^{i\xi x}|^2\,dx = \int_\fR 1\,dx = \infty,\]</span> so neither is in <span class="math inline">\(L^2(\fR)\)</span>. Hence <span class="math inline">\(\sigma_p(\mathcal{D}) = \emptyset\)</span>.</p>
+<p><strong>Step 2: Every <span class="math inline">\(\lambda \geq 0\)</span> is still in the spectrum via approximate eigenfunctions.</strong></p>
+<p>Fix <span class="math inline">\(\xi \in \fR\)</span> and let <span class="math inline">\(\lambda = \xi^2\)</span>. Choose a smooth bump function <span class="math inline">\(\phi\)</span> that is supported on <span class="math inline">\([-1,1]\)</span> and has <span class="math inline">\(\|\phi\|_2 = 1\)</span>. Define the rescaled sequence <span class="math display">\[u_k(x) = \frac{1}{\sqrt{k}}\,\phi\!\left(\frac{x}{k}\right) e^{i\xi x}, \quad k = 1, 2, 3, ...\]</span> Each <span class="math inline">\(u_k\)</span> is in <span class="math inline">\(L^2(\fR)\)</span>, normalized (<span class="math inline">\(\|u_k\|_2 = 1\)</span>), and one can verify that <span class="math inline">\(\|(-\partial_{xx} - \xi^2)u_k\|_2 \to 0\)</span> as <span class="math inline">\(k \to \infty\)</span>. So <span class="math inline">\(\lambda = \xi^2\)</span> is in the continuous spectrum.</p>
+<p><strong>Step 3: The spectrum is bounded below by <span class="math inline">\(0\)</span>.</strong></p>
+<p>For any <span class="math inline">\(u\)</span> in the domain, integration by parts gives <span class="math inline">\(\langle -u'', u\rangle_{L^2} = \int_\fR |u'|^2\,dx \geq 0\)</span>, so <span class="math inline">\(\mathcal{D}\)</span> has no spectrum below <span class="math inline">\(0\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Why this matters for Lab 4.</strong> When you discretize the Laplacian on <span class="math inline">\([0,1]\)</span> with <span class="math inline">\(n\)</span> points, you obtain <span class="math inline">\(n\)</span> eigenvalues approximating <span class="math inline">\(\{k^2\pi^2\}_{k=1}^n\)</span>. As <span class="math inline">\(n\)</span> grows:</p>
+<ul>
+<li><p>On a bounded domain, the discrete eigenvalues converge to the countable point spectrum <span class="math inline">\(\{k^2\pi^2\}\)</span>. High-frequency modes require finer grids to resolve accurately.</p></li>
+<li><p>On an unbounded or periodic domain, the eigenvalues of the finite discretization fill in densely, converging to the continuous spectrum <span class="math inline">\([0,\infty)\)</span> as the domain size grows.</p></li>
+</ul>
+<p>This is why the Fourier transform, which diagonalizes <span class="math inline">\(-d^2/dx^2\)</span> on <span class="math inline">\(\fR\)</span> through its continuous spectrum, is the natural tool for unbounded or periodic problems, while eigenfunction expansions (Fourier sine series) are natural for bounded domains.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>For <span class="math inline">\(n = 20, 50, 100\)</span>, compute all eigenvalues of the 1-D discrete Laplacian <span class="math inline">\(\bT\)</span> and plot them alongside the continuous values <span class="math inline">\(k^2\pi^2\)</span>. At what index <span class="math inline">\(k\)</span> do the discrete eigenvalues begin to deviate significantly from <span class="math inline">\(k^2\pi^2\)</span>? (<em>This deviation is related to the Nyquist sampling limit.</em>)</p></li>
+<li><p>Modify the 1-D Laplacian to use <em>periodic</em> boundary conditions by setting <span class="math inline">\(T_{1n} = T_{n1} = -1/h^2\)</span>. Compute the eigenvalues and compare them to the Dirichlet case. What is the smallest eigenvalue, and why does this make physical sense for a domain with no boundaries?</p></li>
+<li><p>(<em>Verifying second-order convergence.</em>) The exact solution to <span class="math inline">\(-u'' = \pi^2\sin(\pi x)\)</span> on <span class="math inline">\([0,1]\)</span> with <span class="math inline">\(u(0) = u(1) = 0\)</span> is <span class="math inline">\(u(x) = \sin(\pi x)\)</span>. Solve the discrete system <span class="math inline">\(\bT\mathbf{u} = \mathbf{f}\)</span> for <span class="math inline">\(n = 10, 20, 40, 80\)</span> and compute the error <span class="math inline">\(\|u_h - u\|_\infty\)</span> at each resolution. Plot the error vs.&nbsp;<span class="math inline">\(h\)</span> on a log-log scale. What is the slope, and does it confirm <span class="math inline">\(O(h^2)\)</span> convergence?</p></li>
+</ol>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../applications/graphs.html" class="pagination-link" aria-label="Spectral Graph Theory and PageRank">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../applications/fourier.html" class="pagination-link" aria-label="Fourier Analysis as Change of Basis">
+        <span class="nav-page-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/operators.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
+
+
+
+
+</body></html>

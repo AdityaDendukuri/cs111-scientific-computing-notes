@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Floating Point Arithmetic – Scientific Computing</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../fundamentals/numpy-primer.html" rel="next">
+<link href="../fundamentals/complexity.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b264dfeb48c53531446732b0b956c16e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-80d606c5edd7687d9c87341935aee57f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-b264dfeb48c53531446732b0b956c16e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+window.MathJax = {
+  tex: {
+    macros: {
+      fR: ["\\mathbb{R}"],
+      fC: ["\\mathbb{C}"],
+      fZ: ["\\mathbb{Z}"],
+      bx: ["\\boldsymbol{x}"],
+      bX: ["\\mathbf{X}"],
+      by: ["\\boldsymbol{y}"],
+      bY: ["\\mathbf{Y}"],
+      bL: ["\\mathbf{L}"],
+      bU: ["\\mathbf{U}"],
+      bV: ["\\mathbf{V}"],
+      bH: ["\\mathbf{H}"],
+      bI: ["\\mathbf{I}"],
+      bv: ["\\boldsymbol{v}"],
+      ba: ["\\boldsymbol{a}"],
+      bA: ["\\mathbf{A}"],
+      bQ: ["\\mathbf{Q}"],
+      bR: ["\\mathbf{R}"],
+      bP: ["\\mathbf{P}"],
+      bD: ["\\mathbf{D}"],
+      bM: ["\\mathbf{M}"],
+      bS: ["\\mathbf{S}"],
+      bZ: ["\\mathbf{Z}"],
+      bsigma: ["\\mathbf{\\Sigma}"],
+      bE: ["\\mathbf{E}"],
+      bT: ["\\mathbf{T}"],
+      bb: ["\\boldsymbol{b}"],
+      bz: ["\\boldsymbol{z}"],
+      bB: ["\\mathbf{B}"],
+      br: ["\\boldsymbol{r}"],
+      bu: ["\\boldsymbol{u}"],
+      bw: ["\\boldsymbol{w}"],
+      bq: ["\\boldsymbol{q}"],
+      bs: ["\\boldsymbol{s}"],
+      bg: ["\\boldsymbol{g}"],
+      bp: ["\\boldsymbol{p}"],
+      bc: ["\\boldsymbol{c}"],
+      bzero: ["\\mathbf{0}"],
+      be: ["\\boldsymbol{e}"],
+      bJ: ["\\mathbf{J}"],
+      bG: ["\\mathbf{G}"],
+      bK: ["\\mathbf{K}"],
+      argmin: ["\\operatorname{arg\\,min}"],
+      argmax: ["\\operatorname{arg\\,max}"],
+      printmatsq: ["\\begin{pmatrix} #1_{11} & \\cdots & #1_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ #1_{n1} & \\cdots & #1_{nn} \\end{pmatrix}", 1],
+      printmat:   ["\\begin{pmatrix} #1_{11} & \\cdots & #1_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ #1_{m1} & \\cdots & #1_{mn} \\end{pmatrix}", 1],
+      printrowvec: ["\\begin{pmatrix} #1_1 & \\cdots & #1_n \\end{pmatrix}", 1],
+      printcolvec: ["\\begin{pmatrix} #1_1 \\\\ \\vdots \\\\ #1_n \\end{pmatrix}", 1],
+      printmatrow: ["\\begin{pmatrix} \\cdots & \\boldsymbol{#1}_1 & \\cdots \\\\ & \\vdots & \\\\ \\cdots & \\boldsymbol{#1}_n & \\cdots \\end{pmatrix}", 1],
+      printmatcol: ["\\begin{pmatrix} \\vdots & & \\vdots \\\\ \\boldsymbol{#1}_1 & \\cdots & \\boldsymbol{#1}_n \\\\ \\vdots & & \\vdots \\end{pmatrix}", 1]
+    }
+  }
+};
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../fundamentals/math-notation.html">Fundamentals</a></li><li class="breadcrumb-item"><a href="../fundamentals/floating-point.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Floating Point Arithmetic</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Fundamentals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/math-notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Mathematical Notation and Proof Techniques</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/vectors-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vectors and Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrix Arithmetic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/norms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to Norms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/complexity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Computational Complexity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/floating-point.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Floating Point Arithmetic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/numpy-primer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Python and NumPy Primer</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Direct Methods for Linear Systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/linear-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linearity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/lu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">LU Factorization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/spd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Symmetric Positive Definite (SPD) Matrices</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Orthogonality and Least Squares</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/orthogonal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Orthogonal Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/norms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Vector and Matrix Norms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Stability and Condition Number</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Overdetermined Systems and Least Squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Eigenvalues and the SVD</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/eigenvalues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Eigenvalues and Eigenvectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/lanczos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lanczos Algorithm</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/jacobi-eig.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Jacobi Eigenvalue Algorithm</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Iterative Methods for Linear Systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/iterative.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Iterative Methods for Linear Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/conjugate-gradient.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/gmres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GMRES</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/quadrature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/root-finding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Root Finding</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">ODEs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../odes/ode-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Numerical Methods for ODEs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/operators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/fourier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/markov.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#floating-point-representation" id="toc-floating-point-representation" class="nav-link active" data-scroll-target="#floating-point-representation"><span class="header-section-number">7.1</span> Floating Point Representation</a></li>
+  <li><a href="#ieee-754-special-values" id="toc-ieee-754-special-values" class="nav-link" data-scroll-target="#ieee-754-special-values"><span class="header-section-number">7.2</span> IEEE 754 Special Values</a></li>
+  <li><a href="#floating-point-arithmetic-pitfalls" id="toc-floating-point-arithmetic-pitfalls" class="nav-link" data-scroll-target="#floating-point-arithmetic-pitfalls"><span class="header-section-number">7.3</span> Floating Point Arithmetic Pitfalls</a></li>
+  <li><a href="#quantifying-approximation-error" id="toc-quantifying-approximation-error" class="nav-link" data-scroll-target="#quantifying-approximation-error"><span class="header-section-number">8</span> Quantifying Approximation Error</a>
+  <ul class="collapse">
+  <li><a href="#absolute-and-relative-errors" id="toc-absolute-and-relative-errors" class="nav-link" data-scroll-target="#absolute-and-relative-errors"><span class="header-section-number">8.1</span> Absolute and Relative Errors</a></li>
+  <li><a href="#forward-and-backward-error-analysis" id="toc-forward-and-backward-error-analysis" class="nav-link" data-scroll-target="#forward-and-backward-error-analysis"><span class="header-section-number">8.2</span> Forward and Backward Error Analysis</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/floating-point.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../fundamentals/math-notation.html">Fundamentals</a></li><li class="breadcrumb-item"><a href="../fundamentals/floating-point.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Floating Point Arithmetic</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Floating Point Arithmetic</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Real numbers cannot be represented exactly on digital computers. This subsection covers how numbers are stored in the IEEE 754 floating point format, the precision limits of that representation, and the special values and arithmetic pitfalls that arise in practice. Understanding these fundamentals is a prerequisite for analyzing any numerical algorithm.</p>
+<section id="floating-point-representation" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="floating-point-representation"><span class="header-section-number">7.1</span> Floating Point Representation</h2>
+<p>Real numbers are stored in computers using a finite-bit format analogous to scientific notation. The key parameters are the number of bits for the sign, exponent, and significand.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Floating Point Representation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A normalized floating point number has the form <span class="math display">\[x = (-1)^s \times (1.f) \times 2^e,\]</span> where <span class="math inline">\(s\)</span> is the sign bit, <span class="math inline">\(f\)</span> is the fractional significand (mantissa), <span class="math inline">\(e\)</span> is the exponent, and the leading 1 is implicit (hidden bit). The IEEE 754 standard defines two primary formats:</p>
+<ul>
+<li><p><strong>Single precision (32-bit)</strong>: 1 sign, 8 exponent, 23 fraction bits.</p></li>
+<li><p><strong>Double precision (64-bit)</strong>: 1 sign, 11 exponent, 52 fraction bits.</p></li>
+</ul>
+<p>The exponent field uses a biased representation with bias <span class="math inline">\(= 2^{k-1} - 1\)</span> (<span class="math inline">\(k\)</span> = exponent bits).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>16-bit floating point.</strong> With 1 sign, 5 exponent (bias <span class="math inline">\(= 15\)</span>), and 10 fraction bits, represent <span class="math inline">\(-3.25\)</span>:</p>
+<ol type="1">
+<li><p>Sign <span class="math inline">\(= 1\)</span> (negative).</p></li>
+<li><p><span class="math inline">\(3.25_{10} = 11.01_2\)</span>.</p></li>
+<li><p>Normalize: <span class="math inline">\(1.101_2 \times 2^1\)</span>.</p></li>
+<li><p>Biased exponent: <span class="math inline">\(1 + 15 = 16 = 10000_2\)</span>.</p></li>
+<li><p>Fraction bits: <span class="math inline">\(1010000000\)</span>.</p></li>
+<li><p>Final: <span class="math inline">\(1\;10000\;1010000000\)</span>.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>Encode the number <span class="math inline">\(+5.5\)</span> in the 16-bit format above (1 sign, 5 exponent, 10 fraction bits, bias <span class="math inline">\(= 15\)</span>). Show each step.</p></li>
+<li><p>How many distinct normalized numbers can be represented with 5 exponent bits and 10 fraction bits (excluding special values)? </p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Machine Epsilon
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Machine epsilon</strong> <span class="math inline">\(\varepsilon_{\text{mach}}\)</span> is the difference between 1 and the next larger representable floating point number. For a system with <span class="math inline">\(p\)</span> significand bits (including the hidden bit): <span class="math display">\[\varepsilon_{\text{mach}} = 2^{1-p}.\]</span> For any normalized floating point number <span class="math inline">\(x\)</span>, the gap to the next representable number is approximately <span class="math inline">\(\varepsilon_{\text{mach}} \cdot |x|\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For IEEE double precision: <span class="math inline">\(p = 52 + 1 = 53\)</span> bits, so <span class="math inline">\(\varepsilon_{\text{mach}} = 2^{-52} \approx 2.22 \times 10^{-16}\)</span>. In Python: <code>import sys; sys.float\_info.epsilon</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>In Python, evaluate <code>1.0 + 1e-16</code> and <code>1.0 + 2e-16</code>. Explain both results using <span class="math inline">\(\varepsilon_{\text{mach}}\)</span>.</p></li>
+<li><p>Write a function <code>compute\_eps()</code> that finds machine epsilon empirically (without <code>sys.float\_info.epsilon</code> or <code>np.finfo</code>). <em>Hint: start from 1.0, halve repeatedly until <span class="math inline">\(1 + \varepsilon = 1\)</span>.</em></p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Unit Roundoff
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong>unit roundoff</strong> is <span class="math inline">\(u = \varepsilon_{\text{mach}}/2 = 2^{-p}\)</span>. It is the maximum relative error when rounding a real number <span class="math inline">\(x\)</span> to its nearest floating point representation <span class="math inline">\(\text{fl}(x)\)</span>: <span class="math display">\[\frac{|\text{fl}(x) - x|}{|x|} \leq u.\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Machine epsilon is the smallest number for which <span class="math inline">\(1 + \varepsilon_{\text{mach}} &gt; 1\)</span> in floating point. Unit roundoff is the maximum relative rounding error for any number. In IEEE round-to-nearest mode, <span class="math inline">\(u = \varepsilon_{\text{mach}}/2\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>Confirm that <span class="math inline">\((1.0 + u) - 1.0 = u\)</span> but <span class="math inline">\((1.0 + u/2) - 1.0 = 0\)</span> in double precision. Explain in terms of the spacing between adjacent floats near 1.</p></li>
+<li><p>How many significant decimal digits does an IEEE double carry? </p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Fundamental Theorem of Floating Point Arithmetic
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For any real <span class="math inline">\(x\)</span> in the normalized range, the nearest floating point number satisfies <span class="math display">\[\text{fl}(x) = x(1 + \delta), \quad |\delta| \leq u.\]</span> Furthermore, for any floating point <span class="math inline">\(a, b\)</span> and operation <span class="math inline">\(\circ \in \{+,-,\times,\div\}\)</span>, IEEE 754 guarantees: <span class="math display">\[\text{fl}(a \circ b) = (a \circ b)(1 + \delta), \quad |\delta| \leq u.\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The real line near <span class="math inline">\(x\)</span> is partitioned into intervals each containing exactly one floating point number (the left endpoint). Rounding to nearest halves the worst-case error, giving <span class="math inline">\(|\delta| \leq u\)</span>. For the second statement, IEEE 754 mandates that each basic operation is computed as if in infinite precision and then rounded, ensuring the same <span class="math inline">\(|\delta| \leq u\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The IEEE 754 guarantee that each individual operation incurs at most unit roundoff is the foundation of all backward error analyses. After <span class="math inline">\(n\)</span> sequential operations, the accumulated error grows as <span class="math inline">\(O(nu)\)</span>, which is acceptable for double precision when <span class="math inline">\(n \ll 10^{16}\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>Suppose <span class="math inline">\(a = 1.0\)</span> and <span class="math inline">\(b = -0.9999999999999999\)</span> in double precision. What is <span class="math inline">\(\text{fl}(a + b)\)</span>? Is the relative error bounded by <span class="math inline">\(u\)</span>?</p></li>
+<li><p>A computation performs <span class="math inline">\(10^6\)</span> floating point additions. Using the <span class="math inline">\(O(nu)\)</span> bound, estimate the worst-case accumulated relative error in double precision.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="ieee-754-special-values" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="ieee-754-special-values"><span class="header-section-number">7.2</span> IEEE 754 Special Values</h2>
+<p>Beyond normalized numbers, IEEE 754 defines special bit patterns to handle results outside the representable range. Each has a distinct behavior that must be understood when writing numerical code.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Signed Zero
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Both <span class="math inline">\(+0\)</span> and <span class="math inline">\(-0\)</span> are represented and compare as equal, but behave differently in arithmetic: <span class="math inline">\(1/(+0) = +\infty\)</span> and <span class="math inline">\(1/(-0) = -\infty\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>In Python, evaluate <code>1.0/0.0</code> and <code>1.0/(-0.0)</code>. Are the results <span class="math inline">\(+\infty\)</span> and <span class="math inline">\(-\infty\)</span> respectively, or does Python raise an error?</p></li>
+<li><p>Evaluate <code>(+0.0) == (-0.0)</code>. What does this confirm about signed zero?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Subnormal Numbers
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Numbers smaller than the smallest normalized value <span class="math inline">\(2^{e_{\min}}\)</span> are represented with a leading zero bit, allowing <strong>gradual underflow</strong> at the cost of reduced precision. The smallest positive double-precision subnormal is <span class="math inline">\(2^{-1074} \approx 4.94 \times 10^{-324}\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Subnormal numbers fill the gap between 0 and the smallest normalized number (<span class="math inline">\(2^{-1022}\)</span> in double precision), but with fewer significant bits. A subnormal near <span class="math inline">\(2^{-1073}\)</span> has only 1 bit of precision, making its relative rounding error much larger than that of a normalized number.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>What is the smallest positive subnormal number in IEEE single precision (1 sign, 8 exponent, 23 fraction bits)?</p></li>
+<li><p>In Python, evaluate <code>5e-324</code> (the smallest positive double). What is <code>5e-324 / 2</code>? Why?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Infinities
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(+\infty\)</span> and <span class="math inline">\(-\infty\)</span> arise from overflow or division of a nonzero number by zero (e.g., <code>1.0/0.0</code>). They propagate correctly through arithmetic: <span class="math inline">\(x + \infty = \infty\)</span> for any finite <span class="math inline">\(x\)</span>, and <span class="math inline">\(\infty \cdot 0 = \text{NaN}\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>In Python, evaluate <code>float('inf') + 1</code>, <code>float('inf') - float('inf')</code>, and <code>0.0 * float('inf')</code>. Classify each result and explain using IEEE 754 rules.</p></li>
+<li><p>Is <code>float('inf') &gt; 1e308</code> true? What does this imply about comparisons involving infinity?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: NaN (Not a Number)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A <strong>NaN</strong> is produced by undefined operations: <span class="math inline">\(0/0\)</span>, <span class="math inline">\(\infty - \infty\)</span>, <span class="math inline">\(\sqrt{-1}\)</span>. Any arithmetic involving a NaN returns a NaN, and <code>nan != nan</code> is <code>True</code> in Python (NaN is unequal to everything, including itself).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>Explain why <code>float('nan') == float('nan')</code> returns <code>False</code>. What does this imply for checking whether a computation produced a NaN?</p></li>
+<li><p>In Python, evaluate <code>float('nan') &gt; 0</code> and <code>float('nan') &lt; 0</code>. What are the results, and why?</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="floating-point-arithmetic-pitfalls" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="floating-point-arithmetic-pitfalls"><span class="header-section-number">7.3</span> Floating Point Arithmetic Pitfalls</h2>
+<p>Floating point arithmetic differs from real arithmetic in several fundamental ways. The following properties, while counterintuitive, are direct consequences of finite precision and must be kept in mind when designing algorithms.</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Non-Associativity.</strong> <span class="math inline">\((a \oplus b) \oplus c \neq a \oplus (b \oplus c)\)</span> in general. Each addition rounds its result, and changing the order changes which intermediate values are rounded.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Using 4-significant-digit decimal arithmetic, compute <span class="math inline">\((10000. + 0.001) - 10000.\)</span> and <span class="math inline">\(10000. + (0.001 - 10000.)\)</span>. Which order is accurate? Which demonstrates <em>absorption</em>?</p></li>
+<li><p>In Python, verify with <code>a=1e10; b=1.0; c=-1e10</code>: does <code>(a+b)+c == a+(b+c)</code>? Explain.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Non-Distributivity.</strong> <span class="math inline">\(a \otimes (b \oplus c) \neq (a \otimes b) \oplus (a \otimes c)\)</span> in general, because <span class="math inline">\(b \oplus c\)</span> is rounded before multiplication, while <span class="math inline">\(a \otimes b\)</span> and <span class="math inline">\(a \otimes c\)</span> are rounded separately before addition.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>In Python, compute <code>a*(b+c)</code> vs <code>a*b + a*c</code> for <code>a = 1e15</code>, <code>b = 1.0</code>, <code>c = -1.0</code>. Explain the discrepancy using the definition above.</p></li>
+<li><p>True or False: if <code>a == b</code> in floating point, then <code>a - b == 0.0</code> always. What about the converse?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Absorption.</strong> When <span class="math inline">\(|a| \gg |b|\)</span>, the sum <span class="math inline">\(\text{fl}(a + b)\)</span> may equal <span class="math inline">\(a\)</span> exactly, because <span class="math inline">\(b\)</span> falls below the unit roundoff relative to <span class="math inline">\(a\)</span>. The smaller operand contributes nothing.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>In Python, evaluate <code>1e16 + 1.0 - 1e16</code>. What do you get and why?</p></li>
+<li><p>Give an example where absorption causes a running sum of <span class="math inline">\(n\)</span> small numbers to yield zero when added to a large number, even though the true sum is nonzero.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="quantifying-approximation-error" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Quantifying Approximation Error</h1>
+<p>Floating point arithmetic introduces errors at every operation. This subsection develops the vocabulary and tools for measuring those errors and reasoning about how they propagate through a computation. Absolute and relative error quantify the gap between computed and true values; catastrophic cancellation identifies a common failure mode; and forward and backward analysis provide complementary frameworks for bounding the total error in an algorithm.</p>
+<section id="absolute-and-relative-errors" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="absolute-and-relative-errors"><span class="header-section-number">8.1</span> Absolute and Relative Errors</h2>
+<p>Every floating point operation introduces a small rounding error. Understanding how these errors arise and propagate determines whether an algorithm produces trustworthy results.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Absolute and Relative Error
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When a real number <span class="math inline">\(x\)</span> is approximated by <span class="math inline">\(\hat{x}\)</span>, the <strong>absolute error</strong> is <span class="math inline">\(|\hat{x} - x|\)</span>, and the <strong>relative error</strong> is <span class="math display">\[\varepsilon = \frac{|\hat{x} - x|}{|x|},\]</span> so that <span class="math inline">\(\hat{x} = x(1 + \varepsilon)\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Approximating <span class="math inline">\(\pi \approx 3.14159...\)</span>:</p>
+<p>Relative error is usually more meaningful: a tiny absolute error can still represent a large relative error when the true value is small.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>Approximate <span class="math inline">\(\sqrt{2} \approx 1.414\)</span>. Compute the absolute and relative errors.</p></li>
+<li><p>For two computations with relative errors <span class="math inline">\(\varepsilon_1\)</span> and <span class="math inline">\(\varepsilon_2\)</span>, what is the relative error in their <em>product</em>? ()</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Catastrophic Cancellation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Catastrophic cancellation</strong> occurs when subtracting two nearly equal numbers. If <span class="math inline">\(\hat{x} = x(1+\varepsilon_x)\)</span> and <span class="math inline">\(\hat{y} = y(1+\varepsilon_y)\)</span> with <span class="math inline">\(x \approx y &gt; 0\)</span>, the relative error in <span class="math inline">\(\hat{x} - \hat{y}\)</span> is <span class="math display">\[\frac{(\hat{x}-\hat{y})-(x-y)}{x-y} = \frac{x\varepsilon_x - y\varepsilon_y}{x - y},\]</span> which is unbounded as <span class="math inline">\(x \to y^+\)</span> — a total loss of significant digits.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Cancellation Error Bound
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\hat{x} = x(1+\varepsilon_x)\)</span>, <span class="math inline">\(\hat{y} = y(1+\varepsilon_y)\)</span> with <span class="math inline">\(|\varepsilon_x|, |\varepsilon_y| \leq u\)</span> and <span class="math inline">\(x &gt; y &gt; 0\)</span>. Then <span class="math display">\[\left|\frac{(\hat{x}-\hat{y})-(x-y)}{x-y}\right| \leq u\cdot\frac{x+y}{x-y}.\]</span> The amplification factor <span class="math inline">\((x+y)/(x-y) \to \infty\)</span> as <span class="math inline">\(x \to y^+\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-34-contents" aria-controls="callout-34" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-34" class="callout-34-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The error is <span class="math inline">\(x\varepsilon_x - y\varepsilon_y\)</span>. Taking absolute value and dividing by <span class="math inline">\(x-y\)</span>: <span class="math display">\[\frac{|x\varepsilon_x - y\varepsilon_y|}{x-y}
+    \leq \frac{x|\varepsilon_x| + y|\varepsilon_y|}{x-y}
+    \leq u\cdot\frac{x+y}{x-y}.\]</span></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Computing <span class="math inline">\(f(x) = \sqrt{x+1} - \sqrt{x}\)</span> for <span class="math inline">\(x = 10^8\)</span> in double precision: <span class="math inline">\(\sqrt{10^8+1} \approx 10000.00000005\)</span> and <span class="math inline">\(\sqrt{10^8} = 10000\)</span>, so direct subtraction gives approximately <span class="math inline">\(0\)</span> due to cancellation. Rationalizing avoids this: <span class="math display">\[f(x) = \frac{1}{\sqrt{x+1}+\sqrt{x}} \approx \frac{1}{20000} = 5\times 10^{-5}.\]</span> Mathematical reformulation eliminates the cancellation without increasing cost.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Cancellation and Reformulation)</strong> Refer to the result above and the result above. For each expression, identify whether catastrophic cancellation can occur and derive a stable equivalent form.</p>
+<ol type="1">
+<li><p><span class="math inline">\(\dfrac{1-\cos x}{x^2}\)</span> for small <span class="math inline">\(x\)</span>. <em>Hint: use <span class="math inline">\(1-\cos x = 2\sin^2(x/2)\)</span>.</em></p></li>
+<li><p><span class="math inline">\(\sqrt{x+1} - \sqrt{x}\)</span> for large <span class="math inline">\(x\)</span> (rationalize the numerator).</p></li>
+<li><p>The smaller root of <span class="math inline">\(x^2 - 10^8 x + 1 = 0\)</span> via the quadratic formula. What goes wrong and how do you fix it?</p></li>
+<li><p><span class="math inline">\(e^x - 1\)</span> for small <span class="math inline">\(x\)</span>. Why does NumPy provide <code>np.expm1(x)</code>? Verify numerically that <code>np.expm1(1e-15)</code> is more accurate than <code>np.exp(1e-15) - 1</code>.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="forward-and-backward-error-analysis" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="forward-and-backward-error-analysis"><span class="header-section-number">8.2</span> Forward and Backward Error Analysis</h2>
+<p>Error analysis is the systematic study of how errors enter and propagate through a computation. Forward and backward analysis are complementary frameworks; condition number analysis measures the inherent difficulty of the problem itself, independent of the algorithm.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Forward Error Analysis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Forward error analysis</strong> tracks how input errors and per-operation rounding errors propagate <em>forward</em> through the algorithm to bound the output error. Straightforward but can produce pessimistic overestimates.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li>For the computation <span class="math inline">\(\hat{z} = \text{fl}(\text{fl}(a+b) + c)\)</span> with <span class="math inline">\(a,b,c\)</span> exact, use the model <span class="math inline">\(\text{fl}(x \circ y) = (x \circ y)(1+\delta)\)</span>, <span class="math inline">\(|\delta| \leq u\)</span>, to derive a forward error bound on <span class="math inline">\(|\hat{z} - (a+b+c)|\)</span>.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Backward Error Analysis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Backward error analysis</strong> asks: what is the smallest perturbation to the input that would make the computed output exact? If this backward error is <span class="math inline">\(O(u\|\bA\|)\)</span>, the algorithm solved a nearby problem exactly — the best one can hope for in finite precision.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>For solving <span class="math inline">\(\bA\bx = \bb\)</span>, explain the difference between the forward error <span class="math inline">\(\|\hat{\bx} - \bx\|/\|\bx\|\)</span> and the backward error <span class="math inline">\(\|\bb - \bA\hat{\bx}\|/(\|\bA\|\|\hat{\bx}\|)\)</span>. Which is easier to compute after the fact, and why?</p></li>
+<li><p>Why is backward error analysis generally preferred over forward error analysis for evaluating numerical algorithms?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Interval Arithmetic
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In <strong>interval arithmetic</strong>, each number is replaced by an enclosing interval <span class="math inline">\([a,b]\)</span>, and every operation maps intervals to intervals in a way that always contains the true result. This produces certified error bounds but can suffer from interval explosion for long computations.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li>Compute <span class="math inline">\([1.0, 1.1] + [2.0, 2.5]\)</span> and <span class="math inline">\([1.0, 1.1] \times [2.0, 2.5]\)</span> using interval arithmetic rules. Verify the result contains the true values <span class="math inline">\(1.05 + 2.25\)</span> and <span class="math inline">\(1.05 \times 2.25\)</span>.</li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Condition Number Analysis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <strong>condition number</strong> of a problem measures its intrinsic sensitivity to small perturbations in the input, independently of the algorithm. A problem with condition number <span class="math inline">\(\kappa\)</span> can lose up to <span class="math inline">\(\log_{10}\kappa\)</span> digits of accuracy even with a perfect algorithm. An algorithm is <strong>backward stable</strong> if its backward error is <span class="math inline">\(O(u)\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>An algorithm has backward error <span class="math inline">\(10^{-15}\)</span> applied to a problem with condition number <span class="math inline">\(\kappa(\bA) = 10^{8}\)</span>. What is the worst-case forward error? Is this acceptable for double-precision computation?</p></li>
+<li><p>In Python, construct an ill-conditioned matrix using <code>np.diag([1, 1e-10])</code>, solve with <code>np.linalg.solve</code>, and compare <code>np.linalg.cond(A)</code> with the observed forward error.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this exercise, we will prove the backward error formula for linear systems. Refer to the result above and the result above.</p>
+<p>Let <span class="math inline">\(\hat{\bx}\)</span> be the computed solution to <span class="math inline">\(\bA\bx = \bb\)</span> obtained by LU with partial pivoting. Define the residual <span class="math inline">\(\br = \bb - \bA\hat{\bx}\)</span>.</p>
+<ol type="1">
+<li><p>Define <span class="math inline">\(\bE = -\br\hat{\bx}^T/\|\hat{\bx}\|^2\)</span>. Show by direct substitution that <span class="math inline">\((\bA + \bE)\hat{\bx} = \bb\)</span>, confirming <span class="math inline">\(\hat{\bx}\)</span> is the exact solution to a nearby system.</p></li>
+<li><p>Show that the relative backward error satisfies <span class="math inline">\(\|\bE\|_2/\|\bA\|_2 = \|\br\|_2/(\|\bA\|_2\|\hat{\bx}\|_2)\)</span>. (<em>Hint: for a rank-1 matrix, <span class="math inline">\(\|\br\bv^T\|_2 = \|\br\|_2\|\bv\|_2\)</span>.</em>)</p></li>
+<li><p>For a well-conditioned system, a small backward error implies a small forward error. Write the bound <span class="math display">\[\frac{\|\hat{\bx}-\bx\|_2}{\|\bx\|_2}
+     \leq \kappa(\bA)\cdot\frac{\|\bE\|_2}{\|\bA\|_2},\]</span> where <span class="math inline">\(\kappa(\bA) = \|\bA\|_2\|\bA^{-1}\|_2\)</span>. If <span class="math inline">\(\kappa(\bA) = 10^{10}\)</span> and the backward error is <span class="math inline">\(10^{-16}\)</span>, what is the worst-case forward error?</p></li>
+<li><p>In Python, construct an ill-conditioned matrix using <code>np.diag([1, 1e-10])</code>, solve with <code>np.linalg.solve</code>, and compare <code>np.linalg.cond(A)</code> with the observed forward error.</p></li>
+</ol>
+</div>
+</div>
+<p>Floating point arithmetic is not real arithmetic. Its inherent limitations shape the design of every numerical algorithm. By understanding representation, error propagation, and special cases, we can build algorithms that produce reliable results. Mathematical reformulations, careful ordering of operations, and backward error analysis are often more effective than simply increasing precision.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../fundamentals/complexity.html" class="pagination-link" aria-label="Computational Complexity">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Computational Complexity</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../fundamentals/numpy-primer.html" class="pagination-link" aria-label="Python and NumPy Primer">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Python and NumPy Primer</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/floating-point.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
+
+
+
+
+</body></html>

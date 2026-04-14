@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.37">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>17&nbsp; Eigenvalues and Eigenvectors – Scientific Computing</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../eigenvalues/svd.html" rel="next">
+<link href="../orthogonality/chebyshev.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-23bbe8b5e4efc1e257f6d59dce478b08.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b264dfeb48c53531446732b0b956c16e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-80d606c5edd7687d9c87341935aee57f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-b264dfeb48c53531446732b0b956c16e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script>
+window.MathJax = {
+  tex: {
+    macros: {
+      fR: ["\\mathbb{R}"],
+      fC: ["\\mathbb{C}"],
+      fZ: ["\\mathbb{Z}"],
+      bx: ["\\boldsymbol{x}"],
+      bX: ["\\mathbf{X}"],
+      by: ["\\boldsymbol{y}"],
+      bY: ["\\mathbf{Y}"],
+      bL: ["\\mathbf{L}"],
+      bU: ["\\mathbf{U}"],
+      bV: ["\\mathbf{V}"],
+      bH: ["\\mathbf{H}"],
+      bI: ["\\mathbf{I}"],
+      bv: ["\\boldsymbol{v}"],
+      ba: ["\\boldsymbol{a}"],
+      bA: ["\\mathbf{A}"],
+      bQ: ["\\mathbf{Q}"],
+      bR: ["\\mathbf{R}"],
+      bP: ["\\mathbf{P}"],
+      bD: ["\\mathbf{D}"],
+      bM: ["\\mathbf{M}"],
+      bS: ["\\mathbf{S}"],
+      bZ: ["\\mathbf{Z}"],
+      bsigma: ["\\mathbf{\\Sigma}"],
+      bE: ["\\mathbf{E}"],
+      bT: ["\\mathbf{T}"],
+      bb: ["\\boldsymbol{b}"],
+      bz: ["\\boldsymbol{z}"],
+      bB: ["\\mathbf{B}"],
+      br: ["\\boldsymbol{r}"],
+      bu: ["\\boldsymbol{u}"],
+      bw: ["\\boldsymbol{w}"],
+      bq: ["\\boldsymbol{q}"],
+      bs: ["\\boldsymbol{s}"],
+      bg: ["\\boldsymbol{g}"],
+      bp: ["\\boldsymbol{p}"],
+      bc: ["\\boldsymbol{c}"],
+      bzero: ["\\mathbf{0}"],
+      be: ["\\boldsymbol{e}"],
+      bJ: ["\\mathbf{J}"],
+      bG: ["\\mathbf{G}"],
+      bK: ["\\mathbf{K}"],
+      argmin: ["\\operatorname{arg\\,min}"],
+      argmax: ["\\operatorname{arg\\,max}"],
+      printmatsq: ["\\begin{pmatrix} #1_{11} & \\cdots & #1_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ #1_{n1} & \\cdots & #1_{nn} \\end{pmatrix}", 1],
+      printmat:   ["\\begin{pmatrix} #1_{11} & \\cdots & #1_{1n} \\\\ \\vdots & \\ddots & \\vdots \\\\ #1_{m1} & \\cdots & #1_{mn} \\end{pmatrix}", 1],
+      printrowvec: ["\\begin{pmatrix} #1_1 & \\cdots & #1_n \\end{pmatrix}", 1],
+      printcolvec: ["\\begin{pmatrix} #1_1 \\\\ \\vdots \\\\ #1_n \\end{pmatrix}", 1],
+      printmatrow: ["\\begin{pmatrix} \\cdots & \\boldsymbol{#1}_1 & \\cdots \\\\ & \\vdots & \\\\ \\cdots & \\boldsymbol{#1}_n & \\cdots \\end{pmatrix}", 1],
+      printmatcol: ["\\begin{pmatrix} \\vdots & & \\vdots \\\\ \\boldsymbol{#1}_1 & \\cdots & \\boldsymbol{#1}_n \\\\ \\vdots & & \\vdots \\end{pmatrix}", 1]
+    }
+  }
+};
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../eigenvalues/eigenvalues.html">Eigenvalues and the SVD</a></li><li class="breadcrumb-item"><a href="../eigenvalues/eigenvalues.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Eigenvalues and Eigenvectors</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Fundamentals</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/math-notation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Mathematical Notation and Proof Techniques</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/vectors-matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vectors and Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/arithmetic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrix Arithmetic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/norms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Introduction to Norms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/complexity.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Computational Complexity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/floating-point.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Floating Point Arithmetic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../fundamentals/numpy-primer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Python and NumPy Primer</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Direct Methods for Linear Systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/linear-systems.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linearity</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/lu.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">LU Factorization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../direct-methods/spd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Symmetric Positive Definite (SPD) Matrices</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Orthogonality and Least Squares</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/orthogonal.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Orthogonal Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/norms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Vector and Matrix Norms</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/stability.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Stability and Condition Number</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/least-squares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Overdetermined Systems and Least Squares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Eigenvalues and the SVD</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/eigenvalues.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Eigenvalues and Eigenvectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/lanczos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lanczos Algorithm</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eigenvalues/jacobi-eig.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Jacobi Eigenvalue Algorithm</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Iterative Methods for Linear Systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/iterative.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Iterative Methods for Linear Systems</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/conjugate-gradient.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Conjugate Gradient Method</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../iterative/gmres.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GMRES</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Numerical Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/quadrature.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/root-finding.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Root Finding</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">ODEs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../odes/ode-methods.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Numerical Methods for ODEs</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Applications</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/graphs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/operators.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/fourier.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/markov.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#power-iteration-and-inverse-iteration" id="toc-power-iteration-and-inverse-iteration" class="nav-link active" data-scroll-target="#power-iteration-and-inverse-iteration"><span class="header-section-number">17.1</span> Power Iteration and Inverse Iteration</a></li>
+  <li><a href="#invariant-subspaces" id="toc-invariant-subspaces" class="nav-link" data-scroll-target="#invariant-subspaces"><span class="header-section-number">17.2</span> Invariant Subspaces</a></li>
+  <li><a href="#schur-decomposition" id="toc-schur-decomposition" class="nav-link" data-scroll-target="#schur-decomposition"><span class="header-section-number">17.3</span> Schur Decomposition</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/eigenvalues/eigenvalues.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../eigenvalues/eigenvalues.html">Eigenvalues and the SVD</a></li><li class="breadcrumb-item"><a href="../eigenvalues/eigenvalues.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Eigenvalues and Eigenvectors</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Eigenvalues and Eigenvectors</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Eigenvalues and eigenvectors reveal the fundamental character of a linear transformation: the special directions along which the matrix acts by pure scaling. This section develops the theory from the characteristic polynomial through the Spectral Theorem, then turns to practical algorithms — power iteration, inverse iteration, and the QR algorithm — for computing eigenvalues numerically.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Eigenvalues and Eigenvectors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, a scalar <span class="math inline">\(\lambda \in \fC\)</span> is called an <em>eigenvalue</em> of <span class="math inline">\(\bA\)</span> if there exists a nonzero vector <span class="math inline">\(\bv \in \fC^n\)</span> such that <span class="math display">\[\bA\bv = \lambda\bv.\]</span> The nonzero vector <span class="math inline">\(\bv\)</span> is called an <em>eigenvector</em> of <span class="math inline">\(\bA\)</span> corresponding to <span class="math inline">\(\lambda\)</span>. The set of all eigenvalues of <span class="math inline">\(\bA\)</span> is called the <em>spectrum</em> of <span class="math inline">\(\bA\)</span>, denoted <span class="math inline">\(\sigma(\bA)\)</span>.</p>
+</div>
+</div>
+<p>Intuitively, an eigenvector is a vector whose direction remains unchanged when transformed by <span class="math inline">\(\bA\)</span> — it may be stretched, compressed, or reversed, but it stays on the same line. The eigenvalue tells us the factor by which the eigenvector is scaled. Eigenvalues and eigenvectors reveal the fundamental character of a linear transformation, showing the directions in which the transformation behaves most simply.</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>Verify that <span class="math inline">\(\bv = (1, 1)^T\)</span> is an eigenvector of <span class="math inline">\(\bA = \begin{pmatrix}3&amp;1\\1&amp;3\end{pmatrix}\)</span>. What is the corresponding eigenvalue?</p></li>
+<li><p>If <span class="math inline">\(\bv\)</span> is an eigenvector of <span class="math inline">\(\bA\)</span> with eigenvalue <span class="math inline">\(\lambda\)</span>, show that <span class="math inline">\(c\bv\)</span> is also an eigenvector for any nonzero scalar <span class="math inline">\(c\)</span>.</p></li>
+<li><p>Can the zero vector be an eigenvector? Why is it explicitly excluded from the definition?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Characteristic Polynomial
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, the <em>characteristic polynomial</em> is <span class="math display">\[p_{\bA}(\lambda) = \det(\bA - \lambda \bI),\]</span> where <span class="math inline">\(\bI\)</span> is the <span class="math inline">\(n \times n\)</span> identity matrix. The equation <span class="math inline">\(\det(\bA - \lambda \bI) = 0\)</span> is the <em>characteristic equation</em> of <span class="math inline">\(\bA\)</span>. The roots of the characteristic polynomial are precisely the eigenvalues of <span class="math inline">\(\bA\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Consider the matrix <span class="math inline">\(\bA = \begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 3 \end{pmatrix}\)</span>.</p>
+<p>To find its eigenvalues, we compute the characteristic polynomial: <span class="math display">\[
+\begin{align}
+p_{\bA}(\lambda)
+&amp;= \det\begin{pmatrix} 3-\lambda &amp; 1 \\ 1 &amp; 3-\lambda \end{pmatrix}
+= (3-\lambda)^2 - 1
+= \lambda^2 - 6\lambda + 8
+= (\lambda - 4)(\lambda - 2).
+\end{align}
+\]</span></p>
+<p>Setting <span class="math inline">\(p_{\bA}(\lambda) = 0\)</span> gives eigenvalues <span class="math inline">\(\lambda_1 = 4\)</span> and <span class="math inline">\(\lambda_2 = 2\)</span>.</p>
+<p>For <span class="math inline">\(\lambda_1 = 4\)</span>: solving <span class="math inline">\((\bA - 4\bI)\bv = \bzero\)</span> gives <span class="math inline">\(-v_1 + v_2 = 0\)</span>, so <span class="math inline">\(\bv_1 = \frac{1}{\sqrt{2}}(1, 1)^T\)</span> (normalized).</p>
+<p>For <span class="math inline">\(\lambda_2 = 2\)</span>: solving <span class="math inline">\((\bA - 2\bI)\bv = \bzero\)</span> gives <span class="math inline">\(v_1 + v_2 = 0\)</span>, so <span class="math inline">\(\bv_2 = \frac{1}{\sqrt{2}}(1, -1)^T\)</span> (normalized).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>Compute the characteristic polynomial and eigenvalues of <span class="math inline">\(\bA = \begin{pmatrix}1 &amp; 2 \\ 2 &amp; 1\end{pmatrix}\)</span>. Verify using trace: <span class="math inline">\(\lambda_1 + \lambda_2 = \text{tr}(\bA)\)</span>.</p></li>
+<li><p>For the <span class="math inline">\(2 \times 2\)</span> rotation matrix <span class="math inline">\(\bB = \begin{pmatrix}0 &amp; -1 \\ 1 &amp; 0\end{pmatrix}\)</span>, compute the characteristic polynomial. Are the eigenvalues real? What does this say geometrically?</p></li>
+<li><p>In NumPy, use <code>np.linalg.eigvals(A)</code> to find the eigenvalues of each matrix above and verify they match your hand computations.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proposition: Eigenvalues of Triangular Matrices
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(\bA\)</span> is upper or lower triangular, its eigenvalues are precisely the diagonal entries <span class="math inline">\(a_{11}, a_{22}, ..., a_{nn}\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The characteristic polynomial <span class="math inline">\(\det(\bA - \lambda\bI)\)</span> for a triangular matrix is the product of its diagonal entries <span class="math inline">\((a_{ii} - \lambda)\)</span>, giving <span class="math inline">\(p_\bA(\lambda) = \prod_{i=1}^n (a_{ii} - \lambda)\)</span>. The roots are <span class="math inline">\(\lambda_i = a_{ii}\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Proposition: Similar Matrices Share Eigenvalues
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(\bB = \bV^{-1}\bA\bV\)</span> for some invertible <span class="math inline">\(\bV\)</span>, then <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bB\)</span> have the same characteristic polynomial and hence the same eigenvalues.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><span class="math inline">\(\det(\bB - \lambda\bI) = \det(\bV^{-1}\bA\bV - \lambda\bI)
+= \det(\bV^{-1}(\bA - \lambda\bI)\bV)
+= \det(\bV^{-1})\det(\bA - \lambda\bI)\det(\bV)
+= \det(\bA - \lambda\bI)\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Key Eigenvalue Properties
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> with eigenvalues <span class="math inline">\(\lambda_1, ..., \lambda_n\)</span> (counting algebraic multiplicity):</p>
+<ol type="1">
+<li><p><span class="math inline">\(\displaystyle\text{tr}(\bA) = \sum_{i=1}^n \lambda_i\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle\det(\bA) = \prod_{i=1}^n \lambda_i\)</span></p></li>
+<li><p><span class="math inline">\(\bA\)</span> is singular if and only if <span class="math inline">\(0 \in \sigma(\bA)\)</span>.</p></li>
+<li><p>If <span class="math inline">\(\bA\)</span> is invertible, the eigenvalues of <span class="math inline">\(\bA^{-1}\)</span> are <span class="math inline">\(1/\lambda_1, ..., 1/\lambda_n\)</span>.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>and (2): Both follow from comparing the characteristic polynomial <span class="math display">\[p_\bA(\lambda) = \det(\bA - \lambda\bI) = (-1)^n(\lambda - \lambda_1)\cdots(\lambda - \lambda_n)\]</span> with the direct expansion of the determinant. Setting <span class="math inline">\(\lambda = 0\)</span> gives <span class="math inline">\(\det(\bA) = \prod_i \lambda_i\)</span>. The coefficient of <span class="math inline">\(\lambda^{n-1}\)</span> gives <span class="math inline">\(-\text{tr}(\bA) = -\sum_i \lambda_i\)</span>.</li>
+</ol>
+<p>(3): Direct from (2): <span class="math inline">\(\det(\bA) = 0 \iff \prod_i \lambda_i = 0 \iff\)</span> some <span class="math inline">\(\lambda_i = 0\)</span>.</p>
+<p>(4): If <span class="math inline">\(\bA\bv = \lambda\bv\)</span> with <span class="math inline">\(\lambda \neq 0\)</span>, multiply both sides by <span class="math inline">\(\frac{1}{\lambda}\bA^{-1}\)</span> to get <span class="math inline">\(\bA^{-1}\bv = \frac{1}{\lambda}\bv\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Lemma: Eigenvectors for Distinct Eigenvalues are Linearly Independent
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\lambda_1, ..., \lambda_k\)</span> be distinct eigenvalues of <span class="math inline">\(\bA\)</span> with corresponding eigenvectors <span class="math inline">\(\bv_1, ..., \bv_k\)</span>. Then <span class="math inline">\(\{\bv_1, ..., \bv_k\}\)</span> is linearly independent.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>By induction on <span class="math inline">\(k\)</span>. The case <span class="math inline">\(k=1\)</span> holds since eigenvectors are nonzero. Assume <span class="math inline">\(\{\bv_1, ..., \bv_{k-1}\}\)</span> is independent. Suppose <span class="math inline">\(\sum_{i=1}^k c_i\bv_i = \bzero\)</span>. Apply <span class="math inline">\((\bA - \lambda_k\bI)\)</span> to both sides: <span class="math display">\[\sum_{i=1}^{k-1} c_i(\lambda_i - \lambda_k)\bv_i = \bzero.\]</span> By the inductive hypothesis, <span class="math inline">\(c_i(\lambda_i - \lambda_k) = 0\)</span> for each <span class="math inline">\(i &lt; k\)</span>. Since <span class="math inline">\(\lambda_i \neq \lambda_k\)</span>, each <span class="math inline">\(c_i = 0\)</span>. Substituting back gives <span class="math inline">\(c_k\bv_k = \bzero\)</span>, so <span class="math inline">\(c_k = 0\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to Props~above–above, the result above, and the result above.</p>
+<ol type="1">
+<li><p>Read off the eigenvalues of <span class="math inline">\(\bT = \begin{pmatrix}4&amp;2&amp;1\\0&amp;-1&amp;3\\0&amp;0&amp;2\end{pmatrix}\)</span> without any computation. Verify using <code>np.linalg.eigvals(T)</code>.</p></li>
+<li><p>For <span class="math inline">\(\bA = \begin{pmatrix}5&amp;2\\2&amp;2\end{pmatrix}\)</span>, use properties (1) and (2) of the result above to check your eigenvalue computation: verify <span class="math inline">\(\lambda_1 + \lambda_2 = \text{tr}(\bA)\)</span> and <span class="math inline">\(\lambda_1\lambda_2 = \det(\bA)\)</span>.</p></li>
+<li><p>Let <span class="math inline">\(\bA\)</span> have eigenvalues <span class="math inline">\(2, 3, 5\)</span>. What are the eigenvalues of <span class="math inline">\(\bA^{-1}\)</span>? Of <span class="math inline">\(\bA^2\)</span>? Of <span class="math inline">\(\bA - 2\bI\)</span>?</p></li>
+<li><p>If <span class="math inline">\(\bA\)</span> has three distinct eigenvalues, does it follow that its three eigenvectors form a basis for <span class="math inline">\(\fR^3\)</span>? Cite the relevant lemma.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Spectral Theorem for Real Symmetric Matrices
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> be symmetric. Then:</p>
+<ol type="1">
+<li><p>All eigenvalues of <span class="math inline">\(\bA\)</span> are real.</p></li>
+<li><p>Eigenvectors corresponding to distinct eigenvalues are orthogonal.</p></li>
+<li><p><span class="math inline">\(\bA\)</span> is orthogonally diagonalizable: <span class="math inline">\(\bA = \bQ\bD\bQ^T\)</span> where <span class="math inline">\(\bQ\)</span> is orthogonal and <span class="math inline">\(\bD = \text{diag}(\lambda_1, ..., \lambda_n) \in \fR^{n\times n}\)</span>.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>(1): Let <span class="math inline">\(\lambda \in \fC\)</span> be an eigenvalue with eigenvector <span class="math inline">\(\bv \in \fC^n\)</span>, <span class="math inline">\(\bA\bv = \lambda\bv\)</span>. Then <span class="math inline">\(\bar{\bv}^T\bA\bv = \lambda\,\bar{\bv}^T\bv\)</span>. But also <span class="math inline">\(\bar{\bv}^T\bA\bv = (\bA\bar{\bv})^T\bv = \overline{(\bA\bv)}^T\bv =
+\bar{\lambda}\,\bar{\bv}^T\bv\)</span>. Since <span class="math inline">\(\bar{\bv}^T\bv = \|\bv\|_2^2 &gt; 0\)</span>, we conclude <span class="math inline">\(\lambda = \bar{\lambda}\)</span>, so <span class="math inline">\(\lambda \in \fR\)</span>.</p>
+<p>(2): Let <span class="math inline">\(\bA\bv = \lambda\bv\)</span> and <span class="math inline">\(\bA\bw = \mu\bw\)</span> with <span class="math inline">\(\lambda \neq \mu\)</span>. Then: <span class="math display">\[\lambda\,\bv^T\bw = (\bA\bv)^T\bw = \bv^T\bA^T\bw = \bv^T\bA\bw = \mu\,\bv^T\bw.\]</span> Since <span class="math inline">\(\lambda \neq \mu\)</span>, we get <span class="math inline">\(\bv^T\bw = 0\)</span>.</p>
+<p>(3): Existence of a full orthonormal eigenbasis follows from (1), (2), and the fact that the characteristic polynomial splits over <span class="math inline">\(\fR\)</span> for symmetric matrices (proven via induction on dimension in a full course).</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Hermitian Matrix
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A matrix <span class="math inline">\(\bA \in \fC^{n \times n}\)</span> is <em>Hermitian</em> if <span class="math inline">\(\bA = \bA^*\)</span>, where <span class="math inline">\(\bA^* = \bar{\bA}^T\)</span> is the <em>conjugate transpose</em>: each entry <span class="math inline">\(a_{ij}\)</span> is replaced by its complex conjugate <span class="math inline">\(\overline{a_{ji}}\)</span>. For real matrices, <span class="math inline">\(\bA^* = \bA^T\)</span>, so symmetric matrices are exactly the real Hermitian matrices.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>Verify that <span class="math inline">\(\bA = \begin{pmatrix} 2 &amp; 1+i \\ 1-i &amp; 3 \end{pmatrix}\)</span> is Hermitian by computing <span class="math inline">\(\bA^*\)</span>.</p></li>
+<li><p>Show that for any <span class="math inline">\(\bA \in \fC^{n \times n}\)</span>, the matrix <span class="math inline">\(\bA + \bA^*\)</span> is always Hermitian and <span class="math inline">\(\bA - \bA^*\)</span> is always <em>skew-Hermitian</em> (<span class="math inline">\(\bM^* = -\bM\)</span>).</p></li>
+<li><p>Show that the diagonal entries of a Hermitian matrix must be real.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Spectral Theorem for Hermitian Matrices
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\bA \in \fC^{n \times n}\)</span> be Hermitian. Then:</p>
+<ol type="1">
+<li><p>All eigenvalues of <span class="math inline">\(\bA\)</span> are real.</p></li>
+<li><p>Eigenvectors for distinct eigenvalues are orthogonal with respect to the complex inner product <span class="math inline">\(\langle \bu, \bv \rangle = \bu^*\bv\)</span>.</p></li>
+<li><p><span class="math inline">\(\bA\)</span> is unitarily diagonalizable: <span class="math inline">\(\bA = \bQ\bD\bQ^*\)</span>, where <span class="math inline">\(\bQ \in \fC^{n \times n}\)</span> is unitary (<span class="math inline">\(\bQ^*\bQ = \bI\)</span>) and <span class="math inline">\(\bD = \mathrm{diag}(\lambda_1, ..., \lambda_n) \in \fR^{n \times n}\)</span>.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The proof mirrors the real symmetric case, replacing transposes with conjugate transposes.</p>
+<p><strong>(1) Eigenvalues are real.</strong> Let <span class="math inline">\(\bA\bv = \lambda\bv\)</span> with <span class="math inline">\(\bv \neq \bzero\)</span>. Compute <span class="math inline">\(\bv^*\bA\bv\)</span> in two ways. On one hand, <span class="math inline">\(\bv^*\bA\bv = \bv^*(\lambda\bv) = \lambda\|\bv\|_2^2\)</span>. On the other, since <span class="math inline">\(\bA = \bA^*\)</span>: <span class="math display">\[\bv^*\bA\bv = \bv^*\bA^*\bv = (\bA\bv)^*\bv = (\lambda\bv)^*\bv = \bar{\lambda}\|\bv\|_2^2.\]</span> Since <span class="math inline">\(\|\bv\|_2^2 &gt; 0\)</span>, we get <span class="math inline">\(\lambda = \bar{\lambda}\)</span>, so <span class="math inline">\(\lambda \in \fR\)</span>.</p>
+<p><strong>(2) Eigenvectors for distinct eigenvalues are orthogonal.</strong> Let <span class="math inline">\(\bA\bv = \lambda\bv\)</span> and <span class="math inline">\(\bA\bw = \mu\bw\)</span> with <span class="math inline">\(\lambda \neq \mu\)</span> (both real). Then: <span class="math display">\[\lambda\,\bv^*\bw = (\bA\bv)^*\bw = \bv^*\bA^*\bw = \bv^*\bA\bw = \mu\,\bv^*\bw.\]</span> Since <span class="math inline">\(\lambda \neq \mu\)</span>, we conclude <span class="math inline">\(\bv^*\bw = 0\)</span>.</p>
+<p><strong>(3) Unitary diagonalizability.</strong> That a complete unitary eigenbasis always exists follows from induction on dimension (analogous to the real symmetric case) and is covered in a full linear algebra course.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Hermitian vs.&nbsp;symmetric, unitary vs.&nbsp;orthogonal.</strong> The complex analogs pair up cleanly: real symmetric <span class="math inline">\(\leftrightarrow\)</span> complex Hermitian (both have real eigenvalues and an orthonormal eigenbasis), and real orthogonal <span class="math inline">\(\leftrightarrow\)</span> complex unitary (both preserve the norm of every vector). The DFT matrix, which you will see in the Fourier analysis section, is unitary but not Hermitian. The discrete Laplacian matrix <span class="math inline">\(\bT\)</span> from the operators section is real symmetric, a special case of Hermitian.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above.</p>
+<ol type="1">
+<li><p>Find the eigenvalues and a unitary eigenbasis for <span class="math inline">\(\bA = \begin{pmatrix} 2 &amp; 1+i \\ 1-i &amp; 3 \end{pmatrix}\)</span>. Verify the eigenvalues are real and the eigenvectors are orthogonal.</p></li>
+<li><p>In NumPy, <code>np.linalg.eigh</code> is designed for Hermitian matrices. Apply it to the matrix above and confirm it returns real eigenvalues. What happens if you use <code>np.linalg.eig</code> instead?</p></li>
+<li><p>Show that <span class="math inline">\(\bA^2\)</span> is also Hermitian whenever <span class="math inline">\(\bA\)</span> is Hermitian. What are the eigenvalues of <span class="math inline">\(\bA^2\)</span> in terms of those of <span class="math inline">\(\bA\)</span>?</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Diagonalization
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> is <em>diagonalizable</em> if there exists an invertible matrix <span class="math inline">\(\bV\)</span> and a diagonal matrix <span class="math inline">\(\mathbf{\Lambda}\)</span> such that <span class="math display">\[\bA = \bV\mathbf{\Lambda}\bV^{-1},\]</span> where the diagonal entries of <span class="math inline">\(\mathbf{\Lambda}\)</span> are the eigenvalues of <span class="math inline">\(\bA\)</span> and the columns of <span class="math inline">\(\bV\)</span> are the corresponding eigenvectors.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A matrix <span class="math inline">\(\bA\)</span> is diagonalizable if and only if there exist <span class="math inline">\(n\)</span> linearly independent eigenvectors, which occurs if and only if the geometric multiplicity of each eigenvalue equals its algebraic multiplicity.</p>
+</div>
+</div>
+<p>The eigenvalue problem is one of the most fundamental in numerical linear algebra, with applications ranging from structural engineering (vibration analysis) to quantum mechanics (energy states), machine learning (principal component analysis), and dynamical systems (stability analysis). The efficiency and accuracy of eigenvalue algorithms have direct implications for these applications, making them a central focus in scientific computing.</p>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above and the result above.</p>
+<ol type="1">
+<li><p>For <span class="math inline">\(\bA = \begin{pmatrix}4&amp;1\\1&amp;4\end{pmatrix}\)</span>, find eigenvalues and an orthonormal eigenbasis <span class="math inline">\(\{\bq_1, \bq_2\}\)</span>. Write <span class="math inline">\(\bA = \bQ\bD\bQ^T\)</span> explicitly.</p></li>
+<li><p>Use the decomposition to compute <span class="math inline">\(\bA^{10}\)</span> efficiently. (<em>Hint: <span class="math inline">\(\bA^k = \bQ\bD^k\bQ^T\)</span>, and <span class="math inline">\(\bD^k\)</span> is easy.</em>)</p></li>
+<li><p>In NumPy, use <code>np.linalg.eig(A)</code> and <code>np.linalg.eigh(A)</code> (the latter exploits symmetry). Compare the results and explain why <code>eigh</code> is preferred for symmetric matrices.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For each matrix, find all eigenvalues and a corresponding eigenvector for each.</p>
+<ol type="1">
+<li><p><span class="math inline">\(\bA = \begin{pmatrix} 5 &amp; 2 \\ 2 &amp; 2 \end{pmatrix}\)</span> (verify using trace and determinant)</p></li>
+<li><p><span class="math inline">\(\bB = \begin{pmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{pmatrix}\)</span> (rotation by 90°; are eigenvalues real?)</p></li>
+<li><p><span class="math inline">\(\mathbf{C} = \begin{pmatrix} 1 &amp; 1 &amp; 0 \\ 0 &amp; 2 &amp; 0 \\ 0 &amp; 0 &amp; 2 \end{pmatrix}\)</span> (use the result above)</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Diagonalizability and the Geometric Multiplicity)</strong> The matrix <span class="math inline">\(\bA = \begin{pmatrix} 2 &amp; 1 \\ 0 &amp; 2 \end{pmatrix}\)</span> has a repeated eigenvalue <span class="math inline">\(\lambda = 2\)</span>.</p>
+<ol type="1">
+<li><p>Find the eigenspace <span class="math inline">\(\ker(\bA - 2\bI)\)</span>. What is its dimension (geometric multiplicity)?</p></li>
+<li><p>Is <span class="math inline">\(\bA\)</span> diagonalizable? Why or why not?</p></li>
+<li><p>Compute <span class="math inline">\(\bA^k\)</span> for general <span class="math inline">\(k\)</span> using the Jordan form <span class="math inline">\(\bA = 2\bI + \mathbf{N}\)</span> where <span class="math inline">\(\mathbf{N} = \begin{pmatrix}0&amp;1\\0&amp;0\end{pmatrix}\)</span> is nilpotent. ()</p></li>
+<li><p>What does <code>np.linalg.eig(A)</code> return for this matrix? Are the eigenvectors linearly independent?</p></li>
+</ol>
+</div>
+</div>
+<section id="power-iteration-and-inverse-iteration" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="power-iteration-and-inverse-iteration"><span class="header-section-number">17.1</span> Power Iteration and Inverse Iteration</h2>
+<p>The spectral theorem tells us eigenvalues exist and what they look like structurally. Power iteration gives a practical way to <em>compute</em> them. The fundamental idea is that repeated multiplication by <span class="math inline">\(\bA\)</span> amplifies the dominant eigenvector component — the one corresponding to the largest eigenvalue — while the rest decay away.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Power Iteration
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Given <span class="math inline">\(\bA \in \fR^{n\times n}\)</span> and a starting vector <span class="math inline">\(\bv^{(0)}\)</span> with <span class="math inline">\(\|\bv^{(0)}\|_2 = 1\)</span>, the <em>power iteration</em> produces a sequence of unit vectors and Rayleigh quotients: <span class="math display">\[\bw^{(k)} = \bA\bv^{(k-1)}, \quad
+  \bv^{(k)} = \frac{\bw^{(k)}}{\|\bw^{(k)}\|_2}, \quad
+  \lambda^{(k)} = (\bv^{(k)})^T\bA\bv^{(k)}.\]</span> The scalar <span class="math inline">\(\lambda^{(k)}\)</span> is the <em>Rayleigh quotient</em> at step <span class="math inline">\(k\)</span> and serves as an estimate of the dominant eigenvalue.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Convergence of Power Iteration
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\bA \in \fR^{n\times n}\)</span> be diagonalizable with eigenvalues <span class="math inline">\(|\lambda_1| &gt; |\lambda_2| \geq \cdots \geq |\lambda_n|\)</span> and corresponding eigenvectors <span class="math inline">\(\{\bv_1, ..., \bv_n\}\)</span>. Suppose <span class="math inline">\(\bv^{(0)}\)</span> has a nonzero component in the <span class="math inline">\(\bv_1\)</span> direction. Then: <span class="math display">\[\bv^{(k)} \to \pm\bv_1 \quad \text{and} \quad \lambda^{(k)} \to \lambda_1
+  \quad \text{as } k \to \infty,\]</span> with convergence rate <span class="math inline">\(|\lambda_2/\lambda_1|^k\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-30" class="callout-30-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Write <span class="math inline">\(\bv^{(0)} = c_1\bv_1 + c_2\bv_2 + \cdots + c_n\bv_n\)</span> with <span class="math inline">\(c_1 \neq 0\)</span>. Then: <span class="math display">\[\bA^k\bv^{(0)} = c_1\lambda_1^k\bv_1 + \cdots + c_n\lambda_n^k\bv_n
+  = \lambda_1^k\Bigl(c_1\bv_1 + \sum_{i&gt;1} c_i\Bigl(\frac{\lambda_i}{\lambda_1}\Bigr)^k\bv_i\Bigr).\]</span> Since <span class="math inline">\(|\lambda_i/\lambda_1| &lt; 1\)</span> for <span class="math inline">\(i &gt; 1\)</span>, the sum decays to zero and <span class="math inline">\(\bA^k\bv^{(0)}/\|\bA^k\bv^{(0)}\| \to \pm\bv_1\)</span>. The Rayleigh quotient satisfies <span class="math inline">\(\lambda^{(k)} \to \lambda_1\)</span> with error <span class="math inline">\(O(|\lambda_2/\lambda_1|^{2k})\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Power iteration fails when: (1) <span class="math inline">\(|\lambda_1| = |\lambda_2|\)</span> (e.g., complex conjugate pairs); (2) <span class="math inline">\(\bv^{(0)}\)</span> has no component along <span class="math inline">\(\bv_1\)</span> (measure zero, but can happen numerically). Normalization at each step prevents overflow/underflow. The convergence rate <span class="math inline">\(|\lambda_2/\lambda_1|\)</span> can be very slow if the two dominant eigenvalues are close in magnitude.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Inverse Iteration
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Inverse iteration</em> applies power iteration to <span class="math inline">\((\bA - \sigma\bI)^{-1}\)</span> for a shift <span class="math inline">\(\sigma\)</span> near a target eigenvalue <span class="math inline">\(\mu\)</span>. The iteration is: <span class="math display">\[\text{Solve } (\bA - \sigma\bI)\bw^{(k)} = \bv^{(k-1)}, \quad
+  \bv^{(k)} = \frac{\bw^{(k)}}{\|\bw^{(k)}\|_2}.\]</span> The eigenvalue estimate is updated as the Rayleigh quotient <span class="math inline">\(\lambda^{(k)} = (\bv^{(k)})^T\bA\bv^{(k)}\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When <span class="math inline">\(\sigma\)</span> is close to <span class="math inline">\(\mu\)</span>, the matrix <span class="math inline">\(\bA - \sigma\bI\)</span> is nearly singular, but the solve still yields the correct eigenvector direction. In practice, <span class="math inline">\(\bA - \sigma\bI\)</span> is factored once (LU or Cholesky), making each inverse iteration step <span class="math inline">\(O(n^2)\)</span> (for dense <span class="math inline">\(\bA\)</span>) instead of <span class="math inline">\(O(n^3)\)</span>. The convergence rate is <span class="math inline">\(|(\mu - \sigma)/(\tilde{\mu} - \sigma)|\)</span> where <span class="math inline">\(\tilde{\mu}\)</span> is the nearest eigenvalue to <span class="math inline">\(\sigma\)</span> besides <span class="math inline">\(\mu\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Rayleigh Quotient Iteration
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Rayleigh Quotient Iteration</em> (RQI) applies inverse iteration with the shift <span class="math inline">\(\sigma_k = \lambda^{(k)}\)</span> updated at each step. Starting from a unit vector <span class="math inline">\(\bv^{(0)}\)</span>: <span class="math display">\[\sigma_k = (\bv^{(k)})^T\bA\bv^{(k)}, \quad
+  \text{solve } (\bA - \sigma_k\bI)\bw^{(k+1)} = \bv^{(k)}, \quad
+  \bv^{(k+1)} = \bw^{(k+1)}/\|\bw^{(k+1)}\|.\]</span> RQI converges <em>cubically</em> for symmetric matrices: once near an eigenvector, the number of correct digits roughly triples each step.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Power iteration on a <span class="math inline">\(3\times3\)</span> symmetric matrix.</strong></p>
+<p>Let <span class="math inline">\(\bA = \begin{pmatrix}4&amp;1&amp;0\\1&amp;3&amp;1\\0&amp;1&amp;2\end{pmatrix}\)</span>, <span class="math inline">\(\bv^{(0)} = (1,0,0)^T\)</span>. The eigenvalues are approximately <span class="math inline">\(\lambda_1 \approx 5.21\)</span>, <span class="math inline">\(\lambda_2 \approx 2.79\)</span>, <span class="math inline">\(\lambda_3 \approx 1.00\)</span>.</p>
+<p>Starting power iteration: <span class="math display">\[
+\begin{align}
+\bw^{(1)} &amp;= \bA\bv^{(0)} = (4,1,0)^T, \quad
+\bv^{(1)} = (4,1,0)^T/\sqrt{17} \approx (0.970, 0.243, 0)^T, \\
+\lambda^{(1)} &amp;= (\bv^{(1)})^T\bA\bv^{(1)} \approx 4.12.
+\end{align}
+\]</span> The ratio <span class="math inline">\(|\lambda_2/\lambda_1| \approx 0.535\)</span>, so convergence is moderately fast; after <span class="math inline">\(\sim 10\)</span> iterations the estimate <span class="math inline">\(\lambda^{(k)} \approx 5.21\)</span> to 4 digits.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to Defs~above–above and the result above.</p>
+<ol type="1">
+<li><p>Implement <code>power\_iteration(A, v0, tol, max\_iter)</code> that returns the dominant eigenvalue and eigenvector. Apply it to the tridiagonal <span class="math inline">\(5\times5\)</span> matrix with <span class="math inline">\(3\)</span> on the diagonal and <span class="math inline">\(-1\)</span> on the off-diagonals. Plot the Rayleigh quotient error vs.&nbsp;<span class="math inline">\(k\)</span> on a semi-log scale; verify the slope equals <span class="math inline">\(\log|\lambda_2/\lambda_1|\)</span>.</p></li>
+<li><p>Implement inverse iteration to find the <em>smallest</em> eigenvalue of the same matrix (use <span class="math inline">\(\sigma = 0\)</span>). Compare the convergence rate to power iteration.</p></li>
+<li><p>For a random <span class="math inline">\(4\times4\)</span> symmetric matrix, apply Rayleigh Quotient Iteration from a random starting vector. Plot the error in the eigenvalue estimate vs.&nbsp;<span class="math inline">\(k\)</span> on a log scale. Can you observe cubic convergence?</p></li>
+<li><p>What happens to power iteration when <span class="math inline">\(|\lambda_1| = |\lambda_2|\)</span>? Construct an example (e.g., a rotation matrix scaled to have two equal-magnitude eigenvalues) and observe the behavior in NumPy.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="invariant-subspaces" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="invariant-subspaces"><span class="header-section-number">17.2</span> Invariant Subspaces</h2>
+<p>Eigenvectors are special one-dimensional invariant subspaces. The notion of an invariant subspace generalizes this: a subspace that <span class="math inline">\(\bA\)</span> maps into itself. Understanding invariant subspaces is the key to the Schur decomposition and the convergence of the QR algorithm.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Invariant Subspace
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A subspace <span class="math inline">\(\mathcal{S} \subseteq \fC^n\)</span> is <em>invariant</em> under <span class="math inline">\(\bA \in \fC^{n \times n}\)</span> if <span class="math display">\[\bA\mathcal{S} \subseteq \mathcal{S}, \qquad
+  \text{i.e., } \bA\bv \in \mathcal{S} \text{ for every } \bv \in \mathcal{S}.\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Example
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The canonical invariant subspaces of <span class="math inline">\(\bA\)</span>:</p>
+<ul>
+<li><p><span class="math inline">\(\{\bzero\}\)</span> and <span class="math inline">\(\fC^n\)</span> — trivially invariant for any <span class="math inline">\(\bA\)</span>.</p></li>
+<li><p><span class="math inline">\(\text{span}\{\bv\}\)</span> for any eigenvector <span class="math inline">\(\bv\)</span> — since <span class="math inline">\(\bA\bv = \lambda\bv \in \text{span}\{\bv\}\)</span>.</p></li>
+<li><p><span class="math inline">\(\ker(\bA - \lambda\bI)^k\)</span> — the <em>generalized eigenspace</em> for eigenvalue <span class="math inline">\(\lambda\)</span> (Jordan block structure).</p></li>
+<li><p><span class="math inline">\(\mathcal{R}(\bA)\)</span> — the column space is invariant since <span class="math inline">\(\bA^2\bx = \bA(\bA\bx) \in \mathcal{R}(\bA)\)</span> for all <span class="math inline">\(\bx\)</span>.</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Invariant Subspace and Block Triangular Form
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\mathcal{S} = \text{span}\{\bq_1, ..., \bq_k\}\)</span> be a <span class="math inline">\(k\)</span>-dimensional invariant subspace of <span class="math inline">\(\bA\)</span>, with <span class="math inline">\(\bQ_1 = [\bq_1, ..., \bq_k]\)</span> having orthonormal columns. Extend to an orthonormal basis <span class="math inline">\(\bQ = [\bQ_1 \mid \bQ_2]\)</span> of <span class="math inline">\(\fC^n\)</span>. Then: <span class="math display">\[\bQ^*\bA\bQ = \begin{pmatrix} \bA_{11} &amp; \bA_{12} \\ \bzero &amp; \bA_{22} \end{pmatrix},\]</span> where <span class="math inline">\(\bA_{11} \in \fC^{k \times k}\)</span>. The eigenvalues of <span class="math inline">\(\bA_{11}\)</span> are a subset of the eigenvalues of <span class="math inline">\(\bA\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-40-contents" aria-controls="callout-40" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-40" class="callout-40-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Since <span class="math inline">\(\mathcal{S}\)</span> is invariant, <span class="math inline">\(\bA\bQ_1 = \bQ_1\bA_{11}\)</span> for some <span class="math inline">\(\bA_{11} \in \fC^{k\times k}\)</span>. Multiplying on the left by <span class="math inline">\(\bQ^*\)</span>: <span class="math display">\[\bQ^*\bA\bQ = \bQ^*[\bA\bQ_1 \mid \bA\bQ_2]
+  = \begin{pmatrix}\bQ_1^*\bQ_1\bA_{11} &amp; \bQ_1^*\bA\bQ_2 \\
+  \bQ_2^*\bQ_1\bA_{11} &amp; \bQ_2^*\bA\bQ_2\end{pmatrix}
+  = \begin{pmatrix}\bA_{11} &amp; \bA_{12} \\ \bzero &amp; \bA_{22}\end{pmatrix},\]</span> using <span class="math inline">\(\bQ_1^*\bQ_1 = \bI\)</span>, <span class="math inline">\(\bQ_2^*\bQ_1 = \bzero\)</span> (orthonormality). The eigenvalues of the block upper triangular matrix are the union of eigenvalues of <span class="math inline">\(\bA_{11}\)</span> and <span class="math inline">\(\bA_{22}\)</span>, so <span class="math inline">\(\sigma(\bA_{11}) \subseteq \sigma(\bA)\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This is why invariant subspaces are central to eigenvalue computation. If you can find a nontrivial invariant subspace <span class="math inline">\(\mathcal{S}\)</span>, you <em>deflate</em> the problem: reduce finding all <span class="math inline">\(n\)</span> eigenvalues to finding the eigenvalues of <span class="math inline">\(\bA_{11}\)</span> (dimension <span class="math inline">\(k\)</span>) and <span class="math inline">\(\bA_{22}\)</span> (dimension <span class="math inline">\(n-k\)</span>) independently. The QR algorithm works precisely by building up an invariant subspace one eigenvector (or complex-conjugate pair) at a time.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Eigenspace and Generalized Eigenspace
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For <span class="math inline">\(\lambda \in \sigma(\bA)\)</span>, the <em>eigenspace</em> is <span class="math inline">\(\ker(\bA - \lambda\bI)\)</span> — the set of all eigenvectors (plus <span class="math inline">\(\bzero\)</span>). Its dimension is the <em>geometric multiplicity</em> of <span class="math inline">\(\lambda\)</span>. The <em>generalized eigenspace</em> is <span class="math inline">\(\ker(\bA - \lambda\bI)^n\)</span>, which captures all vectors associated with <span class="math inline">\(\lambda\)</span> through the Jordan structure. Both are invariant subspaces.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to the result above and the result above.</p>
+<ol type="1">
+<li><p>For <span class="math inline">\(\bA = \begin{pmatrix}3&amp;1\\0&amp;3\end{pmatrix}\)</span>, find the eigenspace <span class="math inline">\(\ker(\bA - 3\bI)\)</span> and the generalized eigenspace <span class="math inline">\(\ker(\bA - 3\bI)^2\)</span>. What is the dimension of each?</p></li>
+<li><p>Identify two nontrivial invariant subspaces of <span class="math inline">\(\bB = \begin{pmatrix}3&amp;0\\0&amp;5\end{pmatrix}\)</span> and write the block triangular form <span class="math inline">\(\bQ^T\bB\bQ\)</span> for each.</p></li>
+<li><p>In NumPy, compute the Schur decomposition of a random <span class="math inline">\(4\times4\)</span> matrix and verify that <span class="math inline">\(\text{span}\{\bq_1, \bq_2\}\)</span> (first two Schur vectors) is invariant: check that <span class="math inline">\(\bA\bQ[:, :2]\)</span> lies in the column space of <span class="math inline">\(\bQ[:, :2]\)</span>.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Stable, Unstable, and Center Subspaces
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a matrix <span class="math inline">\(\bA\)</span> representing a dynamical system <span class="math inline">\(\bx^{(k+1)} = \bA\bx^{(k)}\)</span>, the eigenvalues partition the spectrum into three sets:</p>
+<ul>
+<li><p><span class="math inline">\(\sigma^- = \{\lambda \in \sigma(\bA) : |\lambda| &lt; 1\}\)</span> — <em>stable</em>: orbits decay to zero.</p></li>
+<li><p><span class="math inline">\(\sigma^+ = \{\lambda \in \sigma(\bA) : |\lambda| &gt; 1\}\)</span> — <em>unstable</em>: orbits grow without bound.</p></li>
+<li><p><span class="math inline">\(\sigma^0 = \{\lambda \in \sigma(\bA) : |\lambda| = 1\}\)</span> — <em>center</em>: orbits neither grow nor decay.</p></li>
+</ul>
+<p>The corresponding generalized eigenspaces span the <em>stable subspace</em> <span class="math inline">\(\mathcal{S}^-\)</span>, <em>unstable subspace</em> <span class="math inline">\(\mathcal{S}^+\)</span>, and <em>center subspace</em> <span class="math inline">\(\mathcal{S}^0\)</span> — each invariant under <span class="math inline">\(\bA\)</span>, and <span class="math inline">\(\fC^n = \mathcal{S}^- \oplus \mathcal{S}^+ \oplus
+\mathcal{S}^0\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In the continuous-time system <span class="math inline">\(\dot{\bx} = \bA\bx\)</span>, stability is governed by the <em>real parts</em> of eigenvalues instead: <span class="math inline">\(\sigma^- = \{\lambda : \text{Re}(\lambda) &lt; 0\}\)</span> (stable), etc. The stable/unstable subspace decomposition is identical in structure — only the threshold changes from <span class="math inline">\(|\lambda|=1\)</span> to <span class="math inline">\(\text{Re}(\lambda)=0\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Identifying and using invariant subspaces)</strong> Refer to Defs~above–above and the result above.</p>
+<ol type="1">
+<li><p>For <span class="math inline">\(\bA = \begin{pmatrix}3&amp;1&amp;0\\0&amp;3&amp;0\\0&amp;0&amp;5\end{pmatrix}\)</span>, identify two nontrivial invariant subspaces. For each, write the block triangular form <span class="math inline">\(\bQ^T\bA\bQ\)</span> explicitly and read off the eigenvalues.</p></li>
+<li><p>Prove that if <span class="math inline">\(\mathcal{S}\)</span> and <span class="math inline">\(\mathcal{T}\)</span> are both invariant under <span class="math inline">\(\bA\)</span>, then so are <span class="math inline">\(\mathcal{S} \cap \mathcal{T}\)</span> and <span class="math inline">\(\mathcal{S} + \mathcal{T} = \{\bu + \bw : \bu \in \mathcal{S},\, \bw \in \mathcal{T}\}\)</span>.</p></li>
+<li><p>For a <span class="math inline">\(4\times4\)</span> matrix <span class="math inline">\(\bA\)</span> with eigenvalues <span class="math inline">\(0.5, 0.8, 1.2, 1.5\)</span>, identify which belong to the stable and unstable subspaces (discrete-time). What are the dimensions of each?</p></li>
+<li><p>In NumPy, compute the Schur decomposition of a random <span class="math inline">\(4\times4\)</span> matrix. Verify that the first column of <span class="math inline">\(\bQ\)</span> is an eigenvector and that <span class="math inline">\(\text{span}\{\bq_1, \bq_2\}\)</span> is invariant: check that <span class="math inline">\(\bA\bQ[:, :2]\)</span> lies in the column space of <span class="math inline">\(\bQ[:, :2]\)</span>.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="schur-decomposition" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="schur-decomposition"><span class="header-section-number">17.3</span> Schur Decomposition</h2>
+<p>Not every matrix is diagonalizable, but every square matrix can be reduced to triangular form via a unitary similarity. The Schur decomposition is the theoretical foundation for practical eigenvalue algorithms: the QR algorithm computes the Schur form iteratively, revealing all eigenvalues on the diagonal of the triangular factor.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Schur Decomposition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Every matrix <span class="math inline">\(\bA \in \fC^{n \times n}\)</span> has a <em>Schur decomposition</em> <span class="math display">\[\bA = \bQ\bT\bQ^*,\]</span> where <span class="math inline">\(\bQ \in \fC^{n \times n}\)</span> is unitary (<span class="math inline">\(\bQ^*\bQ = \bI\)</span>) and <span class="math inline">\(\bT \in \fC^{n \times n}\)</span> is upper triangular. The diagonal entries of <span class="math inline">\(\bT\)</span> are the eigenvalues of <span class="math inline">\(\bA\)</span> (in any order). If <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> has all real eigenvalues, then <span class="math inline">\(\bQ\)</span> and <span class="math inline">\(\bT\)</span> can be taken to be real.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-48-contents" aria-controls="callout-48" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-48" class="callout-48-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>By induction on <span class="math inline">\(n\)</span>. The base case <span class="math inline">\(n = 1\)</span> is trivial. For the inductive step, let <span class="math inline">\(\lambda_1\)</span> be any eigenvalue of <span class="math inline">\(\bA\)</span> (it exists over <span class="math inline">\(\fC\)</span>) with unit eigenvector <span class="math inline">\(\bq_1\)</span>. Extend <span class="math inline">\(\bq_1\)</span> to an orthonormal basis <span class="math inline">\(\{\bq_1, \bu_2, ..., \bu_n\}\)</span> and let <span class="math inline">\(\bQ_1 = [\bq_1 \mid \bu_2 \mid \cdots \mid \bu_n]\)</span>. Then: <span class="math display">\[\bQ_1^*\bA\bQ_1 = \begin{pmatrix} \lambda_1 &amp; \star \\ \bzero &amp; \bB \end{pmatrix},\]</span> where <span class="math inline">\(\bB \in \fC^{(n-1)\times(n-1)}\)</span>. By the inductive hypothesis, <span class="math inline">\(\bB = \bQ_2\bT'\bQ_2^*\)</span> for some unitary <span class="math inline">\(\bQ_2\)</span> and upper triangular <span class="math inline">\(\bT'\)</span>. Setting <span class="math inline">\(\bQ = \bQ_1\,\mathrm{diag}(1, \bQ_2)\)</span> gives the Schur decomposition with <span class="math inline">\(\bT = \begin{pmatrix}\lambda_1 &amp; \star \\ \bzero &amp; \bT'\end{pmatrix}\)</span>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The Schur decomposition is a generalization of diagonalization: if <span class="math inline">\(\bA\)</span> is normal (<span class="math inline">\(\bA^*\bA = \bA\bA^*\)</span>), then <span class="math inline">\(\bT\)</span> is diagonal (the Spectral Theorem). For non-normal matrices, off-diagonal entries of <span class="math inline">\(\bT\)</span> are generally nonzero, but the eigenvalues are still read from the diagonal.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Real Schur Form
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, the <em>real Schur decomposition</em> is <span class="math inline">\(\bA = \bQ\bT\bQ^T\)</span> where <span class="math inline">\(\bQ \in \fR^{n \times n}\)</span> is orthogonal and <span class="math inline">\(\bT\)</span> is <em>quasi-upper triangular</em>: block upper triangular with <span class="math inline">\(1\times1\)</span> diagonal blocks (for real eigenvalues) and <span class="math inline">\(2\times2\)</span> diagonal blocks (for complex-conjugate eigenvalue pairs). This avoids complex arithmetic entirely and is the form computed by <code>scipy.linalg.schur(A)</code>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Schur Vectors
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The columns of <span class="math inline">\(\bQ\)</span> in the Schur decomposition <span class="math inline">\(\bA = \bQ\bT\bQ^*\)</span> are called <em>Schur vectors</em>. Unlike eigenvectors, Schur vectors always exist and form a complete orthonormal basis, even when <span class="math inline">\(\bA\)</span> is defective. The first <span class="math inline">\(k\)</span> Schur vectors span an invariant subspace of <span class="math inline">\(\bA\)</span>: if <span class="math inline">\(\bQ_k = [\bq_1, ..., \bq_k]\)</span>, then <span class="math inline">\(\bA\bQ_k = \bQ_k\bT_{11}\)</span> where <span class="math inline">\(\bT_{11}\)</span> is the leading <span class="math inline">\(k\times k\)</span> block of <span class="math inline">\(\bT\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Refer to Defs~above–above and the result above.</p>
+<ol type="1">
+<li><p>For <span class="math inline">\(\bA = \begin{pmatrix}3&amp;1&amp;0\\0&amp;2&amp;1\\0&amp;0&amp;2\end{pmatrix}\)</span>, is <span class="math inline">\(\bA\)</span> already in Schur form? What are its Schur vectors? What are the eigenvalues?</p></li>
+<li><p>For a <span class="math inline">\(2\times2\)</span> matrix with complex-conjugate eigenvalues <span class="math inline">\(a \pm bi\)</span>, write out the <span class="math inline">\(2\times2\)</span> real Schur form block explicitly in terms of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>.</p></li>
+<li><p>In Python, compute <code>T, Q = scipy.linalg.schur(A)</code> for a random <span class="math inline">\(4\times4\)</span> matrix. Verify: (a) <span class="math inline">\(\bQ\bT\bQ^T = \bA\)</span>, (b) <span class="math inline">\(\bQ\)</span> is orthogonal, (c) the diagonal of <span class="math inline">\(\bT\)</span> matches <code>np.linalg.eigvals(A)</code>.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Connection to the QR Algorithm
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The basic QR algorithm for computing eigenvalues proceeds by iteratively applying QR factorizations: <span class="math display">\[\bA_0 = \bA, \quad \bA_k = \bR_k\bQ_k, \quad
+  \bA_{k+1} = \bQ_k\bR_k = \bQ_k^T\bA_k\bQ_k.\]</span> Each <span class="math inline">\(\bA_{k+1}\)</span> is orthogonally similar to <span class="math inline">\(\bA\)</span>, so all matrices share the same eigenvalues. Under mild conditions, the sequence <span class="math inline">\(\bA_k\)</span> converges to the Schur form <span class="math inline">\(\bT\)</span>, with eigenvalues appearing on the diagonal.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In this exercise, we explore two practical enhancements of the basic QR algorithm (the result above): Hessenberg reduction and shifts.</p>
+<ol type="1">
+<li><p><strong>(Hessenberg reduction cost.)</strong> An upper Hessenberg matrix has zeros below the first subdiagonal. A single QR factorization step on a general <span class="math inline">\(n \times n\)</span> matrix costs <span class="math inline">\(O(n^3)\)</span> flops, but on an upper Hessenberg matrix it costs only <span class="math inline">\(O(n^2)\)</span>. Explain why: how many Givens rotations are needed to reduce an upper Hessenberg matrix to triangular form, and what does each rotation cost?</p></li>
+<li><p><strong>(Shifts preserve eigenvalues.)</strong> A shifted QR step factors <span class="math inline">\(\bA_k - \sigma_k\bI = \bQ_k\bR_k\)</span>, then forms <span class="math inline">\(\bA_{k+1} = \bR_k\bQ_k + \sigma_k\bI\)</span>. Show that <span class="math inline">\(\bA_{k+1}\)</span> is orthogonally similar to <span class="math inline">\(\bA_k\)</span>, and hence has the same eigenvalues.</p></li>
+<li><p><strong>(Convergence comparison in NumPy.)</strong> Let <span class="math inline">\(\bA = \begin{pmatrix}4&amp;1&amp;0\\1&amp;3&amp;1\\0&amp;1&amp;2\end{pmatrix}\)</span>. \begin{enumerate}</p></li>
+<li><p>Run 30 basic QR steps (no shifts) and record <span class="math inline">\(|(\bA_k)_{32}|\)</span> at each step.</p></li>
+<li><p>Repeat with the Rayleigh quotient shift <span class="math inline">\(\sigma_k = (\bA_k)_{nn}\)</span>. Compare the number of steps required to reach <span class="math inline">\(|(\bA_k)_{32}| &lt; 10^{-10}\)</span>.</p>
+<p>Verify using <code>np.linalg.eig(A)</code> that the final diagonal entries of your converged <span class="math inline">\(\bA_k\)</span> match the computed eigenvalues. What LAPACK routine does <code>np.linalg.eig</code> call internally? \end{enumerate}</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(Schur decomposition in practice)</strong></p>
+<ol type="1">
+<li><p>For <span class="math inline">\(\bA = \begin{pmatrix}3&amp;1&amp;0\\0&amp;2&amp;1\\0&amp;0&amp;2\end{pmatrix}\)</span>, compute the Schur decomposition by hand. Is <span class="math inline">\(\bA\)</span> already in Schur form? What are its Schur vectors?</p></li>
+<li><p>In Python, compute <code>T, Q = scipy.linalg.schur(A)</code> for a random <span class="math inline">\(4\times4\)</span> matrix. Verify: (a) <span class="math inline">\(\bQ\bT\bQ^T = \bA\)</span>, (b) <span class="math inline">\(\bQ\)</span> is orthogonal, (c) the diagonal of <span class="math inline">\(\bT\)</span> matches <code>np.linalg.eigvals(A)</code>.</p></li>
+<li><p>For the non-diagonalizable matrix <span class="math inline">\(\bA = \begin{pmatrix}2&amp;1\\0&amp;2\end{pmatrix}\)</span>, find its Schur decomposition. How does it differ from the (impossible) diagonalization?</p></li>
+<li><p>Implement one step of the basic QR iteration: compute <span class="math inline">\(\bA_1 = \bR_0\bQ_0\)</span> where <span class="math inline">\(\bA_0 = \bQ_0\bR_0\)</span> is the QR factorization. Apply 50 steps to a random <span class="math inline">\(3\times3\)</span> symmetric matrix and verify that the off-diagonal entries converge to zero.</p></li>
+</ol>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../orthogonality/chebyshev.html" class="pagination-link" aria-label="Chebyshev Polynomials and Polynomial Approximation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../eigenvalues/svd.html" class="pagination-link" aria-label="Singular Value Decomposition and the Four Fundamental Subspaces">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/eigenvalues/eigenvalues.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
+
+
+
+
+</body></html>
