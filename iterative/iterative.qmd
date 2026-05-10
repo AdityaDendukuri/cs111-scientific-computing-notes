@@ -50,11 +50,25 @@ For any submultiplicative norm, $\rho(\bB) = \lim_{k\to\infty} \|\bB^k\|^{1/k}$.
 ::: {.callout-note icon=false}
 ## Theorem: Fundamental Convergence Condition
 The iteration $\bx^{(k+1)} = \bT\bx^{(k)} + \bc$ converges for any $\bx^{(0)}$ iff **$\rho(\bT) < 1$**.
+:::
 
-- **Error Evolution:**  $\be^{(k)} = \bT^k \be^{(0)}$.
-    
-- **Rate:**  $\|\be^{(k)}\| \approx \rho(\bT)^k \|\be^{(0)}\|$.
 
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Let $\bx^*$ be the exact solution satisfying $\bx^* = \bT\bx^* + \bc$. Subtracting this from the iteration formula gives the error evolution:
+$$
+\begin{align}
+\bx^{(k+1)} - \bx^* &= (\bT\bx^{(k)} + \bc) - (\bT\bx^* + \bc) \\
+    \be^{(k+1)} &= \bT \be^{(k)}.
+\end{align}
+$$
+Applying this relation recursively from $k=0$:
+$$
+\begin{align}
+\be^{(k)} = \bT^k \be^{(0)}.
+\end{align}
+$$
+The error $\be^{(k)} \to \bzero$ for any $\be^{(0)}$ iff $\bT^k \to \bzero$ as $k \to \infty$, which is guaranteed iff $\rho(\bT) < 1$ by Gelfand's formula.
 :::
 
 

@@ -16,9 +16,9 @@ is dimensional compatibility: two matrices can be added only when they share the
 
 \addDef{Matrix Sum}{%
 Let $\bA, \bB \in \fR^{m \times n}$.  Their sum is defined as
-\[
+\begin{align*}
 \bA + \bB = \printmatsq{a} + \printmatsq{b} = \printmatsq{(a+b)},
-\]
+\end{align*}
 where each entry satisfies $(a+b)_{ij} = a_{ij} + b_{ij}$ for $1 \le i \le m$ and
 $1 \le j \le n$.
 }
@@ -43,25 +43,25 @@ Refer to Def~\ref{def:matrix-sum}.
 \textBox{%
 \textbf{Commutativity and Associativity of Matrix Addition}\\[2mm]
 Let
-\[
+\begin{align*}
 \bA = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \quad \text{and} \quad
 \bB = \begin{pmatrix} e & f \\ g & h \end{pmatrix}.
-\]
+\end{align*}
 Then,
-\[
+\begin{align*}
 \bA + \bB = \begin{pmatrix} a+e & b+f \\ c+g & d+h \end{pmatrix}
 \quad \text{and} \quad
 \bB + \bA = \begin{pmatrix} e+a & f+b \\ g+c & h+d \end{pmatrix}.
-\]
+\end{align*}
 Since addition of real numbers is commutative, $\bA + \bB = \bB + \bA$.  Furthermore,
 for any third matrix $\bC = \begin{pmatrix} i & j \\ k & l \end{pmatrix}$,
-\[
+\begin{align*}
 (\bA+\bB)+\bC = \begin{pmatrix} (a+e)+i & (b+f)+j \\ (c+g)+k & (d+h)+l \end{pmatrix},
-\]
+\end{align*}
 and
-\[
+\begin{align*}
 \bA+(\bB+\bC) = \begin{pmatrix} a+(e+i) & b+(f+j) \\ c+(g+k) & d+(h+l) \end{pmatrix}.
-\]
+\end{align*}
 By associativity of real addition, these are identical.  Hence matrix addition is both
 commutative and associative.
 }
@@ -75,23 +75,26 @@ real vector space of dimension $mn$.
 \addPrf{%
 Each axiom follows from the corresponding property of $\fR$ applied entry-wise.
 For \textbf{commutativity}:
-\[
-    (\bA + \bB)_{ij} = a_{ij} + b_{ij} = b_{ij} + a_{ij} = (\bB + \bA)_{ij}.
-\]
-The \textbf{additive identity} is $\bzero$ since $(\bA + \bzero)_{ij} = a_{ij}$.
-The \textbf{additive inverse} of $\bA$ is $-\bA$ (negate every entry), satisfying
-$(\bA + (-\bA))_{ij} = 0$.
+\begin{align*}
+    (\bA + \bB)_{ij} &= a_{ij} + b_{ij} \\
+    &= b_{ij} + a_{ij} \\
+    &= (\bB + \bA)_{ij}.
+\end{align*}
+The \textbf{additive identity} is $\bzero$ since $(\bA + \bzero)_{ij} = a_{ij} + 0 = a_{ij}$.
+The \textbf{additive inverse} of $\bA$ is $-\bA$, satisfying $(\bA + (-\bA))_{ij} = a_{ij} - a_{ij} = 0$.
 
-For the \textbf{dimension}: the $mn$ matrices $\bE^{(ij)}$ with a $1$ in position $(i,j)$
-and zeros elsewhere are linearly independent, and every $\bA \in \fR^{m \times n}$
-decomposes as $\bA = \sum_{i,j} a_{ij}\,\bE^{(ij)}$, so they form a basis of size $mn$.
+For the \textbf{dimension}: let $\bE^{(ij)}$ be matrices with a $1$ in position $(i,j)$ and zeros elsewhere. Every $\bA \in \fR^{m \times n}$ decomposes uniquely as:
+\begin{align*}
+    \bA = \sum_{i,j} a_{ij}\,\bE^{(ij)}.
+\end{align*}
+Since these $mn$ matrices are linearly independent and span $\fR^{m \times n}$, they form a basis of size $mn$.
 }
 
 \addDef{Scalar Multiplication}{%
 Let $\bA \in \fR^{m \times n}$ and $c \in \fR$.  Then scalar multiplication is defined as
-\[
+\begin{align*}
 c\bA = c \printmatsq{a} = \printmatsq{c a},
-\]
+\end{align*}
 where each entry satisfies $(ca)_{ij} = c \cdot a_{ij}$.
 }
 \label{def:scalar-mult}
@@ -99,21 +102,21 @@ where each entry satisfies $(ca)_{ij} = c \cdot a_{ij}$.
 \textBox{%
 \textbf{Distributivity of Scalar Multiplication over Matrix Addition}\\[2mm]
 Let $\alpha \in \fR$ and
-\[
+\begin{align*}
 \bA = \begin{pmatrix} a & b \\ c & d \end{pmatrix}, \quad
 \bB = \begin{pmatrix} e & f \\ g & h \end{pmatrix}.
-\]
+\end{align*}
 Then,
-\[
+\begin{align*}
 \alpha(\bA + \bB)
 = \alpha \begin{pmatrix} a+e & b+f \\ c+g & d+h \end{pmatrix}
 = \begin{pmatrix} \alpha(a+e) & \alpha(b+f) \\ \alpha(c+g) & \alpha(d+h) \end{pmatrix}.
-\]
+\end{align*}
 Since scalar multiplication distributes over addition for real numbers, this equals
-\[
+\begin{align*}
 \begin{pmatrix} \alpha a+\alpha e & \alpha b+\alpha f \\ \alpha c+\alpha g & \alpha d+\alpha h \end{pmatrix}
 = \alpha\bA + \alpha\bB.
-\]
+\end{align*}
 }
 
 \addExcr{%
@@ -156,19 +159,19 @@ Refer to Def~\ref{def:dot-product}.
 \addDef{Matrix Product}{%
 Let $\bA \in \fR^{m \times n}$ and $\bB \in \fR^{n \times p}$.  Their product
 $\bA\bB$ is an $m \times p$ matrix defined by
-\[
+\begin{align*}
 (\bA\bB)_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj},
-\]
+\end{align*}
 or equivalently, if $\ba_i$ denotes the $i$-th row of $\bA$ and $\bb_j$ the $j$-th column
 of $\bB$:
-\[
+\begin{align*}
 \bA \bB =
 \begin{pmatrix}
 \ba_1 \cdot \bb_1 & \cdots & \ba_1 \cdot \bb_p \\
 \vdots & \ddots & \vdots \\
 \ba_m \cdot \bb_1 & \cdots & \ba_m \cdot \bb_p
 \end{pmatrix}.
-\]
+\end{align*}
 }
 \label{def:matrix-product}
 
@@ -207,34 +210,34 @@ matrix, the product would be undefined.
 \textBox{%
 \textbf{Distributive Property of Matrix Multiplication}\\[2mm]
 Let
-\[
+\begin{align*}
 \bA = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}, \quad
 \bB = \begin{pmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{pmatrix}, \quad
 \bC = \begin{pmatrix} c_{11} & c_{12} \\ c_{21} & c_{22} \end{pmatrix}.
-\]
+\end{align*}
 Then,
-\[
+\begin{align*}
 \bA(\bB + \bC) = \bA \begin{pmatrix} b_{11}+c_{11} & b_{12}+c_{12} \\ b_{21}+c_{21} & b_{22}+c_{22} \end{pmatrix},
-\]
+\end{align*}
 and by computing the entries, one can verify that
-\[
+\begin{align*}
 \bA(\bB + \bC) = \bA\bB + \bA\bC.
-\]
+\end{align*}
 }
 
 \textBox{%
 \textbf{Non-Commutativity of Matrix Multiplication}\\[2mm]
 Consider
-\[
+\begin{align*}
 \bA = \begin{pmatrix} 1 & 0 \\ 0 & 2 \end{pmatrix} \quad \text{and} \quad
 \bB = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.
-\]
+\end{align*}
 Then,
-\[
+\begin{align*}
 \bA\bB = \begin{pmatrix} 0 & 1 \\ 2 & 0 \end{pmatrix}
 \quad \text{and} \quad
 \bB\bA = \begin{pmatrix} 0 & 2 \\ 1 & 0 \end{pmatrix}.
-\]
+\end{align*}
 Since $\bA\bB \neq \bB\bA$, matrix multiplication is not commutative.
 }
 
@@ -297,9 +300,9 @@ practice.
 \addDef{Matrix Inverse}{%
 For a square matrix $\bA \in \fR^{n \times n}$, the \textbf{inverse} of $\bA$, denoted
 $\bA^{-1}$, is the unique matrix satisfying
-\[
+\begin{align*}
 \bA \bA^{-1} = \bA^{-1} \bA = \bI,
-\]
+\end{align*}
 where $\bI$ is the $n \times n$ identity matrix.  A matrix that has an inverse is
 called \emph{invertible} or \emph{nonsingular}.
 }
@@ -314,9 +317,9 @@ that $\bA$ has full rank.
 \textbf{Uniqueness of the Inverse}\\[2mm]
 Suppose $\bA$ is invertible and both $\bB$ and $\bC$ satisfy the conditions of
 Def~\ref{def:matrix-inverse}.  Then,
-\[
+\begin{align*}
 \bB = \bB\bI = \bB(\bA\bC) = (\bB\bA)\bC = \bI\bC = \bC.
-\]
+\end{align*}
 Thus the inverse of $\bA$ is unique.
 }
 
@@ -333,23 +336,30 @@ Then:
 \label{thm:inverse-props}
 
 \addPrf{%
-\textbf{(1):} $\bA^{-1}\bA = \bI$ and $\bA\bA^{-1} = \bI$ show $\bA$ is both a left and
-right inverse of $\bA^{-1}$, so $(\bA^{-1})^{-1} = \bA$.
+\textbf{(1):}\enspace The conditions $\bA^{-1}\bA = \bI$ and $\bA\bA^{-1} = \bI$ show that $\bA$ is both a left and right inverse of $\bA^{-1}$. By the uniqueness of the inverse:
+\begin{align*}
+    (\bA^{-1})^{-1} = \bA.
+\end{align*}
 
-\textbf{(2):} Check the right-inverse condition:
-\[
-    (\bA\bB)(\bB^{-1}\bA^{-1}) = \bA(\bB\bB^{-1})\bA^{-1} = \bA\bI\bA^{-1}
-    = \bA\bA^{-1} = \bI.
-\]
-Left-inverse: $(\bB^{-1}\bA^{-1})(\bA\bB) = \bB^{-1}(\bA^{-1}\bA)\bB = \bI$.
-By uniqueness of the inverse, $(\bA\bB)^{-1} = \bB^{-1}\bA^{-1}$.
+\textbf{(2):}\enspace Check the right-inverse condition for $\bB^{-1}\bA^{-1}$:
+\begin{align*}
+    (\bA\bB)(\bB^{-1}\bA^{-1}) &= \bA(\bB\bB^{-1})\bA^{-1} \\
+    &= \bA\bI\bA^{-1} \\
+    &= \bA\bA^{-1} = \bI.
+\end{align*}
+The left-inverse condition $(\bB^{-1}\bA^{-1})(\bA\bB) = \bI$ follows similarly. Thus $(\bA\bB)^{-1} = \bB^{-1}\bA^{-1}$.
 
-\textbf{(3):} $(\alpha\bA)\!\left(\tfrac{1}{\alpha}\bA^{-1}\right) =
-\tfrac{\alpha}{\alpha}\bA\bA^{-1} = \bI$.
+\textbf{(3):}\enspace For any $\alpha \neq 0$:
+\begin{align*}
+    (\alpha\bA)\!\left(\frac{1}{\alpha}\bA^{-1}\right) = \frac{\alpha}{\alpha}(\bA\bA^{-1}) = \bI.
+\end{align*}
 
-\textbf{(4):} Transpose both sides of $\bA\bA^{-1} = \bI$ using the Reversal Law
-for transposes: $(\bA^{-1})^T\bA^T = \bI$, so
-$(\bA^T)^{-1} = (\bA^{-1})^T$.
+\textbf{(4):}\enspace Transpose both sides of $\bA\bA^{-1} = \bI$ using the Reversal Law for transposes:
+\begin{align*}
+    (\bA\bA^{-1})^T &= \bI^T \\
+    (\bA^{-1})^T\bA^T &= \bI.
+\end{align*}
+This shows $(\bA^{-1})^T$ is the inverse of $\bA^T$, so $(\bA^T)^{-1} = (\bA^{-1})^T$.
 }
 
 \addNote{%
@@ -394,12 +404,12 @@ Refer to Def~\ref{def:matrix-inverse} and Thm~\ref{thm:inverse-props}.
 \addExcr{%
 \textbf{(Identifying Invertibility)} For each matrix below, determine without computing
 the inverse whether it is invertible.  Give a one-sentence justification.
-\[
+\begin{align*}
   (a)\ \begin{pmatrix} 1 & 2 \\ 2 & 4 \end{pmatrix} \qquad
   (b)\ \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} \qquad
   (c)\ \begin{pmatrix} 3 & 0 & 0 \\ 0 & 5 & 0 \\ 0 & 0 & -1 \end{pmatrix} \qquad
   (d)\ \begin{pmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 1 & 2 & 1 \end{pmatrix}
-\]
+\end{align*}
 }
 
 \end{document}

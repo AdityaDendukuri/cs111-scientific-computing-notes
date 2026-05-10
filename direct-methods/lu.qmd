@@ -11,8 +11,12 @@ The **LU factorization** expresses a square $\bA$ as $\bA = \bL\bU$, where $\bL$
 ::: {.callout-note icon=false}
 ## Definition: LU Factorization
 $\bA = \bL\bU$:
-$$\bL = \begin{pmatrix} 1 & 0 & ... \\ \ell_{21} & 1 & ... \\ \vdots & \vdots & \ddots \end{pmatrix}, \quad
-\bU = \begin{pmatrix} u_{11} & u_{12} & ... \\ 0 & u_{22} & ... \\ \vdots & \vdots & \ddots \end{pmatrix}.$$
+$$
+\begin{align}
+\bL = \begin{pmatrix} 1 & 0 & ... \\ \ell_{21} & 1 & ... \\ \vdots & \vdots & \ddots \end{pmatrix}, \quad
+\bU = \begin{pmatrix} u_{11} & u_{12} & ... \\ 0 & u_{22} & ... \\ \vdots & \vdots & \ddots \end{pmatrix}.
+\end{align}
+$$
 :::
 
 
@@ -96,8 +100,30 @@ Stability is controlled by the growth factor $\rho = \max|u_{ij}| / \max|a_{ij}|
 
 ::: {.callout-tip icon=false}
 **Total Cost for $k$ Right-Hand Sides.** 
-$$\text{Cost} = \frac{2}{3}n^3 + 2kn^2.$$
+$$
+\begin{align}
+\text{Cost} = \frac{2}{3}n^3 + 2kn^2.
+\end{align}
+$$
 Solving for 500 $\bb$'s for $n=1000$ using one factorization saves $\sim 500 \times \frac{2}{3}n^3$ flops compared to re-factorizing every time.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Forward substitution solves $\bL\by = \bb$ where $\ell_{ii} = 1$. The $i$-th entry $y_i$ is given by:
+$$
+\begin{align}
+y_i = b_i - \sum_{j=1}^{i-1} \ell_{ij} y_j.
+\end{align}
+$$
+Counting the floating-point operations:
+
+- For a fixed $i$, the summation requires $i-1$ multiplications and $i-1$ additions/subtractions.
+    
+- Total flops: $\sum_{i=1}^n 2(i-1) = 2 \sum_{k=0}^{n-1} k = 2 \frac{(n-1)n}{2} = n^2 - n$.
+
+For large $n$, each triangular solve costs approximately $n^2$ flops.
 :::
 
 

@@ -11,9 +11,9 @@ Reveals the scaling directions of a linear transformation. Essential for stabili
 
 \addDef{Eigenvalues and Eigenvectors}{%
 For $\bA \in \fR^{n \times n}$, a scalar $\lambda \in \fC$ is an \textbf{eigenvalue} if $\exists$ nonzero $\bv \in \fC^n$ such that:
-\[
+\begin{align*}
     \bA\bv = \lambda\bv.
-\]
+\end{align*}
 \begin{itemize}
     \item \textbf{Spectrum $\sigma(\bA)$:}\enspace The set of all eigenvalues.
     \item \textbf{Invariance:}\enspace Multiplying $\bv$ by $\bA$ only scales its length; its direction remains fixed.
@@ -90,6 +90,15 @@ Repeatedly apply $\bA$ to a unit vector: $\bv^{(k)} = \frac{\bA\bv^{(k-1)}}{\|\b
 \end{itemize}
 }
 \label{def:power-iteration}
+
+\addPrf{%
+Assume $\bA$ is diagonalizable with eigenvectors $\{\bu_1, \dots, \bu_n\}$ and eigenvalues $|\lambda_1| > |\lambda_2| \geq \dots$. Let $\bx^{(0)} = \sum_{i=1}^n c_i \bu_i$ with $c_1 \neq 0$. Applying $\bA$ $k$ times:
+\begin{align*}
+    \bA^k \bx^{(0)} &= \sum_{i=1}^n c_i \lambda_i^k \bu_i \\
+    &= c_1 \lambda_1^k \left( \bu_1 + \sum_{i=2}^n \frac{c_i}{c_1} \left(\frac{\lambda_i}{\lambda_1}\right)^k \bu_i \right).
+\end{align*}
+Since $|\lambda_i/\lambda_1| < 1$ for all $i > 1$, the summation term decays to zero as $k \to \infty$. Thus $\bA^k \bx^{(0)}$ aligns with $\bu_1$. The normalization at each step prevents overflow while preserving this alignment.
+}
 
 \addDef{Inverse Iteration}{%
 Apply power iteration to $(\bA - \sigma\bI)^{-1}$.

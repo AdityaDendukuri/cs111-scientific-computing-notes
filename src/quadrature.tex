@@ -12,17 +12,17 @@ Uses equally-spaced nodes. Higher-order rules are prone to Runge's phenomenon.
 
 \addDef{Trapezoidal Rule}{%
 On $n$ panels of width $h = (b-a)/n$:
-\[
+\begin{align*}
     T_n = h \left[ \frac{f(a) + f(b)}{2} + \sum_{i=1}^{n-1} f(a + ih) \right].
-\]
+\end{align*}
 \textbf{Error Bound:}\enspace $E = O(h^2)$. Doubling $n$ reduces error $4\times$.
 }
 
 \addDef{Simpson's Rule}{%
 Requires $n$ to be even. Uses piecewise quadratic interpolation:
-\[
+\begin{align*}
     S_n = \frac{h}{3} \left[ f(a) + f(b) + 4\sum_{\text{odd}\;i} f(x_i) + 2\sum_{\text{even}\;i} f(x_i) \right].
-\]
+\end{align*}
 \textbf{Error Bound:}\enspace $E = O(h^4)$. Exact for polynomials of degree $\leq 3$.
 }
 
@@ -32,9 +32,9 @@ Optimizes \textbf{both} nodes and weights to achieve the highest possible degree
 
 \addThm{Gauss-Legendre Quadrature}{%
 Integrating over $[-1, 1]$ with $p$ points:
-\[
+\begin{align*}
     \int_{-1}^1 f(x)\,dx \approx \sum_{i=1}^p w_i f(x_i).
-\]
+\end{align*}
 \textbf{Optimality:}\enspace Exact for all polynomials of degree $\leq 2p-1$.
 \textbf{Nodes:}\enspace Roots of the degree-$p$ Legendre polynomial $P_p(x)$.
 }
@@ -47,9 +47,31 @@ Integrating over $[-1, 1]$ with $p$ points:
 
 \addThm{Richardson Extrapolation}{%
 Given an $O(h^2)$ estimate $A(h)$, build an $O(h^4)$ estimate by:
-\[
+\begin{align*}
     A_{new} = \frac{4A(h/2) - A(h)}{3}.
-\]
+\end{align*}
+}
+\label{thm:richardson}
+
+\addPrf{%
+Let $A(h)$ be an $O(h^2)$ approximation of the true value $I$. Using a Taylor expansion in $h$:
+\begin{align*}
+    A(h) = I + C_1 h^2 + C_2 h^4 + O(h^6).
+\end{align*}
+Halving the step size gives:
+\begin{align*}
+    A(h/2) &= I + C_1 (h/2)^2 + C_2 (h/2)^4 + O(h^6) \\
+    &= I + \frac{1}{4} C_1 h^2 + \frac{1}{16} C_2 h^4 + O(h^6).
+\end{align*}
+To eliminate the $O(h^2)$ error term, multiply $A(h/2)$ by 4 and subtract $A(h)$:
+\begin{align*}
+    4A(h/2) - A(h) &= (4I + C_1 h^2 + \frac{1}{4} C_2 h^4) - (I + C_1 h^2 + C_2 h^4) + O(h^6) \\
+    &= 3I - \frac{3}{4} C_2 h^4 + O(h^6).
+\end{align*}
+Dividing by 3 yields the $O(h^4)$ estimate:
+\begin{align*}
+    I = \frac{4A(h/2) - A(h)}{3} + O(h^4).
+\end{align*}
 }
 
 \addDef{Romberg Integration}{%

@@ -705,7 +705,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA, \bB \in \fR^{m \times n}\)</span>. Their sum is defined as <span class="math display">\[\bA + \bB = \printmatsq{a} + \printmatsq{b} = \printmatsq{(a+b)},\]</span> where each entry satisfies <span class="math inline">\((a+b)_{ij} = a_{ij} + b_{ij}\)</span> for <span class="math inline">\(1 \le i \le m\)</span> and <span class="math inline">\(1 \le j \le n\)</span>.</p>
+<p>Let <span class="math inline">\(\bA, \bB \in \fR^{m \times n}\)</span>. Their sum is defined as <span class="math display">\[
+\begin{align}
+\bA + \bB = \printmatsq{a} + \printmatsq{b} = \printmatsq{(a+b)},
+\end{align}
+\]</span> where each entry satisfies <span class="math inline">\((a+b)_{ij} = a_{ij} + b_{ij}\)</span> for <span class="math inline">\(1 \le i \le m\)</span> and <span class="math inline">\(1 \le j \le n\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -738,13 +742,26 @@ Tip
 </ol>
 </div>
 </div>
-<p><strong>Commutativity and Associativity of Matrix Addition</strong>$<span class="math inline">\(2mm]
-Let
-\[
+<p><strong>Commutativity and Associativity of Matrix Addition</strong>\[2mm] Let <span class="math display">\[
+\begin{align}
 \bA = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix} \quad \text{and} \quad
-\bB = \begin{pmatrix} e &amp; f \\ g &amp; h \end{pmatrix}.\)</span>$ Then, <span class="math display">\[\bA + \bB = \begin{pmatrix} a+e &amp; b+f \\ c+g &amp; d+h \end{pmatrix}
+\bB = \begin{pmatrix} e &amp; f \\ g &amp; h \end{pmatrix}.
+\end{align}
+\]</span> Then, <span class="math display">\[
+\begin{align}
+\bA + \bB = \begin{pmatrix} a+e &amp; b+f \\ c+g &amp; d+h \end{pmatrix}
 \quad \text{and} \quad
-\bB + \bA = \begin{pmatrix} e+a &amp; f+b \\ g+c &amp; h+d \end{pmatrix}.\]</span> Since addition of real numbers is commutative, <span class="math inline">\(\bA + \bB = \bB + \bA\)</span>. Furthermore, for any third matrix <span class="math inline">\(\bC = \begin{pmatrix} i &amp; j \\ k &amp; l \end{pmatrix}\)</span>, <span class="math display">\[(\bA+\bB)+\bC = \begin{pmatrix} (a+e)+i &amp; (b+f)+j \\ (c+g)+k &amp; (d+h)+l \end{pmatrix},\]</span> and <span class="math display">\[\bA+(\bB+\bC) = \begin{pmatrix} a+(e+i) &amp; b+(f+j) \\ c+(g+k) &amp; d+(h+l) \end{pmatrix}.\]</span> By associativity of real addition, these are identical. Hence matrix addition is both commutative and associative.</p>
+\bB + \bA = \begin{pmatrix} e+a &amp; f+b \\ g+c &amp; h+d \end{pmatrix}.
+\end{align}
+\]</span> Since addition of real numbers is commutative, <span class="math inline">\(\bA + \bB = \bB + \bA\)</span>. Furthermore, for any third matrix <span class="math inline">\(\bC = \begin{pmatrix} i &amp; j \\ k &amp; l \end{pmatrix}\)</span>, <span class="math display">\[
+\begin{align}
+(\bA+\bB)+\bC = \begin{pmatrix} (a+e)+i &amp; (b+f)+j \\ (c+g)+k &amp; (d+h)+l \end{pmatrix},
+\end{align}
+\]</span> and <span class="math display">\[
+\begin{align}
+\bA+(\bB+\bC) = \begin{pmatrix} a+(e+i) &amp; b+(f+j) \\ c+(g+k) &amp; d+(h+l) \end{pmatrix}.
+\end{align}
+\]</span> By associativity of real addition, these are identical. Hence matrix addition is both commutative and associative.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -770,8 +787,18 @@ Let
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Each axiom follows from the corresponding property of <span class="math inline">\(\fR\)</span> applied entry-wise. For <strong>commutativity</strong>: <span class="math display">\[(\bA + \bB)_{ij} = a_{ij} + b_{ij} = b_{ij} + a_{ij} = (\bB + \bA)_{ij}.\]</span> The <strong>additive identity</strong> is <span class="math inline">\(\bzero\)</span> since <span class="math inline">\((\bA + \bzero)_{ij} = a_{ij}\)</span>. The <strong>additive inverse</strong> of <span class="math inline">\(\bA\)</span> is <span class="math inline">\(-\bA\)</span> (negate every entry), satisfying <span class="math inline">\((\bA + (-\bA))_{ij} = 0\)</span>.</p>
-<p>For the <strong>dimension</strong>: the <span class="math inline">\(mn\)</span> matrices <span class="math inline">\(\bE^{(ij)}\)</span> with a <span class="math inline">\(1\)</span> in position <span class="math inline">\((i,j)\)</span> and zeros elsewhere are linearly independent, and every <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> decomposes as <span class="math inline">\(\bA = \sum_{i,j} a_{ij}\,\bE^{(ij)}\)</span>, so they form a basis of size <span class="math inline">\(mn\)</span>.</p>
+<p>Each axiom follows from the corresponding property of <span class="math inline">\(\fR\)</span> applied entry-wise. For <strong>commutativity</strong>: <span class="math display">\[
+\begin{align}
+(\bA + \bB)_{ij} &amp;= a_{ij} + b_{ij} \\
+    &amp;= b_{ij} + a_{ij} \\
+    &amp;= (\bB + \bA)_{ij}.
+\end{align}
+\]</span> The <strong>additive identity</strong> is <span class="math inline">\(\bzero\)</span> since <span class="math inline">\((\bA + \bzero)_{ij} = a_{ij} + 0 = a_{ij}\)</span>. The <strong>additive inverse</strong> of <span class="math inline">\(\bA\)</span> is <span class="math inline">\(-\bA\)</span>, satisfying <span class="math inline">\((\bA + (-\bA))_{ij} = a_{ij} - a_{ij} = 0\)</span>.</p>
+<p>For the <strong>dimension</strong>: let <span class="math inline">\(\bE^{(ij)}\)</span> be matrices with a <span class="math inline">\(1\)</span> in position <span class="math inline">\((i,j)\)</span> and zeros elsewhere. Every <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> decomposes uniquely as: <span class="math display">\[
+\begin{align}
+\bA = \sum_{i,j} a_{ij}\,\bE^{(ij)}.
+\end{align}
+\]</span> Since these <span class="math inline">\(mn\)</span> matrices are linearly independent and span <span class="math inline">\(\fR^{m \times n}\)</span>, they form a basis of size <span class="math inline">\(mn\)</span>.</p>
 </div>
 </div>
 </div>
@@ -785,24 +812,30 @@ Let
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> and <span class="math inline">\(c \in \fR\)</span>. Then scalar multiplication is defined as <span class="math display">\[c\bA = c \printmatsq{a} = \printmatsq{c a},\]</span> where each entry satisfies <span class="math inline">\((ca)_{ij} = c \cdot a_{ij}\)</span>.</p>
+<p>Let <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> and <span class="math inline">\(c \in \fR\)</span>. Then scalar multiplication is defined as <span class="math display">\[
+\begin{align}
+c\bA = c \printmatsq{a} = \printmatsq{c a},
+\end{align}
+\]</span> where each entry satisfies <span class="math inline">\((ca)_{ij} = c \cdot a_{ij}\)</span>.</p>
 </div>
 </div>
-<strong>Distributivity of Scalar Multiplication over Matrix Addition</strong>$$2mm] Let <span class="math inline">\(\alpha \in \fR\)</span> and [ =
-<span class="math display">\[\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}\]</span>
-, =
-<span class="math display">\[\begin{pmatrix} e &amp; f \\ g &amp; h \end{pmatrix}\]</span>
-.<span class="math display">\[
-Then,
-\]</span>(+ ) =
-<span class="math display">\[\begin{pmatrix} a+e &amp; b+f \\ c+g &amp; d+h \end{pmatrix}\]</span>
-=
-<span class="math display">\[\begin{pmatrix} \alpha(a+e) &amp; \alpha(b+f) \\ \alpha(c+g) &amp; \alpha(d+h) \end{pmatrix}\]</span>
-.<span class="math display">\[
-Since scalar multiplication distributes over addition for real numbers, this equals
-\]</span>
-<span class="math display">\[\begin{pmatrix} \alpha a+\alpha e &amp; \alpha b+\alpha f \\ \alpha c+\alpha g &amp; \alpha d+\alpha h \end{pmatrix}\]</span>
-<p>= + .$$</p>
+<p><strong>Distributivity of Scalar Multiplication over Matrix Addition</strong>\[2mm] Let <span class="math inline">\(\alpha \in \fR\)</span> and <span class="math display">\[
+\begin{align}
+\bA = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}, \quad
+\bB = \begin{pmatrix} e &amp; f \\ g &amp; h \end{pmatrix}.
+\end{align}
+\]</span> Then, <span class="math display">\[
+\begin{align}
+\alpha(\bA + \bB)
+= \alpha \begin{pmatrix} a+e &amp; b+f \\ c+g &amp; d+h \end{pmatrix}
+= \begin{pmatrix} \alpha(a+e) &amp; \alpha(b+f) \\ \alpha(c+g) &amp; \alpha(d+h) \end{pmatrix}.
+\end{align}
+\]</span> Since scalar multiplication distributes over addition for real numbers, this equals <span class="math display">\[
+\begin{align}
+\begin{pmatrix} \alpha a+\alpha e &amp; \alpha b+\alpha f \\ \alpha c+\alpha g &amp; \alpha d+\alpha h \end{pmatrix}
+= \alpha\bA + \alpha\bB.
+\end{align}
+\]</span></p>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -867,12 +900,20 @@ Since scalar multiplication distributes over addition for real numbers, this equ
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> and <span class="math inline">\(\bB \in \fR^{n \times p}\)</span>. Their product <span class="math inline">\(\bA\bB\)</span> is an <span class="math inline">\(m \times p\)</span> matrix defined by <span class="math display">\[(\bA\bB)_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj},\]</span> or equivalently, if <span class="math inline">\(\ba_i\)</span> denotes the <span class="math inline">\(i\)</span>-th row of <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bb_j\)</span> the <span class="math inline">\(j\)</span>-th column of <span class="math inline">\(\bB\)</span>: <span class="math display">\[\bA \bB =
+<p>Let <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> and <span class="math inline">\(\bB \in \fR^{n \times p}\)</span>. Their product <span class="math inline">\(\bA\bB\)</span> is an <span class="math inline">\(m \times p\)</span> matrix defined by <span class="math display">\[
+\begin{align}
+(\bA\bB)_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj},
+\end{align}
+\]</span> or equivalently, if <span class="math inline">\(\ba_i\)</span> denotes the <span class="math inline">\(i\)</span>-th row of <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bb_j\)</span> the <span class="math inline">\(j\)</span>-th column of <span class="math inline">\(\bB\)</span>: <span class="math display">\[
+\begin{align}
+\bA \bB =
 \begin{pmatrix}
 \ba_1 \cdot \bb_1 &amp; \cdots &amp; \ba_1 \cdot \bb_p \\
 \vdots &amp; \ddots &amp; \vdots \\
 \ba_m \cdot \bb_1 &amp; \cdots &amp; \ba_m \cdot \bb_p
-\end{pmatrix}.\]</span></p>
+\end{pmatrix}.
+\end{align}
+\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -914,27 +955,34 @@ Tip
 <p>The <span class="math inline">\(O(n^3)\)</span> cost of naive matrix multiplication is a central bottleneck in scientific computing. Strassen’s algorithm reduces this to <span class="math inline">\(O(n^{\log_2 7}) \approx O(n^{2.807})\)</span>, but is rarely used in practice due to numerical stability concerns and cache-unfriendly memory access. Modern BLAS/LAPACK implementations approach peak hardware throughput via blocking strategies, but the asymptotic cost remains <span class="math inline">\(O(n^3)\)</span>. For many applications, avoiding explicit matrix-matrix products entirely (e.g., exploiting sparsity or factored structure) is more impactful than algorithmic improvements.</p>
 </div>
 </div>
-<p><strong>Compatibility for Matrix Multiplication</strong>$$2mm] Let <span class="math inline">\(\bA\)</span> be a <span class="math inline">\(3 \times 4\)</span> matrix and <span class="math inline">\(\bB\)</span> a <span class="math inline">\(4 \times 2\)</span> matrix. Since the number of columns of <span class="math inline">\(\bA\)</span> (4) equals the number of rows of <span class="math inline">\(\bB\)</span> (4), the product <span class="math inline">\(\bA\bB\)</span> is defined and results in a <span class="math inline">\(3 \times 2\)</span> matrix. Conversely, if <span class="math inline">\(\bB\)</span> were a <span class="math inline">\(5 \times 2\)</span> matrix, the product would be undefined.</p>
-<strong>Distributive Property of Matrix Multiplication</strong>\[2mm] Let [ =
-<span class="math display">\[\begin{pmatrix} a_{11} &amp; a_{12} \\ a_{21} &amp; a_{22} \end{pmatrix}\]</span>
-, =
-<span class="math display">\[\begin{pmatrix} b_{11} &amp; b_{12} \\ b_{21} &amp; b_{22} \end{pmatrix}\]</span>
-, =
-<span class="math display">\[\begin{pmatrix} c_{11} &amp; c_{12} \\ c_{21} &amp; c_{22} \end{pmatrix}\]</span>
-.<span class="math display">\[
-Then,
-\]</span>(+ ) =
-<span class="math display">\[\begin{pmatrix} b_{11}+c_{11} &amp; b_{12}+c_{12} \\ b_{21}+c_{21} &amp; b_{22}+c_{22} \end{pmatrix}\]</span>
-<p>,<span class="math display">\[
-and by computing the entries, one can verify that
-\]</span>(+ ) = + .$$</p>
-<p><strong>Non-Commutativity of Matrix Multiplication</strong>$<span class="math inline">\(2mm]
-Consider
-\[
+<p><strong>Compatibility for Matrix Multiplication</strong>\[2mm] Let <span class="math inline">\(\bA\)</span> be a <span class="math inline">\(3 \times 4\)</span> matrix and <span class="math inline">\(\bB\)</span> a <span class="math inline">\(4 \times 2\)</span> matrix. Since the number of columns of <span class="math inline">\(\bA\)</span> (4) equals the number of rows of <span class="math inline">\(\bB\)</span> (4), the product <span class="math inline">\(\bA\bB\)</span> is defined and results in a <span class="math inline">\(3 \times 2\)</span> matrix. Conversely, if <span class="math inline">\(\bB\)</span> were a <span class="math inline">\(5 \times 2\)</span> matrix, the product would be undefined.</p>
+<p><strong>Distributive Property of Matrix Multiplication</strong>\[2mm] Let <span class="math display">\[
+\begin{align}
+\bA = \begin{pmatrix} a_{11} &amp; a_{12} \\ a_{21} &amp; a_{22} \end{pmatrix}, \quad
+\bB = \begin{pmatrix} b_{11} &amp; b_{12} \\ b_{21} &amp; b_{22} \end{pmatrix}, \quad
+\bC = \begin{pmatrix} c_{11} &amp; c_{12} \\ c_{21} &amp; c_{22} \end{pmatrix}.
+\end{align}
+\]</span> Then, <span class="math display">\[
+\begin{align}
+\bA(\bB + \bC) = \bA \begin{pmatrix} b_{11}+c_{11} &amp; b_{12}+c_{12} \\ b_{21}+c_{21} &amp; b_{22}+c_{22} \end{pmatrix},
+\end{align}
+\]</span> and by computing the entries, one can verify that <span class="math display">\[
+\begin{align}
+\bA(\bB + \bC) = \bA\bB + \bA\bC.
+\end{align}
+\]</span></p>
+<p><strong>Non-Commutativity of Matrix Multiplication</strong>\[2mm] Consider <span class="math display">\[
+\begin{align}
 \bA = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 2 \end{pmatrix} \quad \text{and} \quad
-\bB = \begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}.\)</span>$ Then, <span class="math display">\[\bA\bB = \begin{pmatrix} 0 &amp; 1 \\ 2 &amp; 0 \end{pmatrix}
+\bB = \begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}.
+\end{align}
+\]</span> Then, <span class="math display">\[
+\begin{align}
+\bA\bB = \begin{pmatrix} 0 &amp; 1 \\ 2 &amp; 0 \end{pmatrix}
 \quad \text{and} \quad
-\bB\bA = \begin{pmatrix} 0 &amp; 2 \\ 1 &amp; 0 \end{pmatrix}.\]</span> Since <span class="math inline">\(\bA\bB \neq \bB\bA\)</span>, matrix multiplication is not commutative.</p>
+\bB\bA = \begin{pmatrix} 0 &amp; 2 \\ 1 &amp; 0 \end{pmatrix}.
+\end{align}
+\]</span> Since <span class="math inline">\(\bA\bB \neq \bB\bA\)</span>, matrix multiplication is not commutative.</p>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1006,7 +1054,11 @@ Consider
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For a square matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, the <strong>inverse</strong> of <span class="math inline">\(\bA\)</span>, denoted <span class="math inline">\(\bA^{-1}\)</span>, is the unique matrix satisfying <span class="math display">\[\bA \bA^{-1} = \bA^{-1} \bA = \bI,\]</span> where <span class="math inline">\(\bI\)</span> is the <span class="math inline">\(n \times n\)</span> identity matrix. A matrix that has an inverse is called <em>invertible</em> or <em>nonsingular</em>.</p>
+<p>For a square matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, the <strong>inverse</strong> of <span class="math inline">\(\bA\)</span>, denoted <span class="math inline">\(\bA^{-1}\)</span>, is the unique matrix satisfying <span class="math display">\[
+\begin{align}
+\bA \bA^{-1} = \bA^{-1} \bA = \bI,
+\end{align}
+\]</span> where <span class="math inline">\(\bI\)</span> is the <span class="math inline">\(n \times n\)</span> identity matrix. A matrix that has an inverse is called <em>invertible</em> or <em>nonsingular</em>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -1022,7 +1074,11 @@ Tip
 <p>A square matrix <span class="math inline">\(\bA\)</span> is invertible if and only if <span class="math inline">\(\det(\bA) \neq 0\)</span>, which also implies that <span class="math inline">\(\bA\)</span> has full rank.</p>
 </div>
 </div>
-<p><strong>Uniqueness of the Inverse</strong>$$2mm] Suppose <span class="math inline">\(\bA\)</span> is invertible and both <span class="math inline">\(\bB\)</span> and <span class="math inline">\(\bC\)</span> satisfy the conditions of the result above. Then, [ = = () = ()= = .$$ Thus the inverse of <span class="math inline">\(\bA\)</span> is unique.</p>
+<p><strong>Uniqueness of the Inverse</strong>\[2mm] Suppose <span class="math inline">\(\bA\)</span> is invertible and both <span class="math inline">\(\bB\)</span> and <span class="math inline">\(\bC\)</span> satisfy the conditions of the result above. Then, <span class="math display">\[
+\begin{align}
+\bB = \bB\bI = \bB(\bA\bC) = (\bB\bA)\bC = \bI\bC = \bC.
+\end{align}
+\]</span> Thus the inverse of <span class="math inline">\(\bA\)</span> is unique.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1054,12 +1110,29 @@ Tip
 </div>
 <div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p><strong>(1):</strong> <span class="math inline">\(\bA^{-1}\bA = \bI\)</span> and <span class="math inline">\(\bA\bA^{-1} = \bI\)</span> show <span class="math inline">\(\bA\)</span> is both a left and right inverse of <span class="math inline">\(\bA^{-1}\)</span>, so <span class="math inline">\((\bA^{-1})^{-1} = \bA\)</span>.</p>
-<p><strong>(2):</strong> Check the right-inverse condition: <span class="math display">\[(\bA\bB)(\bB^{-1}\bA^{-1}) = \bA(\bB\bB^{-1})\bA^{-1} = \bA\bI\bA^{-1}
-    = \bA\bA^{-1} = \bI.\]</span> Left-inverse: <span class="math inline">\((\bB^{-1}\bA^{-1})(\bA\bB) = \bB^{-1}(\bA^{-1}\bA)\bB = \bI\)</span>. By uniqueness of the inverse, <span class="math inline">\((\bA\bB)^{-1} = \bB^{-1}\bA^{-1}\)</span>.</p>
-<p><strong>(3):</strong> <span class="math inline">\((\alpha\bA)\!\left(\tfrac{1}{\alpha}\bA^{-1}\right) =
-\tfrac{\alpha}{\alpha}\bA\bA^{-1} = \bI\)</span>.</p>
-<p><strong>(4):</strong> Transpose both sides of <span class="math inline">\(\bA\bA^{-1} = \bI\)</span> using the Reversal Law for transposes: <span class="math inline">\((\bA^{-1})^T\bA^T = \bI\)</span>, so <span class="math inline">\((\bA^T)^{-1} = (\bA^{-1})^T\)</span>.</p>
+<p><strong>(1):</strong> The conditions <span class="math inline">\(\bA^{-1}\bA = \bI\)</span> and <span class="math inline">\(\bA\bA^{-1} = \bI\)</span> show that <span class="math inline">\(\bA\)</span> is both a left and right inverse of <span class="math inline">\(\bA^{-1}\)</span>. By the uniqueness of the inverse: <span class="math display">\[
+\begin{align}
+(\bA^{-1})^{-1} = \bA.
+\end{align}
+\]</span></p>
+<p><strong>(2):</strong> Check the right-inverse condition for <span class="math inline">\(\bB^{-1}\bA^{-1}\)</span>: <span class="math display">\[
+\begin{align}
+(\bA\bB)(\bB^{-1}\bA^{-1}) &amp;= \bA(\bB\bB^{-1})\bA^{-1} \\
+    &amp;= \bA\bI\bA^{-1} \\
+    &amp;= \bA\bA^{-1} = \bI.
+\end{align}
+\]</span> The left-inverse condition <span class="math inline">\((\bB^{-1}\bA^{-1})(\bA\bB) = \bI\)</span> follows similarly. Thus <span class="math inline">\((\bA\bB)^{-1} = \bB^{-1}\bA^{-1}\)</span>.</p>
+<p><strong>(3):</strong> For any <span class="math inline">\(\alpha \neq 0\)</span>: <span class="math display">\[
+\begin{align}
+(\alpha\bA)\!\left(\frac{1}{\alpha}\bA^{-1}\right) = \frac{\alpha}{\alpha}(\bA\bA^{-1}) = \bI.
+\end{align}
+\]</span></p>
+<p><strong>(4):</strong> Transpose both sides of <span class="math inline">\(\bA\bA^{-1} = \bI\)</span> using the Reversal Law for transposes: <span class="math display">\[
+\begin{align}
+(\bA\bA^{-1})^T &amp;= \bI^T \\
+    (\bA^{-1})^T\bA^T &amp;= \bI.
+\end{align}
+\]</span> This shows <span class="math inline">\((\bA^{-1})^T\)</span> is the inverse of <span class="math inline">\(\bA^T\)</span>, so <span class="math inline">\((\bA^T)^{-1} = (\bA^{-1})^T\)</span>.</p>
 </div>
 </div>
 </div>
@@ -1135,10 +1208,14 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(Identifying Invertibility)</strong> For each matrix below, determine without computing the inverse whether it is invertible. Give a one-sentence justification. <span class="math display">\[(a)\ \begin{pmatrix} 1 &amp; 2 \\ 2 &amp; 4 \end{pmatrix} \qquad
+<p><strong>(Identifying Invertibility)</strong> For each matrix below, determine without computing the inverse whether it is invertible. Give a one-sentence justification. <span class="math display">\[
+\begin{align}
+(a)\ \begin{pmatrix} 1 &amp; 2 \\ 2 &amp; 4 \end{pmatrix} \qquad
   (b)\ \begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix} \qquad
   (c)\ \begin{pmatrix} 3 &amp; 0 &amp; 0 \\ 0 &amp; 5 &amp; 0 \\ 0 &amp; 0 &amp; -1 \end{pmatrix} \qquad
-  (d)\ \begin{pmatrix} 1 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; 1 \\ 1 &amp; 2 &amp; 1 \end{pmatrix}\]</span></p>
+  (d)\ \begin{pmatrix} 1 &amp; 1 &amp; 0 \\ 0 &amp; 1 &amp; 1 \\ 1 &amp; 2 &amp; 1 \end{pmatrix}
+\end{align}
+\]</span></p>
 </div>
 </div>
 

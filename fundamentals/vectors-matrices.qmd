@@ -85,7 +85,7 @@ has $n$ real entries.  Vectors in $\fR^n$ take one of the following forms:
 $$
 \begin{align}
 \bx \in \fR^{n \times 1} &= \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
-\quad \text{(column vector, default convention)}\$$1mm]
+\quad \text{(column vector, default convention)}\\[1mm]
 \bx \in \fR^{1 \times n} &= \begin{pmatrix} x_1 & x_2 & \cdots & x_n \end{pmatrix}
 \quad \text{(row vector)}
 \end{align}
@@ -182,8 +182,11 @@ Refer to the result above.
 ## Definition: Matrix Transpose
 The **transpose** of $\bA \in \fR^{m \times n}$, denoted $\bA^T$, is the $n \times m$
 matrix obtained by interchanging rows and columns:
-\[
-    (\bA^T)_{ij} = a_{ji}, \quad 1 \le i \le n,\ 1 \le j \le m.$$
+$$
+\begin{align}
+(\bA^T)_{ij} = a_{ji}, \quad 1 \le i \le n,\ 1 \le j \le m.
+\end{align}
+$$
 For a column vector $\bx \in \fR^n$, the transpose $\bx^T$ is its corresponding row vector
 and vice versa.
 :::
@@ -202,8 +205,12 @@ A square matrix $\bA \in \fR^{n \times n}$ is:
 
 ::: {.callout-tip icon=false}
 Every square matrix $\bA$ decomposes uniquely into a symmetric part and a skew-symmetric part:
-$$\bA = \underbrace{\tfrac{1}{2}(\bA + \bA^T)}_{\text{symmetric}} +
-          \underbrace{\tfrac{1}{2}(\bA - \bA^T)}_{\text{skew-symmetric}}.$$
+$$
+\begin{align}
+\bA = \underbrace{\tfrac{1}{2}(\bA + \bA^T)}_{\text{symmetric}} +
+          \underbrace{\tfrac{1}{2}(\bA - \bA^T)}_{\text{skew-symmetric}}.
+\end{align}
+$$
 Symmetric matrices arise constantly in scientific computing: covariance matrices in statistics,
 graph Laplacians in network problems, and Hessians of quadratic objectives in optimization
 are all symmetric.
@@ -227,24 +234,42 @@ Let $\bA \in \fR^{m \times n}$, $\bB \in \fR^{n \times p}$, and $\alpha \in \fR$
 
 ::: {.callout-tip icon=false collapse=true}
 ## Proof
-Properties (1)--(3) follow directly from the definition $(\bA^T)_{ij} = a_{ji}$ applied
-entry-wise. For example, for (2):
-$$(\bA+\bB)^T_{ij} = (\bA+\bB)_{ji} = a_{ji} + b_{ji} = (\bA^T)_{ij} + (\bB^T)_{ij}
-    = (\bA^T + \bB^T)_{ij}.$$
+Properties (1)--(3) follow directly from the entry-wise definition $(\bA^T)_{ij} = a_{ji}$.
+For (2):
+$$
+\begin{align}
+(\bA+\bB)^T_{ij} &= (\bA+\bB)_{ji} \\
+    &= a_{ji} + b_{ji} \\
+    &= (\bA^T)_{ij} + (\bB^T)_{ij} \\
+    &= (\bA^T + \bB^T)_{ij}.
+\end{align}
+$$
 
-For (4), let $\mathbf{C} = \bA\bB \in \fR^{m \times p}$. By definition of transpose and
-matrix product:
-$$(\mathbf{C}^T)_{ij} = c_{ji} = \sum_{k=1}^{n} a_{jk}\,b_{ki}.$$
-Expanding $\bB^T\bA^T$ using $(\bB^T)_{ik} = b_{ki}$ and $(\bA^T)_{kj} = a_{jk}$:
-$$(\bB^T\bA^T)_{ij} = \sum_{k=1}^{n} (\bB^T)_{ik}\,(\bA^T)_{kj} = \sum_{k=1}^{n} b_{ki}\,a_{jk}.$$
-Both sums are identical, so $(\bA\bB)^T = \bB^T\bA^T$.
+For (4), let $\bC = \bA\bB \in \fR^{m \times p}$. By the definition of matrix product:
+$$
+\begin{align}
+(\bC^T)_{ij} = c_{ji} = \sum_{k=1}^{n} a_{jk}\,b_{ki}.
+\end{align}
+$$
+Expanding the $(i,j)$ entry of $\bB^T\bA^T$ using $(\bB^T)_{ik} = b_{ki}$ and $(\bA^T)_{kj} = a_{jk}$:
+$$
+\begin{align}
+(\bB^T\bA^T)_{ij} &= \sum_{k=1}^{n} (\bB^T)_{ik}\,(\bA^T)_{kj} \\
+    &= \sum_{k=1}^{n} b_{ki}\,a_{jk}.
+\end{align}
+$$
+Both summations are identical, so $(\bA\bB)^T = \bB^T\bA^T$.
 :::
 
 
 ::: {.callout-note icon=false}
 ## Corollary: Reversal Law for Multiple Factors
 By induction on the result above(4):
-$$(\bA_1 \bA_2 \cdots \bA_k)^T = \bA_k^T \cdots \bA_2^T \bA_1^T.$$
+$$
+\begin{align}
+(\bA_1 \bA_2 \cdots \bA_k)^T = \bA_k^T \cdots \bA_2^T \bA_1^T.
+\end{align}
+$$
 :::
 
 

@@ -9,7 +9,11 @@ Optimal linear dimensionality reduction via variance maximization.
 ::: {.callout-note icon=false}
 ## Definition: Data Centering
 Data matrix $\bX \in \fR^{n\times p}$ ($n$ samples, $p$ features) must be **centered**:
-$$X_{ij} \leftarrow X_{ij} - \bar{x}_j, \quad \bar{x}_j = \frac{1}{n}\sum_{i=1}^n X_{ij}.$$
+$$
+\begin{align}
+X_{ij} \leftarrow X_{ij} - \bar{x}_j, \quad \bar{x}_j = \frac{1}{n}\sum_{i=1}^n X_{ij}.
+\end{align}
+$$
 **Rule:**  Throughout this section, $\bX$ is assumed centered.
 :::
 
@@ -54,7 +58,11 @@ Let $\bX = \bU\bsigma\bV^T$ be the SVD of the centered data matrix.
 ::: {.callout-note icon=false}
 ## Definition: Proportion of Variance Explained (PVE)
 For the first $k$ components:
-$$\text{PVE}_k = \frac{\sum_{i=1}^k \sigma_i^2}{\sum_{i=1}^p \sigma_i^2}.$$
+$$
+\begin{align}
+\text{PVE}_k = \frac{\sum_{i=1}^k \sigma_i^2}{\sum_{i=1}^p \sigma_i^2}.
+\end{align}
+$$
 **Rule:**  Choose $k$ to reach a target PVE (e.g., 95\%) or identify the "elbow" in a scree plot.
 :::
 
@@ -93,4 +101,26 @@ When $p \gg n$, work with the $n \times n$ Gram matrix $\mathbf{K} = \bX\bX^T$. 
     
 1. Verify that the sum of variances $\sum \lambda_i$ equals the total variance $\text{Tr}(\bS)$.
 
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+The score matrix is $\bZ = \bX\bV$. The covariance of the scores is:
+$$
+\begin{align}
+\text{Cov}(\bZ) &= \frac{1}{n-1} \bZ^T \bZ \\
+    &= \frac{1}{n-1} (\bX\bV)^T (\bX\bV) \\
+    &= \bV^T \left( \frac{1}{n-1} \bX^T \bX \right) \bV.
+\end{align}
+$$
+Since $\frac{1}{n-1} \bX^T \bX = \bS$ and $\bV$ contains the eigenvectors of $\bS$:
+$$
+\begin{align}
+\text{Cov}(\bZ) &= \bV^T \bS \bV \\
+    &= \bV^T (\bV \boldsymbol{\Lambda} \bV^T) \bV \\
+    &= \boldsymbol{\Lambda}.
+\end{align}
+$$
+Since $\boldsymbol{\Lambda}$ is diagonal, the covariance between $\bz_i$ and $\bz_j$ is zero for $i \neq j$.
 :::

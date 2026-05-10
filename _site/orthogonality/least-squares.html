@@ -718,7 +718,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Find <span class="math inline">\(\hat{\bx}\)</span> that minimizes the Euclidean residual: <span class="math display">\[\hat{\bx} = \arg\min_{\bx \in \fR^n} \|\bA\bx - \bb\|_2^2.\]</span> <strong>Geometry:</strong> <span class="math inline">\(\bA\hat{\bx}\)</span> is the orthogonal projection of <span class="math inline">\(\bb\)</span> onto <span class="math inline">\(\mathcal{R}(\bA)\)</span>.</p>
+<p>Find <span class="math inline">\(\hat{\bx}\)</span> that minimizes the Euclidean residual: <span class="math display">\[
+\begin{align}
+\hat{\bx} = \arg\min_{\bx \in \fR^n} \|\bA\bx - \bb\|_2^2.
+\end{align}
+\]</span> <strong>Geometry:</strong> <span class="math inline">\(\bA\hat{\bx}\)</span> is the orthogonal projection of <span class="math inline">\(\bb\)</span> onto <span class="math inline">\(\mathcal{R}(\bA)\)</span>.</p>
 </div>
 </div>
 </section>
@@ -784,7 +788,37 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\bA = \bQ\bR\)</span> (thin QR), the least squares solution satisfies: <span class="math display">\[\bR\hat{\bx} = \bQ^T\bb.\]</span> <strong>Why?</strong> <span class="math inline">\(\|\bA\bx - \bb\|_2^2 = \|\bR\bx - \bQ^T\bb\|_2^2 + \|(\bI - \bQ\bQ^T)\bb\|_2^2\)</span>. The first term is zeroed by the solve.</p>
+<p>If <span class="math inline">\(\bA = \bQ\bR\)</span> (thin QR), the least squares solution satisfies: <span class="math display">\[
+\begin{align}
+\bR\hat{\bx} = \bQ^T\bb.
+\end{align}
+\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The goal is to minimize <span class="math inline">\(\|\bA\bx - \bb\|_2^2\)</span>. Let <span class="math inline">\(\bA = \bQ\bR\)</span> be the thin QR factorization. Using the orthogonal projector <span class="math inline">\(\bP = \bQ\bQ^T\)</span> and its complement <span class="math inline">\(\bI - \bP\)</span>: <span class="math display">\[
+\begin{align}
+\|\bA\bx - \bb\|_2^2 &amp;= \|\bQ\bR\bx - \bb\|_2^2 \\
+    &amp;= \|\bQ\bR\bx - (\bQ\bQ^T\bb + (\bI - \bQ\bQ^T)\bb)\|_2^2 \\
+    &amp;= \|(\bQ\bR\bx - \bQ\bQ^T\bb) - (\bI - \bQ\bQ^T)\bb\|_2^2.
+\end{align}
+\]</span> Since <span class="math inline">\(\bQ(\bR\bx - \bQ^T\bb) \in \mathcal{R}(\bQ)\)</span> and <span class="math inline">\((\bI - \bQ\bQ^T)\bb \in \mathcal{R}(\bQ)^\perp\)</span>, the Pythagorean theorem gives: <span class="math display">\[
+\begin{align}
+\|\bA\bx - \bb\|_2^2 = \|\bQ(\bR\bx - \bQ^T\bb)\|_2^2 + \|(\bI - \bQ\bQ^T)\bb\|_2^2.
+\end{align}
+\]</span> The first term is minimized (set to zero) when <span class="math inline">\(\bR\bx = \bQ^T\bb\)</span>, and the second term is independent of <span class="math inline">\(\bx\)</span>. Thus <span class="math inline">\(\hat{\bx} = \bR^{-1}\bQ^T\bb\)</span> is the unique minimizer.</p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -829,7 +863,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For nodes <span class="math inline">\(t_1, ..., t_m\)</span>, the degree-<span class="math inline">\(n\)</span> design matrix is: <span class="math display">\[V_{ij} = t_i^{j-1}.\]</span> Polynomial fitting <span class="math inline">\(p(t) = \sum c_j t^j\)</span> is solved as <span class="math inline">\(\bV\bc \approx \mathbf{f}\)</span>.</p>
+<p>For nodes <span class="math inline">\(t_1, ..., t_m\)</span>, the degree-<span class="math inline">\(n\)</span> design matrix is: <span class="math display">\[
+\begin{align}
+V_{ij} = t_i^{j-1}.
+\end{align}
+\]</span> Polynomial fitting <span class="math inline">\(p(t) = \sum c_j t^j\)</span> is solved as <span class="math inline">\(\bV\bc \approx \mathbf{f}\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">

@@ -10,7 +10,11 @@ Decomposes $\bA$ into diagonal $\bD$ and remainder $\bR$: $\bA = \bD + \bR$.
 
 ::: {.callout-note icon=false}
 ## Definition: Jacobi Scheme
-$$\bx^{(k+1)} = \bD^{-1}(\bb - \bR\bx^{(k)})$$
+$$
+\begin{align}
+\bx^{(k+1)} = \bD^{-1}(\bb - \bR\bx^{(k)})
+\end{align}
+$$
 
 - **Component form:**  $x_i^{(k+1)} = \frac{1}{a_{ii}}\left(b_i - \sum_{j \neq i} a_{ij}x_j^{(k)}\right)$.
     
@@ -32,7 +36,11 @@ Splits $\bA = \bL_* + \bU_*$, where $\bL_*$ includes the diagonal.
 
 ::: {.callout-note icon=false}
 ## Definition: Gauss-Seidel Scheme
-$$\bL_* \bx^{(k+1)} = \bb - \bU_* \bx^{(k)}$$
+$$
+\begin{align}
+\bL_* \bx^{(k+1)} = \bb - \bU_* \bx^{(k)}
+\end{align}
+$$
 
 - **Component form:**  $x_i^{(k+1)} = \frac{1}{a_{ii}}\left(b_i - \sum_{j < i} a_{ij}x_j^{(k+1)} - \sum_{j > i} a_{ij}x_j^{(k)}\right)$.
     
@@ -79,7 +87,11 @@ Accelerates Gauss-Seidel by overshooting the update.
 
 ::: {.callout-note icon=false}
 ## Definition: SOR Update
-$$x_i^{(k+1)} = (1-\omega)x_i^{(k)} + \omega \left[\text{GS update}\right]$$
+$$
+\begin{align}
+x_i^{(k+1)} = (1-\omega)x_i^{(k)} + \omega \left[\text{GS update}\right]
+\end{align}
+$$
 
 - **Convergence Condition:**  $0 < \omega < 2$ (Kahan's Theorem).
 

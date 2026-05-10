@@ -77,4 +77,19 @@ A chain is reversible if $\pi_j P_{ij} = \pi_i P_{ji}$ for all $i, j$.
 \end{enumerate}
 }
 
+\addPrf{%
+Let $\bP$ be a row-stochastic matrix ($\sum_j P_{ij} = 1$) and let $\bv$ be an eigenvector with eigenvalue $\lambda$. Let $v_k$ be the entry with the largest magnitude: $|v_k| = \max_i |v_i|$.
+From $\bP\bv = \lambda\bv$, the $k$-th component is:
+\begin{align*}
+    \lambda v_k = \sum_j P_{kj} v_j.
+\end{align*}
+Taking absolute values and using the triangle inequality:
+\begin{align*}
+    |\lambda| |v_k| &\leq \sum_j P_{kj} |v_j| \\
+    &\leq \left( \sum_j P_{kj} \right) \max_i |v_i| \\
+    &= 1 \cdot |v_k|.
+\end{align*}
+Since $|v_k| > 0$, we conclude $|\lambda| \leq 1$. The proof for column-stochastic matrices follows from $\sigma(\bP) = \sigma(\bP^T)$.
+}
+
 \end{document}

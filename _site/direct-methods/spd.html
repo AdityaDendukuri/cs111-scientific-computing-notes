@@ -705,7 +705,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A symmetric matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> is <strong>positive definite</strong> (PD) if: <span class="math display">\[\bx^T\bA\bx &gt; 0 \quad \text{for every nonzero } \bx \in \fR^n.\]</span> If <span class="math inline">\(\bA\)</span> is both symmetric and PD, it is <strong>SPD</strong>.</p>
+<p>A symmetric matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> is <strong>positive definite</strong> (PD) if: <span class="math display">\[
+\begin{align}
+\bx^T\bA\bx &gt; 0 \quad \text{for every nonzero } \bx \in \fR^n.
+\end{align}
+\]</span> If <span class="math inline">\(\bA\)</span> is both symmetric and PD, it is <strong>SPD</strong>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -878,6 +882,28 @@ Tip
 <li><p><strong>Covariance:</strong> Generate <code>X = np.random.randn(100, 4)</code>. Verify <code>X.T @ X</code> is SPD via Cholesky.</p></li>
 <li><p><strong>Gram Matrix:</strong> Prove that <span class="math inline">\(\mathbf{G} = \bX^T\bX\)</span> is at least positive semi-definite for any <span class="math inline">\(\bX\)</span>, and PD if <span class="math inline">\(\bX\)</span> has full column rank.</p></li>
 </ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For any nonzero vector <span class="math inline">\(\bv \in \fR^n\)</span>, consider the quadratic form: <span class="math display">\[
+\begin{align}
+\bv^T \mathbf{G} \bv &amp;= \bv^T (\bX^T \bX) \bv \\
+    &amp;= (\bX \bv)^T (\bX \bv) \\
+    &amp;= \|\bX \bv\|_2^2.
+\end{align}
+\]</span> Since the squared Euclidean norm is always non-negative, <span class="math inline">\(\bv^T \mathbf{G} \bv \geq 0\)</span>, proving <span class="math inline">\(\mathbf{G}\)</span> is positive semi-definite. If <span class="math inline">\(\bX\)</span> has full column rank, then <span class="math inline">\(\bX \bv = \bzero\)</span> iff <span class="math inline">\(\bv = \bzero\)</span>. Thus <span class="math inline">\(\bv^T \mathbf{G} \bv &gt; 0\)</span> for all nonzero <span class="math inline">\(\bv\)</span>, making <span class="math inline">\(\mathbf{G}\)</span> positive definite.</p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">

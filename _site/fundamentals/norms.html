@@ -712,7 +712,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(\bx \in \fR^n\)</span> and <span class="math inline">\(p \geq 1\)</span>, the <em><span class="math inline">\(\ell^p\)</span> norm</em> is <span class="math display">\[\|\bx\|_p = \left(\sum_{i=1}^n |x_i|^p\right)^{1/p}.\]</span> The three most common cases are:</p>
+<p>For <span class="math inline">\(\bx \in \fR^n\)</span> and <span class="math inline">\(p \geq 1\)</span>, the <em><span class="math inline">\(\ell^p\)</span> norm</em> is <span class="math display">\[
+\begin{align}
+\|\bx\|_p = \left(\sum_{i=1}^n |x_i|^p\right)^{1/p}.
+\end{align}
+\]</span> The three most common cases are:</p>
 <ul>
 <li><p><span class="math inline">\(\|\bx\|_1 = \displaystyle\sum_{i=1}^n |x_i|\)</span> (<em>Manhattan norm</em> — sum of absolute values)</p></li>
 <li><p><span class="math inline">\(\|\bx\|_2 = \sqrt{\displaystyle\sum_{i=1}^n x_i^2} = \sqrt{\bx^T\bx}\)</span> (<em>Euclidean norm</em>)</p></li>
@@ -748,9 +752,13 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(\bx = (3, -4, 0)^T\)</span>: <span class="math display">\[\|\bx\|_1 = 3 + 4 + 0 = 7, \qquad
+<p>For <span class="math inline">\(\bx = (3, -4, 0)^T\)</span>: <span class="math display">\[
+\begin{align}
+\|\bx\|_1 = 3 + 4 + 0 = 7, \qquad
   \|\bx\|_2 = \sqrt{9 + 16 + 0} = 5, \qquad
-  \|\bx\|_\infty = 4.\]</span> The unit balls <span class="math inline">\(\{\bx : \|\bx\|_p \leq 1\}\)</span> in <span class="math inline">\(\fR^2\)</span> are: a diamond (<span class="math inline">\(p = 1\)</span>), a circle (<span class="math inline">\(p = 2\)</span>), and a square (<span class="math inline">\(p = \infty\)</span>). As <span class="math inline">\(p\)</span> increases, the unit ball grows toward the <span class="math inline">\(\ell^\infty\)</span> square.</p>
+  \|\bx\|_\infty = 4.
+\end{align}
+\]</span> The unit balls <span class="math inline">\(\{\bx : \|\bx\|_p \leq 1\}\)</span> in <span class="math inline">\(\fR^2\)</span> are: a diamond (<span class="math inline">\(p = 1\)</span>), a circle (<span class="math inline">\(p = 2\)</span>), and a square (<span class="math inline">\(p = \infty\)</span>). As <span class="math inline">\(p\)</span> increases, the unit ball grows toward the <span class="math inline">\(\ell^\infty\)</span> square.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -789,7 +797,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For any two norms <span class="math inline">\(\|\cdot\|_\alpha\)</span> and <span class="math inline">\(\|\cdot\|_\beta\)</span> on <span class="math inline">\(\fR^n\)</span>, there exist constants <span class="math inline">\(c_1, c_2 &gt; 0\)</span> such that <span class="math display">\[c_1\|\bx\|_\beta \leq \|\bx\|_\alpha \leq c_2\|\bx\|_\beta \quad \text{for all } \bx \in \fR^n.\]</span> In particular: <span class="math inline">\(\|\bx\|_2 \leq \|\bx\|_1 \leq \sqrt{n}\,\|\bx\|_2\)</span> and <span class="math inline">\(\|\bx\|_\infty \leq \|\bx\|_2 \leq \sqrt{n}\,\|\bx\|_\infty\)</span>.</p>
+<p>For any two norms <span class="math inline">\(\|\cdot\|_\alpha\)</span> and <span class="math inline">\(\|\cdot\|_\beta\)</span> on <span class="math inline">\(\fR^n\)</span>, there exist constants <span class="math inline">\(c_1, c_2 &gt; 0\)</span> such that <span class="math display">\[
+\begin{align}
+c_1\|\bx\|_\beta \leq \|\bx\|_\alpha \leq c_2\|\bx\|_\beta \quad \text{for all } \bx \in \fR^n.
+\end{align}
+\]</span> In particular: <span class="math inline">\(\|\bx\|_2 \leq \|\bx\|_1 \leq \sqrt{n}\,\|\bx\|_2\)</span> and <span class="math inline">\(\|\bx\|_\infty \leq \|\bx\|_2 \leq \sqrt{n}\,\|\bx\|_\infty\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -804,7 +816,21 @@ Tip
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Since <span class="math inline">\(\fR^n\)</span> is finite-dimensional, the unit sphere <span class="math inline">\(\{\bx : \|\bx\|_\beta = 1\}\)</span> is compact. Any norm is a continuous function, so it attains its minimum and maximum on a compact set — these extremal values are <span class="math inline">\(c_1\)</span> and <span class="math inline">\(1/c_2\)</span>. The explicit inequalities follow from Cauchy-Schwarz: <span class="math inline">\(\|\bx\|_1 = \sum|x_i| \cdot 1 \leq \|\bx\|_2\,\|\mathbf{1}\|_2 = \sqrt{n}\|\bx\|_2\)</span>.</p>
+<p>Since <span class="math inline">\(\fR^n\)</span> is finite-dimensional, the unit sphere <span class="math inline">\(S_\beta = \{\bx : \|\bx\|_\beta = 1\}\)</span> is compact. Any norm <span class="math inline">\(\|\cdot\|_\alpha\)</span> is a continuous function on <span class="math inline">\(\fR^n\)</span>, and by the Extreme Value Theorem, it attains its minimum <span class="math inline">\(c_1\)</span> and maximum <span class="math inline">\(c_2\)</span> on <span class="math inline">\(S_\beta\)</span>: <span class="math display">\[
+\begin{align}
+c_1 = \min_{\bx \in S_\beta} \|\bx\|_\alpha, \quad c_2 = \max_{\bx \in S_\beta} \|\bx\|_\alpha.
+\end{align}
+\]</span> For any nonzero <span class="math inline">\(\by \in \fR^n\)</span>, let <span class="math inline">\(\bx = \by / \|\by\|_\beta \in S_\beta\)</span>. Then: <span class="math display">\[
+\begin{align}
+c_1 \leq \left\| \frac{\by}{\|\by\|_\beta} \right\|_\alpha \leq c_2 \quad \Rightarrow \quad c_1 \|\by\|_\beta \leq \|\by\|_\alpha \leq c_2 \|\by\|_\beta.
+\end{align}
+\]</span> The explicit inequality <span class="math inline">\(\|\bx\|_1 \leq \sqrt{n}\|\bx\|_2\)</span> follows from Cauchy-Schwarz applied to <span class="math inline">\(|\bx|\)</span> and the all-ones vector <span class="math inline">\(\mathbf{1}\)</span>: <span class="math display">\[
+\begin{align}
+\|\bx\|_1 &amp;= \sum_{i=1}^n |x_i| \cdot 1 \\
+    &amp;\leq \left( \sum_{i=1}^n x_i^2 \right)^{1/2} \left( \sum_{i=1}^n 1^2 \right)^{1/2} \\
+    &amp;= \sqrt{n} \|\bx\|_2.
+\end{align}
+\]</span></p>
 </div>
 </div>
 </div>

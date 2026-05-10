@@ -11,15 +11,20 @@ Optimal Krylov subspace solver for symmetric positive definite (SPD) systems.
 
 \addThm{Quadratic Minimization}{%
 For SPD $\bA$, solving $\bA\bx = \bb$ is equivalent to minimizing the quadratic form:
-\[
+\begin{align*}
     \phi(\bx) = \frac{1}{2} \bx^T \bA \bx - \bx^T \bb.
-\]
-\begin{itemize}
-    \item \textbf{Gradient:}\enspace $\nabla \phi = \bA\bx - \bb = -\br$.
-    \item \textbf{Geometry:}\enspace $\phi$ is a paraboloid. $\kappa(\bA)$ determines the ``narrowness'' of the valley.
-\end{itemize}
+\end{align*}
 }
 \label{thm:cg-optimization}
+
+\addPrf{%
+Compute the gradient of $\phi(\bx)$ with respect to $\bx$:
+\begin{align*}
+    \nabla \phi(\bx) &= \nabla \left( \frac{1}{2} \bx^T \bA \bx - \bx^T \bb \right) \\
+    &= \bA\bx - \bb.
+\end{align*}
+Setting the gradient to zero yields the linear system $\bA\bx = \bb$. Since $\bA$ is positive definite, the Hessian $\nabla^2 \phi = \bA$ is positive definite, ensuring that the critical point is a global minimum.
+}
 
 \subsubsection{Conjugate Directions}
 
@@ -63,9 +68,9 @@ Unlike steepest descent, which zigzags in narrow valleys, CG reaches the exact s
 \subsubsection{Convergence Rate}
 
 \addThm{Convergence Bound}{%
-\[
+\begin{align*}
     \frac{\|\be^{(k)}\|_\bA}{\|\be^{(0)}\|_\bA} \leq 2 \left( \frac{\sqrt{\kappa}-1}{\sqrt{\kappa}+1} \right)^k.
-\]
+\end{align*}
 }
 \label{thm:cg-convergence}
 

@@ -707,7 +707,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math display">\[\bx^{(k+1)} = \bD^{-1}(\bb - \bR\bx^{(k)})\]</span></p>
+<p><span class="math display">\[
+\begin{align}
+\bx^{(k+1)} = \bD^{-1}(\bb - \bR\bx^{(k)})
+\end{align}
+\]</span></p>
 <ul>
 <li><p><strong>Component form:</strong> <span class="math inline">\(x_i^{(k+1)} = \frac{1}{a_{ii}}\left(b_i - \sum_{j \neq i} a_{ij}x_j^{(k)}\right)\)</span>.</p></li>
 <li><p><strong>Concurrency:</strong> All components update independently using values from the <em>previous</em> step.</p></li>
@@ -741,7 +745,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math display">\[\bL_* \bx^{(k+1)} = \bb - \bU_* \bx^{(k)}\]</span></p>
+<p><span class="math display">\[
+\begin{align}
+\bL_* \bx^{(k+1)} = \bb - \bU_* \bx^{(k)}
+\end{align}
+\]</span></p>
 <ul>
 <li><p><strong>Component form:</strong> <span class="math inline">\(x_i^{(k+1)} = \frac{1}{a_{ii}}\left(b_i - \sum_{j &lt; i} a_{ij}x_j^{(k+1)} - \sum_{j &gt; i} a_{ij}x_j^{(k)}\right)\)</span>.</p></li>
 <li><p><strong>Key Idea:</strong> Use updated values <em>immediately</em> within the same sweep.</p></li>
@@ -820,7 +828,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math display">\[x_i^{(k+1)} = (1-\omega)x_i^{(k)} + \omega \left[\text{GS update}\right]\]</span></p>
+<p><span class="math display">\[
+\begin{align}
+x_i^{(k+1)} = (1-\omega)x_i^{(k)} + \omega \left[\text{GS update}\right]
+\end{align}
+\]</span></p>
 <ul>
 <li><strong>Convergence Condition:</strong> <span class="math inline">\(0 &lt; \omega &lt; 2\)</span> (Kahan’s Theorem).</li>
 </ul>

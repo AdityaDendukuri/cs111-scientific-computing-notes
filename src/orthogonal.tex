@@ -53,9 +53,25 @@ For any orthogonal $\bQ$ and vectors $\bx, \by$:
 }
 \label{thm:orthogonal-invariance}
 
-\addNote{%
-\textbf{Numerical Stability:}\enspace
-Because orthogonal matrices preserve norms, they do not amplify rounding errors. Transformations like Householder reflections are preferred over Gaussian elimination for high-stability requirements.
+\addPrf{%
+\textbf{(1):}\enspace Applying the Reversal Law for transposes and the fact that $\bQ^T\bQ = \bI$:
+\begin{align*}
+    (\bQ\bx)^T(\bQ\by) &= \bx^T \bQ^T \bQ \by \\
+    &= \bx^T (\bQ^T \bQ) \by \\
+    &= \bx^T \bI \by = \bx^T \by.
+\end{align*}
+
+\textbf{(2):}\enspace Using the result from (1) with $\bx = \by$:
+\begin{align*}
+    \|\bQ\bx\|_2^2 &= (\bQ\bx)^T(\bQ\bx) \\
+    &= \bx^T\bx = \|\bx\|_2^2.
+\end{align*}
+Taking the square root gives $\|\bQ\bx\|_2 = \|\bx\|_2$.
+
+\textbf{(3):}\enspace From (2), we see that the induced norm is $\|\bQ\|_2 = 1$. Similarly, $\|\bQ^T\|_2 = 1$ because $\bQ^T$ is also orthogonal. Thus:
+\begin{align*}
+    \kappa_2(\bQ) = \|\bQ\|_2 \|\bQ^T\|_2 = 1 \cdot 1 = 1.
+\end{align*}
 }
 
 \addExcr{%

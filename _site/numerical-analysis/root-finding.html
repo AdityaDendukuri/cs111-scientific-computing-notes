@@ -741,7 +741,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Linearizes <span class="math inline">\(f\)</span> at the current iterate: <span class="math display">\[x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}.\]</span></p>
+<p>Linearizes <span class="math inline">\(f\)</span> at the current iterate: <span class="math display">\[
+\begin{align}
+x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}.
+\end{align}
+\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -754,7 +758,40 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f''(x)\)</span> is continuous near a simple root <span class="math inline">\(x^*\)</span> (<span class="math inline">\(f'(x^*) \neq 0\)</span>), Newton’s method converges <strong>quadratically</strong>: <span class="math display">\[|x_{k+1} - x^*| \approx \frac{|f''(x^*)|}{2|f'(x^*)|} |x_k - x^*|^2.\]</span> <strong>Insight:</strong> The number of correct digits roughly doubles each step.</p>
+<p>If <span class="math inline">\(f''(x)\)</span> is continuous near a simple root <span class="math inline">\(x^*\)</span> (<span class="math inline">\(f'(x^*) \neq 0\)</span>), Newton’s method converges <strong>quadratically</strong>: <span class="math display">\[
+\begin{align}
+|x_{k+1} - x^*| \approx \frac{|f''(x^*)|}{2|f'(x^*)|} |x_k - x^*|^2.
+\end{align}
+\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Expand <span class="math inline">\(f(x^*)\)</span> about <span class="math inline">\(x_k\)</span> using a second-order Taylor polynomial: <span class="math display">\[
+\begin{align}
+0 = f(x^*) = f(x_k) + f'(x_k)(x^* - x_k) + \frac{f''(\xi_k)}{2}(x^* - x_k)^2
+\end{align}
+\]</span> for some <span class="math inline">\(\xi_k\)</span> between <span class="math inline">\(x^*\)</span> and <span class="math inline">\(x_k\)</span>. Dividing by <span class="math inline">\(f'(x_k)\)</span>: <span class="math display">\[
+\begin{align}
+0 = \frac{f(x_k)}{f'(x_k)} + x^* - x_k + \frac{f''(\xi_k)}{2f'(x_k)}(x^* - x_k)^2.
+\end{align}
+\]</span> Substituting the Newton update <span class="math inline">\(x_{k+1} = x_k - f(x_k)/f'(x_k)\)</span>: <span class="math display">\[
+\begin{align}
+0 &amp;= -(x_{k+1} - x_k) + x^* - x_k + \frac{f''(\xi_k)}{2f'(x_k)}(x^* - x_k)^2 \\
+    x_{k+1} - x^* &amp;= \frac{f''(\xi_k)}{2f'(x_k)}(x_k - x^*)^2.
+\end{align}
+\]</span> As <span class="math inline">\(x_k \to x^*\)</span>, we have <span class="math inline">\(\xi_k \to x^*\)</span>, yielding the quadratic error relation.</p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -780,7 +817,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Approximates <span class="math inline">\(f'\)</span> via finite differences of the last two iterates: <span class="math display">\[x_{k+1} = x_k - f(x_k)\frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}.\]</span> Requires two initial points (<span class="math inline">\(x_0, x_1\)</span>).</p>
+<p>Approximates <span class="math inline">\(f'\)</span> via finite differences of the last two iterates: <span class="math display">\[
+\begin{align}
+x_{k+1} = x_k - f(x_k)\frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}.
+\end{align}
+\]</span> Requires two initial points (<span class="math inline">\(x_0, x_1\)</span>).</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">

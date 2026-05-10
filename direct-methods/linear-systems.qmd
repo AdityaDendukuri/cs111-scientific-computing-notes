@@ -34,7 +34,11 @@ The matrix-vector form of a linear system is **$\bA\bx = \bb$**, where:
 ::: {.callout-note icon=false}
 ## Theorem: Superposition Principle
 If $\bA\bx_1 = \bb_1$ and $\bA\bx_2 = \bb_2$, then for any scalars $\alpha, \beta$:
-$$\bA(\alpha\bx_1 + \beta\bx_2) = \alpha\bb_1 + \beta\bb_2.$$
+$$
+\begin{align}
+\bA(\alpha\bx_1 + \beta\bx_2) = \alpha\bb_1 + \beta\bb_2.
+\end{align}
+$$
 **Implication:**  Solutions to $\bA\bx = \bb$ can be decomposed and recombined linearly.
 :::
 
@@ -87,7 +91,11 @@ The following are equivalent for $\bA \in \fR^{n \times n}$:
 ::: {.callout-tip icon=false}
 **The Column Perspective.** 
 The product $\bA\bx$ is a **linear combination of the columns of $\bA$** weighted by the entries of $\bx$:
-$$\bA\bx = x_1 \ba_1 + x_2 \ba_2 + ... + x_n \ba_n.$$
+$$
+\begin{align}
+\bA\bx = x_1 \ba_1 + x_2 \ba_2 + ... + x_n \ba_n.
+\end{align}
+$$
 The system $\bA\bx = \bb$ asks: ``Can $\bb$ be represented as a combination of $\bA$'s columns?''
 :::
 

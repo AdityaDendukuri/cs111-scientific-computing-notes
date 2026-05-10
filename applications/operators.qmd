@@ -9,7 +9,11 @@ Transitioning from finite matrices to infinite-dimensional operators.
 ::: {.callout-note icon=false}
 ## Definition: Linear Operator
 Map $\mathcal{A}: X \to Y$ between function spaces satisfying:
-$$\mathcal{A}(\alpha u + v) = \alpha \mathcal{A}u + \mathcal{A}v.$$
+$$
+\begin{align}
+\mathcal{A}(\alpha u + v) = \alpha \mathcal{A}u + \mathcal{A}v.
+\end{align}
+$$
 Matrices are finite-dimensional operators; $\frac{d}{dx}$ and $\nabla^2$ are infinite-dimensional.
 :::
 
@@ -17,7 +21,11 @@ Matrices are finite-dimensional operators; $\frac{d}{dx}$ and $\nabla^2$ are inf
 ::: {.callout-note icon=false}
 ## Definition: Finite Difference Stencil
 Approximating $u''(x)$ on a grid with spacing $h$:
-$$u''(x_k) \approx \frac{u(x_{k-1}) - 2u(x_k) + u(x_{k+1})}{h^2}.$$
+$$
+\begin{align}
+u''(x_k) \approx \frac{u(x_{k-1}) - 2u(x_k) + u(x_{k+1})}{h^2}.
+\end{align}
+$$
 **Accuracy:**  Second-order $O(h^2)$ via Taylor expansion.
 :::
 
@@ -25,7 +33,11 @@ $$u''(x_k) \approx \frac{u(x_{k-1}) - 2u(x_k) + u(x_{k+1})}{h^2}.$$
 ::: {.callout-note icon=false}
 ## Definition: 1-D Discrete Laplacian
 Discretizing $-d^2/dx^2$ on $[0,1]$ with $u(0)=u(1)=0$ yields the tridiagonal system $\bT \mathbf{u} = \mathbf{f}$:
-$$\bT = \frac{1}{h^2} \text{tridiag}(-1, 2, -1) \in \fR^{n \times n}.$$
+$$
+\begin{align}
+\bT = \frac{1}{h^2} \text{tridiag}(-1, 2, -1) \in \fR^{n \times n}.
+\end{align}
+$$
 :::
 
 
@@ -33,6 +45,38 @@ $$\bT = \frac{1}{h^2} \text{tridiag}(-1, 2, -1) \in \fR^{n \times n}.$$
 ## Theorem: Spectrum Convergence
 Eigenvalues of $\bT$ are $\lambda_k = \frac{4}{h^2} \sin^2(\frac{k\pi}{2(n+1)})$.
 As $n \to \infty$, $\lambda_k \to k^2 \pi^2$ (eigenvalues of continuous $-d^2/dx^2$).
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+We verify $\bT\bv_k = \lambda_k \bv_k$ by component-wise substitution.
+The $j$-th entry of $\bT\bv_k$ is:
+$$
+\begin{align}
+(\bT\bv_k)_j = \frac{1}{h^2} \left[ -\sin((j-1)kh\pi) + 2\sin(jkh\pi) - \sin((j+1)kh\pi) \right].
+\end{align}
+$$
+Applying the trigonometric identity $\sin(A-B) + \sin(A+B) = 2\sin A \cos B$ with $A = jkh\pi$ and $B = kh\pi$:
+$$
+\begin{align}
+(\bT\bv_k)_j &= \frac{1}{h^2} \left[ 2\sin(jkh\pi) - 2\sin(jkh\pi) \cos(kh\pi) \right] \\
+    &= \frac{2}{h^2} (1 - \cos(kh\pi)) \sin(jkh\pi).
+\end{align}
+$$
+Using the half-angle identity $1 - \cos\theta = 2\sin^2(\theta/2)$:
+$$
+\begin{align}
+(\bT\bv_k)_j &= \frac{4}{h^2} \sin^2\left(\frac{kh\pi}{2}\right) \sin(jkh\pi) \\
+    &= \lambda_k (\bv_k)_j.
+\end{align}
+$$
+As $h = 1/(n+1) \to 0$, using the small-angle approximation $\sin \theta \approx \theta$:
+$$
+\begin{align}
+\lambda_k \approx \frac{4}{h^2} \left( \frac{k\pi h}{2} \right)^2 = k^2\pi^2.
+\end{align}
+$$
 :::
 
 
@@ -52,7 +96,11 @@ An operator is **bounded** if $\|\mathcal{A}u\|_Y \leq C \|u\|_X$ for some $C < 
 
 ::: {.callout-tip icon=false}
 **Numerical Consequence:**  Because the continuous Laplacian is unbounded, its discretization $\bT$ becomes increasingly ill-conditioned as $h \to 0$:
-$$\kappa(\bT) = \frac{\lambda_{\max}}{\lambda_{\min}} \approx \frac{4/h^2}{\pi^2} = O(h^{-2}).$$
+$$
+\begin{align}
+\kappa(\bT) = \frac{\lambda_{\max}}{\lambda_{\min}} \approx \frac{4/h^2}{\pi^2} = O(h^{-2}).
+\end{align}
+$$
 Refining the grid $2\times$ quadruples the condition number.
 :::
 

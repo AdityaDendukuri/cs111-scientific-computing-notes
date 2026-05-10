@@ -72,6 +72,28 @@ $\kappa(\bA) = \|\bA\|\|\bA^{-1}\|$.
 :::
 
 
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Let $\bA\bx = \bb$ be the original system and $\bA(\bx+\delta\bx) = \bb+\delta\bb$ the perturbed system. Subtracting gives $\bA \delta\bx = \delta\bb$, so $\delta\bx = \bA^{-1} \delta\bb$.
+Taking norms:
+$$
+\begin{align}
+\|\delta\bx\| \leq \|\bA^{-1}\| \|\delta\bb\|.
+\end{align}
+$$
+Also, from $\bA\bx = \bb$, we have $\|\bb\| \leq \|\bA\| \|\bx\|$, which implies $1/\|\bx\| \leq \|\bA\|/\|\bb\|$.
+Combining these inequalities for the relative error:
+$$
+\begin{align}
+\frac{\|\delta\bx\|}{\|\bx\|} &\leq \|\bA^{-1}\| \|\delta\bb\| \frac{\|\bA\|}{\|\bb\|} \\
+    &= (\|\bA\| \|\bA^{-1}\|) \frac{\|\delta\bb\|}{\|\bb\|} \\
+    &= \kappa(\bA) \frac{\|\delta\bb\|}{\|\bb\|}.
+\end{align}
+$$
+Thus, the condition number $\kappa(\bA)$ acts as the amplification factor for relative perturbations in the right-hand side.
+:::
+
+
 ::: {.callout-warning icon=false}
 ## Exercise
 

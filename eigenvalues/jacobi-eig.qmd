@@ -20,7 +20,11 @@ $G(p, q, \theta)$ is an identity matrix with a $2 \times 2$ rotation block at $(
 ::: {.callout-note icon=false}
 ## Theorem: Optimal Rotation Angle
 To set $A'_{pq} = 0$, let $\tau = (A_{qq} - A_{pp}) / (2A_{pq})$. The optimal tangent $t = \tan\theta$ is:
-$$t = \frac{\text{sign}(\tau)}{|\tau| + \sqrt{1 + \tau^2}}, \quad c = \frac{1}{\sqrt{1+t^2}}, \quad s = ct.$$
+$$
+\begin{align}
+t = \frac{\text{sign}(\tau)}{|\tau| + \sqrt{1 + \tau^2}}, \quad c = \frac{1}{\sqrt{1+t^2}}, \quad s = ct.
+\end{align}
+$$
 Choosing the smaller root $|t| \leq 1$ ensures numerical stability and minimal perturbation.
 :::
 
@@ -30,9 +34,40 @@ Choosing the smaller root $|t| \leq 1$ ensures numerical stability and minimal p
 
 ::: {.callout-note icon=false}
 ## Theorem: Monotone Convergence
-Let $\sigma^2_{\text{off}}(\bA) = \sum_{p < q} A_{pq}^2$. Each rotation reduces this norm:
-$$\sigma^2_{\text{off}}(\bA') = \sigma^2_{\text{off}}(\bA) - A_{pq}^2.$$
+Let $\sigma^2_{\text{off}}(\bA) = \sum_{p < q} A_{pq}^2$ be the Frobenius norm of the off-diagonal entries. Each rotation $G(p, q, \theta)$ reduces this norm:
+$$
+\begin{align}
+\sigma^2_{\text{off}}(\bA') = \sigma^2_{\text{off}}(\bA) - A_{pq}^2.
+\end{align}
+$$
 **Convergence:**  Off-diagonals decrease monotonically. Convergence is ultimately **quadratic** (errors square each sweep).
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+The orthogonal transform $\bA' = G^T\bA G$ preserves the Frobenius norm: $\|\bA'\|_F^2 = \|\bA\|_F^2$. Let $d(\bA) = \sum A_{ii}^2$ be the sum of squares of diagonal entries. Then:
+$$
+\begin{align}
+\|\bA\|_F^2 = d(\bA) + 2\sigma_{\text{off}}^2(\bA).
+\end{align}
+$$
+A Jacobi rotation $G(p,q,\theta)$ only affects rows and columns $p$ and $q$. For the $2 \times 2$ submatrix at $\{p,q\}$, the transformation is an eigendecomposition, so:
+$$
+\begin{align}
+(A'_{pp})^2 + (A'_{qq})^2 &= A_{pp}^2 + A_{qq}^2 + 2A_{pq}^2 \\
+    d(\bA') &= d(\bA) + 2A_{pq}^2.
+\end{align}
+$$
+Substituting this into the norm conservation $\|\bA'\|_F^2 = \|\bA\|_F^2$:
+$$
+\begin{align}
+d(\bA') + 2\sigma_{\text{off}}^2(\bA') &= d(\bA) + 2\sigma_{\text{off}}^2(\bA) \\
+    (d(\bA) + 2A_{pq}^2) + 2\sigma_{\text{off}}^2(\bA') &= d(\bA) + 2\sigma_{\text{off}}^2(\bA) \\
+    \sigma_{\text{off}}^2(\bA') &= \sigma_{\text{off}}^2(\bA) - A_{pq}^2.
+\end{align}
+$$
+Thus each rotation reduces the off-diagonal mass by exactly $A_{pq}^2$.
 :::
 
 

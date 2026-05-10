@@ -11,7 +11,11 @@ SPD matrices arise in optimization (Hessians), statistics (covariances), and phy
 ::: {.callout-note icon=false}
 ## Definition: Positive Definite
 A symmetric matrix $\bA \in \fR^{n \times n}$ is **positive definite** (PD) if:
-$$\bx^T\bA\bx > 0 \quad \text{for every nonzero } \bx \in \fR^n.$$
+$$
+\begin{align}
+\bx^T\bA\bx > 0 \quad \text{for every nonzero } \bx \in \fR^n.
+\end{align}
+$$
 If $\bA$ is both symmetric and PD, it is **SPD**.
 :::
 
@@ -113,10 +117,25 @@ Unlike general LU, Cholesky is **guaranteed to be stable without pivoting**. In 
 ## Exercise
 **(Applications)**
 
-1. **Covariance:** Generate `X = np.random.randn(100, 4)`. Verify `X.T @ X` is SPD via Cholesky.
+1. **Covariance:**  Generate `X = np.random.randn(100, 4)`. Verify `X.T @ X` is SPD via Cholesky.
     
-1. **Gram Matrix:** Prove that $\mathbf{G} = \bX^T\bX$ is at least positive semi-definite for any $\bX$, and PD if $\bX$ has full column rank.
+1. **Gram Matrix:**  Prove that $\mathbf{G} = \bX^T\bX$ is at least positive semi-definite for any $\bX$, and PD if $\bX$ has full column rank.
 
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+For any nonzero vector $\bv \in \fR^n$, consider the quadratic form:
+$$
+\begin{align}
+\bv^T \mathbf{G} \bv &= \bv^T (\bX^T \bX) \bv \\
+    &= (\bX \bv)^T (\bX \bv) \\
+    &= \|\bX \bv\|_2^2.
+\end{align}
+$$
+Since the squared Euclidean norm is always non-negative, $\bv^T \mathbf{G} \bv \geq 0$, proving $\mathbf{G}$ is positive semi-definite.
+If $\bX$ has full column rank, then $\bX \bv = \bzero$ iff $\bv = \bzero$. Thus $\bv^T \mathbf{G} \bv > 0$ for all nonzero $\bv$, making $\mathbf{G}$ positive definite.
 :::
 
 

@@ -705,8 +705,12 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(\bA = \bL\bU\)</span>: <span class="math display">\[\bL = \begin{pmatrix} 1 &amp; 0 &amp; ... \\ \ell_{21} &amp; 1 &amp; ... \\ \vdots &amp; \vdots &amp; \ddots \end{pmatrix}, \quad
-\bU = \begin{pmatrix} u_{11} &amp; u_{12} &amp; ... \\ 0 &amp; u_{22} &amp; ... \\ \vdots &amp; \vdots &amp; \ddots \end{pmatrix}.\]</span></p>
+<p><span class="math inline">\(\bA = \bL\bU\)</span>: <span class="math display">\[
+\begin{align}
+\bL = \begin{pmatrix} 1 &amp; 0 &amp; ... \\ \ell_{21} &amp; 1 &amp; ... \\ \vdots &amp; \vdots &amp; \ddots \end{pmatrix}, \quad
+\bU = \begin{pmatrix} u_{11} &amp; u_{12} &amp; ... \\ 0 &amp; u_{22} &amp; ... \\ \vdots &amp; \vdots &amp; \ddots \end{pmatrix}.
+\end{align}
+\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -846,7 +850,36 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Total Cost for <span class="math inline">\(k\)</span> Right-Hand Sides.</strong> <span class="math display">\[\text{Cost} = \frac{2}{3}n^3 + 2kn^2.\]</span> Solving for 500 <span class="math inline">\(\bb\)</span>’s for <span class="math inline">\(n=1000\)</span> using one factorization saves <span class="math inline">\(\sim 500 \times \frac{2}{3}n^3\)</span> flops compared to re-factorizing every time.</p>
+<p><strong>Total Cost for <span class="math inline">\(k\)</span> Right-Hand Sides.</strong> <span class="math display">\[
+\begin{align}
+\text{Cost} = \frac{2}{3}n^3 + 2kn^2.
+\end{align}
+\]</span> Solving for 500 <span class="math inline">\(\bb\)</span>’s for <span class="math inline">\(n=1000\)</span> using one factorization saves <span class="math inline">\(\sim 500 \times \frac{2}{3}n^3\)</span> flops compared to re-factorizing every time.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Forward substitution solves <span class="math inline">\(\bL\by = \bb\)</span> where <span class="math inline">\(\ell_{ii} = 1\)</span>. The <span class="math inline">\(i\)</span>-th entry <span class="math inline">\(y_i\)</span> is given by: <span class="math display">\[
+\begin{align}
+y_i = b_i - \sum_{j=1}^{i-1} \ell_{ij} y_j.
+\end{align}
+\]</span> Counting the floating-point operations:</p>
+<ul>
+<li><p>For a fixed <span class="math inline">\(i\)</span>, the summation requires <span class="math inline">\(i-1\)</span> multiplications and <span class="math inline">\(i-1\)</span> additions/subtractions.</p></li>
+<li><p>Total flops: <span class="math inline">\(\sum_{i=1}^n 2(i-1) = 2 \sum_{k=0}^{n-1} k = 2 \frac{(n-1)n}{2} = n^2 - n\)</span>.</p></li>
+</ul>
+<p>For large <span class="math inline">\(n\)</span>, each triangular solve costs approximately <span class="math inline">\(n^2\)</span> flops.</p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">

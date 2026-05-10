@@ -800,7 +800,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Max relative rounding error: <span class="math inline">\(u = \varepsilon_{\text{mach}}/2 = 2^{-p}\)</span>. <span class="math display">\[\frac{|\text{fl}(x) - x|}{|x|} \leq u.\]</span></p>
+<p>Max relative rounding error: <span class="math inline">\(u = \varepsilon_{\text{mach}}/2 = 2^{-p}\)</span>. <span class="math display">\[
+\begin{align}
+\frac{|\text{fl}(x) - x|}{|x|} \leq u.
+\end{align}
+\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -814,6 +818,30 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <p>IEEE 754 guarantees <span class="math inline">\(\text{fl}(a \circ b) = (a \circ b)(1 + \delta)\)</span> for <span class="math inline">\(\circ \in \{+, -, \times, \div\}\)</span> and <span class="math inline">\(|\delta| \leq u\)</span>. Individual operations are as accurate as the representation allows.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The real line near <span class="math inline">\(x\)</span> is partitioned into intervals, each containing exactly one floating point number. In round-to-nearest mode, <span class="math inline">\(\text{fl}(x)\)</span> is the closer endpoint, so: <span class="math display">\[
+\begin{align}
+|\text{fl}(x) - x| \leq \frac{1}{2} \text{gap} = \frac{1}{2} (\varepsilon_{\text{mach}} |x|) = u|x|.
+\end{align}
+\]</span> Dividing by <span class="math inline">\(|x|\)</span> gives the relative error bound <span class="math inline">\(|\delta| \leq u\)</span>. For any operation <span class="math inline">\(\circ\)</span>, IEEE 754 mandates computing the exact result first, then rounding, ensuring: <span class="math display">\[
+\begin{align}
+\text{fl}(a \circ b) = \text{round}(a \circ b) = (a \circ b)(1 + \delta).
+\end{align}
+\]</span></p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -938,6 +966,33 @@ Tip
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\hat{x} = x(1+\varepsilon_x)\)</span> and <span class="math inline">\(\hat{y} = y(1+\varepsilon_y)\)</span> with <span class="math inline">\(|\varepsilon_x|, |\varepsilon_y| \leq u\)</span>. The error in the subtraction is: <span class="math display">\[
+\begin{align}
+(\hat{x}-\hat{y})-(x-y) &amp;= x(1+\varepsilon_x) - y(1+\varepsilon_y) - x + y \\
+    &amp;= x\varepsilon_x - y\varepsilon_y.
+\end{align}
+\]</span> The relative error is bounded by: <span class="math display">\[
+\begin{align}
+\frac{|x\varepsilon_x - y\varepsilon_y|}{x-y} &amp;\leq \frac{x|\varepsilon_x| + y|\varepsilon_y|}{x-y} \\
+    &amp;\leq \frac{xu + yu}{x-y} \\
+    &amp;= u \cdot \frac{x+y}{x-y}.
+\end{align}
+\]</span> As <span class="math inline">\(x \to y\)</span>, the denominator <span class="math inline">\(x-y \to 0\)</span>, causing the relative error to explode.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
@@ -1020,6 +1075,39 @@ Tip
 <li><p><span class="math inline">\(\kappa(A) = 10^8, \text{Backward Error} = 10^{-15}\)</span>. Max forward error?</p></li>
 <li><p>Prove BE for linear systems: <span class="math inline">\((\bA + \bE)\hat{\bx} = \bb\)</span> for <span class="math inline">\(\bE = -\br\hat{\bx}^T/\|\hat{\bx}\|^2\)</span>.</p></li>
 </ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>(1):</strong> Substituting <span class="math inline">\(\bE\)</span> into <span class="math inline">\((\bA + \bE)\hat{\bx}\)</span>: <span class="math display">\[
+\begin{align}
+(\bA + \bE)\hat{\bx} &amp;= \bA\hat{\bx} + \bE\hat{\bx} \\
+    &amp;= \bA\hat{\bx} - \frac{\br\hat{\bx}^T}{\|\hat{\bx}\|^2} \hat{\bx} \\
+    &amp;= \bA\hat{\bx} - \br \frac{\hat{\bx}^T\hat{\bx}}{\|\hat{\bx}\|^2} \\
+    &amp;= \bA\hat{\bx} - \br.
+\end{align}
+\]</span> Since <span class="math inline">\(\br = \bb - \bA\hat{\bx}\)</span>, we have <span class="math inline">\(\bA\hat{\bx} - (\bb - \bA\hat{\bx}) = \bb\)</span>.</p>
+<p><strong>(2):</strong> For the relative error, using the rank-1 norm property <span class="math inline">\(\|\br\bv^T\|_2 = \|\br\|_2\|\bv\|_2\)</span>: <span class="math display">\[
+\begin{align}
+\|\bE\|_2 &amp;= \left\| \frac{\br\hat{\bx}^T}{\|\hat{\bx}\|^2} \right\|_2 \\
+    &amp;= \frac{\|\br\|_2 \|\hat{\bx}\|_2}{\|\hat{\bx}\|^2} = \frac{\|\br\|_2}{\|\hat{\bx}\|_2}.
+\end{align}
+\]</span> Dividing by <span class="math inline">\(\|\bA\|_2\)</span> gives the result: <span class="math display">\[
+\begin{align}
+\frac{\|\bE\|_2}{\|\bA\|_2} = \frac{\|\br\|_2}{\|\bA\|_2 \|\hat{\bx}\|_2}.
+\end{align}
+\]</span></p>
+</div>
 </div>
 </div>
 

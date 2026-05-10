@@ -134,8 +134,12 @@ To prove $P(n)$ holds for all integers $n \geq n_0$:
 
 ::: {.callout-tip icon=false}
 **Sums and Products.** 
-$$\sum_{i=1}^{n} a_i = a_1 + ... + a_n, \qquad
-  \prod_{i=1}^{n} a_i = a_1 ... a_n.$$
+$$
+\begin{align}
+\sum_{i=1}^{n} a_i = a_1 + ... + a_n, \qquad
+  \prod_{i=1}^{n} a_i = a_1 ... a_n.
+\end{align}
+$$
 :::
 
 

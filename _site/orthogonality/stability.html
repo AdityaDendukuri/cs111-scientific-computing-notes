@@ -796,6 +796,32 @@ Tip
 </ul>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\bA\bx = \bb\)</span> be the original system and <span class="math inline">\(\bA(\bx+\delta\bx) = \bb+\delta\bb\)</span> the perturbed system. Subtracting gives <span class="math inline">\(\bA \delta\bx = \delta\bb\)</span>, so <span class="math inline">\(\delta\bx = \bA^{-1} \delta\bb\)</span>. Taking norms: <span class="math display">\[
+\begin{align}
+\|\delta\bx\| \leq \|\bA^{-1}\| \|\delta\bb\|.
+\end{align}
+\]</span> Also, from <span class="math inline">\(\bA\bx = \bb\)</span>, we have <span class="math inline">\(\|\bb\| \leq \|\bA\| \|\bx\|\)</span>, which implies <span class="math inline">\(1/\|\bx\| \leq \|\bA\|/\|\bb\|\)</span>. Combining these inequalities for the relative error: <span class="math display">\[
+\begin{align}
+\frac{\|\delta\bx\|}{\|\bx\|} &amp;\leq \|\bA^{-1}\| \|\delta\bb\| \frac{\|\bA\|}{\|\bb\|} \\
+    &amp;= (\|\bA\| \|\bA^{-1}\|) \frac{\|\delta\bb\|}{\|\bb\|} \\
+    &amp;= \kappa(\bA) \frac{\|\delta\bb\|}{\|\bb\|}.
+\end{align}
+\]</span> Thus, the condition number <span class="math inline">\(\kappa(\bA)\)</span> acts as the amplification factor for relative perturbations in the right-hand side.</p>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">

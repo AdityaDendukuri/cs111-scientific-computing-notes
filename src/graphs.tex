@@ -64,9 +64,9 @@ Transition matrix $\bP = \bD^{-1} \bA$.
 
 \addDef{PageRank and Google Matrix}{%
 Models a random surfer on a directed web graph with teleportation:
-\[
+\begin{align*}
     \mathbf{G} = d \bS + \frac{1-d}{N} \mathbf{J}
-\]
+\end{align*}
 \begin{itemize}
     \item $d$ is the damping factor (standard: 0.85).
     \item $\bS$ is the link matrix (stochastic, handles dangling nodes).

@@ -770,10 +770,31 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <p>The iteration <span class="math inline">\(\bx^{(k+1)} = \bT\bx^{(k)} + \bc\)</span> converges for any <span class="math inline">\(\bx^{(0)}\)</span> iff <strong><span class="math inline">\(\rho(\bT) &lt; 1\)</span></strong>.</p>
-<ul>
-<li><p><strong>Error Evolution:</strong> <span class="math inline">\(\be^{(k)} = \bT^k \be^{(0)}\)</span>.</p></li>
-<li><p><strong>Rate:</strong> <span class="math inline">\(\|\be^{(k)}\| \approx \rho(\bT)^k \|\be^{(0)}\|\)</span>.</p></li>
-</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\bx^*\)</span> be the exact solution satisfying <span class="math inline">\(\bx^* = \bT\bx^* + \bc\)</span>. Subtracting this from the iteration formula gives the error evolution: <span class="math display">\[
+\begin{align}
+\bx^{(k+1)} - \bx^* &amp;= (\bT\bx^{(k)} + \bc) - (\bT\bx^* + \bc) \\
+    \be^{(k+1)} &amp;= \bT \be^{(k)}.
+\end{align}
+\]</span> Applying this relation recursively from <span class="math inline">\(k=0\)</span>: <span class="math display">\[
+\begin{align}
+\be^{(k)} = \bT^k \be^{(0)}.
+\end{align}
+\]</span> The error <span class="math inline">\(\be^{(k)} \to \bzero\)</span> for any <span class="math inline">\(\be^{(0)}\)</span> iff <span class="math inline">\(\bT^k \to \bzero\)</span> as <span class="math inline">\(k \to \infty\)</span>, which is guaranteed iff <span class="math inline">\(\rho(\bT) &lt; 1\)</span> by Gelfand’s formula.</p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">

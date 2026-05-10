@@ -9,7 +9,11 @@ Reveals the scaling directions of a linear transformation. Essential for stabili
 ::: {.callout-note icon=false}
 ## Definition: Eigenvalues and Eigenvectors
 For $\bA \in \fR^{n \times n}$, a scalar $\lambda \in \fC$ is an **eigenvalue** if $\exists$ nonzero $\bv \in \fC^n$ such that:
-$$\bA\bv = \lambda\bv.$$
+$$
+\begin{align}
+\bA\bv = \lambda\bv.
+\end{align}
+$$
 
 - **Spectrum $\sigma(\bA)$:**  The set of all eigenvalues.
     
@@ -105,6 +109,19 @@ Repeatedly apply $\bA$ to a unit vector: $\bv^{(k)} = \frac{\bA\bv^{(k-1)}}{\|\b
     
 - **Rate:**  $O(|\lambda_2/\lambda_1|^k)$.
 
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Assume $\bA$ is diagonalizable with eigenvectors $\{\bu_1, ..., \bu_n\}$ and eigenvalues $|\lambda_1| > |\lambda_2| \geq ...$. Let $\bx^{(0)} = \sum_{i=1}^n c_i \bu_i$ with $c_1 \neq 0$. Applying $\bA$ $k$ times:
+$$
+\begin{align}
+\bA^k \bx^{(0)} &= \sum_{i=1}^n c_i \lambda_i^k \bu_i \\
+    &= c_1 \lambda_1^k \left( \bu_1 + \sum_{i=2}^n \frac{c_i}{c_1} \left(\frac{\lambda_i}{\lambda_1}\right)^k \bu_i \right).
+\end{align}
+$$
+Since $|\lambda_i/\lambda_1| < 1$ for all $i > 1$, the summation term decays to zero as $k \to \infty$. Thus $\bA^k \bx^{(0)}$ aligns with $\bu_1$. The normalization at each step prevents overflow while preserving this alignment.
 :::
 
 

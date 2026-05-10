@@ -705,7 +705,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Unitary matrix <span class="math inline">\(\mathbf{F} \in \fC^{n \times n}\)</span> with entries: <span class="math display">\[F_{jk} = \frac{1}{\sqrt{n}} \omega_n^{jk}, \quad \omega_n = e^{-2\pi i/n}.\]</span></p>
+<p>Unitary matrix <span class="math inline">\(\mathbf{F} \in \fC^{n \times n}\)</span> with entries: <span class="math display">\[
+\begin{align}
+F_{jk} = \frac{1}{\sqrt{n}} \omega_n^{jk}, \quad \omega_n = e^{-2\pi i/n}.
+\end{align}
+\]</span></p>
 <ul>
 <li><p><strong>Unitary Property:</strong> <span class="math inline">\(\mathbf{F}^* \mathbf{F} = \bI\)</span>. Orthonormal columns.</p></li>
 <li><p><strong>Inverse DFT:</strong> <span class="math inline">\(\mathbf{F}^{-1} = \mathbf{F}^*\)</span>.</p></li>
@@ -755,7 +759,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Circular convolution <span class="math inline">\(\bz = \bc * \bx\)</span> is equivalent to pointwise multiplication in frequency: <span class="math display">\[\mathbf{F}(\bc * \bx) = (\mathbf{F}\bc) \odot (\mathbf{F}\bx).\]</span> <strong>Complexity:</strong> Reduced from <span class="math inline">\(O(n^2)\)</span> (direct) to <span class="math inline">\(O(n \log n)\)</span> (FFT).</p>
+<p>Circular convolution <span class="math inline">\(\bz = \bc * \bx\)</span> is equivalent to pointwise multiplication in frequency: <span class="math display">\[
+\begin{align}
+\mathbf{F}(\bc * \bx) = (\mathbf{F}\bc) \odot (\mathbf{F}\bx).
+\end{align}
+\]</span> <strong>Complexity:</strong> Reduced from <span class="math inline">\(O(n^2)\)</span> (direct) to <span class="math inline">\(O(n \log n)\)</span> (FFT).</p>
 </div>
 </div>
 </section>

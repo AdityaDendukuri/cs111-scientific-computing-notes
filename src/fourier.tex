@@ -11,9 +11,9 @@ Diagonalizing the Laplacian via sinusoidal eigenfunctions. Turn differential equ
 
 \addDef{DFT Matrix}{%
 Unitary matrix $\mathbf{F} \in \fC^{n \times n}$ with entries:
-\[
+\begin{align*}
     F_{jk} = \frac{1}{\sqrt{n}} \omega_n^{jk}, \quad \omega_n = e^{-2\pi i/n}.
-\]
+\end{align*}
 \begin{itemize}
     \item \textbf{Unitary Property:}\enspace $\mathbf{F}^* \mathbf{F} = \bI$. Orthonormal columns.
     \item \textbf{Inverse DFT:}\enspace $\mathbf{F}^{-1} = \mathbf{F}^*$.
@@ -36,9 +36,9 @@ Matrix $\mathbf{C}$ where each row is a cyclic shift of the first column $\bc$.
 
 \addThm{Convolution Theorem}{%
 Circular convolution $\bz = \bc * \bx$ is equivalent to pointwise multiplication in frequency:
-\[
+\begin{align*}
     \mathbf{F}(\bc * \bx) = (\mathbf{F}\bc) \odot (\mathbf{F}\bx).
-\]
+\end{align*}
 \textbf{Complexity:}\enspace Reduced from $O(n^2)$ (direct) to $O(n \log n)$ (FFT).
 }
 

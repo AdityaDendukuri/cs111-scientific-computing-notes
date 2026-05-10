@@ -9,7 +9,11 @@ The ``Master Decomposition'' of linear algebra. Decomposes any matrix into ortho
 ::: {.callout-note icon=false}
 ## Theorem: Singular Value Decomposition (SVD)
 For $\bA \in \fR^{m \times n}$, there exist orthogonal matrices $\bU \in \fR^{m \times m}, \bV \in \fR^{n \times n}$ and diagonal $\bsigma \in \fR^{m \times n}$ such that:
-$$\bA = \bU \bsigma \bV^T.$$
+$$
+\begin{align}
+\bA = \bU \bsigma \bV^T.
+\end{align}
+$$
 
 - **Singular Values ($\sigma_i$):**  Non-negative, ordered $\sigma_1 \geq \sigma_2 \geq ... \geq 0$.
     
@@ -55,7 +59,11 @@ The SVD provides optimal orthonormal bases for the spaces defined by $\bA$ (rank
 ::: {.callout-note icon=false}
 ## Theorem: Eckart-Young-Mirsky Theorem
 The best rank-$k$ approximation ($k < r$) of $\bA$ in spectral and Frobenius norms is the truncated SVD:
-$$\bA_k = \sum_{i=1}^k \sigma_i \bu_i \bv_i^T.$$
+$$
+\begin{align}
+\bA_k = \sum_{i=1}^k \sigma_i \bu_i \bv_i^T.
+\end{align}
+$$
 
 - **Error:**  $\|\bA - \bA_k\|_2 = \sigma_{k+1}$.
 

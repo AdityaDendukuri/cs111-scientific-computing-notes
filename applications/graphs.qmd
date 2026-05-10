@@ -84,7 +84,11 @@ Transition matrix $\bP = \bD^{-1} \bA$.
 ::: {.callout-note icon=false}
 ## Definition: PageRank and Google Matrix
 Models a random surfer on a directed web graph with teleportation:
-$$\mathbf{G} = d \bS + \frac{1-d}{N} \mathbf{J}$$
+$$
+\begin{align}
+\mathbf{G} = d \bS + \frac{1-d}{N} \mathbf{J}
+\end{align}
+$$
 
 - $d$ is the damping factor (standard: 0.85).
     

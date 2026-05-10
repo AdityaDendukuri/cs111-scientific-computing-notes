@@ -25,9 +25,9 @@ $\bx, \by \in \fR^n$ and $c \in \fR$:
 
 \addDef{$\ell^p$ Norms}{%
 For $\bx \in \fR^n$ and $p \geq 1$, the \emph{$\ell^p$ norm} is
-\[
+\begin{align*}
   \|\bx\|_p = \left(\sum_{i=1}^n |x_i|^p\right)^{1/p}.
-\]
+\end{align*}
 The three most common cases are:
 \begin{itemize}
   \item $\|\bx\|_1 = \displaystyle\sum_{i=1}^n |x_i|$ \quad (\emph{Manhattan norm} --- sum of absolute values)
@@ -49,11 +49,11 @@ In scientific computing, the choice of norm depends on what you want to measure:
 
 \addExmpl{%
 For $\bx = (3, -4, 0)^T$:
-\[
+\begin{align*}
   \|\bx\|_1 = 3 + 4 + 0 = 7, \qquad
   \|\bx\|_2 = \sqrt{9 + 16 + 0} = 5, \qquad
   \|\bx\|_\infty = 4.
-\]
+\end{align*}
 The unit balls $\{\bx : \|\bx\|_p \leq 1\}$ in $\fR^2$ are: a diamond ($p = 1$), a
 circle ($p = 2$), and a square ($p = \infty$). As $p$ increases, the unit ball grows
 toward the $\ell^\infty$ square.
@@ -74,19 +74,29 @@ In floating-point arithmetic, the condition $\|\bx\| = 0$ is rarely met exactly 
 \addThm{All Norms are Equivalent on $\fR^n$}{%
 For any two norms $\|\cdot\|_\alpha$ and $\|\cdot\|_\beta$ on $\fR^n$, there exist
 constants $c_1, c_2 > 0$ such that
-\[
+\begin{align*}
   c_1\|\bx\|_\beta \leq \|\bx\|_\alpha \leq c_2\|\bx\|_\beta \quad \text{for all } \bx \in \fR^n.
-\]
+\end{align*}
 In particular: $\|\bx\|_2 \leq \|\bx\|_1 \leq \sqrt{n}\,\|\bx\|_2$ and
 $\|\bx\|_\infty \leq \|\bx\|_2 \leq \sqrt{n}\,\|\bx\|_\infty$.
 }
 \label{thm:norm-equivalence-intro}
 
 \addPrf{%
-Since $\fR^n$ is finite-dimensional, the unit sphere $\{\bx : \|\bx\|_\beta = 1\}$ is
-compact. Any norm is a continuous function, so it attains its minimum and maximum on a
-compact set --- these extremal values are $c_1$ and $1/c_2$. The explicit inequalities
-follow from Cauchy-Schwarz: $\|\bx\|_1 = \sum|x_i| \cdot 1 \leq \|\bx\|_2\,\|\mathbf{1}\|_2 = \sqrt{n}\|\bx\|_2$.
+Since $\fR^n$ is finite-dimensional, the unit sphere $S_\beta = \{\bx : \|\bx\|_\beta = 1\}$ is compact. Any norm $\|\cdot\|_\alpha$ is a continuous function on $\fR^n$, and by the Extreme Value Theorem, it attains its minimum $c_1$ and maximum $c_2$ on $S_\beta$:
+\begin{align*}
+    c_1 = \min_{\bx \in S_\beta} \|\bx\|_\alpha, \quad c_2 = \max_{\bx \in S_\beta} \|\bx\|_\alpha.
+\end{align*}
+For any nonzero $\by \in \fR^n$, let $\bx = \by / \|\by\|_\beta \in S_\beta$. Then:
+\begin{align*}
+    c_1 \leq \left\| \frac{\by}{\|\by\|_\beta} \right\|_\alpha \leq c_2 \quad \Rightarrow \quad c_1 \|\by\|_\beta \leq \|\by\|_\alpha \leq c_2 \|\by\|_\beta.
+\end{align*}
+The explicit inequality $\|\bx\|_1 \leq \sqrt{n}\|\bx\|_2$ follows from Cauchy-Schwarz applied to $|\bx|$ and the all-ones vector $\mathbf{1}$:
+\begin{align*}
+    \|\bx\|_1 &= \sum_{i=1}^n |x_i| \cdot 1 \\
+    &\leq \left( \sum_{i=1}^n x_i^2 \right)^{1/2} \left( \sum_{i=1}^n 1^2 \right)^{1/2} \\
+    &= \sqrt{n} \|\bx\|_2.
+\end{align*}
 }
 
 \addExcr{%

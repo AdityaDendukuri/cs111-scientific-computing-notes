@@ -12,9 +12,9 @@ Krylov subspace solver for general (non-symmetric) linear systems. Minimizes the
 Constructs an orthonormal basis $V_k$ for the Krylov subspace $\mathcal{K}_k(\bA, \br_0)$.
 
 \addDef{Arnoldi Relation}{%
-\[
+\begin{align*}
     \bA V_k = V_{k+1} \bar{H}_k
-\]
+\end{align*}
 \begin{itemize}
     \item \textbf{$V_k$:}\enspace Orthonormal columns.
     \item \textbf{$\bar{H}_k$:}\enspace Upper Hessenberg matrix ($(k+1) \times k$).
@@ -28,12 +28,27 @@ Constructs an orthonormal basis $V_k$ for the Krylov subspace $\mathcal{K}_k(\bA
 GMRES finds $\bx_k \in \bx_0 + \mathcal{K}_k$ such that $\|\bb - \bA\bx_k\|_2$ is minimized.
 
 \addThm{Least Squares Reduction}{%
-\[
+The GMRES residual minimization in $\mathcal{K}_k$ reduces to a small $(k+1) \times k$ problem:
+\begin{align*}
     \min \|\bb - \bA\bx_k\|_2 = \min_{\by \in \fR^k} \|\beta \be_1 - \bar{H}_k \by\|_2
-\]
+\end{align*}
 where $\beta = \|\br_0\|_2$ and $\be_1 = (1, 0, \dots, 0)^T$.
 }
 \label{thm:gmres-ls}
+
+\addPrf{%
+Let $\bx_k = \bx_0 + V_k \by$ for $\by \in \fR^k$. The residual is:
+\begin{align*}
+    \br_k &= \bb - \bA(\bx_0 + V_k \by) \\
+    &= \br_0 - \bA V_k \by.
+\end{align*}
+Substituting the Arnoldi relation $\bA V_k = V_{k+1} \bar{H}_k$ and $\br_0 = \beta \bv_1 = \beta V_{k+1} \be_1$:
+\begin{align*}
+    \br_k &= \beta V_{k+1} \be_1 - V_{k+1} \bar{H}_k \by \\
+    &= V_{k+1} (\beta \be_1 - \bar{H}_k \by).
+\end{align*}
+Since $V_{k+1}$ has orthonormal columns, $\|\br_k\|_2 = \|\beta \be_1 - \bar{H}_k \by\|_2$.
+}
 
 \addNote{%
 \textbf{Optimality:}\enspace
@@ -50,9 +65,9 @@ Full GMRES storage costs $O(kn)$ and work grows quadratically with $k$ (due to o
 \subsubsection{Convergence and Preconditioning}
 
 \addThm{Approximation Bound}{%
-\[
+\begin{align*}
     \frac{\|\br_k\|_2}{\|\br_0\|_2} \leq \min_{p \in \mathcal{P}_k, p(0)=1} \max_{\lambda \in \sigma(\bA)} |p(\lambda)|.
-\]
+\end{align*}
 }
 \label{thm:gmres-convergence}
 

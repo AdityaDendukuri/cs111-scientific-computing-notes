@@ -706,7 +706,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Data matrix <span class="math inline">\(\bX \in \fR^{n\times p}\)</span> (<span class="math inline">\(n\)</span> samples, <span class="math inline">\(p\)</span> features) must be <strong>centered</strong>: <span class="math display">\[X_{ij} \leftarrow X_{ij} - \bar{x}_j, \quad \bar{x}_j = \frac{1}{n}\sum_{i=1}^n X_{ij}.\]</span> <strong>Rule:</strong> Throughout this section, <span class="math inline">\(\bX\)</span> is assumed centered.</p>
+<p>Data matrix <span class="math inline">\(\bX \in \fR^{n\times p}\)</span> (<span class="math inline">\(n\)</span> samples, <span class="math inline">\(p\)</span> features) must be <strong>centered</strong>: <span class="math display">\[
+\begin{align}
+X_{ij} \leftarrow X_{ij} - \bar{x}_j, \quad \bar{x}_j = \frac{1}{n}\sum_{i=1}^n X_{ij}.
+\end{align}
+\]</span> <strong>Rule:</strong> Throughout this section, <span class="math inline">\(\bX\)</span> is assumed centered.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -774,7 +778,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For the first <span class="math inline">\(k\)</span> components: <span class="math display">\[\text{PVE}_k = \frac{\sum_{i=1}^k \sigma_i^2}{\sum_{i=1}^p \sigma_i^2}.\]</span> <strong>Rule:</strong> Choose <span class="math inline">\(k\)</span> to reach a target PVE (e.g., 95%) or identify the “elbow” in a scree plot.</p>
+<p>For the first <span class="math inline">\(k\)</span> components: <span class="math display">\[
+\begin{align}
+\text{PVE}_k = \frac{\sum_{i=1}^k \sigma_i^2}{\sum_{i=1}^p \sigma_i^2}.
+\end{align}
+\]</span> <strong>Rule:</strong> Choose <span class="math inline">\(k\)</span> to reach a target PVE (e.g., 95%) or identify the “elbow” in a scree plot.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -838,6 +846,34 @@ Tip
 <li><p>Load the Iris dataset. Plot the data in the basis of the first two PCs. Do species cluster?</p></li>
 <li><p>Verify that the sum of variances <span class="math inline">\(\sum \lambda_i\)</span> equals the total variance <span class="math inline">\(\text{Tr}(\bS)\)</span>.</p></li>
 </ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The score matrix is <span class="math inline">\(\bZ = \bX\bV\)</span>. The covariance of the scores is: <span class="math display">\[
+\begin{align}
+\text{Cov}(\bZ) &amp;= \frac{1}{n-1} \bZ^T \bZ \\
+    &amp;= \frac{1}{n-1} (\bX\bV)^T (\bX\bV) \\
+    &amp;= \bV^T \left( \frac{1}{n-1} \bX^T \bX \right) \bV.
+\end{align}
+\]</span> Since <span class="math inline">\(\frac{1}{n-1} \bX^T \bX = \bS\)</span> and <span class="math inline">\(\bV\)</span> contains the eigenvectors of <span class="math inline">\(\bS\)</span>: <span class="math display">\[
+\begin{align}
+\text{Cov}(\bZ) &amp;= \bV^T \bS \bV \\
+    &amp;= \bV^T (\bV \boldsymbol{\Lambda} \bV^T) \bV \\
+    &amp;= \boldsymbol{\Lambda}.
+\end{align}
+\]</span> Since <span class="math inline">\(\boldsymbol{\Lambda}\)</span> is diagonal, the covariance between <span class="math inline">\(\bz_i\)</span> and <span class="math inline">\(\bz_j\)</span> is zero for <span class="math inline">\(i \neq j\)</span>.</p>
+</div>
 </div>
 </div>
 

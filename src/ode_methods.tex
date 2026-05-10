@@ -5,26 +5,42 @@
 \label{subsec:ode-methods}
 
 Numerical integration of the \emph{initial value problem} (IVP):
-\[
+\begin{align*}
     \frac{dy}{dt} = f(t, y), \qquad y(t_0) = y_0.
-\]
+\end{align*}
 
 \subsubsection{Basic Methods}
 
 \addDef{Forward Euler (Explicit)}{%
 Advance via forward difference:
-\[
+\begin{align*}
     y_{n+1} = y_n + h f(t_n, y_n).
-\]
+\end{align*}
 \textbf{Error:}\enspace Local $O(h^2)$, Global $O(h)$.
-\textbf{Stability:}\enspace Unstable for stiff problems. Absolute stability requires $h \lambda \in$ region of stability (circle in left half-plane).
+\textbf{Stability:}\enspace Unstable for stiff problems. Absolute stability requires $|1 + h\lambda| \leq 1$.
+}
+
+\addPrf{%
+Apply Forward Euler to the test equation $y' = \lambda y$:
+\begin{align*}
+    y_{n+1} &= y_n + h (\lambda y_n) \\
+    &= (1 + h\lambda) y_n.
+\end{align*}
+Recursive application gives $y_n = (1 + h\lambda)^n y_0$. For the solution to remain bounded, we require the amplification factor to satisfy $|1 + h\lambda| \leq 1$.
+For real $\lambda < 0$:
+\begin{align*}
+    -1 &\leq 1 + h\lambda \leq 1 \\
+    -2 &\leq h\lambda \leq 0 \\
+    h &\leq \frac{2}{|\lambda|}.
+\end{align*}
+If the step size $h$ exceeds this limit, the numerical solution oscillates and grows exponentially.
 }
 
 \addDef{Backward Euler (Implicit)}{%
 Advance via backward difference:
-\[
+\begin{align*}
     y_{n+1} = y_n + h f(t_{n+1}, y_{n+1}).
-\]
+\end{align*}
 \textbf{Rule:}\enspace Requires solving a nonlinear system at each step (via Newton).
 \textbf{Stability:}\enspace **A-Stable** (unconditionally stable for all $h$ if $\text{Re}(\lambda) < 0$). The choice for stiff systems.
 }

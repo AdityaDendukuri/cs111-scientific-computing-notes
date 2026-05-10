@@ -704,7 +704,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Map <span class="math inline">\(\mathcal{A}: X \to Y\)</span> between function spaces satisfying: <span class="math display">\[\mathcal{A}(\alpha u + v) = \alpha \mathcal{A}u + \mathcal{A}v.\]</span> Matrices are finite-dimensional operators; <span class="math inline">\(\frac{d}{dx}\)</span> and <span class="math inline">\(\nabla^2\)</span> are infinite-dimensional.</p>
+<p>Map <span class="math inline">\(\mathcal{A}: X \to Y\)</span> between function spaces satisfying: <span class="math display">\[
+\begin{align}
+\mathcal{A}(\alpha u + v) = \alpha \mathcal{A}u + \mathcal{A}v.
+\end{align}
+\]</span> Matrices are finite-dimensional operators; <span class="math inline">\(\frac{d}{dx}\)</span> and <span class="math inline">\(\nabla^2\)</span> are infinite-dimensional.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -717,7 +721,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Approximating <span class="math inline">\(u''(x)\)</span> on a grid with spacing <span class="math inline">\(h\)</span>: <span class="math display">\[u''(x_k) \approx \frac{u(x_{k-1}) - 2u(x_k) + u(x_{k+1})}{h^2}.\]</span> <strong>Accuracy:</strong> Second-order <span class="math inline">\(O(h^2)\)</span> via Taylor expansion.</p>
+<p>Approximating <span class="math inline">\(u''(x)\)</span> on a grid with spacing <span class="math inline">\(h\)</span>: <span class="math display">\[
+\begin{align}
+u''(x_k) \approx \frac{u(x_{k-1}) - 2u(x_k) + u(x_{k+1})}{h^2}.
+\end{align}
+\]</span> <strong>Accuracy:</strong> Second-order <span class="math inline">\(O(h^2)\)</span> via Taylor expansion.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -730,7 +738,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Discretizing <span class="math inline">\(-d^2/dx^2\)</span> on <span class="math inline">\([0,1]\)</span> with <span class="math inline">\(u(0)=u(1)=0\)</span> yields the tridiagonal system <span class="math inline">\(\bT \mathbf{u} = \mathbf{f}\)</span>: <span class="math display">\[\bT = \frac{1}{h^2} \text{tridiag}(-1, 2, -1) \in \fR^{n \times n}.\]</span></p>
+<p>Discretizing <span class="math inline">\(-d^2/dx^2\)</span> on <span class="math inline">\([0,1]\)</span> with <span class="math inline">\(u(0)=u(1)=0\)</span> yields the tridiagonal system <span class="math inline">\(\bT \mathbf{u} = \mathbf{f}\)</span>: <span class="math display">\[
+\begin{align}
+\bT = \frac{1}{h^2} \text{tridiag}(-1, 2, -1) \in \fR^{n \times n}.
+\end{align}
+\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -744,6 +756,40 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <p>Eigenvalues of <span class="math inline">\(\bT\)</span> are <span class="math inline">\(\lambda_k = \frac{4}{h^2} \sin^2(\frac{k\pi}{2(n+1)})\)</span>. As <span class="math inline">\(n \to \infty\)</span>, <span class="math inline">\(\lambda_k \to k^2 \pi^2\)</span> (eigenvalues of continuous <span class="math inline">\(-d^2/dx^2\)</span>).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We verify <span class="math inline">\(\bT\bv_k = \lambda_k \bv_k\)</span> by component-wise substitution. The <span class="math inline">\(j\)</span>-th entry of <span class="math inline">\(\bT\bv_k\)</span> is: <span class="math display">\[
+\begin{align}
+(\bT\bv_k)_j = \frac{1}{h^2} \left[ -\sin((j-1)kh\pi) + 2\sin(jkh\pi) - \sin((j+1)kh\pi) \right].
+\end{align}
+\]</span> Applying the trigonometric identity <span class="math inline">\(\sin(A-B) + \sin(A+B) = 2\sin A \cos B\)</span> with <span class="math inline">\(A = jkh\pi\)</span> and <span class="math inline">\(B = kh\pi\)</span>: <span class="math display">\[
+\begin{align}
+(\bT\bv_k)_j &amp;= \frac{1}{h^2} \left[ 2\sin(jkh\pi) - 2\sin(jkh\pi) \cos(kh\pi) \right] \\
+    &amp;= \frac{2}{h^2} (1 - \cos(kh\pi)) \sin(jkh\pi).
+\end{align}
+\]</span> Using the half-angle identity <span class="math inline">\(1 - \cos\theta = 2\sin^2(\theta/2)\)</span>: <span class="math display">\[
+\begin{align}
+(\bT\bv_k)_j &amp;= \frac{4}{h^2} \sin^2\left(\frac{kh\pi}{2}\right) \sin(jkh\pi) \\
+    &amp;= \lambda_k (\bv_k)_j.
+\end{align}
+\]</span> As <span class="math inline">\(h = 1/(n+1) \to 0\)</span>, using the small-angle approximation <span class="math inline">\(\sin \theta \approx \theta\)</span>: <span class="math display">\[
+\begin{align}
+\lambda_k \approx \frac{4}{h^2} \left( \frac{k\pi h}{2} \right)^2 = k^2\pi^2.
+\end{align}
+\]</span></p>
+</div>
 </div>
 </div>
 </section>
@@ -776,7 +822,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Numerical Consequence:</strong> Because the continuous Laplacian is unbounded, its discretization <span class="math inline">\(\bT\)</span> becomes increasingly ill-conditioned as <span class="math inline">\(h \to 0\)</span>: <span class="math display">\[\kappa(\bT) = \frac{\lambda_{\max}}{\lambda_{\min}} \approx \frac{4/h^2}{\pi^2} = O(h^{-2}).\]</span> Refining the grid <span class="math inline">\(2\times\)</span> quadruples the condition number.</p>
+<p><strong>Numerical Consequence:</strong> Because the continuous Laplacian is unbounded, its discretization <span class="math inline">\(\bT\)</span> becomes increasingly ill-conditioned as <span class="math inline">\(h \to 0\)</span>: <span class="math display">\[
+\begin{align}
+\kappa(\bT) = \frac{\lambda_{\max}}{\lambda_{\min}} \approx \frac{4/h^2}{\pi^2} = O(h^{-2}).
+\end{align}
+\]</span> Refining the grid <span class="math inline">\(2\times\)</span> quadruples the condition number.</p>
 </div>
 </div>
 </section>

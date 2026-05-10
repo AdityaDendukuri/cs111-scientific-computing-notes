@@ -15,7 +15,11 @@ $\bA\bx = \bb$ with $\bA \in \fR^{m \times n}, m > n$. Usually $\bb \notin \math
 ::: {.callout-note icon=false}
 ## Definition: Least Squares Problem
 Find $\hat{\bx}$ that minimizes the Euclidean residual:
-$$\hat{\bx} = \arg\min_{\bx \in \fR^n} \|\bA\bx - \bb\|_2^2.$$
+$$
+\begin{align}
+\hat{\bx} = \arg\min_{\bx \in \fR^n} \|\bA\bx - \bb\|_2^2.
+\end{align}
+$$
 **Geometry:**  $\bA\hat{\bx}$ is the orthogonal projection of $\bb$ onto $\mathcal{R}(\bA)$.
 :::
 
@@ -58,8 +62,31 @@ The numerically superior approach.
 ::: {.callout-note icon=false}
 ## Theorem: Solving via QR
 If $\bA = \bQ\bR$ (thin QR), the least squares solution satisfies:
-$$\bR\hat{\bx} = \bQ^T\bb.$$
-**Why?**  $\|\bA\bx - \bb\|_2^2 = \|\bR\bx - \bQ^T\bb\|_2^2 + \|(\bI - \bQ\bQ^T)\bb\|_2^2$. The first term is zeroed by the solve.
+$$
+\begin{align}
+\bR\hat{\bx} = \bQ^T\bb.
+\end{align}
+$$
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+The goal is to minimize $\|\bA\bx - \bb\|_2^2$. Let $\bA = \bQ\bR$ be the thin QR factorization. Using the orthogonal projector $\bP = \bQ\bQ^T$ and its complement $\bI - \bP$:
+$$
+\begin{align}
+\|\bA\bx - \bb\|_2^2 &= \|\bQ\bR\bx - \bb\|_2^2 \\
+    &= \|\bQ\bR\bx - (\bQ\bQ^T\bb + (\bI - \bQ\bQ^T)\bb)\|_2^2 \\
+    &= \|(\bQ\bR\bx - \bQ\bQ^T\bb) - (\bI - \bQ\bQ^T)\bb\|_2^2.
+\end{align}
+$$
+Since $\bQ(\bR\bx - \bQ^T\bb) \in \mathcal{R}(\bQ)$ and $(\bI - \bQ\bQ^T)\bb \in \mathcal{R}(\bQ)^\perp$, the Pythagorean theorem gives:
+$$
+\begin{align}
+\|\bA\bx - \bb\|_2^2 = \|\bQ(\bR\bx - \bQ^T\bb)\|_2^2 + \|(\bI - \bQ\bQ^T)\bb\|_2^2.
+\end{align}
+$$
+The first term is minimized (set to zero) when $\bR\bx = \bQ^T\bb$, and the second term is independent of $\bx$. Thus $\hat{\bx} = \bR^{-1}\bQ^T\bb$ is the unique minimizer.
 :::
 
 
@@ -85,7 +112,11 @@ QR-based least squares costs $O(mn^2)$. It is the default in `np.linalg.lstsq`.
 ::: {.callout-note icon=false}
 ## Definition: Vandermonde Matrix
 For nodes $t_1, ..., t_m$, the degree-$n$ design matrix is:
-$$V_{ij} = t_i^{j-1}.$$
+$$
+\begin{align}
+V_{ij} = t_i^{j-1}.
+\end{align}
+$$
 Polynomial fitting $p(t) = \sum c_j t^j$ is solved as $\bV\bc \approx \mathbf{f}$.
 :::
 

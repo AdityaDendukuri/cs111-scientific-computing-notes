@@ -705,7 +705,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(\bA \in \fR^{m \times n}\)</span>, there exist orthogonal matrices <span class="math inline">\(\bU \in \fR^{m \times m}, \bV \in \fR^{n \times n}\)</span> and diagonal <span class="math inline">\(\bsigma \in \fR^{m \times n}\)</span> such that: <span class="math display">\[\bA = \bU \bsigma \bV^T.\]</span></p>
+<p>For <span class="math inline">\(\bA \in \fR^{m \times n}\)</span>, there exist orthogonal matrices <span class="math inline">\(\bU \in \fR^{m \times m}, \bV \in \fR^{n \times n}\)</span> and diagonal <span class="math inline">\(\bsigma \in \fR^{m \times n}\)</span> such that: <span class="math display">\[
+\begin{align}
+\bA = \bU \bsigma \bV^T.
+\end{align}
+\]</span></p>
 <ul>
 <li><p><strong>Singular Values (<span class="math inline">\(\sigma_i\)</span>):</strong> Non-negative, ordered <span class="math inline">\(\sigma_1 \geq \sigma_2 \geq ... \geq 0\)</span>.</p></li>
 <li><p><strong>Modes:</strong> <span class="math inline">\(\bA = \sum_{i=1}^r \sigma_i \bu_i \bv_i^T\)</span> (Outer product expansion).</p></li>
@@ -765,7 +769,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The best rank-<span class="math inline">\(k\)</span> approximation (<span class="math inline">\(k &lt; r\)</span>) of <span class="math inline">\(\bA\)</span> in spectral and Frobenius norms is the truncated SVD: <span class="math display">\[\bA_k = \sum_{i=1}^k \sigma_i \bu_i \bv_i^T.\]</span></p>
+<p>The best rank-<span class="math inline">\(k\)</span> approximation (<span class="math inline">\(k &lt; r\)</span>) of <span class="math inline">\(\bA\)</span> in spectral and Frobenius norms is the truncated SVD: <span class="math display">\[
+\begin{align}
+\bA_k = \sum_{i=1}^k \sigma_i \bu_i \bv_i^T.
+\end{align}
+\]</span></p>
 <ul>
 <li><strong>Error:</strong> <span class="math inline">\(\|\bA - \bA_k\|_2 = \sigma_{k+1}\)</span>.</li>
 </ul>

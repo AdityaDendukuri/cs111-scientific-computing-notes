@@ -31,17 +31,34 @@ Faster local convergence, but sensitive to the initial guess $x_0$ and may diver
 
 \addDef{Newton's Method}{%
 Linearizes $f$ at the current iterate:
-\[
+\begin{align*}
     x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}.
-\]
+\end{align*}
 }
 
 \addThm{Quadratic Convergence}{%
 If $f''(x)$ is continuous near a simple root $x^*$ ($f'(x^*) \neq 0$), Newton's method converges **quadratically**:
-\[
+\begin{align*}
     |x_{k+1} - x^*| \approx \frac{|f''(x^*)|}{2|f'(x^*)|} |x_k - x^*|^2.
-\]
-\textbf{Insight:}\enspace The number of correct digits roughly doubles each step.
+\end{align*}
+}
+\label{thm:newton-quadratic}
+
+\addPrf{%
+Expand $f(x^*)$ about $x_k$ using a second-order Taylor polynomial:
+\begin{align*}
+    0 = f(x^*) = f(x_k) + f'(x_k)(x^* - x_k) + \frac{f''(\xi_k)}{2}(x^* - x_k)^2
+\end{align*}
+for some $\xi_k$ between $x^*$ and $x_k$. Dividing by $f'(x_k)$:
+\begin{align*}
+    0 = \frac{f(x_k)}{f'(x_k)} + x^* - x_k + \frac{f''(\xi_k)}{2f'(x_k)}(x^* - x_k)^2.
+\end{align*}
+Substituting the Newton update $x_{k+1} = x_k - f(x_k)/f'(x_k)$:
+\begin{align*}
+    0 &= -(x_{k+1} - x_k) + x^* - x_k + \frac{f''(\xi_k)}{2f'(x_k)}(x^* - x_k)^2 \\
+    x_{k+1} - x^* &= \frac{f''(\xi_k)}{2f'(x_k)}(x_k - x^*)^2.
+\end{align*}
+As $x_k \to x^*$, we have $\xi_k \to x^*$, yielding the quadratic error relation.
 }
 
 \addNote{%
@@ -53,9 +70,9 @@ If $f''(x)$ is continuous near a simple root $x^*$ ($f'(x^*) \neq 0$), Newton's 
 
 \addDef{Secant Method}{%
 Approximates $f'$ via finite differences of the last two iterates:
-\[
+\begin{align*}
     x_{k+1} = x_k - f(x_k)\frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}.
-\]
+\end{align*}
 Requires two initial points ($x_0, x_1$).
 }
 

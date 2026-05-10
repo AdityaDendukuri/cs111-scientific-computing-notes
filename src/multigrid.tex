@@ -13,9 +13,9 @@ Classical stationary iterations such as Jacobi and Gauss-Seidel converge slowly 
 
 \textBox{%
 \textbf{Why does Jacobi kill oscillatory error?} For the 1D model problem, the Jacobi update reads
-\[
+\begin{align*}
   x_i^{(k+1)} = \tfrac{1}{2}\bigl(x_{i-1}^{(k)} + x_{i+1}^{(k)}\bigr) + \tfrac{1}{2}b_i.
-\]
+\end{align*}
 Each new value is the \emph{average of its two neighbors} plus a source term. Consider two extreme error profiles at some iteration:
 \begin{itemize}
   \item \emph{Oscillatory error} ($e_i \propto (-1)^i$, sign alternates every point): the two neighbors of node $i$ carry the opposite sign, so their average nearly cancels the error. One sweep dramatically shrinks this component.
@@ -36,21 +36,21 @@ Jacobi acts as a local \emph{averaging filter}: it sees what its neighbors are d
 
 \addDef{Fourier Modes on a Uniform Grid}{%
 Consider the 1D model problem with the $n \times n$ tridiagonal matrix $\bA$ having $2$ on the main diagonal and $-1$ on the off-diagonals (the finite-difference discretization of $-u'' = f$ on $[0,1]$ scaled by $h^2$). Let $h = 1/(n+1)$. The \emph{Fourier modes} are the vectors
-\[
+\begin{align*}
   \phi^{(k)}_j = \sin(kj\pi h), \quad j = 1,\ldots,n, \quad k = 1,\ldots,n.
-\]
+\end{align*}
 These form an orthogonal basis for $\fR^n$ (by discrete sine orthogonality) and diagonalize $\bA$:
-\[
+\begin{align*}
   \bA\phi^{(k)} = \lambda_k\,\phi^{(k)}, \qquad \lambda_k = 2 - 2\cos(k\pi h) = 4\sin^2\!\Bigl(\frac{k\pi h}{2}\Bigr).
-\]
+\end{align*}
 Small $k$ gives long-wavelength (smooth) modes; large $k$ gives short-wavelength (oscillatory) modes.
 }
 
 \addThm{Eigenvalues of the Jacobi Iteration Matrix}{%
 For the 1D model problem, the Jacobi iteration matrix $\bT_J = \bI - \tfrac{1}{2}\bA$ has eigenvalues
-\[
+\begin{align*}
   \mu_k = \cos(k\pi h), \quad k = 1, \ldots, n,
-\]
+\end{align*}
 with eigenvectors $\phi^{(k)}$. After $\nu$ Jacobi sweeps, mode $k$ of the error is scaled by $\mu_k^\nu = \cos^\nu(k\pi h)$.
 }
 
@@ -73,29 +73,29 @@ Standard Jacobi ($\omega = 1$) is a poor smoother: the highest-frequency mode ($
 
 \addDef{Weighted Jacobi Iteration}{%
 The \emph{weighted Jacobi} method introduces a damping parameter $\omega \in (0,1)$:
-\[
+\begin{align*}
   \bx^{(k+1)} = \bx^{(k)} + \omega\bD^{-1}\bigl(\bb - \bA\bx^{(k)}\bigr),
-\]
+\end{align*}
 with iteration matrix $\bT_\omega = \bI - \omega\bD^{-1}\bA$ and eigenvalues
-\[
+\begin{align*}
   \mu_k(\omega) = 1 - \omega(1 - \cos(k\pi h)).
-\]
+\end{align*}
 The standard multigrid choice is $\omega = 2/3$.
 }
 
 \addThm{Smoothing Property of Weighted Jacobi}{%
 For the 1D model problem with $\omega = 2/3$, the \emph{smoothing factor}
-\[
+\begin{align*}
   \bar{\mu} = \max_{\lfloor n/2\rfloor < k \leq n}\,|\mu_k(2/3)| = \frac{1}{3}.
-\]
+\end{align*}
 That is, every high-frequency component of the error is reduced by at least $2/3$ in a single weighted Jacobi step.
 }
 
 \addPrf{%
 For $k > n/2$, we have $k\pi h \in (\pi/2, \pi)$, so $1 - \cos(k\pi h) \in (1, 2)$. With $\omega = 2/3$:
-\[
+\begin{align*}
   \mu_k(2/3) = 1 - \tfrac{2}{3}(1 - \cos(k\pi h)) \in \Bigl(1 - \tfrac{4}{3},\; 1 - \tfrac{2}{3}\Bigr) = \Bigl(-\tfrac{1}{3},\; \tfrac{1}{3}\Bigr).
-\]
+\end{align*}
 Hence $|\mu_k| < 1/3$ for all high-frequency modes. The supremum $1/3$ is approached as $k \to \lfloor n/2\rfloor^+$ (where $\cos(k\pi h) \to 0^-$).
 }
 
@@ -126,17 +126,17 @@ The key geometric insight: a smooth error on a fine grid of mesh size $h$ looks 
 
 \addDef{Prolongation Operator}{%
 The \emph{prolongation} (or interpolation) operator $\bP: \fR^{m} \to \fR^{n}$ (where $m = (n-1)/2$ for grids satisfying $n = 2m+1$) transfers a coarse-grid vector to the fine grid by \emph{linear interpolation}. For a coarse-grid vector $\bv \in \fR^m$, the fine-grid vector $\bP\bv \in \fR^n$ is defined by
-\[
+\begin{align*}
   (\bP\bv)_{2j} = v_j, \qquad (\bP\bv)_{2j-1} = \tfrac{1}{2}(v_{j-1} + v_j), \quad j = 1, \ldots, m,
-\]
+\end{align*}
 with boundary conventions $v_0 = v_{m+1} = 0$. In matrix form, $\bP$ is $n \times m$ with entries $1$ at coarse-grid points and $\tfrac{1}{2}$ weights at fine-grid midpoints.
 }
 
 \addDef{Restriction Operator}{%
 The \emph{restriction} operator $\bR: \fR^{n} \to \fR^{m}$ transfers a fine-grid vector to the coarse grid. The standard \emph{full-weighting restriction} averages each coarse point with its fine-grid neighbors:
-\[
+\begin{align*}
   (\bR\bw)_j = \tfrac{1}{4}w_{2j-1} + \tfrac{1}{2}w_{2j} + \tfrac{1}{4}w_{2j+1}, \quad j = 1, \ldots, m.
-\]
+\end{align*}
 In matrix form, $\bR = \tfrac{1}{2}\bP^T$. This choice ensures that the Galerkin coarse-grid operator $\bA_c = \bR\bA\bP$ is SPD whenever $\bA$ is SPD.
 }
 
@@ -204,9 +204,9 @@ A single V-cycle descends from the finest level $L$ to the coarsest level $1$ (t
 
 \addThm{Mesh-Independent Convergence of the V-Cycle}{%
 For the $d$-dimensional Poisson equation on a uniform grid of mesh size $h$ (and $n = h^{-d}$ unknowns), the multigrid V-cycle with $\nu_1 + \nu_2 \geq 1$ smoothing steps (weighted Jacobi or Gauss-Seidel) satisfies a \emph{mesh-independent} convergence bound: there exists $\rho < 1$ independent of $h$ such that
-\[
+\begin{align*}
   \|\be^{(k+1)}\|_{\bA} \leq \rho\,\|\be^{(k)}\|_{\bA},
-\]
+\end{align*}
 where $\|\bv\|_{\bA} = \sqrt{\bv^T\bA\bv}$ is the energy norm. Typical values are $\rho \approx 0.1$--$0.3$ for $\nu_1 = \nu_2 = 1$.
 }
 
@@ -229,9 +229,9 @@ For $L$-level multigrid on a problem with $n = n_L$ unknowns at the finest level
 
 \addPrf{%
 Let $W_\ell$ denote the work at level $\ell$ per V-cycle. At each level, the smoother and residual computation cost $O(n_\ell)$, and $n_\ell = n_{L}/2^{L-\ell}$. The total work is
-\[
+\begin{align*}
   W = \sum_{\ell=1}^{L} O(n_\ell) = O\!\left(\sum_{\ell=1}^{L} \frac{n}{2^{L-\ell}}\right) = O(n)\sum_{j=0}^{L-1}\frac{1}{2^j} < O(2n) = O(n).
-\]
+\end{align*}
 The geometric series converges regardless of $L$, giving $O(n)$ total.
 }
 

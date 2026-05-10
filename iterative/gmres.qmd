@@ -10,7 +10,11 @@ Constructs an orthonormal basis $V_k$ for the Krylov subspace $\mathcal{K}_k(\bA
 
 ::: {.callout-note icon=false}
 ## Definition: Arnoldi Relation
-$$\bA V_k = V_{k+1} \bar{H}_k$$
+$$
+\begin{align}
+\bA V_k = V_{k+1} \bar{H}_k
+\end{align}
+$$
 
 - **$V_k$:**  Orthonormal columns.
     
@@ -28,8 +32,33 @@ GMRES finds $\bx_k \in \bx_0 + \mathcal{K}_k$ such that $\|\bb - \bA\bx_k\|_2$ i
 
 ::: {.callout-note icon=false}
 ## Theorem: Least Squares Reduction
-$$\min \|\bb - \bA\bx_k\|_2 = \min_{\by \in \fR^k} \|\beta \be_1 - \bar{H}_k \by\|_2$$
+The GMRES residual minimization in $\mathcal{K}_k$ reduces to a small $(k+1) \times k$ problem:
+$$
+\begin{align}
+\min \|\bb - \bA\bx_k\|_2 = \min_{\by \in \fR^k} \|\beta \be_1 - \bar{H}_k \by\|_2
+\end{align}
+$$
 where $\beta = \|\br_0\|_2$ and $\be_1 = (1, 0, ..., 0)^T$.
+:::
+
+
+::: {.callout-tip icon=false collapse=true}
+## Proof
+Let $\bx_k = \bx_0 + V_k \by$ for $\by \in \fR^k$. The residual is:
+$$
+\begin{align}
+\br_k &= \bb - \bA(\bx_0 + V_k \by) \\
+    &= \br_0 - \bA V_k \by.
+\end{align}
+$$
+Substituting the Arnoldi relation $\bA V_k = V_{k+1} \bar{H}_k$ and $\br_0 = \beta \bv_1 = \beta V_{k+1} \be_1$:
+$$
+\begin{align}
+\br_k &= \beta V_{k+1} \be_1 - V_{k+1} \bar{H}_k \by \\
+    &= V_{k+1} (\beta \be_1 - \bar{H}_k \by).
+\end{align}
+$$
+Since $V_{k+1}$ has orthonormal columns, $\|\br_k\|_2 = \|\beta \be_1 - \bar{H}_k \by\|_2$.
 :::
 
 
@@ -53,7 +82,11 @@ Full GMRES storage costs $O(kn)$ and work grows quadratically with $k$ (due to o
 
 ::: {.callout-note icon=false}
 ## Theorem: Approximation Bound
-$$\frac{\|\br_k\|_2}{\|\br_0\|_2} \leq \min_{p \in \mathcal{P}_k, p(0)=1} \max_{\lambda \in \sigma(\bA)} |p(\lambda)|.$$
+$$
+\begin{align}
+\frac{\|\br_k\|_2}{\|\br_0\|_2} \leq \min_{p \in \mathcal{P}_k, p(0)=1} \max_{\lambda \in \sigma(\bA)} |p(\lambda)|.
+\end{align}
+$$
 :::
 
 

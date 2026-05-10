@@ -59,9 +59,9 @@ The difference between 1 and the next larger float. $\varepsilon_{\text{mach}} =
 
 \addDef{Unit Roundoff ($u$)}{%
 Max relative rounding error: $u = \varepsilon_{\text{mach}}/2 = 2^{-p}$.
-\[
+\begin{align*}
   \frac{|\text{fl}(x) - x|}{|x|} \leq u.
-\]
+\end{align*}
 }
 \label{def:unit-roundoff}
 
@@ -69,6 +69,18 @@ Max relative rounding error: $u = \varepsilon_{\text{mach}}/2 = 2^{-p}$.
 IEEE 754 guarantees $\text{fl}(a \circ b) = (a \circ b)(1 + \delta)$ for $\circ \in \{+, -, \times, \div\}$ and $|\delta| \leq u$. Individual operations are as accurate as the representation allows.
 }
 \label{thm:fp-axiom}
+
+\addPrf{%
+The real line near $x$ is partitioned into intervals, each containing exactly one floating point number. In round-to-nearest mode, $\text{fl}(x)$ is the closer endpoint, so:
+\begin{align*}
+    |\text{fl}(x) - x| \leq \frac{1}{2} \text{gap} = \frac{1}{2} (\varepsilon_{\text{mach}} |x|) = u|x|.
+\end{align*}
+Dividing by $|x|$ gives the relative error bound $|\delta| \leq u$.
+For any operation $\circ$, IEEE 754 mandates computing the exact result first, then rounding, ensuring:
+\begin{align*}
+    \text{fl}(a \circ b) = \text{round}(a \circ b) = (a \circ b)(1 + \delta).
+\end{align*}
+}
 
 \addNote{%
 \textbf{Warning:}\enspace After $n$ operations, error grows as $O(nu)$. Operation order matters because each intermediate result is rounded.
@@ -139,6 +151,22 @@ Subtraction of nearly equal numbers leads to total loss of significant digits.
 }
 \label{def:cancellation}
 
+\addPrf{%
+Let $\hat{x} = x(1+\varepsilon_x)$ and $\hat{y} = y(1+\varepsilon_y)$ with $|\varepsilon_x|, |\varepsilon_y| \leq u$.
+The error in the subtraction is:
+\begin{align*}
+    (\hat{x}-\hat{y})-(x-y) &= x(1+\varepsilon_x) - y(1+\varepsilon_y) - x + y \\
+    &= x\varepsilon_x - y\varepsilon_y.
+\end{align*}
+The relative error is bounded by:
+\begin{align*}
+    \frac{|x\varepsilon_x - y\varepsilon_y|}{x-y} &\leq \frac{x|\varepsilon_x| + y|\varepsilon_y|}{x-y} \\
+    &\leq \frac{xu + yu}{x-y} \\
+    &= u \cdot \frac{x+y}{x-y}.
+\end{align*}
+As $x \to y$, the denominator $x-y \to 0$, causing the relative error to explode.
+}
+
 \addNote{%
 \textbf{Rule:}\enspace Rounding error is inevitable. Cancellation is algorithmic and can often be eliminated via mathematical reformulation.
 }
@@ -178,6 +206,27 @@ Inherent sensitivity of the problem. $\text{Forward Error} \leq \kappa \cdot \te
   \item $\kappa(A) = 10^8, \text{Backward Error} = 10^{-15}$. Max forward error?
   \item Prove BE for linear systems: $(\bA + \bE)\hat{\bx} = \bb$ for $\bE = -\br\hat{\bx}^T/\|\hat{\bx}\|^2$.
 \end{enumerate}
+}
+
+\addPrf{%
+\textbf{(1):}\enspace Substituting $\bE$ into $(\bA + \bE)\hat{\bx}$:
+\begin{align*}
+    (\bA + \bE)\hat{\bx} &= \bA\hat{\bx} + \bE\hat{\bx} \\
+    &= \bA\hat{\bx} - \frac{\br\hat{\bx}^T}{\|\hat{\bx}\|^2} \hat{\bx} \\
+    &= \bA\hat{\bx} - \br \frac{\hat{\bx}^T\hat{\bx}}{\|\hat{\bx}\|^2} \\
+    &= \bA\hat{\bx} - \br.
+\end{align*}
+Since $\br = \bb - \bA\hat{\bx}$, we have $\bA\hat{\bx} - (\bb - \bA\hat{\bx}) = \bb$.
+
+\textbf{(2):}\enspace For the relative error, using the rank-1 norm property $\|\br\bv^T\|_2 = \|\br\|_2\|\bv\|_2$:
+\begin{align*}
+    \|\bE\|_2 &= \left\| \frac{\br\hat{\bx}^T}{\|\hat{\bx}\|^2} \right\|_2 \\
+    &= \frac{\|\br\|_2 \|\hat{\bx}\|_2}{\|\hat{\bx}\|^2} = \frac{\|\br\|_2}{\|\hat{\bx}\|_2}.
+\end{align*}
+Dividing by $\|\bA\|_2$ gives the result:
+\begin{align*}
+    \frac{\|\bE\|_2}{\|\bA\|_2} = \frac{\|\br\|_2}{\|\bA\|_2 \|\hat{\bx}\|_2}.
+\end{align*}
 }
 
 \end{document}

@@ -720,7 +720,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The process builds an orthonormal basis <span class="math inline">\(V_k = [\bv_1, ..., \bv_k]\)</span> for <span class="math inline">\(\mathcal{K}_k\)</span> satisfying: <span class="math display">\[\bA V_k = V_k T_k + \beta_k \bv_{k+1} \be_k^T.\]</span></p>
+<p>The process builds an orthonormal basis <span class="math inline">\(V_k = [\bv_1, ..., \bv_k]\)</span> for <span class="math inline">\(\mathcal{K}_k\)</span> satisfying: <span class="math display">\[
+\begin{align}
+\bA V_k = V_k T_k + \beta_k \bv_{k+1} \be_k^T.
+\end{align}
+\]</span></p>
 <ul>
 <li><p><strong><span class="math inline">\(T_k\)</span>:</strong> Symmetric <strong>tridiagonal</strong> matrix.</p></li>
 <li><p><strong><span class="math inline">\(\alpha_j = \bv_j^T \bA \bv_j\)</span>:</strong> Rayleigh quotients (diagonal).</p></li>
@@ -771,7 +775,41 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The residual <span class="math inline">\(\|\bA\tilde{\bu}_i - \theta_i \tilde{\bu}_i\|_2 = \beta_k |s_i(k)|\)</span>. <strong>Significance:</strong> Convergence of a Ritz pair can be monitored for <span class="math inline">\(O(k)\)</span> cost without forming the full <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\tilde{\bu}_i\)</span>.</p>
+<p>The residual of the <span class="math inline">\(i\)</span>-th Ritz pair <span class="math inline">\((\theta_i, \tilde{\bu}_i)\)</span> satisfies: <span class="math display">\[
+\begin{align}
+\|\bA\tilde{\bu}_i - \theta_i \tilde{\bu}_i\|_2 = \beta_k |s_i(k)|.
+\end{align}
+\]</span> <strong>Significance:</strong> Convergence of a Ritz pair can be monitored for <span class="math inline">\(O(k)\)</span> cost without forming the full <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\tilde{\bu}_i\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Starting from the Lanczos relation <span class="math inline">\(\bA V_k = V_k T_k + \beta_k \bv_{k+1} \be_k^T\)</span>, multiply by the <span class="math inline">\(i\)</span>-th eigenvector <span class="math inline">\(\bs_i\)</span> of <span class="math inline">\(T_k\)</span> on the right: <span class="math display">\[
+\begin{align}
+\bA V_k \bs_i &amp;= V_k T_k \bs_i + \beta_k \bv_{k+1} \be_k^T \bs_i \\
+    \bA \tilde{\bu}_i &amp;= V_k (\theta_i \bs_i) + \beta_k \bv_{k+1} s_i(k).
+\end{align}
+\]</span> where <span class="math inline">\(s_i(k)\)</span> is the <span class="math inline">\(k\)</span>-th entry of <span class="math inline">\(\bs_i\)</span>. Rearranging: <span class="math display">\[
+\begin{align}
+\bA \tilde{\bu}_i - \theta_i \tilde{\bu}_i = \beta_k \bv_{k+1} s_i(k).
+\end{align}
+\]</span> Taking the <span class="math inline">\(L_2\)</span> norm and using the fact that <span class="math inline">\(\|\bv_{k+1}\|_2 = 1\)</span>: <span class="math display">\[
+\begin{align}
+\|\bA \tilde{\bu}_i - \theta_i \tilde{\bu}_i\|_2 &amp;= |\beta_k s_i(k)| \|\bv_{k+1}\|_2 \\
+    &amp;= \beta_k |s_i(k)|.
+\end{align}
+\]</span></p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">

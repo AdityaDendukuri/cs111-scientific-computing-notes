@@ -708,7 +708,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>On <span class="math inline">\(n\)</span> panels of width <span class="math inline">\(h = (b-a)/n\)</span>: <span class="math display">\[T_n = h \left[ \frac{f(a) + f(b)}{2} + \sum_{i=1}^{n-1} f(a + ih) \right].\]</span> <strong>Error Bound:</strong> <span class="math inline">\(E = O(h^2)\)</span>. Doubling <span class="math inline">\(n\)</span> reduces error <span class="math inline">\(4\times\)</span>.</p>
+<p>On <span class="math inline">\(n\)</span> panels of width <span class="math inline">\(h = (b-a)/n\)</span>: <span class="math display">\[
+\begin{align}
+T_n = h \left[ \frac{f(a) + f(b)}{2} + \sum_{i=1}^{n-1} f(a + ih) \right].
+\end{align}
+\]</span> <strong>Error Bound:</strong> <span class="math inline">\(E = O(h^2)\)</span>. Doubling <span class="math inline">\(n\)</span> reduces error <span class="math inline">\(4\times\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -721,7 +725,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Requires <span class="math inline">\(n\)</span> to be even. Uses piecewise quadratic interpolation: <span class="math display">\[S_n = \frac{h}{3} \left[ f(a) + f(b) + 4\sum_{\text{odd}\;i} f(x_i) + 2\sum_{\text{even}\;i} f(x_i) \right].\]</span> <strong>Error Bound:</strong> <span class="math inline">\(E = O(h^4)\)</span>. Exact for polynomials of degree <span class="math inline">\(\leq 3\)</span>.</p>
+<p>Requires <span class="math inline">\(n\)</span> to be even. Uses piecewise quadratic interpolation: <span class="math display">\[
+\begin{align}
+S_n = \frac{h}{3} \left[ f(a) + f(b) + 4\sum_{\text{odd}\;i} f(x_i) + 2\sum_{\text{even}\;i} f(x_i) \right].
+\end{align}
+\]</span> <strong>Error Bound:</strong> <span class="math inline">\(E = O(h^4)\)</span>. Exact for polynomials of degree <span class="math inline">\(\leq 3\)</span>.</p>
 </div>
 </div>
 </section>
@@ -738,7 +746,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Integrating over <span class="math inline">\([-1, 1]\)</span> with <span class="math inline">\(p\)</span> points: <span class="math display">\[\int_{-1}^1 f(x)\,dx \approx \sum_{i=1}^p w_i f(x_i).\]</span> <strong>Optimality:</strong> Exact for all polynomials of degree <span class="math inline">\(\leq 2p-1\)</span>. <strong>Nodes:</strong> Roots of the degree-<span class="math inline">\(p\)</span> Legendre polynomial <span class="math inline">\(P_p(x)\)</span>.</p>
+<p>Integrating over <span class="math inline">\([-1, 1]\)</span> with <span class="math inline">\(p\)</span> points: <span class="math display">\[
+\begin{align}
+\int_{-1}^1 f(x)\,dx \approx \sum_{i=1}^p w_i f(x_i).
+\end{align}
+\]</span> <strong>Optimality:</strong> Exact for all polynomials of degree <span class="math inline">\(\leq 2p-1\)</span>. <strong>Nodes:</strong> Roots of the degree-<span class="math inline">\(p\)</span> Legendre polynomial <span class="math inline">\(P_p(x)\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -767,7 +779,45 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Given an <span class="math inline">\(O(h^2)\)</span> estimate <span class="math inline">\(A(h)\)</span>, build an <span class="math inline">\(O(h^4)\)</span> estimate by: <span class="math display">\[A_{new} = \frac{4A(h/2) - A(h)}{3}.\]</span></p>
+<p>Given an <span class="math inline">\(O(h^2)\)</span> estimate <span class="math inline">\(A(h)\)</span>, build an <span class="math inline">\(O(h^4)\)</span> estimate by: <span class="math display">\[
+\begin{align}
+A_{new} = \frac{4A(h/2) - A(h)}{3}.
+\end{align}
+\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(A(h)\)</span> be an <span class="math inline">\(O(h^2)\)</span> approximation of the true value <span class="math inline">\(I\)</span>. Using a Taylor expansion in <span class="math inline">\(h\)</span>: <span class="math display">\[
+\begin{align}
+A(h) = I + C_1 h^2 + C_2 h^4 + O(h^6).
+\end{align}
+\]</span> Halving the step size gives: <span class="math display">\[
+\begin{align}
+A(h/2) &amp;= I + C_1 (h/2)^2 + C_2 (h/2)^4 + O(h^6) \\
+    &amp;= I + \frac{1}{4} C_1 h^2 + \frac{1}{16} C_2 h^4 + O(h^6).
+\end{align}
+\]</span> To eliminate the <span class="math inline">\(O(h^2)\)</span> error term, multiply <span class="math inline">\(A(h/2)\)</span> by 4 and subtract <span class="math inline">\(A(h)\)</span>: <span class="math display">\[
+\begin{align}
+4A(h/2) - A(h) &amp;= (4I + C_1 h^2 + \frac{1}{4} C_2 h^4) - (I + C_1 h^2 + C_2 h^4) + O(h^6) \\
+    &amp;= 3I - \frac{3}{4} C_2 h^4 + O(h^6).
+\end{align}
+\]</span> Dividing by 3 yields the <span class="math inline">\(O(h^4)\)</span> estimate: <span class="math display">\[
+\begin{align}
+I = \frac{4A(h/2) - A(h)}{3} + O(h^4).
+\end{align}
+\]</span></p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">

@@ -29,9 +29,9 @@ Observable $\varphi$ satisfying $\mathcal{K}\varphi = \mu \varphi$.
 
 \addDef{DMD Algorithm}{%
 Finds the best linear fit $\bY \approx \bA\bX$ for snapshot matrices:
-\[
+\begin{align*}
     \bX = [\bx^{(0)} \dots \bx^{(m-1)}], \quad \bY = [\bx^{(1)} \dots \bx^{(m)}].
-\]
+\end{align*}
 \begin{enumerate}
     \item Compute truncated SVD: $\bX \approx \bU_r \bsigma_r \bV_r^T$.
     \item Construct $r \times r$ reduced operator: $\tilde{\bA} = \bU_r^T \bY \bV_r \bsigma_r^{-1}$.
@@ -62,6 +62,17 @@ Identifies governing equations $\dot{\bx} = \mathbf{\Xi}^T \boldsymbol{\Theta}(\
     \item Build a polynomial library $\boldsymbol{\Theta}$ for $\bx \in \fR^2$ up to degree 2.
     \item Use SINDy (via STLS) to identify the Lotka-Volterra predator-prey model from noisy data.
 \end{enumerate}
+}
+
+\addPrf{%
+For any state $\bx \in \mathcal{M}$, observables $g, h$, and scalars $\alpha, \beta$, consider the action of $\mathcal{K}$ on the linear combination:
+\begin{align*}
+    [\mathcal{K}(\alpha g + \beta h)](\bx) &= (\alpha g + \beta h)(\mathbf{F}(\bx)) \\
+    &= \alpha g(\mathbf{F}(\bx)) + \beta h(\mathbf{F}(\bx)) \\
+    &= \alpha (\mathcal{K}g)(\bx) + \beta (\mathcal{K}h)(\bx) \\
+    &= [\alpha \mathcal{K}g + \beta \mathcal{K}h](\bx).
+\end{align*}
+Since this holds for all $\bx$, $\mathcal{K}(\alpha g + \beta h) = \alpha \mathcal{K}g + \beta \mathcal{K}h$.
 }
 
 \end{document}

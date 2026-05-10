@@ -720,7 +720,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>To set <span class="math inline">\(A'_{pq} = 0\)</span>, let <span class="math inline">\(\tau = (A_{qq} - A_{pp}) / (2A_{pq})\)</span>. The optimal tangent <span class="math inline">\(t = \tan\theta\)</span> is: <span class="math display">\[t = \frac{\text{sign}(\tau)}{|\tau| + \sqrt{1 + \tau^2}}, \quad c = \frac{1}{\sqrt{1+t^2}}, \quad s = ct.\]</span> Choosing the smaller root <span class="math inline">\(|t| \leq 1\)</span> ensures numerical stability and minimal perturbation.</p>
+<p>To set <span class="math inline">\(A'_{pq} = 0\)</span>, let <span class="math inline">\(\tau = (A_{qq} - A_{pp}) / (2A_{pq})\)</span>. The optimal tangent <span class="math inline">\(t = \tan\theta\)</span> is: <span class="math display">\[
+\begin{align}
+t = \frac{\text{sign}(\tau)}{|\tau| + \sqrt{1 + \tau^2}}, \quad c = \frac{1}{\sqrt{1+t^2}}, \quad s = ct.
+\end{align}
+\]</span> Choosing the smaller root <span class="math inline">\(|t| \leq 1\)</span> ensures numerical stability and minimal perturbation.</p>
 </div>
 </div>
 </section>
@@ -736,7 +740,42 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\sigma^2_{\text{off}}(\bA) = \sum_{p &lt; q} A_{pq}^2\)</span>. Each rotation reduces this norm: <span class="math display">\[\sigma^2_{\text{off}}(\bA') = \sigma^2_{\text{off}}(\bA) - A_{pq}^2.\]</span> <strong>Convergence:</strong> Off-diagonals decrease monotonically. Convergence is ultimately <strong>quadratic</strong> (errors square each sweep).</p>
+<p>Let <span class="math inline">\(\sigma^2_{\text{off}}(\bA) = \sum_{p &lt; q} A_{pq}^2\)</span> be the Frobenius norm of the off-diagonal entries. Each rotation <span class="math inline">\(G(p, q, \theta)\)</span> reduces this norm: <span class="math display">\[
+\begin{align}
+\sigma^2_{\text{off}}(\bA') = \sigma^2_{\text{off}}(\bA) - A_{pq}^2.
+\end{align}
+\]</span> <strong>Convergence:</strong> Off-diagonals decrease monotonically. Convergence is ultimately <strong>quadratic</strong> (errors square each sweep).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The orthogonal transform <span class="math inline">\(\bA' = G^T\bA G\)</span> preserves the Frobenius norm: <span class="math inline">\(\|\bA'\|_F^2 = \|\bA\|_F^2\)</span>. Let <span class="math inline">\(d(\bA) = \sum A_{ii}^2\)</span> be the sum of squares of diagonal entries. Then: <span class="math display">\[
+\begin{align}
+\|\bA\|_F^2 = d(\bA) + 2\sigma_{\text{off}}^2(\bA).
+\end{align}
+\]</span> A Jacobi rotation <span class="math inline">\(G(p,q,\theta)\)</span> only affects rows and columns <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>. For the <span class="math inline">\(2 \times 2\)</span> submatrix at <span class="math inline">\(\{p,q\}\)</span>, the transformation is an eigendecomposition, so: <span class="math display">\[
+\begin{align}
+(A'_{pp})^2 + (A'_{qq})^2 &amp;= A_{pp}^2 + A_{qq}^2 + 2A_{pq}^2 \\
+    d(\bA') &amp;= d(\bA) + 2A_{pq}^2.
+\end{align}
+\]</span> Substituting this into the norm conservation <span class="math inline">\(\|\bA'\|_F^2 = \|\bA\|_F^2\)</span>: <span class="math display">\[
+\begin{align}
+d(\bA') + 2\sigma_{\text{off}}^2(\bA') &amp;= d(\bA) + 2\sigma_{\text{off}}^2(\bA) \\
+    (d(\bA) + 2A_{pq}^2) + 2\sigma_{\text{off}}^2(\bA') &amp;= d(\bA) + 2\sigma_{\text{off}}^2(\bA) \\
+    \sigma_{\text{off}}^2(\bA') &amp;= \sigma_{\text{off}}^2(\bA) - A_{pq}^2.
+\end{align}
+\]</span> Thus each rotation reduces the off-diagonal mass by exactly <span class="math inline">\(A_{pq}^2\)</span>.</p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">

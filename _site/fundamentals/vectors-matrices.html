@@ -787,13 +787,14 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-The set of all real vectors of size <span class="math inline">\(n\)</span>. When we write <span class="math inline">\(\bx \in \fR^n\)</span>, it means <span class="math inline">\(\bx\)</span> has <span class="math inline">\(n\)</span> real entries. Vectors in <span class="math inline">\(\fR^n\)</span> take one of the following forms: <span class="math display">\[
+<p>The set of all real vectors of size <span class="math inline">\(n\)</span>. When we write <span class="math inline">\(\bx \in \fR^n\)</span>, it means <span class="math inline">\(\bx\)</span> has <span class="math inline">\(n\)</span> real entries. Vectors in <span class="math inline">\(\fR^n\)</span> take one of the following forms: <span class="math display">\[
 \begin{align}
 \bx \in \fR^{n \times 1} &amp;= \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
-\quad \text{(column vector, default convention)}\\]</span>1mm] ^{1 n} &amp;=
-<span class="math display">\[\begin{pmatrix} x_1 &amp; x_2 &amp; \cdots &amp; x_n \end{pmatrix}
-\quad \text{(row vector)}\]</span>
-<p>\end{align} $$</p>
+\quad \text{(column vector, default convention)}\\[1mm]
+\bx \in \fR^{1 \times n} &amp;= \begin{pmatrix} x_1 &amp; x_2 &amp; \cdots &amp; x_n \end{pmatrix}
+\quad \text{(row vector)}
+\end{align}
+\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -913,7 +914,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <strong>transpose</strong> of <span class="math inline">\(\bA \in \fR^{m \times n}\)</span>, denoted <span class="math inline">\(\bA^T\)</span>, is the <span class="math inline">\(n \times m\)</span> matrix obtained by interchanging rows and columns: [ (^T)<em>{ij} = a</em>{ji}, i n,&nbsp;1 j m.$$ For a column vector <span class="math inline">\(\bx \in \fR^n\)</span>, the transpose <span class="math inline">\(\bx^T\)</span> is its corresponding row vector and vice versa.</p>
+<p>The <strong>transpose</strong> of <span class="math inline">\(\bA \in \fR^{m \times n}\)</span>, denoted <span class="math inline">\(\bA^T\)</span>, is the <span class="math inline">\(n \times m\)</span> matrix obtained by interchanging rows and columns: <span class="math display">\[
+\begin{align}
+(\bA^T)_{ij} = a_{ji}, \quad 1 \le i \le n,\ 1 \le j \le m.
+\end{align}
+\]</span> For a column vector <span class="math inline">\(\bx \in \fR^n\)</span>, the transpose <span class="math inline">\(\bx^T\)</span> is its corresponding row vector and vice versa.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -943,8 +948,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Every square matrix <span class="math inline">\(\bA\)</span> decomposes uniquely into a symmetric part and a skew-symmetric part: <span class="math display">\[\bA = \underbrace{\tfrac{1}{2}(\bA + \bA^T)}_{\text{symmetric}} +
-          \underbrace{\tfrac{1}{2}(\bA - \bA^T)}_{\text{skew-symmetric}}.\]</span> Symmetric matrices arise constantly in scientific computing: covariance matrices in statistics, graph Laplacians in network problems, and Hessians of quadratic objectives in optimization are all symmetric.</p>
+<p>Every square matrix <span class="math inline">\(\bA\)</span> decomposes uniquely into a symmetric part and a skew-symmetric part: <span class="math display">\[
+\begin{align}
+\bA = \underbrace{\tfrac{1}{2}(\bA + \bA^T)}_{\text{symmetric}} +
+          \underbrace{\tfrac{1}{2}(\bA - \bA^T)}_{\text{skew-symmetric}}.
+\end{align}
+\]</span> Symmetric matrices arise constantly in scientific computing: covariance matrices in statistics, graph Laplacians in network problems, and Hessians of quadratic objectives in optimization are all symmetric.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -978,9 +987,24 @@ Tip
 </div>
 <div id="callout-18" class="callout-18-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Properties (1)–(3) follow directly from the definition <span class="math inline">\((\bA^T)_{ij} = a_{ji}\)</span> applied entry-wise. For example, for (2): <span class="math display">\[(\bA+\bB)^T_{ij} = (\bA+\bB)_{ji} = a_{ji} + b_{ji} = (\bA^T)_{ij} + (\bB^T)_{ij}
-    = (\bA^T + \bB^T)_{ij}.\]</span></p>
-<p>For (4), let <span class="math inline">\(\mathbf{C} = \bA\bB \in \fR^{m \times p}\)</span>. By definition of transpose and matrix product: <span class="math display">\[(\mathbf{C}^T)_{ij} = c_{ji} = \sum_{k=1}^{n} a_{jk}\,b_{ki}.\]</span> Expanding <span class="math inline">\(\bB^T\bA^T\)</span> using <span class="math inline">\((\bB^T)_{ik} = b_{ki}\)</span> and <span class="math inline">\((\bA^T)_{kj} = a_{jk}\)</span>: <span class="math display">\[(\bB^T\bA^T)_{ij} = \sum_{k=1}^{n} (\bB^T)_{ik}\,(\bA^T)_{kj} = \sum_{k=1}^{n} b_{ki}\,a_{jk}.\]</span> Both sums are identical, so <span class="math inline">\((\bA\bB)^T = \bB^T\bA^T\)</span>.</p>
+<p>Properties (1)–(3) follow directly from the entry-wise definition <span class="math inline">\((\bA^T)_{ij} = a_{ji}\)</span>. For (2): <span class="math display">\[
+\begin{align}
+(\bA+\bB)^T_{ij} &amp;= (\bA+\bB)_{ji} \\
+    &amp;= a_{ji} + b_{ji} \\
+    &amp;= (\bA^T)_{ij} + (\bB^T)_{ij} \\
+    &amp;= (\bA^T + \bB^T)_{ij}.
+\end{align}
+\]</span></p>
+<p>For (4), let <span class="math inline">\(\bC = \bA\bB \in \fR^{m \times p}\)</span>. By the definition of matrix product: <span class="math display">\[
+\begin{align}
+(\bC^T)_{ij} = c_{ji} = \sum_{k=1}^{n} a_{jk}\,b_{ki}.
+\end{align}
+\]</span> Expanding the <span class="math inline">\((i,j)\)</span> entry of <span class="math inline">\(\bB^T\bA^T\)</span> using <span class="math inline">\((\bB^T)_{ik} = b_{ki}\)</span> and <span class="math inline">\((\bA^T)_{kj} = a_{jk}\)</span>: <span class="math display">\[
+\begin{align}
+(\bB^T\bA^T)_{ij} &amp;= \sum_{k=1}^{n} (\bB^T)_{ik}\,(\bA^T)_{kj} \\
+    &amp;= \sum_{k=1}^{n} b_{ki}\,a_{jk}.
+\end{align}
+\]</span> Both summations are identical, so <span class="math inline">\((\bA\bB)^T = \bB^T\bA^T\)</span>.</p>
 </div>
 </div>
 </div>
@@ -994,7 +1018,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>By induction on the result above(4): <span class="math display">\[(\bA_1 \bA_2 \cdots \bA_k)^T = \bA_k^T \cdots \bA_2^T \bA_1^T.\]</span></p>
+<p>By induction on the result above(4): <span class="math display">\[
+\begin{align}
+(\bA_1 \bA_2 \cdots \bA_k)^T = \bA_k^T \cdots \bA_2^T \bA_1^T.
+\end{align}
+\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">

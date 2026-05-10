@@ -705,7 +705,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, a scalar <span class="math inline">\(\lambda \in \fC\)</span> is an <strong>eigenvalue</strong> if <span class="math inline">\(\exists\)</span> nonzero <span class="math inline">\(\bv \in \fC^n\)</span> such that: <span class="math display">\[\bA\bv = \lambda\bv.\]</span></p>
+<p>For <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, a scalar <span class="math inline">\(\lambda \in \fC\)</span> is an <strong>eigenvalue</strong> if <span class="math inline">\(\exists\)</span> nonzero <span class="math inline">\(\bv \in \fC^n\)</span> such that: <span class="math display">\[
+\begin{align}
+\bA\bv = \lambda\bv.
+\end{align}
+\]</span></p>
 <ul>
 <li><p><strong>Spectrum <span class="math inline">\(\sigma(\bA)\)</span>:</strong> The set of all eigenvalues.</p></li>
 <li><p><strong>Invariance:</strong> Multiplying <span class="math inline">\(\bv\)</span> by <span class="math inline">\(\bA\)</span> only scales its length; its direction remains fixed.</p></li>
@@ -845,6 +849,27 @@ window.Quarto = {
 <li><p><strong>Convergence:</strong> <span class="math inline">\(\bv^{(k)} \to\)</span> dominant eigenvector (for <span class="math inline">\(|\lambda_1| &gt; |\lambda_2|\)</span>).</p></li>
 <li><p><strong>Rate:</strong> <span class="math inline">\(O(|\lambda_2/\lambda_1|^k)\)</span>.</p></li>
 </ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Proof
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Assume <span class="math inline">\(\bA\)</span> is diagonalizable with eigenvectors <span class="math inline">\(\{\bu_1, ..., \bu_n\}\)</span> and eigenvalues <span class="math inline">\(|\lambda_1| &gt; |\lambda_2| \geq ...\)</span>. Let <span class="math inline">\(\bx^{(0)} = \sum_{i=1}^n c_i \bu_i\)</span> with <span class="math inline">\(c_1 \neq 0\)</span>. Applying <span class="math inline">\(\bA\)</span> <span class="math inline">\(k\)</span> times: <span class="math display">\[
+\begin{align}
+\bA^k \bx^{(0)} &amp;= \sum_{i=1}^n c_i \lambda_i^k \bu_i \\
+    &amp;= c_1 \lambda_1^k \left( \bu_1 + \sum_{i=2}^n \frac{c_i}{c_1} \left(\frac{\lambda_i}{\lambda_1}\right)^k \bu_i \right).
+\end{align}
+\]</span> Since <span class="math inline">\(|\lambda_i/\lambda_1| &lt; 1\)</span> for all <span class="math inline">\(i &gt; 1\)</span>, the summation term decays to zero as <span class="math inline">\(k \to \infty\)</span>. Thus <span class="math inline">\(\bA^k \bx^{(0)}\)</span> aligns with <span class="math inline">\(\bu_1\)</span>. The normalization at each step prevents overflow while preserving this alignment.</p>
+</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
