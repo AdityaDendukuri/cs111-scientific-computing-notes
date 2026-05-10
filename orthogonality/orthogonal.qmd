@@ -25,8 +25,8 @@ A set $\{\bq_1, ..., \bq_n\}$ where $\bq_i^T\bq_j = \delta_{ij}$ (unit length an
 
 
 ::: {.callout-tip icon=false}
-**The Inner Product Advantage.** 
-In an orthonormal basis, coefficients of $\bv = \sum c_i \bq_i$ are simple dot products: $c_i = \bq_i^T\bv$. This reduces solving a linear system ($O(n^3)$) to a sequence of dot products ($O(n^2)$).
+**Efficiency in Orthonormal Bases.** 
+In an orthonormal basis, the coefficients of a vector $\bv = \sum c_i \bq_i$ are given by standard inner products: $c_i = \bq_i^T\bv$. This allows the solution of a linear system, which generally requires $O(n^3)$ operations, to be computed using a sequence of inner products in $O(n^2)$ time.
 :::
 
 

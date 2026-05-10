@@ -3,6 +3,7 @@
 
 Iterative method for finding extreme eigenpairs of large, symmetric matrices without explicit $O(n^2)$ formation.
 
+
 ## Krylov Subspaces
 
 
@@ -95,6 +96,12 @@ $$
 ::: {.callout-tip icon=false}
 **Ghost Eigenvalues:** 
 In floating-point, the three-term recurrence loses orthogonality, leading to ``ghost'' (spurious) copies of eigenvalues. **Practical Rule:**  Use full or selective reorthogonalization to maintain basis integrity.
+:::
+
+
+::: {.callout-tip icon=false}
+**Connection to Conjugate Gradient:** 
+The Lanczos algorithm applied to a symmetric system $\bA\bx=\bb$ is mathematically equivalent to the Conjugate Gradient method. Both algorithms build the same Krylov subspace and produce identical iterates in exact arithmetic.
 :::
 
 

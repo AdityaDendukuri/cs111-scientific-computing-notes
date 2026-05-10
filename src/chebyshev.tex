@@ -5,14 +5,19 @@
 \subsection{Chebyshev Polynomials}
 \label{sub:chebyshev-theory}
 
+\textBox{%
 Minimax-optimal basis for polynomial approximation. Resolves ill-conditioning and oscillations of the monomial basis.
+}
 
 \subsubsection{Failure of the Monomial Basis}
 
+\textBox{%
 \begin{enumerate}
     \item \textbf{Numerical:}\enspace Vandermonde matrices $V_{ij} = x_i^{j-1}$ have condition numbers that grow exponentially with degree.
     \item \textbf{Analytical:}\enspace \textbf{Runge's Phenomenon}. Interpolating smooth functions at equally spaced nodes leads to divergence at boundaries as degree $n \to \infty$.
 \end{enumerate}
+}
+...
 
 \addExcr{%
 \begin{enumerate}
@@ -75,6 +80,11 @@ If $f$ is analytic on $[-1, 1]$, the Chebyshev coefficients $c_k$ decay \textbf{
 \textbf{Insight:}\enspace Just 20--30 terms often yield machine precision.
 }
 \label{thm:spectral-accuracy}
+
+\addNote{%
+\textbf{Connection to Fourier Series:}\enspace
+The Chebyshev polynomials are closely related to the Fourier series. Specifically, $T_n(x)$ corresponds to the real part of a Fourier series on the unit circle under the mapping $x = \cos \theta$. This connection explains their remarkable convergence properties for smooth functions.
+}
 
 \addExcr{%
 \begin{enumerate}

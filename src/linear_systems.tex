@@ -5,18 +5,22 @@
 \subsection{Linearity}
 \label{sub:linearity}
 
-Core definitions and structural properties of linear systems.
+\textBox{%
+Linear systems are characterized by the properties of additivity and homogeneity, which allow for the decomposition of complex operators into simpler components.
+}
 
 \subsubsection{Linear Systems}
 
-A linear system encodes multiple equations into a single matrix-vector form.
+\textBox{%
+A linear system is a collection of linear equations involving the same set of variables. In matrix-vector notation, we package these equations into a single compact form that is amenable to both theoretical analysis and high-performance computation.
+}
 
 \addDef{Linear System}{%
 The matrix-vector form of a linear system is \textbf{$\bA\bx = \bb$}, where:
 \begin{itemize}
-  \item $\bA \in \fR^{m \times n}$ is the coefficient matrix.
-  \item $\bx \in \fR^n$ is the vector of unknowns.
-  \item $\bb \in \fR^m$ is the right-hand side.
+  \item $\bA \in \fR^{m \times n}$ is the coefficient matrix representing the system's structure.
+  \item $\bx \in \fR^n$ is the vector of unknown variables we wish to determine.
+  \item $\bb \in \fR^m$ is the right-hand side vector, often representing observed data or a source term.
 \end{itemize}
 }
 \label{def:linear-system}
@@ -46,7 +50,9 @@ If $\bA\bx_1 = \bb_1$ and $\bA\bx_2 = \bb_2$, then for any scalars $\alpha, \bet
 
 \subsubsection{Invertibility and Existence}
 
-For square systems ($\bA \in \fR^{n \times n}$), a unique solution exists iff $\bA$ is nonsingular.
+\textBox{%
+For square systems ($\bA \in \fR^{n \times n}$), the most critical question is whether a unique solution exists for any given right-hand side. This property is known as invertibility or nonsingularity.
+}
 
 \addThm{Equivalences for Invertibility}{%
 The following are equivalent for $\bA \in \fR^{n \times n}$:
@@ -71,18 +77,17 @@ The following are equivalent for $\bA \in \fR^{n \times n}$:
 
 \addNote{%
 \textbf{The Column Perspective.}\enspace
-The product $\bA\bx$ is a \textbf{linear combination of the columns of $\bA$} weighted by the entries of $\bx$:
+While we often think of $\bA\bx = \bb$ as a set of row equations, it is often more powerful to view it as a statement about columns. The product $\bA\bx$ is a \textbf{linear combination of the columns of $\bA$} weighted by the entries of $\bx$:
 \begin{align*}
     \bA\bx = x_1 \ba_1 + x_2 \ba_2 + \dots + x_n \ba_n.
 \end{align*}
-The system $\bA\bx = \bb$ asks: ``Can $\bb$ be represented as a combination of $\bA$'s columns?''
+The system $\bA\bx = \bb$ asks a fundamental geometric question: ``Can the vector $\bb$ be represented as a weighted sum of the columns of $\bA$?'' If the answer is yes, the system is consistent.
 }
 
 \addDef{Linear Independence}{%
 Vectors $\{\bx_1, \dots, \bx_k\}$ are independent if $\sum \alpha_i \bx_i = \bzero \Rightarrow \alpha_i = 0$ for all $i$.
 }
 \label{def:linear-independence}
-
 \addDef{Basis}{%
 A linearly independent set that spans the space. The number of vectors in any basis is the \textbf{dimension}.
 }
@@ -90,13 +95,15 @@ A linearly independent set that spans the space. The number of vectors in any ba
 
 \subsubsection{Rank}
 
-Measures the number of independent directions (dimension of the column space).
+\textBox{%
+The rank of a matrix is a measure of its "information content," representing the number of independent directions it can span.
+}
 
 \addDef{Rank}{%
-$\text{rank}(\bA) \leq \min(m, n)$.
+The rank, $\text{rank}(\bA)$, is the dimension of the column space. It is always true that $\text{rank}(\bA) \leq \min(m, n)$.
 \begin{itemize}
-    \item \textbf{Full Rank:} $\text{rank}(\bA) = \min(m, n)$.
-    \item \textbf{Singular:} Square matrix with $\text{rank}(\bA) < n$.
+    \item \textbf{Full Rank:} The matrix has the maximum possible rank, $\text{rank}(\bA) = \min(m, n)$.
+    \item \textbf{Rank Deficient (Singular):} A square matrix with $\text{rank}(\bA) < n$. Such systems do not have unique solutions.
 \end{itemize}
 }
 \label{def:rank}
@@ -122,7 +129,10 @@ For $\bA \in \fR^{m \times n}$: $\text{rank}(\bA) + \text{nullity}(\bA) = n$.
 
 \subsubsection{The Four Fundamental Subspaces}
 
-Solution structure is characterized by four spaces defined by $\bA \in \fR^{m \times n}$ with rank $r$:
+\textBox{%
+The structure of any linear operator $\bA \in \fR^{m \times n}$ with rank $r$ is completely characterized by four subspaces. Understanding these spaces is essential for solving least squares problems and understanding the behavior of iterative solvers.
+}
+
 \begin{enumerate}
     \item \textbf{Column Space ($\mathcal{R}(\bA)$):} $\fR^m, \dim=r$. Span of columns.
     \item \textbf{Null Space ($\mathcal{N}(\bA)$):} $\fR^n, \dim=n-r$. Solutions to $\bA\bx = \bzero$.

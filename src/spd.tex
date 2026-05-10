@@ -5,14 +5,16 @@
 \subsection{Symmetric Positive Definite (SPD) Matrices}
 \label{sub:spd}
 
-Special class of matrices enabling highly efficient algorithms.
+\textBox{%
+Symmetric Positive Definite (SPD) matrices form one of the most important classes of matrices in scientific computing. They possess several remarkable properties that allow for algorithms that are twice as fast and significantly more stable than those for general matrices.
+}
 
 \subsubsection{Definitions and Properties}
 
-SPD matrices arise in optimization (Hessians), statistics (covariances), and physical simulation (stiffness matrices).
+SPD matrices arise naturally in a wide variety of engineering contexts, including optimization (as Hessian matrices of convex functions), statistics (as covariance matrices), and physical simulations (as stiffness matrices in structural mechanics).
 
 \addDef{Positive Definite}{%
-A symmetric matrix $\bA \in \fR^{n \times n}$ is \textbf{positive definite} (PD) if:
+A symmetric matrix $\bA \in \fR^{n \times n}$ is \textbf{positive definite} (PD) if the quadratic form $\bx^T\bA\bx$ is strictly positive for every nonzero vector $\bx \in \fR^n$:
 \begin{align*}
     \bx^T\bA\bx > 0 \quad \text{for every nonzero } \bx \in \fR^n.
 \end{align*}
@@ -42,13 +44,15 @@ Every SPD matrix is invertible ($\det \bA = \prod \lambda_i > 0$).
 
 \subsubsection{Geometry and Metric}
 
-An SPD matrix $\bA$ defines a geometry on $\fR^n$.
+\textBox{%
+An SPD matrix $\bA$ can be thought of as defining a new geometry or "metric" on $\fR^n$, where the distance and angle between vectors are weighted by the entries of $\bA$. This perspective is fundamental to understanding the behavior of iterative solvers like the Conjugate Gradient method.
+}
 
 \addDef{$\bA$-Inner Product}{%
-For SPD $\bA$, $\langle \bx, \by \rangle_\bA = \bx^T\bA\by$ is a valid inner product.
+For SPD $\bA$, the mapping $\langle \bx, \by \rangle_\bA = \bx^T\bA\by$ satisfies the axioms of an inner product.
 \begin{itemize}
-    \item \textbf{$\bA$-Norm:} $\|\bx\|_\bA = \sqrt{\bx^T\bA\bx}$.
-    \item \textbf{Ellipsoid:} The set $\{\bx : \|\bx\|_\bA = 1\}$ is an ellipse with axes along $\bA$'s eigenvectors.
+    \item \textbf{$\bA$-Norm:} The induced norm is $\|\bx\|_\bA = \sqrt{\bx^T\bA\bx}$.
+    \item \textbf{Ellipsoid:} The unit ball in this norm, $\{\bx : \|\bx\|_\bA = 1\}$, is an $n$-dimensional ellipsoid whose principal axes are aligned with the eigenvectors of $\bA$.
 \end{itemize}
 }
 \label{def:a-metric}
@@ -66,7 +70,9 @@ For SPD $\bA$, $\langle \bx, \by \rangle_\bA = \bx^T\bA\by$ is a valid inner pro
 
 \subsubsection{Cholesky Decomposition}
 
-The ``LU equivalent'' for SPD matrices. $\bA = \bL\bL^T$.
+\textBox{%
+The symmetry and positive definiteness of $\bA$ allow for a specialized version of the LU factorization known as the \textbf{Cholesky decomposition}. The decomposition can be interpreted as a generalized square root for SPD matrices, where $\bA = \bL\bL^T$.
+}
 
 \addDef{Cholesky Decomposition}{%
 Every SPD matrix $\bA$ admits a unique decomposition $\bA = \bL\bL^T$, where $\bL$ is lower triangular with strictly positive diagonal entries.
@@ -75,7 +81,7 @@ Every SPD matrix $\bA$ admits a unique decomposition $\bA = \bL\bL^T$, where $\b
 
 \addNote{%
 \textbf{Flop Cost.}\enspace
-Cholesky costs \textbf{$\frac{1}{3}n^3$ flops} (half the price of LU).
+The computational cost of the Cholesky decomposition is \textbf{$\frac{1}{3}n^3$ flops}, approximately half that of a general LU factorization.
 }
 
 \addNote{%

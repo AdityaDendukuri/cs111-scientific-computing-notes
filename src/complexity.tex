@@ -63,8 +63,8 @@ For $\bx, \by \in \fR^n$ and $\bA \in \fR^{m \times n}, \bB \in \fR^{n \times p}
 \label{thm:flop-costs}
 
 \addNote{%
-\textbf{Note: The Memory Wall.}\enspace
-In modern hardware, arithmetic is cheap but moving data (RAM to CPU) is expensive. An $O(n^3)$ algorithm with high cache locality (like blocked GEMM) can outperform an $O(n^2)$ algorithm with poor locality.
+\textbf{Data Locality and Performance:}\enspace
+On modern architectures, computational throughput often significantly exceeds memory bandwidth. Consequently, algorithms with high cache locality, such as blocked matrix multiplication (GEMM), may achieve superior performance compared to algorithms with lower theoretical operation counts but poorer data reuse.
 }
 
 \addNote{%

@@ -5,50 +5,50 @@
 \subsection{GMRES}
 \label{sub:gmres-basics}
 
-Krylov subspace solver for general (non-symmetric) linear systems. Minimizes the residual norm at each step.
+\textBox{%
+The Generalized Minimal Residual (GMRES) method is the standard Krylov subspace solver for general (non-symmetric) linear systems $\bA\bx = \bb$. Unlike CG, it does not require $\bA$ to be symmetric or positive definite.
+}
+
+\subsubsection{Residual Minimization and Krylov Subspaces}
+
+\addNote{%
+\textbf{The Minimization Problem:}\enspace
+At each step $k$, GMRES finds the approximate solution $\bx_k$ in the affine space $\bx_0 + \mathcal{K}_k(\bA, \br_0)$ that minimizes the \textbf{Euclidean norm of the residual}:
+\begin{align*}
+    \bx_k = \arg\min_{\bx \in \bx_0 + \mathcal{K}_k} \|\bb - \bA\bx\|_2.
+\end{align*}
+Because the residual norm is minimized explicitly, it is guaranteed to be non-increasing with $k$.
+}
 
 \subsubsection{The Arnoldi Process}
 
-Constructs an orthonormal basis $V_k$ for the Krylov subspace $\mathcal{K}_k(\bA, \br_0)$.
+\addNote{%
+\textbf{Basis Construction:}\enspace
+To compute this minimum efficiently, GMRES uses the \textbf{Arnoldi process} to build an orthonormal basis $V_k = [\bv_1, \bv_2, \dots, \bv_k]$ for $\mathcal{K}_k$. This process is essentially a Gram-Schmidt orthogonalization of the Krylov sequence.
+}
 
 \addDef{Arnoldi Relation}{%
+The $k$ steps of the Arnoldi process yield the fundamental relation:
 \begin{align*}
-    \bA V_k = V_{k+1} \bar{H}_k
+    \bA V_k = V_{k+1} \bar{H}_k,
 \end{align*}
-\begin{itemize}
-    \item \textbf{$V_k$:}\enspace Orthonormal columns.
-    \item \textbf{$\bar{H}_k$:}\enspace Upper Hessenberg matrix ($(k+1) \times k$).
-    \item \textbf{Insight:}\enspace $V_k^T \bA V_k = H_k$ (projection of $\bA$ onto the subspace).
-\end{itemize}
+where $\bar{H}_k$ is an $(k+1) \times k$ upper Hessenberg matrix. This relation expresses the action of $\bA$ on the basis $V_k$ in terms of the expanded basis $V_{k+1}$.
 }
 \label{def:arnoldi-relation}
 
-\subsubsection{GMRES as Least Squares}
+\subsubsection{Reduction to Hessenberg Least Squares}
 
-GMRES finds $\bx_k \in \bx_0 + \mathcal{K}_k$ such that $\|\bb - \bA\bx_k\|_2$ is minimized.
+The critical insight of GMRES is that the $n$-dimensional residual minimization problem can be projected onto the $k$-dimensional Krylov subspace, resulting in a much smaller problem.
 
-\addThm{Least Squares Reduction}{%
-The GMRES residual minimization in $\mathcal{K}_k$ reduces to a small $(k+1) \times k$ problem:
+\addThm{Projected Least Squares}{%
+Let $\bx_k = \bx_0 + V_k \by$ for some $\by \in \fR^k$. The residual norm satisfies:
 \begin{align*}
-    \min \|\bb - \bA\bx_k\|_2 = \min_{\by \in \fR^k} \|\beta \be_1 - \bar{H}_k \by\|_2
+    \|\br_k\|_2 = \|\beta \be_1 - \bar{H}_k \by\|_2,
 \end{align*}
-where $\beta = \|\br_0\|_2$ and $\be_1 = (1, 0, \dots, 0)^T$.
+where $\beta = \|\br_0\|_2$ and $\be_1$ is the first canonical basis vector. Solving the original problem thus reduces to solving a $(k+1) \times k$ least-squares problem for $\by$ using the small matrix $\bar{H}_k$.
 }
 \label{thm:gmres-ls}
 
-\addPrf{%
-Let $\bx_k = \bx_0 + V_k \by$ for $\by \in \fR^k$. The residual is:
-\begin{align*}
-    \br_k &= \bb - \bA(\bx_0 + V_k \by) \\
-    &= \br_0 - \bA V_k \by.
-\end{align*}
-Substituting the Arnoldi relation $\bA V_k = V_{k+1} \bar{H}_k$ and $\br_0 = \beta \bv_1 = \beta V_{k+1} \be_1$:
-\begin{align*}
-    \br_k &= \beta V_{k+1} \be_1 - V_{k+1} \bar{H}_k \by \\
-    &= V_{k+1} (\beta \be_1 - \bar{H}_k \by).
-\end{align*}
-Since $V_{k+1}$ has orthonormal columns, $\|\br_k\|_2 = \|\beta \be_1 - \bar{H}_k \by\|_2$.
-}
 
 \addNote{%
 \textbf{Optimality:}\enspace

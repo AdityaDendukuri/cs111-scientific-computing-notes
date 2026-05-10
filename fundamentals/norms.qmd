@@ -33,7 +33,7 @@ $$
 $$
 The three most common cases are:
 
-- $\|\bx\|_1 = \displaystyle\sum_{i=1}^n |x_i|$ \quad (*Manhattan norm* --- sum of absolute values)
+- $\|\bx\|_1 = \displaystyle\sum_{i=1}^n |x_i|$ \quad (*Manhattan norm*, the sum of absolute values)
   
 - $\|\bx\|_2 = \sqrt{\displaystyle\sum_{i=1}^n x_i^2} = \sqrt{\bx^T\bx}$ \quad (*Euclidean norm*)
   

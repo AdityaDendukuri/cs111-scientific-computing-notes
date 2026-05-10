@@ -1,17 +1,18 @@
 # Floating Point Arithmetic
 
 
-Representation and precision limits of real numbers on digital hardware.
+Digital computers represent real numbers using a finite number of bits, leading to a discrete and non-uniform sampling of the real line. Understanding the limits of this representation is critical for designing robust numerical algorithms.
+
 
 ## Floating Point Representation
 
-Normalized numbers take the form $x = (-1)^s \times (1.f) \times 2^e$.
+Most modern systems adhere to the IEEE 754 standard, which represents numbers in a scientific-like notation. Normalized numbers take the form $x = (-1)^s \times (1.f) \times 2^e$.
 
-- **s:** Sign bit.
+- **s:** Sign bit, determining whether the number is positive or negative.
   
-- **f:** Fractional significand (mantissa); leading 1 is implicit.
+- **f:** Fractional significand (mantissa); the leading 1 is implicit to maximize precision.
   
-- **e:** Biased exponent; Bias $= 2^{k-1}-1$ ($k$ is exponent bits).
+- **e:** Biased exponent, allowing both very large and very small numbers to be represented.
 
 
 ::: {.callout-tip icon=false}
@@ -51,9 +52,9 @@ Result: `1 10000 1010000000`.
 
 ::: {.callout-note icon=false}
 ## Definition: Machine Epsilon ($\varepsilon_{\text{mach}}$)
-The difference between 1 and the next larger float. $\varepsilon_{\text{mach}} = 2^{1-p}$ where $p$ is significand bits.
+Machine epsilon is the smallest positive number that, when added to 1, yields a result different from 1. It characterizes the "gap" between representable numbers and is given by $\varepsilon_{\text{mach}} = 2^{1-p}$, where $p$ is the number of bits in the significand.
 
-- Double precision: $\varepsilon_{\text{mach}} \approx 2.22 \times 10^{-16}$.
+- For double precision (64-bit), $\varepsilon_{\text{mach}} \approx 2.22 \times 10^{-16}$.
 
 :::
 
@@ -142,13 +143,15 @@ $$
 
 ## Arithmetic Pitfalls
 
-Finite precision breaks standard algebraic laws:
 
-- **Non-Associativity:** $(a+b)+c \neq a+(b+c)$.
+Because floating-point numbers are discrete, the standard laws of algebra do not always hold. In particular, operations are neither associative nor distributive in general.
+
+
+- **Non-Associativity:** The order of operations can change the result, i.e., $(a+b)+c \neq a+(b+c)$.
   
 - **Non-Distributivity:** $a(b+c) \neq ab + ac$.
   
-- **Absorption:** $a+b = a$ when $|a| \gg |b|$.
+- **Absorption:** If $|a|$ is much larger than $|b|$, then $a+b$ may equal $a$ exactly because $b$ is smaller than the gap between representable numbers near $a$.
 
 
 ::: {.callout-warning icon=false}
@@ -167,9 +170,9 @@ Finite precision breaks standard algebraic laws:
 ## Absolute and Relative Errors
 
 
-- **Absolute:** $|\hat{x} - x|$.
+- **Absolute Error:** $|\hat{x} - x|$.
   
-- **Relative:** $\varepsilon = \frac{|\hat{x} - x|}{|x|}$. Standard measure for precision.
+- **Relative Error:** $\varepsilon = \frac{|\hat{x} - x|}{|x|}$. This is the standard measure for precision in numerical computing.
 
 
 ::: {.callout-warning icon=false}
@@ -184,11 +187,11 @@ Finite precision breaks standard algebraic laws:
 
 ::: {.callout-note icon=false}
 ## Definition: Catastrophic Cancellation
-Subtraction of nearly equal numbers leads to total loss of significant digits.
+The most dangerous error in numerical computing is **catastrophic cancellation**. This occurs when two nearly equal numbers are subtracted, causing the most significant digits to cancel out and leaving only the rounding errors as the "leading" digits.
 
-- Relative error $\leq u \cdot \frac{x+y}{x-y}$.
+- Relative error bound: $\varepsilon_{\text{rel}} \leq u \cdot \frac{x+y}{x-y}$.
   
-- Amplification factor $\to \infty$ as $x \to y$.
+- As $x \to y$, the amplification factor $\frac{x+y}{x-y}$ tends to infinity.
 
 :::
 
@@ -216,7 +219,7 @@ As $x \to y$, the denominator $x-y \to 0$, causing the relative error to explode
 
 
 ::: {.callout-tip icon=false}
-**Rule:**  Rounding error is inevitable. Cancellation is algorithmic and can often be eliminated via mathematical reformulation.
+**Numerical Stability Principle:**  Rounding error is an inevitable consequence of finite precision. However, catastrophic cancellation is an algorithmic flaw that can often be avoided by mathematically rearranging the problem.
 :::
 
 
@@ -246,11 +249,11 @@ Stabilize:
 ## Error Analysis Frameworks
 
 
-- **Forward:** Tracks error from inputs to outputs. Pessimistic.
+- **Forward Error Analysis:** Tracks the accumulation of error from inputs to outputs.
   
-- **Backward:** Asks: ``What input perturbation would make the computed result exact?''
+- **Backward Error Analysis:** Determines the input perturbation that would make the computed result exact.
   
-- **Backward Stability:** Algorithm solves a nearby problem exactly (Backward Error is $O(u)$).
+- **Backward Stability:** An algorithm is backward stable if the backward error is $O(u)$, where $u$ is the unit roundoff.
 
 
 ::: {.callout-note icon=false}

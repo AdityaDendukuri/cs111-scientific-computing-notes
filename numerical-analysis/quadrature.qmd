@@ -3,6 +3,7 @@
 
 Approximating $I = \int_a^b f(x)\,dx$ via weighted sums: $\sum_{i=1}^n w_i f(x_i)$.
 
+
 ## Newton-Cotes Rules
 
 Uses equally-spaced nodes. Higher-order rules are prone to Runge's phenomenon.
@@ -103,7 +104,7 @@ $$
 ::: {.callout-note icon=false}
 ## Definition: Romberg Integration
 Iterative application of Richardson extrapolation to the trapezoidal rule.
-**Performance:**  Error decreases as $O(h^{2k+2})$ for smooth $f$, converging spectacularly fast.
+**Performance:**  Error decreases as $O(h^{2k+2})$ for smooth $f$, converging rapidly.
 :::
 
 
@@ -120,7 +121,7 @@ Iterative application of Richardson extrapolation to the trapezoidal rule.
 
 
 ::: {.callout-tip icon=false}
-**The Periodic Surprise:**  For smooth, periodic functions on $[0, 2\pi]$, the simple **Trapezoidal Rule** is the optimal choice. It achieves **Spectral Accuracy** (exponential convergence) because error terms in the Euler-Maclaurin expansion vanish at endpoints.
+**Spectral Accuracy on Periodic Domains.**  For smooth, periodic functions on $[0, 2\pi]$, the **Trapezoidal Rule** is the optimal choice. It achieves **Spectral Accuracy** (exponential convergence) because error terms in the Euler-Maclaurin expansion vanish at endpoints.
 :::
 
 

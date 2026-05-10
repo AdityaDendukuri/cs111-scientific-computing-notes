@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>25&nbsp; Numerical Quadrature – Scientific Computing</title>
+<title>26&nbsp; Numerical Quadrature – Scientific Computing</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -34,7 +34,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../numerical-analysis/root-finding.html" rel="next">
-<link href="../iterative/gmres.html" rel="prev">
+<link href="../numerical-analysis/interpolation.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -46,9 +46,9 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-1e1ed17e33b34061a1e69bd1b4de30c5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-512512a359692b6a4a631bfed0d4ecc0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-1e1ed17e33b34061a1e69bd1b4de30c5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -340,7 +340,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html">Numerical Analysis</a></li><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../numerical-analysis/interpolation.html">Numerical Analysis</a></li><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -579,14 +579,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../numerical-analysis/interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Polynomial Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../numerical-analysis/quadrature.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></span></a>
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../numerical-analysis/root-finding.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Root Finding</span></span></a>
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Root Finding</span></span></a>
   </div>
 </li>
       </ul>
@@ -603,7 +609,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../odes/ode-methods.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Numerical Methods for ODEs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Numerical Methods for ODEs</span></span></a>
   </div>
 </li>
       </ul>
@@ -620,37 +626,37 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/graphs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></span></a>
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Spectral Graph Theory and PageRank</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/operators.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Linear Operators and the Poisson Equation</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/fourier.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></span></a>
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/markov.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -665,12 +671,12 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#newton-cotes-rules" id="toc-newton-cotes-rules" class="nav-link active" data-scroll-target="#newton-cotes-rules"><span class="header-section-number">25.1</span> Newton-Cotes Rules</a></li>
-  <li><a href="#gaussian-quadrature" id="toc-gaussian-quadrature" class="nav-link" data-scroll-target="#gaussian-quadrature"><span class="header-section-number">25.2</span> Gaussian Quadrature</a></li>
-  <li><a href="#richardson-extrapolation-and-romberg-integration" id="toc-richardson-extrapolation-and-romberg-integration" class="nav-link" data-scroll-target="#richardson-extrapolation-and-romberg-integration"><span class="header-section-number">25.3</span> Richardson Extrapolation and Romberg Integration</a></li>
-  <li><a href="#adaptive-quadrature" id="toc-adaptive-quadrature" class="nav-link" data-scroll-target="#adaptive-quadrature"><span class="header-section-number">25.4</span> Adaptive Quadrature</a></li>
-  <li><a href="#periodic-functions-and-spectral-accuracy" id="toc-periodic-functions-and-spectral-accuracy" class="nav-link" data-scroll-target="#periodic-functions-and-spectral-accuracy"><span class="header-section-number">25.5</span> Periodic Functions and Spectral Accuracy</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">25.6</span> Exercises</a></li>
+  <li><a href="#newton-cotes-rules" id="toc-newton-cotes-rules" class="nav-link active" data-scroll-target="#newton-cotes-rules"><span class="header-section-number">26.1</span> Newton-Cotes Rules</a></li>
+  <li><a href="#gaussian-quadrature" id="toc-gaussian-quadrature" class="nav-link" data-scroll-target="#gaussian-quadrature"><span class="header-section-number">26.2</span> Gaussian Quadrature</a></li>
+  <li><a href="#richardson-extrapolation-and-romberg-integration" id="toc-richardson-extrapolation-and-romberg-integration" class="nav-link" data-scroll-target="#richardson-extrapolation-and-romberg-integration"><span class="header-section-number">26.3</span> Richardson Extrapolation and Romberg Integration</a></li>
+  <li><a href="#adaptive-quadrature" id="toc-adaptive-quadrature" class="nav-link" data-scroll-target="#adaptive-quadrature"><span class="header-section-number">26.4</span> Adaptive Quadrature</a></li>
+  <li><a href="#periodic-functions-and-spectral-accuracy" id="toc-periodic-functions-and-spectral-accuracy" class="nav-link" data-scroll-target="#periodic-functions-and-spectral-accuracy"><span class="header-section-number">26.5</span> Periodic Functions and Spectral Accuracy</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">26.6</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/numerical-analysis/quadrature.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -678,9 +684,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html">Numerical Analysis</a></li><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../numerical-analysis/interpolation.html">Numerical Analysis</a></li><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></h1>
+<h1 class="title"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></h1>
 </div>
 
 
@@ -698,8 +704,8 @@ window.Quarto = {
 
 
 <p>Approximating <span class="math inline">\(I = \int_a^b f(x)\,dx\)</span> via weighted sums: <span class="math inline">\(\sum_{i=1}^n w_i f(x_i)\)</span>.</p>
-<section id="newton-cotes-rules" class="level2" data-number="25.1">
-<h2 data-number="25.1" class="anchored" data-anchor-id="newton-cotes-rules"><span class="header-section-number">25.1</span> Newton-Cotes Rules</h2>
+<section id="newton-cotes-rules" class="level2" data-number="26.1">
+<h2 data-number="26.1" class="anchored" data-anchor-id="newton-cotes-rules"><span class="header-section-number">26.1</span> Newton-Cotes Rules</h2>
 <p>Uses equally-spaced nodes. Higher-order rules are prone to Runge’s phenomenon.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -736,8 +742,8 @@ S_n = \frac{h}{3} \left[ f(a) + f(b) + 4\sum_{\text{odd}\;i} f(x_i) + 2\sum_{\te
 </div>
 </div>
 </section>
-<section id="gaussian-quadrature" class="level2" data-number="25.2">
-<h2 data-number="25.2" class="anchored" data-anchor-id="gaussian-quadrature"><span class="header-section-number">25.2</span> Gaussian Quadrature</h2>
+<section id="gaussian-quadrature" class="level2" data-number="26.2">
+<h2 data-number="26.2" class="anchored" data-anchor-id="gaussian-quadrature"><span class="header-section-number">26.2</span> Gaussian Quadrature</h2>
 <p>Optimizes <strong>both</strong> nodes and weights to achieve the highest possible degree of exactness.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -770,8 +776,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="richardson-extrapolation-and-romberg-integration" class="level2" data-number="25.3">
-<h2 data-number="25.3" class="anchored" data-anchor-id="richardson-extrapolation-and-romberg-integration"><span class="header-section-number">25.3</span> Richardson Extrapolation and Romberg Integration</h2>
+<section id="richardson-extrapolation-and-romberg-integration" class="level2" data-number="26.3">
+<h2 data-number="26.3" class="anchored" data-anchor-id="richardson-extrapolation-and-romberg-integration"><span class="header-section-number">26.3</span> Richardson Extrapolation and Romberg Integration</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -833,12 +839,12 @@ I = \frac{4A(h/2) - A(h)}{3} + O(h^4).
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Iterative application of Richardson extrapolation to the trapezoidal rule. <strong>Performance:</strong> Error decreases as <span class="math inline">\(O(h^{2k+2})\)</span> for smooth <span class="math inline">\(f\)</span>, converging spectacularly fast.</p>
+<p>Iterative application of Richardson extrapolation to the trapezoidal rule. <strong>Performance:</strong> Error decreases as <span class="math inline">\(O(h^{2k+2})\)</span> for smooth <span class="math inline">\(f\)</span>, converging rapidly.</p>
 </div>
 </div>
 </section>
-<section id="adaptive-quadrature" class="level2" data-number="25.4">
-<h2 data-number="25.4" class="anchored" data-anchor-id="adaptive-quadrature"><span class="header-section-number">25.4</span> Adaptive Quadrature</h2>
+<section id="adaptive-quadrature" class="level2" data-number="26.4">
+<h2 data-number="26.4" class="anchored" data-anchor-id="adaptive-quadrature"><span class="header-section-number">26.4</span> Adaptive Quadrature</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -853,8 +859,8 @@ Tip
 </div>
 </div>
 </section>
-<section id="periodic-functions-and-spectral-accuracy" class="level2" data-number="25.5">
-<h2 data-number="25.5" class="anchored" data-anchor-id="periodic-functions-and-spectral-accuracy"><span class="header-section-number">25.5</span> Periodic Functions and Spectral Accuracy</h2>
+<section id="periodic-functions-and-spectral-accuracy" class="level2" data-number="26.5">
+<h2 data-number="26.5" class="anchored" data-anchor-id="periodic-functions-and-spectral-accuracy"><span class="header-section-number">26.5</span> Periodic Functions and Spectral Accuracy</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -865,12 +871,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>The Periodic Surprise:</strong> For smooth, periodic functions on <span class="math inline">\([0, 2\pi]\)</span>, the simple <strong>Trapezoidal Rule</strong> is the optimal choice. It achieves <strong>Spectral Accuracy</strong> (exponential convergence) because error terms in the Euler-Maclaurin expansion vanish at endpoints.</p>
+<p><strong>Spectral Accuracy on Periodic Domains.</strong> For smooth, periodic functions on <span class="math inline">\([0, 2\pi]\)</span>, the <strong>Trapezoidal Rule</strong> is the optimal choice. It achieves <strong>Spectral Accuracy</strong> (exponential convergence) because error terms in the Euler-Maclaurin expansion vanish at endpoints.</p>
 </div>
 </div>
 </section>
-<section id="exercises" class="level2" data-number="25.6">
-<h2 data-number="25.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">25.6</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="26.6">
+<h2 data-number="26.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">26.6</span> Exercises</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1309,13 +1315,13 @@ Tip
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../iterative/gmres.html" class="pagination-link" aria-label="GMRES">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GMRES</span></span>
+      <a href="../numerical-analysis/interpolation.html" class="pagination-link" aria-label="Polynomial Interpolation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Polynomial Interpolation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../numerical-analysis/root-finding.html" class="pagination-link" aria-label="Root Finding">
-        <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Root Finding</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Root Finding</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

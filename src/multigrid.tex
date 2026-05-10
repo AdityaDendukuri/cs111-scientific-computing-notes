@@ -8,11 +8,11 @@
 \subsubsection{Oscillating Error and the Smoothing Property}
 
 \textBox{%
-Classical stationary iterations such as Jacobi and Gauss-Seidel converge slowly not because \emph{all} error components are hard to eliminate, but because \emph{smooth} (low-frequency) components are. High-frequency, oscillatory components decay rapidly in just a few sweeps. This asymmetry — clear from a Fourier analysis of the error — is the starting point for multigrid: use the smoother to kill oscillatory error, then hand the remaining smooth error to a coarser grid where it becomes oscillatory and cheap to resolve.
+Classical stationary iterations such as Jacobi and Gauss-Seidel converge slowly not because \emph{all} error components are hard to eliminate, but because \emph{smooth} (low-frequency) components are. High-frequency, oscillatory components decay rapidly in just a few sweeps. This asymmetry, which is clear from a Fourier analysis of the error, is the starting point for multigrid: use the smoother to eliminate oscillatory error components, then hand the remaining smooth error to a coarser grid where it becomes oscillatory and cheap to resolve.
 }
 
 \textBox{%
-\textbf{Why does Jacobi kill oscillatory error?} For the 1D model problem, the Jacobi update reads
+\textbf{Frequency-Dependent Error Decay in Jacobi Iteration}\enspace For the 1D model problem, the Jacobi update reads
 \begin{align*}
   x_i^{(k+1)} = \tfrac{1}{2}\bigl(x_{i-1}^{(k)} + x_{i+1}^{(k)}\bigr) + \tfrac{1}{2}b_i.
 \end{align*}
@@ -21,16 +21,16 @@ Each new value is the \emph{average of its two neighbors} plus a source term. Co
   \item \emph{Oscillatory error} ($e_i \propto (-1)^i$, sign alternates every point): the two neighbors of node $i$ carry the opposite sign, so their average nearly cancels the error. One sweep dramatically shrinks this component.
   \item \emph{Smooth error} ($e_i \propto \sin(j\pi h)$ for small $j$, slowly varying): neighbors of node $i$ carry nearly the same value as $e_i$ itself, so their average barely moves things. The error barely changes per sweep.
 \end{itemize}
-Jacobi acts as a local \emph{averaging filter}: it sees what its neighbors are doing and pulls toward their mean. Oscillations cancel in that average; smooth trends do not. Starting from a random initial guess, the error spans all frequencies. After a handful of sweeps the oscillatory components are gone, but the smooth residual sits largely untouched — and this is exactly what a coarser grid resolves.
+Jacobi acts as a local \emph{averaging filter}: it sees what its neighbors are doing and pulls toward their mean. Oscillations cancel in that average; smooth trends do not. Starting from a random initial guess, the error spans all frequencies. After a handful of sweeps the oscillatory components are gone, but the smooth residual remains, requiring a coarser grid for resolution.
 }
 
 \addExcr{%
 \textbf{(Observing oscillating error)} Set $n = 63$, $\bb = \bzero$, and $\bx^* = \bzero$, so the error equals the iterate exactly. Run Jacobi and Gauss-Seidel from the same random initial vector $\bx^{(0)} \sim \mathcal{N}(0, \bI)$.
 \begin{enumerate}
-  \item Plot the error profile $\be^{(k)} = \bx^{(k)}$ at iterations $k = 0, 1, 3, 10, 20$. Describe how the shape of the error changes. What happened to the ``jagged'' components?
+  \item Plot the error profile $\be^{(k)} = \bx^{(k)}$ at iterations $k = 0, 1, 3, 10, 20$. Describe how the spectral composition of the error changes. Observe the behavior of the high-frequency components.
   \item Decompose $\be^{(k)}$ into Fourier mode amplitudes $\hat{e}_j^{(k)} = \langle \be^{(k)}, \phi^{(j)}\rangle / \|\phi^{(j)}\|^2$ and plot $|\hat{e}_j^{(k)}|$ vs.\ $j$ at the same iterations. Which modes decay fast, which persist?
   \item The Jacobi iteration matrix has eigenvalues $\mu_j = \cos(j\pi h)$. Use this to predict the amplitude of mode $j$ after $k$ sweeps as a function of the initial amplitude $|\hat{e}_j^{(0)}|$. Does your plot match the prediction?
-  \item After 20 sweeps, what does the remaining error look like? Argue, using the eigenvalue formula, why no fine-grid iteration alone can cheaply eliminate it — and what a coarser grid would need to do.
+  \item After 20 sweeps, what does the remaining error look like? Argue, using the eigenvalue formula, why no fine-grid iteration alone can efficiently eliminate it, necessitating a coarse-grid correction.
 \end{enumerate}
 }
 
@@ -100,7 +100,7 @@ Hence $|\mu_k| < 1/3$ for all high-frequency modes. The supremum $1/3$ is approa
 }
 
 \addNote{%
-After $\nu$ weighted Jacobi sweeps, every high-frequency error component is reduced by $(1/3)^\nu$. The remaining error is dominated by \emph{smooth} modes — nearly constant on the scale of $h$. This smooth, slowly-varying error is the target of the coarse-grid correction in multigrid.
+After $\nu$ weighted Jacobi sweeps, every high-frequency error component is reduced by $(1/3)^\nu$. The remaining error is dominated by \emph{smooth} modes, which are nearly constant on the scale of $h$. This smooth, slowly-varying error is the target of the coarse-grid correction in multigrid.
 }
 
 \addExmpl{%
@@ -108,12 +108,13 @@ After $\nu$ weighted Jacobi sweeps, every high-frequency error component is redu
 
 The eigenvalues $\mu_k = 1 - \tfrac{2}{3}(1 - \cos(k\pi/16))$ for selected $k$:
 \begin{itemize}
-  \item $k = 1$ (smoothest): $\mu_1 \approx 0.981$ — barely changed per sweep.
-  \item $k = 4$: $\mu_4 = 1 - \tfrac{2}{3}(1 - \cos(\pi/4)) \approx 0.804$ — still slow.
-  \item $k = 8$ (Nyquist boundary): $\mu_8 = 1 - \tfrac{2}{3}(1 - \cos(\pi/2)) = 1/3 \approx 0.333$.
-  \item $k = 12$: $\mu_{12} = 1 - \tfrac{2}{3}(1 - \cos(3\pi/4)) \approx -0.138$ — fast decay.
-  \item $k = 15$ (most oscillatory): $\mu_{15} \approx -0.330$ — magnitude bounded by $1/3$.
+  \item $k = 1$ (smoothest): $\mu_1 \approx 0.981$ (minimal decay per sweep).
+  \item $k = 4$: $\mu_4 = 1 - \tfrac{2}{3}(1 - \cos(\pi/4)) \approx 0.804$ (slow decay).
+  \item $k = 8$: $\mu_8 = 1 - \tfrac{2}{3}(1 - \cos(\pi/2)) = 1/3 \approx 0.333$.
+  \item $k = 12$: $\mu_{12} = 1 - \tfrac{2}{3}(1 - \cos(3\pi/4)) \approx -0.138$ (rapid decay).
+  \item $k = 15$ (most oscillatory): $\mu_{15} \approx -0.330$ (magnitude bounded by $1/3$).
 \end{itemize}
+
 Modes $k \geq 8$ all satisfy $|\mu_k| \leq 1/3$, confirming the smoothing property. Modes $k \leq 7$ range from $0.63$ to $0.98$ and are essentially untouched by the smoother.
 }
 
@@ -121,7 +122,7 @@ Modes $k \geq 8$ all satisfy $|\mu_k| \leq 1/3$, confirming the smoothing proper
 \subsubsection{The Two-Grid Correction Scheme}
 
 \textBox{%
-The key geometric insight: a smooth error on a fine grid of mesh size $h$ looks \emph{oscillatory} on a coarser grid of mesh size $2h$. More precisely, the smooth fine-grid modes ($k < n/2$) oscillate at wavelength $> 2h$ and are well-represented on the coarse grid. After the smoother kills all high-frequency components, the remaining error lives in a low-dimensional smooth subspace that a direct solve on a coarse grid of size $n/2$ can eliminate efficiently.
+The key geometric insight: a smooth error on a fine grid of mesh size $h$ looks \emph{oscillatory} on a coarser grid of mesh size $2h$. More precisely, the smooth fine-grid modes ($k < n/2$) oscillate at wavelength $> 2h$ and are well-represented on the coarse grid. Once the high-frequency components have been attenuated by the smoother, the remaining error lives in a low-dimensional smooth subspace that a direct solve on a coarse grid of size $n/2$ can eliminate efficiently.
 }
 
 \addDef{Prolongation Operator}{%
@@ -141,7 +142,7 @@ In matrix form, $\bR = \tfrac{1}{2}\bP^T$. This choice ensures that the Galerkin
 }
 
 \addNote{%
-The relationship $\bR = \tfrac{1}{2}\bP^T$ is called the \emph{variational principle} and guarantees that $\bA_c = \bR\bA\bP$ is a consistent, spectrally equivalent discretization on the coarse grid. For the 1D model problem, $\bA_c$ equals the natural finite-difference matrix on the $2h$-grid exactly --- a special property that simplifies analysis but does not hold in general for variable-coefficient or higher-dimensional problems.
+The relationship $\bR = \tfrac{1}{2}\bP^T$ is called the \emph{variational principle} and guarantees that $\bA_c = \bR\bA\bP$ is a consistent, spectrally equivalent discretization on the coarse grid. For the 1D model problem, $\bA_c$ equals the natural finite-difference matrix on the $2h$-grid exactly; this is a special property that simplifies analysis but does not hold in general for variable-coefficient or higher-dimensional problems.
 }
 
 \addDef{Two-Grid Correction Scheme}{%
@@ -170,7 +171,7 @@ In practice the error is not exactly in the range of $\bP$, but after $\nu_1$ sm
 \addExmpl{%
 \textbf{Two-grid correction on the 1D model problem ($n = 7$, $h = 1/8$).}
 
-Take $\bA$ the $7 \times 7$ tridiagonal matrix with $2/-1$, $\bb = \mathbf{1}$, $\bx^{(0)} = \bzero$. After $\nu_1 = 2$ weighted Jacobi sweeps the residual norm is $\|\br\| \approx 0.82$; after 20 Jacobi sweeps it is $\approx 0.32$. By contrast, a single two-grid step with $\nu_1 = \nu_2 = 2$ reduces the residual to $\approx 0.08$ --- roughly a $10\times$ improvement over pure smoothing at equal cost, because the coarse-grid solve captures the smooth error components that the smoother leaves behind.
+Take $\bA$ the $7 \times 7$ tridiagonal matrix with $2/-1$, $\bb = \mathbf{1}$, $\bx^{(0)} = \bzero$. After $\nu_1 = 2$ weighted Jacobi sweeps the residual norm is $\|\br\| \approx 0.82$; after 20 Jacobi sweeps it is $\approx 0.32$. By contrast, a single two-grid step with $\nu_1 = \nu_2 = 2$ reduces the residual to $\approx 0.08$, which is roughly a $10\times$ improvement over pure smoothing at equal cost, because the coarse-grid solve captures the smooth error components that the smoother leaves behind.
 }
 
 \newpage
@@ -220,7 +221,7 @@ Composing these estimates (smoothing makes $\be$ smooth; approximation then capt
 }
 
 \addNote{%
-Contrast with classical iterations: for the 1D Poisson problem, $\rho(\bT_J) = \cos(\pi h) \approx 1 - \pi^2h^2/2 \to 1$ as $h \to 0$, requiring $O(h^{-2}) = O(n)$ Jacobi iterations. With the V-cycle, the number of iterations to reach a fixed tolerance is bounded by a constant independent of $n$. The cost per V-cycle is $O(n)$ (geometric series over levels), making the total cost $O(n)$ --- the optimal asymptotic complexity for this class of problems.
+Contrast with classical iterations: for the 1D Poisson problem, $\rho(\bT_J) = \cos(\pi h) \approx 1 - \pi^2h^2/2 \to 1$ as $h \to 0$, requiring $O(h^{-2}) = O(n)$ Jacobi iterations. With the V-cycle, the number of iterations to reach a fixed tolerance is bounded by a constant independent of $n$. The cost per V-cycle is $O(n)$ (geometric series over levels), making the total cost $O(n)$, which is the optimal asymptotic complexity for this class of problems.
 }
 
 \addThm{$O(n)$ Complexity of the V-Cycle}{%
@@ -255,7 +256,7 @@ Discretize $-\Delta u = f$ on the unit square with an $n \times n$ grid ($h = 1/
 \end{center}
 \medskip
 
-For $n = 100$ ($N = 10^4$): multigrid requires $\approx 10$ V-cycles while Gauss-Seidel requires $\approx 4000$ iterations. At $n = 1000$ ($N = 10^6$): multigrid still requires $\approx 10$ V-cycles (mesh-independent!), while Gauss-Seidel requires $\approx 400{,}000$ iterations.
+For $n = 100$ ($N = 10^4$): multigrid requires $\approx 10$ V-cycles while Gauss-Seidel requires $\approx 4000$ iterations. At $n = 1000$ ($N = 10^6$): multigrid still requires $\approx 10$ V-cycles, demonstrating mesh-independence, while Gauss-Seidel requires $\approx 400{,}000$ iterations.
 }
 
 \addExcr{%

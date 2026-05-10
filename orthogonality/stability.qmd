@@ -104,9 +104,9 @@ Thus, the condition number $\kappa(\bA)$ acts as the amplification factor for re
 :::
 
 
-## Stability Hierarchy
+## Solver Selection Hierarchy
 
-The ``Golden Rule'' for choosing solvers:
+Algorithms are typically selected based on a trade-off between numerical stability and computational efficiency:
 
 1. **SVD:**  Most stable, most expensive ($O(n^3)$ with large constant).
     
@@ -121,15 +121,15 @@ The ``Golden Rule'' for choosing solvers:
 
 ::: {.callout-note icon=false}
 ## Definition: Iterative Refinement
-``Polish'' a solution $\hat{\bx}$ by:
+The accuracy of a computed solution $\hat{\bx}$ can be improved by iterative refinement:
 
-1. $\br = \bb - \bA\hat{\bx}$
+1. Compute the residual $\br = \bb - \bA\hat{\bx}$.
     
-1. Solve $\bA \boldsymbol{\delta} = \br$
+1. Solve $\bA \boldsymbol{\delta} = \br$.
     
-1. $\hat{\bx} \leftarrow \hat{\bx} + \boldsymbol{\delta}$
+1. Update the estimate: $\hat{\bx} \leftarrow \hat{\bx} + \boldsymbol{\delta}$.
 
-Each step recovers digits lost due to conditioning, up to machine precision.
+Each step recovers digits lost due to ill-conditioning, up to the limits of machine precision.
 :::
 
 

@@ -50,6 +50,7 @@ book:
 
     - part: "Numerical Analysis"
       chapters:
+        - numerical-analysis/interpolation.qmd
         - numerical-analysis/quadrature.qmd
         - numerical-analysis/root-finding.qmd
 

@@ -25,7 +25,7 @@ $$
 
 ::: {.callout-tip icon=false}
 **Performance:** 
-Jacobi is **embarrassingly parallel**. However, it converges slowly and requires storing both $\bx^{(k)}$ and $\bx^{(k+1)}$.
+Jacobi iteration is **inherently parallel**, as all components can be updated simultaneously. However, it often exhibits slow convergence and requires double buffering of the solution vector.
 :::
 
 
@@ -51,7 +51,7 @@ $$
 
 ::: {.callout-tip icon=false}
 **Performance:** 
-Sequential dependency prevents easy parallelization, but Gauss-Seidel typically converges **twice as fast** as Jacobi and updates $\bx$ in-place.
+Sequential dependencies restrict efficient parallelization, but Gauss-Seidel typically converges **twice as fast** as Jacobi and allows for in-place updates.
 :::
 
 
@@ -99,14 +99,14 @@ $$
 
 
 ::: {.callout-tip icon=false}
-**The ``Square Root'' Boost:** 
-For a 1D Poisson problem on a grid $h$:
+**Convergence Acceleration:** 
+For the 1D Poisson problem on a grid with spacing $h$:
 
-- Jacobi/GS: $O(n^2)$ iterations.
+- Jacobi and Gauss-Seidel require $O(n^2)$ iterations.
     
-- Optimal SOR: $O(n)$ iterations.
+- Optimal SOR requires only $O(n)$ iterations.
 
-This turns a slow $O(h^2)$ method into a fast $O(h)$ method.
+SOR effectively improves the convergence rate from $O(h^2)$ to $O(h)$.
 :::
 
 

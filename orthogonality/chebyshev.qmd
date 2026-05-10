@@ -3,12 +3,16 @@
 
 Minimax-optimal basis for polynomial approximation. Resolves ill-conditioning and oscillations of the monomial basis.
 
+
 ## Failure of the Monomial Basis
 
 
 1. **Numerical:**  Vandermonde matrices $V_{ij} = x_i^{j-1}$ have condition numbers that grow exponentially with degree.
     
 1. **Analytical:**  **Runge's Phenomenon**. Interpolating smooth functions at equally spaced nodes leads to divergence at boundaries as degree $n \to \infty$.
+
+
+...
 
 
 ::: {.callout-warning icon=false}
@@ -89,6 +93,12 @@ Truncated expansions $f(x) \approx \sum c_k T_k(x)$.
 ## Theorem: Spectral Accuracy
 If $f$ is analytic on $[-1, 1]$, the Chebyshev coefficients $c_k$ decay **exponentially**. Truncation error $\|f - p_n\|_\infty = O(\rho^{-n})$.
 **Insight:**  Just 20--30 terms often yield machine precision.
+:::
+
+
+::: {.callout-tip icon=false}
+**Connection to Fourier Series:** 
+The Chebyshev polynomials are closely related to the Fourier series. Specifically, $T_n(x)$ corresponds to the real part of a Fourier series on the unit circle under the mapping $x = \cos \theta$. This connection explains their remarkable convergence properties for smooth functions.
 :::
 
 

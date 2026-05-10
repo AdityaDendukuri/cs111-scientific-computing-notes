@@ -1,11 +1,13 @@
 # LU Factorization
 
 
-Solving $\bA\bx = \bb$ via decomposition into triangular factors.
+Most direct methods for solving linear systems rely on matrix factorizations that reduce a complex system into multiple simpler ones. The **LU factorization** is the most fundamental of these, decomposing a square matrix $\bA$ into a unit lower triangular matrix $\bL$ and an upper triangular matrix $\bU$. This process is essentially the matrix form of Gaussian elimination.
+
 
 ## LU and Gaussian Elimination
 
-The **LU factorization** expresses a square $\bA$ as $\bA = \bL\bU$, where $\bL$ is unit lower triangular and $\bU$ is upper triangular.
+
+Decomposing $\bA$ into triangular factors allows us to solve $\bA\bx = \bb$ by solving two triangular systems, which is computationally efficient.
 
 
 ::: {.callout-note icon=false}
@@ -68,29 +70,30 @@ To solve $\bA\bx = \bb$ given $\bA = \bL\bU$:
 
 ## Pivoting and Stability
 
-Basic LU is numerically unstable if pivots are small. **Partial Pivoting** ensures stability by swapping rows to place the largest available entry on the diagonal.
+
+While mathematically elegant, basic LU factorization is numerically unstable if any pivot (the diagonal element used to eliminate entries below it) is small relative to the entries it is eliminating. This can lead to catastrophic rounding errors. **Partial Pivoting** mitigates this by ensuring that at each step, we swap rows to place the largest available entry in the pivot position.
 
 
 ::: {.callout-note icon=false}
 ## Definition: LUP Decomposition
-Recorded as $\mathbf{P}\bA = \bL\bU$, where $\bP$ is a permutation matrix.
+The result of Gaussian elimination with partial pivoting is recorded as $\mathbf{P}\bA = \bL\bU$, where $\bP$ is a permutation matrix that tracks the row swaps.
 :::
 
 
 ::: {.callout-tip icon=false}
 **Stability and Growth Factor.** 
-Stability is controlled by the growth factor $\rho = \max|u_{ij}| / \max|a_{ij}|$. Partial pivoting keeps $\rho$ small in practice (typically $O(n)$), ensuring backward stability. Theoretical worst-case is $2^{n-1}$, but this is rarely seen.
+The numerical stability of LUP is characterized by the growth factor $\rho = \max|u_{ij}| / \max|a_{ij}|$. If $\rho$ is large, the solution may be inaccurate. Partial pivoting keeps $\rho$ small in practice (typically $O(n)$), ensuring the algorithm is backward stable. While the theoretical worst-case growth is $2^{n-1}$, such matrices are rarely encountered in engineering applications.
 :::
 
 
 ::: {.callout-warning icon=false}
 ## Exercise
 
-1. Give a $2 \times 2$ matrix where LU fails but LUP succeeds.
+1. Give a $2 \times 2$ matrix where LU fails (due to a zero or small pivot) but LUP succeeds.
     
-1. Why is $\bP^{-1}$ trivial to compute for any permutation matrix?
+1. Why is $\bP^{-1}$ trivial to compute for any permutation matrix? (*Hint: consider $\bP^T$*).
     
-1. Complete pivoting (row and column swaps) exists but is rarely used. Why? (Cost vs. marginal stability gain).
+1. Complete pivoting (swapping both rows and columns) provides even stronger stability guarantees but is rarely used. Why? (Consider the trade-off between search cost and marginal stability gain).
 
 :::
 
@@ -98,14 +101,18 @@ Stability is controlled by the growth factor $\rho = \max|u_{ij}| / \max|a_{ij}|
 ## Algorithm Cost Analysis
 
 
+Understanding the computational cost is vital for choosing the right solver for large-scale engineering problems. The bulk of the work is in the factorization step.
+
+
 ::: {.callout-tip icon=false}
 **Total Cost for $k$ Right-Hand Sides.** 
+For a system with $n$ unknowns and $k$ different right-hand side vectors $\bb$, the total cost is:
 $$
 \begin{align}
-\text{Cost} = \frac{2}{3}n^3 + 2kn^2.
+\text{Cost} = \frac{2}{3}n^3 + 2kn^2 \text{ flops}.
 \end{align}
 $$
-Solving for 500 $\bb$'s for $n=1000$ using one factorization saves $\sim 500 \times \frac{2}{3}n^3$ flops compared to re-factorizing every time.
+When $k$ is large, the $O(n^3)$ cost of factorization is amortized over many $O(n^2)$ solves. For example, solving for 500 $\bb$'s for $n=1000$ using one factorization is significantly faster than re-factorizing for each new $\bb$.
 :::
 
 

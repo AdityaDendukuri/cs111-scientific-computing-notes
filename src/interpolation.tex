@@ -1,0 +1,92 @@
+\documentclass[../readings.tex]{subfiles}
+
+\begin{document}
+\subsection{Polynomial Interpolation}
+\label{subsec:interpolation}
+
+\textBox{%
+Constructing a polynomial that passes exactly through a given set of data points.
+}
+
+\subsubsection{Existence and Uniqueness}
+
+\addThm{Existence and Uniqueness}{%
+Given $n+1$ distinct points $(x_i, y_i)$, there exists a unique polynomial $P_n(x)$ of degree at most $n$ such that $P_n(x_i) = y_i$ for all $i = 0, \dots, n$.
+}
+
+\subsubsection{Lagrange Form}
+
+\textBox{%
+Provides an explicit construction for the interpolating polynomial.
+}
+
+\addDef{Lagrange Basis Polynomials}{%
+\begin{align*}
+    L_i(x) = \prod_{j=0, j \neq i}^n \frac{x - x_j}{x_i - x_j}.
+\end{align*}
+The interpolating polynomial is $P_n(x) = \sum_{i=0}^n y_i L_i(x)$.
+}
+
+\addNote{%
+\textbf{Computational Cost:}\enspace Evaluation of the Lagrange form costs $O(n^2)$ operations. Adding a new point requires recomputing all basis polynomials.
+}
+
+\subsubsection{Barycentric Interpolation}
+
+\textBox{%
+A numerically stable and efficient refinement of the Lagrange form.
+}
+
+\addDef{Barycentric Formula}{%
+\begin{align*}
+    P_n(x) = \frac{\sum_{i=0}^n \frac{w_i}{x - x_i} y_i}{\sum_{i=0}^n \frac{w_i}{x - x_i}}, \quad \text{where } w_i = \frac{1}{\prod_{j \neq i} (x_i - x_j)}.
+\end{align*}
+}
+
+\addNote{%
+\textbf{Advantages:}\enspace Evaluation costs only $O(n)$ once the weights $w_i$ are computed ($O(n^2)$). This is the standard recommended approach for general polynomial interpolation.
+}
+
+\subsubsection{Runge's Phenomenon}
+
+\textBox{%
+Equally spaced points are often a poor choice for high-degree interpolation.
+}
+
+\addNote{%
+\textbf{The Runge Phenomenon:}\enspace For certain functions, such as $f(x) = 1/(1+25x^2)$ on $[-1, 1]$, the interpolation error near the boundaries increases exponentially as the degree $n \to \infty$. 
+}
+
+\addThm{Chebyshev Points}{%
+The optimal nodes for minimizing interpolation error on $[-1, 1]$ are the roots of the Chebyshev polynomials:
+\begin{align*}
+    x_i = \cos\left( \frac{2i+1}{2n+2} \pi \right), \quad i = 0, \dots, n.
+\end{align*}
+Interpolation at Chebyshev points eliminates Runge's phenomenon and ensures near-optimal convergence.
+}
+
+\subsubsection{Cubic Splines}
+
+\textBox{%
+For large datasets, high-degree polynomial interpolation is avoided in favor of piecewise polynomials.
+}
+
+\addDef{Cubic Spline}{%
+A piecewise cubic function $S(x)$ that is $C^2$ continuous (continuous values, first, and second derivatives) at the internal nodes.
+}
+
+\addNote{%
+\textbf{Structure:}\enspace Computing the coefficients of a cubic spline requires solving a sparse tridiagonal linear system, which can be done in $O(n)$ time.
+}
+
+\subsubsection{Exercises}
+
+\addExcr{%
+\begin{enumerate}
+    \item Construct the Lagrange form for points $(-1, 1), (0, 0), (1, 1)$. Verify it is $P_2(x) = x^2$.
+    \item Use the barycentric formula to interpolate $f(x) = \sin(x)$ at 5 Chebyshev nodes.
+    \item Compare the error plots for $f(x) = 1/(1+25x^2)$ using 15 equally spaced nodes vs. 15 Chebyshev nodes.
+\end{enumerate}
+}
+
+\end{document}

@@ -108,7 +108,7 @@ The secant method converges with order $\phi = (1 + \sqrt{5})/2 \approx 1.618$ (
 
 ## Brent's Method
 
-The standard robust choice for root-finding in 1D.
+A standard robust algorithm for one-dimensional root-finding.
 
 
 ::: {.callout-note icon=false}

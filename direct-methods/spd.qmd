@@ -1,16 +1,17 @@
 # Symmetric Positive Definite (SPD) Matrices
 
 
-Special class of matrices enabling highly efficient algorithms.
+Symmetric Positive Definite (SPD) matrices form one of the most important classes of matrices in scientific computing. They possess several remarkable properties that allow for algorithms that are twice as fast and significantly more stable than those for general matrices.
+
 
 ## Definitions and Properties
 
-SPD matrices arise in optimization (Hessians), statistics (covariances), and physical simulation (stiffness matrices).
+SPD matrices arise naturally in a wide variety of engineering contexts, including optimization (as Hessian matrices of convex functions), statistics (as covariance matrices), and physical simulations (as stiffness matrices in structural mechanics).
 
 
 ::: {.callout-note icon=false}
 ## Definition: Positive Definite
-A symmetric matrix $\bA \in \fR^{n \times n}$ is **positive definite** (PD) if:
+A symmetric matrix $\bA \in \fR^{n \times n}$ is **positive definite** (PD) if the quadratic form $\bx^T\bA\bx$ is strictly positive for every nonzero vector $\bx \in \fR^n$:
 $$
 \begin{align}
 \bx^T\bA\bx > 0 \quad \text{for every nonzero } \bx \in \fR^n.
@@ -49,16 +50,17 @@ Every SPD matrix is invertible ($\det \bA = \prod \lambda_i > 0$).
 
 ## Geometry and Metric
 
-An SPD matrix $\bA$ defines a geometry on $\fR^n$.
+
+An SPD matrix $\bA$ can be thought of as defining a new geometry or "metric" on $\fR^n$, where the distance and angle between vectors are weighted by the entries of $\bA$. This perspective is fundamental to understanding the behavior of iterative solvers like the Conjugate Gradient method.
 
 
 ::: {.callout-note icon=false}
 ## Definition: $\bA$-Inner Product
-For SPD $\bA$, $\langle \bx, \by \rangle_\bA = \bx^T\bA\by$ is a valid inner product.
+For SPD $\bA$, the mapping $\langle \bx, \by \rangle_\bA = \bx^T\bA\by$ satisfies the axioms of an inner product.
 
-- **$\bA$-Norm:** $\|\bx\|_\bA = \sqrt{\bx^T\bA\bx}$.
+- **$\bA$-Norm:** The induced norm is $\|\bx\|_\bA = \sqrt{\bx^T\bA\bx}$.
     
-- **Ellipsoid:** The set $\{\bx : \|\bx\|_\bA = 1\}$ is an ellipse with axes along $\bA$'s eigenvectors.
+- **Ellipsoid:** The unit ball in this norm, $\{\bx : \|\bx\|_\bA = 1\}$, is an $n$-dimensional ellipsoid whose principal axes are aligned with the eigenvectors of $\bA$.
 
 :::
 
@@ -80,7 +82,8 @@ For SPD $\bA$, $\langle \bx, \by \rangle_\bA = \bx^T\bA\by$ is a valid inner pro
 
 ## Cholesky Decomposition
 
-The ``LU equivalent'' for SPD matrices. $\bA = \bL\bL^T$.
+
+The symmetry and positive definiteness of $\bA$ allow for a specialized version of the LU factorization known as the **Cholesky decomposition**. The decomposition can be interpreted as a generalized square root for SPD matrices, where $\bA = \bL\bL^T$.
 
 
 ::: {.callout-note icon=false}
@@ -91,7 +94,7 @@ Every SPD matrix $\bA$ admits a unique decomposition $\bA = \bL\bL^T$, where $\b
 
 ::: {.callout-tip icon=false}
 **Flop Cost.** 
-Cholesky costs \textbf{$\frac{1}{3}n^3$ flops} (half the price of LU).
+The computational cost of the Cholesky decomposition is \textbf{$\frac{1}{3}n^3$ flops}, approximately half that of a general LU factorization.
 :::
 
 

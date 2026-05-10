@@ -64,7 +64,7 @@ Evaluates $f$ at four stages per step:
 \addThm{Adaptive Step Control (RK45)}{%
 Uses an **embedded pair** to estimate local error $e$ without extra stages (Dormand-Prince).
 \textbf{Mechanism:}\enspace $h_{\text{new}} = h_{\text{old}} (\varepsilon / \|e\|)^{1/5}$.
-\textbf{Rule:}\enspace Automatically shrinks $h$ in regions of high curvature and expands $h$ where $f$ is smooth.
+The algorithm adjusts the step size $h$ dynamically to maintain the local error within a specified tolerance.
 }
 
 \subsubsection{Symplectic Integrators}
@@ -82,7 +82,7 @@ For $H = \frac{1}{2}v^2 + V(q)$, ensures no long-term energy drift:
 }
 
 \addNote{%
-\textbf{The Drift Warning:}\enspace Standard explicit methods like Forward Euler or RK4 exhibit monotonic energy growth/decay in Hamiltonian systems. Always use symplectic methods for long-term physics simulations.
+\textbf{Numerical Energy Drift.}\enspace Standard explicit methods like Forward Euler or RK4 exhibit monotonic energy growth or decay in Hamiltonian systems. Symplectic methods are required for long-term physical simulations to ensure energy stability.
 }
 
 \subsubsection{Exercises}

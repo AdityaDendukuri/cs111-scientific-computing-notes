@@ -338,6 +338,7 @@ FILE_MAP = [
     ('src/gmres.tex',           'iterative/gmres.qmd',                    '',               ''),
 
     # Chapter 6: Numerical Analysis
+    ('src/interpolation.tex',   'numerical-analysis/interpolation.qmd',   '',               ''),
     ('src/quadrature.tex',      'numerical-analysis/quadrature.qmd',      '',               ''),
     ('src/root_finding.tex',    'numerical-analysis/root-finding.qmd',    '',               ''),
 

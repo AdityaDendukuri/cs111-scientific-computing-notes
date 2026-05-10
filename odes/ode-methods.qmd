@@ -84,7 +84,7 @@ $$
 ## Theorem: Adaptive Step Control (RK45)
 Uses an **embedded pair** to estimate local error $e$ without extra stages (Dormand-Prince).
 **Mechanism:**  $h_{\text{new}} = h_{\text{old}} (\varepsilon / \|e\|)^{1/5}$.
-**Rule:**  Automatically shrinks $h$ in regions of high curvature and expands $h$ where $f$ is smooth.
+The algorithm adjusts the step size $h$ dynamically to maintain the local error within a specified tolerance.
 :::
 
 
@@ -108,7 +108,7 @@ For $H = \frac{1}{2}v^2 + V(q)$, ensures no long-term energy drift:
 
 
 ::: {.callout-tip icon=false}
-**The Drift Warning:**  Standard explicit methods like Forward Euler or RK4 exhibit monotonic energy growth/decay in Hamiltonian systems. Always use symplectic methods for long-term physics simulations.
+**Numerical Energy Drift.**  Standard explicit methods like Forward Euler or RK4 exhibit monotonic energy growth or decay in Hamiltonian systems. Symplectic methods are required for long-term physical simulations to ensure energy stability.
 :::
 
 

@@ -1,7 +1,8 @@
 # Fourier Analysis as Change of Basis
 
 
-Diagonalizing the Laplacian via sinusoidal eigenfunctions. Turn differential equations into algebra.
+Fourier analysis provides a framework for representing functions and data in terms of frequency components. In engineering, this transformation is critical for signal processing, image compression, and solving differential equations where the Laplacian operator is diagonalized by the Fourier basis.
+
 
 ## Discrete Fourier Transform (DFT)
 

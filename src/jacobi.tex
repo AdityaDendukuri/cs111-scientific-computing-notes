@@ -24,7 +24,7 @@ Decomposes $\bA$ into diagonal $\bD$ and remainder $\bR$: $\bA = \bD + \bR$.
 
 \addNote{%
 \textbf{Performance:}\enspace
-Jacobi is \textbf{embarrassingly parallel}. However, it converges slowly and requires storing both $\bx^{(k)}$ and $\bx^{(k+1)}$.
+Jacobi iteration is \textbf{inherently parallel}, as all components can be updated simultaneously. However, it often exhibits slow convergence and requires double buffering of the solution vector.
 }
 
 \subsubsection{Gauss-Seidel Iteration}
@@ -44,7 +44,7 @@ Splits $\bA = \bL_* + \bU_*$, where $\bL_*$ includes the diagonal.
 
 \addNote{%
 \textbf{Performance:}\enspace
-Sequential dependency prevents easy parallelization, but Gauss-Seidel typically converges \textbf{twice as fast} as Jacobi and updates $\bx$ in-place.
+Sequential dependencies restrict efficient parallelization, but Gauss-Seidel typically converges \textbf{twice as fast} as Jacobi and allows for in-place updates.
 }
 
 \subsubsection{Convergence Conditions}
@@ -81,13 +81,13 @@ Accelerates Gauss-Seidel by overshooting the update.
 \label{def:sor}
 
 \addNote{%
-\textbf{The ``Square Root'' Boost:}\enspace
-For a 1D Poisson problem on a grid $h$:
+\textbf{Convergence Acceleration:}\enspace
+For the 1D Poisson problem on a grid with spacing $h$:
 \begin{itemize}
-    \item Jacobi/GS: $O(n^2)$ iterations.
-    \item Optimal SOR: $O(n)$ iterations.
+    \item Jacobi and Gauss-Seidel require $O(n^2)$ iterations.
+    \item Optimal SOR requires only $O(n)$ iterations.
 \end{itemize}
-This turns a slow $O(h^2)$ method into a fast $O(h)$ method.
+SOR effectively improves the convergence rate from $O(h^2)$ to $O(h)$.
 }
 
 \addExcr{%

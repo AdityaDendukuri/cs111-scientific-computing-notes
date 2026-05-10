@@ -1,7 +1,7 @@
 # Singular Value Decomposition
 
 
-The ``Master Decomposition'' of linear algebra. Decomposes any matrix into orthogonal transformations and diagonal scaling.
+The Singular Value Decomposition (SVD) is a general matrix factorization that decomposes any $m \times n$ matrix into a product of orthogonal transformations and a diagonal scaling matrix.
 
 ## The SVD Theorem
 
@@ -72,7 +72,7 @@ $$
 
 ::: {.callout-tip icon=false}
 **Applications:** 
-Truncated SVD is the engine behind Principal Component Analysis (PCA), image compression, and latent semantic analysis.
+Truncated SVD provides the computational basis for Principal Component Analysis (PCA), image compression, and latent semantic analysis.
 :::
 
 

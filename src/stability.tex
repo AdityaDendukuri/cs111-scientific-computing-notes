@@ -83,9 +83,9 @@ Thus, the condition number $\kappa(\bA)$ acts as the amplification factor for re
 \end{enumerate}
 }
 
-\subsubsection{Stability Hierarchy}
+\subsubsection{Solver Selection Hierarchy}
 
-The ``Golden Rule'' for choosing solvers:
+Algorithms are typically selected based on a trade-off between numerical stability and computational efficiency:
 \begin{enumerate}
     \item \textbf{SVD:}\enspace Most stable, most expensive ($O(n^3)$ with large constant).
     \item \textbf{Householder QR:}\enspace Very stable, no growth factor ($O(mn^2)$).
@@ -95,13 +95,13 @@ The ``Golden Rule'' for choosing solvers:
 \end{enumerate}
 
 \addDef{Iterative Refinement}{%
-``Polish'' a solution $\hat{\bx}$ by:
+The accuracy of a computed solution $\hat{\bx}$ can be improved by iterative refinement:
 \begin{enumerate}
-    \item $\br = \bb - \bA\hat{\bx}$
-    \item Solve $\bA \boldsymbol{\delta} = \br$
-    \item $\hat{\bx} \leftarrow \hat{\bx} + \boldsymbol{\delta}$
+    \item Compute the residual $\br = \bb - \bA\hat{\bx}$.
+    \item Solve $\bA \boldsymbol{\delta} = \br$.
+    \item Update the estimate: $\hat{\bx} \leftarrow \hat{\bx} + \boldsymbol{\delta}$.
 \end{enumerate}
-Each step recovers digits lost due to conditioning, up to machine precision.
+Each step recovers digits lost due to ill-conditioning, up to the limits of machine precision.
 }
 \label{def:iterative-refinement}
 

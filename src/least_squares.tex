@@ -5,7 +5,7 @@
 \subsection{Overdetermined Systems and Least Squares}
 \label{sub:least-squares}
 
-Finding the ``best-fit'' solution when $m > n$ equations and no exact solution exists.
+Approximating the solution to an overdetermined system where $m > n$ and no exact solution exists.
 
 \subsubsection{Least Squares Problem}
 
@@ -35,8 +35,8 @@ The minimizer satisfies $\bA^T\bA\hat{\bx} = \bA^T\bb$.
 \label{thm:normal-equations}
 
 \addNote{%
-\textbf{The Stability Trap:}\enspace
-$\kappa_2(\bA^T\bA) = \kappa_2(\bA)^2$. Squaring the condition number can destroy precision. If $\kappa_2(\bA) = 10^6$, you may lose 12 digits of accuracy. \textbf{Practical Rule:}\enspace Avoid normal equations for ill-conditioned matrices.
+\textbf{Conditioning of the Normal Equations.}\enspace
+The condition number of the normal equations matrix satisfies $\kappa_2(\bA^T\bA) = \kappa_2(\bA)^2$. Squaring the condition number can lead to a significant loss of precision. For example, if $\kappa_2(\bA) = 10^6$, the solution may lose up to 12 digits of accuracy.
 }
 
 \addExcr{%

@@ -5,7 +5,9 @@
 \subsection{Eigenvalues and Eigenvectors}
 \label{sub:eigen-theory}
 
+\textBox{%
 Reveals the scaling directions of a linear transformation. Essential for stability analysis, PCA, and spectral methods.
+}
 
 \subsubsection{Definitions and Basic Properties}
 
@@ -51,7 +53,7 @@ If $\bB = \bV^{-1}\bA\bV$ (Similarity Transform), then $\sigma(\bB) = \sigma(\bA
 
 \subsubsection{Symmetric and Hermitian Matrices}
 
-The ``Golden State'' of eigenvalue problems.
+Symmetric and Hermitian matrices possess special spectral properties that simplify analysis and computation.
 
 \addThm{Spectral Theorem (Real Symmetric)}{%
 If $\bA = \bA^T$:
@@ -80,7 +82,9 @@ $\bA = \bA^*$ (conjugate transpose). The complex analog of symmetric matrices.
 
 \subsubsection{Iterative Algorithms}
 
-In practice, we compute eigenvalues via iteration, not by finding roots of $p_\bA(\lambda)$.
+\textBox{%
+In practice, we compute eigenvalues via iteration, not by finding roots of the characteristic polynomial.
+}
 
 \addDef{Power Iteration}{%
 Repeatedly apply $\bA$ to a unit vector: $\bv^{(k)} = \frac{\bA\bv^{(k-1)}}{\|\bA\bv^{(k-1)}\|}$.
@@ -126,7 +130,9 @@ Update the shift $\sigma_k$ to the current Rayleigh quotient $(\bv^{(k)})^T\bA\b
 
 \subsubsection{Schur Decomposition and the QR Algorithm}
 
-The theoretical and practical backbone of general eigensolvers.
+\textBox{%
+The Schur decomposition provides the theoretical basis for the QR algorithm, the standard iterative method for computing the eigenvalues and eigenvectors of dense, general matrices.
+}
 
 \addThm{Schur Decomposition}{%
 Every square $\bA$ satisfies $\bA = \bQ\bT\bQ^*$, where $\bQ$ is unitary and $\bT$ is upper triangular.
@@ -137,7 +143,7 @@ Every square $\bA$ satisfies $\bA = \bQ\bT\bQ^*$, where $\bQ$ is unitary and $\b
 \label{thm:schur}
 
 \addDef{QR Iteration}{%
-Iteratively compute QR factorizations and swap the factors:
+Iteratively compute QR factorizations and swap the factors. The goal is to transform $\bA$ into an upper triangular (Schur) form, where the eigenvalues appear on the diagonal.
 \begin{enumerate}
     \item $\bA_k = \bQ_k \bR_k$
     \item $\bA_{k+1} = \bR_k \bQ_k = \bQ_k^T \bA_k \bQ_k$
@@ -148,11 +154,11 @@ Iteratively compute QR factorizations and swap the factors:
 
 \addNote{%
 \textbf{Performance:}\enspace
-Raw QR iteration is $O(n^3)$ per step. Practical implementations (like \texttt{np.linalg.eig}) use:
+Raw QR iteration requires $O(n^3)$ operations per step. Practical implementations, such as those in standard numerical libraries, typically use:
 \begin{enumerate}
-    \item \textbf{Hessenberg Reduction:}\enspace Pre-process $\bA$ to upper Hessenberg form ($O(n^3)$ once).
-    \item \textbf{Triangularization:}\enspace Hessenberg QR steps cost only $O(n^2)$.
-    \item \textbf{Shifts:}\enspace Accelerate convergence to quadratic or cubic.
+    \item \textbf{Hessenberg Reduction:}\enspace Pre-process $\bA$ to upper Hessenberg form in $O(n^3)$ operations.
+    \item \textbf{Triangularization:}\enspace Subsequent QR steps on a Hessenberg matrix cost only $O(n^2)$.
+    \item \textbf{Shifts:}\enspace Techniques to accelerate convergence to quadratic or cubic rates.
 \end{enumerate}
 }
 
