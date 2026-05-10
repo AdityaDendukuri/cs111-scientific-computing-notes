@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../orthogonality/orthogonal.html">Orthogonality and Least Squares</a></li><li class="breadcrumb-item"><a href="../orthogonality/least-squares.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Overdetermined Systems and Least Squares</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -671,9 +662,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overdetermined-systems" id="toc-overdetermined-systems" class="nav-link active" data-scroll-target="#overdetermined-systems"><span class="header-section-number">15.1</span> Overdetermined Systems</a></li>
+  <li><a href="#least-squares-problem" id="toc-least-squares-problem" class="nav-link active" data-scroll-target="#least-squares-problem"><span class="header-section-number">15.1</span> Least Squares Problem</a></li>
   <li><a href="#normal-equations" id="toc-normal-equations" class="nav-link" data-scroll-target="#normal-equations"><span class="header-section-number">15.2</span> Normal Equations</a></li>
   <li><a href="#qr-based-least-squares" id="toc-qr-based-least-squares" class="nav-link" data-scroll-target="#qr-based-least-squares"><span class="header-section-number">15.3</span> QR-Based Least Squares</a></li>
+  <li><a href="#polynomial-regression" id="toc-polynomial-regression" class="nav-link" data-scroll-target="#polynomial-regression"><span class="header-section-number">15.4</span> Polynomial Regression</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/orthogonality/least-squares.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -700,20 +692,20 @@ window.Quarto = {
 </header>
 
 
-<p>So far we have focused on square invertible systems <span class="math inline">\(\bA\bx = \bb\)</span>. In practice, data fitting and regression produce overdetermined systems (<span class="math inline">\(m &gt; n\)</span> equations, <span class="math inline">\(n\)</span> unknowns) that typically have no exact solution. The method of least squares provides the principled approach: find the <span class="math inline">\(\bx\)</span> minimizing <span class="math inline">\(\|\bA\bx - \bb\|_2\)</span>. The geometry, optimality conditions, and numerically stable algorithms for this problem form the core of this section.</p>
-<section id="overdetermined-systems" class="level2" data-number="15.1">
-<h2 data-number="15.1" class="anchored" data-anchor-id="overdetermined-systems"><span class="header-section-number">15.1</span> Overdetermined Systems</h2>
+<p>Finding the ``best-fit’’ solution when <span class="math inline">\(m &gt; n\)</span> equations and no exact solution exists.</p>
+<section id="least-squares-problem" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="least-squares-problem"><span class="header-section-number">15.1</span> Least Squares Problem</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Overdetermined Linear System
+<span class="screen-reader-only">Note</span>Definition: Overdetermined System
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A system <span class="math inline">\(\bA\bx = \bb\)</span> with <span class="math inline">\(\bA \in \fR^{m\times n}\)</span>, <span class="math inline">\(m &gt; n\)</span>, is <em>overdetermined</em>. Since the range of <span class="math inline">\(\bA\)</span> has dimension at most <span class="math inline">\(n &lt; m\)</span>, a generic <span class="math inline">\(\bb \in \fR^m\)</span> lies outside <span class="math inline">\(\mathcal{R}(\bA)\)</span> and no exact solution exists.</p>
+<p><span class="math inline">\(\bA\bx = \bb\)</span> with <span class="math inline">\(\bA \in \fR^{m \times n}, m &gt; n\)</span>. Usually <span class="math inline">\(\bb \notin \mathcal{R}(\bA)\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -726,20 +718,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Given <span class="math inline">\(\bA \in \fR^{m\times n}\)</span> and <span class="math inline">\(\bb \in \fR^m\)</span>, the <em>least squares problem</em> is <span class="math display">\[\hat{\bx} = \arg\min_{\bx \in \fR^n} \|\bA\bx - \bb\|_2^2.\]</span> The minimizer <span class="math inline">\(\hat{\bx}\)</span> makes <span class="math inline">\(\bA\hat{\bx}\)</span> the closest point in <span class="math inline">\(\mathcal{R}(\bA)\)</span> to <span class="math inline">\(\bb\)</span> in the Euclidean norm.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Overdetermined systems arise throughout science: fitting a model with <span class="math inline">\(n\)</span> parameters to <span class="math inline">\(m \gg n\)</span> measurements, regression in statistics, signal denoising, and computer vision. The key insight is that the least squares solution corresponds to the orthogonal projection of <span class="math inline">\(\bb\)</span> onto the column space of <span class="math inline">\(\bA\)</span>.</p>
+<p>Find <span class="math inline">\(\hat{\bx}\)</span> that minimizes the Euclidean residual: <span class="math display">\[\hat{\bx} = \arg\min_{\bx \in \fR^n} \|\bA\bx - \bb\|_2^2.\]</span> <strong>Geometry:</strong> <span class="math inline">\(\bA\hat{\bx}\)</span> is the orthogonal projection of <span class="math inline">\(\bb\)</span> onto <span class="math inline">\(\mathcal{R}(\bA)\)</span>.</p>
 </div>
 </div>
 </section>
@@ -755,23 +734,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The vector <span class="math inline">\(\hat{\bx}\)</span> minimizes <span class="math inline">\(\|\bA\bx - \bb\|_2^2\)</span> if and only if it satisfies the <em>normal equations</em> <span class="math display">\[\bA^T\bA\hat{\bx} = \bA^T\bb.\]</span> If <span class="math inline">\(\bA\)</span> has full column rank, the unique least squares solution is <span class="math inline">\(\hat{\bx} = (\bA^T\bA)^{-1}\bA^T\bb\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(f(\bx) = \|\bA\bx - \bb\|_2^2 = \bx^T\bA^T\bA\bx - 2\bb^T\bA\bx + \bb^T\bb\)</span>. Since <span class="math inline">\(\bA^T\bA\)</span> is symmetric, the gradient is <span class="math inline">\(\nabla f = 2\bA^T\bA\bx - 2\bA^T\bb\)</span>. Setting <span class="math inline">\(\nabla f = \bzero\)</span> gives <span class="math inline">\(\bA^T\bA\hat{\bx} = \bA^T\bb\)</span>. The Hessian is <span class="math inline">\(2\bA^T\bA \succeq 0\)</span>, so this critical point is a global minimum; it is unique when <span class="math inline">\(\bA^T\bA \succ 0\)</span>, i.e.&nbsp;when <span class="math inline">\(\bA\)</span> has full column rank. <em>Geometric view:</em> <span class="math inline">\(\br = \bb - \bA\hat{\bx}\)</span> must satisfy <span class="math inline">\(\bA^T\br = \bzero\)</span> (residual is orthogonal to each column of <span class="math inline">\(\bA\)</span>), which is exactly the normal equations.</p>
-</div>
+<p>The minimizer satisfies <span class="math inline">\(\bA^T\bA\hat{\bx} = \bA^T\bb\)</span>.</p>
+<ul>
+<li><p><strong>Condition:</strong> <span class="math inline">\(\bA^T\br = \bzero\)</span> (Residual must be normal to the column space).</p></li>
+<li><p><strong>Unique Solution:</strong> <span class="math inline">\(\hat{\bx} = (\bA^T\bA)^{-1}\bA^T\bb\)</span> if <span class="math inline">\(\bA\)</span> has full column rank.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -784,95 +751,40 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The name ``normal equations’’ comes from the fact that the residual <span class="math inline">\(\br = \bb - \bA\hat{\bx}\)</span> is <em>normal</em> (perpendicular) to the column space of <span class="math inline">\(\bA\)</span>. This orthogonality principle <span class="math inline">\(\bA^T\br = \bzero\)</span> is fundamental to least squares theory.</p>
+<p><strong>The Stability Trap:</strong> <span class="math inline">\(\kappa_2(\bA^T\bA) = \kappa_2(\bA)^2\)</span>. Squaring the condition number can destroy precision. If <span class="math inline">\(\kappa_2(\bA) = 10^6\)</span>, you may lose 12 digits of accuracy. <strong>Practical Rule:</strong> Avoid normal equations for ill-conditioned matrices.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Condition Number Squaring
+<span class="screen-reader-only">Warning</span>Exercise
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\bA\)</span> has full column rank, then <span class="math inline">\(\kappa_2(\bA^T\bA) = \kappa_2(\bA)^2\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The singular values of <span class="math inline">\(\bA\)</span> are <span class="math inline">\(\sigma_1 \geq \cdots \geq \sigma_n &gt; 0\)</span>. The matrix <span class="math inline">\(\bA^T\bA\)</span> is symmetric positive definite with eigenvalues equal to the squared singular values <span class="math inline">\(\sigma_1^2 \geq \cdots \geq \sigma_n^2 &gt; 0\)</span> (since <span class="math inline">\(\bA^T\bA\bv_i = \sigma_i^2\bv_i\)</span> where <span class="math inline">\(\bv_i\)</span> are right singular vectors). Therefore <span class="math display">\[\kappa_2(\bA^T\bA) = \frac{\sigma_1^2}{\sigma_n^2} = \left(\frac{\sigma_1}{\sigma_n}\right)^2 = \kappa_2(\bA)^2.\]</span></p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Condition number squaring is a serious practical concern. If <span class="math inline">\(\kappa_2(\bA) = 10^6\)</span> (a moderately ill-conditioned design matrix), then <span class="math inline">\(\kappa_2(\bA^T\bA) = 10^{12}\)</span>, and we lose 12 decimal digits of accuracy in the normal equations solution. This motivates QR-based methods that avoid forming <span class="math inline">\(\bA^T\bA\)</span> entirely. See for how condition number governs forward error in computed solutions generally.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Fitting a line <span class="math inline">\(y = mx + b\)</span> to four data points <span class="math inline">\((1,2),(2,3),(3,5),(4,4)\)</span>. The design matrix is <span class="math display">\[\bA = \begin{pmatrix} 1 &amp; 1 \\ 1 &amp; 2 \\ 1 &amp; 3 \\ 1 &amp; 4 \end{pmatrix}, \quad \bb = \begin{pmatrix}2\\3\\5\\4\end{pmatrix}, \quad
-  \bA^T\bA = \begin{pmatrix}4 &amp; 10 \\ 10 &amp; 30\end{pmatrix}, \quad \bA^T\bb = \begin{pmatrix}14\\41\end{pmatrix}.\]</span> Solving <span class="math inline">\((\bA^T\bA)\hat{\bx} = \bA^T\bb\)</span> gives <span class="math inline">\(\hat{b} = 1.3\)</span> and <span class="math inline">\(\hat{m} = 0.9\)</span>, so the best-fit line is <span class="math inline">\(y = 0.9x + 1.3\)</span>.</p>
+<ol type="1">
+<li><p>Fit a line <span class="math inline">\(y = mx + b\)</span> to points <span class="math inline">\((1,2), (2,3), (3,5), (4,4)\)</span> via normal equations.</p></li>
+<li><p>Prove <span class="math inline">\(\kappa_2(\bA^T\bA) = \kappa_2(\bA)^2\)</span> using singular values.</p></li>
+</ol>
 </div>
 </div>
 </section>
 <section id="qr-based-least-squares" class="level2" data-number="15.3">
 <h2 data-number="15.3" class="anchored" data-anchor-id="qr-based-least-squares"><span class="header-section-number">15.3</span> QR-Based Least Squares</h2>
+<p>The numerically superior approach.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Least Squares via QR Decomposition
+<span class="screen-reader-only">Note</span>Theorem: Solving via QR
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA \in \fR^{m\times n}\)</span> (<span class="math inline">\(m \geq n\)</span>) have full column rank with thin QR decomposition <span class="math inline">\(\bA = \bQ\bR\)</span> (<span class="math inline">\(\bQ \in \fR^{m\times n}\)</span> with orthonormal columns, <span class="math inline">\(\bR \in \fR^{n\times n}\)</span> upper triangular and invertible). Then the unique least squares solution is found by solving the triangular system <span class="math display">\[\bR\hat{\bx} = \bQ^T\bb.\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Since <span class="math inline">\(\bQ\)</span> has orthonormal columns, <span class="math inline">\(\|\bQ\bv\|_2 = \|\bv\|_2\)</span> for any <span class="math inline">\(\bv\)</span>. Using <span class="math inline">\(\bA = \bQ\bR\)</span>, write <span class="math inline">\(\|\bA\bx - \bb\|_2 = \|\bQ\bR\bx - \bb\|_2\)</span>. Split <span class="math inline">\(\bb = \bQ\bQ^T\bb + (\bI - \bQ\bQ^T)\bb\)</span> into its projection onto <span class="math inline">\(\mathcal{R}(\bA)\)</span> and orthogonal complement. Expanding and using orthogonality of the two components: <span class="math display">\[\|\bQ\bR\bx - \bb\|_2^2 = \|\bR\bx - \bQ^T\bb\|_2^2 + \|(\bI - \bQ\bQ^T)\bb\|_2^2.\]</span> The second term is independent of <span class="math inline">\(\bx\)</span>, so minimizing over <span class="math inline">\(\bx\)</span> is equivalent to solving <span class="math inline">\(\bR\hat{\bx} = \bQ^T\bb\)</span>, which has unique solution <span class="math inline">\(\hat{\bx} = \bR^{-1}\bQ^T\bb\)</span> since <span class="math inline">\(\bR\)</span> is invertible.</p>
-</div>
+<p>If <span class="math inline">\(\bA = \bQ\bR\)</span> (thin QR), the least squares solution satisfies: <span class="math display">\[\bR\hat{\bx} = \bQ^T\bb.\]</span> <strong>Why?</strong> <span class="math inline">\(\|\bA\bx - \bb\|_2^2 = \|\bR\bx - \bQ^T\bb\|_2^2 + \|(\bI - \bQ\bQ^T)\bb\|_2^2\)</span>. The first term is zeroed by the solve.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -885,48 +797,28 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The QR approach avoids forming <span class="math inline">\(\bA^T\bA\)</span> and thus does not suffer from condition number squaring. Its cost is <span class="math inline">\(O(mn^2)\)</span> for the QR factorization plus <span class="math inline">\(O(n^2)\)</span> for the triangular solve, comparable to the normal equations but numerically far superior. In NumPy, <code>np.linalg.lstsq(A, b)</code> uses this approach internally (QR or SVD depending on shape and rank).</p>
+<p><strong>Performance:</strong> QR-based least squares costs <span class="math inline">\(O(mn^2)\)</span>. It is the default in <code>np.linalg.lstsq</code>.</p>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Weighted Least Squares
+<span class="screen-reader-only">Warning</span>Exercise
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If measurements have unequal reliability, one assigns a weight <span class="math inline">\(w_i &gt; 0\)</span> to the <span class="math inline">\(i\)</span>-th equation. The <em>weighted least squares</em> problem minimizes <span class="math inline">\(\sum_i w_i((\bA\bx)_i - b_i)^2 = \|\mathbf{W}^{1/2}(\bA\bx - \bb)\|_2^2\)</span> where <span class="math inline">\(\mathbf{W} = \mathrm{diag}(w_1,...,w_m)\)</span>. Its normal equations are <span class="math inline">\((\bA^T\mathbf{W}\bA)\hat{\bx} = \bA^T\mathbf{W}\bb\)</span>.</p>
+<ol type="1">
+<li><p>Solve the line-fitting problem using QR. Compare coefficients with the normal equations result.</p></li>
+<li><p><strong>Regularization:</strong> If <span class="math inline">\(\bA\)</span> is rank-deficient, <span class="math inline">\(\|\hat{\bx}\|\)</span> can explode. Add a penalty term <span class="math inline">\(\lambda \|\bx\|_2^2\)</span> (Ridge Regression). How do the normal equations change?</p></li>
+</ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Regularized Least Squares (Ridge Regression)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>When <span class="math inline">\(\bA\)</span> is rank-deficient or nearly so, the least squares solution can have enormous norm. <em>Tikhonov regularization</em> (ridge regression) adds a penalty: <span class="math inline">\(\hat{\bx}_\lambda = \argmin_{\bx} (\|\bA\bx - \bb\|_2^2 + \lambda\|\bx\|_2^2) = (\bA^T\bA + \lambda\bI)^{-1}\bA^T\bb\)</span>. The parameter <span class="math inline">\(\lambda &gt; 0\)</span> reduces the effective condition number to <span class="math inline">\((\sigma_1^2 + \lambda)/(\sigma_n^2 + \lambda)\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The least squares framework extends to many important problems: nonlinear least squares fits nonlinear models by iteratively linearizing (Gauss-Newton/Levenberg-Marquardt); sparse regression (LASSO) replaces the <span class="math inline">\(\ell^2\)</span> penalty by an <span class="math inline">\(\ell^1\)</span> penalty to promote sparsity; total least squares accounts for errors in both <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bb\)</span>.</p>
-</div>
-</div>
+</section>
+<section id="polynomial-regression" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="polynomial-regression"><span class="header-section-number">15.4</span> Polynomial Regression</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -937,14 +829,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Given <span class="math inline">\(m\)</span> sample points <span class="math inline">\(t_1, ..., t_m\)</span> and the monomial basis <span class="math inline">\(\{1, t, t^2, ..., t^n\}\)</span>, the <em>Vandermonde matrix</em> is <span class="math display">\[\bV =
-  \begin{pmatrix}
-    1 &amp; t_1 &amp; t_1^2 &amp; \cdots &amp; t_1^n \\
-    1 &amp; t_2 &amp; t_2^2 &amp; \cdots &amp; t_2^n \\
-    \vdots &amp; \vdots &amp; \vdots &amp; &amp; \vdots \\
-    1 &amp; t_m &amp; t_m^2 &amp; \cdots &amp; t_m^n
-  \end{pmatrix}
-  \in \fR^{m \times (n+1)}.\]</span> The polynomial fitting problem with monomial coefficients <span class="math inline">\(\bc = (c_0, ..., c_n)^T\)</span> is <span class="math inline">\(\bV\bc \approx \mathbf{f}\)</span>, solved as a least squares problem when <span class="math inline">\(m &gt; n+1\)</span>. For square systems (<span class="math inline">\(m = n+1\)</span>, interpolation), <span class="math inline">\(\bV\)</span> is invertible whenever the nodes <span class="math inline">\(t_i\)</span> are distinct.</p>
+<p>For nodes <span class="math inline">\(t_1, ..., t_m\)</span>, the degree-<span class="math inline">\(n\)</span> design matrix is: <span class="math display">\[V_{ij} = t_i^{j-1}.\]</span> Polynomial fitting <span class="math inline">\(p(t) = \sum c_j t^j\)</span> is solved as <span class="math inline">\(\bV\bc \approx \mathbf{f}\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -957,48 +842,9 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(Polynomial regression)</strong> Fit a degree-2 polynomial <span class="math inline">\(p(t) = c_0 + c_1 t + c_2 t^2\)</span> to the data <span class="math inline">\((t_i, y_i)\)</span> for <span class="math inline">\(i = 1,..., 6\)</span>: <span class="math inline">\(t = (0, 0.5, 1, 1.5, 2, 2.5)\)</span>, <span class="math inline">\(y = (1.0, 1.8, 2.3, 2.5, 2.3, 2.0)\)</span>.</p>
 <ol type="1">
-<li><p>Write down the Vandermonde design matrix <span class="math inline">\(\bA \in \fR^{6\times 3}\)</span> explicitly.</p></li>
-<li><p>Solve the normal equations by hand (or with NumPy). State the fitted polynomial.</p></li>
-<li><p>Compute the residual <span class="math inline">\(\|\bA\hat{\bx} - \bb\|_2\)</span> and the coefficient of determination <span class="math inline">\(R^2 = 1 - \|\bA\hat{\bx} - \bb\|_2^2/\|\bb - \bar{b}\mathbf{1}\|_2^2\)</span>.</p></li>
-<li><p>Now solve via QR using <code>np.linalg.lstsq</code> and verify you get the same coefficients. Compare <span class="math inline">\(\kappa_2(\bA)\)</span> with <span class="math inline">\(\kappa_2(\bA^T\bA)\)</span> to illustrate condition number squaring.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Effect of regularization)</strong> Use the Vandermonde design matrix for fitting a degree-8 polynomial to 10 equally spaced points on <span class="math inline">\([0,1]\)</span> with <span class="math inline">\(y_i = \sin(2\pi t_i) + 0.1\varepsilon_i\)</span> (small noise).</p>
-<ol type="1">
-<li><p>Compute the least squares fit without regularization. Plot the fitted polynomial. Does it overfit?</p></li>
-<li><p>Compute <span class="math inline">\(\hat{\bx}_\lambda\)</span> for <span class="math inline">\(\lambda = 10^{-4}, 10^{-2}, 1\)</span>. How does the fit change?</p></li>
-<li><p>Plot <span class="math inline">\(\|\hat{\bx}_\lambda\|_2\)</span> and the residual <span class="math inline">\(\|\bA\hat{\bx}_\lambda - \bb\|_2\)</span> as functions of <span class="math inline">\(\lambda\)</span> (the bias-variance tradeoff curve). Which <span class="math inline">\(\lambda\)</span> gives the best fit?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Numerical stability of normal equations vs.&nbsp;QR)</strong> Construct the <span class="math inline">\(m\times n\)</span> matrix <span class="math inline">\(\bA\)</span> from <code>np.random.randn(m, n)</code> scaled so <span class="math inline">\(\kappa_2(\bA) \approx 10^6\)</span> (use SVD to rescale singular values). Let <span class="math inline">\(\bb = \bA\bx_{\mathrm{true}} + \boldsymbol{\varepsilon}\)</span> with <span class="math inline">\(\bx_{\mathrm{true}} = \mathbf{1}\)</span> and small noise.</p>
-<ol type="1">
-<li><p>Solve via normal equations: <code>np.linalg.solve(A.T @ A, A.T @ b)</code>.</p></li>
-<li><p>Solve via QR: <code>np.linalg.lstsq(A, b)</code>.</p></li>
-<li><p>Compare the errors <span class="math inline">\(\|\hat{\bx} - \bx_{\mathrm{true}}\|_2\)</span>. Which method is more accurate? Explain in terms of condition numbers.</p></li>
+<li><p>Fit a degree-2 polynomial to 6 data points. Verify the residual and <span class="math inline">\(R^2\)</span> score.</p></li>
+<li><p><strong>Numerical Stability:</strong> Construct a Vandermonde matrix with <span class="math inline">\(n=10\)</span>. Compare the errors of <code>lstsq(A, b)</code> vs <code>solve(A.T @ A, A.T @ b)</code>.</p></li>
 </ol>
 </div>
 </div>
@@ -1427,14 +1273,23 @@ Tip
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../orthogonality/chebyshev.html" class="pagination-link" aria-label="Chebyshev Polynomials and Polynomial Approximation">
-        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../orthogonality/chebyshev.html" class="pagination-link" aria-label="Chebyshev Polynomials">
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/orthogonality/least-squares.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/orthogonality/least-squares.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

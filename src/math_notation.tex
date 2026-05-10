@@ -5,130 +5,121 @@
 \subsection{Mathematical Notation and Proof Techniques}
 \label{sub:math-notation}
 
-These notes assume familiarity with calculus and basic proof writing, but the conventions
-below establish a shared vocabulary used throughout. Skimming this subsection now will
-prevent confusion when proofs appear later.
+Standard vocabulary for proofs and algorithms.
 
 \subsubsection{Logic and Set Notation}
 
 \addDef{Logical Quantifiers}{%
-The \emph{universal quantifier} $\forall$ means ``for all''; the \emph{existential quantifier}
-$\exists$ means ``there exists''. For example, ``$\forall \varepsilon > 0,\;\exists \delta > 0$
-such that\ldots'' reads as ``for every positive $\varepsilon$ there is a positive $\delta$
-such that\ldots''. The negation of $\forall x,\, P(x)$ is $\exists x,\, \neg P(x)$, and vice versa.
+\begin{itemize}
+  \item \textbf{Universal ($\forall$):}\enspace ``For all.''
+  \item \textbf{Existential ($\exists$):}\enspace ``There exists.''
+  \item \textbf{Example:}\enspace ``$\forall \varepsilon > 0,\;\exists \delta > 0$'' reads as ``for every positive $\varepsilon$ there is a positive $\delta$.''
+\end{itemize}
 }
 \label{def:quantifiers}
 
 \addDef{Implication and Equivalence}{%
-$P \Rightarrow Q$ (``$P$ implies $Q$'') means: whenever $P$ is true, $Q$ is also true.
-$P \Leftrightarrow Q$ (``$P$ if and only if $Q$'', abbreviated \emph{iff}) means
-$P \Rightarrow Q$ and $Q \Rightarrow P$.
-The \emph{contrapositive} of $P \Rightarrow Q$ is $\neg Q \Rightarrow \neg P$, which is
-logically equivalent and often easier to prove.
+\begin{itemize}
+  \item \textbf{Implication ($P \Rightarrow Q$):}\enspace $P$ implies $Q$.
+  \item \textbf{Equivalence ($P \Leftrightarrow Q$):}\enspace $P$ if and only if $Q$ (iff).
+  \item \textbf{Contrapositive:}\enspace $\neg Q \Rightarrow \neg P$. Logically equivalent to $P \Rightarrow Q$.
+\end{itemize}
 }
 \label{def:implication}
 
 \addDef{Set Notation}{%
-A \emph{set} is a collection of distinct objects. Common notation:
 \begin{itemize}
-  \item $x \in S$: $x$ is an element of $S$; \quad $x \notin S$: $x$ is not.
-  \item $S \subseteq T$: $S$ is a subset of $T$ (every element of $S$ is in $T$).
-  \item $S \cup T$: union; \quad $S \cap T$: intersection; \quad $S \setminus T$: set difference.
-  \item $\{x \in S : P(x)\}$: the set of elements in $S$ satisfying property $P$.
+  \item $x \in S$: $x$ is an element of $S$.
+  \item $S \subseteq T$: $S$ is a subset of $T$.
+  \item $S \cup T$: Union; $S \cap T$: Intersection; $S \setminus T$: Set difference.
+  \item $\{x \in S : P(x)\}$: Set builder notation.
+  \item \textbf{Number Sets:}\enspace $\fZ$ (integers), $\fR$ (reals), $\fC$ (complex), $\fR^n$ (vectors), $\fR^{m \times n}$ (matrices).
 \end{itemize}
-Common number sets used throughout these notes: $\fZ$ (integers), $\fR$ (reals),
-$\fC$ (complex numbers), $\fR^n$ (real $n$-vectors), $\fR^{m \times n}$
-(real $m \times n$ matrices).
 }
 \label{def:set-notation}
 
 \addExcr{%
 \begin{enumerate}
-  \item Write the statement ``every invertible matrix has a nonzero determinant'' using
-  quantifiers and implication.
-  \item State the contrapositive of: ``if $\bA$ is invertible, then $\bA\bx = \bzero$
-  implies $\bx = \bzero$.''
-  \item Let $S = \{1, 2, 3, 4\}$ and $T = \{3, 4, 5, 6\}$. Compute $S \cup T$,
-  $S \cap T$, and $S \setminus T$.
+  \item Write ``every invertible matrix has a nonzero determinant'' using quantifiers and implication.
+  \item State the contrapositive of: ``if $\bA$ is invertible, then $\bA\bx = \bzero \Rightarrow \bx = \bzero$.''
+  \item Let $S = \{1, 2, 3, 4\}$ and $T = \{3, 4, 5, 6\}$. Compute $S \cup T, S \cap T, S \setminus T$.
 \end{enumerate}
 }
 
 \subsubsection{Proof Techniques}
 
-\textBox{%
-Nearly every claim in these notes is accompanied by a proof. There are three main
-strategies used here; recognizing which applies is the first step in writing your own proofs.
-}
-
 \addDef{Direct Proof}{%
-A \emph{direct proof} of $P \Rightarrow Q$ assumes $P$ is true and derives $Q$ through a
-chain of valid logical steps. Most proofs in these notes are direct.
+Assume $P$ is true and derive $Q$ through a chain of valid logical steps.
 }
 \label{def:direct-proof}
 
 \addDef{Proof by Contradiction}{%
-To prove statement $P$: assume $\neg P$ and derive a logical contradiction
-($R$ and $\neg R$ simultaneously, for some statement $R$). This shows $\neg P$ is
-impossible, so $P$ must hold.
+Assume $\neg P$ and derive a logical contradiction ($R \wedge \neg R$). Proves $P$ must hold.
 }
 \label{def:proof-contradiction}
 
 \addDef{Proof by Induction}{%
 To prove $P(n)$ holds for all integers $n \geq n_0$:
 \begin{enumerate}
-  \item \emph{Base case}: verify $P(n_0)$ directly.
-  \item \emph{Inductive step}: assume $P(k)$ (the \emph{inductive hypothesis}) and prove $P(k+1)$.
+  \item \textbf{Base case:}\enspace Verify $P(n_0)$ directly.
+  \item \textbf{Inductive step:}\enspace Assume $P(k)$ and prove $P(k+1)$.
 \end{enumerate}
-Mathematical induction appears whenever an algorithm or formula is defined recursively.
 }
 \label{def:proof-induction}
 
+\addNote{%
+\textbf{Numerical Proofs:}\enspace Often validate that an approximation is **stable** or that an error term **converges**. Frequently involves showing $|f(x) - \hat{f}(x)| \leq \varepsilon$ for small $\varepsilon$.
+}
+
 \addExcr{%
 \begin{enumerate}
-  \item Use a direct proof to show: if $\bA$ and $\bB$ are symmetric
-  ($\bA^T = \bA$, $\bB^T = \bB$), then $\bA + \bB$ is symmetric.
-  \item Use proof by contradiction to show: if $\bA\bx = \bzero$ implies $\bx = \bzero$,
-  then $\bA$ has no zero eigenvalue.
-  \item By induction, prove $\displaystyle\sum_{k=1}^{n} k = \frac{n(n+1)}{2}$.
+  \item Prove: if $\bA$ and $\bB$ are symmetric, then $\bA + \bB$ is symmetric.
+  \item Prove by contradiction: if $\bA\bx = \bzero \Rightarrow \bx = \bzero$, then $\bA$ has no zero eigenvalue.
+  \item By induction, prove $\sum_{k=1}^{n} k = \frac{n(n+1)}{2}$.
 \end{enumerate}
 }
 
 \subsubsection{Notation Conventions}
 
-\textBox{%
-The following conventions are used consistently throughout these notes.
-}
-
 \addNote{%
 \textbf{Scalars, Vectors, and Matrices.}\enspace
-Scalars are lowercase italic: $a, b, c, x$.
-Vectors are lowercase bold: $\bx, \by, \ba$.
-Matrices are uppercase bold: $\bA, \bB, \bQ$.
-The $i$-th entry of $\bx$ is $x_i$; the $(i,j)$ entry of $\bA$ is $a_{ij}$ or $(\bA)_{ij}$.
-Indexing is 1-based throughout (unlike Python).
+\begin{itemize}
+  \item \textbf{Scalars:}\enspace Lowercase italic ($a, b, x$).
+  \item \textbf{Vectors:}\enspace Lowercase bold ($\bx, \by, \ba$). Default is **column vector**.
+  \item \textbf{Matrices:}\enspace Uppercase bold ($\bA, \bB, \bQ$).
+  \item \textbf{Indexing:}\enspace 1-based (unlike Python). $x_i$ is $i$-th entry; $a_{ij}$ is $(i,j)$ entry.
+\end{itemize}
 }
 
 \addNote{%
 \textbf{Transpose and Inverse.}\enspace
-$\bA^T$ is the transpose of $\bA$; $\bA^{-1}$ is the matrix inverse (exists only for
-square, invertible $\bA$). The notation $\bA^{-T}$ means $(\bA^{-1})^T = (\bA^T)^{-1}$.
-$\bA^k$ denotes $\bA$ multiplied by itself $k$ times; $\bA^0 = \bI$.
+\begin{itemize}
+  \item $\bA^T$: Transpose.
+  \item $\bA^{-1}$: Matrix inverse (square, nonsingular matrices).
+  \item $\bA^{-T}$: Transpose of the inverse $(\bA^{-1})^T$.
+  \item $\bA^k$: $k$-th power. $\bA^0 = \bI$.
+\end{itemize}
 }
 
 \addNote{%
 \textbf{Sums and Products.}\enspace
 \[
-  \sum_{i=1}^{n} a_i = a_1 + a_2 + \cdots + a_n, \qquad
-  \prod_{i=1}^{n} a_i = a_1 a_2 \cdots a_n.
+  \sum_{i=1}^{n} a_i = a_1 + \dots + a_n, \qquad
+  \prod_{i=1}^{n} a_i = a_1 \dots a_n.
 \]
-When the index set is clear from context we write $\sum_i a_i$.
 }
 
 \addNote{%
 \textbf{Functions.}\enspace
-$f : \fR^n \to \fR^m$ means $f$ maps $n$-vectors to $m$-vectors.
-$f \circ g$ denotes function composition: $(f \circ g)(\bx) = f(g(\bx))$.
-A function $f : \fR^{m \times n} \to \fR$ maps matrices to scalars (e.g., a norm or the determinant).
+\begin{itemize}
+  \item $f : \fR^n \to \fR^m$: Maps $n$-vectors to $m$-vectors.
+  \item $f \circ g$: Function composition $(f \circ g)(\bx) = f(g(\bx))$.
+\end{itemize}
+}
+
+\addNote{%
+\textbf{Asymptotic Notation.}\enspace
+Scaling of algorithms is described using **Big-O notation** ($O(n^2), O(n^3)$). Details in the Computational Complexity section.
 }
 
 \end{document}

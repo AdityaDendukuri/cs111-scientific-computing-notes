@@ -3,503 +3,181 @@
 \begin{document}
 
 \subsection{Floating Point Arithmetic}
+\label{sub:floating-point}
 
-Real numbers cannot be represented exactly on digital computers. This subsection covers
-how numbers are stored in the IEEE 754 floating point format, the precision limits of that
-representation, and the special values and arithmetic pitfalls that arise in practice.
-Understanding these fundamentals is a prerequisite for analyzing any numerical algorithm.
+Representation and precision limits of real numbers on digital hardware.
 
 \subsubsection{Floating Point Representation}
 
-Real numbers are stored in computers using a finite-bit format analogous to scientific
-notation.  The key parameters are the number of bits for the sign, exponent, and
-significand.
-
-\addDef{Floating Point Representation}{%
-A normalized floating point number has the form
-\[
-x = (-1)^s \times (1.f) \times 2^e,
-\]
-where $s$ is the sign bit, $f$ is the fractional significand (mantissa), $e$ is the
-exponent, and the leading 1 is implicit (hidden bit).
-The IEEE 754 standard defines two primary formats:
+Normalized numbers take the form $x = (-1)^s \times (1.f) \times 2^e$.
 \begin{itemize}
-    \item \textbf{Single precision (32-bit)}: 1 sign, 8 exponent, 23 fraction bits.
-    \item \textbf{Double precision (64-bit)}: 1 sign, 11 exponent, 52 fraction bits.
+  \item \textbf{s:} Sign bit.
+  \item \textbf{f:} Fractional significand (mantissa); leading 1 is implicit.
+  \item \textbf{e:} Biased exponent; Bias $= 2^{k-1}-1$ ($k$ is exponent bits).
 \end{itemize}
-The exponent field uses a biased representation with bias $= 2^{k-1} - 1$
-($k$ = exponent bits).
+
+\addNote{%
+\textbf{IEEE 754 Standards.}\enspace
+\begin{itemize}
+  \item \textbf{Single (32-bit):} 1 sign, 8 exponent, 23 fraction bits.
+  \item \textbf{Double (64-bit):} 1 sign, 11 exponent, 52 fraction bits.
+\end{itemize}
 }
-\label{def:fp-repr}
 
 \addExmpl{%
-\textbf{16-bit floating point.}\enspace
-With 1 sign, 5 exponent (bias $= 15$), and 10 fraction bits, represent $-3.25$:
+\textbf{16-bit float.}\enspace 1 sign, 5 exp (bias 15), 10 frac. Represent $-3.25$:
 \begin{enumerate}
-    \item Sign $= 1$ (negative).
-    \item $3.25_{10} = 11.01_2$.
-    \item Normalize: $1.101_2 \times 2^1$.
-    \item Biased exponent: $1 + 15 = 16 = 10000_2$.
-    \item Fraction bits: $1010000000$.
-    \item Final: $1\;10000\;1010000000$.
+  \item $s=1$.
+  \item $3.25_{10} = 11.01_2 = 1.101_2 \times 2^1$.
+  \item $e = 1+15 = 16 = 10000_2$.
+  \item $f = 1010000000_2$.
 \end{enumerate}
+Result: \texttt{1 10000 1010000000}.
 }
 
 \addExcr{%
-Refer to Def~\ref{def:fp-repr}.
 \begin{enumerate}
-    \item Encode the number $+5.5$ in the 16-bit format above (1 sign, 5 exponent, 10
-    fraction bits, bias $= 15$).  Show each step.
-    \item How many distinct normalized numbers can be represented with 5 exponent bits and
-    10 fraction bits (excluding special values)?
-    \textit{Hint: $2 \times (2^5 - 2) \times 2^{10}$.}
+  \item Encode $+5.5$ in 16-bit format.
+  \item How many distinct normalized numbers for 5 exp bits, 10 frac bits?
 \end{enumerate}
 }
 
-\addDef{Machine Epsilon}{%
-\textbf{Machine epsilon} $\varepsilon_{\text{mach}}$ is the difference between 1 and the
-next larger representable floating point number.  For a system with $p$ significand bits
-(including the hidden bit):
-\[
-\varepsilon_{\text{mach}} = 2^{1-p}.
-\]
-For any normalized floating point number $x$, the gap to the next representable number is
-approximately $\varepsilon_{\text{mach}} \cdot |x|$.
+\addDef{Machine Epsilon ($\varepsilon_{\text{mach}}$)}{%
+The difference between 1 and the next larger float. $\varepsilon_{\text{mach}} = 2^{1-p}$ where $p$ is significand bits.
+\begin{itemize}
+  \item Double precision: $\varepsilon_{\text{mach}} \approx 2.22 \times 10^{-16}$.
+\end{itemize}
 }
-\label{def:machine-epsilon}
-
-\addExmpl{%
-For IEEE double precision: $p = 52 + 1 = 53$ bits, so
-$\varepsilon_{\text{mach}} = 2^{-52} \approx 2.22 \times 10^{-16}$.
-In Python: \texttt{import sys; sys.float\_info.epsilon}.
-}
+\label{def:mach-eps}
 
 \addExcr{%
-Refer to Def~\ref{def:machine-epsilon}.
 \begin{enumerate}
-    \item In Python, evaluate \texttt{1.0 + 1e-16} and \texttt{1.0 + 2e-16}.
-    Explain both results using $\varepsilon_{\text{mach}}$.
-    \item Write a function \texttt{compute\_eps()} that finds machine epsilon empirically
-    (without \texttt{sys.float\_info.epsilon} or \texttt{np.finfo}).
-    \textit{Hint: start from 1.0, halve repeatedly until $1 + \varepsilon = 1$.}
+  \item Python: Compare \texttt{1.0 + 1e-16} and \texttt{1.0 + 2e-16}.
+  \item Find $\varepsilon_{\text{mach}}$ empirically via loop.
 \end{enumerate}
 }
 
-\addDef{Unit Roundoff}{%
-The \textbf{unit roundoff} is $u = \varepsilon_{\text{mach}}/2 = 2^{-p}$.
-It is the maximum relative error when rounding a real number $x$ to its nearest floating
-point representation $\text{fl}(x)$:
+\addDef{Unit Roundoff ($u$)}{%
+Max relative rounding error: $u = \varepsilon_{\text{mach}}/2 = 2^{-p}$.
 \[
-\frac{|\text{fl}(x) - x|}{|x|} \leq u.
+  \frac{|\text{fl}(x) - x|}{|x|} \leq u.
 \]
 }
 \label{def:unit-roundoff}
 
+\addThm{Fundamental Axiom}{%
+IEEE 754 guarantees $\text{fl}(a \circ b) = (a \circ b)(1 + \delta)$ for $\circ \in \{+, -, \times, \div\}$ and $|\delta| \leq u$. Individual operations are as accurate as the representation allows.
+}
+\label{thm:fp-axiom}
+
 \addNote{%
-Machine epsilon is the smallest number for which $1 + \varepsilon_{\text{mach}} > 1$ in
-floating point.  Unit roundoff is the maximum relative rounding error for any number.
-In IEEE round-to-nearest mode, $u = \varepsilon_{\text{mach}}/2$.
+\textbf{Warning:}\enspace After $n$ operations, error grows as $O(nu)$. Operation order matters because each intermediate result is rounded.
 }
 
 \addExcr{%
-Refer to Def~\ref{def:unit-roundoff}.
 \begin{enumerate}
-    \item Confirm that $(1.0 + u) - 1.0 = u$ but $(1.0 + u/2) - 1.0 = 0$ in double
-    precision.  Explain in terms of the spacing between adjacent floats near 1.
-    \item How many significant decimal digits does an IEEE double carry?
-    \textit{Hint: $u = 2^{-52} \approx 2.22 \times 10^{-16}$; compute $-\log_{10}(u)$.}
-\end{enumerate}
-}
-
-\addThm{Fundamental Theorem of Floating Point Arithmetic}{%
-For any real $x$ in the normalized range, the nearest floating point number satisfies
-\[
-    \text{fl}(x) = x(1 + \delta), \quad |\delta| \leq u.
-\]
-Furthermore, for any floating point $a, b$ and operation $\circ \in \{+,-,\times,\div\}$,
-IEEE 754 guarantees:
-\[
-    \text{fl}(a \circ b) = (a \circ b)(1 + \delta), \quad |\delta| \leq u.
-\]
-}
-\label{thm:fp-fundamental}
-
-\addPrf{%
-The real line near $x$ is partitioned into intervals each containing exactly one floating
-point number (the left endpoint).  Rounding to nearest halves the worst-case error, giving
-$|\delta| \leq u$.  For the second statement, IEEE 754 mandates that each basic operation
-is computed as if in infinite precision and then rounded, ensuring the same $|\delta| \leq u$.
-}
-
-\addNote{%
-The IEEE 754 guarantee that each individual operation incurs at most unit roundoff is the
-foundation of all backward error analyses.  After $n$ sequential operations, the accumulated
-error grows as $O(nu)$, which is acceptable for double precision when $n \ll 10^{16}$.
-}
-
-\addExcr{%
-Refer to Thm~\ref{thm:fp-fundamental}.
-\begin{enumerate}
-    \item Suppose $a = 1.0$ and $b = -0.9999999999999999$ in double precision.
-    What is $\text{fl}(a + b)$?  Is the relative error bounded by $u$?
-    \item A computation performs $10^6$ floating point additions.  Using the $O(nu)$ bound,
-    estimate the worst-case accumulated relative error in double precision.
+  \item Let $a=1, b=-0.999\dots$. Is error in $\text{fl}(a+b)$ bounded by $u$?
+  \item Estimate worst-case relative error for $10^6$ sequential additions.
 \end{enumerate}
 }
 
 \subsubsection{IEEE 754 Special Values}
 
-Beyond normalized numbers, IEEE 754 defines special bit patterns to handle results outside
-the representable range.  Each has a distinct behavior that must be understood when writing
-numerical code.
-
-\addDef{Signed Zero}{%
-Both $+0$ and $-0$ are represented and compare as equal, but behave differently in
-arithmetic: $1/(+0) = +\infty$ and $1/(-0) = -\infty$.
-}
-\label{def:signed-zero}
+\begin{itemize}
+  \item \textbf{Signed Zero:} $+0, -0$. $1/(+0) = \infty$, $1/(-0) = -\infty$.
+  \item \textbf{Subnormals:} Fill the gap between 0 and the smallest normalized number. Reduced precision, allows gradual underflow.
+  \item \textbf{Infinities:} $\pm\infty$. Result of overflow or $x/0$.
+  \item \textbf{NaN:} Not a Number ($0/0$, $\infty-\infty$). Unequal to everything, including itself.
+\end{itemize}
 
 \addExcr{%
-Refer to Def~\ref{def:signed-zero}.
 \begin{enumerate}
-    \item In Python, evaluate \texttt{1.0/0.0} and \texttt{1.0/(-0.0)}.
-    Are the results $+\infty$ and $-\infty$ respectively, or does Python raise an error?
-    \item Evaluate \texttt{(+0.0) == (-0.0)}.  What does this confirm about signed zero?
+  \item Python: \texttt{1.0/0.0} vs \texttt{1.0/-0.0}.
+  \item Result of \texttt{float('inf') - float('inf')} and \texttt{float('nan') == float('nan')}.
 \end{enumerate}
 }
 
-\addDef{Subnormal Numbers}{%
-Numbers smaller than the smallest normalized value $2^{e_{\min}}$ are represented with a
-leading zero bit, allowing \textbf{gradual underflow} at the cost of reduced precision.
-The smallest positive double-precision subnormal is $2^{-1074} \approx 4.94 \times 10^{-324}$.
-}
-\label{def:subnormal}
+\subsubsection{Arithmetic Pitfalls}
 
-\addNote{%
-Subnormal numbers fill the gap between 0 and the smallest normalized number
-($2^{-1022}$ in double precision), but with fewer significant bits.  A subnormal near
-$2^{-1073}$ has only 1 bit of precision, making its relative rounding error much larger
-than that of a normalized number.
-}
-
-\addExcr{%
-Refer to Def~\ref{def:subnormal}.
-\begin{enumerate}
-    \item What is the smallest positive subnormal number in IEEE single precision
-    (1 sign, 8 exponent, 23 fraction bits)?
-    \item In Python, evaluate \texttt{5e-324} (the smallest positive double).
-    What is \texttt{5e-324 / 2}?  Why?
-\end{enumerate}
-}
-
-\addDef{Infinities}{%
-$+\infty$ and $-\infty$ arise from overflow or division of a nonzero number by zero
-(e.g., \texttt{1.0/0.0}).  They propagate correctly through arithmetic:
-$x + \infty = \infty$ for any finite $x$, and $\infty \cdot 0 = \text{NaN}$.
-}
-\label{def:infinities}
-
-\addExcr{%
-Refer to Def~\ref{def:infinities}.
-\begin{enumerate}
-    \item In Python, evaluate \texttt{float('inf') + 1},
-    \texttt{float('inf') - float('inf')}, and \texttt{0.0 * float('inf')}.
-    Classify each result and explain using IEEE 754 rules.
-    \item Is \texttt{float('inf') > 1e308} true?  What does this imply about comparisons
-    involving infinity?
-\end{enumerate}
-}
-
-\addDef{NaN (Not a Number)}{%
-A \textbf{NaN} is produced by undefined operations: $0/0$, $\infty - \infty$, $\sqrt{-1}$.
-Any arithmetic involving a NaN returns a NaN, and \texttt{nan != nan} is \texttt{True}
-in Python (NaN is unequal to everything, including itself).
-}
-\label{def:nan}
-
-\addExcr{%
-Refer to Def~\ref{def:nan}.
-\begin{enumerate}
-    \item Explain why \texttt{float('nan') == float('nan')} returns \texttt{False}.
-    What does this imply for checking whether a computation produced a NaN?
-    \item In Python, evaluate \texttt{float('nan') > 0} and \texttt{float('nan') < 0}.
-    What are the results, and why?
-\end{enumerate}
-}
-
-\subsubsection{Floating Point Arithmetic Pitfalls}
-
-Floating point arithmetic differs from real arithmetic in several fundamental ways.
-The following properties, while counterintuitive, are direct consequences of finite
-precision and must be kept in mind when designing algorithms.
-
-\addNote{%
-\textbf{Non-Associativity.}\enspace
-$(a \oplus b) \oplus c \neq a \oplus (b \oplus c)$ in general.  Each addition rounds its
-result, and changing the order changes which intermediate values are rounded.
-}
+Finite precision breaks standard algebraic laws:
+\begin{itemize}
+  \item \textbf{Non-Associativity:} $(a+b)+c \neq a+(b+c)$.
+  \item \textbf{Non-Distributivity:} $a(b+c) \neq ab + ac$.
+  \item \textbf{Absorption:} $a+b = a$ when $|a| \gg |b|$.
+\end{itemize}
 
 \addExcr{%
 \begin{enumerate}
-    \item Using 4-significant-digit decimal arithmetic, compute
-    $(10000. + 0.001) - 10000.$ and $10000. + (0.001 - 10000.)$.
-    Which order is accurate?  Which demonstrates \emph{absorption}?
-    \item In Python, verify with \texttt{a=1e10; b=1.0; c=-1e10}: does
-    \texttt{(a+b)+c == a+(b+c)}?  Explain.
-\end{enumerate}
-}
-
-\addNote{%
-\textbf{Non-Distributivity.}\enspace
-$a \otimes (b \oplus c) \neq (a \otimes b) \oplus (a \otimes c)$ in general, because
-$b \oplus c$ is rounded before multiplication, while $a \otimes b$ and $a \otimes c$
-are rounded separately before addition.
-}
-
-\addExcr{%
-\begin{enumerate}
-    \item In Python, compute \texttt{a*(b+c)} vs \texttt{a*b + a*c} for
-    \texttt{a = 1e15}, \texttt{b = 1.0}, \texttt{c = -1.0}.
-    Explain the discrepancy using the definition above.
-    \item True or False: if \texttt{a == b} in floating point, then \texttt{a - b == 0.0}
-    always.  What about the converse?
-\end{enumerate}
-}
-
-\addNote{%
-\textbf{Absorption.}\enspace
-When $|a| \gg |b|$, the sum $\text{fl}(a + b)$ may equal $a$ exactly, because $b$ falls
-below the unit roundoff relative to $a$.  The smaller operand contributes nothing.
-}
-
-\addExcr{%
-\begin{enumerate}
-    \item In Python, evaluate \texttt{1e16 + 1.0 - 1e16}.  What do you get and why?
-    \item Give an example where absorption causes a running sum of $n$ small numbers to
-    yield zero when added to a large number, even though the true sum is nonzero.
+  \item \texttt{a=1e16, b=1}. Find \texttt{(a+b)-a} in Python. Explain result.
+  \item Find $a, b, c$ where \texttt{a*(b+c) != a*b + a*c}.
 \end{enumerate}
 }
 
 \subsection{Quantifying Approximation Error}
-
-Floating point arithmetic introduces errors at every operation.  This subsection develops
-the vocabulary and tools for measuring those errors and reasoning about how they
-propagate through a computation.  Absolute and relative error quantify the gap between
-computed and true values; catastrophic cancellation identifies a common failure mode;
-and forward and backward analysis provide complementary frameworks for bounding the
-total error in an algorithm.
+\label{sub:error-analysis}
 
 \subsubsection{Absolute and Relative Errors}
 
-Every floating point operation introduces a small rounding error.  Understanding how these
-errors arise and propagate determines whether an algorithm produces trustworthy results.
-
-\addDef{Absolute and Relative Error}{%
-When a real number $x$ is approximated by $\hat{x}$, the \textbf{absolute error} is
-$|\hat{x} - x|$, and the \textbf{relative error} is
-\[
-\varepsilon = \frac{|\hat{x} - x|}{|x|},
-\]
-so that $\hat{x} = x(1 + \varepsilon)$.
-}
-\label{def:abs-rel-error}
-
-\addExmpl{%
-Approximating $\pi \approx 3.14159\ldots$:
-\begin{center}
-\begin{tabular}{|c|c|c|}
-\hline
-Approximation & Absolute Error & Relative Error \\ \hline
-$3.14$ & $0.00159\ldots$ & $0.051\%$ \\
-$3.1$ & $0.0416\ldots$ & $1.32\%$ \\
-$3$ & $0.1416\ldots$ & $4.51\%$ \\ \hline
-\end{tabular}
-\end{center}
-Relative error is usually more meaningful: a tiny absolute error can still represent a
-large relative error when the true value is small.
-}
+\begin{itemize}
+  \item \textbf{Absolute:} $|\hat{x} - x|$.
+  \item \textbf{Relative:} $\varepsilon = \frac{|\hat{x} - x|}{|x|}$. Standard measure for precision.
+\end{itemize}
 
 \addExcr{%
-Refer to Def~\ref{def:abs-rel-error}.
 \begin{enumerate}
-    \item Approximate $\sqrt{2} \approx 1.414$.  Compute the absolute and relative errors.
-    \item For two computations with relative errors $\varepsilon_1$ and $\varepsilon_2$,
-    what is the relative error in their \emph{product}?  (\textit{Hint: use
-    $\hat{x}\hat{y} = xy(1+\varepsilon_1)(1+\varepsilon_2) \approx xy(1 + \varepsilon_1
-    + \varepsilon_2)$ for small errors.})
+  \item $\sqrt{2} \approx 1.414$. Errors?
+  \item Relative error of product $\hat{x}\hat{y}$? (Sum of individual relative errors).
 \end{enumerate}
 }
 
 \addDef{Catastrophic Cancellation}{%
-\textbf{Catastrophic cancellation} occurs when subtracting two nearly equal numbers.
-If $\hat{x} = x(1+\varepsilon_x)$ and $\hat{y} = y(1+\varepsilon_y)$ with $x \approx y > 0$,
-the relative error in $\hat{x} - \hat{y}$ is
-\[
-\frac{(\hat{x}-\hat{y})-(x-y)}{x-y} = \frac{x\varepsilon_x - y\varepsilon_y}{x - y},
-\]
-which is unbounded as $x \to y^+$ --- a total loss of significant digits.
+Subtraction of nearly equal numbers leads to total loss of significant digits.
+\begin{itemize}
+  \item Relative error $\leq u \cdot \frac{x+y}{x-y}$.
+  \item Amplification factor $\to \infty$ as $x \to y$.
+\end{itemize}
 }
 \label{def:cancellation}
 
-\addThm{Cancellation Error Bound}{%
-Let $\hat{x} = x(1+\varepsilon_x)$, $\hat{y} = y(1+\varepsilon_y)$ with
-$|\varepsilon_x|, |\varepsilon_y| \leq u$ and $x > y > 0$.  Then
-\[
-    \left|\frac{(\hat{x}-\hat{y})-(x-y)}{x-y}\right| \leq u\cdot\frac{x+y}{x-y}.
-\]
-The amplification factor $(x+y)/(x-y) \to \infty$ as $x \to y^+$.
-}
-\label{thm:cancellation-bound}
-
-\addPrf{%
-The error is $x\varepsilon_x - y\varepsilon_y$.  Taking absolute value and dividing by
-$x-y$:
-\[
-    \frac{|x\varepsilon_x - y\varepsilon_y|}{x-y}
-    \leq \frac{x|\varepsilon_x| + y|\varepsilon_y|}{x-y}
-    \leq u\cdot\frac{x+y}{x-y}.
-\]
+\addNote{%
+\textbf{Rule:}\enspace Rounding error is inevitable. Cancellation is algorithmic and can often be eliminated via mathematical reformulation.
 }
 
 \addExmpl{%
-Computing $f(x) = \sqrt{x+1} - \sqrt{x}$ for $x = 10^8$ in double precision:
-$\sqrt{10^8+1} \approx 10000.00000005$ and $\sqrt{10^8} = 10000$, so direct subtraction
-gives approximately $0$ due to cancellation.  Rationalizing avoids this:
-\[
-f(x) = \frac{1}{\sqrt{x+1}+\sqrt{x}} \approx \frac{1}{20000} = 5\times 10^{-5}.
-\]
-Mathematical reformulation eliminates the cancellation without increasing cost.
+\textbf{Stabilizing Cancellation.}\enspace $f(x) = \sqrt{x+1} - \sqrt{x}$ for $x = 10^8$.
+\begin{itemize}
+  \item \textbf{Direct:} $10000.00000005 - 10000 \approx 0$ (Catastrophic).
+  \item \textbf{Stable:} $\frac{1}{\sqrt{x+1} + \sqrt{x}} \approx 5 \times 10^{-5}$.
+\end{itemize}
 }
 
 \addExcr{%
-\textbf{(Cancellation and Reformulation)}
-Refer to Def~\ref{def:cancellation} and Thm~\ref{thm:cancellation-bound}.
-For each expression, identify whether catastrophic cancellation can occur and derive a
-stable equivalent form.
+Stabilize:
 \begin{enumerate}
-    \item $\dfrac{1-\cos x}{x^2}$ for small $x$.
-    \textit{Hint: use $1-\cos x = 2\sin^2(x/2)$.}
-    \item $\sqrt{x+1} - \sqrt{x}$ for large $x$ (rationalize the numerator).
-    \item The smaller root of $x^2 - 10^8 x + 1 = 0$ via the quadratic formula.
-    What goes wrong and how do you fix it?
-    \item $e^x - 1$ for small $x$.  Why does NumPy provide \texttt{np.expm1(x)}?
-    Verify numerically that \texttt{np.expm1(1e-15)} is more accurate than
-    \texttt{np.exp(1e-15) - 1}.
+  \item $(1-\cos x)/x^2$ for small $x$.
+  \item Smaller root of $x^2 - 10^8 x + 1 = 0$ via quadratic formula.
+  \item $e^x - 1$ for small $x$ (Why use \texttt{np.expm1}?).
 \end{enumerate}
 }
 
-\subsubsection{Forward and Backward Error Analysis}
+\subsubsection{Error Analysis Frameworks}
 
-Error analysis is the systematic study of how errors enter and propagate through a
-computation.  Forward and backward analysis are complementary frameworks; condition number
-analysis measures the inherent difficulty of the problem itself, independent of the
-algorithm.
+\begin{itemize}
+  \item \textbf{Forward:} Tracks error from inputs to outputs. Pessimistic.
+  \item \textbf{Backward:} Asks: ``What input perturbation would make the computed result exact?''
+  \item \textbf{Backward Stability:} Algorithm solves a nearby problem exactly (Backward Error is $O(u)$).
+\end{itemize}
 
-\addDef{Forward Error Analysis}{%
-\textbf{Forward error analysis} tracks how input errors and per-operation rounding errors
-propagate \emph{forward} through the algorithm to bound the output error.
-Straightforward but can produce pessimistic overestimates.
+\addDef{Condition Number ($\kappa$)}{%
+Inherent sensitivity of the problem. $\text{Forward Error} \leq \kappa \cdot \text{Backward Error}$.
 }
-\label{def:forward-error}
+\label{def:cond-num-intro}
 
 \addExcr{%
-Refer to Def~\ref{def:forward-error}.
 \begin{enumerate}
-    \item For the computation $\hat{z} = \text{fl}(\text{fl}(a+b) + c)$ with
-    $a,b,c$ exact, use the model $\text{fl}(x \circ y) = (x \circ y)(1+\delta)$,
-    $|\delta| \leq u$, to derive a forward error bound on $|\hat{z} - (a+b+c)|$.
+  \item $\kappa(A) = 10^8, \text{Backward Error} = 10^{-15}$. Max forward error?
+  \item Prove BE for linear systems: $(\bA + \bE)\hat{\bx} = \bb$ for $\bE = -\br\hat{\bx}^T/\|\hat{\bx}\|^2$.
 \end{enumerate}
-}
-
-\addDef{Backward Error Analysis}{%
-\textbf{Backward error analysis} asks: what is the smallest perturbation to the input
-that would make the computed output exact?  If this backward error is $O(u\|\bA\|)$, the
-algorithm solved a nearby problem exactly --- the best one can hope for in finite precision.
-}
-\label{def:backward-error}
-
-\addExcr{%
-Refer to Def~\ref{def:backward-error}.
-\begin{enumerate}
-    \item For solving $\bA\bx = \bb$, explain the difference between the forward error
-    $\|\hat{\bx} - \bx\|/\|\bx\|$ and the backward error
-    $\|\bb - \bA\hat{\bx}\|/(\|\bA\|\|\hat{\bx}\|)$.
-    Which is easier to compute after the fact, and why?
-    \item Why is backward error analysis generally preferred over forward error analysis
-    for evaluating numerical algorithms?
-\end{enumerate}
-}
-
-\addDef{Interval Arithmetic}{%
-In \textbf{interval arithmetic}, each number is replaced by an enclosing interval $[a,b]$,
-and every operation maps intervals to intervals in a way that always contains the true
-result.  This produces certified error bounds but can suffer from interval explosion for
-long computations.
-}
-\label{def:interval-arith}
-
-\addExcr{%
-Refer to Def~\ref{def:interval-arith}.
-\begin{enumerate}
-    \item Compute $[1.0, 1.1] + [2.0, 2.5]$ and $[1.0, 1.1] \times [2.0, 2.5]$ using
-    interval arithmetic rules.  Verify the result contains the true values $1.05 + 2.25$
-    and $1.05 \times 2.25$.
-\end{enumerate}
-}
-
-\addDef{Condition Number Analysis}{%
-The \textbf{condition number} of a problem measures its intrinsic sensitivity to small
-perturbations in the input, independently of the algorithm.  A problem with condition
-number $\kappa$ can lose up to $\log_{10}\kappa$ digits of accuracy even with a perfect
-algorithm.  An algorithm is \textbf{backward stable} if its backward error is $O(u)$.
-}
-\label{def:condition-number-analysis}
-
-\addExcr{%
-Refer to Def~\ref{def:condition-number-analysis}.
-\begin{enumerate}
-    \item An algorithm has backward error $10^{-15}$ applied to a problem with condition
-    number $\kappa(\bA) = 10^{8}$.  What is the worst-case forward error?
-    Is this acceptable for double-precision computation?
-    \item In Python, construct an ill-conditioned matrix using
-    \texttt{np.diag([1, 1e-10])}, solve with \texttt{np.linalg.solve}, and compare
-    \texttt{np.linalg.cond(A)} with the observed forward error.
-\end{enumerate}
-}
-
-\addExcr{%
-In this exercise, we will prove the backward error formula for linear systems.
-Refer to Def~\ref{def:backward-error} and Thm~\ref{thm:fp-fundamental}.
-
-Let $\hat{\bx}$ be the computed solution to $\bA\bx = \bb$ obtained by LU with partial
-pivoting.  Define the residual $\br = \bb - \bA\hat{\bx}$.
-\begin{enumerate}
-    \item Define $\bE = -\br\hat{\bx}^T/\|\hat{\bx}\|^2$.  Show by direct substitution
-    that $(\bA + \bE)\hat{\bx} = \bb$, confirming $\hat{\bx}$ is the exact solution to
-    a nearby system.
-    \item Show that the relative backward error satisfies
-    $\|\bE\|_2/\|\bA\|_2 = \|\br\|_2/(\|\bA\|_2\|\hat{\bx}\|_2)$.
-    (\textit{Hint: for a rank-1 matrix, $\|\br\bv^T\|_2 = \|\br\|_2\|\bv\|_2$.})
-    \item For a well-conditioned system, a small backward error implies a small forward
-    error.  Write the bound
-    \[
-        \frac{\|\hat{\bx}-\bx\|_2}{\|\bx\|_2}
-        \leq \kappa(\bA)\cdot\frac{\|\bE\|_2}{\|\bA\|_2},
-    \]
-    where $\kappa(\bA) = \|\bA\|_2\|\bA^{-1}\|_2$.  If $\kappa(\bA) = 10^{10}$ and the
-    backward error is $10^{-16}$, what is the worst-case forward error?
-    \item In Python, construct an ill-conditioned matrix using \texttt{np.diag([1, 1e-10])},
-    solve with \texttt{np.linalg.solve}, and compare \texttt{np.linalg.cond(A)} with the
-    observed forward error.
-\end{enumerate}
-}
-
-\textBox{%
-Floating point arithmetic is not real arithmetic.  Its inherent limitations shape the
-design of every numerical algorithm.  By understanding representation, error propagation,
-and special cases, we can build algorithms that produce reliable results.  Mathematical
-reformulations, careful ordering of operations, and backward error analysis are often more
-effective than simply increasing precision.
 }
 
 \end{document}

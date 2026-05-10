@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../orthogonality/orthogonal.html">Orthogonality and Least Squares</a></li><li class="breadcrumb-item"><a href="../orthogonality/norms.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Vector and Matrix Norms</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -699,9 +690,9 @@ window.Quarto = {
 </header>
 
 
+<p>Foundations for measuring approximation errors and convergence.</p>
 <section id="vector-norms" class="level2" data-number="13.1">
 <h2 data-number="13.1" class="anchored" data-anchor-id="vector-norms"><span class="header-section-number">13.1</span> Vector Norms</h2>
-<p>Before defining norms on matrices, we establish the vector norm foundations on which they rest. A vector norm assigns a non-negative scalar ``length’’ to every vector, and the key families each capture a different geometric intuition.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -712,11 +703,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A function <span class="math inline">\(\|\cdot\| : \fR^n \to \fR\)</span> is a <em>vector norm</em> if for all <span class="math inline">\(\bx, \by \in \fR^n\)</span> and <span class="math inline">\(c \in \fR\)</span>:</p>
+<p><span class="math inline">\(\|\cdot\| : \fR^n \to \fR\)</span> satisfies:</p>
 <ol type="1">
-<li><p><span class="math inline">\(\|\bx\| \geq 0\)</span> and <span class="math inline">\(\|\bx\| = 0 \Leftrightarrow \bx = \bzero\)</span> (positive definiteness)</p></li>
-<li><p><span class="math inline">\(\|c\bx\| = |c|\|\bx\|\)</span> (absolute homogeneity)</p></li>
-<li><p><span class="math inline">\(\|\bx + \by\| \leq \|\bx\| + \|\by\|\)</span> (triangle inequality)</p></li>
+<li><p><strong>Definiteness:</strong> <span class="math inline">\(\|\bx\| \geq 0\)</span>, with equality iff <span class="math inline">\(\bx = \bzero\)</span>.</p></li>
+<li><p><strong>Homogeneity:</strong> <span class="math inline">\(\|c\bx\| = |c|\|\bx\|\)</span>.</p></li>
+<li><p><strong>Triangle Inequality:</strong> <span class="math inline">\(\|\bx + \by\| \leq \|\bx\| + \|\by\|\)</span>.</p></li>
 </ol>
 </div>
 </div>
@@ -730,11 +721,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(\bx \in \fR^n\)</span> and <span class="math inline">\(p \geq 1\)</span>, the <em><span class="math inline">\(\ell^p\)</span> norm</em> is <span class="math display">\[\|\bx\|_p = \left(\sum_{i=1}^n |x_i|^p\right)^{1/p}.\]</span> The three most common cases are:</p>
+<p><span class="math inline">\(\|\bx\|_p = (\sum |x_i|^p)^{1/p}\)</span>.</p>
 <ul>
-<li><p><span class="math inline">\(\|\bx\|_1 = \sum_{i=1}^n |x_i|\)</span> (<em>Manhattan norm</em> — sum of absolute values)</p></li>
-<li><p><span class="math inline">\(\|\bx\|_2 = \sqrt{\sum_{i=1}^n x_i^2} = \sqrt{\bx^T\bx}\)</span> (<em>Euclidean norm</em>)</p></li>
-<li><p><span class="math inline">\(\|\bx\|_\infty = \max_{1\leq i\leq n}|x_i|\)</span> (<em>max norm</em> — limit as <span class="math inline">\(p \to \infty\)</span>)</p></li>
+<li><p><strong><span class="math inline">\(\ell_1\)</span>:</strong> <span class="math inline">\(\sum |x_i|\)</span> (Sparsity).</p></li>
+<li><p><strong><span class="math inline">\(\ell_2\)</span>:</strong> <span class="math inline">\(\sqrt{\bx^T\bx}\)</span> (Energy).</p></li>
+<li><p><strong><span class="math inline">\(\ell_\infty\)</span>:</strong> <span class="math inline">\(\max |x_i|\)</span> (Tolerance).</p></li>
 </ul>
 </div>
 </div>
@@ -744,115 +735,14 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Cauchy-Schwarz Inequality
+<span class="screen-reader-only">Note</span>Theorem: Fundamental Inequalities
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For any <span class="math inline">\(\bx, \by \in \fR^n\)</span>: <span class="math display">\[|\bx^T\by| \leq \|\bx\|_2\,\|\by\|_2,\]</span> with equality if and only if <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span> are linearly dependent.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>If either vector is zero the inequality holds trivially. Otherwise, for any <span class="math inline">\(t \in \fR\)</span>: <span class="math display">\[0 \leq \|\bx - t\by\|_2^2 = \|\bx\|_2^2 - 2t\,\bx^T\by + t^2\|\by\|_2^2.\]</span> This is a quadratic in <span class="math inline">\(t\)</span> that is always non-negative, so its discriminant must satisfy <span class="math inline">\(4(\bx^T\by)^2 - 4\|\bx\|_2^2\|\by\|_2^2 \leq 0\)</span>, giving <span class="math inline">\(|\bx^T\by| \leq \|\bx\|_2\|\by\|_2\)</span>. Equality holds iff <span class="math inline">\(\bx = t\by\)</span> for the optimal <span class="math inline">\(t = \bx^T\by/\|\by\|_2^2\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Lemma: Young’s Inequality
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(a, b \geq 0\)</span> and conjugate exponents <span class="math inline">\(p, q \geq 1\)</span> with <span class="math inline">\(\frac{1}{p}+\frac{1}{q}=1\)</span>, <span class="math display">\[ab \leq \frac{a^p}{p} + \frac{b^q}{q}.\]</span> Equality holds if and only if <span class="math inline">\(a^p = b^q\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(a = 0\)</span> or <span class="math inline">\(b = 0\)</span> the inequality is immediate. Otherwise, the function <span class="math inline">\(f(t) = t/p - t^{1/p}/p + 1/q\)</span> satisfies <span class="math inline">\(f(1) = 0\)</span> and <span class="math inline">\(f'(t) = (1 - t^{1/p-1})/p\)</span>, so <span class="math inline">\(f\)</span> has a global minimum at <span class="math inline">\(t = 1\)</span> with <span class="math inline">\(f \geq 0\)</span>. Setting <span class="math inline">\(t = a^p/b^q\)</span> and multiplying through by <span class="math inline">\(b^q\)</span> gives the result.</p>
-<p>Alternatively: the weighted AM-GM inequality <span class="math inline">\(\alpha u + \beta v \geq u^\alpha v^\beta\)</span> (for <span class="math inline">\(\alpha + \beta = 1\)</span>, <span class="math inline">\(u,v &gt; 0\)</span>) applied with <span class="math inline">\(\alpha = 1/p\)</span>, <span class="math inline">\(\beta = 1/q\)</span>, <span class="math inline">\(u = a^p\)</span>, <span class="math inline">\(v = b^q\)</span> gives <span class="math inline">\(a^p/p + b^q/q \geq (a^p)^{1/p}(b^q)^{1/q} = ab\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Hölder’s Inequality
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(p, q \geq 1\)</span> with <span class="math inline">\(\frac{1}{p} + \frac{1}{q} = 1\)</span> (conjugate exponents), and any <span class="math inline">\(\bx, \by \in \fR^n\)</span>: <span class="math display">\[|\bx^T\by| \leq \|\bx\|_p\,\|\by\|_q.\]</span> Cauchy-Schwarz is the special case <span class="math inline">\(p = q = 2\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\bx = \bzero\)</span> or <span class="math inline">\(\by = \bzero\)</span> the result is immediate. Otherwise, set <span class="math inline">\(a_i = |x_i|/\|\bx\|_p\)</span> and <span class="math inline">\(b_i = |y_i|/\|\by\|_q\)</span>. By Young’s inequality applied to each <span class="math inline">\(i\)</span>: <span class="math display">\[a_i b_i \leq \frac{a_i^p}{p} + \frac{b_i^q}{q}.\]</span> Summing over <span class="math inline">\(i\)</span> and using <span class="math inline">\(\sum a_i^p = 1\)</span>, <span class="math inline">\(\sum b_i^q = 1\)</span> gives <span class="math inline">\(\sum a_i b_i \leq 1/p + 1/q = 1\)</span>. Multiplying by <span class="math inline">\(\|\bx\|_p\|\by\|_q\)</span> yields <span class="math inline">\(|\bx^T\by| \leq \sum|x_i||y_i| \leq \|\bx\|_p\|\by\|_q\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Equivalence of Vector Norms
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>All norms on <span class="math inline">\(\fR^n\)</span> are equivalent: for any two norms <span class="math inline">\(\|\cdot\|_\alpha\)</span> and <span class="math inline">\(\|\cdot\|_\beta\)</span>, there exist constants <span class="math inline">\(c_1, c_2 &gt; 0\)</span> such that <span class="math display">\[c_1\|\bx\|_\beta \leq \|\bx\|_\alpha \leq c_2\|\bx\|_\beta \quad \text{for all } \bx \in \fR^n.\]</span> In particular, for <span class="math inline">\(\bx \in \fR^n\)</span>: <span class="math display">\[\|\bx\|_2 \leq \|\bx\|_1 \leq \sqrt{n}\,\|\bx\|_2, \qquad \|\bx\|_\infty \leq \|\bx\|_2 \leq \sqrt{n}\,\|\bx\|_\infty.\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Existence of <span class="math inline">\(c_1, c_2\)</span> follows from the compactness of the unit sphere <span class="math inline">\(\{\bx : \|\bx\|_\beta = 1\}\)</span> in <span class="math inline">\(\fR^n\)</span>: any norm is a continuous function, so it attains its bounds on a compact set. The explicit inequalities follow from Cauchy-Schwarz: <span class="math inline">\(\|\bx\|_1 = \sum|x_i| \cdot 1 \leq \|\bx\|_2\|\mathbf{1}\|_2 = \sqrt{n}\|\bx\|_2\)</span>, and <span class="math inline">\(\|\bx\|_2^2 = \sum x_i^2 \leq \|\bx\|_\infty \sum |x_i| = \|\bx\|_\infty\|\bx\|_1 \leq n\|\bx\|_\infty^2\)</span>.</p>
-</div>
+<ul>
+<li><p><strong>Cauchy-Schwarz:</strong> <span class="math inline">\(|\bx^T\by| \leq \|\bx\|_2 \|\by\|_2\)</span>.</p></li>
+<li><p><strong>Hölder:</strong> <span class="math inline">\(|\bx^T\by| \leq \|\bx\|_p \|\by\|_q\)</span> where <span class="math inline">\(1/p + 1/q = 1\)</span>.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -865,7 +755,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Norm equivalence means convergence in one norm implies convergence in all norms. In practice, the choice of norm affects constants but not qualitative behavior. The <span class="math inline">\(\ell^2\)</span> norm is preferred for geometric intuition; the <span class="math inline">\(\ell^\infty\)</span> norm is often used in error analysis; the <span class="math inline">\(\ell^1\)</span> norm appears in sparse recovery and optimization.</p>
+<p><strong>Equivalence:</strong> On <span class="math inline">\(\fR^n\)</span>, all norms are equivalent: <span class="math inline">\(c_1 \|\bx\|_\beta \leq \|\bx\|_\alpha \leq c_2 \|\bx\|_\beta\)</span>. Convergence in one implies convergence in all.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -879,30 +769,15 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>For <span class="math inline">\(\bx = (3, -4, 0)^T\)</span>, compute <span class="math inline">\(\|\bx\|_1\)</span>, <span class="math inline">\(\|\bx\|_2\)</span>, <span class="math inline">\(\|\bx\|_\infty\)</span>. Verify all three equivalence inequalities hold.</p></li>
-<li><p>Prove the triangle inequality for <span class="math inline">\(\|\cdot\|_2\)</span> using Cauchy-Schwarz: expand <span class="math inline">\(\|\bx+\by\|_2^2 = (\bx+\by)^T(\bx+\by)\)</span>.</p></li>
-<li><p>In NumPy, <code>np.linalg.norm(x, ord=p)</code> computes <span class="math inline">\(\ell^p\)</span> norms. For a random <span class="math inline">\(\bx \in \fR^{10}\)</span>, verify numerically that <span class="math inline">\(\|\bx\|_\infty \leq \|\bx\|_2 \leq \sqrt{10}\|\bx\|_\infty\)</span>.</p></li>
-<li><p>Show that <span class="math inline">\(\|\bx\|_\infty = \lim_{p\to\infty}\|\bx\|_p\)</span>. (<em>Hint: factor out the maximum entry.</em>)</p></li>
+<li><p>Prove the triangle inequality for <span class="math inline">\(\|\cdot\|_2\)</span> using Cauchy-Schwarz.</p></li>
+<li><p>Show that <span class="math inline">\(\|\bx\|_\infty = \lim_{p\to\infty} \|\bx\|_p\)</span>.</p></li>
 </ol>
 </div>
 </div>
 </section>
 <section id="matrix-norms" class="level2" data-number="13.2">
 <h2 data-number="13.2" class="anchored" data-anchor-id="matrix-norms"><span class="header-section-number">13.2</span> Matrix Norms</h2>
-<p>Matrix norms assign a scalar ``size’’ to a matrix. They are fundamental in numerical analysis: they measure approximation errors in low-rank truncation, bound how much a matrix amplifies vectors, and define the condition number. Every norm inequality we use in convergence analysis ultimately rests on a handful of key theorems proved here.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Matrix Norm
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A function <span class="math inline">\(\|\cdot\| : \fR^{m\times n} \to \fR\)</span> is a <em>matrix norm</em> if for all <span class="math inline">\(\bA, \bB \in \fR^{m\times n}\)</span> and all <span class="math inline">\(c \in \fR\)</span>: (i)~<span class="math inline">\(\|\bA\| \geq 0\)</span> and <span class="math inline">\(\|\bA\|=0 \Leftrightarrow \bA = \mathbf{0}\)</span> (non-negativity and definiteness); (ii)~<span class="math inline">\(\|c\bA\| = |c|\|\bA\|\)</span> (absolute homogeneity); (iii)~<span class="math inline">\(\|\bA+\bB\| \leq \|\bA\| + \|\bB\|\)</span> (triangle inequality). A square-matrix norm is additionally <em>submultiplicative</em> if <span class="math inline">\(\|\bA\bB\| \leq \|\bA\|\|\bB\|\)</span>.</p>
-</div>
-</div>
+<p>Measure how much a matrix amplifies vectors.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -913,104 +788,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Given vector norms <span class="math inline">\(\|\cdot\|_u\)</span> on <span class="math inline">\(\fR^m\)</span> and <span class="math inline">\(\|\cdot\|_v\)</span> on <span class="math inline">\(\fR^n\)</span>, the <em>induced</em> (or <em>operator</em>) norm of <span class="math inline">\(\bA \in \fR^{m\times n}\)</span> is <span class="math display">\[\|\bA\|_{u,v} = \max_{\bx \neq \bzero} \frac{\|\bA\bx\|_u}{\|\bx\|_v} = \max_{\|\bx\|_v=1}\|\bA\bx\|_u.\]</span> It measures the maximum stretching factor applied by <span class="math inline">\(\bA\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Induced Norms are Submultiplicative
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Every induced norm satisfies <span class="math inline">\(\|\bA\bB\| \leq \|\bA\|\|\bB\|\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>For any <span class="math inline">\(\bx \neq \bzero\)</span>, <span class="math display">\[\|\bA\bB\bx\| \leq \|\bA\|\,\|\bB\bx\| \leq \|\bA\|\,\|\bB\|\,\|\bx\|.\]</span> Dividing by <span class="math inline">\(\|\bx\|\)</span> and taking the supremum over all <span class="math inline">\(\bx \neq \bzero\)</span> gives <span class="math inline">\(\|\bA\bB\| \leq \|\bA\|\|\bB\|\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: <span class="math inline">\(L_1\)</span> Norm (Maximum Absolute Column Sum)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The matrix <span class="math inline">\(L_1\)</span> norm, induced by the vector <span class="math inline">\(\ell^1\)</span> norm, is <span class="math display">\[\|\bA\|_1 = \max_{1 \leq j \leq n} \sum_{i=1}^m |a_{ij}|.\]</span> It equals the maximum absolute column sum of <span class="math inline">\(\bA\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: <span class="math inline">\(L_\infty\)</span>-Norm (Maximum Absolute Row Sum)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The matrix <span class="math inline">\(L_\infty\)</span> norm, induced by the vector <span class="math inline">\(\ell^\infty\)</span> norm, is <span class="math display">\[\|\bA\|_\infty = \max_{1 \leq i \leq m} \sum_{j=1}^n |a_{ij}|.\]</span> It equals the maximum absolute row sum of <span class="math inline">\(\bA\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Spectral Norm
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The matrix <span class="math inline">\(L_2\)</span> norm (spectral norm), induced by the vector <span class="math inline">\(\ell^2\)</span> norm, is <span class="math display">\[\|\bA\|_2 = \sigma_{\max}(\bA) = \sqrt{\lambda_{\max}(\bA^T\bA)}.\]</span> It equals the largest singular value and measures the maximum Euclidean stretching factor of <span class="math inline">\(\bA\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Spectral Norm via Singular Values
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(\|\bA\|_2 = \sigma_{\max}(\bA)\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-21" class="callout-21-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Write the SVD as <span class="math inline">\(\bA = \bU\bsigma\bV^T\)</span>. For <span class="math inline">\(\|\bx\|_2 = 1\)</span>, let <span class="math inline">\(\by = \bV^T\bx\)</span> (which also satisfies <span class="math inline">\(\|\by\|_2 = 1\)</span>, since <span class="math inline">\(\bV\)</span> is orthogonal). Then <span class="math display">\[\|\bA\bx\|_2 = \|\bU\bsigma\bV^T\bx\|_2 = \|\bsigma\by\|_2 \leq \sigma_1\|\by\|_2 = \sigma_1,\]</span> with equality when <span class="math inline">\(\by = \mathbf{e}_1\)</span>, i.e., <span class="math inline">\(\bx = \bv_1\)</span> (the first right singular vector). Hence <span class="math inline">\(\|\bA\|_2 = \sigma_1 = \sigma_{\max}(\bA)\)</span>.</p>
-</div>
+<p><span class="math inline">\(\|\bA\| = \max_{\bx \neq \bzero} \frac{\|\bA\bx\|}{\|\bx\|}\)</span>.</p>
+<ul>
+<li><p><strong><span class="math inline">\(\|\bA\|_1\)</span>:</strong> Max absolute column sum.</p></li>
+<li><p><strong><span class="math inline">\(\|\bA\|_\infty\)</span>:</strong> Max absolute row sum.</p></li>
+<li><p><strong><span class="math inline">\(\|\bA\|_2\)</span> (Spectral):</strong> <span class="math inline">\(\sigma_{\max}(\bA) = \sqrt{\lambda_{\max}(\bA^T\bA)}\)</span>.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -1023,153 +806,23 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>Frobenius norm</em> treats <span class="math inline">\(\bA\)</span> as a vector in <span class="math inline">\(\fR^{mn}\)</span>: <span class="math display">\[\|\bA\|_F = \sqrt{\sum_{i=1}^m \sum_{j=1}^n a_{ij}^2}.\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Frobenius Norm via Trace and Singular Values
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(\|\bA\|_F = \sqrt{\mathrm{Tr}(\bA^T\bA)} = \sqrt{\mathrm{Tr}(\bA\bA^T)} = \sqrt{\sum_{k} \sigma_k^2}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-24" class="callout-24-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>By definition, <span class="math inline">\(\|\bA\|_F^2 = \sum_{i,j} a_{ij}^2 = \sum_j (\bA^T\bA)_{jj} = \mathrm{Tr}(\bA^T\bA)\)</span>. The matrix <span class="math inline">\(\bA^T\bA\)</span> is symmetric positive semidefinite with eigenvalues <span class="math inline">\(\sigma_1^2 \geq \cdots \geq \sigma_n^2 \geq 0\)</span> (the squared singular values of <span class="math inline">\(\bA\)</span>), so <span class="math inline">\(\mathrm{Tr}(\bA^T\bA) = \sum_k \sigma_k^2\)</span>. The identity <span class="math inline">\(\mathrm{Tr}(\bA^T\bA) = \mathrm{Tr}(\bA\bA^T)\)</span> follows since both equal <span class="math inline">\(\sum_{i,j} a_{ij}^2\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The Frobenius norm is submultiplicative and is consistent with the vector <span class="math inline">\(\ell^2\)</span> norm: <span class="math inline">\(\|\bA\bx\|_2 \leq \|\bA\|_F\|\bx\|_2\)</span>. It is <em>not</em> induced by any vector norm, but satisfies <span class="math inline">\(\|\bA\|_2 \leq \|\bA\|_F \leq \sqrt{r}\,\|\bA\|_2\)</span> where <span class="math inline">\(r = \mathrm{rank}(\bA)\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Max Norm
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>max norm</em> is <span class="math inline">\(\|\bA\|_{\max} = \max_{i,j}|a_{ij}|\)</span>. It is a valid matrix norm but is <em>not</em> submultiplicative in general (<span class="math inline">\(\|\bA\bB\|_{\max}\)</span> can exceed <span class="math inline">\(\|\bA\|_{\max}\|\bB\|_{\max}\)</span>) and is not an induced norm.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Norm Equivalence in Finite Dimensions
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>All matrix norms on <span class="math inline">\(\fR^{m\times n}\)</span> are equivalent: for any two norms <span class="math inline">\(\|\cdot\|_\alpha\)</span> and <span class="math inline">\(\|\cdot\|_\beta\)</span>, there exist constants <span class="math inline">\(c_1, c_2 &gt; 0\)</span> such that <span class="math inline">\(c_1\|\bA\|_\beta \leq \|\bA\|_\alpha \leq c_2\|\bA\|_\beta\)</span> for all <span class="math inline">\(\bA\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-28-contents" aria-controls="callout-28" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-28" class="callout-28-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Since <span class="math inline">\(\fR^{m\times n}\)</span> is a finite-dimensional vector space (of dimension <span class="math inline">\(mn\)</span>), any norm on it is equivalent to the standard Euclidean norm on <span class="math inline">\(\fR^{mn}\)</span> (which equals the Frobenius norm). Specifically, the unit ball of any norm is compact, so the continuous function <span class="math inline">\(\bA \mapsto \|\bA\|_\alpha / \|\bA\|_\beta\)</span> attains its supremum and infimum on the unit sphere <span class="math inline">\(\{\bA : \|\bA\|_\beta = 1\}\)</span>, yielding the constants <span class="math inline">\(c_1\)</span> and <span class="math inline">\(c_2\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proposition: Consistency with Vector Norms
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>An induced norm <span class="math inline">\(\|\bA\|\)</span> satisfies <span class="math inline">\(\|\bA\bx\|_v \leq \|\bA\|\|\bx\|_v\)</span> for all <span class="math inline">\(\bx\)</span> by definition. The Frobenius norm also satisfies <span class="math inline">\(\|\bA\bx\|_2 \leq \|\bA\|_F\|\bx\|_2\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-30" class="callout-30-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>For the Frobenius norm, use Cauchy-Schwarz: <span class="math inline">\((\bA\bx)_i = \sum_j a_{ij}x_j\)</span>, so <span class="math inline">\(|(\bA\bx)_i|^2 \leq \sum_j a_{ij}^2 \cdot \|\bx\|_2^2\)</span>. Summing over <span class="math inline">\(i\)</span> gives <span class="math inline">\(\|\bA\bx\|_2^2 \leq \|\bA\|_F^2\|\bx\|_2^2\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Matrix norms appear in the condition number <span class="math inline">\(\kappa(\bA) = \|\bA\|\|\bA^{-1}\|\)</span>. For the 2-norm this gives <span class="math inline">\(\kappa_2(\bA) = \sigma_{\max}/\sigma_{\min}\)</span>. For the Frobenius norm, <span class="math inline">\(\|\bA\|_F\)</span> prominently features in the Eckart-Young-Mirsky theorem for optimal low-rank approximation.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA = \begin{pmatrix} 1 &amp; -2 \\ -3 &amp; 4 \end{pmatrix}\)</span>.</p>
+<p><span class="math inline">\(\|\bA\|_F = \sqrt{\sum a_{ij}^2} = \sqrt{\text{Tr}(\bA^T\bA)}\)</span>.</p>
 <ul>
-<li><p><span class="math inline">\(\|\bA\|_1 = \max(1+3,\, 2+4) = 6\)</span> (maximum column sum).</p></li>
-<li><p><span class="math inline">\(\|\bA\|_\infty = \max(1+2,\, 3+4) = 7\)</span> (maximum row sum).</p></li>
-<li><p><span class="math inline">\(\|\bA\|_F = \sqrt{1+4+9+16} = \sqrt{30} \approx 5.48\)</span>.</p></li>
-<li><p><span class="math inline">\(\|\bA\|_2 = \sigma_{\max}\)</span>: eigenvalues of <span class="math inline">\(\bA^T\bA\)</span> satisfy <span class="math inline">\(\lambda^2 - 30\lambda + 4 = 0\)</span>, giving <span class="math inline">\(\lambda_{\max} = 15 + \sqrt{221}\)</span>, so <span class="math inline">\(\|\bA\|_2 \approx 5.46\)</span>.</p></li>
+<li><strong>Relation:</strong> <span class="math inline">\(\|\bA\|_2 \leq \|\bA\|_F \leq \sqrt{\text{rank}(\bA)} \|\bA\|_2\)</span>.</li>
 </ul>
-<p>Note <span class="math inline">\(\|\bA\|_2 \leq \|\bA\|_F\)</span> as guaranteed by the theorem.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Consistency and Submultiplicativity:</strong> Matrix norms are useful when they satisfy <span class="math inline">\(\|\bA\bx\| \leq \|\bA\|\|\bx\|\)</span>. All induced norms are additionally submultiplicative: <span class="math inline">\(\|\bA\bB\| \leq \|\bA\|\|\bB\|\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -1183,23 +836,10 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Prove that <span class="math inline">\(\|\bA\|_2 \leq \|\bA\|_F \leq \sqrt{r}\,\|\bA\|_2\)</span> where <span class="math inline">\(r = \mathrm{rank}(\bA)\)</span>. <em>Hint: use the singular value representation of both norms.</em></p></li>
-<li><p>For <span class="math inline">\(n\times n\)</span> matrices, prove <span class="math inline">\(\|\bA\|_2 \leq \sqrt{n}\|\bA\|_\infty\)</span> and <span class="math inline">\(\|\bA\|_\infty \leq \sqrt{n}\|\bA\|_2\)</span>.</p></li>
-<li><p>Using NumPy, verify these inequalities for 1000 random <span class="math inline">\(5\times 5\)</span> matrices drawn from <code>np.random.randn</code>. Plot histograms of the ratios <span class="math inline">\(\|\bA\|_F/\|\bA\|_2\)</span> and <span class="math inline">\(\|\bA\|_\infty/\|\bA\|_2\)</span>.</p></li>
+<li><p>Compute <span class="math inline">\(\|\bA\|_1, \|\bA\|_\infty, \|\bA\|_2, \|\bA\|_F\)</span> for <span class="math inline">\(\bA = \begin{pmatrix} 1 &amp; -2 \\ -3 &amp; 4 \end{pmatrix}\)</span>.</p></li>
+<li><p><strong>Low-Rank Approximation:</strong> The Frobenius norm is central to the Eckart-Young-Mirsky theorem. How is it related to singular values?</p></li>
+<li><p>Find a <span class="math inline">\(2 \times 2\)</span> example where the max norm (<span class="math inline">\(\max|a_{ij}|\)</span>) is not submultiplicative.</p></li>
 </ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Max norm is not submultiplicative)</strong> Find a pair of <span class="math inline">\(2\times 2\)</span> matrices <span class="math inline">\(\bA, \bB\)</span> such that <span class="math inline">\(\|\bA\bB\|_{\max} &gt; \|\bA\|_{\max}\|\bB\|_{\max}\)</span>. Conclude that the max norm cannot be an induced norm.</p>
 </div>
 </div>
 
@@ -1633,8 +1273,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/orthogonality/norms.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/orthogonality/norms.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

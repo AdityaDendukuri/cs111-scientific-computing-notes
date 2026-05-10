@@ -3,9 +3,9 @@
 
 A *norm* is a function that assigns a non-negative scalar ``size'' to a vector or
 matrix. Norms are the fundamental tool for measuring errors, bounding perturbations,
-and defining convergence throughout scientific computing. This subsection introduces the
+and defining convergence throughout scientific computing. This chapter introduces the
 key vector norm definitions and the families most used in practice. We will study norms
-more rigorously in Section~above, where we develop matrix norms, operator
+more rigorously in later chapters, where we develop matrix norms, operator
 inequalities, Cauchy-Schwarz, Hölder's inequality, and the condition number.
 
 
@@ -38,6 +38,19 @@ The three most common cases are:
 :::
 
 
+::: {.callout-tip icon=false}
+**Physical Intuition.** 
+In scientific computing, the choice of norm depends on what you want to measure:
+
+- **$\ell_2$ (Energy):** The standard measure of magnitude; corresponds to physical energy or distance.
+    
+- **$\ell_\infty$ (Worst-case):** Measures the single largest entry. Useful for ``tolerance'' checks (e.g., ``every entry must be below $10^{-6}$'').
+    
+- **$\ell_1$ (Sparsity):** Encourages or measures sparsity; often used in optimization and compressed sensing.
+
+:::
+
+
 ::: {.callout-note icon=false}
 ## Example
 For $\bx = (3, -4, 0)^T$:
@@ -54,6 +67,12 @@ Throughout these notes, $\|\cdot\|$ without a subscript denotes the Euclidean no
 $\|\cdot\|_2$ unless stated otherwise. Errors and residuals are almost always measured
 in $\|\cdot\|_2$. In NumPy: `np.linalg.norm(x)` computes $\|\bx\|_2$;
 `np.linalg.norm(x, ord=p)` computes $\|\bx\|_p$.
+:::
+
+
+::: {.callout-tip icon=false}
+**Numerical Zero.** 
+In floating-point arithmetic, the condition $\|\bx\| = 0$ is rarely met exactly due to rounding. We instead use a **tolerance** $\varepsilon$: we say $\bx$ is ``numerically zero'' if $\|\bx\| \leq \varepsilon \cdot \|\bx_0\|$, where $\bx_0$ is some initial reference vector.
 :::
 
 

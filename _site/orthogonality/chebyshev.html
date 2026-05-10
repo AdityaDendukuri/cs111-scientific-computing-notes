@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>16&nbsp; Chebyshev Polynomials and Polynomial Approximation – Scientific Computing</title>
+<title>16&nbsp; Chebyshev Polynomials – Scientific Computing</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,47 +332,38 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../orthogonality/orthogonal.html">Orthogonality and Least Squares</a></li><li class="breadcrumb-item"><a href="../orthogonality/chebyshev.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../orthogonality/orthogonal.html">Orthogonality and Least Squares</a></li><li class="breadcrumb-item"><a href="../orthogonality/chebyshev.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -671,11 +662,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-the-monomial-basis-fails" id="toc-why-the-monomial-basis-fails" class="nav-link active" data-scroll-target="#why-the-monomial-basis-fails"><span class="header-section-number">16.1</span> Why the Monomial Basis Fails</a></li>
-  <li><a href="#chebyshev-polynomials" id="toc-chebyshev-polynomials" class="nav-link" data-scroll-target="#chebyshev-polynomials"><span class="header-section-number">16.2</span> Chebyshev Polynomials</a></li>
-  <li><a href="#orthogonality-and-chebyshev-nodes" id="toc-orthogonality-and-chebyshev-nodes" class="nav-link" data-scroll-target="#orthogonality-and-chebyshev-nodes"><span class="header-section-number">16.3</span> Orthogonality and Chebyshev Nodes</a></li>
-  <li><a href="#the-minimax-property" id="toc-the-minimax-property" class="nav-link" data-scroll-target="#the-minimax-property"><span class="header-section-number">16.4</span> The Minimax Property</a></li>
-  <li><a href="#chebyshev-series-and-approximation" id="toc-chebyshev-series-and-approximation" class="nav-link" data-scroll-target="#chebyshev-series-and-approximation"><span class="header-section-number">16.5</span> Chebyshev Series and Approximation</a></li>
+  <li><a href="#failure-of-the-monomial-basis" id="toc-failure-of-the-monomial-basis" class="nav-link active" data-scroll-target="#failure-of-the-monomial-basis"><span class="header-section-number">16.1</span> Failure of the Monomial Basis</a></li>
+  <li><a href="#chebyshev-polynomials-t_k" id="toc-chebyshev-polynomials-t_k" class="nav-link" data-scroll-target="#chebyshev-polynomials-t_k"><span class="header-section-number">16.2</span> Chebyshev Polynomials (<span class="math inline">\(T_k\)</span>)</a></li>
+  <li><a href="#chebyshev-nodes" id="toc-chebyshev-nodes" class="nav-link" data-scroll-target="#chebyshev-nodes"><span class="header-section-number">16.3</span> Chebyshev Nodes</a></li>
+  <li><a href="#chebyshev-series" id="toc-chebyshev-series" class="nav-link" data-scroll-target="#chebyshev-series"><span class="header-section-number">16.4</span> Chebyshev Series</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/orthogonality/chebyshev.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -683,9 +673,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../orthogonality/orthogonal.html">Orthogonality and Least Squares</a></li><li class="breadcrumb-item"><a href="../orthogonality/chebyshev.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../orthogonality/orthogonal.html">Orthogonality and Least Squares</a></li><li class="breadcrumb-item"><a href="../orthogonality/chebyshev.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></h1>
+<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></h1>
 </div>
 
 
@@ -702,56 +692,13 @@ window.Quarto = {
 </header>
 
 
-<p>In the least squares exercises above, you built Vandermonde matrices (the result above) to fit polynomials to data. That worked fine for low degrees, but something goes wrong as the degree grows: the matrix becomes catastrophically ill-conditioned, and even a carefully placed set of interpolation points leads to a polynomial that oscillates wildly. Both failures have the same root cause: the monomial basis <span class="math inline">\(\{1, x, x^2, ..., x^n\}\)</span> is a poor basis for polynomial approximation. Chebyshev polynomials fix both problems simultaneously. They are orthogonal, bounded, and satisfy a minimax optimality property that makes them the best possible basis for approximating smooth functions on a bounded interval. This subsection demonstrates each failure mode and shows precisely how Chebyshev polynomials resolve it.</p>
-<section id="why-the-monomial-basis-fails" class="level2" data-number="16.1">
-<h2 data-number="16.1" class="anchored" data-anchor-id="why-the-monomial-basis-fails"><span class="header-section-number">16.1</span> Why the Monomial Basis Fails</h2>
-<p>There are two distinct ways the monomial basis breaks down. The first is numerical: the Vandermonde matrix built from <span class="math inline">\(\{1, x, x^2, ..., x^n\}\)</span> has a condition number that grows exponentially with degree, regardless of the node placement. The second is analytical: even if the linear system could be solved exactly, interpolating a smooth function at equally spaced points leads to a polynomial that diverges near the endpoints as the degree grows. Understanding both failures motivates every design choice in the Chebyshev approach.</p>
-<p>Recall from the result above that the Vandermonde matrix <span class="math inline">\(\bV\)</span> encodes a polynomial fitting problem in the monomial basis: given nodes <span class="math inline">\(x_0, ..., x_n\)</span> and values <span class="math inline">\(f(x_0), ..., f(x_n)\)</span>, the coefficients of the interpolating polynomial satisfy <span class="math inline">\(\bV\bc = \mathbf{f}\)</span>. The matrix is invertible whenever the nodes are distinct (since its determinant equals <span class="math inline">\(\prod_{i&gt;j}(x_i - x_j)\)</span>). The question we focus on here is not whether a solution exists, but how reliably it can be computed.</p>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
+<p>Minimax-optimal basis for polynomial approximation. Resolves ill-conditioning and oscillations of the monomial basis.</p>
+<section id="failure-of-the-monomial-basis" class="level2" data-number="16.1">
+<h2 data-number="16.1" class="anchored" data-anchor-id="failure-of-the-monomial-basis"><span class="header-section-number">16.1</span> Failure of the Monomial Basis</h2>
 <ol type="1">
-<li><p>Build the square Vandermonde matrix for <span class="math inline">\(n+1\)</span> equally spaced nodes on <span class="math inline">\([-1,1]\)</span> in NumPy for <span class="math inline">\(n = 5, 10, 15, 20\)</span>. Compute <span class="math inline">\(\kappa_2(\bV)\)</span> for each. Plot <span class="math inline">\(\kappa_2(\bV)\)</span> vs.&nbsp;<span class="math inline">\(n\)</span> on a log scale. How fast does the condition number grow?</p></li>
-<li><p>For <span class="math inline">\(n = 10\)</span>, solve <span class="math inline">\(\bV\bc = \mathbf{f}\)</span> with <span class="math inline">\(f(x_i) = \cos(\pi x_i)\)</span> using <code>np.linalg.solve</code>, then using <code>np.linalg.lstsq</code>. Do you get the same coefficients? Compute the residual <span class="math inline">\(\|\bV\bc - \mathbf{f}\|_2\)</span> for both.</p></li>
-<li><p>If <span class="math inline">\(\mathbf{f}\)</span> has noise at level <span class="math inline">\(10^{-12}\)</span> and <span class="math inline">\(\kappa(\bV) = 10^{10}\)</span>, what is the worst-case relative error in <span class="math inline">\(\bc\)</span>?</p></li>
+<li><p><strong>Numerical:</strong> Vandermonde matrices <span class="math inline">\(V_{ij} = x_i^{j-1}\)</span> have condition numbers that grow exponentially with degree.</p></li>
+<li><p><strong>Analytical:</strong> <strong>Runge’s Phenomenon</strong>. Interpolating smooth functions at equally spaced nodes leads to divergence at boundaries as degree <span class="math inline">\(n \to \infty\)</span>.</p></li>
 </ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Runge’s Phenomenon
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><em>Runge’s phenomenon</em> is the divergence of polynomial interpolants at equally spaced nodes as the degree grows. The prototypical example is Runge’s function <span class="math inline">\(f(x) = \frac{1}{1 + 25x^2}\)</span> on <span class="math inline">\([-1, 1]\)</span>: although <span class="math inline">\(f\)</span> is infinitely differentiable, the degree-<span class="math inline">\(n\)</span> interpolant at <span class="math inline">\(n+1\)</span> equally spaced nodes satisfies <span class="math display">\[\max_{x \in [-1,1]}|f(x) - p_n(x)| \to \infty \quad \text{as } n \to \infty.\]</span> The oscillations are largest near the endpoints <span class="math inline">\(\pm 1\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The interpolation error at a point <span class="math inline">\(x\)</span> is bounded by <span class="math display">\[|f(x) - p_n(x)| \leq \frac{\|f^{(n+1)}\|_\infty}{(n+1)!}\,|\omega_n(x)|,
-  \qquad \omega_n(x) = \prod_{k=0}^{n}(x - x_k).\]</span> For equally spaced nodes, <span class="math inline">\(\|\omega_n\|_\infty\)</span> grows like <span class="math inline">\((n/2e)^n\)</span> near the endpoints (even though <span class="math inline">\((n+1)!\)</span> also grows, the numerator wins). For Runge’s function, the derivatives <span class="math inline">\(\|f^{(n+1)}\|_\infty\)</span> also blow up, compounding the problem.</p>
-</div>
-</div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -762,67 +709,31 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(Runge’s phenomenon.)</strong> Refer to the result above.</p>
 <ol type="1">
-<li><p>In NumPy, interpolate <span class="math inline">\(f(x) = 1/(1+25x^2)\)</span> at <span class="math inline">\(n+1\)</span> equally spaced nodes on <span class="math inline">\([-1,1]\)</span> for <span class="math inline">\(n = 5, 10, 15, 20\)</span> using <code>np.polyfit</code> or by solving the Vandermonde system. For each <span class="math inline">\(n\)</span>, plot both <span class="math inline">\(f\)</span> and <span class="math inline">\(p_n\)</span> on the same axes. Describe what happens near <span class="math inline">\(x = \pm 1\)</span> as <span class="math inline">\(n\)</span> grows.</p></li>
-<li><p>Compute <span class="math inline">\(\max_{x}|f(x) - p_n(x)|\)</span> (use 500 evaluation points) for <span class="math inline">\(n = 5, 10, 15, 20\)</span>. Plot the maximum error vs.&nbsp;<span class="math inline">\(n\)</span>. Does it decrease?</p></li>
-<li><p>(<em>The node polynomial.</em>) For <span class="math inline">\(n = 10\)</span> equally spaced nodes on <span class="math inline">\([-1,1]\)</span>, plot <span class="math inline">\(|\omega_{10}(x)|\)</span> vs.&nbsp;<span class="math inline">\(x\)</span>. Where is <span class="math inline">\(|\omega_{10}|\)</span> largest? How does this explain the shape of the interpolation error in part 1?</p></li>
+<li><p>Build <span class="math inline">\(n=15\)</span> Vandermonde matrix on equispaced nodes. Check <span class="math inline">\(\kappa_2(\bV)\)</span>.</p></li>
+<li><p>Plot Runge’s function <span class="math inline">\(f(x) = 1/(1+25x^2)\)</span> and its <span class="math inline">\(n=10\)</span> interpolant. Note boundary oscillations.</p></li>
 </ol>
 </div>
 </div>
 </section>
-<section id="chebyshev-polynomials" class="level2" data-number="16.2">
-<h2 data-number="16.2" class="anchored" data-anchor-id="chebyshev-polynomials"><span class="header-section-number">16.2</span> Chebyshev Polynomials</h2>
-<p>The failures of the monomial basis come down to two causes: the monomials <span class="math inline">\(x^k\)</span> are nearly linearly dependent on <span class="math inline">\([-1,1]\)</span> for large <span class="math inline">\(k\)</span> (leading to ill-conditioning), and equispaced nodes concentrate the node polynomial near the boundary (leading to Runge’s phenomenon). Chebyshev polynomials are the natural remedy: they are bounded by 1 on <span class="math inline">\([-1,1]\)</span>, form an orthogonal basis, and their zeros (the Chebyshev nodes) distribute mass towards the endpoints in exactly the way needed to suppress boundary oscillations.</p>
+<section id="chebyshev-polynomials-t_k" class="level2" data-number="16.2">
+<h2 data-number="16.2" class="anchored" data-anchor-id="chebyshev-polynomials-t_k"><span class="header-section-number">16.2</span> Chebyshev Polynomials (<span class="math inline">\(T_k\)</span>)</h2>
+<p>Defined on <span class="math inline">\([-1, 1]\)</span> by <span class="math inline">\(T_k(x) = \cos(k \arccos x)\)</span>.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Chebyshev Polynomials
+<span class="screen-reader-only">Note</span>Definition: Properties of <span class="math inline">\(T_k\)</span>
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>Chebyshev polynomials of the first kind</em> <span class="math inline">\(T_k : [-1,1] \to \fR\)</span> are defined by <span class="math display">\[T_k(x) = \cos(k\arccos x), \quad k = 0, 1, 2, ...\]</span> They satisfy the three-term recurrence <span class="math display">\[T_0(x) = 1, \quad T_1(x) = x, \quad T_{k+1}(x) = 2x\,T_k(x) - T_{k-1}(x),\]</span> and the first few are <span class="math inline">\(T_0 = 1\)</span>, <span class="math inline">\(T_1 = x\)</span>, <span class="math inline">\(T_2 = 2x^2 - 1\)</span>, <span class="math inline">\(T_3 = 4x^3 - 3x\)</span>, <span class="math inline">\(T_4 = 8x^4 - 8x^2 + 1\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Key Properties of Chebyshev Polynomials
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For all <span class="math inline">\(k \geq 0\)</span> and <span class="math inline">\(x \in [-1,1]\)</span>:</p>
-<ol type="1">
-<li><p><strong>Boundedness</strong>: <span class="math inline">\(|T_k(x)| \leq 1\)</span>, with <span class="math inline">\(T_k(\cos\theta) = \cos(k\theta)\)</span>.</p></li>
-<li><p><strong>Equioscillation</strong>: <span class="math inline">\(T_k\)</span> attains the values <span class="math inline">\(\pm 1\)</span> exactly <span class="math inline">\(k+1\)</span> times on <span class="math inline">\([-1,1]\)</span> (at <span class="math inline">\(x_j = \cos(j\pi/k)\)</span> for <span class="math inline">\(j = 0, ..., k\)</span>).</p></li>
-<li><p><strong>Zeros</strong>: <span class="math inline">\(T_k\)</span> has <span class="math inline">\(k\)</span> simple roots at <span class="math inline">\(\tilde{x}_j = \cos\!\left(\tfrac{(2j-1)\pi}{2k}\right)\)</span> for <span class="math inline">\(j = 1, ..., k\)</span>.</p></li>
-<li><p><strong>Leading coefficient</strong>: <span class="math inline">\(T_k\)</span> is a polynomial of degree <span class="math inline">\(k\)</span> with leading coefficient <span class="math inline">\(2^{k-1}\)</span> (for <span class="math inline">\(k \geq 1\)</span>).</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>All four properties follow directly from the definition <span class="math inline">\(T_k(x) = \cos(k\arccos x)\)</span>.</p>
-<p><strong>(1) and (2):</strong> Setting <span class="math inline">\(x = \cos\theta\)</span> gives <span class="math inline">\(T_k(\cos\theta) = \cos(k\theta)\)</span>. Since <span class="math inline">\(|\cos(k\theta)| \leq 1\)</span> for all <span class="math inline">\(\theta\)</span>, we have <span class="math inline">\(|T_k(x)| \leq 1\)</span>. The cosine equals <span class="math inline">\(\pm 1\)</span> at <span class="math inline">\(\theta = j\pi/k\)</span>, giving the equioscillation points.</p>
-<p><strong>(3):</strong> The roots are where <span class="math inline">\(\cos(k\theta) = 0\)</span>, i.e., <span class="math inline">\(k\theta = (2j-1)\pi/2\)</span>, giving <span class="math inline">\(\theta = (2j-1)\pi/(2k)\)</span> and <span class="math inline">\(x = \cos((2j-1)\pi/(2k))\)</span>.</p>
-<p><strong>(4):</strong> The recurrence <span class="math inline">\(T_{k+1} = 2x\,T_k - T_{k-1}\)</span> starts from <span class="math inline">\(T_1(x) = x\)</span> (leading coefficient <span class="math inline">\(1 = 2^0\)</span>) and <span class="math inline">\(T_2(x) = 2x^2 - 1\)</span> (leading coefficient <span class="math inline">\(2 = 2^1\)</span>). By induction, the recurrence doubles the leading coefficient at each step, giving <span class="math inline">\(2^{k-1}\)</span> for <span class="math inline">\(T_k\)</span>.</p>
-</div>
+<ul>
+<li><p><strong>Recurrence:</strong> <span class="math inline">\(T_0=1, T_1=x, T_{k+1}=2x T_k - T_{k-1}\)</span>.</p></li>
+<li><p><strong>Boundedness:</strong> <span class="math inline">\(|T_k(x)| \leq 1\)</span> for all <span class="math inline">\(x \in [-1, 1]\)</span>.</p></li>
+<li><p><strong>Orthogonality:</strong> <span class="math inline">\(\int_{-1}^1 T_j T_k \frac{dx}{\sqrt{1-x^2}} = 0\)</span> for <span class="math inline">\(j \neq k\)</span>.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -835,55 +746,16 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
 <ol type="1">
-<li><p>Using the recurrence, compute <span class="math inline">\(T_5(x)\)</span> and <span class="math inline">\(T_6(x)\)</span> by hand. Verify your results with <code>numpy.polynomial.chebyshev.chebval</code>.</p></li>
-<li><p>Plot <span class="math inline">\(T_0, T_1, ..., T_5\)</span> on <span class="math inline">\([-1, 1]\)</span> on the same axes. Confirm that each <span class="math inline">\(T_k\)</span> stays within <span class="math inline">\([-1,1]\)</span> and oscillates exactly <span class="math inline">\(k\)</span> times.</p></li>
-<li><p>Verify numerically that the roots of <span class="math inline">\(T_5\)</span> are <span class="math inline">\(x_j = \cos((2j-1)\pi/10)\)</span> for <span class="math inline">\(j = 1, ..., 5\)</span>.</p></li>
-<li><p>Confirm the leading coefficient of <span class="math inline">\(T_k\)</span> is <span class="math inline">\(2^{k-1}\)</span> for <span class="math inline">\(k = 2, 3, 4\)</span> by expanding the recurrence and reading off the coefficient of <span class="math inline">\(x^k\)</span>.</p></li>
+<li><p>Compute <span class="math inline">\(T_3, T_4\)</span> via recurrence.</p></li>
+<li><p>Plot <span class="math inline">\(T_0, ..., T_5\)</span>. Note they all oscillate between <span class="math inline">\(\pm 1\)</span>.</p></li>
 </ol>
 </div>
 </div>
 </section>
-<section id="orthogonality-and-chebyshev-nodes" class="level2" data-number="16.3">
-<h2 data-number="16.3" class="anchored" data-anchor-id="orthogonality-and-chebyshev-nodes"><span class="header-section-number">16.3</span> Orthogonality and Chebyshev Nodes</h2>
-<p>The cosine definition immediately reveals an orthogonality structure. Under the change of variables <span class="math inline">\(x = \cos\theta\)</span>, the Chebyshev polynomials become ordinary cosines, and their orthogonality follows from the orthogonality of cosines. In the <span class="math inline">\(x\)</span> variable, the weight function <span class="math inline">\(w(x) = 1/\sqrt{1-x^2}\)</span> appears, which concentrates mass near the endpoints <span class="math inline">\(\pm 1\)</span>. The zeros of <span class="math inline">\(T_n\)</span> (the Chebyshev nodes) are exactly the points where this endpoint clustering is captured in a finite node set. Using them for interpolation produces a Vandermonde-type system that is dramatically better conditioned than the equispaced case.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Chebyshev Orthogonality
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The Chebyshev polynomials are orthogonal on <span class="math inline">\([-1,1]\)</span> with weight <span class="math inline">\(w(x) = 1/\sqrt{1-x^2}\)</span>: <span class="math display">\[\int_{-1}^{1} T_j(x)\,T_k(x)\,\frac{dx}{\sqrt{1-x^2}} =
-  \begin{cases}
-    0     &amp; j \neq k, \\
-    \pi/2 &amp; j = k \geq 1, \\
-    \pi   &amp; j = k = 0.
-  \end{cases}\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Substitute <span class="math inline">\(x = \cos\theta\)</span>, <span class="math inline">\(dx = -\sin\theta\,d\theta\)</span>, <span class="math inline">\(\sqrt{1-x^2} = \sin\theta\)</span>: <span class="math display">\[\int_{-1}^{1} T_j(x)\,T_k(x)\,\frac{dx}{\sqrt{1-x^2}}
-  = \int_\pi^0 \cos(j\theta)\cos(k\theta)\,\frac{-\sin\theta\,d\theta}{\sin\theta}
-  = \int_0^\pi \cos(j\theta)\cos(k\theta)\,d\theta.\]</span> The last integral is the standard cosine orthogonality relation, which equals <span class="math inline">\(0\)</span> for <span class="math inline">\(j \neq k\)</span>, <span class="math inline">\(\pi/2\)</span> for <span class="math inline">\(j = k \geq 1\)</span>, and <span class="math inline">\(\pi\)</span> for <span class="math inline">\(j = k = 0\)</span>.</p>
-</div>
-</div>
-</div>
+<section id="chebyshev-nodes" class="level2" data-number="16.3">
+<h2 data-number="16.3" class="anchored" data-anchor-id="chebyshev-nodes"><span class="header-section-number">16.3</span> Chebyshev Nodes</h2>
+<p>Zeros of <span class="math inline">\(T_n(x)\)</span> provide the optimal node distribution for interpolation.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -894,162 +766,10 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <span class="math inline">\(n\)</span> <em>Chebyshev nodes of the first kind</em> on <span class="math inline">\([-1,1]\)</span> are the zeros of <span class="math inline">\(T_n\)</span>: <span class="math display">\[x_k = \cos\!\left(\frac{(2k-1)\pi}{2n}\right), \quad k = 1, ..., n.\]</span> They cluster near the endpoints <span class="math inline">\(\pm 1\)</span> (the density of nodes near <span class="math inline">\(x\)</span> is proportional to <span class="math inline">\(1/\sqrt{1-x^2}\)</span>, exactly matching the weight in the orthogonality relation). For nodes on a general interval <span class="math inline">\([a,b]\)</span>, shift and scale: <span class="math inline">\(x_k^{[a,b]} = \frac{a+b}{2} + \frac{b-a}{2}\,x_k\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: The Node Polynomial at Chebyshev Nodes
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For the <span class="math inline">\(n\)</span> Chebyshev nodes <span class="math inline">\(x_1, ..., x_n\)</span>, the node polynomial satisfies <span class="math display">\[\prod_{k=1}^{n}(x - x_k) = \frac{T_n(x)}{2^{n-1}}.\]</span> Its supremum norm on <span class="math inline">\([-1,1]\)</span> is <span class="math inline">\(1/2^{n-1}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The zeros of <span class="math inline">\(T_n\)</span> are exactly the Chebyshev nodes <span class="math inline">\(x_k\)</span>. The leading coefficient of <span class="math inline">\(T_n\)</span> is <span class="math inline">\(2^{n-1}\)</span> (the result above(4)), so the monic polynomial with the same roots is <span class="math inline">\(T_n(x)/2^{n-1}\)</span>. Since <span class="math inline">\(|T_n(x)| \leq 1\)</span> on <span class="math inline">\([-1,1]\)</span>, the supremum norm of the node polynomial is at most <span class="math inline">\(1/2^{n-1}\)</span>, and it is attained at the equioscillation points of <span class="math inline">\(T_n\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to Defs~above and~above.</p>
-<ol type="1">
-<li><p>Compute the 10 Chebyshev nodes on <span class="math inline">\([-1,1]\)</span> and plot them alongside 10 equally spaced nodes. Describe the qualitative difference in their distribution.</p></li>
-<li><p>For <span class="math inline">\(n = 10\)</span>, plot <span class="math inline">\(|\omega_n(x)|\)</span> for both equispaced nodes and Chebyshev nodes on <span class="math inline">\([-1, 1]\)</span> using 500 evaluation points. Compare <span class="math inline">\(\max_x |\omega_n(x)|\)</span> for both. How much smaller is the Chebyshev version?</p></li>
-<li><p>Now repeat the Runge function experiment (Exercise from the result above) but using Chebyshev nodes instead of equispaced nodes. Plot the max interpolation error vs.&nbsp;<span class="math inline">\(n\)</span> for both node sets on the same axes. Does the error decrease with Chebyshev nodes?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Condition numbers: monomial vs.&nbsp;Chebyshev basis.)</strong> Let <span class="math inline">\(\bV_{\mathrm{mono}}\)</span> be the Vandermonde matrix with <span class="math inline">\(n+1\)</span> Chebyshev nodes and the monomial basis <span class="math inline">\(V_{ij} = x_i^j\)</span>. Let <span class="math inline">\(\bV_{\mathrm{cheb}}\)</span> be the same nodes but with the Chebyshev basis <span class="math inline">\(V_{ij} = T_j(x_i)\)</span>.</p>
-<ol type="1">
-<li><p>Build both matrices in NumPy for <span class="math inline">\(n = 5, 10, 15, 20\)</span>. Compute <span class="math inline">\(\kappa_2\)</span> for each. Plot both condition numbers vs.&nbsp;<span class="math inline">\(n\)</span> on the same log-scale axes.</p></li>
-<li><p>Explain why <span class="math inline">\(\bV_{\mathrm{cheb}}\)</span> has a much better condition number, using the orthogonality of <span class="math inline">\(\{T_k\}\)</span> (the result above).</p></li>
-<li><p>Using both matrices, solve the interpolation problem for <span class="math inline">\(f(x) = 1/(1+25x^2)\)</span> at <span class="math inline">\(n = 20\)</span> Chebyshev nodes. Do both systems give the same polynomial? Which system is safer to solve numerically?</p></li>
-</ol>
-</div>
-</div>
-</section>
-<section id="the-minimax-property" class="level2" data-number="16.4">
-<h2 data-number="16.4" class="anchored" data-anchor-id="the-minimax-property"><span class="header-section-number">16.4</span> The Minimax Property</h2>
-<p>The node polynomial theorem says Chebyshev nodes minimize <span class="math inline">\(\|\omega_n\|_\infty\)</span> over all choices of <span class="math inline">\(n\)</span> nodes. But Chebyshev polynomials satisfy something even stronger: <span class="math inline">\(T_n/2^{n-1}\)</span> is the unique monic polynomial of degree <span class="math inline">\(n\)</span> that has the smallest possible sup-norm on <span class="math inline">\([-1,1]\)</span>, among all monic polynomials of degree <span class="math inline">\(n\)</span>. This minimax property is the algebraic reason Chebyshev nodes and basis are optimal, and it connects directly to the equioscillation characterization of best polynomial approximations.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Chebyshev Minimax Property
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Among all monic polynomials of degree <span class="math inline">\(n\)</span>, the scaled Chebyshev polynomial <span class="math inline">\(\tilde{T}_n(x) = T_n(x)/2^{n-1}\)</span> has the smallest sup-norm on <span class="math inline">\([-1,1]\)</span>: <span class="math display">\[\|\tilde{T}_n\|_\infty = \frac{1}{2^{n-1}} \leq \|q\|_\infty\]</span> for every monic polynomial <span class="math inline">\(q\)</span> of degree <span class="math inline">\(n\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-17" class="callout-17-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>We argue by contradiction.</p>
-<p><strong>Step 1: Suppose a better monic polynomial exists.</strong></p>
-<p>Assume <span class="math inline">\(q\)</span> is monic of degree <span class="math inline">\(n\)</span> and <span class="math inline">\(\|q\|_\infty &lt; 1/2^{n-1}\)</span>.</p>
-<p><strong>Step 2: Form the difference.</strong></p>
-<p>Let <span class="math inline">\(r = \tilde{T}_n - q\)</span>. Since both are monic of degree <span class="math inline">\(n\)</span>, their leading coefficients cancel and <span class="math inline">\(r\)</span> has degree at most <span class="math inline">\(n-1\)</span>.</p>
-<p><strong>Step 3: Count sign changes.</strong></p>
-<p>The polynomial <span class="math inline">\(\tilde{T}_n\)</span> equioscillates between <span class="math inline">\(+1/2^{n-1}\)</span> and <span class="math inline">\(-1/2^{n-1}\)</span> at <span class="math inline">\(n+1\)</span> points <span class="math inline">\(x_0 &gt; x_1 &gt; \cdots &gt; x_n\)</span> (the extrema of <span class="math inline">\(T_n\)</span>). At each <span class="math inline">\(x_j\)</span>, <span class="math inline">\(|\tilde{T}_n(x_j)| = 1/2^{n-1}\)</span> and <span class="math inline">\(|q(x_j)| &lt; 1/2^{n-1}\)</span>, so <span class="math inline">\(r(x_j) =
-\tilde{T}_n(x_j) - q(x_j)\)</span> has the same sign as <span class="math inline">\(\tilde{T}_n(x_j)\)</span>. Since <span class="math inline">\(\tilde{T}_n\)</span> alternates sign at consecutive extrema, so does <span class="math inline">\(r\)</span>.</p>
-<p><strong>Step 4: Derive a contradiction.</strong></p>
-<p><span class="math inline">\(r\)</span> changes sign at least <span class="math inline">\(n\)</span> times, so <span class="math inline">\(r\)</span> has at least <span class="math inline">\(n\)</span> roots. But <span class="math inline">\(\deg(r) \leq n-1\)</span>, so <span class="math inline">\(r\)</span> can have at most <span class="math inline">\(n-1\)</span> roots unless <span class="math inline">\(r \equiv 0\)</span>. This is a contradiction, so no such <span class="math inline">\(q\)</span> exists.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>For <span class="math inline">\(n = 1, 2, 3\)</span>, write out <span class="math inline">\(\tilde{T}_n(x) = T_n(x)/2^{n-1}\)</span> explicitly and verify <span class="math inline">\(\|\tilde{T}_n\|_\infty = 1/2^{n-1}\)</span> by finding its maximum on <span class="math inline">\([-1,1]\)</span>.</p></li>
-<li><p>Show that among all polynomials <span class="math inline">\(p\)</span> of degree <span class="math inline">\(\leq n-1\)</span>, the best approximation to <span class="math inline">\(x^n\)</span> in the sup-norm on <span class="math inline">\([-1,1]\)</span> is <span class="math inline">\(x^n - \tilde{T}_n(x)\)</span>. ()</p></li>
-<li><p>In NumPy, generate 10 random monic polynomials of degree 5 with coefficients drawn from <span class="math inline">\(\mathcal{N}(0,1)\)</span> (for the lower-degree terms). Compare their <span class="math inline">\(\|\cdot\|_\infty\)</span> norms on <span class="math inline">\([-1,1]\)</span> to <span class="math inline">\(1/2^4 = 1/16\)</span>. How many beat <span class="math inline">\(1/16\)</span>?</p></li>
-</ol>
-</div>
-</div>
-</section>
-<section id="chebyshev-series-and-approximation" class="level2" data-number="16.5">
-<h2 data-number="16.5" class="anchored" data-anchor-id="chebyshev-series-and-approximation"><span class="header-section-number">16.5</span> Chebyshev Series and Approximation</h2>
-<p>Just as the Fourier series expands a periodic function in the basis <span class="math inline">\(\{e^{ikx}\}\)</span>, the Chebyshev series expands a function on <span class="math inline">\([-1,1]\)</span> in the basis <span class="math inline">\(\{T_k\}\)</span>. Under the substitution <span class="math inline">\(x = \cos\theta\)</span>, a function <span class="math inline">\(f(x)\)</span> on <span class="math inline">\([-1,1]\)</span> becomes <span class="math inline">\(g(\theta) = f(\cos\theta)\)</span> on <span class="math inline">\([0,\pi]\)</span>, and the Chebyshev series of <span class="math inline">\(f\)</span> is exactly the cosine series of <span class="math inline">\(g\)</span>. This is yet another instance of the Fourier change-of-basis from Section~above, now applied to the interval <span class="math inline">\([-1,1]\)</span> via the substitution <span class="math inline">\(x = \cos\theta\)</span>.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Chebyshev Series
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(f : [-1,1] \to \fR\)</span>, the <em>Chebyshev series</em> is <span class="math display">\[f(x) = \sum_{k=0}^{\infty} {}' c_k T_k(x),\]</span> where the prime on the sum means the <span class="math inline">\(k=0\)</span> term is halved, and the coefficients are <span class="math display">\[c_k = \frac{2}{\pi}\int_{-1}^{1} f(x)\,T_k(x)\,\frac{dx}{\sqrt{1-x^2}}.\]</span> The truncation <span class="math inline">\(p_n(x) = \sum_{k=0}^{n} {}' c_k T_k(x)\)</span> is the degree-<span class="math inline">\(n\)</span> Chebyshev approximation to <span class="math inline">\(f\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Exponential Convergence for Analytic Functions
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f\)</span> is analytic on <span class="math inline">\([-1,1]\)</span> and can be analytically continued to a Bernstein ellipse with parameter <span class="math inline">\(\rho &gt; 1\)</span> (an ellipse with foci at <span class="math inline">\(\pm 1\)</span> and sum of semi-axes equal to <span class="math inline">\(\rho\)</span>), then the Chebyshev coefficients satisfy <span class="math display">\[|c_k| \leq M\,\rho^{-k}\]</span> for some constant <span class="math inline">\(M\)</span>. Consequently, the truncation error satisfies <span class="math inline">\(\|f - p_n\|_\infty = O(\rho^{-n})\)</span> as <span class="math inline">\(n \to \infty\)</span>.</p>
+<p><span class="math inline">\(x_k = \cos(\frac{(2k-1)\pi}{2n})\)</span> for <span class="math inline">\(k=1, ..., n\)</span>.</p>
+<ul>
+<li><strong>Node Clustering:</strong> Nodes cluster near boundaries <span class="math inline">\(\pm 1\)</span>. This suppresses Runge’s oscillations.</li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -1062,7 +782,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The exponential convergence rate contrasts sharply with the polynomial convergence of finite-difference approximations (<span class="math inline">\(O(h^p)\)</span> for order-<span class="math inline">\(p\)</span> methods). For smooth functions, increasing the polynomial degree by 1 multiplies the error by <span class="math inline">\(1/\rho &lt; 1\)</span>. In practice, just 20 to 30 Chebyshev terms often give errors near machine precision for analytic functions. This is called <em>spectral accuracy</em>.</p>
+<p><strong>The Minimax Property:</strong> Among all monic polynomials of degree <span class="math inline">\(n\)</span>, <span class="math inline">\(\tilde{T}_n = T_n/2^{n-1}\)</span> has the smallest possible maximum value on <span class="math inline">\([-1, 1]\)</span>. Using these nodes minimizes the interpolation error bound.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -1075,17 +795,28 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
 <ol type="1">
-<li><p>Use <code>numpy.polynomial.chebyshev.chebfit(x, f, deg)</code> to compute the degree-<span class="math inline">\(n\)</span> Chebyshev approximation to <span class="math inline">\(f(x) = e^x\)</span> on <span class="math inline">\([-1,1]\)</span> for <span class="math inline">\(n = 2, 4, 8, 16\)</span>. Plot <span class="math inline">\(\|f - p_n\|_\infty\)</span> vs.&nbsp;<span class="math inline">\(n\)</span> on a log scale. Does the error decrease exponentially?</p></li>
-<li><p>Repeat for <span class="math inline">\(f(x) = |x|\)</span> (not analytic at <span class="math inline">\(x=0\)</span>). Compare the convergence rate for <span class="math inline">\(e^x\)</span> and <span class="math inline">\(|x|\)</span>. What does the result above predict for <span class="math inline">\(|x|\)</span>, given that it cannot be analytically continued past any ellipse?</p></li>
-<li><p>(<em>Comparison of all three methods.</em>) For <span class="math inline">\(f(x) = 1/(1+25x^2)\)</span>, compute the degree-<span class="math inline">\(n\)</span> approximation error <span class="math inline">\(\|f - p_n\|_\infty\)</span> for <span class="math inline">\(n = 5, 10, 15, 20\)</span> using three methods:</p></li>
+<li><p>Plot 10 Chebyshev nodes vs.&nbsp;10 equispaced nodes. Note clustering.</p></li>
+<li><p>Repeat the Runge function experiment with Chebyshev nodes. Observe convergence.</p></li>
+<li><p>Compare <span class="math inline">\(\kappa_2\)</span> of Vandermonde vs.&nbsp;Chebyshev basis (<span class="math inline">\(V_{ij} = T_{j-1}(x_i)\)</span>).</p></li>
 </ol>
-<ol type="a">
-<li>monomial basis with equispaced nodes (Vandermonde solve),</li>
-<li>monomial basis with Chebyshev nodes,</li>
-<li>Chebyshev basis with Chebyshev nodes (<code>chebfit</code>). Plot all three error curves on the same log-scale axes. Which methods converge? Which diverge? Explain each result using the theory above.</li>
-</ol>
+</div>
+</div>
+</section>
+<section id="chebyshev-series" class="level2" data-number="16.4">
+<h2 data-number="16.4" class="anchored" data-anchor-id="chebyshev-series"><span class="header-section-number">16.4</span> Chebyshev Series</h2>
+<p>Truncated expansions <span class="math inline">\(f(x) \approx \sum c_k T_k(x)\)</span>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Spectral Accuracy
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If <span class="math inline">\(f\)</span> is analytic on <span class="math inline">\([-1, 1]\)</span>, the Chebyshev coefficients <span class="math inline">\(c_k\)</span> decay <strong>exponentially</strong>. Truncation error <span class="math inline">\(\|f - p_n\|_\infty = O(\rho^{-n})\)</span>. <strong>Insight:</strong> Just 20–30 terms often yield machine precision.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -1098,11 +829,9 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(Chebyshev differentiation.)</strong> Because the Chebyshev basis diagonalizes the right operations, differentiation in the Chebyshev basis is a structured recurrence rather than a full matrix-vector product.</p>
 <ol type="1">
-<li><p>Show that <span class="math inline">\(T_k'(x) = k U_{k-1}(x)\)</span> where <span class="math inline">\(U_{k-1}(x) = \sin(k\arccos x)/\sin(\arccos x)\)</span> are the Chebyshev polynomials of the second kind. (<em>Hint: differentiate <span class="math inline">\(T_k(x) = \cos(k\arccos x)\)</span> using the chain rule.</em>)</p></li>
-<li><p>The derivative of <span class="math inline">\(f(x) = \sum_k c_k T_k(x)\)</span> has Chebyshev coefficients <span class="math inline">\(c_k^{(1)}\)</span> satisfying the recurrence <span class="math inline">\(c_{k-1}^{(1)} = c_{k+1}^{(1)} + 2k c_k\)</span> (summing from <span class="math inline">\(k = n\)</span> down to <span class="math inline">\(1\)</span>). Use this to differentiate <span class="math inline">\(p(x) = T_3(x) + 2T_2(x)\)</span> and verify against the exact derivative.</p></li>
-<li><p>Implement spectral differentiation via <code>numpy.polynomial.chebyshev.chebder</code> and compare the accuracy of differentiating <span class="math inline">\(f(x) = \sin(\pi x)\)</span> using (a) second-order finite differences with <span class="math inline">\(n\)</span> equispaced points and (b) the Chebyshev spectral derivative with <span class="math inline">\(n\)</span> Chebyshev nodes. Plot the error vs.&nbsp;<span class="math inline">\(n\)</span> for both. At <span class="math inline">\(n = 20\)</span>, which method is more accurate?</p></li>
+<li><p>Compute degree-<span class="math inline">\(n\)</span> fit to <span class="math inline">\(e^x\)</span> via <code>np.polynomial.chebyshev.chebfit</code>. Plot error vs.&nbsp;<span class="math inline">\(n\)</span>.</p></li>
+<li><p><strong>Spectral Differentiation:</strong> The derivative of a Chebyshev series satisfies a simple recurrence. Compare <code>chebder</code> accuracy to finite differences for <span class="math inline">\(f(x) = \sin(\pi x)\)</span>.</p></li>
 </ol>
 </div>
 </div>
@@ -1537,8 +1266,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/orthogonality/chebyshev.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/orthogonality/chebyshev.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

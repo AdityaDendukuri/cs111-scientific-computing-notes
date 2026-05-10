@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html">Numerical Analysis</a></li><li class="breadcrumb-item"><a href="../numerical-analysis/root-finding.html"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Root Finding</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -671,11 +662,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#bisection" id="toc-bisection" class="nav-link active" data-scroll-target="#bisection"><span class="header-section-number">26.1</span> Bisection</a></li>
-  <li><a href="#newton-raphson-method" id="toc-newton-raphson-method" class="nav-link" data-scroll-target="#newton-raphson-method"><span class="header-section-number">26.2</span> Newton-Raphson Method</a></li>
-  <li><a href="#secant-method" id="toc-secant-method" class="nav-link" data-scroll-target="#secant-method"><span class="header-section-number">26.3</span> Secant Method</a></li>
-  <li><a href="#brents-method" id="toc-brents-method" class="nav-link" data-scroll-target="#brents-method"><span class="header-section-number">26.4</span> Brent’s Method</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">26.5</span> Exercises</a></li>
+  <li><a href="#bracketing-methods" id="toc-bracketing-methods" class="nav-link active" data-scroll-target="#bracketing-methods"><span class="header-section-number">26.1</span> Bracketing Methods</a></li>
+  <li><a href="#open-methods" id="toc-open-methods" class="nav-link" data-scroll-target="#open-methods"><span class="header-section-number">26.2</span> Open Methods</a></li>
+  <li><a href="#brents-method" id="toc-brents-method" class="nav-link" data-scroll-target="#brents-method"><span class="header-section-number">26.3</span> Brent’s Method</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">26.4</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/numerical-analysis/root-finding.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -702,9 +692,10 @@ window.Quarto = {
 </header>
 
 
-<p>Given a continuous function <span class="math inline">\(f : \fR \to \fR\)</span>, find <span class="math inline">\(x^*\)</span> such that <span class="math inline">\(f(x^*) = 0\)</span>. Root-finding methods are iterative: starting from an initial guess (or bracket), they refine the estimate until convergence. The key distinctions are <em>bracketing</em> methods (guaranteed convergence, slower) versus <em>open</em> methods (faster convergence, may diverge).</p>
-<section id="bisection" class="level2" data-number="26.1">
-<h2 data-number="26.1" class="anchored" data-anchor-id="bisection"><span class="header-section-number">26.1</span> Bisection</h2>
+<p>Iterative methods for solving <span class="math inline">\(f(x) = 0\)</span> for continuous <span class="math inline">\(f : \fR \to \fR\)</span>.</p>
+<section id="bracketing-methods" class="level2" data-number="26.1">
+<h2 data-number="26.1" class="anchored" data-anchor-id="bracketing-methods"><span class="header-section-number">26.1</span> Bracketing Methods</h2>
+<p>Guaranteed convergence to a root within a known interval.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -715,7 +706,12 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Suppose <span class="math inline">\(f\)</span> is continuous on <span class="math inline">\([a, b]\)</span> with <span class="math inline">\(f(a)f(b) &lt; 0\)</span>. By the Intermediate Value Theorem, there exists <span class="math inline">\(x^* \in (a, b)\)</span> with <span class="math inline">\(f(x^*) = 0\)</span>. The bisection method halves the bracket at each step: set <span class="math inline">\(m = (a + b)/2\)</span>, then replace <span class="math inline">\([a,b]\)</span> by <span class="math inline">\([a,m]\)</span> if <span class="math inline">\(f(a)f(m) &lt; 0\)</span>, otherwise by <span class="math inline">\([m,b]\)</span>. After <span class="math inline">\(n\)</span> steps, <span class="math display">\[|x_n - x^*| \leq \frac{b - a}{2^n}.\]</span></p>
+<p>Given <span class="math inline">\(f \in C[a, b]\)</span> with <span class="math inline">\(f(a)f(b) &lt; 0\)</span>, a root <span class="math inline">\(x^* \in (a, b)\)</span> exists. The method repeatedly halves the interval:</p>
+<ol type="1">
+<li><p><span class="math inline">\(m = (a + b)/2\)</span></p></li>
+<li><p>If <span class="math inline">\(f(a)f(m) &lt; 0\)</span>, new interval is <span class="math inline">\([a, m]\)</span>, else <span class="math inline">\([m, b]\)</span>.</p></li>
+</ol>
+<p><strong>Error Bound:</strong> After <span class="math inline">\(n\)</span> steps, <span class="math inline">\(|x_n - x^*| \leq (b - a)/2^n\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -728,12 +724,13 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Bisection converges <em>linearly</em> with rate <span class="math inline">\(1/2\)</span>: each step gains exactly one binary digit of accuracy. It requires only continuity of <span class="math inline">\(f\)</span> (no derivative) and is guaranteed to converge as long as the initial bracket contains a root.</p>
+<p><strong>Stability:</strong> Bisection is the most robust method; it always converges if a bracket exists. <strong>Convergence:</strong> <strong>Linear</strong> with rate <span class="math inline">\(1/2\)</span>. Gains exactly 1 bit of accuracy per step.</p>
 </div>
 </div>
 </section>
-<section id="newton-raphson-method" class="level2" data-number="26.2">
-<h2 data-number="26.2" class="anchored" data-anchor-id="newton-raphson-method"><span class="header-section-number">26.2</span> Newton-Raphson Method</h2>
+<section id="open-methods" class="level2" data-number="26.2">
+<h2 data-number="26.2" class="anchored" data-anchor-id="open-methods"><span class="header-section-number">26.2</span> Open Methods</h2>
+<p>Faster local convergence, but sensitive to the initial guess <span class="math inline">\(x_0\)</span> and may diverge.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -744,7 +741,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Starting from an initial guess <span class="math inline">\(x_0\)</span>, Newton’s method linearizes <span class="math inline">\(f\)</span> at the current iterate and solves for the root of the linear approximation: <span class="math display">\[x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}.\]</span></p>
+<p>Linearizes <span class="math inline">\(f\)</span> at the current iterate: <span class="math display">\[x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}.\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -753,29 +750,11 @@ Tip
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Quadratic Convergence of Newton’s Method
+<span class="screen-reader-only">Note</span>Theorem: Quadratic Convergence
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(f\)</span> is twice continuously differentiable near a <em>simple root</em> <span class="math inline">\(x^*\)</span> (i.e., <span class="math inline">\(f'(x^*) \neq 0\)</span>), then Newton’s method converges locally with <em>quadratic rate</em>: <span class="math display">\[|x_{k+1} - x^*| \approx \frac{|f''(x^*)|}{2|f'(x^*)|} |x_k - x^*|^2.\]</span> The number of correct decimal digits roughly doubles at each step.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(e_k = x_k - x^*\)</span>. Taylor-expand <span class="math inline">\(f\)</span> about <span class="math inline">\(x^*\)</span>: <span class="math display">\[f(x_k) = f'(x^*)e_k + \tfrac{1}{2}f''(\xi_k)e_k^2\]</span> for some <span class="math inline">\(\xi_k\)</span> between <span class="math inline">\(x_k\)</span> and <span class="math inline">\(x^*\)</span>. Similarly, <span class="math inline">\(f'(x_k) = f'(x^*) + O(e_k)\)</span>. Then <span class="math display">\[e_{k+1} = e_k - \frac{f(x_k)}{f'(x_k)}
-= e_k - \frac{f'(x^*)e_k + \tfrac{1}{2}f''(\xi_k)e_k^2}{f'(x^*) + O(e_k)}
-= \frac{f''(\xi_k)}{2f'(x^*)}e_k^2 + O(e_k^3).\]</span></p>
-</div>
+<p>If <span class="math inline">\(f''(x)\)</span> is continuous near a simple root <span class="math inline">\(x^*\)</span> (<span class="math inline">\(f'(x^*) \neq 0\)</span>), Newton’s method converges <strong>quadratically</strong>: <span class="math display">\[|x_{k+1} - x^*| \approx \frac{|f''(x^*)|}{2|f'(x^*)|} |x_k - x^*|^2.\]</span> <strong>Insight:</strong> The number of correct digits roughly doubles each step.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -788,12 +767,9 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Newton’s method can diverge if <span class="math inline">\(x_0\)</span> is far from the root, if <span class="math inline">\(f'(x_k) \approx 0\)</span> (nearly flat), or at a double root <span class="math inline">\(f'(x^*) = 0\)</span> (convergence degrades to linear with rate <span class="math inline">\(1/2\)</span>).</p>
+<p><strong>Failure Modes:</strong> 1. <span class="math inline">\(x_0\)</span> too far from <span class="math inline">\(x^*\)</span>. 2. <span class="math inline">\(f'(x_k) \approx 0\)</span> (zero derivative). 3. Multiple roots (<span class="math inline">\(f'(x^*) = 0\)</span>): convergence degrades to linear with rate <span class="math inline">\(1/2\)</span>.</p>
 </div>
 </div>
-</section>
-<section id="secant-method" class="level2" data-number="26.3">
-<h2 data-number="26.3" class="anchored" data-anchor-id="secant-method"><span class="header-section-number">26.3</span> Secant Method</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -804,7 +780,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>When <span class="math inline">\(f'\)</span> is unavailable or expensive, approximate <span class="math inline">\(f'(x_k)\)</span> by a finite difference using the previous iterate: <span class="math display">\[x_{k+1} = x_k - f(x_k)\frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}.\]</span> The secant method requires two initial points <span class="math inline">\(x_0, x_1\)</span> and does not evaluate <span class="math inline">\(f'\)</span>.</p>
+<p>Approximates <span class="math inline">\(f'\)</span> via finite differences of the last two iterates: <span class="math display">\[x_{k+1} = x_k - f(x_k)\frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}.\]</span> Requires two initial points (<span class="math inline">\(x_0, x_1\)</span>).</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -813,11 +789,34 @@ Tip
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Superlinear Convergence of the Secant Method
+<span class="screen-reader-only">Note</span>Theorem: Superlinear Convergence
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Near a simple root <span class="math inline">\(x^*\)</span> with <span class="math inline">\(f\)</span> twice differentiable, the secant method converges with order <span class="math inline">\(\phi = \frac{1 + \sqrt{5}}{2} \approx 1.618\)</span> (the golden ratio): <span class="math display">\[|e_{k+1}| \approx C |e_k|^{\phi}, \qquad C = \left|\frac{f''(x^*)}{2f'(x^*)}\right|^{\phi - 1}.\]</span></p>
+<p>The secant method converges with order <span class="math inline">\(\phi = (1 + \sqrt{5})/2 \approx 1.618\)</span> (the golden ratio). <strong>Efficiency:</strong> Faster than bisection, slower than Newton, but requires only 1 function evaluation per step (Newton requires 2: <span class="math inline">\(f\)</span> and <span class="math inline">\(f'\)</span>).</p>
+</div>
+</div>
+</section>
+<section id="brents-method" class="level2" data-number="26.3">
+<h2 data-number="26.3" class="anchored" data-anchor-id="brents-method"><span class="header-section-number">26.3</span> Brent’s Method</h2>
+<p>The standard robust choice for root-finding in 1D.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: The Hybrid Approach
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Brent’s method combines:</p>
+<ol type="1">
+<li><p><strong>Bisection:</strong> For guaranteed global convergence.</p></li>
+<li><p><strong>Secant:</strong> For fast local convergence.</p></li>
+<li><p><strong>IQI:</strong> Inverse Quadratic Interpolation using 3 points.</p></li>
+</ol>
+<p><strong>Rule:</strong> It uses fast open steps by default, falling back to bisection only if the step is outside the bracket or not improving quickly enough.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -830,42 +829,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The secant method is <em>superlinear</em> — faster than bisection’s linear rate but slower than Newton’s quadratic rate. Each step costs one function evaluation (versus two for finite-difference Newton), making it often more efficient per digit gained.</p>
+<p><strong>Implementation:</strong> Used in <code>scipy.optimize.brentq</code>.</p>
 </div>
 </div>
 </section>
-<section id="brents-method" class="level2" data-number="26.4">
-<h2 data-number="26.4" class="anchored" data-anchor-id="brents-method"><span class="header-section-number">26.4</span> Brent’s Method</h2>
-<p>Brent’s method combines three ideas to get the best of bracketing and open methods: (1) <em>bisection</em> as a fallback, always maintaining a bracket; (2) the <em>secant method</em> for fast superlinear convergence near the root; (3) <em>inverse quadratic interpolation (IQI)</em>, fitting a quadratic through the last three points <span class="math inline">\((a, f(a))\)</span>, <span class="math inline">\((b, f(b))\)</span>, <span class="math inline">\((c, f(c))\)</span> and evaluating it at <span class="math inline">\(y = 0\)</span>: <span class="math display">\[x = \frac{a f(b)f(c)}{(f(a)-f(b))(f(a)-f(c))} + \frac{b f(a)f(c)}{(f(b)-f(a))(f(b)-f(c))} + \frac{c f(a)f(b)}{(f(c)-f(a))(f(c)-f(b))}.\]</span></p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Brent’s Method Guarantees
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Brent’s method is <em>guaranteed to converge</em> (like bisection) and achieves <em>superlinear convergence</em> near a root (like the secant method). It accepts an IQI or secant step only when it falls inside the bracket and improves sufficiently over bisection; otherwise it takes a bisection step.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Brent’s method is the default solver in <code>scipy.optimize.brentq</code>, the GNU Scientific Library, and MATLAB’s <code>fzero</code>.</p>
-</div>
-</div>
-</section>
-<section id="exercises" class="level2" data-number="26.5">
-<h2 data-number="26.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">26.5</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="26.4">
+<h2 data-number="26.4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">26.4</span> Exercises</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -877,12 +846,10 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Apply 4 steps of bisection to find a root of <span class="math inline">\(f(x) = x^3 - 2\)</span> on <span class="math inline">\([1, 2]\)</span>. What is the guaranteed error bound after these steps? Compare to <span class="math inline">\(2^{1/3}\)</span>.</p></li>
-<li><p>Apply 3 steps of Newton’s method to <span class="math inline">\(f(x) = x^2 - 2\)</span> starting from <span class="math inline">\(x_0 = 1\)</span>. Compute <span class="math inline">\(|x_k - \sqrt{2}|\)</span> at each step and verify quadratic convergence by checking the ratio <span class="math inline">\(|e_{k+1}|/|e_k|^2\)</span>.</p></li>
-<li><p>Show that Newton’s method applied to <span class="math inline">\(f(x) = x^2\)</span> converges only <em>linearly</em> to <span class="math inline">\(x^* = 0\)</span> (double root). What is the linear convergence rate?</p></li>
-<li><p>Derive the convergence order <span class="math inline">\(\phi = (1+\sqrt{5})/2\)</span> of the secant method. (<em>Hint:</em> assume <span class="math inline">\(|e_{k+1}| \approx C|e_k|^\phi\)</span>, use <span class="math inline">\(e_{k+1} \approx
-\frac{f''}{2f'} e_k e_{k-1}\)</span>, and equate exponents.)</p></li>
-<li><p>Find the positive root of <span class="math inline">\(f(x) = e^x - 3x = 0\)</span> near <span class="math inline">\(x = 1\)</span> using bisection on <span class="math inline">\([0, 2]\)</span>, Newton’s method from <span class="math inline">\(x_0 = 1\)</span>, and the secant method from <span class="math inline">\(x_0 = 1\)</span>, <span class="math inline">\(x_1 = 1.5\)</span>. Compare the number of function evaluations to reach <span class="math inline">\(|f(x_k)| &lt; 10^{-10}\)</span>.</p></li>
+<li><p>Bisection on <span class="math inline">\(f(x) = x^3 - 2\)</span> on <span class="math inline">\([1, 2]\)</span> for 4 steps. Find the guaranteed error.</p></li>
+<li><p>Newton on <span class="math inline">\(f(x) = x^2 - 2\)</span> from <span class="math inline">\(x_0 = 1\)</span>. Verify the doubling of digits.</p></li>
+<li><p>Prove that for <span class="math inline">\(f(x) = x^2\)</span>, Newton converges to <span class="math inline">\(0\)</span> with linear rate <span class="math inline">\(1/2\)</span>.</p></li>
+<li><p>Find the root of <span class="math inline">\(e^x = 3x\)</span> near <span class="math inline">\(x=1\)</span> via Secant method. Compare evaluations vs.&nbsp;Newton.</p></li>
 </ol>
 </div>
 </div>
@@ -1317,8 +1284,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/numerical-analysis/root-finding.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/numerical-analysis/root-finding.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

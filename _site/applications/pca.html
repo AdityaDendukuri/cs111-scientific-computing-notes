@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>28&nbsp; Principal Component Analysis via SVD – Scientific Computing</title>
+<title>28&nbsp; Principal Component Analysis (PCA) – Scientific Computing</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,47 +332,38 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/pca.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/pca.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -671,10 +662,11 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#principal-components-as-variance-maximizing-directions" id="toc-principal-components-as-variance-maximizing-directions" class="nav-link active" data-scroll-target="#principal-components-as-variance-maximizing-directions"><span class="header-section-number">28.1</span> Principal Components as Variance-Maximizing Directions</a></li>
-  <li><a href="#the-svd-pca-connection" id="toc-the-svd-pca-connection" class="nav-link" data-scroll-target="#the-svd-pca-connection"><span class="header-section-number">28.2</span> The SVD-PCA Connection</a></li>
-  <li><a href="#dimensionality-reduction" id="toc-dimensionality-reduction" class="nav-link" data-scroll-target="#dimensionality-reduction"><span class="header-section-number">28.3</span> Dimensionality Reduction</a></li>
-  <li><a href="#statistical-interpretation" id="toc-statistical-interpretation" class="nav-link" data-scroll-target="#statistical-interpretation"><span class="header-section-number">28.4</span> Statistical Interpretation</a></li>
+  <li><a href="#definitions-and-preprocessing" id="toc-definitions-and-preprocessing" class="nav-link active" data-scroll-target="#definitions-and-preprocessing"><span class="header-section-number">28.1</span> Definitions and Preprocessing</a></li>
+  <li><a href="#pca-via-svd" id="toc-pca-via-svd" class="nav-link" data-scroll-target="#pca-via-svd"><span class="header-section-number">28.2</span> PCA via SVD</a></li>
+  <li><a href="#variance-and-dimensionality-reduction" id="toc-variance-and-dimensionality-reduction" class="nav-link" data-scroll-target="#variance-and-dimensionality-reduction"><span class="header-section-number">28.3</span> Variance and Dimensionality Reduction</a></li>
+  <li><a href="#implementation-details" id="toc-implementation-details" class="nav-link" data-scroll-target="#implementation-details"><span class="header-section-number">28.4</span> Implementation Details</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">28.5</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/pca.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -682,9 +674,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/pca.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/pca.html"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></h1>
+<h1 class="title"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></h1>
 </div>
 
 
@@ -701,7 +693,9 @@ window.Quarto = {
 </header>
 
 
-<p>Principal Component Analysis (PCA) is a fundamental technique for dimensionality reduction. It seeks an orthogonal change of basis that aligns the coordinate axes with the directions of maximum variance in the data. Via the SVD, PCA is both theoretically elegant — it is the optimal linear dimensionality reduction — and computationally efficient. Understanding PCA requires understanding orthogonal projections, eigendecompositions, and the Eckart-Young theorem.</p>
+<p>Optimal linear dimensionality reduction via variance maximization.</p>
+<section id="definitions-and-preprocessing" class="level2" data-number="28.1">
+<h2 data-number="28.1" class="anchored" data-anchor-id="definitions-and-preprocessing"><span class="header-section-number">28.1</span> Definitions and Preprocessing</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -712,7 +706,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For PCA, the data matrix <span class="math inline">\(\bX \in \fR^{n\times p}\)</span> (<span class="math inline">\(n\)</span> samples, <span class="math inline">\(p\)</span> features) must be <em>centered</em>: subtract the column mean <span class="math inline">\(\bar{x}_j = \frac{1}{n}\sum_i X_{ij}\)</span> from each entry in column <span class="math inline">\(j\)</span>. Throughout this section, <span class="math inline">\(\bX\)</span> denotes a centered data matrix.</p>
+<p>Data matrix <span class="math inline">\(\bX \in \fR^{n\times p}\)</span> (<span class="math inline">\(n\)</span> samples, <span class="math inline">\(p\)</span> features) must be <strong>centered</strong>: <span class="math display">\[X_{ij} \leftarrow X_{ij} - \bar{x}_j, \quad \bar{x}_j = \frac{1}{n}\sum_{i=1}^n X_{ij}.\]</span> <strong>Rule:</strong> Throughout this section, <span class="math inline">\(\bX\)</span> is assumed centered.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -725,286 +719,33 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For a centered data matrix <span class="math inline">\(\bX \in \fR^{n\times p}\)</span>, the <em>sample covariance matrix</em> is <span class="math display">\[\bS = \frac{1}{n-1}\bX^T\bX \in \fR^{p\times p}.\]</span> <span class="math inline">\(\bS\)</span> is symmetric and positive semidefinite. Its diagonal entry <span class="math inline">\(S_{jj}\)</span> is the sample variance of feature <span class="math inline">\(j\)</span>, and <span class="math inline">\(S_{ij}\)</span> is the sample covariance between features <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>.</p>
-</div>
-</div>
-<section id="principal-components-as-variance-maximizing-directions" class="level2" data-number="28.1">
-<h2 data-number="28.1" class="anchored" data-anchor-id="principal-components-as-variance-maximizing-directions"><span class="header-section-number">28.1</span> Principal Components as Variance-Maximizing Directions</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: First Principal Component Maximizes Variance
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Among all unit vectors <span class="math inline">\(\bw \in \fR^p\)</span>, the direction that maximizes the variance of the projected data <span class="math inline">\(\bX\bw\)</span> is the eigenvector <span class="math inline">\(\bv_1\)</span> of <span class="math inline">\(\bS\)</span> corresponding to the largest eigenvalue <span class="math inline">\(\lambda_1\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The sample variance of <span class="math inline">\(\bX\bw\)</span> is <span class="math display">\[\mathrm{Var}(\bX\bw) = \frac{1}{n-1}\|\bX\bw\|_2^2 = \bw^T\bS\bw.\]</span> We maximize <span class="math inline">\(\bw^T\bS\bw\)</span> subject to <span class="math inline">\(\|\bw\|_2 = 1\)</span>. By the Rayleigh quotient theorem (a consequence of the spectral theorem for symmetric matrices), this maximum is <span class="math inline">\(\lambda_1\)</span>, attained at <span class="math inline">\(\bw = \bv_1\)</span> (the eigenvector of <span class="math inline">\(\bS\)</span> for <span class="math inline">\(\lambda_1\)</span>). To verify: <span class="math inline">\(\bv_1^T\bS\bv_1 = \lambda_1\bv_1^T\bv_1 = \lambda_1\)</span>, and for any unit <span class="math inline">\(\bw = \sum_i c_i\bv_i\)</span>, <span class="math inline">\(\bw^T\bS\bw = \sum_i \lambda_i c_i^2 \leq \lambda_1\sum_i c_i^2 = \lambda_1\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Principal Directions (Loading Vectors)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>principal directions</em> <span class="math inline">\(\bv_1, \bv_2, ..., \bv_p\)</span> are the eigenvectors of <span class="math inline">\(\bS\)</span> ordered by decreasing eigenvalue <span class="math inline">\(\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_p \geq 0\)</span>. The <span class="math inline">\(k\)</span>-th principal direction <span class="math inline">\(\bv_k\)</span> maximizes variance among all unit vectors orthogonal to <span class="math inline">\(\bv_1,...,\bv_{k-1}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Principal Component Scores
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>principal component scores</em> are the projections of the data onto the principal directions: <span class="math display">\[\bZ = \bX\bV, \qquad \bV = [\bv_1 \mid \cdots \mid \bv_p].\]</span> The <span class="math inline">\(k\)</span>-th column <span class="math inline">\(\bz_k = \bX\bv_k\)</span> is the <span class="math inline">\(k\)</span>-th principal component. Its sample variance is <span class="math inline">\(\lambda_k\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Principal Components are Uncorrelated
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The principal component scores are pairwise uncorrelated: <span class="math inline">\(\mathrm{Cov}(\bz_j, \bz_k) = 0\)</span> for <span class="math inline">\(j \neq k\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The sample covariance matrix of the scores <span class="math inline">\(\bZ = \bX\bV\)</span> is <span class="math display">\[\frac{1}{n-1}\bZ^T\bZ = \frac{1}{n-1}\bV^T\bX^T\bX\bV = \bV^T\bS\bV = \boldsymbol{\Lambda} = \mathrm{diag}(\lambda_1,...,\lambda_p),\]</span> where the last equality uses <span class="math inline">\(\bS\bV = \bV\boldsymbol{\Lambda}\)</span> (eigendecomposition) and <span class="math inline">\(\bV^T\bV = \bI\)</span> (orthogonality). The off-diagonal entries of <span class="math inline">\(\boldsymbol{\Lambda}\)</span> are zero, confirming the principal components are uncorrelated.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="the-svd-pca-connection" class="level2" data-number="28.2">
-<h2 data-number="28.2" class="anchored" data-anchor-id="the-svd-pca-connection"><span class="header-section-number">28.2</span> The SVD-PCA Connection</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: PCA via SVD
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bX = \bU\bsigma\bV^T\)</span> be the SVD of the centered data matrix. Then: the columns of <span class="math inline">\(\bV\)</span> are the principal directions (eigenvectors of <span class="math inline">\(\bS\)</span>); the eigenvalues of <span class="math inline">\(\bS\)</span> satisfy <span class="math inline">\(\lambda_i = \sigma_i^2/(n-1)\)</span>; the principal component scores satisfy <span class="math inline">\(\bZ = \bX\bV = \bU\bsigma\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Substitute the SVD into the covariance matrix: <span class="math display">\[\bS = \frac{1}{n-1}\bX^T\bX = \frac{1}{n-1}(\bU\bsigma\bV^T)^T(\bU\bsigma\bV^T) = \frac{1}{n-1}\bV\bsigma^T(\bU^T\bU)\bsigma\bV^T = \frac{1}{n-1}\bV\bsigma^2\bV^T,\]</span> using <span class="math inline">\(\bU^T\bU = \bI\)</span> (orthogonality of <span class="math inline">\(\bU\)</span>) and <span class="math inline">\(\bsigma^T\bsigma = \bsigma^2 = \mathrm{diag}(\sigma_1^2,...)\)</span>. Comparing with <span class="math inline">\(\bS = \bV\boldsymbol{\Lambda}\bV^T\)</span> identifies the columns of <span class="math inline">\(\bV\)</span> as eigenvectors and <span class="math inline">\(\lambda_i = \sigma_i^2/(n-1)\)</span>.</p>
-<p>For the scores: <span class="math inline">\(\bZ = \bX\bV = \bU\bsigma\bV^T\bV = \bU\bsigma\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This theorem shows that PCA can be performed directly from the SVD of <span class="math inline">\(\bX\)</span>, avoiding the explicit formation of <span class="math inline">\(\bS\)</span>. Since <span class="math inline">\(\bS = \bX^T\bX/(n-1)\)</span> squares the condition number, the SVD route is numerically more stable. In NumPy: <code>U, s, Vt = np.linalg.svd(X, full\_matrices=False); Z = U * s</code>.</p>
-</div>
-</div>
-</section>
-<section id="dimensionality-reduction" class="level2" data-number="28.3">
-<h2 data-number="28.3" class="anchored" data-anchor-id="dimensionality-reduction"><span class="header-section-number">28.3</span> Dimensionality Reduction</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Rank-<span class="math inline">\(k\)</span> Approximation via PCA
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The best rank-<span class="math inline">\(k\)</span> approximation of <span class="math inline">\(\bX\)</span> using PCA retains only the first <span class="math inline">\(k\)</span> principal components: <span class="math display">\[\bX_k = \bU_k\bsigma_k\bV_k^T = \bZ_k\bV_k^T = \bX\bV_k\bV_k^T,\]</span> where <span class="math inline">\(\bU_k, \bV_k\)</span> are the first <span class="math inline">\(k\)</span> columns of <span class="math inline">\(\bU, \bV\)</span> and <span class="math inline">\(\bsigma_k = \mathrm{diag}(\sigma_1,...,\sigma_k)\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: PCA is the Optimal Linear Dimensionality Reduction
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Among all rank-<span class="math inline">\(k\)</span> approximations, <span class="math inline">\(\bX_k\)</span> minimizes the reconstruction error: <span class="math display">\[\|\bX - \bX_k\|_F^2 = \sum_{i=k+1}^r \sigma_i^2 = (n-1)\sum_{i=k+1}^r \lambda_i,\]</span> and <span class="math inline">\(\bX_k\)</span> is the best rank-<span class="math inline">\(k\)</span> matrix approximation to <span class="math inline">\(\bX\)</span> in the Frobenius norm.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>This is a direct consequence of the Eckart-Young-Mirsky theorem applied to <span class="math inline">\(\bX\)</span>: <span class="math inline">\(\bX_k\)</span> is the best rank-<span class="math inline">\(k\)</span> approximation and the error is <span class="math inline">\(\|\bX - \bX_k\|_F^2 = \sum_{i&gt;k}\sigma_i^2\)</span>. Converting via <span class="math inline">\(\lambda_i = \sigma_i^2/(n-1)\)</span> gives the formula in terms of eigenvalues.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Proportion of Variance Explained
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>proportion of variance explained</em> (PVE) by the first <span class="math inline">\(k\)</span> principal components is <span class="math display">\[\mathrm{PVE}_k = \frac{\sum_{i=1}^k \lambda_i}{\sum_{i=1}^p \lambda_i} = \frac{\sum_{i=1}^k \sigma_i^2}{\sum_{i=1}^p \sigma_i^2}.\]</span> A common criterion is to choose <span class="math inline">\(k\)</span> such that <span class="math inline">\(\mathrm{PVE}_k \geq 0.90\)</span> or <span class="math inline">\(0.95\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Scree Plot
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A <em>scree plot</em> displays the eigenvalues <span class="math inline">\(\lambda_1 \geq \cdots \geq \lambda_p\)</span> (or singular values <span class="math inline">\(\sigma_i\)</span>) in decreasing order. The ``elbow’’ — the point where the values level off — suggests a natural cutoff for <span class="math inline">\(k\)</span>. Components beyond the elbow likely represent noise rather than signal.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The choice of <span class="math inline">\(k\)</span> should also be guided by downstream tasks: visualization typically uses <span class="math inline">\(k = 2\)</span> or <span class="math inline">\(k = 3\)</span>; clustering may need more components; the goal is to retain enough variance for the application while discarding noisy dimensions.</p>
-</div>
-</div>
-</section>
-<section id="statistical-interpretation" class="level2" data-number="28.4">
-<h2 data-number="28.4" class="anchored" data-anchor-id="statistical-interpretation"><span class="header-section-number">28.4</span> Statistical Interpretation</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Loadings
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The entries of the principal directions <span class="math inline">\(\bv_i\)</span> are called <em>loadings</em>. The loading <span class="math inline">\(v_{ji}\)</span> quantifies the contribution of the <span class="math inline">\(j\)</span>-th original feature to the <span class="math inline">\(i\)</span>-th principal component. When data are standardized (unit-variance features), <span class="math inline">\(v_{ji}\)</span> equals the correlation between feature <span class="math inline">\(j\)</span> and PC score <span class="math inline">\(\bz_i\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: High-Dimensional PCA (<span class="math inline">\(p \gg n\)</span>)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>When <span class="math inline">\(p \gg n\)</span>, forming the <span class="math inline">\(p\times p\)</span> covariance matrix <span class="math inline">\(\bS\)</span> is prohibitively expensive. Instead, one works with the <span class="math inline">\(n\times n\)</span> Gram matrix <span class="math inline">\(\mathbf{K} = \bX\bX^T\)</span>. If <span class="math inline">\(\bu_i\)</span> is an eigenvector of <span class="math inline">\(\mathbf{K}\)</span> with eigenvalue <span class="math inline">\(\sigma_i^2\)</span>, then <span class="math inline">\(\bv_i = \bX^T\bu_i / \sigma_i\)</span> is the corresponding principal direction. This kernel trick has complexity <span class="math inline">\(O(n^2 p + n^3)\)</span> vs.&nbsp;<span class="math inline">\(O(np^2 + p^3)\)</span> for the direct approach.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Limitations of PCA.</strong> PCA assumes linear structure: it finds directions of high variance in the <em>original</em> feature space. If the data lies on a nonlinear manifold (e.g., a sphere), PCA may fail to capture its intrinsic geometry (Kernel PCA addresses this).</p>
-<p>PCA is sensitive to outliers, since they strongly influence the variance and hence the principal directions.</p>
-<p>PCA is unsupervised: it maximizes variance regardless of class labels. In classification tasks, directions that best separate classes may have low variance and be discarded by PCA (Linear Discriminant Analysis is supervised and addresses this).</p>
-<p>The effectiveness of PCA depends on whether high-variance directions are truly informative. Rapid decay of singular values is a reliable indicator that PCA will achieve effective compression.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Consider a centered data matrix <span class="math inline">\(\bX \in \fR^{100\times 3}\)</span> with singular values <span class="math inline">\(\sigma_1 = 10\sqrt{99}\)</span>, <span class="math inline">\(\sigma_2 = 5\sqrt{99}\)</span>, <span class="math inline">\(\sigma_3 = 0.5\sqrt{99}\)</span>. The covariance eigenvalues are <span class="math inline">\(\lambda_1 = 100\)</span>, <span class="math inline">\(\lambda_2 = 25\)</span>, <span class="math inline">\(\lambda_3 = 0.25\)</span>.</p>
+<p>The matrix <span class="math inline">\(\bS = \frac{1}{n-1}\bX^T\bX \in \fR^{p\times p}\)</span>.</p>
 <ul>
-<li><p>PVE for <span class="math inline">\(k=1\)</span>: <span class="math inline">\(100/125.25 \approx 79.8\%\)</span>.</p></li>
-<li><p>PVE for <span class="math inline">\(k=2\)</span>: <span class="math inline">\(125/125.25 \approx 99.8\%\)</span>.</p></li>
+<li><p><strong>Diagonal:</strong> <span class="math inline">\(S_{jj}\)</span> is the variance of feature <span class="math inline">\(j\)</span>.</p></li>
+<li><p><strong>Off-diagonal:</strong> <span class="math inline">\(S_{ij}\)</span> is the covariance between features <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>.</p></li>
+<li><p><strong>Property:</strong> <span class="math inline">\(\bS\)</span> is symmetric positive semi-definite (SPSD).</p></li>
 </ul>
-<p>The data is nearly coplanar: 99.8% of variance lies in a 2D subspace. A rank-2 approximation <span class="math inline">\(\bX_2\)</span> has reconstruction error <span class="math inline">\(\|\bX - \bX_2\|_F = |\sigma_3| = 0.5\sqrt{99} \approx 4.97\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="pca-via-svd" class="level2" data-number="28.2">
+<h2 data-number="28.2" class="anchored" data-anchor-id="pca-via-svd"><span class="header-section-number">28.2</span> PCA via SVD</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Principal Directions and Scores
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Let <span class="math inline">\(\bX = \bU\bsigma\bV^T\)</span> be the SVD of the centered data matrix.</p>
+<ul>
+<li><p><strong>Principal Directions (Loadings):</strong> Columns of <span class="math inline">\(\bV\)</span> (eigenvectors of <span class="math inline">\(\bS\)</span>).</p></li>
+<li><p><strong>Principal Components (Scores):</strong> <span class="math inline">\(\bZ = \bX\bV = \bU\bsigma\)</span>.</p></li>
+<li><p><strong>Variances:</strong> <span class="math inline">\(\lambda_i = \text{Var}(\bz_i) = \frac{\sigma_i^2}{n-1}\)</span>.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -1017,9 +758,70 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The SVD <span class="math inline">\(\bX = \bU\bsigma\bV^T\)</span> gives a geometric picture: <span class="math inline">\(\bV\)</span> rotates the feature space to align the axes with principal directions; <span class="math inline">\(\bsigma\)</span> reveals the variance captured by each direction; <span class="math inline">\(\bU\)</span> contains the normalized principal component scores. The transformation <span class="math inline">\(\bX \mapsto \bX\bV = \bU\bsigma\)</span> is simply a rigid rotation in feature space followed by reading off coordinates in the new basis.</p>
+<p><strong>Numerical Stability:</strong> Never form <span class="math inline">\(\bX^T\bX\)</span> explicitly for PCA. Squaring the data matrix doubles the condition number (<span class="math inline">\(\kappa(\bS) = \kappa(\bX)^2\)</span>). Compute PCA directly via the SVD of <span class="math inline">\(\bX\)</span>.</p>
 </div>
 </div>
+</section>
+<section id="variance-and-dimensionality-reduction" class="level2" data-number="28.3">
+<h2 data-number="28.3" class="anchored" data-anchor-id="variance-and-dimensionality-reduction"><span class="header-section-number">28.3</span> Variance and Dimensionality Reduction</h2>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Proportion of Variance Explained (PVE)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For the first <span class="math inline">\(k\)</span> components: <span class="math display">\[\text{PVE}_k = \frac{\sum_{i=1}^k \sigma_i^2}{\sum_{i=1}^p \sigma_i^2}.\]</span> <strong>Rule:</strong> Choose <span class="math inline">\(k\)</span> to reach a target PVE (e.g., 95%) or identify the “elbow” in a scree plot.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Optimal Approximation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The rank-<span class="math inline">\(k\)</span> matrix <span class="math inline">\(\bX_k = \sum_{i=1}^k \sigma_i \bu_i \bv_i^T\)</span> is the optimal <span class="math inline">\(k\)</span>-dimensional linear approximation of the data in the Frobenius norm (Eckart-Young).</p>
+</div>
+</div>
+</section>
+<section id="implementation-details" class="level2" data-number="28.4">
+<h2 data-number="28.4" class="anchored" data-anchor-id="implementation-details"><span class="header-section-number">28.4</span> Implementation Details</h2>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Standardization:</strong> If features have different units (e.g., height in meters vs.&nbsp;weight in kg), PCA will be dominated by large-scale features. <strong>Standardize</strong> by dividing each centered column by its standard deviation: <span class="math inline">\(X_{ij} \leftarrow (X_{ij} - \bar{x}_j)/s_j\)</span>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Kernel PCA (High-Dimensional Case)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When <span class="math inline">\(p \gg n\)</span>, work with the <span class="math inline">\(n \times n\)</span> Gram matrix <span class="math inline">\(\mathbf{K} = \bX\bX^T\)</span>. Principal directions are recovered via <span class="math inline">\(\bv_i = \bX^T \bu_i / \sigma_i\)</span>.</p>
+</div>
+</div>
+</section>
+<section id="exercises" class="level2" data-number="28.5">
+<h2 data-number="28.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">28.5</span> Exercises</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1030,50 +832,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(PCA by hand)</strong> Let <span class="math inline">\(\bX = \begin{pmatrix} 2 &amp; 1 \\ -1 &amp; 3 \\ -1 &amp; -4 \end{pmatrix}\)</span> (already centered: verify <span class="math inline">\(\sum_i X_{i1} = \sum_i X_{i2} = 0\)</span>).</p>
 <ol type="1">
-<li><p>Compute <span class="math inline">\(\bS = \bX^T\bX/(n-1)\)</span> with <span class="math inline">\(n=3\)</span>.</p></li>
-<li><p>Find the eigenvalues and eigenvectors of <span class="math inline">\(\bS\)</span>. What are <span class="math inline">\(\lambda_1, \lambda_2\)</span> and the principal directions <span class="math inline">\(\bv_1, \bv_2\)</span>?</p></li>
-<li><p>Compute the principal component scores <span class="math inline">\(\bZ = \bX\bV\)</span>. Verify that <span class="math inline">\(\bZ^T\bZ/(n-1)\)</span> is diagonal.</p></li>
-<li><p>Compute the SVD of <span class="math inline">\(\bX\)</span> and verify that the right singular vectors match the principal directions from step 2.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(PCA for dimensionality reduction)</strong> Load the Iris dataset from <code>sklearn.datasets.load\_iris</code>. The data matrix <span class="math inline">\(\bX\)</span> has <span class="math inline">\(n=150\)</span> samples and <span class="math inline">\(p=4\)</span> features.</p>
-<ol type="1">
-<li><p>Center the data. Compute the SVD and plot the first two principal components as a scatter plot colored by species. Do the classes separate?</p></li>
-<li><p>Plot the scree plot (singular values vs.&nbsp;index). How many components capture 95% of the variance?</p></li>
-<li><p>Compute the loadings <span class="math inline">\(\bv_1\)</span> and <span class="math inline">\(\bv_2\)</span>. Which original features contribute most to each principal component? What is the biological interpretation?</p></li>
-<li><p>Reconstruct the data from rank-<span class="math inline">\(k\)</span> approximation for <span class="math inline">\(k=1,2,3,4\)</span>. Plot the relative reconstruction error <span class="math inline">\(\|\bX - \bX_k\|_F / \|\bX\|_F\)</span> vs.&nbsp;<span class="math inline">\(k\)</span>.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(High-dimensional PCA)</strong> Generate a data matrix <span class="math inline">\(\bX \in \fR^{n\times p}\)</span> with <span class="math inline">\(n=50, p=500\)</span> from <code>np.random.randn</code>.</p>
-<ol type="1">
-<li><p>Compute the <span class="math inline">\(p\times p\)</span> covariance matrix <span class="math inline">\(\bS = \bX^T\bX/49\)</span> and time its eigendecomposition. How long does it take?</p></li>
-<li><p>Compute the <span class="math inline">\(n\times n\)</span> Gram matrix <span class="math inline">\(\mathbf{K} = \bX\bX^T/49\)</span> and time its eigendecomposition. Which is faster?</p></li>
-<li><p>Recover the principal directions <span class="math inline">\(\bv_i = \bX^T\bu_i/\sigma_i\)</span> from the Gram matrix eigenvectors. Verify these match the top eigenvectors of <span class="math inline">\(\bS\)</span> (up to sign).</p></li>
-<li><p>For <span class="math inline">\(n \ll p\)</span>, how many nonzero eigenvalues does <span class="math inline">\(\bS\)</span> have? Explain using the rank-nullity theorem.</p></li>
+<li><p>Center <span class="math inline">\(\bX = \begin{pmatrix} 2 &amp; 1 \\ -1 &amp; 3 \\ -1 &amp; -4 \end{pmatrix}\)</span> and compute <span class="math inline">\(\bS\)</span>. Find the PVE for <span class="math inline">\(k=1\)</span>.</p></li>
+<li><p>Prove that PC scores <span class="math inline">\(\bz_i, \bz_j\)</span> are uncorrelated for <span class="math inline">\(i \neq j\)</span>.</p></li>
+<li><p>Load the Iris dataset. Plot the data in the basis of the first two PCs. Do species cluster?</p></li>
+<li><p>Verify that the sum of variances <span class="math inline">\(\sum \lambda_i\)</span> equals the total variance <span class="math inline">\(\text{Tr}(\bS)\)</span>.</p></li>
 </ol>
 </div>
 </div>
@@ -1508,8 +1271,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/pca.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/pca.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

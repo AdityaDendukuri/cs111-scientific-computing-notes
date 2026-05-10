@@ -1,120 +1,96 @@
 # Root Finding
 
 
-Given a continuous function $f : \fR \to \fR$, find $x^*$ such that $f(x^*) = 0$.
-Root-finding methods are iterative: starting from an initial guess (or bracket), they
-refine the estimate until convergence. The key distinctions are *bracketing* methods
-(guaranteed convergence, slower) versus *open* methods (faster convergence, may diverge).
+Iterative methods for solving $f(x) = 0$ for continuous $f : \fR \to \fR$.
 
+## Bracketing Methods
 
-## Bisection
+Guaranteed convergence to a root within a known interval.
 
 
 ::: {.callout-note icon=false}
 ## Theorem: Bisection Method
-Suppose $f$ is continuous on $[a, b]$ with $f(a)f(b) < 0$. By the Intermediate Value
-Theorem, there exists $x^* \in (a, b)$ with $f(x^*) = 0$. The bisection method halves
-the bracket at each step: set $m = (a + b)/2$, then replace $[a,b]$ by $[a,m]$ if
-$f(a)f(m) < 0$, otherwise by $[m,b]$. After $n$ steps,
-$$|x_n - x^*| \leq \frac{b - a}{2^n}.$$
+Given $f \in C[a, b]$ with $f(a)f(b) < 0$, a root $x^* \in (a, b)$ exists.
+The method repeatedly halves the interval:
+
+1. $m = (a + b)/2$
+    
+1. If $f(a)f(m) < 0$, new interval is $[a, m]$, else $[m, b]$.
+
+**Error Bound:**  After $n$ steps, $|x_n - x^*| \leq (b - a)/2^n$.
 :::
 
 
 ::: {.callout-tip icon=false}
-Bisection converges *linearly* with rate $1/2$: each step gains exactly one binary
-digit of accuracy. It requires only continuity of $f$ (no derivative) and is guaranteed
-to converge as long as the initial bracket contains a root.
+**Stability:**  Bisection is the most robust method; it always converges if a bracket exists.
+**Convergence:**  **Linear** with rate $1/2$. Gains exactly 1 bit of accuracy per step.
 :::
 
 
-## Newton-Raphson Method
+## Open Methods
+
+Faster local convergence, but sensitive to the initial guess $x_0$ and may diverge.
 
 
 ::: {.callout-note icon=false}
 ## Definition: Newton's Method
-Starting from an initial guess $x_0$, Newton's method linearizes $f$ at the current
-iterate and solves for the root of the linear approximation:
+Linearizes $f$ at the current iterate:
 $$x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}.$$
 :::
 
 
 ::: {.callout-note icon=false}
-## Theorem: Quadratic Convergence of Newton's Method
-If $f$ is twice continuously differentiable near a *simple root* $x^*$
-(i.e., $f'(x^*) \neq 0$), then Newton's method converges locally with *quadratic rate*:
+## Theorem: Quadratic Convergence
+If $f''(x)$ is continuous near a simple root $x^*$ ($f'(x^*) \neq 0$), Newton's method converges **quadratically**:
 $$|x_{k+1} - x^*| \approx \frac{|f''(x^*)|}{2|f'(x^*)|} |x_k - x^*|^2.$$
-The number of correct decimal digits roughly doubles at each step.
-:::
-
-
-::: {.callout-tip icon=false collapse=true}
-## Proof
-Let $e_k = x_k - x^*$. Taylor-expand $f$ about $x^*$:
-$$f(x_k) = f'(x^*)e_k + \tfrac{1}{2}f''(\xi_k)e_k^2$$
-for some $\xi_k$ between $x_k$ and $x^*$. Similarly, $f'(x_k) = f'(x^*) + O(e_k)$. Then
-$$e_{k+1} = e_k - \frac{f(x_k)}{f'(x_k)}
-= e_k - \frac{f'(x^*)e_k + \tfrac{1}{2}f''(\xi_k)e_k^2}{f'(x^*) + O(e_k)}
-= \frac{f''(\xi_k)}{2f'(x^*)}e_k^2 + O(e_k^3).$$
+**Insight:**  The number of correct digits roughly doubles each step.
 :::
 
 
 ::: {.callout-tip icon=false}
-Newton's method can diverge if $x_0$ is far from the root, if $f'(x_k) \approx 0$
-(nearly flat), or at a double root $f'(x^*) = 0$ (convergence degrades to linear with
-rate $1/2$).
+**Failure Modes:** 
+1. $x_0$ too far from $x^*$.
+2. $f'(x_k) \approx 0$ (zero derivative).
+3. Multiple roots ($f'(x^*) = 0$): convergence degrades to linear with rate $1/2$.
 :::
-
-
-## Secant Method
 
 
 ::: {.callout-note icon=false}
 ## Definition: Secant Method
-When $f'$ is unavailable or expensive, approximate $f'(x_k)$ by a finite difference
-using the previous iterate:
+Approximates $f'$ via finite differences of the last two iterates:
 $$x_{k+1} = x_k - f(x_k)\frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}.$$
-The secant method requires two initial points $x_0, x_1$ and does not evaluate $f'$.
+Requires two initial points ($x_0, x_1$).
 :::
 
 
 ::: {.callout-note icon=false}
-## Theorem: Superlinear Convergence of the Secant Method
-Near a simple root $x^*$ with $f$ twice differentiable, the secant method converges with
-order $\phi = \frac{1 + \sqrt{5}}{2} \approx 1.618$ (the golden ratio):
-$$|e_{k+1}| \approx C |e_k|^{\phi}, \qquad C = \left|\frac{f''(x^*)}{2f'(x^*)}\right|^{\phi - 1}.$$
-:::
-
-
-::: {.callout-tip icon=false}
-The secant method is *superlinear* --- faster than bisection's linear rate but slower
-than Newton's quadratic rate. Each step costs one function evaluation (versus two for
-finite-difference Newton), making it often more efficient per digit gained.
+## Theorem: Superlinear Convergence
+The secant method converges with order $\phi = (1 + \sqrt{5})/2 \approx 1.618$ (the golden ratio).
+**Efficiency:**  Faster than bisection, slower than Newton, but requires only 1 function evaluation per step (Newton requires 2: $f$ and $f'$).
 :::
 
 
 ## Brent's Method
 
-
-Brent's method combines three ideas to get the best of bracketing and open methods:
-(1) *bisection* as a fallback, always maintaining a bracket;
-(2) the *secant method* for fast superlinear convergence near the root;
-(3) *inverse quadratic interpolation (IQI)*, fitting a quadratic through the last
-three points $(a, f(a))$, $(b, f(b))$, $(c, f(c))$ and evaluating it at $y = 0$:
-$$x = \frac{a f(b)f(c)}{(f(a)-f(b))(f(a)-f(c))} + \frac{b f(a)f(c)}{(f(b)-f(a))(f(b)-f(c))} + \frac{c f(a)f(b)}{(f(c)-f(a))(f(c)-f(b))}.$$
+The standard robust choice for root-finding in 1D.
 
 
 ::: {.callout-note icon=false}
-## Theorem: Brent's Method Guarantees
-Brent's method is *guaranteed to converge* (like bisection) and achieves
-*superlinear convergence* near a root (like the secant method). It accepts an IQI
-or secant step only when it falls inside the bracket and improves sufficiently over
-bisection; otherwise it takes a bisection step.
+## Theorem: The Hybrid Approach
+Brent's method combines:
+
+1. **Bisection:**  For guaranteed global convergence.
+    
+1. **Secant:**  For fast local convergence.
+    
+1. **IQI:**  Inverse Quadratic Interpolation using 3 points.
+
+**Rule:**  It uses fast open steps by default, falling back to bisection only if the step is outside the bracket or not improving quickly enough.
 :::
 
 
 ::: {.callout-tip icon=false}
-Brent's method is the default solver in `scipy.optimize.brentq`, the GNU Scientific
-Library, and MATLAB's `fzero`.
+**Implementation:**  Used in `scipy.optimize.brentq`.
 :::
 
 
@@ -124,22 +100,12 @@ Library, and MATLAB's `fzero`.
 ::: {.callout-warning icon=false}
 ## Exercise
 
-1. Apply 4 steps of bisection to find a root of $f(x) = x^3 - 2$ on $[1, 2]$.
-    What is the guaranteed error bound after these steps? Compare to $2^{1/3}$.
+1. Bisection on $f(x) = x^3 - 2$ on $[1, 2]$ for 4 steps. Find the guaranteed error.
     
-1. Apply 3 steps of Newton's method to $f(x) = x^2 - 2$ starting from $x_0 = 1$.
-    Compute $|x_k - \sqrt{2}|$ at each step and verify quadratic convergence by checking
-    the ratio $|e_{k+1}|/|e_k|^2$.
+1. Newton on $f(x) = x^2 - 2$ from $x_0 = 1$. Verify the doubling of digits.
     
-1. Show that Newton's method applied to $f(x) = x^2$ converges only *linearly*
-    to $x^* = 0$ (double root). What is the linear convergence rate?
+1. Prove that for $f(x) = x^2$, Newton converges to $0$ with linear rate $1/2$.
     
-1. Derive the convergence order $\phi = (1+\sqrt{5})/2$ of the secant method.
-    (*Hint:* assume $|e_{k+1}| \approx C|e_k|^\phi$, use $e_{k+1} \approx
-    \frac{f''}{2f'} e_k e_{k-1}$, and equate exponents.)
-    
-1. Find the positive root of $f(x) = e^x - 3x = 0$ near $x = 1$ using bisection
-    on $[0, 2]$, Newton's method from $x_0 = 1$, and the secant method from $x_0 = 1$,
-    $x_1 = 1.5$. Compare the number of function evaluations to reach $|f(x_k)| < 10^{-10}$.
+1. Find the root of $e^x = 3x$ near $x=1$ via Secant method. Compare evaluations vs.\ Newton.
 
 :::

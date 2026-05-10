@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../iterative/iterative.html">Iterative Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../iterative/iterative.html"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Iterative Methods for Linear Systems</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -666,8 +657,16 @@ window.Quarto = {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#direct-vs.-iterative-solvers" id="toc-direct-vs.-iterative-solvers" class="nav-link active" data-scroll-target="#direct-vs.-iterative-solvers"><span class="header-section-number">21.1</span> Direct vs.&nbsp;Iterative Solvers</a></li>
+  <li><a href="#convergence-and-spectral-radius" id="toc-convergence-and-spectral-radius" class="nav-link" data-scroll-target="#convergence-and-spectral-radius"><span class="header-section-number">21.2</span> Convergence and Spectral Radius</a></li>
+  <li><a href="#fill-in-and-sparse-storage" id="toc-fill-in-and-sparse-storage" class="nav-link" data-scroll-target="#fill-in-and-sparse-storage"><span class="header-section-number">21.3</span> Fill-in and Sparse Storage</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/iterative.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -692,33 +691,9 @@ window.Quarto = {
 </header>
 
 
-<p>So far we have examined direct methods for solving <span class="math inline">\(\bA\bx = \bb\)</span>: computing the answer in a fixed, predictable number of operations. For large sparse systems, however, direct methods become impractical — even when <span class="math inline">\(\bA\)</span> is sparse, its LU factors may be dense (<em>fill-in</em>), destroying the memory advantage. Iterative methods offer an alternative: refine an initial guess through successive approximations, exploiting sparsity at every step.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Direct Inverse Method
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The analytical formula <span class="math inline">\(\bx = \bA^{-1}\bb\)</span> requires explicitly forming <span class="math inline">\(\bA^{-1}\)</span>, which costs <span class="math inline">\(O(n^3)\)</span> flops and can suffer from severe numerical instability when <span class="math inline">\(\bA\)</span> is nearly singular.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Matrix Factorization Methods
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Methods such as LU, Cholesky, and QR decompose <span class="math inline">\(\bA\)</span> into simpler factors at a one-time cost of <span class="math inline">\(O(n^3)\)</span>. Each subsequent solve with a new right-hand side then requires only <span class="math inline">\(O(n^2)\)</span> operations via triangular solves.</p>
-</div>
-</div>
+<p>Alternative to direct solvers for large, sparse systems where matrix factorization is impractical due to memory or compute limits.</p>
+<section id="direct-vs.-iterative-solvers" class="level2" data-number="21.1">
+<h2 data-number="21.1" class="anchored" data-anchor-id="direct-vs.-iterative-solvers"><span class="header-section-number">21.1</span> Direct vs.&nbsp;Iterative Solvers</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -729,7 +704,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Factorization methods are effective for small to medium-sized problems, but become impractical for very large sparse systems: even when <span class="math inline">\(\bA\)</span> is sparse, the factors <span class="math inline">\(\bL\)</span> and <span class="math inline">\(\bU\)</span> may be dense (fill-in), destroying the memory advantage. For example, the <span class="math inline">\(n^2 \times n^2\)</span> matrix arising from a 2D finite difference discretization on an <span class="math inline">\(n\times n\)</span> grid has <span class="math inline">\(O(n^2)\)</span> nonzeros, but its LU factors have <span class="math inline">\(O(n^3)\)</span> nonzeros.</p>
+<p><strong>The Sparsity Problem:</strong> Even if <span class="math inline">\(\bA\)</span> is sparse, its LU or Cholesky factors are typically much denser (<strong>fill-in</strong>). For a 2D Poisson problem on an <span class="math inline">\(n \times n\)</span> grid:</p>
+<ul>
+<li><p><span class="math inline">\(\bA\)</span> has <span class="math inline">\(O(n^2)\)</span> nonzeros.</p></li>
+<li><p>LU factors have <span class="math inline">\(O(n^3)\)</span> nonzeros.</p></li>
+</ul>
+<p>Iterative methods exploit sparsity by using only matrix-vector products (<span class="math inline">\(O(\text{nnz})\)</span>).</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -738,26 +718,21 @@ Tip
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Stationary Iterative Scheme
+<span class="screen-reader-only">Note</span>Definition: Stationary Iteration
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A <em>stationary iterative method</em> for <span class="math inline">\(\bA\bx = \bb\)</span> takes the form <span class="math display">\[\bx^{(k+1)} = \bT\bx^{(k)} + \bc, \quad k = 0, 1, 2, ...\]</span> for a fixed <em>iteration matrix</em> <span class="math inline">\(\bT \in \fR^{n\times n}\)</span> and a fixed vector <span class="math inline">\(\bc \in \fR^n\)</span> derived from <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bb\)</span>. Starting from an initial guess <span class="math inline">\(\bx^{(0)}\)</span>, the method generates a sequence <span class="math inline">\(\{\bx^{(k)}\}\)</span>.</p>
+<p>An iteration of the form , where:</p>
+<ul>
+<li><p><span class="math inline">\(\bT = \bI - \bM^{-1}\bA\)</span> is the iteration matrix.</p></li>
+<li><p><span class="math inline">\(\bc = \bM^{-1}\bb\)</span> is the updated right-hand side.</p></li>
+<li><p><span class="math inline">\(\bM\)</span> is the <strong>splitting matrix</strong> (ideally <span class="math inline">\(\bM \approx \bA\)</span> and <span class="math inline">\(\bM^{-1}\)</span> is cheap).</p></li>
+</ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The iteration is consistent with <span class="math inline">\(\bA\bx = \bb\)</span> if every fixed point <span class="math inline">\(\bx^* = \bT\bx^* + \bc\)</span> satisfies <span class="math inline">\(\bA\bx^* = \bb\)</span>. Rearranging <span class="math inline">\(\bA\bx = \bb\)</span> as <span class="math inline">\(\bx = (\bI - \bM^{-1}\bA)\bx + \bM^{-1}\bb\)</span> for some invertible <em>splitting matrix</em> <span class="math inline">\(\bM\)</span> yields <span class="math inline">\(\bT = \bI - \bM^{-1}\bA\)</span> and <span class="math inline">\(\bc = \bM^{-1}\bb\)</span>. The art lies in choosing <span class="math inline">\(\bM\)</span> so that <span class="math inline">\(\bT\)</span> has small spectral radius and <span class="math inline">\(\bM^{-1}\)</span> is cheap to apply.</p>
-</div>
-</div>
+</section>
+<section id="convergence-and-spectral-radius" class="level2" data-number="21.2">
+<h2 data-number="21.2" class="anchored" data-anchor-id="convergence-and-spectral-radius"><span class="header-section-number">21.2</span> Convergence and Spectral Radius</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -768,7 +743,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>spectral radius</em> of a matrix <span class="math inline">\(\bB \in \fR^{n\times n}\)</span> is <span class="math display">\[\rho(\bB) = \max\{|\lambda| : \lambda \in \sigma(\bB)\},\]</span> the largest absolute value among all eigenvalues of <span class="math inline">\(\bB\)</span>.</p>
+<p><span class="math inline">\(\rho(\bB) = \max \{|\lambda| : \lambda \in \sigma(\bB)\}\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -781,24 +756,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For any matrix <span class="math inline">\(\bB \in \fR^{n\times n}\)</span> and any submultiplicative matrix norm <span class="math inline">\(\|\cdot\|\)</span>, <span class="math display">\[\rho(\bB) = \lim_{k\to\infty} \|\bB^k\|^{1/k}.\]</span> In particular, for every <span class="math inline">\(\epsilon &gt; 0\)</span> there exists <span class="math inline">\(C_\epsilon &gt; 0\)</span> such that <span class="math inline">\(\|\bB^k\| \leq C_\epsilon(\rho(\bB)+\epsilon)^k\)</span> for all <span class="math inline">\(k \geq 0\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><em>Lower bound</em>: For any eigenvalue <span class="math inline">\(\lambda\)</span> of <span class="math inline">\(\bB\)</span> with eigenvector <span class="math inline">\(\bv\)</span>, <span class="math inline">\(\bB^k\bv = \lambda^k\bv\)</span>, so <span class="math inline">\(\|\bB^k\|\|\bv\| \geq \|\bB^k\bv\| = |\lambda|^k\|\bv\|\)</span>. Hence <span class="math inline">\(\|\bB^k\|^{1/k} \geq |\lambda|\)</span> for all <span class="math inline">\(k\)</span>, giving <span class="math inline">\(\liminf_{k}\|\bB^k\|^{1/k} \geq \rho(\bB)\)</span>.</p>
-<p><em>Upper bound</em>: Fix <span class="math inline">\(\epsilon &gt; 0\)</span>. The Jordan decomposition gives <span class="math inline">\(\bB = \bV\bJ_0\bV^{-1}\)</span> where <span class="math inline">\(\bJ_0\)</span> is block upper triangular with the eigenvalues of <span class="math inline">\(\bB\)</span> on the diagonal. The entries of <span class="math inline">\(\bJ_0^k\)</span> grow at most as <span class="math inline">\(k^{n-1}|\lambda_{\max}|^k\)</span> (from Jordan block structure). Since <span class="math inline">\(k^{n-1} \leq C_\epsilon(1+\epsilon/\rho(\bB))^k\)</span> for large <span class="math inline">\(k\)</span>, we get <span class="math inline">\(\|\bB^k\| \leq C_\epsilon(\rho(\bB)+\epsilon)^k\)</span>, so <span class="math inline">\(\limsup_k\|\bB^k\|^{1/k} \leq \rho(\bB)+\epsilon\)</span>. Since <span class="math inline">\(\epsilon\)</span> was arbitrary, the limit exists and equals <span class="math inline">\(\rho(\bB)\)</span>.</p>
-</div>
+<p>For any submultiplicative norm, <span class="math inline">\(\rho(\bB) = \lim_{k\to\infty} \|\bB^k\|^{1/k}\)</span>. <strong>Insight:</strong> For large <span class="math inline">\(k\)</span>, <span class="math inline">\(\|\bB^k\| \approx \rho(\bB)^k\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -807,58 +765,28 @@ Tip
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Convergence of Stationary Iteration
+<span class="screen-reader-only">Note</span>Theorem: Fundamental Convergence Condition
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The stationary iteration <span class="math inline">\(\bx^{(k+1)} = \bT\bx^{(k)} + \bc\)</span> converges to the fixed point <span class="math inline">\(\bx^* = \bT\bx^* + \bc\)</span> for <em>every</em> initial vector <span class="math inline">\(\bx^{(0)}\)</span> if and only if <span class="math inline">\(\rho(\bT) &lt; 1\)</span>.</p>
+<p>The iteration <span class="math inline">\(\bx^{(k+1)} = \bT\bx^{(k)} + \bc\)</span> converges for any <span class="math inline">\(\bx^{(0)}\)</span> iff <strong><span class="math inline">\(\rho(\bT) &lt; 1\)</span></strong>.</p>
+<ul>
+<li><p><strong>Error Evolution:</strong> <span class="math inline">\(\be^{(k)} = \bT^k \be^{(0)}\)</span>.</p></li>
+<li><p><strong>Rate:</strong> <span class="math inline">\(\|\be^{(k)}\| \approx \rho(\bT)^k \|\be^{(0)}\|\)</span>.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\boldsymbol{e}^{(k)} = \bx^{(k)} - \bx^*\)</span>. Subtracting the fixed-point equation from the iteration gives <span class="math inline">\(\boldsymbol{e}^{(k+1)} = \bT\boldsymbol{e}^{(k)}\)</span>, so <span class="math inline">\(\boldsymbol{e}^{(k)} = \bT^k\boldsymbol{e}^{(0)}\)</span>.</p>
-<p><em>(<span class="math inline">\(\Leftarrow\)</span>) If <span class="math inline">\(\rho(\bT) &lt; 1\)</span>:</em> Choose <span class="math inline">\(\epsilon &gt; 0\)</span> small enough that <span class="math inline">\(\rho(\bT) + \epsilon &lt; 1\)</span>. By Gelfand’s formula, <span class="math inline">\(\lim_{k\to\infty}\|\bT^k\|^{1/k} = \rho(\bT)\)</span>, so <span class="math inline">\(\|\bT^k\| \leq C(\rho(\bT)+\epsilon)^k\)</span> for some constant <span class="math inline">\(C &gt; 0\)</span>. Hence <span class="math inline">\(\|\boldsymbol{e}^{(k)}\| \leq C(\rho(\bT)+\epsilon)^k\|\boldsymbol{e}^{(0)}\| \to 0\)</span> for all <span class="math inline">\(\bx^{(0)}\)</span>.</p>
-<p><em>(<span class="math inline">\(\Rightarrow\)</span>) If <span class="math inline">\(\rho(\bT) \geq 1\)</span>:</em> There exists an eigenvalue <span class="math inline">\(\lambda\)</span> with <span class="math inline">\(|\lambda| \geq 1\)</span> and eigenvector <span class="math inline">\(\bv \neq \bzero\)</span>. Take <span class="math inline">\(\bx^{(0)} = \bx^* + \bv\)</span>; then <span class="math inline">\(\boldsymbol{e}^{(k)} = \lambda^k\bv\)</span>, so <span class="math inline">\(\|\boldsymbol{e}^{(k)}\| = |\lambda|^k\|\bv\| \not\to 0\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Corollary: Geometric Convergence Rate
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>When <span class="math inline">\(\rho(\bT) &lt; 1\)</span>, the error satisfies <span class="math inline">\(\|\bx^{(k)} - \bx^*\| = O(\rho(\bT)^k)\)</span>. To reduce the error by a factor of <span class="math inline">\(10^{-p}\)</span>, approximately <span class="math inline">\(p/\log_{10}(1/\rho(\bT))\)</span> iterations are required.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>From Gelfand’s formula, <span class="math inline">\(\|\bT^k\| \leq C\rho(\bT)^k\)</span> (up to a constant). Solving <span class="math inline">\(C\rho(\bT)^k \leq 10^{-p}\)</span> for <span class="math inline">\(k\)</span> and taking logarithms gives <span class="math inline">\(k \geq (\log C + p) / \log_{10}(1/\rho(\bT))\)</span>, which is <span class="math inline">\(O(p/\log_{10}(1/\rho(\bT)))\)</span>.</p>
-</div>
+<p><strong>Practical Cost:</strong> To reduce error by <span class="math inline">\(10^{-p}\)</span>, the required iterations are <span class="math inline">\(k \approx \frac{p}{\log_{10}(1/\rho(\bT))}\)</span>. As <span class="math inline">\(\rho(\bT) \to 1^-\)</span>, the cost explodes.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -871,14 +799,16 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA = \begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 3 \end{pmatrix}\)</span>, <span class="math inline">\(\bb = \begin{pmatrix} 4 \\ 4 \end{pmatrix}\)</span> (exact solution <span class="math inline">\(\bx^* = (1,1)^T\)</span>).</p>
 <ol type="1">
-<li><p>Split <span class="math inline">\(\bA = \bD + (\bA - \bD)\)</span> where <span class="math inline">\(\bD = \mathrm{diag}(3,3)\)</span>. Write the stationary iteration in the form <span class="math inline">\(\bx^{(k+1)} = \bT\bx^{(k)} + \bc\)</span>, stating <span class="math inline">\(\bT\)</span> and <span class="math inline">\(\bc\)</span> explicitly.</p></li>
-<li><p>Compute <span class="math inline">\(\rho(\bT)\)</span> and predict the number of iterations needed to reduce the initial error by <span class="math inline">\(10^{-6}\)</span>.</p></li>
-<li><p>Starting from <span class="math inline">\(\bx^{(0)} = (0,0)^T\)</span>, carry out three iterations by hand and verify that the error decreases at the rate predicted by <span class="math inline">\(\rho(\bT)\)</span>.</p></li>
+<li><p>For <span class="math inline">\(\bA = \begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 3 \end{pmatrix}\)</span>, find <span class="math inline">\(\rho(\bT)\)</span> for the splitting <span class="math inline">\(\bM = 3\bI\)</span>.</p></li>
+<li><p>If <span class="math inline">\(\rho(\bT) = 0.99\)</span>, how many iterations are needed to gain 4 digits of precision?</p></li>
+<li><p>Start <span class="math inline">\(\bx^{(0)}=\bzero\)</span> and solve <span class="math inline">\(\bA\bx = (4, 4)^T\)</span> via 3 steps of this iteration.</p></li>
 </ol>
 </div>
 </div>
+</section>
+<section id="fill-in-and-sparse-storage" class="level2" data-number="21.3">
+<h2 data-number="21.3" class="anchored" data-anchor-id="fill-in-and-sparse-storage"><span class="header-section-number">21.3</span> Fill-in and Sparse Storage</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -889,16 +819,15 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(Fill-in phenomenon)</strong> Let <span class="math inline">\(\bA\)</span> be the <span class="math inline">\(n\times n\)</span> tridiagonal matrix with <span class="math inline">\(2\)</span> on the main diagonal and <span class="math inline">\(-1\)</span> on the super- and sub-diagonals (arising from finite differences for <span class="math inline">\(-u'' = f\)</span> on <span class="math inline">\([0,1]\)</span>).</p>
 <ol type="1">
-<li><p>How many nonzeros does <span class="math inline">\(\bA\)</span> have? Is it <span class="math inline">\(O(n)\)</span> or <span class="math inline">\(O(n^2)\)</span>?</p></li>
-<li><p>Use <code>scipy.linalg.lu</code> to compute the LU factorization for <span class="math inline">\(n = 20\)</span>. Count the nonzeros in <span class="math inline">\(\bL\)</span> and <span class="math inline">\(\bU\)</span>. Is there fill-in? Explain why or why not.</p></li>
-<li><p>Use <code>scipy.sparse.linalg.spsolve</code> to solve <span class="math inline">\(\bA\bx = \mathbf{1}\)</span> in sparse format. Compare timing against dense LU for <span class="math inline">\(n = 1000\)</span>.</p></li>
+<li><p><strong>Fill-in Demo:</strong> Generate a large sparse tridiagonal matrix. Compare nonzeros in <span class="math inline">\(\bA\)</span> vs.&nbsp;LU factors.</p></li>
+<li><p><strong>Timing:</strong> Use <code>scipy.sparse.linalg.spsolve</code> vs.&nbsp;dense <code>np.linalg.solve</code> for <span class="math inline">\(n=2000\)</span>. Record memory and time.</p></li>
 </ol>
 </div>
 </div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -1321,14 +1250,23 @@ Tip
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../iterative/jacobi.html" class="pagination-link" aria-label="Jacobi Iteration">
-        <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../iterative/jacobi.html" class="pagination-link" aria-label="Jacobi and Gauss-Seidel Methods">
+        <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/iterative.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/iterative.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html">Numerical Analysis</a></li><li class="breadcrumb-item"><a href="../numerical-analysis/quadrature.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Numerical Quadrature</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -673,9 +664,10 @@ window.Quarto = {
   <ul>
   <li><a href="#newton-cotes-rules" id="toc-newton-cotes-rules" class="nav-link active" data-scroll-target="#newton-cotes-rules"><span class="header-section-number">25.1</span> Newton-Cotes Rules</a></li>
   <li><a href="#gaussian-quadrature" id="toc-gaussian-quadrature" class="nav-link" data-scroll-target="#gaussian-quadrature"><span class="header-section-number">25.2</span> Gaussian Quadrature</a></li>
-  <li><a href="#romberg-integration" id="toc-romberg-integration" class="nav-link" data-scroll-target="#romberg-integration"><span class="header-section-number">25.3</span> Romberg Integration</a></li>
+  <li><a href="#richardson-extrapolation-and-romberg-integration" id="toc-richardson-extrapolation-and-romberg-integration" class="nav-link" data-scroll-target="#richardson-extrapolation-and-romberg-integration"><span class="header-section-number">25.3</span> Richardson Extrapolation and Romberg Integration</a></li>
   <li><a href="#adaptive-quadrature" id="toc-adaptive-quadrature" class="nav-link" data-scroll-target="#adaptive-quadrature"><span class="header-section-number">25.4</span> Adaptive Quadrature</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">25.5</span> Exercises</a></li>
+  <li><a href="#periodic-functions-and-spectral-accuracy" id="toc-periodic-functions-and-spectral-accuracy" class="nav-link" data-scroll-target="#periodic-functions-and-spectral-accuracy"><span class="header-section-number">25.5</span> Periodic Functions and Spectral Accuracy</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">25.6</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/numerical-analysis/quadrature.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -702,50 +694,21 @@ window.Quarto = {
 </header>
 
 
-<p>Compute <span class="math inline">\(I = \int_a^b f(x)\,dx\)</span> when an antiderivative is unavailable or too expensive to evaluate. Quadrature methods approximate the integral by a weighted sum of function values: <span class="math display">\[I \approx \sum_{i=1}^n w_i f(x_i).\]</span> The choice of <em>nodes</em> <span class="math inline">\(x_i\)</span> and <em>weights</em> <span class="math inline">\(w_i\)</span> determines the accuracy and efficiency of the method.</p>
+<p>Approximating <span class="math inline">\(I = \int_a^b f(x)\,dx\)</span> via weighted sums: <span class="math inline">\(\sum_{i=1}^n w_i f(x_i)\)</span>.</p>
 <section id="newton-cotes-rules" class="level2" data-number="25.1">
 <h2 data-number="25.1" class="anchored" data-anchor-id="newton-cotes-rules"><span class="header-section-number">25.1</span> Newton-Cotes Rules</h2>
-<p>Newton-Cotes methods fix equally-spaced nodes and choose weights so that the rule integrates polynomials exactly.</p>
+<p>Uses equally-spaced nodes. Higher-order rules are prone to Runge’s phenomenon.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Composite Trapezoidal Rule
+<span class="screen-reader-only">Note</span>Definition: Trapezoidal Rule
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>On <span class="math inline">\(n\)</span> equally-spaced panels of width <span class="math inline">\(h = (b-a)/n\)</span>, the <em>composite trapezoidal rule</em> is <span class="math display">\[T_n = h\left[\frac{f(a) + f(b)}{2} + \sum_{i=1}^{n-1} f(a + ih)\right].\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Trapezoidal Error
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><span class="math display">\[\left|I - T_n\right| \leq \frac{(b-a)^3}{12n^2}\max_{x \in [a,b]}|f''(x)|.\]</span> The global error is <span class="math inline">\(O(h^2)\)</span>: doubling <span class="math inline">\(n\)</span> reduces the error by a factor of 4.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>On a single panel <span class="math inline">\([x_i, x_{i+1}]\)</span>, the trapezoidal rule integrates the linear interpolant <span class="math inline">\(p_1(x)\)</span> of <span class="math inline">\(f\)</span> at the endpoints. The pointwise interpolation error is <span class="math inline">\(f(x) - p_1(x) = \frac{f''(\xi)}{2}(x - x_i)(x - x_{i+1})\)</span> for some <span class="math inline">\(\xi \in [x_i, x_{i+1}]\)</span>. Integrating and bounding <span class="math inline">\(|f''|\)</span> gives a local error of <span class="math inline">\(O(h^3)\)</span>. Summing over <span class="math inline">\(n\)</span> panels gives the global <span class="math inline">\(O(h^2) = O((b-a)^2/n^2)\)</span> bound.</p>
-</div>
+<p>On <span class="math inline">\(n\)</span> panels of width <span class="math inline">\(h = (b-a)/n\)</span>: <span class="math display">\[T_n = h \left[ \frac{f(a) + f(b)}{2} + \sum_{i=1}^{n-1} f(a + ih) \right].\]</span> <strong>Error Bound:</strong> <span class="math inline">\(E = O(h^2)\)</span>. Doubling <span class="math inline">\(n\)</span> reduces error <span class="math inline">\(4\times\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -754,30 +717,17 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Composite Simpson’s Rule
+<span class="screen-reader-only">Note</span>Definition: Simpson’s Rule
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>composite Simpson’s rule</em> (<span class="math inline">\(n\)</span> even) uses piecewise quadratic interpolation: <span class="math display">\[S_n = \frac{h}{3}\left[f(a) + f(b) + 4\sum_{\text{odd}\;i} f(a+ih) + 2\sum_{\text{even}\;i} f(a+ih)\right].\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Simpson’s Error
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><span class="math display">\[\left|I - S_n\right| \leq \frac{(b-a)^5}{180n^4}\max_{x \in [a,b]}|f^{(4)}(x)|.\]</span> The global error is <span class="math inline">\(O(h^4)\)</span>. Simpson’s rule is exact for all polynomials of degree <span class="math inline">\(\leq 3\)</span>.</p>
+<p>Requires <span class="math inline">\(n\)</span> to be even. Uses piecewise quadratic interpolation: <span class="math display">\[S_n = \frac{h}{3} \left[ f(a) + f(b) + 4\sum_{\text{odd}\;i} f(x_i) + 2\sum_{\text{even}\;i} f(x_i) \right].\]</span> <strong>Error Bound:</strong> <span class="math inline">\(E = O(h^4)\)</span>. Exact for polynomials of degree <span class="math inline">\(\leq 3\)</span>.</p>
 </div>
 </div>
 </section>
 <section id="gaussian-quadrature" class="level2" data-number="25.2">
 <h2 data-number="25.2" class="anchored" data-anchor-id="gaussian-quadrature"><span class="header-section-number">25.2</span> Gaussian Quadrature</h2>
-<p>Newton-Cotes fixes the nodes. Gaussian quadrature optimizes <em>both</em> nodes and weights to maximize the polynomial degree integrated exactly.</p>
+<p>Optimizes <strong>both</strong> nodes and weights to achieve the highest possible degree of exactness.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -788,23 +738,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>With <span class="math inline">\(p\)</span> optimally chosen nodes and weights, <em>Gauss-Legendre quadrature</em> integrates all polynomials of degree <span class="math inline">\(\leq 2p-1\)</span> exactly: <span class="math display">\[\int_{-1}^{1} f(x)\,dx = \sum_{i=1}^{p} w_i f(x_i) + E_p(f).\]</span> The nodes <span class="math inline">\(x_i\)</span> are the roots of the Legendre polynomial <span class="math inline">\(P_p(x)\)</span>, and the weights are <span class="math display">\[w_i = \frac{2}{(1 - x_i^2)[P_p'(x_i)]^2}.\]</span> For a general interval <span class="math inline">\([a, b]\)</span>, substitute <span class="math inline">\(x = \frac{a+b}{2} + \frac{b-a}{2}t\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-7" class="callout-7-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>A <span class="math inline">\(p\)</span>-point quadrature rule has <span class="math inline">\(2p\)</span> free parameters (nodes and weights). For an arbitrary degree-<span class="math inline">\((2p-1)\)</span> polynomial <span class="math inline">\(q\)</span>, write <span class="math inline">\(q = P_p \cdot s + r\)</span> where <span class="math inline">\(s, r\)</span> have degree <span class="math inline">\(\leq p-1\)</span>. If the nodes are roots of <span class="math inline">\(P_p\)</span>, then <span class="math inline">\(q(x_i) = r(x_i)\)</span>. The weights can then be chosen (via Lagrange interpolation) so that <span class="math inline">\(\sum w_i r(x_i) = \int r(x)\,dx\)</span> for all degree-<span class="math inline">\((p-1)\)</span> polynomials <span class="math inline">\(r\)</span>. The <span class="math inline">\(p\)</span> orthogonality conditions on <span class="math inline">\(P_p\)</span> (with respect to <span class="math inline">\(L^2[-1,1]\)</span>) ensure this is achievable, giving exactness for degree <span class="math inline">\(2p-1\)</span>.</p>
-</div>
+<p>Integrating over <span class="math inline">\([-1, 1]\)</span> with <span class="math inline">\(p\)</span> points: <span class="math display">\[\int_{-1}^1 f(x)\,dx \approx \sum_{i=1}^p w_i f(x_i).\]</span> <strong>Optimality:</strong> Exact for all polynomials of degree <span class="math inline">\(\leq 2p-1\)</span>. <strong>Nodes:</strong> Roots of the degree-<span class="math inline">\(p\)</span> Legendre polynomial <span class="math inline">\(P_p(x)\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -817,23 +751,23 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(p\)</span> Gauss points achieve the accuracy of degree-<span class="math inline">\((2p-1)\)</span> polynomial fitting, whereas <span class="math inline">\(p\)</span>-point Newton-Cotes achieves only degree <span class="math inline">\(p-1\)</span> (or <span class="math inline">\(p\)</span> for even <span class="math inline">\(p\)</span>). For smooth <span class="math inline">\(f\)</span>, Gauss-Legendre is spectacularly more efficient.</p>
+<p><strong>Efficiency:</strong> <span class="math inline">\(p\)</span> Gauss points are as accurate as <span class="math inline">\(2p\)</span> Newton-Cotes points. Always prefer Gaussian quadrature for smooth, non-periodic functions.</p>
 </div>
 </div>
 </section>
-<section id="romberg-integration" class="level2" data-number="25.3">
-<h2 data-number="25.3" class="anchored" data-anchor-id="romberg-integration"><span class="header-section-number">25.3</span> Romberg Integration</h2>
+<section id="richardson-extrapolation-and-romberg-integration" class="level2" data-number="25.3">
+<h2 data-number="25.3" class="anchored" data-anchor-id="richardson-extrapolation-and-romberg-integration"><span class="header-section-number">25.3</span> Richardson Extrapolation and Romberg Integration</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Euler-Maclaurin Expansion
+<span class="screen-reader-only">Note</span>Theorem: Richardson Extrapolation
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The trapezoidal rule satisfies <span class="math display">\[T(h) = I + c_2 h^2 + c_4 h^4 + c_6 h^6 + \cdots\]</span> for smooth <span class="math inline">\(f\)</span>, where <span class="math inline">\(c_{2k}\)</span> depend on derivatives of <span class="math inline">\(f\)</span> at the endpoints.</p>
+<p>Given an <span class="math inline">\(O(h^2)\)</span> estimate <span class="math inline">\(A(h)\)</span>, build an <span class="math inline">\(O(h^4)\)</span> estimate by: <span class="math display">\[A_{new} = \frac{4A(h/2) - A(h)}{3}.\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -842,45 +776,16 @@ Tip
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Romberg Table
+<span class="screen-reader-only">Note</span>Definition: Romberg Integration
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><em>Romberg integration</em> eliminates successive error terms via Richardson extrapolation. The tableau <span class="math inline">\(R_{i,j}\)</span> is defined by <span class="math inline">\(R_{i,0} = T(h/2^i)\)</span> and <span class="math display">\[R_{i,j} = \frac{4^j R_{i,j-1} - R_{i-1,j-1}}{4^j - 1}.\]</span> The diagonal entry <span class="math inline">\(R_{k,k}\)</span> has error <span class="math inline">\(O(h^{2k+2})\)</span>, converging faster than any fixed power of <span class="math inline">\(h\)</span> for smooth <span class="math inline">\(f\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Combining <span class="math inline">\(T(h)\)</span> and <span class="math inline">\(T(h/2)\)</span> to eliminate the <span class="math inline">\(c_2 h^2\)</span> term: <span class="math inline">\(T(h/2) = I + c_2(h/2)^2 + \cdots\)</span>, so <span class="math inline">\(\frac{4T(h/2) - T(h)}{3} = I + O(h^4)\)</span>. This is <span class="math inline">\(R_{1,1}\)</span>. Applying the same idea to eliminate <span class="math inline">\(O(h^4)\)</span> gives <span class="math inline">\(R_{2,2}\)</span> with error <span class="math inline">\(O(h^6)\)</span>, and so on.</p>
-</div>
+<p>Iterative application of Richardson extrapolation to the trapezoidal rule. <strong>Performance:</strong> Error decreases as <span class="math inline">\(O(h^{2k+2})\)</span> for smooth <span class="math inline">\(f\)</span>, converging spectacularly fast.</p>
 </div>
 </div>
 </section>
 <section id="adaptive-quadrature" class="level2" data-number="25.4">
 <h2 data-number="25.4" class="anchored" data-anchor-id="adaptive-quadrature"><span class="header-section-number">25.4</span> Adaptive Quadrature</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Adaptive Simpson
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>On <span class="math inline">\([a, b]\)</span>, compare the single-panel estimate <span class="math inline">\(S(a,b)\)</span> to <span class="math inline">\(S(a, m) + S(m, b)\)</span> where <span class="math inline">\(m = (a+b)/2\)</span>. If <span class="math display">\[\delta = |S(a,b) - S(a,m) - S(m,b)| &gt; 15\varepsilon,\]</span> recurse on each half. The factor <span class="math inline">\(1/15\)</span> is the Richardson extrapolation constant for Simpson’s <span class="math inline">\(O(h^4)\)</span> rule.</p>
-</div>
-</div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -891,12 +796,28 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Adaptive methods automatically concentrate evaluations near singularities, sharp peaks, and rapid oscillations, rather than distributing them uniformly.</p>
+<p><strong>Design Goal:</strong> Automatically focus function evaluations where <span class="math inline">\(f\)</span> is “difficult” (steep gradients, oscillations) and use large steps where <span class="math inline">\(f\)</span> is smooth. <strong>Mechanism:</strong> Compare quadrature on one large panel vs.&nbsp;two small panels. If the difference is above tolerance <span class="math inline">\(\varepsilon\)</span>, recurse.</p>
 </div>
 </div>
 </section>
-<section id="exercises" class="level2" data-number="25.5">
-<h2 data-number="25.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">25.5</span> Exercises</h2>
+<section id="periodic-functions-and-spectral-accuracy" class="level2" data-number="25.5">
+<h2 data-number="25.5" class="anchored" data-anchor-id="periodic-functions-and-spectral-accuracy"><span class="header-section-number">25.5</span> Periodic Functions and Spectral Accuracy</h2>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>The Periodic Surprise:</strong> For smooth, periodic functions on <span class="math inline">\([0, 2\pi]\)</span>, the simple <strong>Trapezoidal Rule</strong> is the optimal choice. It achieves <strong>Spectral Accuracy</strong> (exponential convergence) because error terms in the Euler-Maclaurin expansion vanish at endpoints.</p>
+</div>
+</div>
+</section>
+<section id="exercises" class="level2" data-number="25.6">
+<h2 data-number="25.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">25.6</span> Exercises</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -908,11 +829,10 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Derive the trapezoidal weights <span class="math inline">\(w_0 = w_n = h/2\)</span>, <span class="math inline">\(w_i = h\)</span> (<span class="math inline">\(i = 1, ..., n-1\)</span>) by integrating the piecewise linear interpolant of <span class="math inline">\(f\)</span>.</p></li>
-<li><p>Show that the trapezoidal rule is <em>exact</em> for <span class="math inline">\(f(x) = \sin(x)\)</span> integrated over <span class="math inline">\([0, 2\pi]\)</span> for any <span class="math inline">\(n\)</span>. (<em>Hint:</em> use the Euler-Maclaurin expansion or the DFT.)</p></li>
-<li><p>Derive the <span class="math inline">\(p = 2\)</span> Gauss-Legendre nodes and weights on <span class="math inline">\([-1, 1]\)</span> from scratch: find the roots of <span class="math inline">\(P_2(x) = \frac{1}{2}(3x^2 - 1)\)</span> and compute the weights by requiring exactness for <span class="math inline">\(f(x) = 1\)</span> and <span class="math inline">\(f(x) = x^2\)</span>.</p></li>
-<li><p>Build the Romberg table for <span class="math inline">\(\int_0^1 e^x\,dx = e - 1\)</span> using <span class="math inline">\(T(1)\)</span>, <span class="math inline">\(T(1/2)\)</span>, <span class="math inline">\(T(1/4)\)</span>. Compute <span class="math inline">\(R_{1,1}\)</span> and <span class="math inline">\(R_{2,2}\)</span> by hand and compare errors with <span class="math inline">\(T(1/4)\)</span>.</p></li>
-<li><p>The trapezoidal rule is <span class="math inline">\(O(h^2)\)</span> for general <span class="math inline">\(f\)</span> but achieves <em>exponential convergence</em> for periodic, analytic <span class="math inline">\(f\)</span> on <span class="math inline">\([0, 2\pi]\)</span>. Explain why, using the Euler-Maclaurin expansion.</p></li>
+<li><p>Doubling nodes in Trapezoidal rule reduces error by <span class="math inline">\(4\times\)</span>. How much does Simpson reduce it?</p></li>
+<li><p>Derive the <span class="math inline">\(p=2\)</span> Gauss points for <span class="math inline">\([-1, 1]\)</span>. (<em>Hint: roots of <span class="math inline">\(3x^2 - 1\)</span></em>).</p></li>
+<li><p>Use Richardson extrapolation to improve <span class="math inline">\(T(h)\)</span> and <span class="math inline">\(T(h/2)\)</span> to get Simpson’s rule.</p></li>
+<li><p>Integration of <span class="math inline">\(\sin(x)\)</span> on <span class="math inline">\([0, 2\pi]\)</span> with <span class="math inline">\(n=4\)</span> nodes. Is the error <span class="math inline">\(0\)</span>? Why?</p></li>
 </ol>
 </div>
 </div>
@@ -1347,8 +1267,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/numerical-analysis/quadrature.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/numerical-analysis/quadrature.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../iterative/iterative.html">Iterative Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../iterative/gmres.html"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">GMRES</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -672,11 +663,9 @@ window.Quarto = {
    
   <ul>
   <li><a href="#the-arnoldi-process" id="toc-the-arnoldi-process" class="nav-link active" data-scroll-target="#the-arnoldi-process"><span class="header-section-number">24.1</span> The Arnoldi Process</a></li>
-  <li><a href="#gmres-as-a-least-squares-problem" id="toc-gmres-as-a-least-squares-problem" class="nav-link" data-scroll-target="#gmres-as-a-least-squares-problem"><span class="header-section-number">24.2</span> GMRES as a Least-Squares Problem</a></li>
-  <li><a href="#givens-rotations-for-the-hessenberg-system" id="toc-givens-rotations-for-the-hessenberg-system" class="nav-link" data-scroll-target="#givens-rotations-for-the-hessenberg-system"><span class="header-section-number">24.3</span> Givens Rotations for the Hessenberg System</a></li>
-  <li><a href="#restarted-gmresm" id="toc-restarted-gmresm" class="nav-link" data-scroll-target="#restarted-gmresm"><span class="header-section-number">24.4</span> Restarted GMRES(<span class="math inline">\(m\)</span>)</a></li>
-  <li><a href="#convergence-and-preconditioning" id="toc-convergence-and-preconditioning" class="nav-link" data-scroll-target="#convergence-and-preconditioning"><span class="header-section-number">24.5</span> Convergence and Preconditioning</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">24.6</span> Exercises</a></li>
+  <li><a href="#gmres-as-least-squares" id="toc-gmres-as-least-squares" class="nav-link" data-scroll-target="#gmres-as-least-squares"><span class="header-section-number">24.2</span> GMRES as Least Squares</a></li>
+  <li><a href="#restarted-gmresm" id="toc-restarted-gmresm" class="nav-link" data-scroll-target="#restarted-gmresm"><span class="header-section-number">24.3</span> Restarted GMRES(<span class="math inline">\(m\)</span>)</a></li>
+  <li><a href="#convergence-and-preconditioning" id="toc-convergence-and-preconditioning" class="nav-link" data-scroll-target="#convergence-and-preconditioning"><span class="header-section-number">24.4</span> Convergence and Preconditioning</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/gmres.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -703,9 +692,10 @@ window.Quarto = {
 </header>
 
 
-<p>Solve <span class="math inline">\(\bA\bx = \bb\)</span> where <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> is <em>non-symmetric</em>. The conjugate gradient method requires symmetry and positive definiteness; GMRES works for any invertible <span class="math inline">\(\bA\)</span>. At step <span class="math inline">\(k\)</span>, GMRES finds the iterate <span class="math inline">\(\bx_k\)</span> in the affine Krylov subspace <span class="math inline">\(\bx_0 + \mathcal{K}_k(\bA, \br_0)\)</span> that minimizes the residual norm.</p>
+<p>Krylov subspace solver for general (non-symmetric) linear systems. Minimizes the residual norm at each step.</p>
 <section id="the-arnoldi-process" class="level2" data-number="24.1">
 <h2 data-number="24.1" class="anchored" data-anchor-id="the-arnoldi-process"><span class="header-section-number">24.1</span> The Arnoldi Process</h2>
+<p>Constructs an orthonormal basis <span class="math inline">\(V_k\)</span> for the Krylov subspace <span class="math inline">\(\mathcal{K}_k(\bA, \br_0)\)</span>.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -716,7 +706,29 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>Arnoldi process</em> builds an orthonormal basis <span class="math inline">\(V_{k+1} = [\bv_1, ..., \bv_{k+1}]\)</span> for <span class="math inline">\(\mathcal{K}_{k+1}(\bA, \bv_1)\)</span> satisfying the <em>Arnoldi relation</em>: <span class="math display">\[\bA V_k = V_{k+1} \bar{H}_k,\]</span> where <span class="math inline">\(V_k = [\bv_1, ..., \bv_k]\)</span> has orthonormal columns and <span class="math inline">\(\bar{H}_k \in \fR^{(k+1) \times k}\)</span> is upper Hessenberg (zero below the first subdiagonal). The entry <span class="math inline">\(H_{ij} = \bv_i^T(\bA\bv_j)\)</span> for <span class="math inline">\(i \leq j+1\)</span>.</p>
+<p><span class="math display">\[\bA V_k = V_{k+1} \bar{H}_k\]</span></p>
+<ul>
+<li><p><strong><span class="math inline">\(V_k\)</span>:</strong> Orthonormal columns.</p></li>
+<li><p> Upper Hessenberg matrix (<span class="math inline">\((k+1) \times k\)</span>).</p></li>
+<li><p><strong>Insight:</strong> <span class="math inline">\(V_k^T \bA V_k = H_k\)</span> (projection of <span class="math inline">\(\bA\)</span> onto the subspace).</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="gmres-as-least-squares" class="level2" data-number="24.2">
+<h2 data-number="24.2" class="anchored" data-anchor-id="gmres-as-least-squares"><span class="header-section-number">24.2</span> GMRES as Least Squares</h2>
+<p>GMRES finds <span class="math inline">\(\bx_k \in \bx_0 + \mathcal{K}_k\)</span> such that <span class="math inline">\(\|\bb - \bA\bx_k\|_2\)</span> is minimized.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Least Squares Reduction
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span class="math display">\[\min \|\bb - \bA\bx_k\|_2 = \min_{\by \in \fR^k} \|\beta \be_1 - \bar{H}_k \by\|_2\]</span> where <span class="math inline">\(\beta = \|\br_0\|_2\)</span> and <span class="math inline">\(\be_1 = (1, 0, ..., 0)^T\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -729,51 +741,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The Arnoldi process is Modified Gram-Schmidt applied to <span class="math inline">\(\{\bA^j\bv_1\}\)</span>: at step <span class="math inline">\(j\)</span>, compute <span class="math inline">\(\bw = \bA\bv_j\)</span>, orthogonalize against all previous <span class="math inline">\(\bv_i\)</span>, and normalize. For symmetric <span class="math inline">\(\bA\)</span>, <span class="math inline">\(\bar{H}_k\)</span> reduces to tridiagonal and the Arnoldi process reduces to the Lanczos recurrence.</p>
+<p><strong>Optimality:</strong> By definition, GMRES finds the absolute best solution available in the growing Krylov subspace. The residual norm is non-increasing.</p>
 </div>
 </div>
 </section>
-<section id="gmres-as-a-least-squares-problem" class="level2" data-number="24.2">
-<h2 data-number="24.2" class="anchored" data-anchor-id="gmres-as-a-least-squares-problem"><span class="header-section-number">24.2</span> GMRES as a Least-Squares Problem</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: GMRES Least-Squares Reduction
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Write <span class="math inline">\(\bx_k = \bx_0 + V_k \by_k\)</span> with <span class="math inline">\(\by_k \in \fR^k\)</span>. Using <span class="math inline">\(\br_0 = \beta\bv_1\)</span> (<span class="math inline">\(\beta = \|\br_0\|_2\)</span>) and the Arnoldi relation, <span class="math display">\[\|\bA\bx_k - \bb\|_2 = \|\bar{H}_k \by_k - \beta\be_1\|_2.\]</span> This is a small <span class="math inline">\((k+1) \times k\)</span> least-squares problem. Its solution <span class="math inline">\(\by_k^*\)</span> minimizes the residual over the entire Krylov subspace, and the minimum residual norm is <span class="math inline">\(|g_{k+1}|\)</span> where <span class="math inline">\(\bg\)</span> is updated cheaply via Givens rotations.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Since <span class="math inline">\(V_{k+1}\)</span> has orthonormal columns, <span class="math inline">\(\|V_{k+1}\bz\|_2 = \|\bz\|_2\)</span> for any <span class="math inline">\(\bz\)</span>. Substituting <span class="math inline">\(\bx_k = \bx_0 + V_k\by_k\)</span> and <span class="math inline">\(\bb = \bA\bx_0 + \br_0 = \bA\bx_0 + \beta V_{k+1}\be_1\)</span>: <span class="math display">\[\bA\bx_k - \bb = \bA V_k\by_k - \beta V_{k+1}\be_1 = V_{k+1}(\bar{H}_k\by_k - \beta\be_1).\]</span> Taking norms and using the isometry property of <span class="math inline">\(V_{k+1}\)</span> gives the result.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="givens-rotations-for-the-hessenberg-system" class="level2" data-number="24.3">
-<h2 data-number="24.3" class="anchored" data-anchor-id="givens-rotations-for-the-hessenberg-system"><span class="header-section-number">24.3</span> Givens Rotations for the Hessenberg System</h2>
-<p>At step <span class="math inline">\(j\)</span>, one new Givens rotation <span class="math inline">\(G_j\)</span> zeros the entry <span class="math inline">\(H_{j+1,j}\)</span> in column <span class="math inline">\(j\)</span>: <span class="math display">\[\begin{pmatrix} c_j &amp; s_j \\ -s_j &amp; c_j \end{pmatrix}
-\begin{pmatrix} H_{jj} \\ H_{j+1,j} \end{pmatrix}
-= \begin{pmatrix} r_{jj} \\ 0 \end{pmatrix}, \qquad
-c_j = \frac{H_{jj}}{d},\quad s_j = \frac{H_{j+1,j}}{d},\quad d = \sqrt{H_{jj}^2 + H_{j+1,j}^2}.\]</span> Applying all rotations <span class="math inline">\(G_1, ..., G_j\)</span> to <span class="math inline">\(\be_1\beta\)</span> yields a vector <span class="math inline">\(\bg\)</span> where <span class="math inline">\(|\bg_{j+1}| = \|\br_j\|_2\)</span>. This provides a <em>free convergence estimate</em> without computing <span class="math inline">\(\bx_k\)</span> explicitly.</p>
-</section>
-<section id="restarted-gmresm" class="level2" data-number="24.4">
-<h2 data-number="24.4" class="anchored" data-anchor-id="restarted-gmresm"><span class="header-section-number">24.4</span> Restarted GMRES(<span class="math inline">\(m\)</span>)</h2>
+<section id="restarted-gmresm" class="level2" data-number="24.3">
+<h2 data-number="24.3" class="anchored" data-anchor-id="restarted-gmresm"><span class="header-section-number">24.3</span> Restarted GMRES(<span class="math inline">\(m\)</span>)</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -784,59 +757,23 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Memory usage grows as <span class="math inline">\(O(kn)\)</span> since GMRES must store the entire Krylov basis. <em>Restarted GMRES(<span class="math inline">\(m\)</span>)</em> caps memory by restarting every <span class="math inline">\(m\)</span> steps from the current best iterate. Typical restart: <span class="math inline">\(m \in [30, 300]\)</span>.</p>
+<p><strong>The Memory Wall:</strong> Full GMRES storage costs <span class="math inline">\(O(kn)\)</span> and work grows quadratically with <span class="math inline">\(k\)</span> (due to orthogonalization). <strong>Restarting</strong> after <span class="math inline">\(m\)</span> steps prevents memory explosion but can lead to stagnation.</p>
 </div>
 </div>
-<pre><code>
-function GMRES(A, b, x0, tol, m):
-    x &lt;- x0
-    while not converged:
-        r &lt;- b - A*x;   beta &lt;- ||r||
-        if beta &lt; tol: return x
-
-        V[0] &lt;- r / beta
-        g    &lt;- [beta, 0, ..., 0]       // length m+1
-
-        for j = 0 to m-1:
-            w &lt;- A * V[j]
-            for i = 0 to j:             // Modified Gram-Schmidt
-                H[i,j] &lt;- w^T * V[i]
-                w       &lt;- w - H[i,j] * V[i]
-            H[j+1,j] &lt;- ||w||
-            if H[j+1,j] &lt; 1e-14: break
-            V[j+1] &lt;- w / H[j+1,j]
-
-            // Apply previous Givens rotations to column j
-            for i = 0 to j-1:
-                [H[i,j], H[i+1,j]] &lt;- [c[i]*H[i,j] + s[i]*H[i+1,j],
-                                        -s[i]*H[i,j] + c[i]*H[i+1,j]]
-            // New Givens rotation to zero H[j+1,j]
-            d    &lt;- sqrt(H[j,j]^2 + H[j+1,j]^2)
-            c[j] &lt;- H[j,j]/d;   s[j] &lt;- H[j+1,j]/d
-            H[j,j]    &lt;-  c[j]*H[j,j] + s[j]*H[j+1,j]
-            H[j+1,j]  &lt;- 0
-            g[j+1] &lt;- -s[j]*g[j];   g[j] &lt;- c[j]*g[j]
-
-            if |g[j+1]| &lt; tol: break
-
-        // Back-solve upper triangular system
-        y &lt;- back_solve(H[0:j+1,0:j+1], g[0:j+1])
-        x &lt;- x + sum_i y[i]*V[i]</code></pre>
 </section>
-<section id="convergence-and-preconditioning" class="level2" data-number="24.5">
-<h2 data-number="24.5" class="anchored" data-anchor-id="convergence-and-preconditioning"><span class="header-section-number">24.5</span> Convergence and Preconditioning</h2>
+<section id="convergence-and-preconditioning" class="level2" data-number="24.4">
+<h2 data-number="24.4" class="anchored" data-anchor-id="convergence-and-preconditioning"><span class="header-section-number">24.4</span> Convergence and Preconditioning</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: GMRES Convergence
+<span class="screen-reader-only">Note</span>Theorem: Approximation Bound
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The residual satisfies the <em>polynomial approximation bound</em>: <span class="math display">\[\frac{\|\br_k\|_2}{\|\br_0\|_2} \leq \min_{\substack{p_k \in \mathcal{P}_k \\ p_k(0)=1}}
-\max_{\lambda \in \sigma(\bA)} |p_k(\lambda)|.\]</span> GMRES converges in at most <span class="math inline">\(n\)</span> steps. For normal <span class="math inline">\(\bA\)</span> (including symmetric), convergence is governed by the eigenvalue distribution; for non-normal <span class="math inline">\(\bA\)</span>, the field of values matters.</p>
+<p><span class="math display">\[\frac{\|\br_k\|_2}{\|\br_0\|_2} \leq \min_{p \in \mathcal{P}_k, p(0)=1} \max_{\lambda \in \sigma(\bA)} |p(\lambda)|.\]</span></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -849,17 +786,12 @@ function GMRES(A, b, x0, tol, m):
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A preconditioner <span class="math inline">\(\bM \approx \bA^{-1}\)</span> replaces the system by <span class="math inline">\(\bM\bA\bx = \bM\bb\)</span> (left) or <span class="math inline">\(\bA\bM^{-1}(\bM\bx) = \bb\)</span> (right). Right preconditioning minimizes the true residual <span class="math inline">\(\|\br_k\|_2\)</span> and is standard. Common choices:</p>
 <ul>
-<li><p><strong>ILU(<span class="math inline">\(k\)</span>)</strong>: incomplete LU with level-<span class="math inline">\(k\)</span> fill — general purpose.</p></li>
-<li><p><strong>Block Jacobi</strong>: invert diagonal blocks — parallelizes well.</p></li>
-<li><p><strong>AMG</strong>: algebraic multigrid — near <span class="math inline">\(O(n)\)</span> for elliptic PDE.</p></li>
+<li><p><strong>Left:</strong> <span class="math inline">\(\bM^{-1}\bA\bx = \bM^{-1}\bb\)</span>. (Minimizes preconditioned residual).</p></li>
+<li><p><strong>Right:</strong> <span class="math inline">\(\bA\bM^{-1}(\bM\bx) = \bb\)</span>. (Minimizes true residual; standard choice).</p></li>
 </ul>
 </div>
 </div>
-</section>
-<section id="exercises" class="level2" data-number="24.6">
-<h2 data-number="24.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">24.6</span> Exercises</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -871,11 +803,9 @@ function GMRES(A, b, x0, tol, m):
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Verify the Arnoldi relation <span class="math inline">\(\bA V_k = V_{k+1}\bar{H}_k\)</span> for <span class="math inline">\(k=1\)</span>: show that <span class="math inline">\(\bA\bv_1 = h_{11}\bv_1 + h_{21}\bv_2\)</span> where <span class="math inline">\(h_{11} = \bv_1^T(\bA\bv_1)\)</span> and <span class="math inline">\(h_{21} = \|\bA\bv_1 - h_{11}\bv_1\|_2\)</span>.</p></li>
-<li><p>Show that if <span class="math inline">\(\bA\)</span> is symmetric, then <span class="math inline">\(\bar{H}_k\)</span> is tridiagonal. Conclude that GMRES applied to a symmetric positive definite matrix is equivalent to CG.</p></li>
-<li><p>Prove that full GMRES (no restart) converges in at most <span class="math inline">\(n\)</span> steps.</p></li>
-<li><p>(Stagnation) Let <span class="math inline">\(\bA = \mathrm{diag}(1, 2, ..., 9, 100)\)</span> and <span class="math inline">\(\bb = (1, ..., 1)^T\)</span>. Run GMRES(<span class="math inline">\(m\)</span>) for <span class="math inline">\(m = 5\)</span> and <span class="math inline">\(m = 10\)</span>. Does GMRES stagnate? Why does the outlier eigenvalue <span class="math inline">\(\lambda = 100\)</span> affect convergence?</p></li>
-<li><p>Explain why GMRES with left preconditioning <span class="math inline">\(\bM\)</span> minimizes <span class="math inline">\(\|\bM(\bb - \bA\bx_k)\|_2\)</span> rather than the true residual. When does this distinction matter?</p></li>
+<li><p><strong>GMRES vs.&nbsp;CG:</strong> Compare residual plots for a symmetric system. Why is CG usually faster?</p></li>
+<li><p><strong>Restarting:</strong> Test GMRES(<span class="math inline">\(m\)</span>) on a non-symmetric system for <span class="math inline">\(m=5, 20, 50\)</span>. Observe how small <span class="math inline">\(m\)</span> can cause ``plateaus’’ in convergence.</p></li>
+<li><p><strong>Arnoldi:</strong> Implement the Arnoldi process via Modified Gram-Schmidt. Verify the Hessenberg structure of <span class="math inline">\(H_k = V_k^T \bA V_k\)</span>.</p></li>
 </ol>
 </div>
 </div>
@@ -1310,8 +1240,17 @@ function GMRES(A, b, x0, tol, m):
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/gmres.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/iterative/gmres.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

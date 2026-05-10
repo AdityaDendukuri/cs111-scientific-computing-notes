@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../eigenvalues/eigenvalues.html">Eigenvalues and the SVD</a></li><li class="breadcrumb-item"><a href="../eigenvalues/lanczos.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Lanczos Algorithm</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -673,10 +664,7 @@ window.Quarto = {
   <ul>
   <li><a href="#krylov-subspaces" id="toc-krylov-subspaces" class="nav-link active" data-scroll-target="#krylov-subspaces"><span class="header-section-number">19.1</span> Krylov Subspaces</a></li>
   <li><a href="#the-lanczos-recurrence" id="toc-the-lanczos-recurrence" class="nav-link" data-scroll-target="#the-lanczos-recurrence"><span class="header-section-number">19.2</span> The Lanczos Recurrence</a></li>
-  <li><a href="#ritz-values-and-the-galerkin-projection" id="toc-ritz-values-and-the-galerkin-projection" class="nav-link" data-scroll-target="#ritz-values-and-the-galerkin-projection"><span class="header-section-number">19.3</span> Ritz Values and the Galerkin Projection</a></li>
-  <li><a href="#convergence" id="toc-convergence" class="nav-link" data-scroll-target="#convergence"><span class="header-section-number">19.4</span> Convergence</a></li>
-  <li><a href="#algorithm" id="toc-algorithm" class="nav-link" data-scroll-target="#algorithm"><span class="header-section-number">19.5</span> Algorithm</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">19.6</span> Exercises</a></li>
+  <li><a href="#ritz-values-and-vectors" id="toc-ritz-values-and-vectors" class="nav-link" data-scroll-target="#ritz-values-and-vectors"><span class="header-section-number">19.3</span> Ritz Values and Vectors</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/eigenvalues/lanczos.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -703,7 +691,7 @@ window.Quarto = {
 </header>
 
 
-<p>Given a <em>symmetric</em> matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, find the <span class="math inline">\(k\)</span> dominant or extreme eigenpairs efficiently when <span class="math inline">\(k \ll n\)</span>. For large, sparse matrices, explicitly computing all <span class="math inline">\(n\)</span> eigenvalues via the QR algorithm costs <span class="math inline">\(O(n^3)\)</span> and is impractical. The Lanczos algorithm builds a <span class="math inline">\(k\)</span>-dimensional Krylov subspace that captures the extreme eigenvalues in <span class="math inline">\(O(k \cdot n)\)</span> work.</p>
+<p>Iterative method for finding extreme eigenpairs of large, symmetric matrices without explicit <span class="math inline">\(O(n^2)\)</span> formation.</p>
 <section id="krylov-subspaces" class="level2" data-number="19.1">
 <h2 data-number="19.1" class="anchored" data-anchor-id="krylov-subspaces"><span class="header-section-number">19.1</span> Krylov Subspaces</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -716,10 +704,9 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Given a matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> and a starting vector <span class="math inline">\(\bv \in \fR^n\)</span>, the <span class="math inline">\(k\)</span>-th <em>Krylov subspace</em> is <span class="math display">\[\mathcal{K}_k(\bA, \bv) = \mathrm{span}\{\bv,\, \bA\bv,\, \bA^2\bv,\, ...,\, \bA^{k-1}\bv\}.\]</span></p>
+<p><span class="math inline">\(\mathcal{K}_k(\bA, \bv) = \text{span}\{\bv,\, \bA\bv,\, \bA^2\bv,\, ...,\, \bA^{k-1}\bv\}\)</span>. <strong>Intuition:</strong> <span class="math inline">\(\bA^j\bv\)</span> amplifies components along dominant eigenvectors, concentrating information about the spectral edges.</p>
 </div>
 </div>
-<p>The intuition: if <span class="math inline">\(\bv = \sum_i \alpha_i \bu_i\)</span> in the eigenbasis of <span class="math inline">\(\bA\)</span>, then <span class="math inline">\(\bA^j\bv = \sum_i \alpha_i \lambda_i^j \bu_i\)</span>. For large <span class="math inline">\(j\)</span>, the component along the dominant eigenvector dominates. The Krylov subspace concentrates information about the extreme eigenvalues.</p>
 </section>
 <section id="the-lanczos-recurrence" class="level2" data-number="19.2">
 <h2 data-number="19.2" class="anchored" data-anchor-id="the-lanczos-recurrence"><span class="header-section-number">19.2</span> The Lanczos Recurrence</h2>
@@ -733,90 +720,12 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Starting from a unit vector <span class="math inline">\(\bv_1\)</span>, the <span class="math inline">\(k\)</span>-step Lanczos process builds an orthonormal basis <span class="math inline">\(V_k = [\bv_1, ..., \bv_k]\)</span> for <span class="math inline">\(\mathcal{K}_k(\bA, \bv_1)\)</span> satisfying <span class="math display">\[\bA V_k = V_k T_k + \beta_k \bv_{k+1} \be_k^T,\]</span> where <span class="math inline">\(T_k \in \fR^{k \times k}\)</span> is the <em>symmetric tridiagonal</em> matrix <span class="math display">\[T_k = \begin{pmatrix}
-\alpha_1 &amp; \beta_1 &amp; &amp; \\
-\beta_1 &amp; \alpha_2 &amp; \beta_2 &amp; \\
-&amp; \ddots &amp; \ddots &amp; \ddots \\
-&amp; &amp; \beta_{k-1} &amp; \alpha_k
-\end{pmatrix}.\]</span> The diagonal entries <span class="math inline">\(\alpha_j = \bv_j^T \bA \bv_j\)</span> are Rayleigh quotients and the off-diagonal entries <span class="math inline">\(\beta_j = \|\bw_j\|_2\)</span> are residual norms.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Each new basis vector is generated by the <em>three-term recurrence</em>: set <span class="math inline">\(\bw = \bA\bv_j\)</span>, subtract the projections onto the two previous basis vectors, <span class="math display">\[\bw \leftarrow \bw - \alpha_j \bv_j - \beta_{j-1}\bv_{j-1}, \qquad \alpha_j = \bv_j^T(\bA\bv_j),\]</span> then normalize: <span class="math inline">\(\beta_j = \|\bw\|\)</span>, <span class="math inline">\(\bv_{j+1} = \bw/\beta_j\)</span>. Assembling these column equations gives <span class="math inline">\(\bA V_k = V_k T_k + \beta_k \bv_{k+1}\be_k^T\)</span>. Since each <span class="math inline">\(\bv_{j+1}\)</span> is obtained by orthogonalizing against <span class="math inline">\(\bv_j\)</span> and <span class="math inline">\(\bv_{j-1}\)</span> only, the columns of <span class="math inline">\(V_k\)</span> are orthonormal by induction in exact arithmetic.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="ritz-values-and-the-galerkin-projection" class="level2" data-number="19.3">
-<h2 data-number="19.3" class="anchored" data-anchor-id="ritz-values-and-the-galerkin-projection"><span class="header-section-number">19.3</span> Ritz Values and the Galerkin Projection</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Ritz Values and Ritz Vectors
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The eigenvalues <span class="math inline">\(\theta_1, ..., \theta_k\)</span> of <span class="math inline">\(T_k\)</span> are called the <em>Ritz values</em> of <span class="math inline">\(\bA\)</span> with respect to <span class="math inline">\(\mathcal{K}_k\)</span>. If <span class="math inline">\(T_k \bs_i = \theta_i \bs_i\)</span>, the corresponding <em>Ritz vector</em> is <span class="math inline">\(\tilde{\bu}_i = V_k \bs_i\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proposition: Galerkin Projection and Cheap Residual Estimate
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(T_k = V_k^T \bA V_k\)</span> is the <em>Galerkin projection</em> of <span class="math inline">\(\bA\)</span> onto <span class="math inline">\(\mathcal{K}_k\)</span>. The residual of a Ritz pair satisfies <span class="math display">\[\|\bA\tilde{\bu}_i - \theta_i \tilde{\bu}_i\|_2 = \beta_k |s_i(k)|,\]</span> where <span class="math inline">\(s_i(k)\)</span> is the <span class="math inline">\(k\)</span>-th component of the eigenvector <span class="math inline">\(\bs_i\)</span> of <span class="math inline">\(T_k\)</span>. This costs <span class="math inline">\(O(k)\)</span> to compute without forming <span class="math inline">\(\tilde{\bu}_i\)</span> explicitly.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-6" class="callout-6-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Using the Lanczos relation <span class="math inline">\(\bA V_k = V_k T_k + \beta_k \bv_{k+1} \be_k^T\)</span>: <span class="math display">\[\bA\tilde{\bu}_i - \theta_i\tilde{\bu}_i = \bA V_k \bs_i - \theta_i V_k \bs_i
-  = V_k(T_k - \theta_i \bI)\bs_i + \beta_k \bv_{k+1} s_i(k).\]</span> Since <span class="math inline">\(T_k \bs_i = \theta_i \bs_i\)</span>, the first term vanishes, and <span class="math inline">\(\|V_k \bs_i\|_2 = \|\bs_i\|_2 = 1\)</span> with <span class="math inline">\(\|\bv_{k+1}\|_2 = 1\)</span> gives the result.</p>
-</div>
-</div>
-</div>
-</section>
-<section id="convergence" class="level2" data-number="19.4">
-<h2 data-number="19.4" class="anchored" data-anchor-id="convergence"><span class="header-section-number">19.4</span> Convergence</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Convergence of Ritz Values
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The extreme Ritz values converge to the extreme eigenvalues first. For the largest eigenvalue <span class="math inline">\(\lambda_1\)</span> with spectral gap <span class="math inline">\(\delta = (\lambda_1 - \lambda_2)/(\lambda_1 - \lambda_n)\)</span>, the error after <span class="math inline">\(k\)</span> Lanczos steps satisfies <span class="math display">\[|\lambda_1 - \theta_1^{(k)}| \leq (\lambda_1 - \lambda_n) \left(\frac{\tan\angle(\bv_1, \bu_1)}{T_{k-1}(1 + 2\delta)}\right)^2,\]</span> where <span class="math inline">\(T_{k-1}\)</span> is the Chebyshev polynomial of degree <span class="math inline">\(k-1\)</span> and <span class="math inline">\(\bu_1\)</span> is the true eigenvector. For large spectral gap, <span class="math inline">\(T_{k-1}(1+2\delta)\)</span> grows exponentially in <span class="math inline">\(k\)</span>.</p>
+<p>The process builds an orthonormal basis <span class="math inline">\(V_k = [\bv_1, ..., \bv_k]\)</span> for <span class="math inline">\(\mathcal{K}_k\)</span> satisfying: <span class="math display">\[\bA V_k = V_k T_k + \beta_k \bv_{k+1} \be_k^T.\]</span></p>
+<ul>
+<li><p><strong><span class="math inline">\(T_k\)</span>:</strong> Symmetric <strong>tridiagonal</strong> matrix.</p></li>
+<li><p><strong><span class="math inline">\(\alpha_j = \bv_j^T \bA \bv_j\)</span>:</strong> Rayleigh quotients (diagonal).</p></li>
+<li><p> Orthogonalization coefficients (off-diagonal).</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -829,12 +738,42 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Interior eigenvalues converge last. To target an interior eigenvalue <span class="math inline">\(\sigma\)</span>, use <em>shift-and-invert</em> Lanczos with <span class="math inline">\((\bA - \sigma\bI)^{-1}\)</span>, which maps the target eigenvalue to the dominant one.</p>
+<p><strong>Performance Advantage:</strong> Unlike Gram-Schmidt, which orthogonalizes against all previous vectors, Lanczos only requires the <strong>two previous vectors</strong> (three-term recurrence). This makes it <span class="math inline">\(O(k \cdot \text{nnz})\)</span> for sparse matrices.</p>
 </div>
 </div>
 </section>
-<section id="algorithm" class="level2" data-number="19.5">
-<h2 data-number="19.5" class="anchored" data-anchor-id="algorithm"><span class="header-section-number">19.5</span> Algorithm</h2>
+<section id="ritz-values-and-vectors" class="level2" data-number="19.3">
+<h2 data-number="19.3" class="anchored" data-anchor-id="ritz-values-and-vectors"><span class="header-section-number">19.3</span> Ritz Values and Vectors</h2>
+<p>Approximations to the true eigenpairs from the Krylov subspace.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Ritz Pair
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><strong>Ritz Value (<span class="math inline">\(\theta_i\)</span>):</strong> Eigenvalue of <span class="math inline">\(T_k\)</span>.</p></li>
+<li><p> <span class="math inline">\(V_k \bs_i\)</span>, where <span class="math inline">\(\bs_i\)</span> is an eigenvector of <span class="math inline">\(T_k\)</span>.</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Residual Estimate
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The residual <span class="math inline">\(\|\bA\tilde{\bu}_i - \theta_i \tilde{\bu}_i\|_2 = \beta_k |s_i(k)|\)</span>. <strong>Significance:</strong> Convergence of a Ritz pair can be monitored for <span class="math inline">\(O(k)\)</span> cost without forming the full <span class="math inline">\(n\)</span>-vector <span class="math inline">\(\tilde{\bu}_i\)</span>.</p>
+</div>
+</div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -845,39 +784,9 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In floating-point arithmetic, the three-term recurrence alone loses orthogonality after many steps, causing <em>ghost eigenvalues</em> (converged Ritz values reappear spuriously). Full reorthogonalization prevents this at cost <span class="math inline">\(O(k^2 n)\)</span>.</p>
+<p><strong>Ghost Eigenvalues:</strong> In floating-point, the three-term recurrence loses orthogonality, leading to ``ghost’’ (spurious) copies of eigenvalues. <strong>Practical Rule:</strong> Use full or selective reorthogonalization to maintain basis integrity.</p>
 </div>
 </div>
-<pre><code>
-function lanczos(A, k, tol):
-    v[0] &lt;- random unit vector
-    beta[-1] &lt;- 0
-
-    for j = 0 to k-1:
-        w &lt;- A * v[j]                    // matvec
-        alpha[j] &lt;- v[j]^T * w          // Rayleigh quotient
-
-        // Three-term recurrence
-        w &lt;- w - alpha[j]*v[j]
-        if j &gt; 0: w &lt;- w - beta[j-1]*v[j-1]
-
-        // Full reorthogonalization (Modified Gram-Schmidt)
-        for l = 0 to j:
-            w &lt;- w - (v[l]^T * w) * v[l]
-
-        beta[j] &lt;- ||w||
-        if beta[j] &lt; 1e-12: break       // exact invariant subspace
-
-        v[j+1] &lt;- w / beta[j]
-
-    T &lt;- tridiag(alpha[0..j], beta[0..j-1])
-    (theta, S) &lt;- eig_sym(T)
-    // Residuals: ||A*u_i - theta_i*u_i|| = beta[j] * |S[j,i]|
-    return theta, S, v[0..j], beta[j]</code></pre>
-<p><strong>Total cost:</strong> <span class="math inline">\(O(k \cdot \mathrm{nnz})\)</span> for matvecs (sparse <span class="math inline">\(\bA\)</span>) plus <span class="math inline">\(O(k^2 n)\)</span> for reorthogonalization plus <span class="math inline">\(O(k^3)\)</span> for the inner eigensolver on <span class="math inline">\(T_k\)</span>.</p>
-</section>
-<section id="exercises" class="level2" data-number="19.6">
-<h2 data-number="19.6" class="anchored" data-anchor-id="exercises"><span class="header-section-number">19.6</span> Exercises</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -889,11 +798,9 @@ function lanczos(A, k, tol):
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Let <span class="math inline">\(\bA = \mathrm{diag}(5, 3, 1)\)</span> and <span class="math inline">\(\bv_1 = \frac{1}{\sqrt{3}}(1,1,1)^T\)</span>. Carry out 2 steps of Lanczos by hand: compute <span class="math inline">\(\alpha_1\)</span>, <span class="math inline">\(\bv_2\)</span>, <span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\alpha_2\)</span>. Write down <span class="math inline">\(T_2\)</span> and find its Ritz values. How close are they to eigenvalues <span class="math inline">\(5\)</span> and <span class="math inline">\(1\)</span>?</p></li>
-<li><p>Prove that in exact arithmetic, the Lanczos algorithm terminates in at most <span class="math inline">\(n\)</span> steps, producing an exact eigendecomposition of <span class="math inline">\(\bA\)</span>.</p></li>
-<li><p>Show that <span class="math inline">\(T_k = V_k^T \bA V_k\)</span> directly from the Lanczos relation.</p></li>
-<li><p>The residual estimate <span class="math inline">\(\|\bA\tilde{\bu}_i - \theta_i\tilde{\bu}_i\| = \beta_k|s_i(k)|\)</span> is cheap. Why is this computationally important? How does it avoid forming the full Ritz vector?</p></li>
-<li><p>(Ghost eigenvalues) Implement Lanczos on <span class="math inline">\(\bA = \mathrm{diag}(n, n-1, ..., 1)\)</span> for <span class="math inline">\(n = 50\)</span>, running 100 steps without reorthogonalization. Plot the Ritz values at each step. How many spurious copies of <span class="math inline">\(\lambda_1 = 50\)</span> appear? Repeat with full reorthogonalization.</p></li>
+<li><p>Carry out 2 steps of Lanczos for <span class="math inline">\(\bA = \text{diag}(5, 3, 1)\)</span> starting with <span class="math inline">\(\bv_1 = \frac{1}{\sqrt{3}}\mathbf{1}\)</span>.</p></li>
+<li><p>Show that <span class="math inline">\(T_k = V_k^T \bA V_k\)</span> (Galerkin Projection).</p></li>
+<li><p>Implement Lanczos on a <span class="math inline">\(50 \times 50\)</span> Hilbert matrix. Count spurious eigenvalues without reorthogonalization.</p></li>
 </ol>
 </div>
 </div>
@@ -1317,8 +1224,8 @@ function lanczos(A, k, tol):
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../eigenvalues/svd.html" class="pagination-link" aria-label="Singular Value Decomposition and the Four Fundamental Subspaces">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span>
+      <a href="../eigenvalues/svd.html" class="pagination-link" aria-label="Singular Value Decomposition">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -1328,8 +1235,17 @@ function lanczos(A, k, tol):
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/eigenvalues/lanczos.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/eigenvalues/lanczos.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

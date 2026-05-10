@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../orthogonality/orthogonal.html">Orthogonality and Least Squares</a></li><li class="breadcrumb-item"><a href="../orthogonality/stability.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Stability and Condition Number</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -671,11 +662,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-not-invert-directly" id="toc-why-not-invert-directly" class="nav-link active" data-scroll-target="#why-not-invert-directly"><span class="header-section-number">14.1</span> Why Not Invert Directly?</a></li>
+  <li><a href="#why-factorize-instead-of-invert" id="toc-why-factorize-instead-of-invert" class="nav-link active" data-scroll-target="#why-factorize-instead-of-invert"><span class="header-section-number">14.1</span> Why Factorize instead of Invert?</a></li>
   <li><a href="#numerical-stability" id="toc-numerical-stability" class="nav-link" data-scroll-target="#numerical-stability"><span class="header-section-number">14.2</span> Numerical Stability</a></li>
   <li><a href="#condition-number" id="toc-condition-number" class="nav-link" data-scroll-target="#condition-number"><span class="header-section-number">14.3</span> Condition Number</a></li>
-  <li><a href="#conditioning-vs.-stability" id="toc-conditioning-vs.-stability" class="nav-link" data-scroll-target="#conditioning-vs.-stability"><span class="header-section-number">14.4</span> Conditioning vs.&nbsp;Stability</a></li>
-  <li><a href="#stability-of-matrix-factorizations" id="toc-stability-of-matrix-factorizations" class="nav-link" data-scroll-target="#stability-of-matrix-factorizations"><span class="header-section-number">14.5</span> Stability of Matrix Factorizations</a></li>
+  <li><a href="#stability-hierarchy" id="toc-stability-hierarchy" class="nav-link" data-scroll-target="#stability-hierarchy"><span class="header-section-number">14.4</span> Stability Hierarchy</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/orthogonality/stability.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -702,10 +692,9 @@ window.Quarto = {
 </header>
 
 
-<p>In an idealized mathematical setting, the solution to <span class="math inline">\(\bA\bx = \bb\)</span> is simply <span class="math inline">\(\bx = \bA^{-1}\bb\)</span>. In practice, two separate issues corrupt the computed answer: the <em>inherent sensitivity</em> of the problem to perturbations in the data, measured by the condition number, and the <em>algorithm’s ability to avoid amplifying errors</em> beyond this inherent sensitivity, measured by numerical stability. Understanding both is essential for reliable scientific computing. This section develops the theory behind each and shows how they interact in the matrix factorizations studied so far.</p>
-<section id="why-not-invert-directly" class="level2" data-number="14.1">
-<h2 data-number="14.1" class="anchored" data-anchor-id="why-not-invert-directly"><span class="header-section-number">14.1</span> Why Not Invert Directly?</h2>
-<p>The formula <span class="math inline">\(\bx = \bA^{-1}\bb\)</span> is mathematically correct but computationally inadvisable. Computing the full inverse <span class="math inline">\(\bA^{-1}\)</span> is unnecessary for solving a single system, wastes memory, and is less numerically stable than factorization-based approaches. The arguments below quantify exactly what is lost.</p>
+<p>Sensitivity of problems vs.&nbsp;robustness of algorithms.</p>
+<section id="why-factorize-instead-of-invert" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="why-factorize-instead-of-invert"><span class="header-section-number">14.1</span> Why Factorize instead of Invert?</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -716,33 +705,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Cost of explicit inversion.</strong> Computing <span class="math inline">\(\bA^{-1}\)</span> requires solving <span class="math inline">\(n\)</span> systems <span class="math inline">\(\bA\mathbf{x}_i = \be_i\)</span>. After the LU factorization (cost <span class="math inline">\(\tfrac{2}{3}n^3\)</span>), each solve costs <span class="math inline">\(2n^2\)</span>, giving a total of <span class="math inline">\(\tfrac{2}{3}n^3 + 2n^3 \approx \tfrac{8}{3}n^3\)</span> flops. Compare this to solving <span class="math inline">\(\bA\bx = \bb\)</span> for a single <span class="math inline">\(\bb\)</span>: factorize once at <span class="math inline">\(\tfrac{2}{3}n^3\)</span>, then one triangular solve at <span class="math inline">\(2n^2\)</span>. Explicitly forming <span class="math inline">\(\bA^{-1}\)</span> costs four times as much as necessary.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Stability of explicit inversion.</strong> When <span class="math inline">\(\bA\)</span> is nearly singular, explicitly forming <span class="math inline">\(\bA^{-1}\)</span> amplifies round-off errors severely. A single erroneous column of <span class="math inline">\(\bA^{-1}\)</span> propagates into the entire product <span class="math inline">\(\bA^{-1}\bb\)</span>, whereas solving via a stable factorization confines errors to individual triangular solve steps. The practical rule is: never explicitly form <span class="math inline">\(\bA^{-1}\)</span>. Use <code>np.linalg.solve(A, b)</code> for a single system, or <code>scipy.linalg.lu\_factor</code> and <code>scipy.linalg.lu\_solve</code> for multiple right-hand sides.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Factorize once, solve many.</strong> Given the LU factorization <span class="math inline">\(\bA = \bP\bL\bU\)</span> computed once at cost <span class="math inline">\(\tfrac{2}{3}n^3\)</span>, each new right-hand side <span class="math inline">\(\bb\)</span> requires only two triangular solves at cost <span class="math inline">\(2n^2\)</span>. For <span class="math inline">\(k\)</span> right-hand sides the total is <span class="math inline">\(\tfrac{2}{3}n^3 + 2kn^2\)</span>, far better than <span class="math inline">\(k\)</span> separate <span class="math inline">\(O(n^3)\)</span> solves or storing and applying <span class="math inline">\(\bA^{-1}\)</span>.</p>
+<p><strong>Rule:</strong> Never compute <span class="math inline">\(\bA^{-1}\)</span> explicitly.</p>
+<ul>
+<li><p><strong>Cost:</strong> Computing <span class="math inline">\(\bA^{-1}\)</span> takes <span class="math inline">\(3\times\)</span> longer than LU (<span class="math inline">\(\frac{8}{3}n^3\)</span> vs.&nbsp;<span class="math inline">\(\frac{2}{3}n^3\)</span>).</p></li>
+<li><p><strong>Stability:</strong> Round-off in <span class="math inline">\(\bA^{-1}\)</span> propagates into the entire product <span class="math inline">\(\bA^{-1}\bb\)</span>. Stable factorizations confine errors.</p></li>
+<li><p><strong>Efficiency:</strong> LU allows solving for new <span class="math inline">\(\bb\)</span>’s in <span class="math inline">\(O(n^2)\)</span> without storing a dense inverse.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -756,17 +724,15 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>For <span class="math inline">\(n = 500\)</span>, estimate the flop counts for (a) computing <span class="math inline">\(\bA^{-1}\)</span> and then applying it to 10 right-hand sides, versus (b) computing the LU factorization once and solving 10 triangular systems. Which is faster, and by what factor?</p></li>
-<li><p>In Python, time <code>np.linalg.inv(A) @ b</code> vs.<br>
-<code>np.linalg.solve(A, b)</code> for a random <span class="math inline">\(500 \times 500\)</span> matrix over 20 solves. Which is faster? Does the timing match your flop count estimate?</p></li>
-<li><p>Construct a nearly singular matrix <code>A = np.diag([1, 1, 1e-12])</code> and a right-hand side <code>b = [1, 1, 1]</code>. Solve via <code>np.linalg.inv(A) @ b</code> and <code>np.linalg.solve(A, b)</code>. Compare the residuals <span class="math inline">\(\|\bA\hat{\bx} - \bb\|\)</span>.</p></li>
+<li><p>For <span class="math inline">\(n=500\)</span>, compare total flops for solving 10 systems via <span class="math inline">\(\bA^{-1}\)</span> vs.&nbsp;LU.</p></li>
+<li><p>Construct <span class="math inline">\(\bA = \text{diag}(1, 1, 10^{-12})\)</span>. Compare residuals of <code>inv(A) @ b</code> and <code>solve(A, b)</code>.</p></li>
 </ol>
 </div>
 </div>
 </section>
 <section id="numerical-stability" class="level2" data-number="14.2">
 <h2 data-number="14.2" class="anchored" data-anchor-id="numerical-stability"><span class="header-section-number">14.2</span> Numerical Stability</h2>
-<p>Even after choosing a factorization-based approach, there are good and bad ways to implement the factorization. The concept of backward stability gives a precise criterion for what ``good’’ means: a backward stable algorithm is one whose computed output is the exact output for a slightly perturbed input. This is the best one can hope for in finite-precision arithmetic.</p>
+<p>A property of the <strong>algorithm</strong>.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -777,7 +743,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>An algorithm for computing <span class="math inline">\(f(\bx)\)</span> is <em>backward stable</em> if for every input <span class="math inline">\(\bx\)</span>, the computed output <span class="math inline">\(\hat{f}(\bx)\)</span> satisfies <span class="math display">\[\hat{f}(\bx) = f(\bx + \delta\bx)\]</span> for some perturbation <span class="math inline">\(\|\delta\bx\| / \|\bx\| = O(\varepsilon_{\mathrm{mach}})\)</span>. Applied to <span class="math inline">\(\bA\bx = \bb\)</span>: an algorithm is backward stable if the computed solution <span class="math inline">\(\hat{\bx}\)</span> satisfies <span class="math inline">\((\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb\)</span> with <span class="math inline">\(\|\delta\bA\|/\|\bA\| = O(\varepsilon_{\mathrm{mach}})\)</span> and <span class="math inline">\(\|\delta\bb\|/\|\bb\| = O(\varepsilon_{\mathrm{mach}})\)</span>.</p>
+<p>An algorithm is backward stable if its computed <span class="math inline">\(\hat{\bx}\)</span> is the <strong>exact solution to a nearby problem</strong>: <span class="math inline">\((\bA + \delta \bA)\hat{\bx} = \bb + \delta \bb\)</span>, with <span class="math inline">\(\|\delta \bA\|/\|\bA\| = O(\varepsilon_{\text{mach}})\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -790,7 +756,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Backward stability is a property of the <em>algorithm</em>, not the problem. Gaussian elimination without pivoting can be unstable; with partial pivoting it is backward stable for virtually all practical matrices.</p>
+<p><strong>GEPP Stability:</strong> Gaussian Elimination with Partial Pivoting is backward stable for virtually all practical matrices. The growth factor <span class="math inline">\(\rho\)</span> stays small, preventing exponential error amplification.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -803,63 +769,16 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>Explain in your own words the difference between a backward stable algorithm and one that simply produces a small residual <span class="math inline">\(\|\bA\hat{\bx} - \bb\|\)</span>. Are the two equivalent? (<em>Hint: think about the relationship between backward error and residual.</em>)</p></li>
-<li><p>Consider computing <span class="math inline">\(e^x\)</span> for large negative <span class="math inline">\(x\)</span> directly versus via <span class="math inline">\(1/e^{-x}\)</span>. Which is backward stable? (<em>Hint: evaluate both at <span class="math inline">\(x = -30\)</span> in Python and compare to the true value.</em>)</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proposition: Gaussian Elimination with Partial Pivoting is Backward Stable
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Gaussian elimination with partial pivoting (GEPP) produces a computed solution <span class="math inline">\(\hat{\bx}\)</span> satisfying <span class="math inline">\((\bA + \delta\bA)\hat{\bx} = \bb\)</span> with <span class="math display">\[\|\delta\bA\|_\infty \leq g_n \cdot \varepsilon_{\mathrm{mach}} \cdot \|\bA\|_\infty,\]</span> where <span class="math inline">\(g_n\)</span> is the <em>growth factor</em>. In the worst case <span class="math inline">\(g_n \leq 2^{n-1}\)</span>, but for random matrices in practice <span class="math inline">\(g_n = O(n^{2/3})\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>At each elimination step, partial pivoting selects the largest entry in the current column as pivot, ensuring all multipliers satisfy <span class="math inline">\(|m_{ij}| \leq 1\)</span>. This prevents exponential amplification of round-off at each stage. A detailed rounding error analysis over the <span class="math inline">\(O(n^3)\)</span> scalar operations shows the accumulated backward error satisfies the stated bound. For a complete proof see Higham, <em>Accuracy and Stability of Numerical Algorithms</em>, Ch.~9.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>The growth factor for a random <span class="math inline">\(n \times n\)</span> matrix is typically much smaller than <span class="math inline">\(2^{n-1}\)</span>. In Python, construct 100 random <span class="math inline">\(50 \times 50\)</span> matrices and compute the LU factorization via <code>scipy.linalg.lu</code>. For each, compute the growth factor <span class="math inline">\(g_n = \|\bU\|_\infty / \|\bA\|_\infty\)</span>. Plot a histogram. Does <span class="math inline">\(g_n\)</span> stay small in practice?</p></li>
-<li><p>Construct the <span class="math inline">\(n \times n\)</span> Kahan matrix (a known worst-case for GEPP) and verify the growth factor can be large. Use <code>scipy.linalg.khatri\_rao</code> or build it manually.</p></li>
+<li><p>Explain why a small residual doesn’t always guarantee a small error (Forward Error).</p></li>
+<li><p>Histogram growth factors for 100 random matrices via <code>scipy.linalg.lu</code>.</p></li>
 </ol>
 </div>
 </div>
 </section>
 <section id="condition-number" class="level2" data-number="14.3">
 <h2 data-number="14.3" class="anchored" data-anchor-id="condition-number"><span class="header-section-number">14.3</span> Condition Number</h2>
-<p>Backward stability tells us about the algorithm; the condition number tells us about the problem. Even a perfectly backward stable algorithm cannot produce an accurate solution when the problem itself is ill-conditioned: small perturbations in the input lead to large changes in the output. The condition number quantifies exactly how bad this amplification can be.</p>
+<p>A property of the <strong>problem</strong>.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -870,7 +789,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>condition number</em> of an invertible matrix <span class="math inline">\(\bA \in \fR^{n\times n}\)</span> with respect to a norm <span class="math inline">\(\|\cdot\|\)</span> is <span class="math display">\[\kappa(\bA) = \|\bA\|\,\|\bA^{-1}\|.\]</span> For the 2-norm, <span class="math inline">\(\kappa_2(\bA) = \sigma_{\max}/\sigma_{\min}\)</span> (ratio of largest to smallest singular values). For a symmetric matrix, <span class="math inline">\(\kappa_2(\bA) = |\lambda_{\max}|/|\lambda_{\min}|\)</span>.</p>
+<p><span class="math inline">\(\kappa(\bA) = \|\bA\|\|\bA^{-1}\|\)</span>.</p>
+<ul>
+<li><p><strong>Interpretation:</strong> Worst-case error amplification. A perturbation of size <span class="math inline">\(\varepsilon\)</span> in <span class="math inline">\(\bb\)</span> can cause error up to <span class="math inline">\(\kappa(\bA) \varepsilon\)</span> in <span class="math inline">\(\bx\)</span>.</p></li>
+<li><p><strong>Rule of Thumb:</strong> You expect at most <span class="math inline">\(16 - \log_{10}(\kappa(\bA))\)</span> correct digits in double precision.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -883,258 +806,23 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>Compute <span class="math inline">\(\kappa_2(\bA)\)</span> for <span class="math inline">\(\bA = \begin{pmatrix}3&amp;1\\1&amp;3\end{pmatrix}\)</span> by hand using the singular values. Verify with <code>np.linalg.cond(A)</code>.</p></li>
-<li><p>For <span class="math inline">\(\bA = \mathrm{diag}(1, 10^{-3}, 10^{-6})\)</span>, compute <span class="math inline">\(\kappa_2(\bA)\)</span>, <span class="math inline">\(\kappa_1(\bA)\)</span>, and <span class="math inline">\(\kappa_\infty(\bA)\)</span>. How do they compare?</p></li>
-<li><p>The Hilbert matrix <span class="math inline">\(H_{ij} = 1/(i+j-1)\)</span> is notoriously ill-conditioned. Compute <span class="math inline">\(\kappa_2(H_n)\)</span> for <span class="math inline">\(n = 3, 5, 8, 10\)</span> using <code>scipy.linalg.hilbert</code>. How fast does the condition number grow with <span class="math inline">\(n\)</span>?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Perturbation Bound for Linear Systems
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA\bx = \bb\)</span> with <span class="math inline">\(\bA\)</span> invertible and <span class="math inline">\(\bb \neq \bzero\)</span>. If <span class="math inline">\(\hat{\bx}\)</span> satisfies <span class="math inline">\((\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb\)</span> and <span class="math inline">\(\|\bA^{-1}\|\,\|\delta\bA\| &lt; 1\)</span>, then <span class="math display">\[\frac{\|\hat{\bx} - \bx\|}{\|\bx\|}
-  \leq \frac{\kappa(\bA)}{1 - \kappa(\bA)\,\|\delta\bA\|/\|\bA\|}
-  \left(\frac{\|\delta\bA\|}{\|\bA\|} + \frac{\|\delta\bb\|}{\|\bb\|}\right).\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Step 1.</strong> Subtract <span class="math inline">\(\bA\bx = \bb\)</span> from <span class="math inline">\((\bA + \delta\bA)\hat{\bx} = \bb + \delta\bb\)</span>: <span class="math display">\[(\bA + \delta\bA)(\hat{\bx} - \bx) = \delta\bb - \delta\bA\,\bx.\]</span></p>
-<p><strong>Step 2.</strong> Since <span class="math inline">\(\|\bA^{-1}\delta\bA\| \leq \|\bA^{-1}\|\,\|\delta\bA\| &lt; 1\)</span>, the Neumann series gives <span class="math inline">\((\bI + \bA^{-1}\delta\bA)^{-1} = \sum_{k=0}^\infty (-\bA^{-1}\delta\bA)^k\)</span>, so <span class="math inline">\(\bA + \delta\bA\)</span> is invertible and <span class="math display">\[\|(\bA + \delta\bA)^{-1}\| \leq \frac{\|\bA^{-1}\|}{1 - \|\bA^{-1}\|\,\|\delta\bA\|}.\]</span></p>
-<p><strong>Step 3.</strong> Applying this bound to the error from Step 1: <span class="math display">\[\|\hat{\bx} - \bx\|
-  \leq \frac{\|\bA^{-1}\|}{1 - \|\bA^{-1}\|\,\|\delta\bA\|}
-  \bigl(\|\delta\bb\| + \|\delta\bA\|\,\|\bx\|\bigr).\]</span> Divide by <span class="math inline">\(\|\bx\|\)</span> and use <span class="math inline">\(\|\bb\| \leq \|\bA\|\,\|\bx\|\)</span> to convert <span class="math inline">\(\|\bx\|\)</span> terms to <span class="math inline">\(\|\bb\|\)</span> terms. This yields the stated bound.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Corollary: Perturbation in the Right-Hand Side Only
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If only <span class="math inline">\(\bb\)</span> is perturbed (<span class="math inline">\(\delta\bA = \bzero\)</span>), then <span class="math display">\[\frac{\|\hat{\bx} - \bx\|}{\|\bx\|} \leq \kappa(\bA)\,\frac{\|\delta\bb\|}{\|\bb\|}.\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Set <span class="math inline">\(\delta\bA = \bzero\)</span> in the result above. Then <span class="math inline">\(\hat{\bx} - \bx = \bA^{-1}\delta\bb\)</span>, so <span class="math inline">\(\|\hat{\bx}-\bx\| \leq \|\bA^{-1}\|\,\|\delta\bb\|\)</span>. Dividing by <span class="math inline">\(\|\bx\| \geq \|\bb\|/\|\bA\|\)</span> gives <span class="math inline">\(\kappa(\bA)\,\|\delta\bb\|/\|\bb\|\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The condition number is the worst-case amplification factor: a relative perturbation of size <span class="math inline">\(\varepsilon\)</span> in the data can produce a relative error up to <span class="math inline">\(\kappa(\bA)\cdot\varepsilon\)</span> in the solution. In double precision <span class="math inline">\(\varepsilon_{\mathrm{mach}} \approx 10^{-16}\)</span>, so we can expect at most <span class="math inline">\(\lfloor 16 - \log_{10}\kappa(\bA)\rfloor\)</span> correct decimal digits in the computed solution.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 10^{-6} \end{pmatrix}\)</span>, <span class="math inline">\(\bb = (1,1)^T\)</span>. The exact solution is <span class="math inline">\(\bx^* = (1, 10^6)^T\)</span> and <span class="math inline">\(\kappa_2(\bA) = 10^6\)</span>. Perturbing <span class="math inline">\(\bb\)</span> to <span class="math inline">\(\tilde{\bb} = (1 + 10^{-4}, 1)^T\)</span> has <span class="math inline">\(\|\delta\bb\|/\|\bb\| \approx 10^{-4}\)</span>, and the bound predicts relative error up to <span class="math inline">\(10^6 \cdot 10^{-4} = 100\)</span>. The actual perturbed solution is <span class="math inline">\((1+10^{-4}, 10^6)^T\)</span>, giving relative error <span class="math inline">\(\approx 10^{-10}\)</span>: much smaller than the bound because the perturbation was in the well-conditioned direction. The bound is worst-case.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
-<ol type="1">
-<li><p>For <span class="math inline">\(\bA_\epsilon = \begin{pmatrix}1 &amp; 0 \\ 0 &amp; \epsilon\end{pmatrix}\)</span> and <span class="math inline">\(\bb = (1,1)^T\)</span>, compute <span class="math inline">\(\kappa_2(\bA_\epsilon)\)</span> for <span class="math inline">\(\epsilon = 10^{-4}, 10^{-8}, 10^{-12}\)</span>. Perturb <span class="math inline">\(\bb\)</span> to <span class="math inline">\(\tilde{\bb} = (1+10^{-4},1)^T\)</span>, solve both systems, and compare the actual relative error to the bound <span class="math inline">\(\kappa_2(\bA_\epsilon)\cdot\|\delta\bb\|/\|\bb\|\)</span>.</p></li>
-<li><p>At which <span class="math inline">\(\epsilon\)</span> does <code>np.linalg.solve</code> give an unreliable answer in double precision? Explain in terms of the number of correct digits formula.</p></li>
-<li><p>Show that for a symmetric matrix <span class="math inline">\(\bA\)</span> with eigenvalues <span class="math inline">\(\lambda_1, ..., \lambda_n\)</span>, <span class="math inline">\(\kappa_2(\bA) = |\lambda_{\max}|/|\lambda_{\min}|\)</span>. ()</p></li>
+<li><p>Compute <span class="math inline">\(\kappa_2(H_n)\)</span> for Hilbert matrices <span class="math inline">\(n=3, ..., 10\)</span>. How fast does it grow?</p></li>
+<li><p><strong>The Neumann Series:</strong> Use it to prove the perturbation bound: <span class="math inline">\(\frac{\|\delta \bx\|}{\|\bx\|} \leq \frac{\kappa(\bA)}{1 - ...}\)</span>.</p></li>
 </ol>
 </div>
 </div>
 </section>
-<section id="conditioning-vs.-stability" class="level2" data-number="14.4">
-<h2 data-number="14.4" class="anchored" data-anchor-id="conditioning-vs.-stability"><span class="header-section-number">14.4</span> Conditioning vs.&nbsp;Stability</h2>
-<p>Conditioning and stability are often conflated but are fundamentally different. Conditioning is a property of the mathematical problem; stability is a property of the algorithm. The two interact through the forward error bound: for a backward stable algorithm applied to a problem with condition number <span class="math inline">\(\kappa\)</span>, the forward error is at most <span class="math inline">\(O(\kappa \cdot \varepsilon_{\mathrm{mach}})\)</span>. Neither property alone is sufficient: good conditioning with an unstable algorithm, or bad conditioning with a stable one, both lead to inaccurate results.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Conditioning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><em>Conditioning</em> is an intrinsic property of the mathematical problem. It measures the sensitivity of the exact solution to perturbations in the data. A matrix is <em>ill-conditioned</em> if <span class="math inline">\(\kappa(\bA) \gg 1\)</span> and <em>well-conditioned</em> if <span class="math inline">\(\kappa(\bA)\)</span> is modest. Conditioning cannot be improved by choosing a better algorithm; it can only be improved by reformulating the problem or preconditioning.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Numerical Stability
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><em>Numerical stability</em> is a property of the algorithm. It measures how well the algorithm avoids introducing errors beyond those forced by the problem’s conditioning. A backward stable algorithm introduces no more error than is intrinsic to the problem.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A well-conditioned problem solved by an unstable algorithm may yield inaccurate results. An ill-conditioned problem solved by a stable algorithm is still inherently sensitive: no algorithm can overcome poor conditioning. The best strategy is to use a numerically stable algorithm, and if <span class="math inline">\(\kappa(\bA)\)</span> is large, reformulate or precondition the problem.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to Defs~above and~above.</p>
+<section id="stability-hierarchy" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="stability-hierarchy"><span class="header-section-number">14.4</span> Stability Hierarchy</h2>
+<p>The ``Golden Rule’’ for choosing solvers:</p>
 <ol type="1">
-<li><p>Give an example of a well-conditioned problem solved inaccurately due to an unstable algorithm. ()</p></li>
-<li><p>The Hilbert matrix <span class="math inline">\(H_n\)</span> is ill-conditioned. Compute <span class="math inline">\(\kappa_2(H_{12})\)</span> and estimate how many correct digits to expect from double-precision arithmetic. Verify by solving <span class="math inline">\(H_{12}\bx = H_{12}\cdot\mathbf{1}\)</span> and checking the error.</p></li>
-<li><p>Can you make an ill-conditioned problem well-conditioned by scaling? Construct a diagonal scaling matrix <span class="math inline">\(\bD = \mathrm{diag}(d_1, ..., d_n)\)</span> such that <span class="math inline">\(\kappa_2(\bD\bA\bD)\)</span> is minimized, and apply it to a <span class="math inline">\(3\times 3\)</span> example.</p></li>
+<li><p><strong>SVD:</strong> Most stable, most expensive (<span class="math inline">\(O(n^3)\)</span> with large constant).</p></li>
+<li><p><strong>Householder QR:</strong> Very stable, no growth factor (<span class="math inline">\(O(mn^2)\)</span>).</p></li>
+<li><p><strong>Cholesky:</strong> Stable for SPD systems, half the cost of LU.</p></li>
+<li><p><strong>GEPP (LU with Pivoting):</strong> Standard for general systems.</p></li>
+<li><p><strong>LU without Pivoting:</strong> Dangerously unstable; avoid.</p></li>
 </ol>
-</div>
-</div>
-</section>
-<section id="stability-of-matrix-factorizations" class="level2" data-number="14.5">
-<h2 data-number="14.5" class="anchored" data-anchor-id="stability-of-matrix-factorizations"><span class="header-section-number">14.5</span> Stability of Matrix Factorizations</h2>
-<p>The three main factorizations studied in this course have different stability properties, and the right choice depends on the structure of the problem.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proposition: Stability of Cholesky Factorization
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For symmetric positive definite <span class="math inline">\(\bA\)</span>, Cholesky factorization <span class="math inline">\(\bA = \bL\bL^T\)</span> is backward stable without pivoting. All diagonal entries <span class="math inline">\(\ell_{kk}\)</span> remain positive and bounded by <span class="math inline">\(\sqrt{\|\bA\|_2}\)</span>, so no element growth occurs.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-25-contents" aria-controls="callout-25" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-25" class="callout-25-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>For an SPD matrix, all principal submatrices are SPD, so each diagonal entry encountered during Cholesky is positive and the square root is well-defined. Since no cancellation or sign change can occur, the factorization is inherently stable. A rounding error analysis shows the backward error satisfies <span class="math inline">\(\|\bA + \delta\bA - \hat{\bL}\hat{\bL}^T\|_F \leq c_n\varepsilon_{\mathrm{mach}}\|\bA\|_F\)</span> for a modest constant <span class="math inline">\(c_n\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proposition: Stability of QR via Householder Reflections
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>QR decomposition using Householder reflections is backward stable with no growth factor. Each Householder reflector <span class="math inline">\(\bH = \bI - 2\bv\bv^T/\|\bv\|_2^2\)</span> is orthogonal with <span class="math inline">\(\kappa_2(\bH) = 1\)</span>, so orthogonal transformations cannot amplify errors.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-27-contents" aria-controls="callout-27" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-27" class="callout-27-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Each Householder reflection is orthogonal, so <span class="math inline">\(\|\bH\|_2 = \|\bH^{-1}\|_2 = 1\)</span>. Round-off errors at each step are not amplified by subsequent orthogonal transformations. A detailed analysis shows the overall backward error satisfies <span class="math inline">\(\|(\hat{\bQ} + \delta\bQ)(\hat{\bR} + \delta\bR) - \bA\|_F = O(\varepsilon_{\mathrm{mach}}\|\bA\|_F)\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Hierarchy of stability.</strong> SVD <span class="math inline">\(\geq\)</span> QR (Householder) <span class="math inline">\(\geq\)</span> Cholesky (SPD only) <span class="math inline">\(\approx\)</span> LU with partial pivoting <span class="math inline">\(\gg\)</span> LU without pivoting. SVD is the most stable but most expensive. For general systems, GEPP is standard; for SPD systems, Cholesky is preferred; for least squares or ill-conditioned problems, QR is recommended.</p>
-</div>
-</div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1145,24 +833,13 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>After computing <span class="math inline">\(\hat{\bx}\)</span> via a factorization, <em>iterative refinement</em> improves accuracy by three steps: (1) compute the residual <span class="math inline">\(\br = \bb - \bA\hat{\bx}\)</span>; (2) solve <span class="math inline">\(\bA\boldsymbol{\delta} = \br\)</span> using the same factorization; (3) update <span class="math inline">\(\hat{\bx} \leftarrow \hat{\bx} + \boldsymbol{\delta}\)</span>. Each cycle recovers roughly <span class="math inline">\(\lfloor\log_{10}(1/\kappa(\bA))\rfloor\)</span> additional correct digits, up to the precision limit.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
+<p>``Polish’’ a solution <span class="math inline">\(\hat{\bx}\)</span> by:</p>
 <ol type="1">
-<li><p>Implement one step of iterative refinement for <span class="math inline">\(H_{10}\bx = H_{10}\cdot\mathbf{1}\)</span> (Hilbert matrix, <span class="math inline">\(n=10\)</span>). Compare the error before and after refinement. How many digits did you recover?</p></li>
-<li><p>Apply two steps of refinement. Does a second step help? Is there a limit to how many digits can be recovered?</p></li>
+<li><p><span class="math inline">\(\br = \bb - \bA\hat{\bx}\)</span></p></li>
+<li><p>Solve <span class="math inline">\(\bA \boldsymbol{\delta} = \br\)</span></p></li>
+<li><p><span class="math inline">\(\hat{\bx} \leftarrow \hat{\bx} + \boldsymbol{\delta}\)</span></p></li>
 </ol>
+<p>Each step recovers digits lost due to conditioning, up to machine precision.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -1175,29 +852,9 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(Comparing factorization stability.)</strong> Build the <span class="math inline">\(n \times n\)</span> Hilbert matrix via <code>scipy.linalg.hilbert(n)</code>.</p>
 <ol type="1">
-<li><p>For <span class="math inline">\(n = 10\)</span>: compute <span class="math inline">\(\kappa_2(H)\)</span> and predict how many correct digits to expect. Solve <span class="math inline">\(H\bx = H\cdot\mathbf{1}\)</span> via <code>np.linalg.solve</code> (LU) and <code>np.linalg.lstsq</code> (QR-based). Compare the errors <span class="math inline">\(\|\hat{\bx} - \mathbf{1}\|_2\)</span>.</p></li>
-<li><p>Use <code>mpmath</code> with <code>mp.dps = 50</code> to solve the same system in high precision. Does the error decrease significantly compared to double precision? What does this tell you about conditioning vs.&nbsp;precision?</p></li>
-<li><p>Apply one step of iterative refinement to the LU solution. How much improvement do you observe?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Backward error analysis in practice.)</strong> For <span class="math inline">\(\bA\bx = \bb\)</span> with a random <span class="math inline">\(10 \times 10\)</span> matrix scaled so <span class="math inline">\(\kappa(\bA) \approx 10^4\)</span>:</p>
-<ol type="1">
-<li><p>Compute <span class="math inline">\(\hat{\bx}\)</span> via <code>np.linalg.solve</code>. Compute the backward error <span class="math inline">\(\|\bA\hat{\bx} - \bb\|_2/\|\bb\|_2\)</span>. Is it consistent with <span class="math inline">\(O(\varepsilon_{\mathrm{mach}})\)</span>?</p></li>
-<li><p>Compute the forward error <span class="math inline">\(\|\hat{\bx} - \bx^*\|_2/\|\bx^*\|_2\)</span> (using the true solution). Is the ratio (forward error)/(backward error) consistent with <span class="math inline">\(\kappa(\bA)\)</span>?</p></li>
-<li><p>Repeat with <span class="math inline">\(\kappa \approx 10^{12}\)</span> and interpret the results.</p></li>
+<li><p>Solve <span class="math inline">\(H_{10}\bx = H_{10}\mathbf{1}\)</span>. Apply one step of iterative refinement. How many digits are recovered?</p></li>
+<li><p>Compare forward errors of <code>solve</code> (LU) vs <code>lstsq</code> (QR) on a Hilbert system.</p></li>
 </ol>
 </div>
 </div>
@@ -1632,8 +1289,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/orthogonality/stability.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/orthogonality/stability.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

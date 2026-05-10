@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../fundamentals/math-notation.html">Fundamentals</a></li><li class="breadcrumb-item"><a href="../fundamentals/complexity.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Computational Complexity</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -699,7 +690,7 @@ window.Quarto = {
 </header>
 
 
-<p>Every algorithm in scientific computing carries a cost: the number of arithmetic operations it performs. Understanding that cost determines whether an algorithm is practical at scale and lets us compare competing methods objectively. The flop counts derived here will be referenced throughout the course whenever we compare algorithms.</p>
+<p>Algorithmic cost measured in arithmetic operations (flops). Determines scalability and feasibility.</p>
 <section id="big-o-notation" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="big-o-notation"><span class="header-section-number">6.1</span> Big-O Notation</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -712,131 +703,12 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>We write <span class="math inline">\(f(n) = O(g(n))\)</span> (read ``<span class="math inline">\(f\)</span> is big-O of <span class="math inline">\(g\)</span>’’) if there exist constants <span class="math inline">\(C &gt; 0\)</span> and <span class="math inline">\(n_0 \geq 1\)</span> such that <span class="math display">\[|f(n)| \leq C\,|g(n)| \quad \text{for all } n \geq n_0.\]</span> Informally, <span class="math inline">\(f\)</span> grows no faster than <span class="math inline">\(g\)</span> asymptotically. Related notations:</p>
+<p><span class="math inline">\(f(n) = O(g(n))\)</span> if <span class="math inline">\(\exists C, n_0 &gt; 0\)</span> s.t. <span class="math inline">\(|f(n)| \leq C|g(n)|\)</span> for <span class="math inline">\(n \geq n_0\)</span>.</p>
 <ul>
-<li><p><span class="math inline">\(f = \Omega(g)\)</span>: <span class="math inline">\(f\)</span> grows at least as fast as <span class="math inline">\(g\)</span> (i.e., <span class="math inline">\(g = O(f)\)</span>).</p></li>
-<li><p><span class="math inline">\(f = \Theta(g)\)</span>: <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> grow at the same rate (<span class="math inline">\(f = O(g)\)</span> and <span class="math inline">\(g = O(f)\)</span>).</p></li>
-<li><p><span class="math inline">\(f = o(g)\)</span>: <span class="math inline">\(f\)</span> grows strictly slower than <span class="math inline">\(g\)</span>, i.e., <span class="math inline">\(f(n)/g(n) \to 0\)</span>.</p></li>
+<li><p><span class="math inline">\(\Omega(g)\)</span>: Grows at least as fast.</p></li>
+<li><p><span class="math inline">\(\Theta(g)\)</span>: Grows at the same rate.</p></li>
+<li><p><span class="math inline">\(o(g)\)</span>: Grows strictly slower.</p></li>
 </ul>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Common growth rates, ordered from fastest to slowest for large <span class="math inline">\(n\)</span>: <span class="math display">\[O(n!) \;\gg\; O(2^n) \;\gg\; O(n^3) \;\gg\; O(n^2) \;\gg\; O(n \log n) \;\gg\; O(n) \;\gg\; O(\log n) \;\gg\; O(1).\]</span> For <span class="math inline">\(n = 1000\)</span>: an <span class="math inline">\(O(n^2)\)</span> algorithm performs <span class="math inline">\(\sim 10^6\)</span> operations; an <span class="math inline">\(O(n^3)\)</span> algorithm performs <span class="math inline">\(\sim 10^9\)</span> — three orders of magnitude slower. The distinction between <span class="math inline">\(O(n^2)\)</span> and <span class="math inline">\(O(n^3)\)</span> is the difference between milliseconds and seconds.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Properties of Big-O
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(f, g, h\)</span> be positive functions of <span class="math inline">\(n\)</span>. Then:</p>
-<ol type="1">
-<li><p>(Transitivity) If <span class="math inline">\(f = O(g)\)</span> and <span class="math inline">\(g = O(h)\)</span>, then <span class="math inline">\(f = O(h)\)</span>.</p></li>
-<li><p>(Sum rule) <span class="math inline">\(O(f) + O(g) = O(\max(f, g))\)</span>. In particular, <span class="math inline">\(O(n^3) + O(n^2) = O(n^3)\)</span>.</p></li>
-<li><p>(Product rule) <span class="math inline">\(O(f) \cdot O(g) = O(fg)\)</span>.</p></li>
-<li><p>(Constant factors) <span class="math inline">\(O(cf) = O(f)\)</span> for any constant <span class="math inline">\(c &gt; 0\)</span>.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>All four follow directly from the definition. For the sum rule: if <span class="math inline">\(|f_1| \leq C_1 g\)</span> and <span class="math inline">\(|f_2| \leq C_2 h\)</span> for large <span class="math inline">\(n\)</span>, then <span class="math inline">\(|f_1 + f_2| \leq C_1 g + C_2 h \leq
-(C_1 + C_2)\max(g, h)\)</span>. For the product rule: <span class="math inline">\(|f_1 f_2| \leq C_1 C_2 \cdot gh\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
-<ol type="1">
-<li><p>Show that <span class="math inline">\(3n^2 + 100n + 5 = O(n^2)\)</span> by finding explicit constants <span class="math inline">\(C\)</span> and <span class="math inline">\(n_0\)</span>.</p></li>
-<li><p>Is <span class="math inline">\(n \log n = O(n^2)\)</span>? Is <span class="math inline">\(n^2 = O(n \log n)\)</span>? Justify both.</p></li>
-<li><p>Rank the following by asymptotic cost for large <span class="math inline">\(n\)</span>: (a)~<span class="math inline">\(5n^3 + n\)</span>, (b)~<span class="math inline">\(100n^2\)</span>, (c)~<span class="math inline">\(n^2 \log n\)</span>, (d)~<span class="math inline">\(2^{10} n^2\)</span>.</p></li>
-<li><p>An algorithm has cost <span class="math inline">\(T(n) = 2T(n/2) + n\)</span>. Use the master theorem (or unroll the recurrence) to show <span class="math inline">\(T(n) = O(n \log n)\)</span>.</p></li>
-</ol>
-</div>
-</div>
-</section>
-<section id="flop-counting" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="flop-counting"><span class="header-section-number">6.2</span> Flop Counting</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Floating-Point Operation (flop)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A <em>floating-point operation</em> (<em>flop</em>) is a single arithmetic operation (addition, subtraction, multiplication, or division) on floating-point numbers. Flop counts give a hardware-independent measure of algorithmic work. Modern CPUs execute billions of flops per second (GFlop/s); GPUs achieve TFlop/s.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Basic Operation Costs
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For vectors <span class="math inline">\(\bx, \by \in \fR^n\)</span> and matrices <span class="math inline">\(\bA \in \fR^{m \times n}\)</span>, <span class="math inline">\(\bB \in \fR^{n \times p}\)</span>:</p>
-<ul>
-<li><p><strong>Dot product</strong> <span class="math inline">\(\bx^T\by\)</span>: <span class="math inline">\(n\)</span> multiplications <span class="math inline">\(+\)</span> <span class="math inline">\((n-1)\)</span> additions <span class="math inline">\(= 2n - 1 \approx 2n\)</span> flops.</p></li>
-<li><p><strong>Matrix-vector product</strong> <span class="math inline">\(\bA\bx\)</span>: <span class="math inline">\(m\)</span> dot products of length <span class="math inline">\(n\)</span> <span class="math inline">\(= 2mn - m \approx 2mn\)</span> flops.</p></li>
-<li><p><strong>Matrix-matrix product</strong> <span class="math inline">\(\bA\bB\)</span>: <span class="math inline">\(p\)</span> matrix-vector products <span class="math inline">\(= 2mnp\)</span> flops; for square <span class="math inline">\(n \times n\)</span> matrices, <span class="math inline">\(2n^3\)</span> flops.</p></li>
-<li><p><strong>Triangular solve</strong> <span class="math inline">\(\bL\bx = \bb\)</span> (lower triangular): <span class="math inline">\(n^2\)</span> flops.</p></li>
-</ul>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-8" class="callout-8-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Each row <span class="math inline">\(i\)</span> of <span class="math inline">\(\bA\bx\)</span> is the dot product <span class="math inline">\(\ba_i^T\bx\)</span>, costing <span class="math inline">\(2n - 1\)</span> flops. Summing over <span class="math inline">\(m\)</span> rows gives <span class="math inline">\(m(2n-1) = 2mn - m\)</span> flops. For <span class="math inline">\(\bA\bB\)</span>, column <span class="math inline">\(j\)</span> of the product is <span class="math inline">\(\bA\bb_j\)</span>, a matrix-vector product costing <span class="math inline">\(2mn - m\)</span> flops; summing over <span class="math inline">\(p\)</span> columns gives <span class="math inline">\(p(2mn - m) \approx 2mnp\)</span>. For the triangular solve, substituting entry <span class="math inline">\(k\)</span> of <span class="math inline">\(\bx\)</span> costs <span class="math inline">\(2k - 1\)</span> flops; summing <span class="math inline">\(k = 1, ..., n\)</span> gives <span class="math inline">\(\sum_{k=1}^{n}(2k - 1) = n^2\)</span>.</p>
-</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -849,7 +721,20 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>These baseline costs appear throughout the course. For reference: LU factorization costs <span class="math inline">\(\frac{2}{3}n^3\)</span> flops (Section~above); Cholesky costs <span class="math inline">\(\frac{1}{3}n^3\)</span> — half the price for symmetric positive definite systems; the QR factorization via Householder reflections costs <span class="math inline">\(\frac{4}{3}n^3\)</span> flops (the result above).</p>
+<p><strong>Typical Rates.</strong> <span class="math inline">\(O(1) \ll O(\log n) \ll O(n) \ll O(n \log n) \ll O(n^2) \ll O(n^3) \ll O(2^n)\)</span>. For <span class="math inline">\(n=1000\)</span>: <span class="math inline">\(O(n^2)\)</span> is <span class="math inline">\(\sim 10^6\)</span> ops (ms); <span class="math inline">\(O(n^3)\)</span> is <span class="math inline">\(\sim 10^9\)</span> ops (s).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Properties.</strong> 1. <strong>Transitivity:</strong> <span class="math inline">\(f=O(g), g=O(h) \Rightarrow f=O(h)\)</span>. 2. <strong>Sum Rule:</strong> <span class="math inline">\(O(f) + O(g) = O(\max(f, g))\)</span>. 3. <strong>Product Rule:</strong> <span class="math inline">\(O(f) \cdot O(g) = O(fg)\)</span>. 4. <strong>Constant Factors:</strong> <span class="math inline">\(O(cf) = O(f)\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -862,15 +747,96 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
 <ol type="1">
-<li><p>Verify the exact flop count for <span class="math inline">\(\bA\bx\)</span> (<span class="math inline">\(\bA \in \fR^{m \times n}\)</span>) by counting each multiply-add in each row.</p></li>
-<li><p>A computer performs <span class="math inline">\(10^9\)</span> flops/second. Estimate wall-clock times for:</p></li>
-<li><p><span class="math inline">\(\bA\bx\)</span> with <span class="math inline">\(\bA \in \fR^{1000 \times 1000}\)</span>.</p></li>
-<li><p><span class="math inline">\(\bA\bB\)</span> with <span class="math inline">\(\bA, \bB \in \fR^{1000 \times 1000}\)</span>.</p></li>
-<li><p><span class="math inline">\(\bA\bB\)</span> with <span class="math inline">\(\bA, \bB \in \fR^{10000 \times 10000}\)</span>.</p></li>
-<li><p>In Python, time <code>np.dot(A, B)</code> for <span class="math inline">\(n \in \{100, 500, 1000, 2000\}\)</span> with random <span class="math inline">\(n \times n\)</span> matrices. Plot wall-clock time vs.&nbsp;<span class="math inline">\(n\)</span> on a log-log scale and estimate the empirical exponent. Does it match <span class="math inline">\(O(n^3)\)</span>?</p></li>
-<li><p>Explain why the empirical exponent from the previous part may be less than 3. (<em>Hint: BLAS libraries exploit cache hierarchy and vectorized instructions.</em>)</p></li>
+<li><p>Show <span class="math inline">\(3n^2 + 100n + 5 = O(n^2)\)</span>.</p></li>
+<li><p>Compare growth: <span class="math inline">\(n \log n\)</span> vs <span class="math inline">\(n^2\)</span>.</p></li>
+<li><p>Rank by cost: <span class="math inline">\(5n^3+n, 100n^2, n^2 \log n, 2^{10}n^2\)</span>.</p></li>
+<li><p>Use Master Theorem: <span class="math inline">\(T(n) = 2T(n/2) + n\)</span>.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="flop-counting" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="flop-counting"><span class="header-section-number">6.2</span> Flop Counting</h2>
+<p>Hardware-independent measure of work.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Flop
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A single floating-point operation (<span class="math inline">\(+, -, \times, \div\)</span>).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Basic Costs
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For <span class="math inline">\(\bx, \by \in \fR^n\)</span> and <span class="math inline">\(\bA \in \fR^{m \times n}, \bB \in \fR^{n \times p}\)</span>:</p>
+<ul>
+<li><p><strong>Dot product:</strong> <span class="math inline">\(2n\)</span> flops.</p></li>
+<li><p><strong>Matrix-vector product:</strong> <span class="math inline">\(2mn\)</span> flops.</p></li>
+<li><p><strong>Matrix-matrix product:</strong> <span class="math inline">\(2mnp\)</span> flops (<span class="math inline">\(2n^3\)</span> for square).</p></li>
+<li><p><strong>Triangular solve:</strong> <span class="math inline">\(n^2\)</span> flops.</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Note: The Memory Wall.</strong> In modern hardware, arithmetic is cheap but moving data (RAM to CPU) is expensive. An <span class="math inline">\(O(n^3)\)</span> algorithm with high cache locality (like blocked GEMM) can outperform an <span class="math inline">\(O(n^2)\)</span> algorithm with poor locality.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Benchmarks.</strong></p>
+<ul>
+<li><p><strong>LU Factorization:</strong> <span class="math inline">\(\frac{2}{3}n^3\)</span>.</p></li>
+<li><p><strong>Cholesky:</strong> <span class="math inline">\(\frac{1}{3}n^3\)</span>.</p></li>
+<li><p><strong>QR (Householder):</strong> <span class="math inline">\(\frac{4}{3}n^3\)</span>.</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Verify <span class="math inline">\(2mn\)</span> flops for <span class="math inline">\(\bA\bx\)</span> by counting multiply-adds.</p></li>
+<li><p>Estimate wall-clock time for <span class="math inline">\(10^9\)</span> flops on a <span class="math inline">\(10^9\)</span> flop/s CPU.</p></li>
+<li><p>Python: Plot <code>np.dot(A, B)</code> time vs <span class="math inline">\(n\)</span> (log-log). Verify exponent <span class="math inline">\(\approx 3\)</span>.</p></li>
+<li><p>Why might the empirical exponent be less than 3? (Cache hierarchy, vectorization).</p></li>
 </ol>
 </div>
 </div>
@@ -1305,8 +1271,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/complexity.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/complexity.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

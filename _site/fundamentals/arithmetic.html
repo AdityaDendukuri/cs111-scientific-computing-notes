@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../fundamentals/math-notation.html">Fundamentals</a></li><li class="breadcrumb-item"><a href="../fundamentals/arithmetic.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Matrix Arithmetic</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -753,7 +744,7 @@ Let
 \bA = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix} \quad \text{and} \quad
 \bB = \begin{pmatrix} e &amp; f \\ g &amp; h \end{pmatrix}.\)</span>$ Then, <span class="math display">\[\bA + \bB = \begin{pmatrix} a+e &amp; b+f \\ c+g &amp; d+h \end{pmatrix}
 \quad \text{and} \quad
-\bB + \bA = \begin{pmatrix} e+a &amp; f+b \\ g+c &amp; h+d \end{pmatrix}.\]</span> Since addition of real numbers is commutative, <span class="math inline">\(\bA + \bB = \bB + \bA\)</span>. Furthermore, for any third matrix <span class="math inline">\(\mathbf{C} = \begin{pmatrix} i &amp; j \\ k &amp; l \end{pmatrix}\)</span>, <span class="math display">\[(\bA+\bB)+\mathbf{C} = \begin{pmatrix} (a+e)+i &amp; (b+f)+j \\ (c+g)+k &amp; (d+h)+l \end{pmatrix},\]</span> and <span class="math display">\[\bA+(\bB+\mathbf{C}) = \begin{pmatrix} a+(e+i) &amp; b+(f+j) \\ c+(g+k) &amp; d+(h+l) \end{pmatrix}.\]</span> By associativity of real addition, these are identical. Hence matrix addition is both commutative and associative.</p>
+\bB + \bA = \begin{pmatrix} e+a &amp; f+b \\ g+c &amp; h+d \end{pmatrix}.\]</span> Since addition of real numbers is commutative, <span class="math inline">\(\bA + \bB = \bB + \bA\)</span>. Furthermore, for any third matrix <span class="math inline">\(\bC = \begin{pmatrix} i &amp; j \\ k &amp; l \end{pmatrix}\)</span>, <span class="math display">\[(\bA+\bB)+\bC = \begin{pmatrix} (a+e)+i &amp; (b+f)+j \\ (c+g)+k &amp; (d+h)+l \end{pmatrix},\]</span> and <span class="math display">\[\bA+(\bB+\bC) = \begin{pmatrix} a+(e+i) &amp; b+(f+j) \\ c+(g+k) &amp; d+(h+l) \end{pmatrix}.\]</span> By associativity of real addition, these are identical. Hence matrix addition is both commutative and associative.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -779,7 +770,7 @@ Let
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Each axiom follows from the corresponding property of <span class="math inline">\(\fR\)</span> applied entry-wise. For <strong>commutativity</strong>: <span class="math display">\[(\bA + \bB)_{ij} = a_{ij} + b_{ij} = b_{ij} + a_{ij} = (\bB + \bA)_{ij}.\]</span> The <strong>additive identity</strong> is <span class="math inline">\(\mathbf{0}\)</span> since <span class="math inline">\((\bA + \mathbf{0})_{ij} = a_{ij}\)</span>. The <strong>additive inverse</strong> of <span class="math inline">\(\bA\)</span> is <span class="math inline">\(-\bA\)</span> (negate every entry), satisfying <span class="math inline">\((\bA + (-\bA))_{ij} = 0\)</span>.</p>
+<p>Each axiom follows from the corresponding property of <span class="math inline">\(\fR\)</span> applied entry-wise. For <strong>commutativity</strong>: <span class="math display">\[(\bA + \bB)_{ij} = a_{ij} + b_{ij} = b_{ij} + a_{ij} = (\bB + \bA)_{ij}.\]</span> The <strong>additive identity</strong> is <span class="math inline">\(\bzero\)</span> since <span class="math inline">\((\bA + \bzero)_{ij} = a_{ij}\)</span>. The <strong>additive inverse</strong> of <span class="math inline">\(\bA\)</span> is <span class="math inline">\(-\bA\)</span> (negate every entry), satisfying <span class="math inline">\((\bA + (-\bA))_{ij} = 0\)</span>.</p>
 <p>For the <strong>dimension</strong>: the <span class="math inline">\(mn\)</span> matrices <span class="math inline">\(\bE^{(ij)}\)</span> with a <span class="math inline">\(1\)</span> in position <span class="math inline">\((i,j)\)</span> and zeros elsewhere are linearly independent, and every <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> decomposes as <span class="math inline">\(\bA = \sum_{i,j} a_{ij}\,\bE^{(ij)}\)</span>, so they form a basis of size <span class="math inline">\(mn\)</span>.</p>
 </div>
 </div>
@@ -876,7 +867,7 @@ Since scalar multiplication distributes over addition for real numbers, this equ
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA \in \mathbb{R}^{m \times n}\)</span> and <span class="math inline">\(\bB \in \mathbb{R}^{n \times p}\)</span>. Their product <span class="math inline">\(\bA\bB\)</span> is an <span class="math inline">\(m \times p\)</span> matrix defined by <span class="math display">\[(\bA\bB)_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj},\]</span> or equivalently, if <span class="math inline">\(\ba_i\)</span> denotes the <span class="math inline">\(i\)</span>-th row of <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bb_j\)</span> the <span class="math inline">\(j\)</span>-th column of <span class="math inline">\(\bB\)</span>: <span class="math display">\[\bA \bB =
+<p>Let <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> and <span class="math inline">\(\bB \in \fR^{n \times p}\)</span>. Their product <span class="math inline">\(\bA\bB\)</span> is an <span class="math inline">\(m \times p\)</span> matrix defined by <span class="math display">\[(\bA\bB)_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj},\]</span> or equivalently, if <span class="math inline">\(\ba_i\)</span> denotes the <span class="math inline">\(i\)</span>-th row of <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bb_j\)</span> the <span class="math inline">\(j\)</span>-th column of <span class="math inline">\(\bB\)</span>: <span class="math display">\[\bA \bB =
 \begin{pmatrix}
 \ba_1 \cdot \bb_1 &amp; \cdots &amp; \ba_1 \cdot \bb_p \\
 \vdots &amp; \ddots &amp; \vdots \\
@@ -935,7 +926,7 @@ Then,
 \]</span>(+ ) =
 <span class="math display">\[\begin{pmatrix} b_{11}+c_{11} &amp; b_{12}+c_{12} \\ b_{21}+c_{21} &amp; b_{22}+c_{22} \end{pmatrix}\]</span>
 <p>,<span class="math display">\[
-and by computing the entries using the result above, one can verify that
+and by computing the entries, one can verify that
 \]</span>(+ ) = + .$$</p>
 <p><strong>Non-Commutativity of Matrix Multiplication</strong>$<span class="math inline">\(2mm]
 Consider
@@ -957,13 +948,13 @@ Consider
 <p>Refer to the result above and the result above. Let <span class="math inline">\(\bA = \begin{pmatrix} 2 &amp; 1 \\ 0 &amp; 3 \end{pmatrix}\)</span> and <span class="math inline">\(\bB = \begin{pmatrix} 1 &amp; -1 \\ 2 &amp; 4 \end{pmatrix}\)</span>.</p>
 <ol type="1">
 <li><p>Compute <span class="math inline">\(\bA\bB\)</span> and <span class="math inline">\(\bB\bA\)</span> by hand. Confirm <span class="math inline">\(\bA\bB \neq \bB\bA\)</span>.</p></li>
-<li><p>Find a nonzero matrix <span class="math inline">\(\mathbf{C} \neq \bI\)</span> that commutes with <span class="math inline">\(\bA\)</span> (i.e., <span class="math inline">\(\bA\mathbf{C} = \mathbf{C}\bA\)</span>). </p></li>
+<li><p>Find a nonzero matrix <span class="math inline">\(\bC \neq \bI\)</span> that commutes with <span class="math inline">\(\bA\)</span> (i.e., <span class="math inline">\(\bA\bC = \bC\bA\)</span>). <em>Hint: try <span class="math inline">\(\bC = \alpha\bA + \beta\bI\)</span>.</em></p></li>
 <li><p>Verify associativity: compute <span class="math inline">\((\bA\bB)\bc\)</span> and <span class="math inline">\(\bA(\bB\bc)\)</span> for <span class="math inline">\(\bc = (1,0)^T\)</span> and confirm they are equal.</p></li>
-<li><p>Using the result above, compare the flop count of <span class="math inline">\((\bA\bB)\bc\)</span> versus <span class="math inline">\(\bA(\bB\bc)\)</span> for general <span class="math inline">\(\bA, \bB \in \fR^{n \times n}\)</span> and <span class="math inline">\(\bc \in \fR^n\)</span>. Which order is cheaper and by what factor?</p></li>
+<li><p>Compare the flop count of <span class="math inline">\((\bA\bB)\bc\)</span> versus <span class="math inline">\(\bA(\bB\bc)\)</span> for general <span class="math inline">\(\bA, \bB \in \fR^{n \times n}\)</span> and <span class="math inline">\(\bc \in \fR^n\)</span>. Which order is cheaper and by what factor?</p></li>
 </ol>
 </div>
 </div>
-<p>Many properties of scalar arithmetic extend naturally to vectors and matrices. In fact, matrices can be viewed as elements of a higher-dimensional vector space (see the result above), and matrix multiplication can be interpreted as the composition of linear transformations. While the notations for vectors and matrices are similar, their roles differ:</p>
+<p>Many properties of scalar arithmetic extend naturally to vectors and matrices. In fact, matrices can be viewed as elements of a higher-dimensional vector space, and matrix multiplication can be interpreted as the composition of linear transformations. While the notations for vectors and matrices are similar, their roles differ:</p>
 <ul>
 <li><p>Vectors typically represent points or directions in space.</p></li>
 <li><p>Matrices often represent linear maps or transformations between vector spaces.</p></li>
@@ -975,7 +966,7 @@ Consider
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Corollary: Parenthesization Reduces Cost from <span class="math inline">\(O(n^3)\)</span> to <span class="math inline">\(O(n^2)\)</span>
+<span class="screen-reader-only">Note</span>Theorem: Associativity as an Optimization
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -992,12 +983,11 @@ Consider
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In this exercise, we will prove the result above. Refer to the result above.</p>
 <p>Suppose <span class="math inline">\(\bA, \bB \in \fR^{n \times n}\)</span> and <span class="math inline">\(\bx \in \fR^n\)</span>.</p>
 <ol type="1">
 <li><p><em>Approach 1:</em> Compute <span class="math inline">\(\bM = \bA\bB\)</span> first (cost?), then <span class="math inline">\(\bM\bx\)</span> (cost?). Write the total flop count.</p></li>
 <li><p><em>Approach 2:</em> Compute <span class="math inline">\(\by = \bB\bx\)</span> first (cost?), then <span class="math inline">\(\bA\by\)</span> (cost?). Write the total flop count.</p></li>
-<li><p>Conclude the asymptotic improvement factor as <span class="math inline">\(n \to \infty\)</span>. This proves the result above.</p></li>
+<li><p>Conclude the asymptotic improvement factor as <span class="math inline">\(n \to \infty\)</span>.</p></li>
 <li><p>Write NumPy code for both approaches using <code>@</code>. Does NumPy automatically choose the optimal evaluation order for a chain like <code>A @ B @ x</code>?</p></li>
 </ol>
 </div>
@@ -1016,7 +1006,7 @@ Consider
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For a square matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, the <strong>inverse</strong> of <span class="math inline">\(\bA\)</span>, denoted <span class="math inline">\(\bA^{-1}\)</span>, is the unique matrix satisfying <span class="math display">\[\bA \bA^{-1} = \bA^{-1} \bA = \mathbf{I},\]</span> where <span class="math inline">\(\mathbf{I}\)</span> is the <span class="math inline">\(n \times n\)</span> identity matrix. A matrix that has an inverse is called <em>invertible</em> or <em>nonsingular</em>.</p>
+<p>For a square matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, the <strong>inverse</strong> of <span class="math inline">\(\bA\)</span>, denoted <span class="math inline">\(\bA^{-1}\)</span>, is the unique matrix satisfying <span class="math display">\[\bA \bA^{-1} = \bA^{-1} \bA = \bI,\]</span> where <span class="math inline">\(\bI\)</span> is the <span class="math inline">\(n \times n\)</span> identity matrix. A matrix that has an inverse is called <em>invertible</em> or <em>nonsingular</em>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -1032,7 +1022,7 @@ Tip
 <p>A square matrix <span class="math inline">\(\bA\)</span> is invertible if and only if <span class="math inline">\(\det(\bA) \neq 0\)</span>, which also implies that <span class="math inline">\(\bA\)</span> has full rank.</p>
 </div>
 </div>
-<p><strong>Uniqueness of the Inverse</strong>$$2mm] Suppose <span class="math inline">\(\bA\)</span> is invertible and both <span class="math inline">\(\bB\)</span> and <span class="math inline">\(\mathbf{C}\)</span> satisfy the conditions of the result above. Then, [ = = () = () = = .$$ Thus the inverse of <span class="math inline">\(\bA\)</span> is unique.</p>
+<p><strong>Uniqueness of the Inverse</strong>$$2mm] Suppose <span class="math inline">\(\bA\)</span> is invertible and both <span class="math inline">\(\bB\)</span> and <span class="math inline">\(\bC\)</span> satisfy the conditions of the result above. Then, [ = = () = ()= = .$$ Thus the inverse of <span class="math inline">\(\bA\)</span> is unique.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1069,7 +1059,7 @@ Tip
     = \bA\bA^{-1} = \bI.\]</span> Left-inverse: <span class="math inline">\((\bB^{-1}\bA^{-1})(\bA\bB) = \bB^{-1}(\bA^{-1}\bA)\bB = \bI\)</span>. By uniqueness of the inverse, <span class="math inline">\((\bA\bB)^{-1} = \bB^{-1}\bA^{-1}\)</span>.</p>
 <p><strong>(3):</strong> <span class="math inline">\((\alpha\bA)\!\left(\tfrac{1}{\alpha}\bA^{-1}\right) =
 \tfrac{\alpha}{\alpha}\bA\bA^{-1} = \bI\)</span>.</p>
-<p><strong>(4):</strong> Transpose both sides of <span class="math inline">\(\bA\bA^{-1} = \bI\)</span> using the Reversal Law (see the transpose analogue): <span class="math inline">\((\bA^{-1})^T\bA^T = \bI\)</span>, so <span class="math inline">\((\bA^T)^{-1} = (\bA^{-1})^T\)</span>.</p>
+<p><strong>(4):</strong> Transpose both sides of <span class="math inline">\(\bA\bA^{-1} = \bI\)</span> using the Reversal Law for transposes: <span class="math inline">\((\bA^{-1})^T\bA^T = \bI\)</span>, so <span class="math inline">\((\bA^T)^{-1} = (\bA^{-1})^T\)</span>.</p>
 </div>
 </div>
 </div>
@@ -1083,7 +1073,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Property (2) is critical in scientific computing. To solve <span class="math inline">\((\bA\bB)\bx = \bc\)</span>, we should <em>not</em> compute <span class="math inline">\((\bA\bB)^{-1}\)</span> explicitly (large constant factor, numerical error amplification). Instead, use the Reversal Law: first solve <span class="math inline">\(\bA\by = \bc\)</span> for <span class="math inline">\(\by\)</span> via LU factorization, then solve <span class="math inline">\(\bB\bx = \by\)</span>. The function <code>np.linalg.solve</code> does exactly this.</p>
+<p><strong>The Decomposition Principle.</strong> In scientific computing, we almost never compute <span class="math inline">\(\bA^{-1}\)</span> explicitly. To solve <span class="math inline">\(\bA\bx = \bb\)</span>, we decompose <span class="math inline">\(\bA\)</span> into simpler factors (like LU or QR) and solve a sequence of simpler systems. This is more numerically stable and computationally efficient. The Reversal Law <span class="math inline">\((\bA\bB)^{-1} = \bB^{-1}\bA^{-1}\)</span> reflects this: to solve <span class="math inline">\((\bA\bB)\bx = \bb\)</span>, we first solve <span class="math inline">\(\bA\by = \bb\)</span> for <span class="math inline">\(\by\)</span>, then <span class="math inline">\(\bB\bx = \by\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -1099,7 +1089,7 @@ Tip
 <p>Refer to the result above and the result above.</p>
 <ol type="1">
 <li><p>For <span class="math inline">\(\bA = \begin{pmatrix} 2 &amp; 1 \\ 5 &amp; 3 \end{pmatrix}\)</span>, compute <span class="math inline">\(\bA^{-1}\)</span> by hand using the <span class="math inline">\(2 \times 2\)</span> formula <span class="math inline">\(\bA^{-1} = \frac{1}{\det\bA}\begin{pmatrix} d &amp; -b \\ -c &amp; a \end{pmatrix}\)</span>. Verify <span class="math inline">\(\bA\bA^{-1} = \bI\)</span>.</p></li>
-<li><p>Given <span class="math inline">\(\bB = \begin{pmatrix} 1 &amp; 0 \\ -1 &amp; 1 \end{pmatrix}\)</span>, use the Reversal Law (the result above(2)) to compute <span class="math inline">\((\bA\bB)^{-1}\)</span> without inverting a new <span class="math inline">\(2 \times 2\)</span> system.</p></li>
+<li><p>Given <span class="math inline">\(\bB = \begin{pmatrix} 1 &amp; 0 \\ -1 &amp; 1 \end{pmatrix}\)</span>, use the Reversal Law to compute <span class="math inline">\((\bA\bB)^{-1}\)</span> without inverting a new <span class="math inline">\(2 \times 2\)</span> system.</p></li>
 <li><p>Explain why <code>np.linalg.solve(A, b)</code> is preferred over <code>np.linalg.inv(A) @ b</code> for solving <span class="math inline">\(\bA\bx = \bb\)</span>. Address both numerical accuracy and computational cost.</p></li>
 </ol>
 </div>
@@ -1130,7 +1120,7 @@ Tip
 <p>In this exercise, we will prove that a matrix is involutory (the result above) if and only if it is its own inverse. Refer to the result above and the result above.</p>
 <ol type="1">
 <li><p>Suppose <span class="math inline">\(\bA^2 = \bI\)</span>. Multiply both sides of <span class="math inline">\(\bA\bA = \bI\)</span> on the right by <span class="math inline">\(\bA^{-1}\)</span> to deduce <span class="math inline">\(\bA^{-1} = \bA\)</span>.</p></li>
-<li><p>Conversely, suppose <span class="math inline">\(\bA^{-1} = \bA\)</span>. Show <span class="math inline">\(\bA^2 = \bI\)</span> directly from the result above.</p></li>
+<li><p>Conversely, suppose <span class="math inline">\(\bA^{-1} = \bA\)</span>. Show <span class="math inline">\(\bA^2 = \bI\)</span>.</p></li>
 <li><p>Give a concrete <span class="math inline">\(2 \times 2\)</span> example of an involutory matrix other than <span class="math inline">\(\pm\bI\)</span>. Verify it satisfies <span class="math inline">\(\bA^2 = \bI\)</span>.</p></li>
 </ol>
 </div>
@@ -1582,8 +1572,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/arithmetic.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/arithmetic.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

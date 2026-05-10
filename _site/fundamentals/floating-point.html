@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../fundamentals/math-notation.html">Fundamentals</a></li><li class="breadcrumb-item"><a href="../fundamentals/floating-point.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Floating Point Arithmetic</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -673,11 +664,11 @@ window.Quarto = {
   <ul>
   <li><a href="#floating-point-representation" id="toc-floating-point-representation" class="nav-link active" data-scroll-target="#floating-point-representation"><span class="header-section-number">7.1</span> Floating Point Representation</a></li>
   <li><a href="#ieee-754-special-values" id="toc-ieee-754-special-values" class="nav-link" data-scroll-target="#ieee-754-special-values"><span class="header-section-number">7.2</span> IEEE 754 Special Values</a></li>
-  <li><a href="#floating-point-arithmetic-pitfalls" id="toc-floating-point-arithmetic-pitfalls" class="nav-link" data-scroll-target="#floating-point-arithmetic-pitfalls"><span class="header-section-number">7.3</span> Floating Point Arithmetic Pitfalls</a></li>
+  <li><a href="#arithmetic-pitfalls" id="toc-arithmetic-pitfalls" class="nav-link" data-scroll-target="#arithmetic-pitfalls"><span class="header-section-number">7.3</span> Arithmetic Pitfalls</a></li>
   <li><a href="#quantifying-approximation-error" id="toc-quantifying-approximation-error" class="nav-link" data-scroll-target="#quantifying-approximation-error"><span class="header-section-number">8</span> Quantifying Approximation Error</a>
   <ul class="collapse">
   <li><a href="#absolute-and-relative-errors" id="toc-absolute-and-relative-errors" class="nav-link" data-scroll-target="#absolute-and-relative-errors"><span class="header-section-number">8.1</span> Absolute and Relative Errors</a></li>
-  <li><a href="#forward-and-backward-error-analysis" id="toc-forward-and-backward-error-analysis" class="nav-link" data-scroll-target="#forward-and-backward-error-analysis"><span class="header-section-number">8.2</span> Forward and Backward Error Analysis</a></li>
+  <li><a href="#error-analysis-frameworks" id="toc-error-analysis-frameworks" class="nav-link" data-scroll-target="#error-analysis-frameworks"><span class="header-section-number">8.2</span> Error Analysis Frameworks</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/floating-point.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -705,26 +696,30 @@ window.Quarto = {
 </header>
 
 
-<p>Real numbers cannot be represented exactly on digital computers. This subsection covers how numbers are stored in the IEEE 754 floating point format, the precision limits of that representation, and the special values and arithmetic pitfalls that arise in practice. Understanding these fundamentals is a prerequisite for analyzing any numerical algorithm.</p>
+<p>Representation and precision limits of real numbers on digital hardware.</p>
 <section id="floating-point-representation" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="floating-point-representation"><span class="header-section-number">7.1</span> Floating Point Representation</h2>
-<p>Real numbers are stored in computers using a finite-bit format analogous to scientific notation. The key parameters are the number of bits for the sign, exponent, and significand.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Floating Point Representation
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A normalized floating point number has the form <span class="math display">\[x = (-1)^s \times (1.f) \times 2^e,\]</span> where <span class="math inline">\(s\)</span> is the sign bit, <span class="math inline">\(f\)</span> is the fractional significand (mantissa), <span class="math inline">\(e\)</span> is the exponent, and the leading 1 is implicit (hidden bit). The IEEE 754 standard defines two primary formats:</p>
+<p>Normalized numbers take the form <span class="math inline">\(x = (-1)^s \times (1.f) \times 2^e\)</span>.</p>
 <ul>
-<li><p><strong>Single precision (32-bit)</strong>: 1 sign, 8 exponent, 23 fraction bits.</p></li>
-<li><p><strong>Double precision (64-bit)</strong>: 1 sign, 11 exponent, 52 fraction bits.</p></li>
+<li><p><strong>s:</strong> Sign bit.</p></li>
+<li><p><strong>f:</strong> Fractional significand (mantissa); leading 1 is implicit.</p></li>
+<li><p><strong>e:</strong> Biased exponent; Bias <span class="math inline">\(= 2^{k-1}-1\)</span> (<span class="math inline">\(k\)</span> is exponent bits).</p></li>
 </ul>
-<p>The exponent field uses a biased representation with bias <span class="math inline">\(= 2^{k-1} - 1\)</span> (<span class="math inline">\(k\)</span> = exponent bits).</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>IEEE 754 Standards.</strong></p>
+<ul>
+<li><p><strong>Single (32-bit):</strong> 1 sign, 8 exponent, 23 fraction bits.</p></li>
+<li><p><strong>Double (64-bit):</strong> 1 sign, 11 exponent, 52 fraction bits.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -737,15 +732,14 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>16-bit floating point.</strong> With 1 sign, 5 exponent (bias <span class="math inline">\(= 15\)</span>), and 10 fraction bits, represent <span class="math inline">\(-3.25\)</span>:</p>
+<p><strong>16-bit float.</strong> 1 sign, 5 exp (bias 15), 10 frac. Represent <span class="math inline">\(-3.25\)</span>:</p>
 <ol type="1">
-<li><p>Sign <span class="math inline">\(= 1\)</span> (negative).</p></li>
-<li><p><span class="math inline">\(3.25_{10} = 11.01_2\)</span>.</p></li>
-<li><p>Normalize: <span class="math inline">\(1.101_2 \times 2^1\)</span>.</p></li>
-<li><p>Biased exponent: <span class="math inline">\(1 + 15 = 16 = 10000_2\)</span>.</p></li>
-<li><p>Fraction bits: <span class="math inline">\(1010000000\)</span>.</p></li>
-<li><p>Final: <span class="math inline">\(1\;10000\;1010000000\)</span>.</p></li>
+<li><p><span class="math inline">\(s=1\)</span>.</p></li>
+<li><p><span class="math inline">\(3.25_{10} = 11.01_2 = 1.101_2 \times 2^1\)</span>.</p></li>
+<li><p><span class="math inline">\(e = 1+15 = 16 = 10000_2\)</span>.</p></li>
+<li><p><span class="math inline">\(f = 1010000000_2\)</span>.</p></li>
 </ol>
+<p>Result: <code>1 10000 1010000000</code>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -758,10 +752,9 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>Encode the number <span class="math inline">\(+5.5\)</span> in the 16-bit format above (1 sign, 5 exponent, 10 fraction bits, bias <span class="math inline">\(= 15\)</span>). Show each step.</p></li>
-<li><p>How many distinct normalized numbers can be represented with 5 exponent bits and 10 fraction bits (excluding special values)? </p></li>
+<li><p>Encode <span class="math inline">\(+5.5\)</span> in 16-bit format.</p></li>
+<li><p>How many distinct normalized numbers for 5 exp bits, 10 frac bits?</p></li>
 </ol>
 </div>
 </div>
@@ -771,24 +764,14 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Machine Epsilon
+<span class="screen-reader-only">Note</span>Definition: Machine Epsilon (<span class="math inline">\(\varepsilon_{\text{mach}}\)</span>)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Machine epsilon</strong> <span class="math inline">\(\varepsilon_{\text{mach}}\)</span> is the difference between 1 and the next larger representable floating point number. For a system with <span class="math inline">\(p\)</span> significand bits (including the hidden bit): <span class="math display">\[\varepsilon_{\text{mach}} = 2^{1-p}.\]</span> For any normalized floating point number <span class="math inline">\(x\)</span>, the gap to the next representable number is approximately <span class="math inline">\(\varepsilon_{\text{mach}} \cdot |x|\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For IEEE double precision: <span class="math inline">\(p = 52 + 1 = 53\)</span> bits, so <span class="math inline">\(\varepsilon_{\text{mach}} = 2^{-52} \approx 2.22 \times 10^{-16}\)</span>. In Python: <code>import sys; sys.float\_info.epsilon</code>.</p>
+<p>The difference between 1 and the next larger float. <span class="math inline">\(\varepsilon_{\text{mach}} = 2^{1-p}\)</span> where <span class="math inline">\(p\)</span> is significand bits.</p>
+<ul>
+<li>Double precision: <span class="math inline">\(\varepsilon_{\text{mach}} \approx 2.22 \times 10^{-16}\)</span>.</li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -801,10 +784,9 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>In Python, evaluate <code>1.0 + 1e-16</code> and <code>1.0 + 2e-16</code>. Explain both results using <span class="math inline">\(\varepsilon_{\text{mach}}\)</span>.</p></li>
-<li><p>Write a function <code>compute\_eps()</code> that finds machine epsilon empirically (without <code>sys.float\_info.epsilon</code> or <code>np.finfo</code>). <em>Hint: start from 1.0, halve repeatedly until <span class="math inline">\(1 + \varepsilon = 1\)</span>.</em></p></li>
+<li><p>Python: Compare <code>1.0 + 1e-16</code> and <code>1.0 + 2e-16</code>.</p></li>
+<li><p>Find <span class="math inline">\(\varepsilon_{\text{mach}}\)</span> empirically via loop.</p></li>
 </ol>
 </div>
 </div>
@@ -814,11 +796,24 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Unit Roundoff
+<span class="screen-reader-only">Note</span>Definition: Unit Roundoff (<span class="math inline">\(u\)</span>)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <strong>unit roundoff</strong> is <span class="math inline">\(u = \varepsilon_{\text{mach}}/2 = 2^{-p}\)</span>. It is the maximum relative error when rounding a real number <span class="math inline">\(x\)</span> to its nearest floating point representation <span class="math inline">\(\text{fl}(x)\)</span>: <span class="math display">\[\frac{|\text{fl}(x) - x|}{|x|} \leq u.\]</span></p>
+<p>Max relative rounding error: <span class="math inline">\(u = \varepsilon_{\text{mach}}/2 = 2^{-p}\)</span>. <span class="math display">\[\frac{|\text{fl}(x) - x|}{|x|} \leq u.\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Fundamental Axiom
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>IEEE 754 guarantees <span class="math inline">\(\text{fl}(a \circ b) = (a \circ b)(1 + \delta)\)</span> for <span class="math inline">\(\circ \in \{+, -, \times, \div\}\)</span> and <span class="math inline">\(|\delta| \leq u\)</span>. Individual operations are as accurate as the representation allows.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -831,7 +826,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Machine epsilon is the smallest number for which <span class="math inline">\(1 + \varepsilon_{\text{mach}} &gt; 1\)</span> in floating point. Unit roundoff is the maximum relative rounding error for any number. In IEEE round-to-nearest mode, <span class="math inline">\(u = \varepsilon_{\text{mach}}/2\)</span>.</p>
+<p><strong>Warning:</strong> After <span class="math inline">\(n\)</span> operations, error grows as <span class="math inline">\(O(nu)\)</span>. Operation order matters because each intermediate result is rounded.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -844,89 +839,21 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>Confirm that <span class="math inline">\((1.0 + u) - 1.0 = u\)</span> but <span class="math inline">\((1.0 + u/2) - 1.0 = 0\)</span> in double precision. Explain in terms of the spacing between adjacent floats near 1.</p></li>
-<li><p>How many significant decimal digits does an IEEE double carry? </p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Fundamental Theorem of Floating Point Arithmetic
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For any real <span class="math inline">\(x\)</span> in the normalized range, the nearest floating point number satisfies <span class="math display">\[\text{fl}(x) = x(1 + \delta), \quad |\delta| \leq u.\]</span> Furthermore, for any floating point <span class="math inline">\(a, b\)</span> and operation <span class="math inline">\(\circ \in \{+,-,\times,\div\}\)</span>, IEEE 754 guarantees: <span class="math display">\[\text{fl}(a \circ b) = (a \circ b)(1 + \delta), \quad |\delta| \leq u.\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The real line near <span class="math inline">\(x\)</span> is partitioned into intervals each containing exactly one floating point number (the left endpoint). Rounding to nearest halves the worst-case error, giving <span class="math inline">\(|\delta| \leq u\)</span>. For the second statement, IEEE 754 mandates that each basic operation is computed as if in infinite precision and then rounded, ensuring the same <span class="math inline">\(|\delta| \leq u\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The IEEE 754 guarantee that each individual operation incurs at most unit roundoff is the foundation of all backward error analyses. After <span class="math inline">\(n\)</span> sequential operations, the accumulated error grows as <span class="math inline">\(O(nu)\)</span>, which is acceptable for double precision when <span class="math inline">\(n \ll 10^{16}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>Suppose <span class="math inline">\(a = 1.0\)</span> and <span class="math inline">\(b = -0.9999999999999999\)</span> in double precision. What is <span class="math inline">\(\text{fl}(a + b)\)</span>? Is the relative error bounded by <span class="math inline">\(u\)</span>?</p></li>
-<li><p>A computation performs <span class="math inline">\(10^6\)</span> floating point additions. Using the <span class="math inline">\(O(nu)\)</span> bound, estimate the worst-case accumulated relative error in double precision.</p></li>
+<li><p>Let <span class="math inline">\(a=1, b=-0.999...\)</span>. Is error in <span class="math inline">\(\text{fl}(a+b)\)</span> bounded by <span class="math inline">\(u\)</span>?</p></li>
+<li><p>Estimate worst-case relative error for <span class="math inline">\(10^6\)</span> sequential additions.</p></li>
 </ol>
 </div>
 </div>
 </section>
 <section id="ieee-754-special-values" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="ieee-754-special-values"><span class="header-section-number">7.2</span> IEEE 754 Special Values</h2>
-<p>Beyond normalized numbers, IEEE 754 defines special bit patterns to handle results outside the representable range. Each has a distinct behavior that must be understood when writing numerical code.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Signed Zero
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Both <span class="math inline">\(+0\)</span> and <span class="math inline">\(-0\)</span> are represented and compare as equal, but behave differently in arithmetic: <span class="math inline">\(1/(+0) = +\infty\)</span> and <span class="math inline">\(1/(-0) = -\infty\)</span>.</p>
-</div>
-</div>
+<ul>
+<li><p><strong>Signed Zero:</strong> <span class="math inline">\(+0, -0\)</span>. <span class="math inline">\(1/(+0) = \infty\)</span>, <span class="math inline">\(1/(-0) = -\infty\)</span>.</p></li>
+<li><p><strong>Subnormals:</strong> Fill the gap between 0 and the smallest normalized number. Reduced precision, allows gradual underflow.</p></li>
+<li><p><strong>Infinities:</strong> <span class="math inline">\(\pm\infty\)</span>. Result of overflow or <span class="math inline">\(x/0\)</span>.</p></li>
+<li><p><strong>NaN:</strong> Not a Number (<span class="math inline">\(0/0\)</span>, <span class="math inline">\(\infty-\infty\)</span>). Unequal to everything, including itself.</p></li>
+</ul>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -937,133 +864,21 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>In Python, evaluate <code>1.0/0.0</code> and <code>1.0/(-0.0)</code>. Are the results <span class="math inline">\(+\infty\)</span> and <span class="math inline">\(-\infty\)</span> respectively, or does Python raise an error?</p></li>
-<li><p>Evaluate <code>(+0.0) == (-0.0)</code>. What does this confirm about signed zero?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Subnormal Numbers
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Numbers smaller than the smallest normalized value <span class="math inline">\(2^{e_{\min}}\)</span> are represented with a leading zero bit, allowing <strong>gradual underflow</strong> at the cost of reduced precision. The smallest positive double-precision subnormal is <span class="math inline">\(2^{-1074} \approx 4.94 \times 10^{-324}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Subnormal numbers fill the gap between 0 and the smallest normalized number (<span class="math inline">\(2^{-1022}\)</span> in double precision), but with fewer significant bits. A subnormal near <span class="math inline">\(2^{-1073}\)</span> has only 1 bit of precision, making its relative rounding error much larger than that of a normalized number.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>What is the smallest positive subnormal number in IEEE single precision (1 sign, 8 exponent, 23 fraction bits)?</p></li>
-<li><p>In Python, evaluate <code>5e-324</code> (the smallest positive double). What is <code>5e-324 / 2</code>? Why?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Infinities
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(+\infty\)</span> and <span class="math inline">\(-\infty\)</span> arise from overflow or division of a nonzero number by zero (e.g., <code>1.0/0.0</code>). They propagate correctly through arithmetic: <span class="math inline">\(x + \infty = \infty\)</span> for any finite <span class="math inline">\(x\)</span>, and <span class="math inline">\(\infty \cdot 0 = \text{NaN}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>In Python, evaluate <code>float('inf') + 1</code>, <code>float('inf') - float('inf')</code>, and <code>0.0 * float('inf')</code>. Classify each result and explain using IEEE 754 rules.</p></li>
-<li><p>Is <code>float('inf') &gt; 1e308</code> true? What does this imply about comparisons involving infinity?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: NaN (Not a Number)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A <strong>NaN</strong> is produced by undefined operations: <span class="math inline">\(0/0\)</span>, <span class="math inline">\(\infty - \infty\)</span>, <span class="math inline">\(\sqrt{-1}\)</span>. Any arithmetic involving a NaN returns a NaN, and <code>nan != nan</code> is <code>True</code> in Python (NaN is unequal to everything, including itself).</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>Explain why <code>float('nan') == float('nan')</code> returns <code>False</code>. What does this imply for checking whether a computation produced a NaN?</p></li>
-<li><p>In Python, evaluate <code>float('nan') &gt; 0</code> and <code>float('nan') &lt; 0</code>. What are the results, and why?</p></li>
+<li><p>Python: <code>1.0/0.0</code> vs <code>1.0/-0.0</code>.</p></li>
+<li><p>Result of <code>float('inf') - float('inf')</code> and <code>float('nan') == float('nan')</code>.</p></li>
 </ol>
 </div>
 </div>
 </section>
-<section id="floating-point-arithmetic-pitfalls" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="floating-point-arithmetic-pitfalls"><span class="header-section-number">7.3</span> Floating Point Arithmetic Pitfalls</h2>
-<p>Floating point arithmetic differs from real arithmetic in several fundamental ways. The following properties, while counterintuitive, are direct consequences of finite precision and must be kept in mind when designing algorithms.</p>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Non-Associativity.</strong> <span class="math inline">\((a \oplus b) \oplus c \neq a \oplus (b \oplus c)\)</span> in general. Each addition rounds its result, and changing the order changes which intermediate values are rounded.</p>
-</div>
-</div>
+<section id="arithmetic-pitfalls" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="arithmetic-pitfalls"><span class="header-section-number">7.3</span> Arithmetic Pitfalls</h2>
+<p>Finite precision breaks standard algebraic laws:</p>
+<ul>
+<li><p><strong>Non-Associativity:</strong> <span class="math inline">\((a+b)+c \neq a+(b+c)\)</span>.</p></li>
+<li><p><strong>Non-Distributivity:</strong> <span class="math inline">\(a(b+c) \neq ab + ac\)</span>.</p></li>
+<li><p><strong>Absorption:</strong> <span class="math inline">\(a+b = a\)</span> when <span class="math inline">\(|a| \gg |b|\)</span>.</p></li>
+</ul>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1075,103 +890,20 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Using 4-significant-digit decimal arithmetic, compute <span class="math inline">\((10000. + 0.001) - 10000.\)</span> and <span class="math inline">\(10000. + (0.001 - 10000.)\)</span>. Which order is accurate? Which demonstrates <em>absorption</em>?</p></li>
-<li><p>In Python, verify with <code>a=1e10; b=1.0; c=-1e10</code>: does <code>(a+b)+c == a+(b+c)</code>? Explain.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Non-Distributivity.</strong> <span class="math inline">\(a \otimes (b \oplus c) \neq (a \otimes b) \oplus (a \otimes c)\)</span> in general, because <span class="math inline">\(b \oplus c\)</span> is rounded before multiplication, while <span class="math inline">\(a \otimes b\)</span> and <span class="math inline">\(a \otimes c\)</span> are rounded separately before addition.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><p>In Python, compute <code>a*(b+c)</code> vs <code>a*b + a*c</code> for <code>a = 1e15</code>, <code>b = 1.0</code>, <code>c = -1.0</code>. Explain the discrepancy using the definition above.</p></li>
-<li><p>True or False: if <code>a == b</code> in floating point, then <code>a - b == 0.0</code> always. What about the converse?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Absorption.</strong> When <span class="math inline">\(|a| \gg |b|\)</span>, the sum <span class="math inline">\(\text{fl}(a + b)\)</span> may equal <span class="math inline">\(a\)</span> exactly, because <span class="math inline">\(b\)</span> falls below the unit roundoff relative to <span class="math inline">\(a\)</span>. The smaller operand contributes nothing.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li><p>In Python, evaluate <code>1e16 + 1.0 - 1e16</code>. What do you get and why?</p></li>
-<li><p>Give an example where absorption causes a running sum of <span class="math inline">\(n\)</span> small numbers to yield zero when added to a large number, even though the true sum is nonzero.</p></li>
+<li><p><code>a=1e16, b=1</code>. Find <code>(a+b)-a</code> in Python. Explain result.</p></li>
+<li><p>Find <span class="math inline">\(a, b, c\)</span> where <code>a*(b+c) != a*b + a*c</code>.</p></li>
 </ol>
 </div>
 </div>
 </section>
 <section id="quantifying-approximation-error" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> Quantifying Approximation Error</h1>
-<p>Floating point arithmetic introduces errors at every operation. This subsection develops the vocabulary and tools for measuring those errors and reasoning about how they propagate through a computation. Absolute and relative error quantify the gap between computed and true values; catastrophic cancellation identifies a common failure mode; and forward and backward analysis provide complementary frameworks for bounding the total error in an algorithm.</p>
 <section id="absolute-and-relative-errors" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="absolute-and-relative-errors"><span class="header-section-number">8.1</span> Absolute and Relative Errors</h2>
-<p>Every floating point operation introduces a small rounding error. Understanding how these errors arise and propagate determines whether an algorithm produces trustworthy results.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Absolute and Relative Error
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>When a real number <span class="math inline">\(x\)</span> is approximated by <span class="math inline">\(\hat{x}\)</span>, the <strong>absolute error</strong> is <span class="math inline">\(|\hat{x} - x|\)</span>, and the <strong>relative error</strong> is <span class="math display">\[\varepsilon = \frac{|\hat{x} - x|}{|x|},\]</span> so that <span class="math inline">\(\hat{x} = x(1 + \varepsilon)\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Approximating <span class="math inline">\(\pi \approx 3.14159...\)</span>:</p>
-<p>Relative error is usually more meaningful: a tiny absolute error can still represent a large relative error when the true value is small.</p>
-</div>
-</div>
+<ul>
+<li><p><strong>Absolute:</strong> <span class="math inline">\(|\hat{x} - x|\)</span>.</p></li>
+<li><p><strong>Relative:</strong> <span class="math inline">\(\varepsilon = \frac{|\hat{x} - x|}{|x|}\)</span>. Standard measure for precision.</p></li>
+</ul>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1182,10 +914,9 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>Approximate <span class="math inline">\(\sqrt{2} \approx 1.414\)</span>. Compute the absolute and relative errors.</p></li>
-<li><p>For two computations with relative errors <span class="math inline">\(\varepsilon_1\)</span> and <span class="math inline">\(\varepsilon_2\)</span>, what is the relative error in their <em>product</em>? ()</p></li>
+<li><p><span class="math inline">\(\sqrt{2} \approx 1.414\)</span>. Errors?</p></li>
+<li><p>Relative error of product <span class="math inline">\(\hat{x}\hat{y}\)</span>? (Sum of individual relative errors).</p></li>
 </ol>
 </div>
 </div>
@@ -1199,38 +930,24 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Catastrophic cancellation</strong> occurs when subtracting two nearly equal numbers. If <span class="math inline">\(\hat{x} = x(1+\varepsilon_x)\)</span> and <span class="math inline">\(\hat{y} = y(1+\varepsilon_y)\)</span> with <span class="math inline">\(x \approx y &gt; 0\)</span>, the relative error in <span class="math inline">\(\hat{x} - \hat{y}\)</span> is <span class="math display">\[\frac{(\hat{x}-\hat{y})-(x-y)}{x-y} = \frac{x\varepsilon_x - y\varepsilon_y}{x - y},\]</span> which is unbounded as <span class="math inline">\(x \to y^+\)</span> — a total loss of significant digits.</p>
+<p>Subtraction of nearly equal numbers leads to total loss of significant digits.</p>
+<ul>
+<li><p>Relative error <span class="math inline">\(\leq u \cdot \frac{x+y}{x-y}\)</span>.</p></li>
+<li><p>Amplification factor <span class="math inline">\(\to \infty\)</span> as <span class="math inline">\(x \to y\)</span>.</p></li>
+</ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Cancellation Error Bound
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\hat{x} = x(1+\varepsilon_x)\)</span>, <span class="math inline">\(\hat{y} = y(1+\varepsilon_y)\)</span> with <span class="math inline">\(|\varepsilon_x|, |\varepsilon_y| \leq u\)</span> and <span class="math inline">\(x &gt; y &gt; 0\)</span>. Then <span class="math display">\[\left|\frac{(\hat{x}-\hat{y})-(x-y)}{x-y}\right| \leq u\cdot\frac{x+y}{x-y}.\]</span> The amplification factor <span class="math inline">\((x+y)/(x-y) \to \infty\)</span> as <span class="math inline">\(x \to y^+\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-34-contents" aria-controls="callout-34" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-34" class="callout-34-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The error is <span class="math inline">\(x\varepsilon_x - y\varepsilon_y\)</span>. Taking absolute value and dividing by <span class="math inline">\(x-y\)</span>: <span class="math display">\[\frac{|x\varepsilon_x - y\varepsilon_y|}{x-y}
-    \leq \frac{x|\varepsilon_x| + y|\varepsilon_y|}{x-y}
-    \leq u\cdot\frac{x+y}{x-y}.\]</span></p>
-</div>
+<p><strong>Rule:</strong> Rounding error is inevitable. Cancellation is algorithmic and can often be eliminated via mathematical reformulation.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -1243,7 +960,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Computing <span class="math inline">\(f(x) = \sqrt{x+1} - \sqrt{x}\)</span> for <span class="math inline">\(x = 10^8\)</span> in double precision: <span class="math inline">\(\sqrt{10^8+1} \approx 10000.00000005\)</span> and <span class="math inline">\(\sqrt{10^8} = 10000\)</span>, so direct subtraction gives approximately <span class="math inline">\(0\)</span> due to cancellation. Rationalizing avoids this: <span class="math display">\[f(x) = \frac{1}{\sqrt{x+1}+\sqrt{x}} \approx \frac{1}{20000} = 5\times 10^{-5}.\]</span> Mathematical reformulation eliminates the cancellation without increasing cost.</p>
+<p><strong>Stabilizing Cancellation.</strong> <span class="math inline">\(f(x) = \sqrt{x+1} - \sqrt{x}\)</span> for <span class="math inline">\(x = 10^8\)</span>.</p>
+<ul>
+<li><p><strong>Direct:</strong> <span class="math inline">\(10000.00000005 - 10000 \approx 0\)</span> (Catastrophic).</p></li>
+<li><p><strong>Stable:</strong> <span class="math inline">\(\frac{1}{\sqrt{x+1} + \sqrt{x}} \approx 5 \times 10^{-5}\)</span>.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -1256,30 +977,33 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(Cancellation and Reformulation)</strong> Refer to the result above and the result above. For each expression, identify whether catastrophic cancellation can occur and derive a stable equivalent form.</p>
+<p>Stabilize:</p>
 <ol type="1">
-<li><p><span class="math inline">\(\dfrac{1-\cos x}{x^2}\)</span> for small <span class="math inline">\(x\)</span>. <em>Hint: use <span class="math inline">\(1-\cos x = 2\sin^2(x/2)\)</span>.</em></p></li>
-<li><p><span class="math inline">\(\sqrt{x+1} - \sqrt{x}\)</span> for large <span class="math inline">\(x\)</span> (rationalize the numerator).</p></li>
-<li><p>The smaller root of <span class="math inline">\(x^2 - 10^8 x + 1 = 0\)</span> via the quadratic formula. What goes wrong and how do you fix it?</p></li>
-<li><p><span class="math inline">\(e^x - 1\)</span> for small <span class="math inline">\(x\)</span>. Why does NumPy provide <code>np.expm1(x)</code>? Verify numerically that <code>np.expm1(1e-15)</code> is more accurate than <code>np.exp(1e-15) - 1</code>.</p></li>
+<li><p><span class="math inline">\((1-\cos x)/x^2\)</span> for small <span class="math inline">\(x\)</span>.</p></li>
+<li><p>Smaller root of <span class="math inline">\(x^2 - 10^8 x + 1 = 0\)</span> via quadratic formula.</p></li>
+<li><p><span class="math inline">\(e^x - 1\)</span> for small <span class="math inline">\(x\)</span> (Why use <code>np.expm1</code>?).</p></li>
 </ol>
 </div>
 </div>
 </section>
-<section id="forward-and-backward-error-analysis" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="forward-and-backward-error-analysis"><span class="header-section-number">8.2</span> Forward and Backward Error Analysis</h2>
-<p>Error analysis is the systematic study of how errors enter and propagate through a computation. Forward and backward analysis are complementary frameworks; condition number analysis measures the inherent difficulty of the problem itself, independent of the algorithm.</p>
+<section id="error-analysis-frameworks" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="error-analysis-frameworks"><span class="header-section-number">8.2</span> Error Analysis Frameworks</h2>
+<ul>
+<li><p><strong>Forward:</strong> Tracks error from inputs to outputs. Pessimistic.</p></li>
+<li><p><strong>Backward:</strong> Asks: ``What input perturbation would make the computed result exact?’’</p></li>
+<li><p><strong>Backward Stability:</strong> Algorithm solves a nearby problem exactly (Backward Error is <span class="math inline">\(O(u)\)</span>).</p></li>
+</ul>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Forward Error Analysis
+<span class="screen-reader-only">Note</span>Definition: Condition Number (<span class="math inline">\(\kappa\)</span>)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Forward error analysis</strong> tracks how input errors and per-operation rounding errors propagate <em>forward</em> through the algorithm to bound the output error. Straightforward but can produce pessimistic overestimates.</p>
+<p>Inherent sensitivity of the problem. <span class="math inline">\(\text{Forward Error} \leq \kappa \cdot \text{Backward Error}\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -1292,123 +1016,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li>For the computation <span class="math inline">\(\hat{z} = \text{fl}(\text{fl}(a+b) + c)\)</span> with <span class="math inline">\(a,b,c\)</span> exact, use the model <span class="math inline">\(\text{fl}(x \circ y) = (x \circ y)(1+\delta)\)</span>, <span class="math inline">\(|\delta| \leq u\)</span>, to derive a forward error bound on <span class="math inline">\(|\hat{z} - (a+b+c)|\)</span>.</li>
+<li><p><span class="math inline">\(\kappa(A) = 10^8, \text{Backward Error} = 10^{-15}\)</span>. Max forward error?</p></li>
+<li><p>Prove BE for linear systems: <span class="math inline">\((\bA + \bE)\hat{\bx} = \bb\)</span> for <span class="math inline">\(\bE = -\br\hat{\bx}^T/\|\hat{\bx}\|^2\)</span>.</p></li>
 </ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Backward Error Analysis
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Backward error analysis</strong> asks: what is the smallest perturbation to the input that would make the computed output exact? If this backward error is <span class="math inline">\(O(u\|\bA\|)\)</span>, the algorithm solved a nearby problem exactly — the best one can hope for in finite precision.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>For solving <span class="math inline">\(\bA\bx = \bb\)</span>, explain the difference between the forward error <span class="math inline">\(\|\hat{\bx} - \bx\|/\|\bx\|\)</span> and the backward error <span class="math inline">\(\|\bb - \bA\hat{\bx}\|/(\|\bA\|\|\hat{\bx}\|)\)</span>. Which is easier to compute after the fact, and why?</p></li>
-<li><p>Why is backward error analysis generally preferred over forward error analysis for evaluating numerical algorithms?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Interval Arithmetic
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>In <strong>interval arithmetic</strong>, each number is replaced by an enclosing interval <span class="math inline">\([a,b]\)</span>, and every operation maps intervals to intervals in a way that always contains the true result. This produces certified error bounds but can suffer from interval explosion for long computations.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li>Compute <span class="math inline">\([1.0, 1.1] + [2.0, 2.5]\)</span> and <span class="math inline">\([1.0, 1.1] \times [2.0, 2.5]\)</span> using interval arithmetic rules. Verify the result contains the true values <span class="math inline">\(1.05 + 2.25\)</span> and <span class="math inline">\(1.05 \times 2.25\)</span>.</li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Condition Number Analysis
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <strong>condition number</strong> of a problem measures its intrinsic sensitivity to small perturbations in the input, independently of the algorithm. A problem with condition number <span class="math inline">\(\kappa\)</span> can lose up to <span class="math inline">\(\log_{10}\kappa\)</span> digits of accuracy even with a perfect algorithm. An algorithm is <strong>backward stable</strong> if its backward error is <span class="math inline">\(O(u)\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>An algorithm has backward error <span class="math inline">\(10^{-15}\)</span> applied to a problem with condition number <span class="math inline">\(\kappa(\bA) = 10^{8}\)</span>. What is the worst-case forward error? Is this acceptable for double-precision computation?</p></li>
-<li><p>In Python, construct an ill-conditioned matrix using <code>np.diag([1, 1e-10])</code>, solve with <code>np.linalg.solve</code>, and compare <code>np.linalg.cond(A)</code> with the observed forward error.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>In this exercise, we will prove the backward error formula for linear systems. Refer to the result above and the result above.</p>
-<p>Let <span class="math inline">\(\hat{\bx}\)</span> be the computed solution to <span class="math inline">\(\bA\bx = \bb\)</span> obtained by LU with partial pivoting. Define the residual <span class="math inline">\(\br = \bb - \bA\hat{\bx}\)</span>.</p>
-<ol type="1">
-<li><p>Define <span class="math inline">\(\bE = -\br\hat{\bx}^T/\|\hat{\bx}\|^2\)</span>. Show by direct substitution that <span class="math inline">\((\bA + \bE)\hat{\bx} = \bb\)</span>, confirming <span class="math inline">\(\hat{\bx}\)</span> is the exact solution to a nearby system.</p></li>
-<li><p>Show that the relative backward error satisfies <span class="math inline">\(\|\bE\|_2/\|\bA\|_2 = \|\br\|_2/(\|\bA\|_2\|\hat{\bx}\|_2)\)</span>. (<em>Hint: for a rank-1 matrix, <span class="math inline">\(\|\br\bv^T\|_2 = \|\br\|_2\|\bv\|_2\)</span>.</em>)</p></li>
-<li><p>For a well-conditioned system, a small backward error implies a small forward error. Write the bound <span class="math display">\[\frac{\|\hat{\bx}-\bx\|_2}{\|\bx\|_2}
-     \leq \kappa(\bA)\cdot\frac{\|\bE\|_2}{\|\bA\|_2},\]</span> where <span class="math inline">\(\kappa(\bA) = \|\bA\|_2\|\bA^{-1}\|_2\)</span>. If <span class="math inline">\(\kappa(\bA) = 10^{10}\)</span> and the backward error is <span class="math inline">\(10^{-16}\)</span>, what is the worst-case forward error?</p></li>
-<li><p>In Python, construct an ill-conditioned matrix using <code>np.diag([1, 1e-10])</code>, solve with <code>np.linalg.solve</code>, and compare <code>np.linalg.cond(A)</code> with the observed forward error.</p></li>
-</ol>
-</div>
-</div>
-<p>Floating point arithmetic is not real arithmetic. Its inherent limitations shape the design of every numerical algorithm. By understanding representation, error propagation, and special cases, we can build algorithms that produce reliable results. Mathematical reformulations, careful ordering of operations, and backward error analysis are often more effective than simply increasing precision.</p>
 
 
 </section>
@@ -1841,8 +1454,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/floating-point.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/floating-point.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

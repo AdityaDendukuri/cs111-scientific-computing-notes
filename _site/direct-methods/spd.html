@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../direct-methods/linear-systems.html">Direct Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../direct-methods/spd.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Symmetric Positive Definite (SPD) Matrices</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -671,7 +662,9 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#cholesky-decomposition" id="toc-cholesky-decomposition" class="nav-link active" data-scroll-target="#cholesky-decomposition"><span class="header-section-number">11.1</span> Cholesky Decomposition</a></li>
+  <li><a href="#definitions-and-properties" id="toc-definitions-and-properties" class="nav-link active" data-scroll-target="#definitions-and-properties"><span class="header-section-number">11.1</span> Definitions and Properties</a></li>
+  <li><a href="#geometry-and-metric" id="toc-geometry-and-metric" class="nav-link" data-scroll-target="#geometry-and-metric"><span class="header-section-number">11.2</span> Geometry and Metric</a></li>
+  <li><a href="#cholesky-decomposition" id="toc-cholesky-decomposition" class="nav-link" data-scroll-target="#cholesky-decomposition"><span class="header-section-number">11.3</span> Cholesky Decomposition</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/direct-methods/spd.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -698,18 +691,21 @@ window.Quarto = {
 </header>
 
 
-<p>Symmetric positive definite (SPD) matrices arise throughout scientific computing — in optimization (Hessians of convex functions), statistics (covariance matrices), and finite element methods (stiffness matrices). Their defining property — that the quadratic form <span class="math inline">\(\bx^T\bA\bx\)</span> is strictly positive for any nonzero <span class="math inline">\(\bx\)</span> — guarantees invertibility and enables more efficient algorithms than are possible for general matrices.</p>
+<p>Special class of matrices enabling highly efficient algorithms.</p>
+<section id="definitions-and-properties" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="definitions-and-properties"><span class="header-section-number">11.1</span> Definitions and Properties</h2>
+<p>SPD matrices arise in optimization (Hessians), statistics (covariances), and physical simulation (stiffness matrices).</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Positive Definite Matrix
+<span class="screen-reader-only">Note</span>Definition: Positive Definite
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A symmetric matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> is <em>positive definite</em> (PD) if <span class="math display">\[\bx^T\bA\bx &gt; 0 \quad \text{for every nonzero } \bx \in \fR^n.\]</span> A matrix that is both symmetric and positive definite is called <em>symmetric positive definite</em> (SPD).</p>
+<p>A symmetric matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> is <strong>positive definite</strong> (PD) if: <span class="math display">\[\bx^T\bA\bx &gt; 0 \quad \text{for every nonzero } \bx \in \fR^n.\]</span> If <span class="math inline">\(\bA\)</span> is both symmetric and PD, it is <strong>SPD</strong>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -722,71 +718,9 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>Is <span class="math inline">\(\bA = \begin{pmatrix}2 &amp; 1 \\ 1 &amp; 2\end{pmatrix}\)</span> positive definite? Compute <span class="math inline">\(\bx^T\bA\bx\)</span> for a general <span class="math inline">\(\bx = (x_1, x_2)^T\)</span> and determine when it is positive.</p></li>
-<li><p>Is <span class="math inline">\(\bB = \begin{pmatrix}1 &amp; 2 \\ 2 &amp; 1\end{pmatrix}\)</span> positive definite? Find a nonzero <span class="math inline">\(\bx\)</span> with <span class="math inline">\(\bx^T\bB\bx \leq 0\)</span>.</p></li>
-<li><p>A diagonal matrix <span class="math inline">\(\bD = \mathrm{diag}(d_1, ..., d_n)\)</span> is positive definite if and only if all <span class="math inline">\(d_i &gt; 0\)</span>. Prove this directly from the result above.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: SPD Matrices Induce a Metric
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> be an SPD matrix. The function <span class="math display">\[d_\bA(\bx, \by) = \sqrt{(\bx - \by)^T \bA (\bx - \by)}\]</span> defines a metric on <span class="math inline">\(\fR^n\)</span>, satisfying non-negativity, identity of indiscernibles, symmetry, and the triangle inequality.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Non-negativity and identity of indiscernibles follow from the positive-definite property: <span class="math inline">\((\bx-\by)^T\bA(\bx-\by) \geq 0\)</span> with equality iff <span class="math inline">\(\bx - \by = \bzero\)</span>. Symmetry holds since <span class="math inline">\((\bx-\by)^T\bA(\bx-\by) = (\by-\bx)^T\bA(\by-\bx)\)</span>. The triangle inequality follows from the Cauchy-Schwarz inequality applied to the inner product <span class="math inline">\(\langle \bu, \bv\rangle_\bA = \bu^T\bA\bv\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>When <span class="math inline">\(\bA = \bI\)</span>, <span class="math inline">\(d_\bA\)</span> reduces to the standard Euclidean distance. The general <span class="math inline">\(\bA\)</span>-metric stretches space according to the eigenvectors and eigenvalues of <span class="math inline">\(\bA\)</span>: directions with large eigenvalues are ``expensive’’ to move in.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>For <span class="math inline">\(\bA = \begin{pmatrix} 4 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}\)</span>, compute <span class="math inline">\(d_\bA\!\left((1,0)^T,\,(0,0)^T\right)\)</span> and <span class="math inline">\(d_\bA\!\left((0,1)^T,\,(0,0)^T\right)\)</span>. Compare to the Euclidean distances. In what direction is the <span class="math inline">\(\bA\)</span>-metric ``larger’’?</p></li>
-<li><p>The set <span class="math inline">\(\{\bx : d_\bA(\bx, \bzero) = 1\}\)</span> is an ellipse. What are its axes and their lengths in terms of the eigenvalues of <span class="math inline">\(\bA\)</span>?</p></li>
-<li><p>Where does this metric appear in machine learning? (<em>Hint: Mahalanobis distance.</em>)</p></li>
+<li><p>Test <span class="math inline">\(\bA = \begin{pmatrix}2 &amp; 1 \\ 1 &amp; 2\end{pmatrix}\)</span> for PD property by expanding <span class="math inline">\(\bx^T\bA\bx\)</span>.</p></li>
+<li><p>Prove a diagonal matrix <span class="math inline">\(\bD\)</span> is PD iff all diagonal entries <span class="math inline">\(d_i &gt; 0\)</span>.</p></li>
 </ol>
 </div>
 </div>
@@ -800,9 +734,29 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>An SPD matrix <span class="math inline">\(\bA\)</span> induces an <span class="math inline">\(\bA\)</span>-norm <span class="math inline">\(\|\bx\|_{\bA} = \sqrt{\bx^T\bA\bx}\)</span>, strictly positive for all nonzero <span class="math inline">\(\bx\)</span>. The set of vectors with constant <span class="math inline">\(\bA\)</span>-norm forms an ellipsoid whose axes align with the eigenvectors of <span class="math inline">\(\bA\)</span> with half-lengths <span class="math inline">\(1/\sqrt{\lambda_i}\)</span>. This geometry is central to iterative solvers such as the conjugate gradient method.</p>
+<p><strong>Spectral Characterization.</strong> A symmetric matrix is PD iff <strong>all its eigenvalues are strictly positive</strong>. Every SPD matrix is invertible (<span class="math inline">\(\det \bA = \prod \lambda_i &gt; 0\)</span>).</p>
 </div>
 </div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>If <span class="math inline">\(\bA\)</span> is SPD, show <span class="math inline">\(\bB = \bA + c\bI\)</span> for <span class="math inline">\(c &gt; 0\)</span> is also SPD.</p></li>
+<li><p>Use <code>np.linalg.eigvalsh</code> to verify SPD property for several test matrices.</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="geometry-and-metric" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="geometry-and-metric"><span class="header-section-number">11.2</span> Geometry and Metric</h2>
+<p>An SPD matrix <span class="math inline">\(\bA\)</span> defines a geometry on <span class="math inline">\(\fR^n\)</span>.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -813,172 +767,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For an SPD matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, the function <span class="math display">\[\langle \bx, \by \rangle_\bA = \bx^T\bA\by\]</span> defines a valid inner product on <span class="math inline">\(\fR^n\)</span>, inducing the norm <span class="math inline">\(\|\bx\|_\bA = \sqrt{\bx^T\bA\bx}\)</span>. This is the natural inner product for problems where <span class="math inline">\(\bA\)</span> encodes the geometry (e.g., solving <span class="math inline">\(\bA\bx = \bb\)</span> via conjugate gradients).</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>Verify that <span class="math inline">\(\langle \bx, \by \rangle_\bA = \bx^T\bA\by\)</span> satisfies the three inner product axioms: linearity in the first argument, symmetry, and positive definiteness.</p></li>
-<li><p>For <span class="math inline">\(\bA = \begin{pmatrix}2&amp;1\\1&amp;3\end{pmatrix}\)</span>, <span class="math inline">\(\bx = (1,0)^T\)</span>, <span class="math inline">\(\by = (0,1)^T\)</span>, compute <span class="math inline">\(\langle \bx,\by\rangle_\bA\)</span>, <span class="math inline">\(\|\bx\|_\bA\)</span>, and <span class="math inline">\(\|\by\|_\bA\)</span>.</p></li>
-<li><p>Are <span class="math inline">\(\bx\)</span> and <span class="math inline">\(\by\)</span> orthogonal in the <span class="math inline">\(\bA\)</span>-inner product? In the standard inner product? Explain why these can differ.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: SPD Characterization via Eigenvalues
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A symmetric matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> is positive definite if and only if all its eigenvalues are strictly positive. (By the Spectral Theorem, such a matrix is orthogonally diagonalizable with real eigenvalues.)</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>By the Spectral Theorem, <span class="math inline">\(\bA = \bQ\bD\bQ^T\)</span> where <span class="math inline">\(\bQ\)</span> is orthogonal and <span class="math inline">\(\bD = \text{diag}(\lambda_1, ..., \lambda_n)\)</span>. For any nonzero <span class="math inline">\(\bx\)</span>, let <span class="math inline">\(\by = \bQ^T\bx \neq \bzero\)</span>. Then: <span class="math display">\[\bx^T\bA\bx = \by^T\bD\by = \sum_{i=1}^n \lambda_i y_i^2.\]</span> <span class="math inline">\((\Rightarrow)\)</span>: If all <span class="math inline">\(\lambda_i &gt; 0\)</span> and <span class="math inline">\(\by \neq \bzero\)</span>, then at least one <span class="math inline">\(y_i \neq 0\)</span>, so the sum is <span class="math inline">\(&gt; 0\)</span>.</p>
-<p><span class="math inline">\((\Leftarrow)\)</span>: If some <span class="math inline">\(\lambda_k \leq 0\)</span>, choose <span class="math inline">\(\bx = \bQ\mathbf{e}_k\)</span>, giving <span class="math inline">\(\bx^T\bA\bx = \lambda_k \leq 0\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Corollary: SPD Matrices are Invertible
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Every SPD matrix is invertible, since all eigenvalues are positive and thus <span class="math inline">\(\det(\bA) = \prod_i \lambda_i &gt; 0\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
-<ol type="1">
-<li><p>Use the result above to determine which are SPD: <span class="math display">\[\bA_1 = \begin{pmatrix}3&amp;0\\0&amp;1\end{pmatrix}, \quad
-     \bA_2 = \begin{pmatrix}1&amp;0\\0&amp;-1\end{pmatrix}, \quad
-     \bA_3 = \begin{pmatrix}2&amp;1\\1&amp;2\end{pmatrix}.\]</span></p></li>
-<li><p>If <span class="math inline">\(\bA\)</span> is SPD and <span class="math inline">\(\bB = \bA + c\bI\)</span> for <span class="math inline">\(c &gt; 0\)</span>, show <span class="math inline">\(\bB\)</span> is also SPD. How do the eigenvalues of <span class="math inline">\(\bB\)</span> relate to those of <span class="math inline">\(\bA\)</span>?</p></li>
-<li><p>In NumPy, compute <code>np.linalg.eigvalsh(A)</code> for each matrix above and verify which are SPD.</p></li>
-</ol>
-</div>
-</div>
-<p>From a computational perspective, the condition <span class="math inline">\(\bx^T\bA\bx &gt; 0\)</span> for all nonzero <span class="math inline">\(\bx\)</span> guarantees invertibility and precludes zero or negative pivots. When solving <span class="math inline">\(\bA\bx = \bb\)</span> where <span class="math inline">\(\bA\)</span> is SPD, the Cholesky decomposition applies, and the solution is guaranteed to exist and be unique.</p>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(SPD Matrices in Practice)</strong> SPD matrices appear across scientific computing. For each application below, verify the SPD property concretely.</p>
-<ol type="1">
-<li><p><strong>(Covariance matrix.)</strong> Generate a random data matrix <code>X = np.random.randn(100, 4)</code> (100 observations, 4 features). Compute the sample covariance <code>C = X.T @ X / 99</code>. Verify <code>C</code> is SPD using <code>np.linalg.eigvalsh(C)</code> and <code>np.linalg.cholesky(C)</code>.</p></li>
-<li><p><strong>(Hessian of a convex function.)</strong> The function <span class="math inline">\(f(\bx) = \frac{1}{2}\bx^T\bA\bx - \bb^T\bx\)</span> has Hessian <span class="math inline">\(\nabla^2 f = \bA\)</span>. For <span class="math inline">\(\bA = \begin{pmatrix}4&amp;1\\1&amp;3\end{pmatrix}\)</span> and <span class="math inline">\(\bb = (1,2)^T\)</span>, verify <span class="math inline">\(\bA\)</span> is SPD, then find the minimizer <span class="math inline">\(\bx^* = \bA^{-1}\bb\)</span> by solving the linear system <code>np.linalg.solve(A, b)</code>.</p></li>
-<li><p><strong>(Gram matrix.)</strong> For any matrix <span class="math inline">\(\bX \in \fR^{m \times n}\)</span> with <span class="math inline">\(m \geq n\)</span> and full column rank, show analytically that <span class="math inline">\(\mathbf{G} = \bX^T\bX\)</span> is SPD. ()</p></li>
-<li><p><strong>(Efficiency of Cholesky vs.&nbsp;LU.)</strong> For <span class="math inline">\(n = 1000\)</span>, time <code>np.linalg.cholesky(A)</code> vs.&nbsp;<code>scipy.linalg.lu(A)</code> on a random SPD matrix (construct one via <code>A = X.T @ X + n*np.eye(n)</code> for <code>X = np.random.randn(n, n)</code>). Is the observed speedup close to the theoretical factor of 2?</p></li>
-</ol>
-</div>
-</div>
-<section id="cholesky-decomposition" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="cholesky-decomposition"><span class="header-section-number">11.1</span> Cholesky Decomposition</h2>
-<p>The Cholesky decomposition is the SPD analogue of LU factorization: it expresses <span class="math inline">\(\bA = \bL\bL^T\)</span> where <span class="math inline">\(\bL\)</span> is lower triangular with positive diagonal. Because <span class="math inline">\(\bA\)</span> is symmetric and positive definite, no pivoting is required and the factorization costs only half as many flops as LU.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Cholesky Decomposition
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For an SPD matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, the <em>Cholesky decomposition</em> expresses <span class="math inline">\(\bA\)</span> as <span class="math display">\[\bA = \bL\bL^T,\]</span> where <span class="math inline">\(\bL\)</span> is a unique lower triangular matrix with strictly positive diagonal entries.</p>
-</div>
-</div>
-<p>SPD matrices, which satisfy <span class="math inline">\(\bx^T\bA\bx &gt; 0\)</span> for all nonzero <span class="math inline">\(\bx\)</span>, are prevalent in optimization, statistics, and finite element methods. The Cholesky factorization is both computationally efficient and numerically stable since it avoids the need for pivoting.</p>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>Verify by direct multiplication that for <span class="math inline">\(\bL = \begin{pmatrix}2&amp;0\\1&amp;\sqrt{2}\end{pmatrix}\)</span>, we have <span class="math inline">\(\bL\bL^T = \begin{pmatrix}4&amp;2\\2&amp;3\end{pmatrix}\)</span>. Is the result SPD?</p></li>
-<li><p>Why does Cholesky not need a permutation matrix <span class="math inline">\(\bP\)</span> (unlike LU)? ()</p></li>
-<li><p>If <span class="math inline">\(\bA = \bL\bL^T\)</span>, show that <span class="math inline">\(\det(\bA) = \prod_{i=1}^n l_{ii}^2\)</span>. How does this give a fast way to compute <span class="math inline">\(\det(\bA)\)</span> once <span class="math inline">\(\bL\)</span> is known?</p></li>
-</ol>
-</div>
-</div>
-<p><strong>Cholesky Algorithm.</strong>&nbsp;For each entry <span class="math inline">\(l_{ij}\)</span> of <span class="math inline">\(\bL\)</span> where <span class="math inline">\(1 \leq i,j \leq n\)</span>: <span class="math display">\[l_{ij} =
-\begin{cases}
-0, &amp; i &lt; j \\[4pt]
-\displaystyle\sqrt{a_{ii} - \sum_{k=1}^{i-1} l_{ik}^2}, &amp; i = j \\[6pt]
-\displaystyle\frac{1}{l_{jj}} \!\left( a_{ij} - \sum_{k=1}^{j-1} l_{ik}l_{jk} \right),
-&amp; i &gt; j
-\end{cases}\]</span> The algorithm proceeds row by row, using previously computed entries of <span class="math inline">\(\bL\)</span> to determine subsequent ones.</p>
-<p><strong>Derivation of the Cholesky Algorithm.</strong>&nbsp;Expanding <span class="math inline">\(\bA = \bL\bL^T\)</span> entry by entry:</p>
-<p><strong>Diagonal entry <span class="math inline">\((i,i)\)</span>:</strong> From <span class="math inline">\(a_{ii} = \sum_{k=1}^{i} l_{ik}^2\)</span>, solve for <span class="math inline">\(l_{ii}\)</span>: <span class="math display">\[l_{ii} = \sqrt{a_{ii} - \sum_{k=1}^{i-1} l_{ik}^2}.\]</span></p>
-<p><strong>Below-diagonal entry <span class="math inline">\((i,j)\)</span> with <span class="math inline">\(i &gt; j\)</span>:</strong> From <span class="math inline">\(a_{ij} = \sum_{k=1}^{j} l_{ik}l_{jk}\)</span> (since <span class="math inline">\(l_{jk} = 0\)</span> for <span class="math inline">\(k &gt; j\)</span>), solve for <span class="math inline">\(l_{ij}\)</span>: <span class="math display">\[l_{ij} = \frac{1}{l_{jj}}\!\left(a_{ij} - \sum_{k=1}^{j-1} l_{ik}l_{jk}\right).\]</span></p>
-<p><strong>Above-diagonal entry <span class="math inline">\((i,j)\)</span> with <span class="math inline">\(i &lt; j\)</span>:</strong> <span class="math inline">\(l_{ij} = 0\)</span> by definition (lower triangular).</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Compute the Cholesky decomposition of <span class="math inline">\(\bA = \begin{pmatrix}4&amp;2\\2&amp;3\end{pmatrix}\)</span>.</p>
-<p><em>Step 1:</em> <span class="math inline">\(l_{11} = \sqrt{4} = 2\)</span>; <span class="math inline">\(l_{21} = 2/2 = 1\)</span>.</p>
-<p><em>Step 2:</em> <span class="math inline">\(l_{22} = \sqrt{3 - 1^2} = \sqrt{2}\)</span>. <span class="math display">\[\bL = \begin{pmatrix}2 &amp; 0 \\ 1 &amp; \sqrt{2}\end{pmatrix}, \qquad
-\bL\bL^T = \begin{pmatrix}2&amp;0\\1&amp;\sqrt{2}\end{pmatrix}
-           \begin{pmatrix}2&amp;1\\0&amp;\sqrt{2}\end{pmatrix}
-         = \begin{pmatrix}4&amp;2\\2&amp;3\end{pmatrix} = \bA.\;✓\]</span></p>
+<p>For SPD <span class="math inline">\(\bA\)</span>, <span class="math inline">\(\langle \bx, \by \rangle_\bA = \bx^T\bA\by\)</span> is a valid inner product.</p>
+<ul>
+<li><p><strong><span class="math inline">\(\bA\)</span>-Norm:</strong> <span class="math inline">\(\|\bx\|_\bA = \sqrt{\bx^T\bA\bx}\)</span>.</p></li>
+<li><p><strong>Ellipsoid:</strong> The set <span class="math inline">\(\{\bx : \|\bx\|_\bA = 1\}\)</span> is an ellipse with axes along <span class="math inline">\(\bA\)</span>’s eigenvectors.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -991,68 +784,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The uniqueness of the Cholesky decomposition follows from the positivity of all leading principal minors of an SPD matrix: each <span class="math inline">\(\det(\bA_k) &gt; 0\)</span>, so the algorithm never encounters a zero or negative value under a square root, and each <span class="math inline">\(l_{ii}\)</span> is uniquely determined as a positive number.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Cholesky Existence and Uniqueness
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> admits a Cholesky factorization <span class="math inline">\(\bA = \bL\bL^T\)</span> (with <span class="math inline">\(\bL\)</span> lower triangular and strictly positive diagonal) if and only if <span class="math inline">\(\bA\)</span> is SPD. The factorization is unique.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-20" class="callout-20-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\((\Rightarrow)\)</span>: If <span class="math inline">\(\bA = \bL\bL^T\)</span>, then <span class="math inline">\(\bA^T = \bL\bL^T = \bA\)</span> (symmetric). For any nonzero <span class="math inline">\(\bx\)</span>: <span class="math display">\[\bx^T\bA\bx = \bx^T\bL\bL^T\bx = \|\bL^T\bx\|_2^2 \geq 0.\]</span> Equality holds iff <span class="math inline">\(\bL^T\bx = \bzero\)</span>. Since <span class="math inline">\(\bL\)</span> has strictly positive diagonal, <span class="math inline">\(\bL\)</span> is invertible, so <span class="math inline">\(\bx = \bzero\)</span>. Hence <span class="math inline">\(\bA\)</span> is SPD.</p>
-<p><span class="math inline">\((\Leftarrow)\)</span>: If <span class="math inline">\(\bA\)</span> is SPD, all leading principal minors are positive (each submatrix is also SPD), so the algorithm never encounters zero or negative under a square root.</p>
-<p>Uniqueness: If <span class="math inline">\(\bL_1\bL_1^T = \bL_2\bL_2^T\)</span>, set <span class="math inline">\(\bM = \bL_1^{-1}\bL_2\)</span>. Then <span class="math inline">\(\bM\bM^T = \bI\)</span>, so <span class="math inline">\(\bM\)</span> is lower triangular and orthogonal, hence <span class="math inline">\(\bM = \bI\)</span> and <span class="math inline">\(\bL_1 = \bL_2\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Cholesky Factorization Cost
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The Cholesky factorization of an SPD matrix <span class="math inline">\(\bA \in \fR^{n \times n}\)</span> costs <span class="math inline">\(\frac{1}{3}n^3 + O(n^2)\)</span> flops — exactly half the cost of LU factorization — and requires storing only <span class="math inline">\(\frac{n(n+1)}{2}\)</span> entries.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-22" class="callout-22-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>At step <span class="math inline">\(j\)</span>, we compute <span class="math inline">\(l_{jj}\)</span> (1 square root) and <span class="math inline">\(n - j\)</span> below-diagonal entries <span class="math inline">\(l_{ij}\)</span> for <span class="math inline">\(i &gt; j\)</span>, each requiring <span class="math inline">\(j\)</span> multiplications and 1 division. The dominant cost is: <span class="math display">\[\sum_{j=1}^{n} (n-j) \cdot j \approx \int_0^n (n-t)\,t\,dt
-    = \frac{n^3}{6} + \frac{n^3}{6} = \frac{n^3}{3}.\]</span></p>
-</div>
+<p><strong>Physical Meaning:</strong> Directions with large eigenvalues are <code>stiff'' or</code>expensive’’ (small axes in the unit ellipsoid); small eigenvalues represent ``sensitive’’ directions.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -1065,14 +797,69 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
 <ol type="1">
-<li><p>Which of the following matrices are SPD? For each, either prove it or find a nonzero <span class="math inline">\(\bx\)</span> with <span class="math inline">\(\bx^T\bA\bx \leq 0\)</span>. <span class="math display">\[\bA_1 = \begin{pmatrix} 2 &amp; 1 \\ 1 &amp; 2 \end{pmatrix}, \quad
-     \bA_2 = \begin{pmatrix} 1 &amp; 2 \\ 2 &amp; 1 \end{pmatrix}, \quad
-     \bA_3 = \begin{pmatrix} 4 &amp; 2 &amp; 0 \\ 2 &amp; 3 &amp; 1 \\ 0 &amp; 1 &amp; 1 \end{pmatrix}.\]</span></p></li>
-<li><p>Compute the Cholesky factorization of <span class="math inline">\(\bA_1\)</span> and <span class="math inline">\(\bA_3\)</span> by hand. Verify <span class="math inline">\(\bL\bL^T = \bA\)</span>.</p></li>
-<li><p>Use the Cholesky factorization of <span class="math inline">\(\bA_1\)</span> to solve <span class="math inline">\(\bA_1\bx = (3, 4)^T\)</span> via forward then backward substitution.</p></li>
-<li><p>In NumPy, <code>np.linalg.cholesky(A)</code> raises <code>LinAlgError</code> if <span class="math inline">\(\bA\)</span> is not SPD. Write code to attempt Cholesky on each matrix above and handle the exception. What does a <code>LinAlgError</code> tell you about the matrix?</p></li>
+<li><p>For <span class="math inline">\(\bA = \begin{pmatrix} 4 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}\)</span>, compute the distance between <span class="math inline">\((1,0)^T\)</span> and origin in both Euclidean and <span class="math inline">\(\bA\)</span>-metrics.</p></li>
+<li><p>Where does the <span class="math inline">\(\bA\)</span>-metric appear in statistics? (Mahalanobis distance).</p></li>
+</ol>
+</div>
+</div>
+</section>
+<section id="cholesky-decomposition" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="cholesky-decomposition"><span class="header-section-number">11.3</span> Cholesky Decomposition</h2>
+<p>The ``LU equivalent’’ for SPD matrices. <span class="math inline">\(\bA = \bL\bL^T\)</span>.</p>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Definition: Cholesky Decomposition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Every SPD matrix <span class="math inline">\(\bA\)</span> admits a unique decomposition <span class="math inline">\(\bA = \bL\bL^T\)</span>, where <span class="math inline">\(\bL\)</span> is lower triangular with strictly positive diagonal entries.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Flop Cost.</strong> Cholesky costs (half the price of LU).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Stability Advantage:</strong> Unlike general LU, Cholesky is <strong>guaranteed to be stable without pivoting</strong>. In code, <code>np.linalg.cholesky</code> is the standard numerical test for positive definiteness; if it raises a <code>LinAlgError</code>, the matrix is not PD.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Factor <span class="math inline">\(\bA = \begin{pmatrix} 4 &amp; 2 \\ 2 &amp; 3 \end{pmatrix}\)</span> by hand.</p></li>
+<li><p>Why does Cholesky not require row swaps?</p></li>
+<li><p>Solve <span class="math inline">\(\bA\bx = \bb\)</span> using Cholesky for <span class="math inline">\(\bA = \begin{pmatrix} 2 &amp; 1 \\ 1 &amp; 2 \end{pmatrix}\)</span>.</p></li>
 </ol>
 </div>
 </div>
@@ -1086,12 +873,27 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(Condition Number of SPD Matrices)</strong> For an SPD matrix with eigenvalues <span class="math inline">\(\lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n\)</span>, the 2-norm condition number is <span class="math inline">\(\kappa_2(\bA) = \lambda_n / \lambda_1\)</span>.</p>
+<p><strong>(Applications)</strong></p>
 <ol type="1">
-<li><p>Prove this formula using the result above. ()</p></li>
-<li><p>For <span class="math inline">\(\bA = \begin{pmatrix} 10 &amp; 0 \\ 0 &amp; 0.01 \end{pmatrix}\)</span>, what is <span class="math inline">\(\kappa_2(\bA)\)</span>? What does this imply for solving <span class="math inline">\(\bA\bx = \bb\)</span>?</p></li>
-<li><p>The Cholesky factor <span class="math inline">\(\bL\)</span> satisfies <span class="math inline">\(\kappa_2(\bL) = \sqrt{\kappa_2(\bA)}\)</span>. Why is this numerically significant? (<em>Think: solving <span class="math inline">\(\bL\by = \bc\)</span> and <span class="math inline">\(\bL^T\bx = \by\)</span> each introduces what error?</em>)</p></li>
-<li><p>In NumPy, compute <code>np.linalg.cond(A)</code> for an SPD matrix and verify it matches <span class="math inline">\(\lambda_{\max}/\lambda_{\min}\)</span> from <code>np.linalg.eigvalsh(A)</code>.</p></li>
+<li><p><strong>Covariance:</strong> Generate <code>X = np.random.randn(100, 4)</code>. Verify <code>X.T @ X</code> is SPD via Cholesky.</p></li>
+<li><p><strong>Gram Matrix:</strong> Prove that <span class="math inline">\(\mathbf{G} = \bX^T\bX\)</span> is at least positive semi-definite for any <span class="math inline">\(\bX\)</span>, and PD if <span class="math inline">\(\bX\)</span> has full column rank.</p></li>
+</ol>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Exercise
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>(SPD Condition Number)</strong> <span class="math inline">\(\kappa_2(\bA) = \lambda_{\max} / \lambda_{\min}\)</span>.</p>
+<ol type="1">
+<li><p>If <span class="math inline">\(\bA\)</span> is SPD with eigenvalues <span class="math inline">\(\{10, 0.01\}\)</span>, what is <span class="math inline">\(\kappa_2(\bA)\)</span>?</p></li>
+<li><p>Verify <span class="math inline">\(\kappa_2(\bL) = \sqrt{\kappa_2(\bA)}\)</span> where <span class="math inline">\(\bL\)</span> is the Cholesky factor.</p></li>
 </ol>
 </div>
 </div>
@@ -1526,8 +1328,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/direct-methods/spd.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/direct-methods/spd.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

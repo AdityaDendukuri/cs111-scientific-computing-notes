@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../fundamentals/math-notation.html">Fundamentals</a></li><li class="breadcrumb-item"><a href="../fundamentals/numpy-primer.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Python and NumPy Primer</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -673,7 +664,7 @@ window.Quarto = {
   <ul>
   <li><a href="#arrays-and-basic-operations" id="toc-arrays-and-basic-operations" class="nav-link active" data-scroll-target="#arrays-and-basic-operations"><span class="header-section-number">8.1</span> Arrays and Basic Operations</a></li>
   <li><a href="#linear-algebra-operations" id="toc-linear-algebra-operations" class="nav-link" data-scroll-target="#linear-algebra-operations"><span class="header-section-number">8.2</span> Linear Algebra Operations</a></li>
-  <li><a href="#useful-idioms" id="toc-useful-idioms" class="nav-link" data-scroll-target="#useful-idioms"><span class="header-section-number">8.3</span> Useful Idioms</a></li>
+  <li><a href="#key-idioms" id="toc-key-idioms" class="nav-link" data-scroll-target="#key-idioms"><span class="header-section-number">8.3</span> Key Idioms</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/numpy-primer.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -700,7 +691,7 @@ window.Quarto = {
 </header>
 
 
-<p>Every exercise in these notes uses Python with NumPy. This subsection is a condensed reference — not a full tutorial. If you are new to NumPy, work through the exercises here before proceeding; if you are experienced, use this as a quick lookup.</p>
+<p>Condensed reference for the toolset used throughout these notes.</p>
 <section id="arrays-and-basic-operations" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="arrays-and-basic-operations"><span class="header-section-number">8.1</span> Arrays and Basic Operations</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -713,15 +704,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The core object in NumPy is the <code>ndarray</code>. Key creation patterns:</p>
+<p>The <code>ndarray</code> is the fundamental structure.</p>
 <ul>
-<li><p><code>np.array([1.0, 2.0, 3.0])</code> — 1-D array (vector) from a Python list.</p></li>
-<li><p><code>np.array([[1, 2], [3, 4]])</code> — 2-D array (matrix).</p></li>
-<li><p><code>np.zeros((m, n))</code>, <code>np.ones((m, n))</code>, <code>np.eye(n)</code> — special matrices.</p></li>
-<li><p><code>np.random.randn(m, n)</code> — <span class="math inline">\(m \times n\)</span> matrix with i.i.d.&nbsp;<span class="math inline">\(\mathcal{N}(0,1)\)</span> entries.</p></li>
-<li><p><code>np.arange(start, stop, step)</code>, <code>np.linspace(a, b, n)</code> — ranges.</p></li>
+<li><p><strong>Creation:</strong> <code>np.array([1, 2])</code>, <code>np.zeros((m, n))</code>, <code>np.random.randn(m, n)</code>.</p></li>
+<li><p><strong>Indexing:</strong> 0-indexed. <code>A[i, j]</code> for entries; <code>A[i, :]</code> for rows; <code>A[:, j]</code> for columns.</p></li>
 </ul>
-<p>Arrays are 0-indexed: <code>A[i, j]</code> accesses row <span class="math inline">\(i\)</span>, column <span class="math inline">\(j\)</span>; <code>A[i, :]</code> is row <span class="math inline">\(i\)</span>; <code>A[:, j]</code> is column <span class="math inline">\(j\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -734,7 +721,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Shape and dtype.</strong> <code>A.shape</code> returns a tuple <code>(m, n)</code>; <code>x.shape</code> for a 1-D array returns <code>(n,)</code>, <em>not</em> <code>(n, 1)</code>. Use <code>x.reshape(-1, 1)</code> or <code>x[:, None]</code> to convert to a column vector. The default floating-point dtype is <code>float64</code> (IEEE double precision, <span class="math inline">\(\varepsilon_{\text{mach}} \approx 2.2 \times 10^{-16}\)</span>).</p>
+<p><strong>Shapes and Rank-1 Arrays.</strong> <code>A.shape</code> returns <code>(m, n)</code>. Note that a 1D array has shape <code>(n,)</code>, which is <strong>not</strong> equivalent to a column vector <code>(n, 1)</code>. These `<code>rank-1 arrays'' are a common source of broadcasting bugs. Use</code>x[:, None]<code>or</code>x.reshape(-1, 1)` to convert to 2D.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -747,28 +734,28 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>Create a <span class="math inline">\(4 \times 4\)</span> identity matrix. Print its <code>shape</code> and <code>dtype</code>.</p></li>
-<li><p>Create a <span class="math inline">\(3 \times 3\)</span> random matrix <code>A</code>. Extract its second row and third column as separate arrays.</p></li>
-<li><p>Verify that <code>np.zeros((3,))</code> and <code>np.zeros((3, 1))</code> have different shapes. What error occurs if you pass a shape-<code>(3,)</code> array where a column vector is expected in a matrix-vector multiply?</p></li>
+<li><p>Create <span class="math inline">\(4 \times 4\)</span> identity matrix. Verify <code>shape</code> and <code>dtype</code>.</p></li>
+<li><p>Extract row 2 and column 3 from a random <span class="math inline">\(3 \times 3\)</span> <span class="math inline">\(\bA\)</span>.</p></li>
+<li><p>Confirm that <code>np.zeros((3,))</code> fails where a <code>(3, 1)</code> column vector is required in a matrix-vector product.</p></li>
 </ol>
 </div>
 </div>
 </section>
 <section id="linear-algebra-operations" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="linear-algebra-operations"><span class="header-section-number">8.2</span> Linear Algebra Operations</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
+<p>Core routines in <code>numpy.linalg</code>:</p>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Key <code>np.linalg</code> Functions
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <code>numpy.linalg</code> module provides the core linear algebra routines used throughout this course:</p>
+<p><strong>Performance Law: Vectorization.</strong> Explicit <code>for</code> loops in Python are slow. Push heavy lifting into NumPy/BLAS routines by <strong>vectorizing</strong> operations. For example, use <code>A @ B</code> instead of triple-nested loops.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -781,7 +768,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p> <code>np.linalg.solve(A, b)</code> computes the solution to <span class="math inline">\(\bA\bx = \bb\)</span> via LU factorization in <span class="math inline">\(O(n^3)\)</span> flops. The alternative <code>np.linalg.inv(A) @ b</code> also costs <span class="math inline">\(O(n^3)\)</span> but performs an extra matrix-vector multiply and accumulates more rounding error. Computing <span class="math inline">\(\bA^{-1}\)</span> explicitly is almost never necessary or desirable in numerical computing.</p>
+<p><strong>Stability: solve vs inv.</strong> <code>np.linalg.solve(A, b)</code> is faster and more stable than <code>np.linalg.inv(A) @ b</code>. Explicit inversion is almost never desirable in scientific computation.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -794,56 +781,21 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>Solve <span class="math inline">\(\begin{pmatrix} 2 &amp; 1 \\ 5 &amp; 7 \end{pmatrix} \bx = \begin{pmatrix} 11 \\ 13 \end{pmatrix}\)</span> using <code>np.linalg.solve</code>. Verify your solution by computing the residual <span class="math inline">\(\bA\bx - \bb\)</span>.</p></li>
-<li><p>For a random <span class="math inline">\(500 \times 500\)</span> matrix, time <code>np.linalg.solve(A, b)</code> vs.&nbsp;<code>np.linalg.inv(A) @ b</code> over 10 trials. Which is faster, and by how much?</p></li>
-<li><p>Use <code>np.linalg.eig</code> on a <span class="math inline">\(3 \times 3\)</span> symmetric matrix. Do any eigenvalues have nonzero imaginary parts? Repeat with <code>np.linalg.eigh</code> and compare the results.</p></li>
+<li><p>Solve a <span class="math inline">\(2 \times 2\)</span> system and verify the residual <span class="math inline">\(\|\bA\bx - \bb\|\)</span>.</p></li>
+<li><p>Profile <code>solve</code> vs <code>inv @ b</code> for <span class="math inline">\(n=1000\)</span>.</p></li>
+<li><p>Compare <code>np.linalg.eig</code> and <code>np.linalg.eigh</code> (optimized for symmetric matrices).</p></li>
 </ol>
 </div>
 </div>
 </section>
-<section id="useful-idioms" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="useful-idioms"><span class="header-section-number">8.3</span> Useful Idioms</h2>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Element-wise vs.&nbsp;matrix operations.</strong> <code>*</code> between two arrays is <em>element-wise</em> multiplication (Hadamard product), not matrix multiplication. Use <code>@</code> for matrix products. Similarly, <code>A**2</code> squares every entry; <code>np.linalg.matrix\_power(A, 2)</code> computes <span class="math inline">\(\bA^2 = \bA\bA\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Broadcasting.</strong> NumPy broadcasts operations across dimensions when shapes are compatible. <code>A + 1</code> adds 1 to every entry of <span class="math inline">\(\bA\)</span>; <code>A * v</code> for a length-<span class="math inline">\(n\)</span> vector <code>v</code> scales column <span class="math inline">\(j\)</span> of an <span class="math inline">\(m \times n\)</span> matrix by <code>v[j]</code>. Broadcasting avoids explicit loops and is critical for performance.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Views vs.&nbsp;copies.</strong> <code>B = A</code> does <em>not</em> copy the array — <code>B</code> is a view (alias) of the same data. Modifying <code>B</code> modifies <code>A</code>. Use <code>B = A.copy()</code> to create an independent copy. Slices (<code>A[i, :]</code>) are also views.</p>
-</div>
-</div>
+<section id="key-idioms" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="key-idioms"><span class="header-section-number">8.3</span> Key Idioms</h2>
+<ul>
+<li><p><strong>Element-wise:</strong> <code>*</code> and <code>**</code> are entry-wise. Matrix powers use <code>np.linalg.matrix\_power</code>.</p></li>
+<li><p><strong>Broadcasting:</strong> Automatic dimension expansion. <code>A * v</code> scales columns of <span class="math inline">\(\bA\)</span> by entries of <span class="math inline">\(v\)</span>.</p></li>
+<li><p><strong>Views vs.&nbsp;Copies:</strong> <code>B = A</code> is a view (modifying <code>B</code> changes <code>A</code>). Use <code>B = A.copy()</code> for independent data. Slices are also views.</p></li>
+</ul>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -855,10 +807,9 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Let <code>A = np.array([[1,2],[3,4]])</code>. Compute <code>A * A</code> and <code>A @ A</code>. Which gives <span class="math inline">\(\bA^2 = \bA\bA\)</span>?</p></li>
-<li><p>Demonstrate the view pitfall: set <code>B = A</code>, then <code>B[0, 0] = 99</code>. What is <code>A[0, 0]</code>? Repeat with <code>B = A.copy()</code>.</p></li>
-<li><p>For a diagonal scaling <span class="math inline">\(\bA\bD\)</span> where <span class="math inline">\(\bD = \mathrm{diag}(\mathbf{d})\)</span>, compute the product using broadcasting (<code>A * d</code>) instead of <code>A @ np.diag(d)</code>. Verify the two agree. Why is the broadcasting version preferred for large <span class="math inline">\(n\)</span>?</p></li>
-<li><p>In Python, construct the matrix <span class="math inline">\(\bA = \begin{pmatrix} 1 &amp; 1 \\ 0 &amp; 1 \end{pmatrix}\)</span> and compute <span class="math inline">\(\bA^k\)</span> for <span class="math inline">\(k = 1, 2, 5, 10\)</span> using <code>np.linalg.matrix\_power</code>. Describe the pattern in the <span class="math inline">\((1,2)\)</span> entry.</p></li>
+<li><p>Let <span class="math inline">\(\bA = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}\)</span>. Compare <code>A * A</code> and <code>A @ A</code>.</p></li>
+<li><p>Demonstrate the ``view pitfall’’ by modifying a slice of a matrix.</p></li>
+<li><p>Use broadcasting to perform diagonal scaling <span class="math inline">\(\bA\bD\)</span> without constructing <span class="math inline">\(\bD = \text{diag}(d)\)</span>.</p></li>
 </ol>
 </div>
 </div>
@@ -1293,8 +1244,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/numpy-primer.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/numpy-primer.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

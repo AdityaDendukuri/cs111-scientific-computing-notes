@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/fourier.html"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Fourier Analysis as Change of Basis</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -671,10 +662,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-fourier-basis" id="toc-the-fourier-basis" class="nav-link active" data-scroll-target="#the-fourier-basis"><span class="header-section-number">31.1</span> The Fourier Basis</a></li>
-  <li><a href="#the-discrete-fourier-transform" id="toc-the-discrete-fourier-transform" class="nav-link" data-scroll-target="#the-discrete-fourier-transform"><span class="header-section-number">31.2</span> The Discrete Fourier Transform</a></li>
-  <li><a href="#circulant-matrices-and-the-convolution-theorem" id="toc-circulant-matrices-and-the-convolution-theorem" class="nav-link" data-scroll-target="#circulant-matrices-and-the-convolution-theorem"><span class="header-section-number">31.3</span> Circulant Matrices and the Convolution Theorem</a></li>
-  <li><a href="#the-fast-fourier-transform" id="toc-the-fast-fourier-transform" class="nav-link" data-scroll-target="#the-fast-fourier-transform"><span class="header-section-number">31.4</span> The Fast Fourier Transform</a></li>
+  <li><a href="#discrete-fourier-transform-dft" id="toc-discrete-fourier-transform-dft" class="nav-link active" data-scroll-target="#discrete-fourier-transform-dft"><span class="header-section-number">31.1</span> Discrete Fourier Transform (DFT)</a></li>
+  <li><a href="#convolution-and-circulant-matrices" id="toc-convolution-and-circulant-matrices" class="nav-link" data-scroll-target="#convolution-and-circulant-matrices"><span class="header-section-number">31.2</span> Convolution and Circulant Matrices</a></li>
+  <li><a href="#the-fast-fourier-transform-fft" id="toc-the-fast-fourier-transform-fft" class="nav-link" data-scroll-target="#the-fast-fourier-transform-fft"><span class="header-section-number">31.3</span> The Fast Fourier Transform (FFT)</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">31.4</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/fourier.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -701,94 +692,9 @@ window.Quarto = {
 </header>
 
 
-<p>The Spectral Theorem says that every symmetric (or Hermitian) operator can be diagonalized in an orthonormal eigenbasis. For the Laplacian <span class="math inline">\(-d^2/dx^2\)</span>, that eigenbasis is the set of sinusoids. <em>Fourier analysis is therefore just linear algebra in an infinite-dimensional space</em>: expressing a function as a Fourier series is the same operation as expanding a vector in an eigenbasis. This viewpoint makes Fourier analysis less magical and reveals exactly why it is so powerful: it diagonalizes the Laplacian, turning differential equations into simple algebra in frequency space. The Discrete Fourier Transform (DFT) is the finite-dimensional version of this, represented as a unitary matrix. Computing it efficiently via the Fast Fourier Transform (FFT) is one of the most practically impactful algorithms ever discovered.</p>
-<section id="the-fourier-basis" class="level2" data-number="31.1">
-<h2 data-number="31.1" class="anchored" data-anchor-id="the-fourier-basis"><span class="header-section-number">31.1</span> The Fourier Basis</h2>
-<p>In Section~above, we found that the eigenfunctions of <span class="math inline">\(-d^2/dx^2\)</span> on <span class="math inline">\([0,1]\)</span> are <span class="math inline">\(u_k(x) = \sqrt{2}\sin(k\pi x)\)</span> with eigenvalues <span class="math inline">\(k^2\pi^2\)</span>. These functions are orthonormal in <span class="math inline">\(L^2[0,1]\)</span>, and they span the whole space. Expanding any function <span class="math inline">\(f\)</span> in this basis is the Fourier sine series. On the periodic domain <span class="math inline">\([0, 2\pi]\)</span>, the natural eigenbasis is the complex exponentials <span class="math inline">\(e^{ikx}\)</span>, which give the full (complex) Fourier series. We work with the periodic setting here because it connects most directly to the DFT.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Fourier Series
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(f \in L^2([0, 2\pi])\)</span> (periodic), the <em>Fourier series</em> of <span class="math inline">\(f\)</span> is <span class="math display">\[f(x) = \sum_{k=-\infty}^{\infty} \hat{f}_k\, e^{ikx},\]</span> where the <em>Fourier coefficients</em> are <span class="math display">\[\hat{f}_k = \frac{1}{2\pi}\int_0^{2\pi} f(x)\,e^{-ikx}\,dx.\]</span> The coefficient <span class="math inline">\(\hat{f}_k\)</span> is the inner product of <span class="math inline">\(f\)</span> with the basis function <span class="math inline">\(e^{ikx}/(2\pi)\)</span>, exactly as in a standard change of basis.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Fourier Basis is Orthonormal
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The functions <span class="math inline">\(\phi_k(x) = \frac{1}{\sqrt{2\pi}}e^{ikx}\)</span>, <span class="math inline">\(k \in \fZ\)</span>, form an orthonormal set in <span class="math inline">\(L^2([0, 2\pi])\)</span>: <span class="math display">\[\langle \phi_j, \phi_k \rangle
-  = \frac{1}{2\pi}\int_0^{2\pi} e^{ijx}\overline{e^{ikx}}\,dx
-  = \frac{1}{2\pi}\int_0^{2\pi} e^{i(j-k)x}\,dx
-  = \begin{cases} 1 &amp; j = k, \\ 0 &amp; j \neq k. \end{cases}\]</span> Moreover, they form a complete orthonormal basis: every <span class="math inline">\(f \in L^2([0,2\pi])\)</span> can be recovered exactly from its Fourier coefficients via the Fourier series.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Orthonormality.</strong> For <span class="math inline">\(j \neq k\)</span>: <span class="math display">\[\frac{1}{2\pi}\int_0^{2\pi} e^{i(j-k)x}\,dx
-  = \frac{1}{2\pi} \cdot \frac{e^{i(j-k)x}}{i(j-k)}\Bigg|_0^{2\pi}
-  = \frac{e^{2\pi i(j-k)} - 1}{2\pi i(j-k)} = 0,\]</span> since <span class="math inline">\(e^{2\pi i m} = 1\)</span> for any integer <span class="math inline">\(m\)</span>. For <span class="math inline">\(j = k\)</span>, the integrand is 1 and the integral equals <span class="math inline">\(2\pi\)</span>, giving norm 1 after dividing by <span class="math inline">\(2\pi\)</span>.</p>
-<p><strong>Completeness.</strong> Showing that every <span class="math inline">\(L^2\)</span> function is approximated arbitrarily well by finite Fourier sums is a deeper result (the Riesz-Fischer theorem) that goes beyond this course. It is the infinite-dimensional analog of the statement that an orthonormal set in <span class="math inline">\(\fR^n\)</span> that spans <span class="math inline">\(\fR^n\)</span> is a basis.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>The change-of-basis picture.</strong> In <span class="math inline">\(\fR^n\)</span>, changing from the standard basis <span class="math inline">\(\{\be_j\}\)</span> to an orthonormal basis <span class="math inline">\(\{\bq_j\}\)</span> is accomplished by the unitary matrix <span class="math inline">\(\bQ\)</span>: the <span class="math inline">\(j\)</span>-th coordinate of <span class="math inline">\(\bx\)</span> in the new basis is <span class="math inline">\(\bq_j^T\bx\)</span>. The Fourier transform does exactly the same thing in <span class="math inline">\(L^2\)</span>: the <span class="math inline">\(k\)</span>-th coordinate of <span class="math inline">\(f\)</span> in the Fourier basis is <span class="math inline">\(\hat{f}_k =
-\langle \phi_k, f\rangle\)</span>. Just as <span class="math inline">\(\bQ\)</span> diagonalizes a symmetric matrix (<span class="math inline">\(\bA = \bQ\bD\bQ^T\)</span>), the Fourier transform diagonalizes the Laplacian: <span class="math inline">\(-\widehat{f''(x)}_k = k^2\hat{f}_k\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
-<ol type="1">
-<li><p>Compute the Fourier coefficients <span class="math inline">\(\hat{f}_k\)</span> for <span class="math inline">\(f(x) = x\)</span> on <span class="math inline">\([0, 2\pi]\)</span> by evaluating the integral directly. For which <span class="math inline">\(k\)</span> are the coefficients nonzero?</p></li>
-<li><p>Verify the diagonalization claim: if <span class="math inline">\(f(x) = e^{ikx}\)</span>, compute <span class="math inline">\(-f''(x)\)</span> and show that <span class="math inline">\(-\widehat{f''}_k = k^2\hat{f}_k\)</span> without any integration.</p></li>
-<li><p>Why does the Fourier transform turn the ODE <span class="math inline">\(-u'' = f\)</span> into the algebraic equation <span class="math inline">\(k^2\hat{u}_k = \hat{f}_k\)</span>? When is this equation not solvable?</p></li>
-</ol>
-</div>
-</div>
-</section>
-<section id="the-discrete-fourier-transform" class="level2" data-number="31.2">
-<h2 data-number="31.2" class="anchored" data-anchor-id="the-discrete-fourier-transform"><span class="header-section-number">31.2</span> The Discrete Fourier Transform</h2>
-<p>The continuous Fourier series works on functions; the DFT works on finite vectors. Given a vector <span class="math inline">\(\bx \in \fC^n\)</span> (think: <span class="math inline">\(n\)</span> samples of a signal), the DFT produces another vector <span class="math inline">\(\hat{\bx} \in \fC^n\)</span> (think: frequency amplitudes). The key fact is that this transformation is a linear map, so it can be written as a matrix. That matrix turns out to be unitary, which makes the DFT exactly a change of basis in <span class="math inline">\(\fC^n\)</span>.</p>
+<p>Diagonalizing the Laplacian via sinusoidal eigenfunctions. Turn differential equations into algebra.</p>
+<section id="discrete-fourier-transform-dft" class="level2" data-number="31.1">
+<h2 data-number="31.1" class="anchored" data-anchor-id="discrete-fourier-transform-dft"><span class="header-section-number">31.1</span> Discrete Fourier Transform (DFT)</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -799,65 +705,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\omega_n = e^{-2\pi i/n}\)</span> be the primitive <span class="math inline">\(n\)</span>-th root of unity. The <em>DFT matrix</em> <span class="math inline">\(\mathbf{F} \in \fC^{n \times n}\)</span> has entries <span class="math display">\[F_{jk} = \frac{1}{\sqrt{n}}\,\omega_n^{jk}, \quad j, k = 0, 1, ..., n-1.\]</span> The DFT of <span class="math inline">\(\bx \in \fC^n\)</span> is <span class="math inline">\(\hat{\bx} = \mathbf{F}\bx\)</span>, and its <span class="math inline">\(k\)</span>-th entry <span class="math display">\[\hat{x}_k = \frac{1}{\sqrt{n}}\sum_{j=0}^{n-1} x_j\,e^{-2\pi i jk/n}\]</span> is the discrete analog of the Fourier coefficient at frequency <span class="math inline">\(k\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(n = 4\)</span>, <span class="math inline">\(\omega_4 = e^{-\pi i/2} = -i\)</span>. The DFT matrix is <span class="math display">\[\mathbf{F} = \frac{1}{2}
-  \begin{pmatrix}
-    1 &amp;  1 &amp;  1 &amp;  1 \\
-    1 &amp; -i &amp; -1 &amp;  i \\
-    1 &amp; -1 &amp;  1 &amp; -1 \\
-    1 &amp;  i &amp; -1 &amp; -i
-  \end{pmatrix}.\]</span> Applying <span class="math inline">\(\mathbf{F}\)</span> to <span class="math inline">\(\bx = (1, 0, 0, 0)^T\)</span> gives <span class="math inline">\(\hat{\bx} = \frac{1}{2}(1, 1, 1, 1)^T\)</span>: a constant in all frequency components, just like a delta spike has equal energy at all frequencies.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: The DFT Matrix is Unitary
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(\mathbf{F}^*\mathbf{F} = \bI\)</span>, so <span class="math inline">\(\mathbf{F}\)</span> is a unitary matrix (the result above). Equivalently, the columns of <span class="math inline">\(\mathbf{F}\)</span> form an orthonormal basis of <span class="math inline">\(\fC^n\)</span>. The inverse DFT is <span class="math inline">\(\mathbf{F}^{-1} = \mathbf{F}^*\)</span>, with entries <span class="math inline">\((\mathbf{F}^*)_{jk} = \frac{1}{\sqrt{n}}\omega_n^{-jk} = \frac{1}{\sqrt{n}}e^{2\pi i jk/n}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>We compute the <span class="math inline">\((j, k)\)</span> entry of <span class="math inline">\(\mathbf{F}^*\mathbf{F}\)</span>.</p>
-<p><strong>Step 1: Write out the entry.</strong> <span class="math display">\[(\mathbf{F}^*\mathbf{F})_{jk}
-  = \sum_{m=0}^{n-1} \overline{F_{mj}}\,F_{mk}
-  = \frac{1}{n}\sum_{m=0}^{n-1} \omega_n^{-mj}\,\omega_n^{mk}
-  = \frac{1}{n}\sum_{m=0}^{n-1} \omega_n^{m(k-j)}.\]</span></p>
-<p><strong>Step 2: Evaluate the geometric sum.</strong></p>
-<p>If <span class="math inline">\(j = k\)</span>, each term equals 1, so the sum is <span class="math inline">\(n\)</span> and the entry is <span class="math inline">\(1\)</span>.</p>
-<p>If <span class="math inline">\(j \neq k\)</span>, let <span class="math inline">\(r = \omega_n^{k-j} \neq 1\)</span> (since <span class="math inline">\(k - j \not\equiv 0 \pmod{n}\)</span>). The sum is <span class="math inline">\(\sum_{m=0}^{n-1}r^m = \frac{r^n - 1}{r - 1}\)</span>. But <span class="math inline">\(r^n = \omega_n^{n(k-j)} =
-e^{-2\pi i(k-j)} = 1\)</span>, so the numerator is zero and the sum is <span class="math inline">\(0\)</span>.</p>
-<p><strong>Step 3: Conclude.</strong></p>
-<p>Therefore <span class="math inline">\((\mathbf{F}^*\mathbf{F})_{jk} = \delta_{jk}\)</span>, confirming <span class="math inline">\(\mathbf{F}^*\mathbf{F} = \bI\)</span>.</p>
-</div>
+<p>Unitary matrix <span class="math inline">\(\mathbf{F} \in \fC^{n \times n}\)</span> with entries: <span class="math display">\[F_{jk} = \frac{1}{\sqrt{n}} \omega_n^{jk}, \quad \omega_n = e^{-2\pi i/n}.\]</span></p>
+<ul>
+<li><p><strong>Unitary Property:</strong> <span class="math inline">\(\mathbf{F}^* \mathbf{F} = \bI\)</span>. Orthonormal columns.</p></li>
+<li><p><strong>Inverse DFT:</strong> <span class="math inline">\(\mathbf{F}^{-1} = \mathbf{F}^*\)</span>.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -870,47 +722,12 @@ e^{-2\pi i(k-j)} = 1\)</span>, so the numerator is zero and the sum is <span cla
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For any <span class="math inline">\(\bx \in \fC^n\)</span> with DFT <span class="math inline">\(\hat{\bx} = \mathbf{F}\bx\)</span>: <span class="math display">\[\|\hat{\bx}\|_2 = \|\bx\|_2.\]</span> The DFT preserves the <span class="math inline">\(\ell^2\)</span> norm: total energy is the same in the time domain and the frequency domain.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Since <span class="math inline">\(\mathbf{F}\)</span> is unitary, it is an isometry (the result above): <span class="math display">\[\|\hat{\bx}\|_2^2 = \|\mathbf{F}\bx\|_2^2 = (\mathbf{F}\bx)^*(\mathbf{F}\bx) = \bx^*\mathbf{F}^*\mathbf{F}\bx = \bx^*\bx = \|\bx\|_2^2.\]</span></p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to Defs~above–above and the result above.</p>
-<ol type="1">
-<li><p>For <span class="math inline">\(n = 4\)</span>, write out <span class="math inline">\(\mathbf{F}\)</span> explicitly (using <span class="math inline">\(\omega_4 = -i\)</span>). Verify <span class="math inline">\(\mathbf{F}^*\mathbf{F} = \bI\)</span> by hand for the first two columns.</p></li>
-<li><p>In NumPy, <code>np.fft.fft(x) / np.sqrt(n)</code> computes the normalized DFT. Verify Parseval’s theorem numerically for a random <span class="math inline">\(\bx \in \fC^{10}\)</span> by comparing <code>np.linalg.norm(x)</code> and <code>np.linalg.norm(np.fft.fft(x) / np.sqrt(n))</code>.</p></li>
-<li><p>Compute the DFT of the signal <span class="math inline">\(x_j = \cos(2\pi j / n)\)</span> for <span class="math inline">\(n = 16\)</span>. Which frequency bins <span class="math inline">\(\hat{x}_k\)</span> are nonzero? Explain why.</p></li>
-</ol>
+<p>The DFT is an isometry: <span class="math inline">\(\|\mathbf{F}\bx\|_2 = \|\bx\|_2\)</span>. Total energy is preserved between time and frequency domains.</p>
 </div>
 </div>
 </section>
-<section id="circulant-matrices-and-the-convolution-theorem" class="level2" data-number="31.3">
-<h2 data-number="31.3" class="anchored" data-anchor-id="circulant-matrices-and-the-convolution-theorem"><span class="header-section-number">31.3</span> Circulant Matrices and the Convolution Theorem</h2>
-<p>The DFT is more than just a change of basis for signals: it simultaneously diagonalizes an entire class of matrices. Circulant matrices arise naturally whenever a system has translation symmetry (same local rule everywhere), which includes the periodic discrete Laplacian and discrete convolution operators. Diagonalizing them with the DFT reduces matrix-vector multiplication from <span class="math inline">\(O(n^2)\)</span> to <span class="math inline">\(O(n \log n)\)</span>.</p>
+<section id="convolution-and-circulant-matrices" class="level2" data-number="31.2">
+<h2 data-number="31.2" class="anchored" data-anchor-id="convolution-and-circulant-matrices"><span class="header-section-number">31.2</span> Convolution and Circulant Matrices</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -921,14 +738,11 @@ e^{-2\pi i(k-j)} = 1\)</span>, so the numerator is zero and the sum is <span cla
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A matrix <span class="math inline">\(\mathbf{C} \in \fC^{n \times n}\)</span> is <em>circulant</em> if each row is a cyclic right-shift of the previous row. It is completely determined by its first column <span class="math inline">\(\bc = (c_0, c_1, ..., c_{n-1})^T\)</span>: <span class="math display">\[\mathbf{C} =
-  \begin{pmatrix}
-    c_0     &amp; c_{n-1} &amp; c_{n-2} &amp; \cdots &amp; c_1 \\
-    c_1     &amp; c_0     &amp; c_{n-1} &amp; \cdots &amp; c_2 \\
-    c_2     &amp; c_1     &amp; c_0     &amp; \cdots &amp; c_3 \\
-    \vdots  &amp;         &amp; \ddots  &amp;        &amp; \vdots \\
-    c_{n-1} &amp; c_{n-2} &amp; \cdots  &amp; c_1    &amp; c_0
-  \end{pmatrix}.\]</span> The product <span class="math inline">\(\mathbf{C}\bx\)</span> computes the <em>circular convolution</em> <span class="math inline">\(\bc * \bx\)</span>.</p>
+<p>Matrix <span class="math inline">\(\mathbf{C}\)</span> where each row is a cyclic shift of the first column <span class="math inline">\(\bc\)</span>.</p>
+<ul>
+<li><p><strong>Diagonalization:</strong> Every circulant matrix is diagonalized by the DFT: <span class="math inline">\(\mathbf{C} = \mathbf{F}^* \text{diag}(\mathbf{F}\bc) \mathbf{F}\)</span>.</p></li>
+<li><p><strong>Eigenvalues:</strong> The eigenvalues of <span class="math inline">\(\mathbf{C}\)</span> are the DFT coefficients of its first column.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -937,123 +751,31 @@ e^{-2\pi i(k-j)} = 1\)</span>, so the numerator is zero and the sum is <span cla
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: DFT Diagonalizes Every Circulant Matrix
+<span class="screen-reader-only">Note</span>Theorem: Convolution Theorem
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Every circulant matrix <span class="math inline">\(\mathbf{C}\)</span> with first column <span class="math inline">\(\bc\)</span> satisfies <span class="math display">\[\mathbf{C} = \mathbf{F}^*\,\mathrm{diag}(\hat{\bc})\,\mathbf{F},\]</span> where <span class="math inline">\(\hat{\bc} = \mathbf{F}\bc\)</span> is the DFT of <span class="math inline">\(\bc\)</span>. The eigenvalues of <span class="math inline">\(\mathbf{C}\)</span> are exactly the entries of <span class="math inline">\(\hat{\bc}\)</span> (the DFT coefficients of the first column), and the eigenvectors are the columns of <span class="math inline">\(\mathbf{F}^*\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Corollary: Convolution Theorem
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For any <span class="math inline">\(\bx, \by \in \fC^n\)</span>, the circular convolution satisfies <span class="math display">\[\mathbf{F}(\bx * \by) = (\mathbf{F}\bx) \odot (\mathbf{F}\by),\]</span> where <span class="math inline">\(\odot\)</span> denotes entry-wise (Hadamard) product. Circular convolution in the time domain is pointwise multiplication in the frequency domain.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Step 1: Express convolution as a matrix-vector product.</strong> Circular convolution <span class="math inline">\(\bz = \bx * \by\)</span> means <span class="math inline">\(z_j = \sum_{k=0}^{n-1} x_k y_{(j-k)\bmod n}\)</span>. This is exactly <span class="math inline">\(\bz = \mathbf{C}_{\bx}\by\)</span> where <span class="math inline">\(\mathbf{C}_{\bx}\)</span> is the circulant matrix with first column <span class="math inline">\(\bx\)</span>.</p>
-<p><strong>Step 2: Diagonalize.</strong> By the result above, <span class="math inline">\(\mathbf{C}_{\bx} = \mathbf{F}^*\mathrm{diag}(\hat{\bx})\mathbf{F}\)</span>, so: <span class="math display">\[\bz = \mathbf{C}_{\bx}\by = \mathbf{F}^*\mathrm{diag}(\hat{\bx})\mathbf{F}\by
-      = \mathbf{F}^*(\hat{\bx} \odot \hat{\by}).\]</span></p>
-<p> <span class="math display">\[\hat{\bz} = \mathbf{F}\bz = \mathbf{F}\mathbf{F}^*(\hat{\bx} \odot \hat{\by})
-  = \hat{\bx} \odot \hat{\by},\]</span> using <span class="math inline">\(\mathbf{F}\mathbf{F}^* = \bI\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Application to the Poisson equation.</strong> The 1-D discrete Laplacian with <em>periodic</em> boundary conditions is circulant. Its eigenvalues are the DFT of the first column <span class="math inline">\(\bc = \frac{1}{h^2}(2, -1, 0, ..., 0, -1)^T\)</span>. This gives an <span class="math inline">\(O(n \log n)\)</span> solver for the periodic Poisson equation:</p>
-<ol type="1">
-<li><p>Compute <span class="math inline">\(\hat{\mathbf{f}} = \mathbf{F}\mathbf{f}\)</span> via FFT.</p></li>
-<li><p>Divide entry-wise: <span class="math inline">\(\hat{u}_k = \hat{f}_k / \hat{c}_k\)</span>.</p></li>
-<li><p>Invert: <span class="math inline">\(\mathbf{u} = \mathbf{F}^*\hat{\mathbf{u}}\)</span> via inverse FFT.</p></li>
-</ol>
-<p>Compare this to the <span class="math inline">\(O(n^3)\)</span> dense solve or <span class="math inline">\(O(n^{3/2})\)</span> sparse solve. On a 2-D grid of size <span class="math inline">\(n \times n\)</span> (<span class="math inline">\(N = n^2\)</span> unknowns), the FFT-based solver costs <span class="math inline">\(O(N \log N)\)</span>, making it the method of choice for large periodic problems.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
-<ol type="1">
-<li><p>Build the <span class="math inline">\(5 \times 5\)</span> circulant matrix with first column <span class="math inline">\(\bc = (2, -1, 0, 0, -1)^T\)</span> (the periodic 1-D Laplacian for <span class="math inline">\(n = 5\)</span>). Compute its eigenvalues directly and via <span class="math inline">\(\hat{\bc} = \mathbf{F}\bc\)</span> using <code>np.fft.fft(c)</code>. Verify they match.</p></li>
-<li><p>Implement circular convolution two ways: (a) directly as a matrix-vector product using <code>scipy.linalg.circulant</code>, and (b) using <code>np.fft.fft</code> and pointwise multiplication. Verify they agree for random <span class="math inline">\(\bx, \by \in \fR^{16}\)</span>.</p></li>
-<li><p>Implement the FFT-based Poisson solver described in the note above for <span class="math inline">\(n = 100\)</span> with <span class="math inline">\(f(x) = \sin(2\pi x)\)</span>. The exact solution is <span class="math inline">\(u(x) = \frac{1}{4\pi^2}\sin(2\pi x)\)</span>. Verify your solver recovers it.</p></li>
-</ol>
+<p>Circular convolution <span class="math inline">\(\bz = \bc * \bx\)</span> is equivalent to pointwise multiplication in frequency: <span class="math display">\[\mathbf{F}(\bc * \bx) = (\mathbf{F}\bc) \odot (\mathbf{F}\bx).\]</span> <strong>Complexity:</strong> Reduced from <span class="math inline">\(O(n^2)\)</span> (direct) to <span class="math inline">\(O(n \log n)\)</span> (FFT).</p>
 </div>
 </div>
 </section>
-<section id="the-fast-fourier-transform" class="level2" data-number="31.4">
-<h2 data-number="31.4" class="anchored" data-anchor-id="the-fast-fourier-transform"><span class="header-section-number">31.4</span> The Fast Fourier Transform</h2>
-<p>Computing <span class="math inline">\(\hat{\bx} = \mathbf{F}\bx\)</span> directly costs <span class="math inline">\(O(n^2)\)</span> flops (one row of <span class="math inline">\(\mathbf{F}\)</span> dotted with <span class="math inline">\(\bx\)</span> is <span class="math inline">\(O(n)\)</span>, and there are <span class="math inline">\(n\)</span> rows). For <span class="math inline">\(n = 10^6\)</span>, this is <span class="math inline">\(10^{12}\)</span> operations: unusable. The Fast Fourier Transform (FFT) reduces this to <span class="math inline">\(O(n \log n)\)</span> by exploiting a recursive structure in the DFT matrix. For <span class="math inline">\(n = 10^6\)</span>, that is <span class="math inline">\(2 \times 10^7\)</span> operations: entirely practical. This gap is why FFT appears in audio processing, image compression (JPEG), wireless communications, and numerical PDE solvers.</p>
+<section id="the-fast-fourier-transform-fft" class="level2" data-number="31.3">
+<h2 data-number="31.3" class="anchored" data-anchor-id="the-fast-fourier-transform-fft"><span class="header-section-number">31.3</span> The Fast Fourier Transform (FFT)</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Cooley-Tukey FFT Complexity
+<span class="screen-reader-only">Note</span>Theorem: Cooley-Tukey Algorithm
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>When <span class="math inline">\(n = 2^p\)</span> is a power of two, the DFT <span class="math inline">\(\mathbf{F}\bx\)</span> can be computed in <span class="math inline">\(O(n \log n)\)</span> flops using the Cooley-Tukey algorithm.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-20" class="callout-20-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>The key identity splits the <span class="math inline">\(n\)</span>-point DFT into two <span class="math inline">\((n/2)\)</span>-point DFTs.</p>
-<p><strong>Step 1: Split <span class="math inline">\(\bx\)</span> into even and odd indexed entries.</strong></p>
-<p>Let <span class="math inline">\(\bx^{(e)} = (x_0, x_2, ..., x_{n-2})\)</span> and <span class="math inline">\(\bx^{(o)} = (x_1, x_3, ..., x_{n-1})\)</span>.</p>
-<p><strong>Step 2: Rewrite the DFT sum.</strong></p>
-<p>The <span class="math inline">\(k\)</span>-th DFT output is <span class="math display">\[\hat{x}_k = \sum_{j=0}^{n-1} x_j \omega_n^{jk}
-  = \sum_{j=0}^{n/2-1} x_{2j}\,\omega_n^{2jk} + \omega_n^k\sum_{j=0}^{n/2-1} x_{2j+1}\,\omega_n^{2jk}.\]</span></p>
-<p><strong>Step 3: Recognize the sub-DFTs.</strong></p>
-<p>Since <span class="math inline">\(\omega_n^2 = e^{-4\pi i/n} = \omega_{n/2}\)</span>, both sums are <span class="math inline">\((n/2)\)</span>-point DFTs: <span class="math display">\[\hat{x}_k = \hat{x}^{(e)}_k + \omega_n^k\,\hat{x}^{(o)}_k.\]</span> For <span class="math inline">\(k \geq n/2\)</span>, a similar relation holds using <span class="math inline">\(\omega_n^{k + n/2} = -\omega_n^k\)</span>.</p>
-<p><strong>Step 4: Count the cost.</strong></p>
-<p>Let <span class="math inline">\(T(n)\)</span> be the number of flops. The recursion is <span class="math inline">\(T(n) = 2T(n/2) + O(n)\)</span>, which has solution <span class="math inline">\(T(n) = O(n \log n)\)</span>.</p>
-</div>
+<p>Computes the DFT in <strong><span class="math inline">\(O(n \log n)\)</span></strong> flops for <span class="math inline">\(n = 2^p\)</span>.</p>
+<ul>
+<li><p><strong>Mechanism:</strong> Recursively splits <span class="math inline">\(n\)</span>-point DFT into two <span class="math inline">\(n/2\)</span>-point DFTs (even/odd indices).</p></li>
+<li><p><strong>NumPy:</strong> Use <code>np.fft.fft</code> and <code>np.fft.ifft</code>.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -1066,9 +788,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>FFT in NumPy.</strong> <code>np.fft.fft(x)</code> computes the DFT using an FFT algorithm. <code>np.fft.ifft(x)</code> computes the inverse DFT (<span class="math inline">\(\mathbf{F}^*\bx\)</span>). For real signals, <code>np.fft.rfft</code> exploits the symmetry <span class="math inline">\(\hat{x}_{n-k} = \overline{\hat{x}_k}\)</span> to halve the work. The 2-D FFT (<code>np.fft.fft2</code>) applies the 1-D FFT along each axis and is the key subroutine for image processing and 2-D PDE solvers.</p>
+<p><strong>Spectral Differentiation:</strong> For smooth periodic signals, differentiate by multiplying frequency components <span class="math inline">\(\hat{x}_k\)</span> by <span class="math inline">\(ik\)</span>. Provides exponential accuracy compared to polynomial accuracy of finite differences.</p>
 </div>
 </div>
+</section>
+<section id="exercises" class="level2" data-number="31.4">
+<h2 data-number="31.4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">31.4</span> Exercises</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1079,11 +804,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>In Python, time <code>np.fft.fft(x)</code> vs.&nbsp;a naive DFT implemented as <code>F @ x</code> (build <span class="math inline">\(\mathbf{F}\)</span> explicitly) for <span class="math inline">\(n \in \{64, 256, 1024, 4096\}\)</span>. Plot both times vs.&nbsp;<span class="math inline">\(n\)</span> on a log-log scale. At what size does the FFT become noticeably faster?</p></li>
-<li><p>Verify the splitting identity in the proof: for <span class="math inline">\(n = 8\)</span> and a random <span class="math inline">\(\bx\)</span>, check that <span class="math inline">\(\hat{x}_k = \hat{x}^{(e)}_k + \omega_8^k\hat{x}^{(o)}_k\)</span> for <span class="math inline">\(k = 0, 1, 2, 3\)</span> (where <span class="math inline">\(\hat{\bx}^{(e)}, \hat{\bx}^{(o)}\)</span> are 4-point DFTs of the even and odd subsequences).</p></li>
-<li><p>(<em>Spectral differentiation.</em>) Given samples <span class="math inline">\(x_j = f(2\pi j/n)\)</span> for <span class="math inline">\(j = 0, ..., n-1\)</span> of a smooth periodic function <span class="math inline">\(f\)</span>, one can approximate <span class="math inline">\(f'\)</span> by: (a) FFT to get <span class="math inline">\(\hat{\bx}\)</span>, (b) multiply <span class="math inline">\(\hat{x}_k\)</span> by <span class="math inline">\(ik\)</span>, (c) IFFT. Implement this for <span class="math inline">\(f(x) = \sin(x) + \cos(3x)\)</span> and verify you recover <span class="math inline">\(f'(x) = \cos(x) - 3\sin(3x)\)</span>. Compare the accuracy to finite differences as <span class="math inline">\(n\)</span> grows.</p></li>
+<li><p>Write out the <span class="math inline">\(4 \times 4\)</span> DFT matrix explicitly. Verify it is unitary.</p></li>
+<li><p>Solve the periodic Poisson equation <span class="math inline">\(-u'' = f\)</span> via FFT. (<em>Hint: Laplacian is circulant</em>).</p></li>
+<li><p>Compare the speed of <code>np.fft.fft(x)</code> vs.&nbsp;<code>F @ x</code> for <span class="math inline">\(n=4096\)</span>.</p></li>
+<li><p>Implement spectral differentiation for <span class="math inline">\(f(x) = \sin(x)\)</span> and check error vs.&nbsp;<span class="math inline">\(n\)</span>.</p></li>
 </ol>
 </div>
 </div>
@@ -1518,8 +1243,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/fourier.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/fourier.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

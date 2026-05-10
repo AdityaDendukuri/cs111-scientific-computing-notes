@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>18&nbsp; Singular Value Decomposition and the Four Fundamental Subspaces – Scientific Computing</title>
+<title>18&nbsp; Singular Value Decomposition – Scientific Computing</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,47 +332,38 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../eigenvalues/eigenvalues.html">Eigenvalues and the SVD</a></li><li class="breadcrumb-item"><a href="../eigenvalues/svd.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../eigenvalues/eigenvalues.html">Eigenvalues and the SVD</a></li><li class="breadcrumb-item"><a href="../eigenvalues/svd.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -671,8 +662,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-four-fundamental-subspaces" id="toc-the-four-fundamental-subspaces" class="nav-link active" data-scroll-target="#the-four-fundamental-subspaces"><span class="header-section-number">18.1</span> The Four Fundamental Subspaces</a></li>
-  <li><a href="#rank-truncation-and-the-eckart-young-mirsky-theorem" id="toc-rank-truncation-and-the-eckart-young-mirsky-theorem" class="nav-link" data-scroll-target="#rank-truncation-and-the-eckart-young-mirsky-theorem"><span class="header-section-number">18.2</span> Rank Truncation and the Eckart-Young-Mirsky Theorem</a></li>
+  <li><a href="#the-svd-theorem" id="toc-the-svd-theorem" class="nav-link active" data-scroll-target="#the-svd-theorem"><span class="header-section-number">18.1</span> The SVD Theorem</a></li>
+  <li><a href="#the-four-fundamental-subspaces" id="toc-the-four-fundamental-subspaces" class="nav-link" data-scroll-target="#the-four-fundamental-subspaces"><span class="header-section-number">18.2</span> The Four Fundamental Subspaces</a></li>
+  <li><a href="#low-rank-approximation" id="toc-low-rank-approximation" class="nav-link" data-scroll-target="#low-rank-approximation"><span class="header-section-number">18.3</span> Low-Rank Approximation</a></li>
+  <li><a href="#the-pseudoinverse" id="toc-the-pseudoinverse" class="nav-link" data-scroll-target="#the-pseudoinverse"><span class="header-section-number">18.4</span> The Pseudoinverse</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/eigenvalues/svd.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -680,9 +673,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../eigenvalues/eigenvalues.html">Eigenvalues and the SVD</a></li><li class="breadcrumb-item"><a href="../eigenvalues/svd.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../eigenvalues/eigenvalues.html">Eigenvalues and the SVD</a></li><li class="breadcrumb-item"><a href="../eigenvalues/svd.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></h1>
+<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></h1>
 </div>
 
 
@@ -699,7 +692,9 @@ window.Quarto = {
 </header>
 
 
-<p>The SVD is often regarded as the culmination of linear algebra. It reveals that any matrix — regardless of shape or rank — can be decomposed into two orthogonal transformations and a diagonal scaling. This structure simultaneously provides orthonormal bases for all four fundamental subspaces, the optimal low-rank approximation, and the numerically stable pseudoinverse.</p>
+<p>The ``Master Decomposition’’ of linear algebra. Decomposes any matrix into orthogonal transformations and diagonal scaling.</p>
+<section id="the-svd-theorem" class="level2" data-number="18.1">
+<h2 data-number="18.1" class="anchored" data-anchor-id="the-svd-theorem"><span class="header-section-number">18.1</span> The SVD Theorem</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -710,23 +705,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For any <span class="math inline">\(\bA \in \fR^{m\times n}\)</span>, there exist orthogonal matrices <span class="math inline">\(\bU \in \fR^{m\times m}\)</span> and <span class="math inline">\(\bV \in \fR^{n\times n}\)</span> and a rectangular diagonal matrix <span class="math inline">\(\bsigma \in \fR^{m\times n}\)</span> with diagonal entries <span class="math inline">\(\sigma_1 \geq \sigma_2 \geq \cdots \geq \sigma_{\min(m,n)} \geq 0\)</span> such that <span class="math display">\[\bA = \bU\bsigma\bV^T.\]</span> The values <span class="math inline">\(\sigma_i\)</span> are the <em>singular values</em> of <span class="math inline">\(\bA\)</span>. The columns of <span class="math inline">\(\bU\)</span> and <span class="math inline">\(\bV\)</span> are the <em>left</em> and <em>right singular vectors</em>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>We sketch the constructive proof. The matrix <span class="math inline">\(\bA^T\bA \in \fR^{n\times n}\)</span> is symmetric positive semidefinite (since <span class="math inline">\(\bx^T\bA^T\bA\bx = \|\bA\bx\|_2^2 \geq 0\)</span>). By the spectral theorem, there exists an orthonormal eigenbasis: <span class="math inline">\(\bA^T\bA\bv_i = \lambda_i\bv_i\)</span> with <span class="math inline">\(\lambda_1 \geq \cdots \geq \lambda_n \geq 0\)</span>. Set <span class="math inline">\(\sigma_i = \sqrt{\lambda_i}\)</span> and, for <span class="math inline">\(\sigma_i &gt; 0\)</span>, define <span class="math inline">\(\bu_i = \bA\bv_i/\sigma_i\)</span>. Then <span class="math inline">\(\{\bu_i\}\)</span> are orthonormal (since <span class="math inline">\(\bu_i^T\bu_j = \bv_i^T\bA^T\bA\bv_j/(\sigma_i\sigma_j) = \lambda_j\delta_{ij}/(\sigma_i\sigma_j) = \delta_{ij}\)</span>). Extending <span class="math inline">\(\{\bu_i\}\)</span> to an orthonormal basis of <span class="math inline">\(\fR^m\)</span> gives <span class="math inline">\(\bU\)</span>. One verifies <span class="math inline">\(\bA\bV = \bU\bsigma\)</span> column-by-column, hence <span class="math inline">\(\bA = \bU\bsigma\bV^T\)</span>.</p>
-</div>
+<p>For <span class="math inline">\(\bA \in \fR^{m \times n}\)</span>, there exist orthogonal matrices <span class="math inline">\(\bU \in \fR^{m \times m}, \bV \in \fR^{n \times n}\)</span> and diagonal <span class="math inline">\(\bsigma \in \fR^{m \times n}\)</span> such that: <span class="math display">\[\bA = \bU \bsigma \bV^T.\]</span></p>
+<ul>
+<li><p><strong>Singular Values (<span class="math inline">\(\sigma_i\)</span>):</strong> Non-negative, ordered <span class="math inline">\(\sigma_1 \geq \sigma_2 \geq ... \geq 0\)</span>.</p></li>
+<li><p><strong>Modes:</strong> <span class="math inline">\(\bA = \sum_{i=1}^r \sigma_i \bu_i \bv_i^T\)</span> (Outer product expansion).</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -739,166 +722,39 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Geometrically, <span class="math inline">\(\bA\)</span> acts as: (1) rotate/reflect the input space via <span class="math inline">\(\bV^T\)</span>; (2) scale along the coordinate axes (and possibly embed into a higher or lower dimensional space) via <span class="math inline">\(\bsigma\)</span>; (3) rotate/reflect the output space via <span class="math inline">\(\bU\)</span>. The outer product expansion <span class="math inline">\(\bA = \sum_{i=1}^r \sigma_i\bu_i\bv_i^T\)</span> expresses <span class="math inline">\(\bA\)</span> as a sum of rank-1 matrices, each capturing one ``mode’’ of the transformation.</p>
-</div>
-</div>
-<section id="the-four-fundamental-subspaces" class="level2" data-number="18.1">
-<h2 data-number="18.1" class="anchored" data-anchor-id="the-four-fundamental-subspaces"><span class="header-section-number">18.1</span> The Four Fundamental Subspaces</h2>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Column Space (Range)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>column space</em> of <span class="math inline">\(\bA \in \fR^{m\times n}\)</span> is <span class="math inline">\(\mathcal{R}(\bA) = \{\bA\bx : \bx \in \fR^n\} \subseteq \fR^m\)</span>. It is spanned by the columns of <span class="math inline">\(\bA\)</span> and has dimension equal to the rank <span class="math inline">\(r = \mathrm{rank}(\bA)\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Null Space (Kernel)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>null space</em> of <span class="math inline">\(\bA\)</span> is <span class="math inline">\(\mathcal{N}(\bA) = \{\bx \in \fR^n : \bA\bx = \bzero\}\)</span>. It consists of all inputs mapped to zero and has dimension <span class="math inline">\(n - r\)</span> (the <em>nullity</em> of <span class="math inline">\(\bA\)</span>).</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Row Space
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>row space</em> of <span class="math inline">\(\bA\)</span> is <span class="math inline">\(\mathcal{R}(\bA^T) = \{\bA^T\by : \by \in \fR^m\} \subseteq \fR^n\)</span>, spanned by the rows of <span class="math inline">\(\bA\)</span>. It has dimension <span class="math inline">\(r\)</span> and is the orthogonal complement of <span class="math inline">\(\mathcal{N}(\bA)\)</span> in <span class="math inline">\(\fR^n\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Left Null Space
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>left null space</em> of <span class="math inline">\(\bA\)</span> is <span class="math inline">\(\mathcal{N}(\bA^T) = \{\by \in \fR^m : \bA^T\by = \bzero\}\)</span>. It has dimension <span class="math inline">\(m - r\)</span> and is the orthogonal complement of <span class="math inline">\(\mathcal{R}(\bA)\)</span> in <span class="math inline">\(\fR^m\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Rank-Nullity via SVD
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(\mathrm{rank}(\bA) + \dim\mathcal{N}(\bA) = n\)</span> and <span class="math inline">\(\mathrm{rank}(\bA) + \dim\mathcal{N}(\bA^T) = m\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>From the SVD <span class="math inline">\(\bA = \bU\bsigma\bV^T\)</span>, the number of positive singular values equals <span class="math inline">\(r = \mathrm{rank}(\bA)\)</span>. The right singular vectors <span class="math inline">\(\bv_1,...,\bv_r\)</span> (corresponding to <span class="math inline">\(\sigma_i &gt; 0\)</span>) span <span class="math inline">\(\mathcal{R}(\bA^T)\)</span>, while <span class="math inline">\(\bv_{r+1},...,\bv_n\)</span> span <span class="math inline">\(\mathcal{N}(\bA)\)</span> (since <span class="math inline">\(\bA\bv_i = \sigma_i\bu_i = \bzero\)</span> for <span class="math inline">\(i &gt; r\)</span>). Since <span class="math inline">\(\{\bv_i\}\)</span> is an orthonormal basis of <span class="math inline">\(\fR^n\)</span>, we have <span class="math inline">\(r + (n-r) = n\)</span>. The second identity follows symmetrically from the left singular vectors.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: SVD Provides Orthonormal Bases for All Four Subspaces
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>In the SVD <span class="math inline">\(\bA = \bU\bsigma\bV^T\)</span> with <span class="math inline">\(r = \mathrm{rank}(\bA)\)</span>: the first <span class="math inline">\(r\)</span> columns of <span class="math inline">\(\bU\)</span> span <span class="math inline">\(\mathcal{R}(\bA)\)</span>; the last <span class="math inline">\(m-r\)</span> columns of <span class="math inline">\(\bU\)</span> span <span class="math inline">\(\mathcal{N}(\bA^T)\)</span>; the first <span class="math inline">\(r\)</span> columns of <span class="math inline">\(\bV\)</span> span <span class="math inline">\(\mathcal{R}(\bA^T)\)</span>; the last <span class="math inline">\(n-r\)</span> columns of <span class="math inline">\(\bV\)</span> span <span class="math inline">\(\mathcal{N}(\bA)\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>For any <span class="math inline">\(\bx\)</span>, <span class="math inline">\(\bA\bx = \bU\bsigma\bV^T\bx = \sum_{i=1}^r \sigma_i(\bv_i^T\bx)\bu_i\)</span>, which is a linear combination of <span class="math inline">\(\bu_1,...,\bu_r\)</span>. Conversely, <span class="math inline">\(\bA\bv_i = \sigma_i\bu_i\)</span> for <span class="math inline">\(i \leq r\)</span>, so each <span class="math inline">\(\bu_i\)</span> (<span class="math inline">\(i \leq r\)</span>) is in <span class="math inline">\(\mathcal{R}(\bA)\)</span>. Hence <span class="math inline">\(\mathcal{R}(\bA) = \mathrm{span}\{\bu_1,...,\bu_r\}\)</span>. Since <span class="math inline">\(\mathcal{N}(\bA^T)\)</span> is the orthogonal complement of <span class="math inline">\(\mathcal{R}(\bA)\)</span> in <span class="math inline">\(\fR^m\)</span> and <span class="math inline">\(\bu_{r+1},...,\bu_m\)</span> are orthogonal to <span class="math inline">\(\bu_1,...,\bu_r\)</span>, they span <span class="math inline">\(\mathcal{N}(\bA^T)\)</span>. The arguments for <span class="math inline">\(\mathcal{R}(\bA^T)\)</span> and <span class="math inline">\(\mathcal{N}(\bA)\)</span> are symmetric.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Proposition: Existence and Uniqueness of the Least Squares Solution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The system <span class="math inline">\(\bA\bx = \bb\)</span> has an exact solution if and only if <span class="math inline">\(\bb \in \mathcal{R}(\bA)\)</span>. When it does, the general solution is any particular solution <span class="math inline">\(\hat{\bx}\)</span> plus an arbitrary vector from <span class="math inline">\(\mathcal{N}(\bA)\)</span>. The <em>minimum-norm</em> least squares solution is <span class="math inline">\(\hat{\bx} = \bA^+\bb = \bV\bsigma^+\bU^T\bb\)</span>, where <span class="math inline">\(\bsigma^+\)</span> has <span class="math inline">\(1/\sigma_i\)</span> for each positive singular value.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\(\bA\bx = \bb\)</span> is solvable iff <span class="math inline">\(\bb \perp \mathcal{N}(\bA^T)\)</span>, i.e., <span class="math inline">\(\bb \in \mathcal{R}(\bA)\)</span> (since the two are orthogonal complements). The general solution is <span class="math inline">\(\bx = \bV\bsigma^+\bU^T\bb + \bP_{\mathcal{N}(\bA)}\bw\)</span> for any <span class="math inline">\(\bw\)</span>, where the second term lies in <span class="math inline">\(\mathcal{N}(\bA)\)</span> and contributes zero to <span class="math inline">\(\bA\bx\)</span> but increases <span class="math inline">\(\|\bx\|_2\)</span>. The minimum-norm solution has zero <span class="math inline">\(\mathcal{N}(\bA)\)</span> component, giving <span class="math inline">\(\hat{\bx} = \bA^+\bb\)</span>.</p>
-</div>
+<p><strong>Geometric Interpretation:</strong> <span class="math inline">\(\bA\)</span> rotates the input space (<span class="math inline">\(\bV^T\)</span>), scales along the axes (<span class="math inline">\(\bsigma\)</span>), and rotates the result to the output space (<span class="math inline">\(\bU\)</span>).</p>
 </div>
 </div>
 </section>
-<section id="rank-truncation-and-the-eckart-young-mirsky-theorem" class="level2" data-number="18.2">
-<h2 data-number="18.2" class="anchored" data-anchor-id="rank-truncation-and-the-eckart-young-mirsky-theorem"><span class="header-section-number">18.2</span> Rank Truncation and the Eckart-Young-Mirsky Theorem</h2>
+<section id="the-four-fundamental-subspaces" class="level2" data-number="18.2">
+<h2 data-number="18.2" class="anchored" data-anchor-id="the-four-fundamental-subspaces"><span class="header-section-number">18.2</span> The Four Fundamental Subspaces</h2>
+<p>The SVD provides optimal orthonormal bases for the spaces defined by <span class="math inline">\(\bA\)</span> (rank <span class="math inline">\(r\)</span>):</p>
+<ol type="1">
+<li><p> First <span class="math inline">\(r\)</span> columns of <span class="math inline">\(\bU\)</span>.</p></li>
+<li><p> Last <span class="math inline">\(n-r\)</span> columns of <span class="math inline">\(\bV\)</span>.</p></li>
+<li><p> First <span class="math inline">\(r\)</span> columns of <span class="math inline">\(\bV\)</span>.</p></li>
+<li><p> Last <span class="math inline">\(m-r\)</span> columns of <span class="math inline">\(\bU\)</span>.</p></li>
+</ol>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Rank-<span class="math inline">\(r\)</span> Approximation
+<span class="screen-reader-only">Note</span>Theorem: Relationship to Eigendecomposition
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>rank-<span class="math inline">\(r\)</span> truncated SVD</em> of <span class="math inline">\(\bA\)</span> is <span class="math display">\[\bA_r = \sum_{i=1}^r \sigma_i\bu_i\bv_i^T = \bU_r\bsigma_r\bV_r^T,\]</span> where <span class="math inline">\(\bU_r, \bV_r\)</span> are the first <span class="math inline">\(r\)</span> columns of <span class="math inline">\(\bU, \bV\)</span> and <span class="math inline">\(\bsigma_r \in \fR^{r\times r}\)</span> contains the <span class="math inline">\(r\)</span> largest singular values.</p>
+<ul>
+<li><p>Right singular vectors (<span class="math inline">\(\bv_i\)</span>) are eigenvectors of <span class="math inline">\(\bA^T\bA\)</span>.</p></li>
+<li><p>Left singular vectors (<span class="math inline">\(\bu_i\)</span>) are eigenvectors of <span class="math inline">\(\bA\bA^T\)</span>.</p></li>
+<li><p>Singular values <span class="math inline">\(\sigma_i = \sqrt{\lambda_i(\bA^T\bA)}\)</span>.</p></li>
+</ul>
 </div>
 </div>
+</section>
+<section id="low-rank-approximation" class="level2" data-number="18.3">
+<h2 data-number="18.3" class="anchored" data-anchor-id="low-rank-approximation"><span class="header-section-number">18.3</span> Low-Rank Approximation</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -909,79 +765,42 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Among all matrices of rank at most <span class="math inline">\(r\)</span>, <span class="math inline">\(\bA_r\)</span> is the closest to <span class="math inline">\(\bA\)</span> in both the spectral norm and the Frobenius norm: <span class="math display">\[\|\bA - \bA_r\|_2 = \sigma_{r+1}, \qquad \|\bA - \bA_r\|_F = \sqrt{\sum_{i=r+1}^{p} \sigma_i^2},\]</span> where <span class="math inline">\(p = \min(m,n)\)</span>. For any <span class="math inline">\(\bB\)</span> with <span class="math inline">\(\mathrm{rank}(\bB) \leq r\)</span>: <span class="math inline">\(\|\bA - \bB\|_2 \geq \sigma_{r+1}\)</span> and <span class="math inline">\(\|\bA - \bB\|_F \geq \|\bA - \bA_r\|_F\)</span>.</p>
+<p>The best rank-<span class="math inline">\(k\)</span> approximation (<span class="math inline">\(k &lt; r\)</span>) of <span class="math inline">\(\bA\)</span> in spectral and Frobenius norms is the truncated SVD: <span class="math display">\[\bA_k = \sum_{i=1}^k \sigma_i \bu_i \bv_i^T.\]</span></p>
+<ul>
+<li><strong>Error:</strong> <span class="math inline">\(\|\bA - \bA_k\|_2 = \sigma_{k+1}\)</span>.</li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
+Tip
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>The error formula follows immediately: <span class="math inline">\(\bA - \bA_r = \sum_{i=r+1}^p \sigma_i\bu_i\bv_i^T\)</span> is itself an SVD, so <span class="math inline">\(\|\bA - \bA_r\|_2 = \sigma_{r+1}\)</span> and <span class="math inline">\(\|\bA - \bA_r\|_F = \sqrt{\sum_{i&gt;r}\sigma_i^2}\)</span>.</p>
-<p>For the lower bound: suppose <span class="math inline">\(\mathrm{rank}(\bB) \leq r\)</span>, so <span class="math inline">\(\dim\mathcal{N}(\bB) \geq n-r\)</span>. The subspace <span class="math inline">\(\mathcal{N}(\bB) \cap \mathrm{span}\{\bv_1,...,\bv_{r+1}\}\)</span> has dimension at least <span class="math inline">\((n-r) + (r+1) - n = 1\)</span> by dimension counting, so there exists a unit vector <span class="math inline">\(\bz\)</span> in this intersection. Then <span class="math display">\[\|\bA - \bB\|_2 \geq \|(\bA-\bB)\bz\|_2 = \|\bA\bz\|_2 = \left\|\sum_{i=1}^{r+1}\sigma_i(\bv_i^T\bz)\bv_i\right\|_2 \geq \sigma_{r+1}\|\bz\|_2 = \sigma_{r+1}.\]</span> The Frobenius norm lower bound follows similarly using the Frobenius norm version of the argument.</p>
+<p><strong>Applications:</strong> Truncated SVD is the engine behind Principal Component Analysis (PCA), image compression, and latent semantic analysis.</p>
 </div>
 </div>
-</div>
+</section>
+<section id="the-pseudoinverse" class="level2" data-number="18.4">
+<h2 data-number="18.4" class="anchored" data-anchor-id="the-pseudoinverse"><span class="header-section-number">18.4</span> The Pseudoinverse</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: SVD-Eigendecomposition Relationship
+<span class="screen-reader-only">Note</span>Definition: Moore-Penrose Pseudoinverse
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The singular values and vectors of <span class="math inline">\(\bA\)</span> satisfy: the right singular vectors <span class="math inline">\(\bv_i\)</span> are eigenvectors of <span class="math inline">\(\bA^T\bA\)</span> with eigenvalues <span class="math inline">\(\sigma_i^2\)</span>; the left singular vectors <span class="math inline">\(\bu_i\)</span> are eigenvectors of <span class="math inline">\(\bA\bA^T\)</span> with eigenvalues <span class="math inline">\(\sigma_i^2\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>From <span class="math inline">\(\bA = \bU\bsigma\bV^T\)</span>: <span class="math inline">\(\bA^T\bA = \bV\bsigma^T\bU^T\bU\bsigma\bV^T = \bV\bsigma^T\bsigma\bV^T\)</span>. Since <span class="math inline">\(\bsigma^T\bsigma = \mathrm{diag}(\sigma_1^2,...,\sigma_n^2)\)</span> and <span class="math inline">\(\bV\)</span> is orthogonal, this is the eigendecomposition <span class="math inline">\(\bA^T\bA\bv_i = \sigma_i^2\bv_i\)</span>. Symmetrically, <span class="math inline">\(\bA\bA^T = \bU\bsigma\bsigma^T\bU^T\)</span> gives <span class="math inline">\(\bA\bA^T\bu_i = \sigma_i^2\bu_i\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Pseudoinverse via SVD
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>Moore-Penrose pseudoinverse</em> of <span class="math inline">\(\bA \in \fR^{m\times n}\)</span> is <span class="math display">\[\bA^+ = \bV\bsigma^+\bU^T, \quad \text{where } (\bsigma^+)_{ii} = \begin{cases} 1/\sigma_i &amp; \text{if } \sigma_i &gt; 0 \\ 0 &amp; \text{otherwise.} \end{cases}\]</span> For full column rank, <span class="math inline">\(\bA^+ = (\bA^T\bA)^{-1}\bA^T\)</span>. For full row rank, <span class="math inline">\(\bA^+ = \bA^T(\bA\bA^T)^{-1}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: SVD-Based Regularization
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For an ill-conditioned system, the truncated SVD solution <span class="math display">\[\hat{\bx}_k = \sum_{i=1}^k \frac{\bu_i^T\bb}{\sigma_i}\bv_i\]</span> ignores directions corresponding to small singular values, reducing sensitivity to perturbations. The effective condition number of the regularized system is <span class="math inline">\(\sigma_1/\sigma_k \ll \sigma_1/\sigma_n\)</span>.</p>
+<p><span class="math inline">\(\bA^+ = \bV \bsigma^+ \bU^T\)</span>, where <span class="math inline">\((\bsigma^+)_{ii} = 1/\sigma_i\)</span> if <span class="math inline">\(\sigma_i &gt; 0\)</span>, else <span class="math inline">\(0\)</span>.</p>
+<ul>
+<li><strong>Minimum-Norm Solution:</strong> For any system <span class="math inline">\(\bA\bx = \bb\)</span>, the vector <span class="math inline">\(\hat{\bx} = \bA^+\bb\)</span> is the shortest vector minimizing <span class="math inline">\(\|\bA\bx - \bb\|_2\)</span>.</li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -994,47 +813,10 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA = \begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 2 \end{pmatrix}\)</span>.</p>
 <ol type="1">
-<li><p>Compute the SVD of <span class="math inline">\(\bA\)</span> by hand: find the eigenvalues of <span class="math inline">\(\bA^T\bA\)</span>, then the singular values, right singular vectors (eigenvectors of <span class="math inline">\(\bA^T\bA\)</span>), and left singular vectors (<span class="math inline">\(\bu_i = \bA\bv_i/\sigma_i\)</span>).</p></li>
-<li><p>Verify that <span class="math inline">\(\bU\)</span>, <span class="math inline">\(\bsigma\)</span>, <span class="math inline">\(\bV\)</span> recover <span class="math inline">\(\bA\)</span> via <span class="math inline">\(\bU\bsigma\bV^T\)</span>.</p></li>
-<li><p>What are the four fundamental subspaces of <span class="math inline">\(\bA\)</span>? (Since <span class="math inline">\(\bA\)</span> is <span class="math inline">\(2\times2\)</span> and invertible, what are their dimensions?)</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Image compression via truncated SVD)</strong> Load a grayscale image (e.g., <code>from skimage import data; A = data.camera().astype(float)</code>) and compute its SVD using <code>np.linalg.svd(A, full\_matrices=False)</code>.</p>
-<ol type="1">
-<li><p>Plot the singular values on a log scale. Where do they start to level off?</p></li>
-<li><p>Compute the rank-<span class="math inline">\(r\)</span> approximation <span class="math inline">\(\bA_r\)</span> for <span class="math inline">\(r = 5, 20, 50, 100\)</span>. Display the images.</p></li>
-<li><p>For each <span class="math inline">\(r\)</span>, compute the storage savings (<span class="math inline">\((m + n + 1) \times r\)</span> vs.&nbsp;<span class="math inline">\(mn\)</span> entries) and the relative Frobenius error <span class="math inline">\(\|\bA - \bA_r\|_F / \|\bA\|_F\)</span>. Plot error vs.&nbsp;compression ratio.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Four fundamental subspaces)</strong> Let <span class="math inline">\(\bA = \begin{pmatrix} 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 \\ 7 &amp; 8 &amp; 9 \end{pmatrix}\)</span>.</p>
-<ol type="1">
-<li><p>Use <code>np.linalg.svd</code> to find the singular values. How many are zero (up to numerical precision)? What is <span class="math inline">\(\mathrm{rank}(\bA)\)</span>?</p></li>
-<li><p>Extract bases for all four fundamental subspaces from the SVD. Verify that <span class="math inline">\(\mathcal{R}(\bA) \perp \mathcal{N}(\bA^T)\)</span> and <span class="math inline">\(\mathcal{R}(\bA^T) \perp \mathcal{N}(\bA)\)</span>.</p></li>
-<li><p>For <span class="math inline">\(\bb = (1, 1, 1)^T\)</span>, determine whether the system <span class="math inline">\(\bA\bx = \bb\)</span> has a solution. If not, compute the least squares solution using the pseudoinverse <code>np.linalg.pinv(A) @ b</code>.</p></li>
+<li><p>Compute the SVD of <span class="math inline">\(\bA = \begin{pmatrix} 3 &amp; 1 \\ 1 &amp; 2 \end{pmatrix}\)</span> by hand.</p></li>
+<li><p><strong>Compression:</strong> Load a <span class="math inline">\(512 \times 512\)</span> image. Plot the relative error <span class="math inline">\(\|\bA - \bA_k\|_F / \|\bA\|_F\)</span> vs.&nbsp;<span class="math inline">\(k\)</span>. At what <span class="math inline">\(k\)</span> is the image recognizable?</p></li>
+<li><p>Use the pseudoinverse to find the least squares solution to a rank-deficient <span class="math inline">\(3 \times 3\)</span> system.</p></li>
 </ol>
 </div>
 </div>
@@ -1469,8 +1251,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/eigenvalues/svd.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/eigenvalues/svd.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../direct-methods/linear-systems.html">Direct Methods for Linear Systems</a></li><li class="breadcrumb-item"><a href="../direct-methods/linear-systems.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Linearity</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -672,8 +663,10 @@ window.Quarto = {
    
   <ul>
   <li><a href="#linear-systems" id="toc-linear-systems" class="nav-link active" data-scroll-target="#linear-systems"><span class="header-section-number">9.1</span> Linear Systems</a></li>
-  <li><a href="#rank" id="toc-rank" class="nav-link" data-scroll-target="#rank"><span class="header-section-number">9.2</span> Rank</a></li>
-  <li><a href="#subspaces-and-the-four-fundamental-subspaces" id="toc-subspaces-and-the-four-fundamental-subspaces" class="nav-link" data-scroll-target="#subspaces-and-the-four-fundamental-subspaces"><span class="header-section-number">9.3</span> Subspaces and the Four Fundamental Subspaces</a></li>
+  <li><a href="#invertibility-and-existence" id="toc-invertibility-and-existence" class="nav-link" data-scroll-target="#invertibility-and-existence"><span class="header-section-number">9.2</span> Invertibility and Existence</a></li>
+  <li><a href="#linear-combinations-and-bases" id="toc-linear-combinations-and-bases" class="nav-link" data-scroll-target="#linear-combinations-and-bases"><span class="header-section-number">9.3</span> Linear Combinations and Bases</a></li>
+  <li><a href="#rank" id="toc-rank" class="nav-link" data-scroll-target="#rank"><span class="header-section-number">9.4</span> Rank</a></li>
+  <li><a href="#the-four-fundamental-subspaces" id="toc-the-four-fundamental-subspaces" class="nav-link" data-scroll-target="#the-four-fundamental-subspaces"><span class="header-section-number">9.5</span> The Four Fundamental Subspaces</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/direct-methods/linear-systems.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -700,16 +693,10 @@ window.Quarto = {
 </header>
 
 
-<p>Linear algebra is built around the idea of linearity: a property that lets us decompose complex problems into independent parts and recombine their solutions. Before studying specific algorithms, we establish the core vocabulary — linear systems, rank, and subspaces — that underpins everything in this course.</p>
-<p>A mapping <span class="math inline">\(L\)</span> is <strong>linear</strong> if it satisfies two properties for all inputs <span class="math inline">\(\bx, \by\)</span> and scalars <span class="math inline">\(\alpha, \beta\)</span>:</p>
-<ul>
-<li><p><strong>Additivity</strong>: <span class="math inline">\(L(\bx + \by) = L(\bx) + L(\by)\)</span></p></li>
-<li><p><strong>Homogeneity</strong>: <span class="math inline">\(L(\alpha\bx) = \alpha L(\bx)\)</span></p></li>
-</ul>
-<p>Together these give the <strong>superposition principle</strong>: <span class="math inline">\(L(\alpha\bx + \beta\by) = \alpha L(\bx) + \beta L(\by)\)</span>.</p>
+<p>Core definitions and structural properties of linear systems.</p>
 <section id="linear-systems" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="linear-systems"><span class="header-section-number">9.1</span> Linear Systems</h2>
-<p>A linear system packages finitely many linear equations into a single matrix equation. The central question is when such a system has solutions and how many.</p>
+<p>A linear system encodes multiple equations into a single matrix-vector form.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -720,11 +707,12 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>% A <strong>system of linear equations</strong> in matrix-vector form is <span class="math display">\[\bA\bx = \bb,\]</span> where <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> is the coefficient matrix, <span class="math inline">\(\bx \in \fR^n\)</span> the unknown vector, and <span class="math inline">\(\bb \in \fR^m\)</span> the right-hand side: <span class="math display">\[\bA = \begin{pmatrix}
-a_{11} &amp; \cdots &amp; a_{1n} \\ \vdots &amp; \ddots &amp; \vdots \\ a_{m1} &amp; \cdots &amp; a_{mn}
-\end{pmatrix}, \quad
-\bx = \begin{pmatrix} x_1 \\ \vdots \\ x_n \end{pmatrix}, \quad
-\bb = \begin{pmatrix} b_1 \\ \vdots \\ b_m \end{pmatrix}.\]</span></p>
+<p>The matrix-vector form of a linear system is <strong><span class="math inline">\(\bA\bx = \bb\)</span></strong>, where:</p>
+<ul>
+<li><p><span class="math inline">\(\bA \in \fR^{m \times n}\)</span> is the coefficient matrix.</p></li>
+<li><p><span class="math inline">\(\bx \in \fR^n\)</span> is the vector of unknowns.</p></li>
+<li><p><span class="math inline">\(\bb \in \fR^m\)</span> is the right-hand side.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -737,10 +725,9 @@ a_{11} &amp; \cdots &amp; a_{1n} \\ \vdots &amp; \ddots &amp; \vdots \\ a_{m1} &
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>Write the system <span class="math inline">\(\{x + 2y = 3,\; 3x - y = 1\}\)</span> in matrix-vector form <span class="math inline">\(\bA\bx = \bb\)</span>.</p></li>
-<li><p>In NumPy, solve it using <code>np.linalg.solve(A, b)</code> and verify by computing the residual <code>np.linalg.norm(b - A @ x)</code>.</p></li>
+<li><p>Convert <span class="math inline">\(\{x + 2y = 3,\; 3x - y = 1\}\)</span> to <span class="math inline">\(\bA\bx = \bb\)</span>.</p></li>
+<li><p>Solve in NumPy via <code>np.linalg.solve(A, b)</code>. Verify with <code>np.linalg.norm(b - A @ x)</code>.</p></li>
 </ol>
 </div>
 </div>
@@ -750,40 +737,11 @@ a_{11} &amp; \cdots &amp; a_{1n} \\ \vdots &amp; \ddots &amp; \vdots \\ a_{m1} &
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Matrix-Vector Multiplication is Linear
+<span class="screen-reader-only">Note</span>Theorem: Superposition Principle
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The map <span class="math inline">\(T: \fR^n \to \fR^m\)</span> defined by <span class="math inline">\(T(\bx) = \bA\bx\)</span> is a linear transformation: for all <span class="math inline">\(\bx, \by \in \fR^n\)</span> and <span class="math inline">\(\alpha, \beta \in \fR\)</span>, <span class="math display">\[T(\alpha\bx + \beta\by) = \alpha T(\bx) + \beta T(\by).\]</span></p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>By distributivity: <span class="math inline">\(\bA(\bx + \by) = \bA\bx + \bA\by = T(\bx) + T(\by)\)</span>. By scalar compatibility: <span class="math inline">\(\bA(\alpha\bx) = \alpha(\bA\bx) = \alpha T(\bx)\)</span>. Combining gives <span class="math inline">\(T(\alpha\bx + \beta\by) = \alpha T(\bx) + \beta T(\by)\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Corollary: Superposition Principle
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\bA\bx_1 = \bb_1\)</span> and <span class="math inline">\(\bA\bx_2 = \bb_2\)</span>, then for any <span class="math inline">\(\alpha, \beta \in \fR\)</span>, <span class="math display">\[\bA(\alpha\bx_1 + \beta\bx_2) = \alpha\bb_1 + \beta\bb_2.\]</span></p>
+<p>If <span class="math inline">\(\bA\bx_1 = \bb_1\)</span> and <span class="math inline">\(\bA\bx_2 = \bb_2\)</span>, then for any scalars <span class="math inline">\(\alpha, \beta\)</span>: <span class="math display">\[\bA(\alpha\bx_1 + \beta\bx_2) = \alpha\bb_1 + \beta\bb_2.\]</span> <strong>Implication:</strong> Solutions to <span class="math inline">\(\bA\bx = \bb\)</span> can be decomposed and recombined linearly.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -796,27 +754,16 @@ a_{11} &amp; \cdots &amp; a_{1n} \\ \vdots &amp; \ddots &amp; \vdots \\ a_{m1} &
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In this exercise, we will prove the result above. Refer to the result above.</p>
 <ol type="1">
-<li><p>Suppose <span class="math inline">\(\bx_1\)</span> solves <span class="math inline">\(\bA\bx = \bb_1\)</span> and <span class="math inline">\(\bx_2\)</span> solves <span class="math inline">\(\bA\bx = \bb_2\)</span>. Apply <span class="math inline">\(T\)</span> to <span class="math inline">\(\alpha\bx_1 + \beta\bx_2\)</span> and use linearity to conclude <span class="math inline">\(\bA(\alpha\bx_1 + \beta\bx_2) = \alpha\bb_1 + \beta\bb_2\)</span>.</p></li>
-<li><p>Use this result to solve <span class="math inline">\(\bA\bx = 3\bb_1 - 2\bb_2\)</span> without any new computation.</p></li>
-<li><p>Why is the result above computationally valuable when solving <span class="math inline">\(\bA\bX = \bB\)</span> for a matrix right-hand side <span class="math inline">\(\bB\)</span>? How does <code>np.linalg.solve(A, B)</code> exploit this?</p></li>
+<li><p>Solve <span class="math inline">\(\bA\bx = 3\bb_1 - 2\bb_2\)</span> given only the solutions <span class="math inline">\(\bx_1, \bx_2\)</span> for <span class="math inline">\(\bb_1, \bb_2\)</span>.</p></li>
+<li><p>How does <code>np.linalg.solve(A, B)</code> for a matrix <span class="math inline">\(\bB\)</span> exploit this?</p></li>
 </ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Existence and Uniqueness
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>% For a square system <span class="math inline">\(\bA\bx = \bb\)</span> with <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>, the system has a unique solution if and only if <span class="math inline">\(\bA\)</span> is invertible (<span class="math inline">\(\det(\bA) \neq 0\)</span>). If <span class="math inline">\(\bA\)</span> is singular, the system either has no solution or infinitely many.</p>
-</div>
-</div>
+</section>
+<section id="invertibility-and-existence" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="invertibility-and-existence"><span class="header-section-number">9.2</span> Invertibility and Existence</h2>
+<p>For square systems (<span class="math inline">\(\bA \in \fR^{n \times n}\)</span>), a unique solution exists iff <span class="math inline">\(\bA\)</span> is nonsingular.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -827,33 +774,14 @@ a_{11} &amp; \cdots &amp; a_{1n} \\ \vdots &amp; \ddots &amp; \vdots \\ a_{m1} &
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>. The following are equivalent:</p>
+<p>The following are equivalent for <span class="math inline">\(\bA \in \fR^{n \times n}\)</span>:</p>
 <ol type="1">
-<li><p><span class="math inline">\(\bA\)</span> is invertible.</p></li>
-<li><p><span class="math inline">\(\bA\bx = \bb\)</span> has a unique solution for every <span class="math inline">\(\bb \in \fR^n\)</span>.</p></li>
-<li><p><span class="math inline">\(\bA\bx = \bzero\)</span> has only the trivial solution <span class="math inline">\(\bx = \bzero\)</span>.</p></li>
-<li><p><span class="math inline">\(\text{rank}(\bA) = n\)</span>.</p></li>
-<li><p>The columns of <span class="math inline">\(\bA\)</span> are linearly independent.</p></li>
+<li><p><span class="math inline">\(\bA\)</span> is <strong>invertible</strong> (<span class="math inline">\(\det(\bA) \neq 0\)</span>).</p></li>
+<li><p><span class="math inline">\(\bA\bx = \bb\)</span> has a <strong>unique solution</strong> for every <span class="math inline">\(\bb\)</span>.</p></li>
+<li><p><span class="math inline">\(\bA\bx = \bzero\)</span> has only the <strong>trivial solution</strong> (<span class="math inline">\(\bx = \bzero\)</span>).</p></li>
+<li><p><span class="math inline">\(\text{rank}(\bA) = n\)</span> (Full Rank).</p></li>
+<li><p>Columns of <span class="math inline">\(\bA\)</span> are <strong>linearly independent</strong>.</p></li>
 </ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-9" class="callout-9-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><span class="math inline">\((1)\Rightarrow(2)\)</span>: Set <span class="math inline">\(\bx = \bA^{-1}\bb\)</span>. If <span class="math inline">\(\bA\bx_1 = \bA\bx_2\)</span>, then <span class="math inline">\(\bA(\bx_1 - \bx_2) = \bzero\)</span>, so <span class="math inline">\(\bx_1 = \bx_2\)</span>.</p>
-<p><span class="math inline">\((2)\Rightarrow(3)\)</span>: Apply (2) with <span class="math inline">\(\bb = \bzero\)</span>; the unique solution is <span class="math inline">\(\bx = \bzero\)</span>.</p>
-<p><span class="math inline">\((3)\Rightarrow(4)\)</span>: The null space is <span class="math inline">\(\{\bzero\}\)</span>, so nullity<span class="math inline">\((\bA) = 0\)</span>. By the Rank-Nullity Theorem, rank<span class="math inline">\((\bA) = n\)</span>.</p>
-<p><span class="math inline">\((4)\Rightarrow(1)\)</span>: A square matrix with rank <span class="math inline">\(n\)</span> has <span class="math inline">\(n\)</span> linearly independent columns spanning <span class="math inline">\(\fR^n\)</span>, which is exactly the invertibility condition.</p>
-</div>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -866,27 +794,15 @@ a_{11} &amp; \cdots &amp; a_{1n} \\ \vdots &amp; \ddots &amp; \vdots \\ a_{m1} &
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
 <ol type="1">
-<li><p>For each matrix, determine invertibility and give a one-sentence justification: <span class="math display">\[\bA = \begin{pmatrix} 2 &amp; -1 \\ 4 &amp; -2 \end{pmatrix}, \qquad
-\bB = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 2 &amp; 0 \\ 0 &amp; 0 &amp; 3 \end{pmatrix}.\]</span></p></li>
-<li><p>For <span class="math inline">\(\bA = \begin{pmatrix}1&amp;2\\3&amp;6\end{pmatrix}\)</span> and <span class="math inline">\(\bb = \begin{pmatrix}1\\4\end{pmatrix}\)</span>: is the system consistent, and if so, how many solutions? Verify with <code>np.linalg.matrix\_rank</code>.</p></li>
+<li><p>Determine invertibility: <span class="math inline">\(\bA = \begin{pmatrix} 2 &amp; -1 \\ 4 &amp; -2 \end{pmatrix}\)</span>, <span class="math inline">\(\bB = \begin{pmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 2 &amp; 0 \\ 0 &amp; 0 &amp; 3 \end{pmatrix}\)</span>.</p></li>
+<li><p>Check consistency of <span class="math inline">\(\bA = \begin{pmatrix}1&amp;2\\3&amp;6\end{pmatrix}, \bb = \begin{pmatrix}1\\4\end{pmatrix}\)</span> via <code>np.linalg.matrix\_rank</code>.</p></li>
 </ol>
 </div>
 </div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Linear Combination
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A <strong>linear combination</strong> of vectors <span class="math inline">\(\{\bx_1, ..., \bx_k\}\)</span> is any vector of the form <span class="math display">\[\alpha_1\bx_1 + \alpha_2\bx_2 + \cdots + \alpha_k\bx_k, \quad \alpha_i \in \fR.\]</span></p>
-</div>
-</div>
+</section>
+<section id="linear-combinations-and-bases" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="linear-combinations-and-bases"><span class="header-section-number">9.3</span> Linear Combinations and Bases</h2>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -897,24 +813,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Matrix-vector multiplication <span class="math inline">\(\bA\bx\)</span> is a linear combination of the columns of <span class="math inline">\(\bA\)</span> with coefficients given by the entries of <span class="math inline">\(\bx\)</span>: <span class="math display">\[\bA\bx = x_1\ba_1 + x_2\ba_2 + \cdots + x_n\ba_n,\]</span> where <span class="math inline">\(\ba_i\)</span> is the <span class="math inline">\(i\)</span>-th column of <span class="math inline">\(\bA\)</span>. The system <span class="math inline">\(\bA\bx = \bb\)</span> asks: is <span class="math inline">\(\bb\)</span> a linear combination of the columns of <span class="math inline">\(\bA\)</span>?</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>Express <span class="math inline">\(\bb = (7, -1)^T\)</span> as a linear combination of <span class="math inline">\(\bv_1 = (1,1)^T\)</span> and <span class="math inline">\(\bv_2 = (2,-1)^T\)</span> by solving a <span class="math inline">\(2 \times 2\)</span> system for the coefficients.</p></li>
-<li><p>For <span class="math inline">\(\bA = \begin{pmatrix}1&amp;2\\3&amp;4\end{pmatrix}\)</span>, write <span class="math inline">\(\bA\bx\)</span> explicitly as a linear combination of the columns of <span class="math inline">\(\bA\)</span>.</p></li>
-</ol>
+<p><strong>The Column Perspective.</strong> The product <span class="math inline">\(\bA\bx\)</span> is a <strong>linear combination of the columns of <span class="math inline">\(\bA\)</span></strong> weighted by the entries of <span class="math inline">\(\bx\)</span>: <span class="math display">\[\bA\bx = x_1 \ba_1 + x_2 \ba_2 + ... + x_n \ba_n.\]</span> The system <span class="math inline">\(\bA\bx = \bb\)</span> asks: ``Can <span class="math inline">\(\bb\)</span> be represented as a combination of <span class="math inline">\(\bA\)</span>’s columns?’’</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -923,41 +822,11 @@ Tip
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Linear Dependence and Independence
+<span class="screen-reader-only">Note</span>Definition: Linear Independence
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A set of vectors <span class="math inline">\(\{\bx_1, ..., \bx_k\}\)</span> is <strong>linearly dependent</strong> if there exist scalars <span class="math inline">\(\alpha_1, ..., \alpha_k\)</span>, not all zero, such that <span class="math display">\[\alpha_1\bx_1 + \cdots + \alpha_k\bx_k = \bzero.\]</span> If the only solution is <span class="math inline">\(\alpha_1 = \cdots = \alpha_k = 0\)</span>, the vectors are <strong>linearly independent</strong>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Linear dependence means redundancy: some vector can be written as a combination of the others. If the columns of <span class="math inline">\(\bA\)</span> are linearly dependent, then <span class="math inline">\(\bA\bx = \bzero\)</span> has a nontrivial solution, so <span class="math inline">\(\bA\)</span> is not invertible (the result above(3)).</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>Determine whether <span class="math inline">\(\{(1,2,3)^T,\,(4,5,6)^T,\,(7,8,9)^T\}\)</span> is linearly dependent or independent. (<em>Hint: stack as columns, find the rank.</em>)</p></li>
-<li><p>If <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> with <span class="math inline">\(m &lt; n\)</span>, must the columns be linearly dependent? Justify.</p></li>
-</ol>
+<p>Vectors <span class="math inline">\(\{\bx_1, ..., \bx_k\}\)</span> are independent if <span class="math inline">\(\sum \alpha_i \bx_i = \bzero \Rightarrow \alpha_i = 0\)</span> for all <span class="math inline">\(i\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -970,30 +839,13 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A <strong>basis</strong> for a vector space <span class="math inline">\(\mathcal{V}\)</span> is a linearly independent spanning set. Every vector in <span class="math inline">\(\mathcal{V}\)</span> can be uniquely written as a linear combination of the basis vectors. The number of basis vectors is the <strong>dimension</strong> of <span class="math inline">\(\mathcal{V}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
-<ol type="1">
-<li><p>Show that <span class="math inline">\(\be_1 = (1,0,0)^T\)</span>, <span class="math inline">\(\be_2 = (0,1,0)^T\)</span>, <span class="math inline">\(\be_3 = (0,0,1)^T\)</span> form a basis for <span class="math inline">\(\fR^3\)</span>.</p></li>
-<li><p>Can a set of 4 vectors form a basis for <span class="math inline">\(\fR^3\)</span>? Why or why not?</p></li>
-</ol>
+<p>A linearly independent set that spans the space. The number of vectors in any basis is the <strong>dimension</strong>.</p>
 </div>
 </div>
 </section>
-<section id="rank" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="rank"><span class="header-section-number">9.2</span> Rank</h2>
-<p>Rank measures how many truly independent directions a matrix can produce. It determines whether a linear system has solutions and, if so, how many.</p>
+<section id="rank" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="rank"><span class="header-section-number">9.4</span> Rank</h2>
+<p>Measures the number of independent directions (dimension of the column space).</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1004,96 +856,39 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <strong>rank</strong> of <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> is the maximum number of linearly independent rows (equivalently, columns) of <span class="math inline">\(\bA\)</span>. It equals the dimension of the column space and satisfies <span class="math inline">\(\text{rank}(\bA) \leq \min(m,n)\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Rank measures the effective information content of <span class="math inline">\(\bA\)</span>: the number of independent directions it can produce. A matrix with low rank relative to its size has redundant rows or columns. In NumPy, <code>np.linalg.matrix\_rank(A)</code> computes rank via SVD. In many applications such as data compression and machine learning, low-rank structure is actively exploited to reduce dimensionality.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Full Rank
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A matrix <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> is <strong>full rank</strong> if <span class="math inline">\(\text{rank}(\bA) = \min(m, n)\)</span>. For a square matrix, full rank is equivalent to invertibility.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Consider <span class="math display">\[\bA = \begin{pmatrix} 1 &amp; 2 &amp; 3 \\ 2 &amp; 4 &amp; 6 \\ 1 &amp; 1 &amp; 1 \end{pmatrix}.\]</span> Row 2 is twice row 1. Row-reducing: <span class="math display">\[\xrightarrow{R_2 - 2R_1,\; R_3 - R_1}
-\begin{pmatrix}1&amp;2&amp;3\\0&amp;0&amp;0\\0&amp;-1&amp;-2\end{pmatrix}
-\xrightarrow{\text{swap } R_2, R_3}
-\begin{pmatrix}1&amp;2&amp;3\\0&amp;-1&amp;-2\\0&amp;0&amp;0\end{pmatrix}.\]</span> Two pivot rows, so <span class="math inline">\(\text{rank}(\bA) = 2\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
-<ol type="1">
-<li><p>Determine the rank by row reduction: <span class="math display">\[\bA = \begin{pmatrix} 1 &amp; 3 \\ 2 &amp; 6 \end{pmatrix}, \qquad
-\bB = \begin{pmatrix} 1 &amp; 0 &amp; 2 \\ 0 &amp; 1 &amp; -1 \\ 2 &amp; -1 &amp; 5 \end{pmatrix}.\]</span></p></li>
-<li><p>For a <span class="math inline">\(5 \times 3\)</span> matrix <span class="math inline">\(\bA\)</span> with <span class="math inline">\(\text{rank}(\bA) = 3\)</span>, what can you say about solutions to <span class="math inline">\(\bA\bx = \bb\)</span>?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Rank-Nullity Theorem
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For any <span class="math inline">\(\bA \in \fR^{m \times n}\)</span>, <span class="math display">\[\text{rank}(\bA) + \text{nullity}(\bA) = n,\]</span> where <span class="math inline">\(\text{nullity}(\bA) = \dim(\ker(\bA))\)</span> and <span class="math inline">\(\ker(\bA) = \{\bx \in \fR^n : \bA\bx = \bzero\}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For a square <span class="math inline">\(n \times n\)</span> system <span class="math inline">\(\bA\bx = \bb\)</span>:</p>
+<p><span class="math inline">\(\text{rank}(\bA) \leq \min(m, n)\)</span>.</p>
 <ul>
-<li><p><span class="math inline">\(\text{rank}(\bA) = n\)</span>: the null space is <span class="math inline">\(\{\bzero\}\)</span>, so <span class="math inline">\(\bA\bx = \bb\)</span> has a unique solution.</p></li>
-<li><p><span class="math inline">\(\text{rank}(\bA) = r &lt; n\)</span>: if a solution exists, there are infinitely many; the solution set is an affine subspace of dimension <span class="math inline">\(n - r\)</span>.</p></li>
+<li><p><strong>Full Rank:</strong> <span class="math inline">\(\text{rank}(\bA) = \min(m, n)\)</span>.</p></li>
+<li><p><strong>Singular:</strong> Square matrix with <span class="math inline">\(\text{rank}(\bA) &lt; n\)</span>.</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Numerical Rank.</strong> In code, never use row-reduction to find rank; it is numerically unstable. Use <code>np.linalg.matrix\_rank</code>, which uses the Singular Value Decomposition (SVD).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Theorem: Rank-Nullity
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For <span class="math inline">\(\bA \in \fR^{m \times n}\)</span>: <span class="math inline">\(\text{rank}(\bA) + \text{nullity}(\bA) = n\)</span>.</p>
+<ul>
+<li><strong>Nullity:</strong> Dimension of the null space <span class="math inline">\(\{\bx : \bA\bx = \bzero\}\)</span>.</li>
 </ul>
 </div>
 </div>
@@ -1107,217 +902,37 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above. Let <span class="math display">\[\bA = \begin{pmatrix} 1 &amp; 2 &amp; -1 \\ 2 &amp; 5 &amp; 0 \\ -1 &amp; 1 &amp; 6 \end{pmatrix}, \quad
-    \bb = \begin{pmatrix} 1 \\ 4 \\ 3 \end{pmatrix}.\]</span></p>
 <ol type="1">
-<li><p>Determine <span class="math inline">\(\text{rank}(\bA)\)</span> by row-reducing <span class="math inline">\([\bA \mid \bb]\)</span>.</p></li>
-<li><p>How many solutions does this system have? Justify using the result above.</p></li>
-<li><p>Find the solution(s).</p></li>
-<li><p>In NumPy, solve using <code>np.linalg.solve(A, b)</code> and check the residual <code>np.linalg.norm(b - A @ x)</code>. What residual do you expect for a consistent system?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Linear Independence and the Null Space)</strong> Refer to the result above and the result above. Let <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> with <span class="math inline">\(m &lt; n\)</span>.</p>
-<ol type="1">
-<li><p>Argue that the columns of <span class="math inline">\(\bA\)</span> must be linearly dependent. ()</p></li>
-<li><p>What does this imply about solutions to <span class="math inline">\(\bA\bx = \bb\)</span>?</p></li>
-<li><p>Give a <span class="math inline">\(2 \times 3\)</span> example where <span class="math inline">\(\bA\bx = \bb\)</span> has infinitely many solutions. Find the general solution as a particular solution plus the null space.</p></li>
-<li><p>Can a wide system ever have no solution? Explain.</p></li>
+<li><p>Find the general solution to a <span class="math inline">\(2 \times 3\)</span> system as <span class="math inline">\(\bx = \bx_p + \bx_n\)</span> (particular + null space).</p></li>
+<li><p>Why must a ``wide’’ matrix (<span class="math inline">\(m &lt; n\)</span>) have a non-trivial null space?</p></li>
 </ol>
 </div>
 </div>
 </section>
-<section id="subspaces-and-the-four-fundamental-subspaces" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="subspaces-and-the-four-fundamental-subspaces"><span class="header-section-number">9.3</span> Subspaces and the Four Fundamental Subspaces</h2>
-<p>Every matrix naturally defines four subspaces that completely characterize the solution structure of <span class="math inline">\(\bA\bx = \bb\)</span>. These subspaces reappear in least squares, SVD, and eigenvalue problems throughout the notes.</p>
+<section id="the-four-fundamental-subspaces" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="the-four-fundamental-subspaces"><span class="header-section-number">9.5</span> The Four Fundamental Subspaces</h2>
+<p>Solution structure is characterized by four spaces defined by <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> with rank <span class="math inline">\(r\)</span>:</p>
+<ol type="1">
+<li><p> <span class="math inline">\(\fR^m, \dim=r\)</span>. Span of columns.</p></li>
+<li><p> <span class="math inline">\(\fR^n, \dim=n-r\)</span>. Solutions to <span class="math inline">\(\bA\bx = \bzero\)</span>.</p></li>
+<li><p> <span class="math inline">\(\fR^n, \dim=r\)</span>. Span of rows.</p></li>
+<li><p> <span class="math inline">\(\fR^m, \dim=m-r\)</span>. Solutions to <span class="math inline">\(\bA^T\by = \bzero\)</span>.</p></li>
+</ol>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Subspace
+<span class="screen-reader-only">Note</span>Theorem: Orthogonal Complements
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A nonempty subset <span class="math inline">\(\mathcal{S} \subseteq \fR^n\)</span> is a <strong>subspace</strong> if it is closed under linear combinations:</p>
-<ol type="1">
-<li><p><span class="math inline">\(\bzero \in \mathcal{S}\)</span>,</p></li>
-<li><p><span class="math inline">\(\bu, \bv \in \mathcal{S} \Rightarrow \bu + \bv \in \mathcal{S}\)</span>,</p></li>
-<li><p><span class="math inline">\(\bu \in \mathcal{S},\; \alpha \in \fR \Rightarrow \alpha\bu \in \mathcal{S}\)</span>.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Every subspace must contain <span class="math inline">\(\bzero\)</span> (set <span class="math inline">\(\alpha = 0\)</span> in condition 3). Geometrically, subspaces are flat objects passing through the origin. Lines and planes through the origin in <span class="math inline">\(\fR^3\)</span> are subspaces; those not passing through the origin are affine subspaces.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above.</p>
-<ol type="1">
-<li><p>Determine whether each set is a subspace of <span class="math inline">\(\fR^2\)</span>: <span class="math display">\[\mathcal{S}_1 = \{(x,\, 2x)^T : x \in \fR\}, \qquad
-\mathcal{S}_2 = \{(x,\, y)^T : x + y = 1\}.\]</span></p></li>
-<li><p>Show that <span class="math inline">\(\ker(\bA) = \{\bx : \bA\bx = \bzero\}\)</span> is always a subspace of <span class="math inline">\(\fR^n\)</span>.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: The Four Fundamental Subspaces
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> of rank <span class="math inline">\(r\)</span>, four subspaces arise naturally:</p>
-<ol type="1">
-<li><p><strong>Column space</strong>: <span class="math inline">\(\mathcal{R}(\bA) \subseteq \fR^m\)</span>, <span class="math inline">\(\dim = r\)</span>.</p></li>
-<li><p><strong>Null space</strong>: <span class="math inline">\(\mathcal{N}(\bA) \subseteq \fR^n\)</span>, <span class="math inline">\(\dim = n - r\)</span>.</p></li>
-<li><p><strong>Row space</strong>: <span class="math inline">\(\mathcal{R}(\bA^T) \subseteq \fR^n\)</span>, <span class="math inline">\(\dim = r\)</span>.</p></li>
-<li><p><strong>Left null space</strong>: <span class="math inline">\(\mathcal{N}(\bA^T) \subseteq \fR^m\)</span>, <span class="math inline">\(\dim = m - r\)</span>.</p></li>
-</ol>
-<p>The dimensions follow from the result above applied to <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bA^T\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above. Let <span class="math inline">\(\bA = \begin{pmatrix}1&amp;2&amp;3\\2&amp;4&amp;6\end{pmatrix}\)</span>.</p>
-<ol type="1">
-<li><p>State the dimension of each of the four fundamental subspaces.</p></li>
-<li><p>Find explicit bases for <span class="math inline">\(\mathcal{R}(\bA)\)</span> and <span class="math inline">\(\mathcal{N}(\bA)\)</span>.</p></li>
-<li><p>Verify the dimensions sum correctly as required by the result above.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Fundamental Theorem of Linear Algebra
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The four fundamental subspaces of <span class="math inline">\(\bA \in \fR^{m \times n}\)</span> satisfy: <span class="math display">\[\mathcal{R}(\bA^T) \perp \mathcal{N}(\bA) \;\text{ in } \fR^n, \qquad
-  \mathcal{R}(\bA) \perp \mathcal{N}(\bA^T) \;\text{ in } \fR^m.\]</span> Moreover, these are orthogonal complements: <span class="math inline">\(\mathcal{R}(\bA^T) \oplus \mathcal{N}(\bA) = \fR^n\)</span> and <span class="math inline">\(\mathcal{R}(\bA) \oplus \mathcal{N}(\bA^T) = \fR^m\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-34-contents" aria-controls="callout-34" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-34" class="callout-34-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>If <span class="math inline">\(\bv \in \mathcal{R}(\bA^T)\)</span>, then <span class="math inline">\(\bv = \bA^T\by\)</span> for some <span class="math inline">\(\by\)</span>. For any <span class="math inline">\(\bx \in \mathcal{N}(\bA)\)</span>: <span class="math display">\[\bv^T\bx = (\bA^T\by)^T\bx = \by^T(\bA\bx) = \by^T\bzero = 0.\]</span> Complementarity follows from the result above: dimensions sum to <span class="math inline">\(n\)</span> and the intersection is <span class="math inline">\(\{\bzero\}\)</span>. The second relation follows by applying the first to <span class="math inline">\(\bA^T\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The orthogonal complement picture has immediate payoffs for <span class="math inline">\(\bA\bx = \bb\)</span>:</p>
 <ul>
-<li><p><strong>Solvability</strong>: <span class="math inline">\(\bA\bx = \bb\)</span> has a solution iff <span class="math inline">\(\bb \in \mathcal{R}(\bA)\)</span>, equivalently <span class="math inline">\(\bb \perp \mathcal{N}(\bA^T)\)</span>.</p></li>
-<li><p><strong>Solution structure</strong>: If <span class="math inline">\(\hat{\bx}\)</span> is any particular solution, the full set is <span class="math inline">\(\hat{\bx} + \mathcal{N}(\bA)\)</span>.</p></li>
-<li><p><strong>Uniqueness</strong>: Unique iff <span class="math inline">\(\mathcal{N}(\bA) = \{\bzero\}\)</span>, i.e., full column rank.</p></li>
+<li><p><span class="math inline">\(\mathcal{R}(\bA^T) \perp \mathcal{N}(\bA)\)</span> in <span class="math inline">\(\fR^n\)</span>.</p></li>
+<li><p><span class="math inline">\(\mathcal{R}(\bA) \perp \mathcal{N}(\bA^T)\)</span> in <span class="math inline">\(\fR^m\)</span>.</p></li>
 </ul>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bA = \begin{pmatrix}1&amp;2&amp;3\\2&amp;4&amp;6\end{pmatrix}\)</span>, <span class="math inline">\(\text{rank}(\bA) = 1\)</span>.</p>
-<ul>
-<li><p><span class="math inline">\(\mathcal{R}(\bA) = \text{span}\{(1,2)^T\}\)</span>; <span class="math inline">\(\mathcal{N}(\bA^T) = \text{span}\{(2,-1)^T\}\)</span>. Check: <span class="math inline">\((1,2)\cdot(2,-1) = 0\)</span>. <span class="math inline">\(✓\)</span></p></li>
-<li><p><span class="math inline">\(\mathcal{R}(\bA^T) = \text{span}\{(1,2,3)^T\}\)</span>; <span class="math inline">\(\mathcal{N}(\bA)\)</span> is a plane spanned by <span class="math inline">\((-2,1,0)^T\)</span> and <span class="math inline">\((-3,0,1)^T\)</span>.</p></li>
-</ul>
-<p><span class="math inline">\(\bA\bx = \bb\)</span> has a solution only when <span class="math inline">\(\bb = \alpha(1,2)^T\)</span>.</p>
-</div>
-</div>
-<p>These four subspaces reappear in every major topic of these notes. In least squares, the residual <span class="math inline">\(\bb - \bA\hat{\bx}\)</span> lies in <span class="math inline">\(\mathcal{N}(\bA^T)\)</span>. In SVD, the right singular vectors split into bases for <span class="math inline">\(\mathcal{R}(\bA^T)\)</span> and <span class="math inline">\(\mathcal{N}(\bA)\)</span>. In eigenvalue problems, the concept generalizes to invariant subspaces.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Linear Span
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <strong>span</strong> of <span class="math inline">\(\{\bx_1, ..., \bx_k\}\)</span> is the set of all their linear combinations: <span class="math display">\[\text{span}\{\bx_1, ..., \bx_k\} = \{\alpha_1\bx_1 + \cdots + \alpha_k\bx_k : \alpha_i \in \fR\}.\]</span> This is the smallest subspace of <span class="math inline">\(\fR^n\)</span> containing the given vectors.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Example
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For <span class="math inline">\(\bv_1 = (1,2)^T\)</span> and <span class="math inline">\(\bv_2 = (3,4)^T\)</span>: assume <span class="math inline">\(\alpha(1,2) + \beta(3,4) = (0,0)\)</span>. Then <span class="math inline">\(\alpha + 3\beta = 0\)</span> and <span class="math inline">\(2\alpha + 4\beta = 0\)</span>, forcing <span class="math inline">\(\beta = 0\)</span> then <span class="math inline">\(\alpha = 0\)</span>. So <span class="math inline">\(\{\bv_1, \bv_2\}\)</span> is independent and <span class="math inline">\(\text{span}\{\bv_1, \bv_2\} = \fR^2\)</span>.</p>
+<p><strong>Solvability:</strong> <span class="math inline">\(\bA\bx = \bb\)</span> has a solution iff <span class="math inline">\(\bb \in \mathcal{R}(\bA)\)</span>, i.e., <span class="math inline">\(\bb \perp \mathcal{N}(\bA^T)\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -1330,11 +945,9 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Refer to the result above and the result above.</p>
 <ol type="1">
-<li><p>What is <span class="math inline">\(\text{span}\{(1,0,0)^T,\,(0,1,0)^T\}\)</span> in <span class="math inline">\(\fR^3\)</span>? What is its dimension?</p></li>
-<li><p>For <span class="math inline">\(\bA = \begin{pmatrix}1&amp;2&amp;3\\2&amp;4&amp;6\end{pmatrix}\)</span>, verify that <span class="math inline">\(\mathcal{R}(\bA) = \text{span}\{\text{columns of }\bA\}\)</span> and find its dimension.</p></li>
-<li><p>In NumPy, confirm that adding the column <span class="math inline">\((6,12)^T\)</span> to <span class="math inline">\(\bA\)</span> does not increase <code>np.linalg.matrix\_rank(A)</code>.</p></li>
+<li><p>For <span class="math inline">\(\bA = \begin{pmatrix}1&amp;2&amp;3\\2&amp;4&amp;6\end{pmatrix}\)</span>, find dimensions and bases for all four spaces.</p></li>
+<li><p>Verify <span class="math inline">\(\bb = (1, 3)^T\)</span> is not in the column space. What is the projection of <span class="math inline">\(\bb\)</span> onto <span class="math inline">\(\mathcal{R}(\bA)\)</span>?</p></li>
 </ol>
 </div>
 </div>
@@ -1769,8 +1382,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/direct-methods/linear-systems.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/direct-methods/linear-systems.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

@@ -5,15 +5,15 @@ Before introducing these formally, we fix notation for the standard number syste
 provide the raw material for all numerical computation.
 
 
-**Standard Number Systems.**  Throughout these notes, $\mathbb{R}$ denotes
-the set of all real numbers, $\mathbb{Z}$ the set of all integers, and $\mathbb{C}$ the
+**Standard Number Systems.**  Throughout these notes, $\fR$ denotes
+the set of all real numbers, $\fZ$ the set of all integers, and $\fC$ the
 set of all complex numbers.  Our primary focus is real-valued computation; complex numbers
 arise naturally in eigenvalue analysis and signal processing.
 
 
 ::: {.callout-note icon=false}
 ## Definition: Scalar
-An element of a number system ($\mathbb{R}$, $\mathbb{Z}$, or $\mathbb{C}$) is called a
+An element of a number system ($\fR$, $\fZ$, or $\fC$) is called a
 **scalar**.  Scalars represent individual numerical quantities and serve as the
 atomic building blocks from which vectors and matrices are constructed.
 :::
@@ -43,7 +43,7 @@ in encoding data and linear relationships.
 ::: {.callout-tip icon=false}
 Vectors may be written as row vectors or column vectors.  Although both forms carry the
 same information, the distinction matters when applying linear transformations and
-computing inner products.
+computing inner products. **In these notes, we assume vectors are column vectors by default.**
 :::
 
 
@@ -64,15 +64,16 @@ Refer to the result above.
     $i = 1, 2, 3, 4$.
     
 1. In NumPy, construct this vector with `np.array([...])` and confirm
-    `x.shape == (4,)`.  Why does NumPy report shape `(4,)` rather than
-    `(4,1)`?
+    `x.shape == (4,)`.  \textbf{Why does NumPy report shape `(4,)` rather than
+    `(4,1)`?} This is known as a *rank-1 array*; it is neither a row nor a column
+    vector, and its broadcasting behavior differs from 2D arrays.
     
 1. Can a vector in $\fR^3$ be added to a vector in $\fR^4$?  Justify in one sentence.
 
 :::
 
 
-Just as scalars belong to number systems like $\mathbb{R}$ or $\mathbb{C}$, vectors inhabit
+Just as scalars belong to number systems like $\fR$ or $\fC$, vectors inhabit
 **vector spaces**.  While these notes treat vector spaces informally, subsequent
 chapters provide more rigorous definitions and properties.
 
@@ -83,9 +84,9 @@ The set of all real vectors of size $n$.  When we write $\bx \in \fR^n$, it mean
 has $n$ real entries.  Vectors in $\fR^n$ take one of the following forms:
 $$
 \begin{align}
-\boldsymbol{x} \in \fR^{n \times 1} &= \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
+\bx \in \fR^{n \times 1} &= \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
 \quad \text{(column vector, default convention)}\$$1mm]
-\boldsymbol{x} \in \fR^{1 \times n} &= \begin{pmatrix} x_1 & x_2 & \cdots & x_n \end{pmatrix}
+\bx \in \fR^{1 \times n} &= \begin{pmatrix} x_1 & x_2 & \cdots & x_n \end{pmatrix}
 \quad \text{(row vector)}
 \end{align}
 $$
@@ -150,12 +151,13 @@ $$
 :::
 
 ::: {.callout-tip icon=false}
+**Structural Intuition: Matrix Columns.** 
 Matrices can be interpreted as vectors whose entries are themselves vectors:
 $$
 \bA = \printmatrow{r} = \printmatcol{c},
 $$
 where $r_i = \bA[i,:]$ is the $i$-th row and $c_i = \bA[:,i]$ is the $i$-th column.
-This viewpoint is useful when studying block matrices and matrix factorizations.
+This viewpoint is vital: the product $\bA\bx$ is simply a **linear combination of the columns of $\bA$** weighted by the entries of $\bx$.
 :::
 
 

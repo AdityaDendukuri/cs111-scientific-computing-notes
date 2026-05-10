@@ -3,347 +3,107 @@
 \begin{document}
 
 \subsection{Symmetric Positive Definite (SPD) Matrices}
-\label{sub:spd-matrices}
+\label{sub:spd}
 
-Symmetric positive definite (SPD) matrices arise throughout scientific computing --- in
-optimization (Hessians of convex functions), statistics (covariance matrices), and finite
-element methods (stiffness matrices). Their defining property --- that the quadratic form
-$\bx^T\bA\bx$ is strictly positive for any nonzero $\bx$ --- guarantees invertibility and
-enables more efficient algorithms than are possible for general matrices.
+Special class of matrices enabling highly efficient algorithms.
 
-\addDef{Positive Definite Matrix}{%
-A symmetric matrix $\bA \in \fR^{n \times n}$ is \emph{positive definite} (PD) if
+\subsubsection{Definitions and Properties}
+
+SPD matrices arise in optimization (Hessians), statistics (covariances), and physical simulation (stiffness matrices).
+
+\addDef{Positive Definite}{%
+A symmetric matrix $\bA \in \fR^{n \times n}$ is \textbf{positive definite} (PD) if:
 \[
-\bx^T\bA\bx > 0 \quad \text{for every nonzero } \bx \in \fR^n.
+    \bx^T\bA\bx > 0 \quad \text{for every nonzero } \bx \in \fR^n.
 \]
-A matrix that is both symmetric and positive definite is called \emph{symmetric positive
-definite} (SPD).
+If $\bA$ is both symmetric and PD, it is \textbf{SPD}.
 }
 \label{def:positive-definite}
 
 \addExcr{%
-Refer to Def~\ref{def:positive-definite}.
 \begin{enumerate}
-    \item Is $\bA = \begin{pmatrix}2 & 1 \\ 1 & 2\end{pmatrix}$ positive definite? Compute
-    $\bx^T\bA\bx$ for a general $\bx = (x_1, x_2)^T$ and determine when it is positive.
-    \item Is $\bB = \begin{pmatrix}1 & 2 \\ 2 & 1\end{pmatrix}$ positive definite? Find a
-    nonzero $\bx$ with $\bx^T\bB\bx \leq 0$.
-    \item A diagonal matrix $\bD = \mathrm{diag}(d_1, \ldots, d_n)$ is positive definite if
-    and only if all $d_i > 0$. Prove this directly from Def~\ref{def:positive-definite}.
+    \item Test $\bA = \begin{pmatrix}2 & 1 \\ 1 & 2\end{pmatrix}$ for PD property by expanding $\bx^T\bA\bx$.
+    \item Prove a diagonal matrix $\bD$ is PD iff all diagonal entries $d_i > 0$.
 \end{enumerate}
 }
 
-\addThm{SPD Matrices Induce a Metric}{%
-Let $\bA \in \fR^{n \times n}$ be an SPD matrix. The function
-\[
-    d_\bA(\bx, \by) = \sqrt{(\bx - \by)^T \bA (\bx - \by)}
-\]
-defines a metric on $\fR^n$, satisfying non-negativity, identity of indiscernibles,
-symmetry, and the triangle inequality.
-}
-\label{thm:spd-metric}
-
-\addPrf{%
-Non-negativity and identity of indiscernibles follow from the positive-definite property:
-$(\bx-\by)^T\bA(\bx-\by) \geq 0$ with equality iff $\bx - \by = \bzero$. Symmetry holds
-since $(\bx-\by)^T\bA(\bx-\by) = (\by-\bx)^T\bA(\by-\bx)$. The triangle inequality follows
-from the Cauchy-Schwarz inequality applied to the inner product
-$\langle \bu, \bv\rangle_\bA = \bu^T\bA\bv$.
-}
-
 \addNote{%
-When $\bA = \bI$, $d_\bA$ reduces to the standard Euclidean distance. The general
-$\bA$-metric stretches space according to the eigenvectors and eigenvalues of $\bA$:
-directions with large eigenvalues are ``expensive'' to move in.
+\textbf{Spectral Characterization.}\enspace
+A symmetric matrix is PD iff \textbf{all its eigenvalues are strictly positive}.
+Every SPD matrix is invertible ($\det \bA = \prod \lambda_i > 0$).
 }
 
 \addExcr{%
-Refer to Thm~\ref{thm:spd-metric}.
 \begin{enumerate}
-    \item For $\bA = \begin{pmatrix} 4 & 0 \\ 0 & 1 \end{pmatrix}$, compute
-    $d_\bA\!\left((1,0)^T,\,(0,0)^T\right)$ and $d_\bA\!\left((0,1)^T,\,(0,0)^T\right)$.
-    Compare to the Euclidean distances. In what direction is the $\bA$-metric ``larger''?
-    \item The set $\{\bx : d_\bA(\bx, \bzero) = 1\}$ is an ellipse. What are its axes and
-    their lengths in terms of the eigenvalues of $\bA$?
-    \item Where does this metric appear in machine learning?
-    (\textit{Hint: Mahalanobis distance.})
+    \item If $\bA$ is SPD, show $\bB = \bA + c\bI$ for $c > 0$ is also SPD.
+    \item Use \texttt{np.linalg.eigvalsh} to verify SPD property for several test matrices.
 \end{enumerate}
 }
 
-\addNote{%
-An SPD matrix $\bA$ induces an $\bA$-norm $\|\bx\|_{\bA} = \sqrt{\bx^T\bA\bx}$, strictly
-positive for all nonzero $\bx$. The set of vectors with constant $\bA$-norm forms an
-ellipsoid whose axes align with the eigenvectors of $\bA$ with half-lengths
-$1/\sqrt{\lambda_i}$. This geometry is central to iterative solvers such as the conjugate
-gradient method.
-}
+\subsubsection{Geometry and Metric}
+
+An SPD matrix $\bA$ defines a geometry on $\fR^n$.
 
 \addDef{$\bA$-Inner Product}{%
-For an SPD matrix $\bA \in \fR^{n \times n}$, the function
-\[
-    \langle \bx, \by \rangle_\bA = \bx^T\bA\by
-\]
-defines a valid inner product on $\fR^n$, inducing the norm
-$\|\bx\|_\bA = \sqrt{\bx^T\bA\bx}$. This is the natural inner product for problems where
-$\bA$ encodes the geometry (e.g., solving $\bA\bx = \bb$ via conjugate gradients).
+For SPD $\bA$, $\langle \bx, \by \rangle_\bA = \bx^T\bA\by$ is a valid inner product.
+\begin{itemize}
+    \item \textbf{$\bA$-Norm:} $\|\bx\|_\bA = \sqrt{\bx^T\bA\bx}$.
+    \item \textbf{Ellipsoid:} The set $\{\bx : \|\bx\|_\bA = 1\}$ is an ellipse with axes along $\bA$'s eigenvectors.
+\end{itemize}
 }
-\label{def:A-inner-product}
+\label{def:a-metric}
 
-\addExcr{%
-Refer to Def~\ref{def:A-inner-product}.
-\begin{enumerate}
-    \item Verify that $\langle \bx, \by \rangle_\bA = \bx^T\bA\by$ satisfies the three inner
-    product axioms: linearity in the first argument, symmetry, and positive definiteness.
-    \item For $\bA = \begin{pmatrix}2&1\\1&3\end{pmatrix}$, $\bx = (1,0)^T$,
-    $\by = (0,1)^T$, compute $\langle \bx,\by\rangle_\bA$, $\|\bx\|_\bA$, and $\|\by\|_\bA$.
-    \item Are $\bx$ and $\by$ orthogonal in the $\bA$-inner product? In the standard inner
-    product? Explain why these can differ.
-\end{enumerate}
-}
-
-\addThm{SPD Characterization via Eigenvalues}{%
-A symmetric matrix $\bA \in \fR^{n \times n}$ is positive definite if and only if all its
-eigenvalues are strictly positive. (By the Spectral Theorem, such a matrix is orthogonally
-diagonalizable with real eigenvalues.)
-}
-\label{thm:spd-eigenvalues}
-
-\addPrf{%
-By the Spectral Theorem, $\bA = \bQ\bD\bQ^T$ where $\bQ$ is orthogonal and
-$\bD = \text{diag}(\lambda_1, \ldots, \lambda_n)$. For any nonzero $\bx$, let
-$\by = \bQ^T\bx \neq \bzero$. Then:
-\[
-    \bx^T\bA\bx = \by^T\bD\by = \sum_{i=1}^n \lambda_i y_i^2.
-\]
-$(\Rightarrow)$: If all $\lambda_i > 0$ and $\by \neq \bzero$, then at least one $y_i \neq 0$,
-so the sum is $> 0$.
-
-$(\Leftarrow)$: If some $\lambda_k \leq 0$, choose $\bx = \bQ\mathbf{e}_k$, giving
-$\bx^T\bA\bx = \lambda_k \leq 0$.
-}
-
-\addCor{SPD Matrices are Invertible}{%
-Every SPD matrix is invertible, since all eigenvalues are positive and thus
-$\det(\bA) = \prod_i \lambda_i > 0$.
-}
-\label{cor:spd-invertible}
-
-\addExcr{%
-Refer to Thm~\ref{thm:spd-eigenvalues} and Cor~\ref{cor:spd-invertible}.
-\begin{enumerate}
-    \item Use Thm~\ref{thm:spd-eigenvalues} to determine which are SPD:
-    \[
-        \bA_1 = \begin{pmatrix}3&0\\0&1\end{pmatrix}, \quad
-        \bA_2 = \begin{pmatrix}1&0\\0&-1\end{pmatrix}, \quad
-        \bA_3 = \begin{pmatrix}2&1\\1&2\end{pmatrix}.
-    \]
-    \item If $\bA$ is SPD and $\bB = \bA + c\bI$ for $c > 0$, show $\bB$ is also SPD. How
-    do the eigenvalues of $\bB$ relate to those of $\bA$?
-    \item In NumPy, compute \texttt{np.linalg.eigvalsh(A)} for each matrix above and verify
-    which are SPD.
-\end{enumerate}
-}
-
-\textBox{%
-From a computational perspective, the condition $\bx^T\bA\bx > 0$ for all nonzero $\bx$
-guarantees invertibility and precludes zero or negative pivots. When solving $\bA\bx = \bb$
-where $\bA$ is SPD, the Cholesky decomposition applies, and the solution is guaranteed to
-exist and be unique.
+\addNote{%
+\textbf{Physical Meaning:}\enspace Directions with large eigenvalues are ``stiff'' or ``expensive'' (small axes in the unit ellipsoid); small eigenvalues represent ``sensitive'' directions.
 }
 
 \addExcr{%
-\textbf{(SPD Matrices in Practice)} SPD matrices appear across scientific computing.
-For each application below, verify the SPD property concretely.
 \begin{enumerate}
-    \item \textbf{(Covariance matrix.)} Generate a random data matrix
-    \texttt{X = np.random.randn(100, 4)} (100 observations, 4 features). Compute the
-    sample covariance \texttt{C = X.T @ X / 99}. Verify \texttt{C} is SPD using
-    \texttt{np.linalg.eigvalsh(C)} and \texttt{np.linalg.cholesky(C)}.
-    \item \textbf{(Hessian of a convex function.)} The function
-    $f(\bx) = \frac{1}{2}\bx^T\bA\bx - \bb^T\bx$ has Hessian $\nabla^2 f = \bA$.
-    For $\bA = \begin{pmatrix}4&1\\1&3\end{pmatrix}$ and $\bb = (1,2)^T$, verify $\bA$ is
-    SPD, then find the minimizer $\bx^* = \bA^{-1}\bb$ by solving the linear system
-    \texttt{np.linalg.solve(A, b)}.
-    \item \textbf{(Gram matrix.)} For any matrix $\bX \in \fR^{m \times n}$ with $m \geq n$
-    and full column rank, show analytically that $\mathbf{G} = \bX^T\bX$ is SPD. (\textit{Hint:
-    compute $\bv^T\mathbf{G}\bv$ and use the fact that $\bX\bv \neq \bzero$ when $\bv \neq \bzero$
-    and $\bX$ has full column rank.})
-    \item \textbf{(Efficiency of Cholesky vs.\ LU.)} For $n = 1000$, time
-    \texttt{np.linalg.cholesky(A)} vs.\ \texttt{scipy.linalg.lu(A)} on a random SPD matrix
-    (construct one via \texttt{A = X.T @ X + n*np.eye(n)} for
-    \texttt{X = np.random.randn(n, n)}). Is the observed speedup close to the theoretical
-    factor of 2?
+    \item For $\bA = \begin{pmatrix} 4 & 0 \\ 0 & 1 \end{pmatrix}$, compute the distance between $(1,0)^T$ and origin in both Euclidean and $\bA$-metrics.
+    \item Where does the $\bA$-metric appear in statistics? (Mahalanobis distance).
 \end{enumerate}
 }
 
 \subsubsection{Cholesky Decomposition}
-\label{sub:cholesky}
 
-The Cholesky decomposition is the SPD analogue of LU factorization: it expresses
-$\bA = \bL\bL^T$ where $\bL$ is lower triangular with positive diagonal. Because $\bA$ is
-symmetric and positive definite, no pivoting is required and the factorization costs only
-half as many flops as LU.
+The ``LU equivalent'' for SPD matrices. $\bA = \bL\bL^T$.
 
 \addDef{Cholesky Decomposition}{%
-For an SPD matrix $\bA \in \fR^{n \times n}$, the \emph{Cholesky decomposition} expresses
-$\bA$ as
-\[
-\bA = \bL\bL^T,
-\]
-where $\bL$ is a unique lower triangular matrix with strictly positive diagonal entries.
+Every SPD matrix $\bA$ admits a unique decomposition $\bA = \bL\bL^T$, where $\bL$ is lower triangular with strictly positive diagonal entries.
 }
 \label{def:cholesky}
 
-\textBox{%
-SPD matrices, which satisfy $\bx^T\bA\bx > 0$ for all nonzero $\bx$, are prevalent in
-optimization, statistics, and finite element methods. The Cholesky factorization is both
-computationally efficient and numerically stable since it avoids the need for pivoting.
-}
-
-\addExcr{%
-Refer to Def~\ref{def:cholesky}.
-\begin{enumerate}
-    \item Verify by direct multiplication that for
-    $\bL = \begin{pmatrix}2&0\\1&\sqrt{2}\end{pmatrix}$, we have
-    $\bL\bL^T = \begin{pmatrix}4&2\\2&3\end{pmatrix}$. Is the result SPD?
-    \item Why does Cholesky not need a permutation matrix $\bP$ (unlike LU)?
-    (\textit{Hint: use Thm~\ref{thm:spd-eigenvalues}.})
-    \item If $\bA = \bL\bL^T$, show that $\det(\bA) = \prod_{i=1}^n l_{ii}^2$. How does
-    this give a fast way to compute $\det(\bA)$ once $\bL$ is known?
-\end{enumerate}
-}
-
-\textBox{%
-\textbf{Cholesky Algorithm.}\ For each entry $l_{ij}$ of $\bL$ where $1 \leq i,j \leq n$:
-\[
-l_{ij} =
-\begin{cases}
-0, & i < j \\[4pt]
-\displaystyle\sqrt{a_{ii} - \sum_{k=1}^{i-1} l_{ik}^2}, & i = j \\[6pt]
-\displaystyle\frac{1}{l_{jj}} \!\left( a_{ij} - \sum_{k=1}^{j-1} l_{ik}l_{jk} \right),
-& i > j
-\end{cases}
-\]
-The algorithm proceeds row by row, using previously computed entries of $\bL$ to determine
-subsequent ones.
-}
-
-\textBox{%
-\textbf{Derivation of the Cholesky Algorithm.}\ Expanding $\bA = \bL\bL^T$ entry by entry:
-
-\textbf{Diagonal entry $(i,i)$:} From $a_{ii} = \sum_{k=1}^{i} l_{ik}^2$, solve for
-$l_{ii}$:
-\[
-l_{ii} = \sqrt{a_{ii} - \sum_{k=1}^{i-1} l_{ik}^2}.
-\]
-
-\textbf{Below-diagonal entry $(i,j)$ with $i > j$:} From $a_{ij} = \sum_{k=1}^{j} l_{ik}l_{jk}$
-(since $l_{jk} = 0$ for $k > j$), solve for $l_{ij}$:
-\[
-l_{ij} = \frac{1}{l_{jj}}\!\left(a_{ij} - \sum_{k=1}^{j-1} l_{ik}l_{jk}\right).
-\]
-
-\textbf{Above-diagonal entry $(i,j)$ with $i < j$:} $l_{ij} = 0$ by definition
-(lower triangular).
-}
-
-\addExmpl{%
-Compute the Cholesky decomposition of
-$\bA = \begin{pmatrix}4&2\\2&3\end{pmatrix}$.
-
-\textit{Step 1:} $l_{11} = \sqrt{4} = 2$;\enspace $l_{21} = 2/2 = 1$.
-
-\textit{Step 2:} $l_{22} = \sqrt{3 - 1^2} = \sqrt{2}$.
-\[
-\bL = \begin{pmatrix}2 & 0 \\ 1 & \sqrt{2}\end{pmatrix}, \qquad
-\bL\bL^T = \begin{pmatrix}2&0\\1&\sqrt{2}\end{pmatrix}
-           \begin{pmatrix}2&1\\0&\sqrt{2}\end{pmatrix}
-         = \begin{pmatrix}4&2\\2&3\end{pmatrix} = \bA.\;\checkmark
-\]
+\addNote{%
+\textbf{Flop Cost.}\enspace
+Cholesky costs \textbf{$\frac{1}{3}n^3$ flops} (half the price of LU).
 }
 
 \addNote{%
-The uniqueness of the Cholesky decomposition follows from the positivity of all leading
-principal minors of an SPD matrix: each $\det(\bA_k) > 0$, so the algorithm never encounters
-a zero or negative value under a square root, and each $l_{ii}$ is uniquely determined as a
-positive number.
-}
-
-\addThm{Cholesky Existence and Uniqueness}{%
-A matrix $\bA \in \fR^{n \times n}$ admits a Cholesky factorization $\bA = \bL\bL^T$ (with
-$\bL$ lower triangular and strictly positive diagonal) if and only if $\bA$ is SPD. The
-factorization is unique.
-}
-\label{thm:cholesky-existence}
-
-\addPrf{%
-$(\Rightarrow)$: If $\bA = \bL\bL^T$, then $\bA^T = \bL\bL^T = \bA$ (symmetric). For any
-nonzero $\bx$:
-\[
-    \bx^T\bA\bx = \bx^T\bL\bL^T\bx = \|\bL^T\bx\|_2^2 \geq 0.
-\]
-Equality holds iff $\bL^T\bx = \bzero$. Since $\bL$ has strictly positive diagonal, $\bL$ is
-invertible, so $\bx = \bzero$. Hence $\bA$ is SPD.
-
-$(\Leftarrow)$: If $\bA$ is SPD, all leading principal minors are positive (each submatrix is
-also SPD), so the algorithm never encounters zero or negative under a square root.
-
-Uniqueness: If $\bL_1\bL_1^T = \bL_2\bL_2^T$, set $\bM = \bL_1^{-1}\bL_2$. Then
-$\bM\bM^T = \bI$, so $\bM$ is lower triangular and orthogonal, hence $\bM = \bI$ and
-$\bL_1 = \bL_2$.
-}
-
-\addThm{Cholesky Factorization Cost}{%
-The Cholesky factorization of an SPD matrix $\bA \in \fR^{n \times n}$ costs
-$\frac{1}{3}n^3 + O(n^2)$ flops --- exactly half the cost of LU factorization --- and
-requires storing only $\frac{n(n+1)}{2}$ entries.
-}
-\label{thm:cholesky-cost}
-
-\addPrf{%
-At step $j$, we compute $l_{jj}$ (1 square root) and $n - j$ below-diagonal entries $l_{ij}$
-for $i > j$, each requiring $j$ multiplications and 1 division. The dominant cost is:
-\[
-    \sum_{j=1}^{n} (n-j) \cdot j \approx \int_0^n (n-t)\,t\,dt
-    = \frac{n^3}{6} + \frac{n^3}{6} = \frac{n^3}{3}.
-\]
+\textbf{Stability Advantage:}\enspace
+Unlike general LU, Cholesky is \textbf{guaranteed to be stable without pivoting}. In code, \texttt{np.linalg.cholesky} is the standard numerical test for positive definiteness; if it raises a \texttt{LinAlgError}, the matrix is not PD.
 }
 
 \addExcr{%
-Refer to Def~\ref{def:cholesky} and Thm~\ref{thm:cholesky-existence}.
 \begin{enumerate}
-    \item Which of the following matrices are SPD? For each, either prove it or find a
-    nonzero $\bx$ with $\bx^T\bA\bx \leq 0$.
-    \[
-        \bA_1 = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}, \quad
-        \bA_2 = \begin{pmatrix} 1 & 2 \\ 2 & 1 \end{pmatrix}, \quad
-        \bA_3 = \begin{pmatrix} 4 & 2 & 0 \\ 2 & 3 & 1 \\ 0 & 1 & 1 \end{pmatrix}.
-    \]
-    \item Compute the Cholesky factorization of $\bA_1$ and $\bA_3$ by hand.
-    Verify $\bL\bL^T = \bA$.
-    \item Use the Cholesky factorization of $\bA_1$ to solve $\bA_1\bx = (3, 4)^T$ via
-    forward then backward substitution.
-    \item In NumPy, \texttt{np.linalg.cholesky(A)} raises \texttt{LinAlgError} if $\bA$ is
-    not SPD. Write code to attempt Cholesky on each matrix above and handle the exception.
-    What does a \texttt{LinAlgError} tell you about the matrix?
+    \item Factor $\bA = \begin{pmatrix} 4 & 2 \\ 2 & 3 \end{pmatrix}$ by hand.
+    \item Why does Cholesky not require row swaps?
+    \item Solve $\bA\bx = \bb$ using Cholesky for $\bA = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$.
 \end{enumerate}
 }
 
 \addExcr{%
-\textbf{(Condition Number of SPD Matrices)} For an SPD matrix with eigenvalues
-$\lambda_1 \leq \lambda_2 \leq \cdots \leq \lambda_n$, the 2-norm condition number is
-$\kappa_2(\bA) = \lambda_n / \lambda_1$.
+\textbf{(Applications)}
 \begin{enumerate}
-    \item Prove this formula using Thm~\ref{thm:spd-eigenvalues}. (\textit{Hint:
-    $\|\bA\|_2 = \max_i |\lambda_i|$ for symmetric $\bA$; and $\bA^{-1}$ has eigenvalues
-    $1/\lambda_i$.})
-    \item For $\bA = \begin{pmatrix} 10 & 0 \\ 0 & 0.01 \end{pmatrix}$, what is
-    $\kappa_2(\bA)$? What does this imply for solving $\bA\bx = \bb$?
-    \item The Cholesky factor $\bL$ satisfies $\kappa_2(\bL) = \sqrt{\kappa_2(\bA)}$. Why
-    is this numerically significant? (\textit{Think: solving $\bL\by = \bc$ and
-    $\bL^T\bx = \by$ each introduces what error?})
-    \item In NumPy, compute \texttt{np.linalg.cond(A)} for an SPD matrix and verify it
-    matches $\lambda_{\max}/\lambda_{\min}$ from \texttt{np.linalg.eigvalsh(A)}.
+    \item \textbf{Covariance:} Generate \texttt{X = np.random.randn(100, 4)}. Verify \texttt{X.T @ X} is SPD via Cholesky.
+    \item \textbf{Gram Matrix:} Prove that $\mathbf{G} = \bX^T\bX$ is at least positive semi-definite for any $\bX$, and PD if $\bX$ has full column rank.
+\end{enumerate}
+}
+
+\addExcr{%
+\textbf{(SPD Condition Number)}\enspace $\kappa_2(\bA) = \lambda_{\max} / \lambda_{\min}$.
+\begin{enumerate}
+    \item If $\bA$ is SPD with eigenvalues $\{10, 0.01\}$, what is $\kappa_2(\bA)$?
+    \item Verify $\kappa_2(\bL) = \sqrt{\kappa_2(\bA)}$ where $\bL$ is the Cholesky factor.
 \end{enumerate}
 }
 

@@ -1,448 +1,148 @@
 \documentclass[../readings.tex]{subfiles}
+
 \begin{document}
 
 \subsection{Linearity}
+\label{sub:linearity}
 
-Linear algebra is built around the idea of linearity: a property that lets us decompose
-complex problems into independent parts and recombine their solutions.  Before studying
-specific algorithms, we establish the core vocabulary --- linear systems, rank, and
-subspaces --- that underpins everything in this course.
-
-\textBox{%
-A mapping $L$ is \textbf{linear} if it satisfies two properties for all inputs $\bx, \by$
-and scalars $\alpha, \beta$:
-\begin{itemize}
-    \item \textbf{Additivity}: $L(\bx + \by) = L(\bx) + L(\by)$
-    \item \textbf{Homogeneity}: $L(\alpha\bx) = \alpha L(\bx)$
-\end{itemize}
-Together these give the \textbf{superposition principle}:
-$L(\alpha\bx + \beta\by) = \alpha L(\bx) + \beta L(\by)$.
-}
+Core definitions and structural properties of linear systems.
 
 \subsubsection{Linear Systems}
 
-A linear system packages finitely many linear equations into a single matrix equation.
-The central question is when such a system has solutions and how many.
+A linear system encodes multiple equations into a single matrix-vector form.
 
 \addDef{Linear System}{%
-\index{linear systems}%
-A \textbf{system of linear equations} in matrix-vector form is
-\[
-\bA\bx = \bb,
-\]
-where $\bA \in \fR^{m \times n}$ is the coefficient matrix, $\bx \in \fR^n$ the unknown
-vector, and $\bb \in \fR^m$ the right-hand side:
-\[
-\bA = \begin{pmatrix}
-a_{11} & \cdots & a_{1n} \\ \vdots & \ddots & \vdots \\ a_{m1} & \cdots & a_{mn}
-\end{pmatrix}, \quad
-\bx = \begin{pmatrix} x_1 \\ \vdots \\ x_n \end{pmatrix}, \quad
-\bb = \begin{pmatrix} b_1 \\ \vdots \\ b_m \end{pmatrix}.
-\]
+The matrix-vector form of a linear system is \textbf{$\bA\bx = \bb$}, where:
+\begin{itemize}
+  \item $\bA \in \fR^{m \times n}$ is the coefficient matrix.
+  \item $\bx \in \fR^n$ is the vector of unknowns.
+  \item $\bb \in \fR^m$ is the right-hand side.
+\end{itemize}
 }
 \label{def:linear-system}
 
 \addExcr{%
-Refer to Def~\ref{def:linear-system}.
 \begin{enumerate}
-    \item Write the system $\{x + 2y = 3,\; 3x - y = 1\}$ in matrix-vector form $\bA\bx = \bb$.
-    \item In NumPy, solve it using \texttt{np.linalg.solve(A, b)} and verify by computing
-    the residual \texttt{np.linalg.norm(b - A @ x)}.
+    \item Convert $\{x + 2y = 3,\; 3x - y = 1\}$ to $\bA\bx = \bb$.
+    \item Solve in NumPy via \texttt{np.linalg.solve(A, b)}. Verify with \texttt{np.linalg.norm(b - A @ x)}.
 \end{enumerate}
 }
 
-\addThm{Matrix-Vector Multiplication is Linear}{%
-The map $T: \fR^n \to \fR^m$ defined by $T(\bx) = \bA\bx$ is a linear transformation:
-for all $\bx, \by \in \fR^n$ and $\alpha, \beta \in \fR$,
-\[
-    T(\alpha\bx + \beta\by) = \alpha T(\bx) + \beta T(\by).
-\]
-}
-\label{thm:matvec-linear}
-
-\addPrf{%
-By distributivity: $\bA(\bx + \by) = \bA\bx + \bA\by = T(\bx) + T(\by)$.
-By scalar compatibility: $\bA(\alpha\bx) = \alpha(\bA\bx) = \alpha T(\bx)$.
-Combining gives $T(\alpha\bx + \beta\by) = \alpha T(\bx) + \beta T(\by)$.
-}
-
-\addCor{Superposition Principle}{%
-If $\bA\bx_1 = \bb_1$ and $\bA\bx_2 = \bb_2$, then for any $\alpha, \beta \in \fR$,
+\addThm{Superposition Principle}{%
+If $\bA\bx_1 = \bb_1$ and $\bA\bx_2 = \bb_2$, then for any scalars $\alpha, \beta$:
 \[
     \bA(\alpha\bx_1 + \beta\bx_2) = \alpha\bb_1 + \beta\bb_2.
 \]
+\textbf{Implication:}\enspace Solutions to $\bA\bx = \bb$ can be decomposed and recombined linearly.
 }
-\label{cor:superposition}
+\label{thm:superposition}
 
 \addExcr{%
-In this exercise, we will prove Cor~\ref{cor:superposition}.
-Refer to Thm~\ref{thm:matvec-linear}.
 \begin{enumerate}
-    \item Suppose $\bx_1$ solves $\bA\bx = \bb_1$ and $\bx_2$ solves $\bA\bx = \bb_2$.
-    Apply $T$ to $\alpha\bx_1 + \beta\bx_2$ and use linearity to conclude
-    $\bA(\alpha\bx_1 + \beta\bx_2) = \alpha\bb_1 + \beta\bb_2$.
-    \item Use this result to solve $\bA\bx = 3\bb_1 - 2\bb_2$ without any new computation.
-    \item Why is Cor~\ref{cor:superposition} computationally valuable when solving
-    $\bA\bX = \bB$ for a matrix right-hand side $\bB$?
-    How does \texttt{np.linalg.solve(A, B)} exploit this?
+    \item Solve $\bA\bx = 3\bb_1 - 2\bb_2$ given only the solutions $\bx_1, \bx_2$ for $\bb_1, \bb_2$.
+    \item How does \texttt{np.linalg.solve(A, B)} for a matrix $\bB$ exploit this?
 \end{enumerate}
 }
 
-\addThm{Existence and Uniqueness}{%
-\index{linear systems!existence and uniqueness}%
-For a square system $\bA\bx = \bb$ with $\bA \in \fR^{n \times n}$, the system has a unique
-solution if and only if $\bA$ is invertible ($\det(\bA) \neq 0$).  If $\bA$ is singular,
-the system either has no solution or infinitely many.
-}
-\label{thm:existence-uniqueness}
+\subsubsection{Invertibility and Existence}
+
+For square systems ($\bA \in \fR^{n \times n}$), a unique solution exists iff $\bA$ is nonsingular.
 
 \addThm{Equivalences for Invertibility}{%
-Let $\bA \in \fR^{n \times n}$.  The following are equivalent:
+The following are equivalent for $\bA \in \fR^{n \times n}$:
 \begin{enumerate}
-    \item $\bA$ is invertible.
-    \item $\bA\bx = \bb$ has a unique solution for every $\bb \in \fR^n$.
-    \item $\bA\bx = \bzero$ has only the trivial solution $\bx = \bzero$.
-    \item $\text{rank}(\bA) = n$.
-    \item The columns of $\bA$ are linearly independent.
+    \item $\bA$ is \textbf{invertible} ($\det(\bA) \neq 0$).
+    \item $\bA\bx = \bb$ has a \textbf{unique solution} for every $\bb$.
+    \item $\bA\bx = \bzero$ has only the \textbf{trivial solution} ($\bx = \bzero$).
+    \item $\text{rank}(\bA) = n$ (Full Rank).
+    \item Columns of $\bA$ are \textbf{linearly independent}.
 \end{enumerate}
 }
-\label{thm:invertibility-equiv}
-
-\addPrf{%
-$(1)\Rightarrow(2)$: Set $\bx = \bA^{-1}\bb$.
-If $\bA\bx_1 = \bA\bx_2$, then $\bA(\bx_1 - \bx_2) = \bzero$, so $\bx_1 = \bx_2$.
-
-$(2)\Rightarrow(3)$: Apply (2) with $\bb = \bzero$; the unique solution is $\bx = \bzero$.
-
-$(3)\Rightarrow(4)$: The null space is $\{\bzero\}$, so nullity$(\bA) = 0$.
-By the Rank-Nullity Theorem, rank$(\bA) = n$.
-
-$(4)\Rightarrow(1)$: A square matrix with rank $n$ has $n$ linearly independent columns
-spanning $\fR^n$, which is exactly the invertibility condition.
-}
+\label{thm:invertibility-equivalences}
 
 \addExcr{%
-Refer to Thm~\ref{thm:invertibility-equiv}.
 \begin{enumerate}
-    \item For each matrix, determine invertibility and give a one-sentence justification:
-    \[
-    \bA = \begin{pmatrix} 2 & -1 \\ 4 & -2 \end{pmatrix}, \qquad
-    \bB = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 3 \end{pmatrix}.
-    \]
-    \item For $\bA = \begin{pmatrix}1&2\\3&6\end{pmatrix}$ and $\bb = \begin{pmatrix}1\\4\end{pmatrix}$:
-    is the system consistent, and if so, how many solutions?
-    Verify with \texttt{np.linalg.matrix\_rank}.
+    \item Determine invertibility: $\bA = \begin{pmatrix} 2 & -1 \\ 4 & -2 \end{pmatrix}$, $\bB = \begin{pmatrix} 1 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 3 \end{pmatrix}$.
+    \item Check consistency of $\bA = \begin{pmatrix}1&2\\3&6\end{pmatrix}, \bb = \begin{pmatrix}1\\4\end{pmatrix}$ via \texttt{np.linalg.matrix\_rank}.
 \end{enumerate}
 }
 
-\addDef{Linear Combination}{%
-A \textbf{linear combination} of vectors $\{\bx_1, \dots, \bx_k\}$ is any vector of the form
-\[
-\alpha_1\bx_1 + \alpha_2\bx_2 + \cdots + \alpha_k\bx_k, \quad \alpha_i \in \fR.
-\]
-}
-\label{def:linear-combination}
+\subsubsection{Linear Combinations and Bases}
 
 \addNote{%
-Matrix-vector multiplication $\bA\bx$ is a linear combination of the columns of $\bA$ with
-coefficients given by the entries of $\bx$:
+\textbf{The Column Perspective.}\enspace
+The product $\bA\bx$ is a \textbf{linear combination of the columns of $\bA$} weighted by the entries of $\bx$:
 \[
-\bA\bx = x_1\ba_1 + x_2\ba_2 + \cdots + x_n\ba_n,
+    \bA\bx = x_1 \ba_1 + x_2 \ba_2 + \dots + x_n \ba_n.
 \]
-where $\ba_i$ is the $i$-th column of $\bA$.  The system $\bA\bx = \bb$ asks: is $\bb$ a
-linear combination of the columns of $\bA$?
+The system $\bA\bx = \bb$ asks: ``Can $\bb$ be represented as a combination of $\bA$'s columns?''
 }
 
-\addExcr{%
-Refer to Def~\ref{def:linear-combination}.
-\begin{enumerate}
-    \item Express $\bb = (7, -1)^T$ as a linear combination of $\bv_1 = (1,1)^T$ and
-    $\bv_2 = (2,-1)^T$ by solving a $2 \times 2$ system for the coefficients.
-    \item For $\bA = \begin{pmatrix}1&2\\3&4\end{pmatrix}$, write $\bA\bx$ explicitly as a
-    linear combination of the columns of $\bA$.
-\end{enumerate}
+\addDef{Linear Independence}{%
+Vectors $\{\bx_1, \dots, \bx_k\}$ are independent if $\sum \alpha_i \bx_i = \bzero \Rightarrow \alpha_i = 0$ for all $i$.
 }
-
-\addDef{Linear Dependence and Independence}{%
-A set of vectors $\{\bx_1, \dots, \bx_k\}$ is \textbf{linearly dependent} if there exist
-scalars $\alpha_1, \dots, \alpha_k$, not all zero, such that
-\[
-\alpha_1\bx_1 + \cdots + \alpha_k\bx_k = \bzero.
-\]
-If the only solution is $\alpha_1 = \cdots = \alpha_k = 0$, the vectors are
-\textbf{linearly independent}.
-}
-\label{def:linear-dependence}
-
-\addNote{%
-Linear dependence means redundancy: some vector can be written as a combination of the others.
-If the columns of $\bA$ are linearly dependent, then $\bA\bx = \bzero$ has a nontrivial
-solution, so $\bA$ is not invertible (Thm~\ref{thm:invertibility-equiv}(3)).
-}
-
-\addExcr{%
-Refer to Def~\ref{def:linear-dependence}.
-\begin{enumerate}
-    \item Determine whether $\{(1,2,3)^T,\,(4,5,6)^T,\,(7,8,9)^T\}$ is linearly
-    dependent or independent.  (\textit{Hint: stack as columns, find the rank.})
-    \item If $\bA \in \fR^{m \times n}$ with $m < n$, must the columns be linearly
-    dependent?  Justify.
-\end{enumerate}
-}
+\label{def:linear-independence}
 
 \addDef{Basis}{%
-A \textbf{basis} for a vector space $\mathcal{V}$ is a linearly independent spanning set.
-Every vector in $\mathcal{V}$ can be uniquely written as a linear combination of the basis
-vectors.  The number of basis vectors is the \textbf{dimension} of $\mathcal{V}$.
+A linearly independent set that spans the space. The number of vectors in any basis is the \textbf{dimension}.
 }
 \label{def:basis}
 
-\addExcr{%
-Refer to Def~\ref{def:basis} and Def~\ref{def:linear-dependence}.
-\begin{enumerate}
-    \item Show that $\be_1 = (1,0,0)^T$, $\be_2 = (0,1,0)^T$, $\be_3 = (0,0,1)^T$ form a
-    basis for $\fR^3$.
-    \item Can a set of 4 vectors form a basis for $\fR^3$?  Why or why not?
-\end{enumerate}
-}
-
 \subsubsection{Rank}
 
-Rank measures how many truly independent directions a matrix can produce.  It determines
-whether a linear system has solutions and, if so, how many.
+Measures the number of independent directions (dimension of the column space).
 
 \addDef{Rank}{%
-The \textbf{rank} of $\bA \in \fR^{m \times n}$ is the maximum number of linearly
-independent rows (equivalently, columns) of $\bA$.  It equals the dimension of the column
-space and satisfies $\text{rank}(\bA) \leq \min(m,n)$.
+$\text{rank}(\bA) \leq \min(m, n)$.
+\begin{itemize}
+    \item \textbf{Full Rank:} $\text{rank}(\bA) = \min(m, n)$.
+    \item \textbf{Singular:} Square matrix with $\text{rank}(\bA) < n$.
+\end{itemize}
 }
 \label{def:rank}
 
 \addNote{%
-Rank measures the effective information content of $\bA$: the number of independent
-directions it can produce.  A matrix with low rank relative to its size has redundant rows
-or columns.  In NumPy, \texttt{np.linalg.matrix\_rank(A)} computes rank via SVD.  In many
-applications such as data compression and machine learning, low-rank structure is actively
-exploited to reduce dimensionality.
+\textbf{Numerical Rank.}\enspace In code, never use row-reduction to find rank; it is numerically unstable. Use \texttt{np.linalg.matrix\_rank}, which uses the Singular Value Decomposition (SVD).
 }
 
-\addDef{Full Rank}{%
-A matrix $\bA \in \fR^{m \times n}$ is \textbf{full rank} if
-$\text{rank}(\bA) = \min(m, n)$.  For a square matrix, full rank is equivalent to
-invertibility.
-}
-\label{def:full-rank}
-
-\addExmpl{%
-Consider
-\[
-\bA = \begin{pmatrix} 1 & 2 & 3 \\ 2 & 4 & 6 \\ 1 & 1 & 1 \end{pmatrix}.
-\]
-Row 2 is twice row 1.  Row-reducing:
-\[
-\xrightarrow{R_2 - 2R_1,\; R_3 - R_1}
-\begin{pmatrix}1&2&3\\0&0&0\\0&-1&-2\end{pmatrix}
-\xrightarrow{\text{swap } R_2, R_3}
-\begin{pmatrix}1&2&3\\0&-1&-2\\0&0&0\end{pmatrix}.
-\]
-Two pivot rows, so $\text{rank}(\bA) = 2$.
-}
-
-\addExcr{%
-Refer to Def~\ref{def:rank} and Def~\ref{def:full-rank}.
-\begin{enumerate}
-    \item Determine the rank by row reduction:
-    \[
-    \bA = \begin{pmatrix} 1 & 3 \\ 2 & 6 \end{pmatrix}, \qquad
-    \bB = \begin{pmatrix} 1 & 0 & 2 \\ 0 & 1 & -1 \\ 2 & -1 & 5 \end{pmatrix}.
-    \]
-    \item For a $5 \times 3$ matrix $\bA$ with $\text{rank}(\bA) = 3$, what can you say
-    about solutions to $\bA\bx = \bb$?
-\end{enumerate}
-}
-
-\addThm{Rank-Nullity Theorem}{%
-For any $\bA \in \fR^{m \times n}$,
-\[
-    \text{rank}(\bA) + \text{nullity}(\bA) = n,
-\]
-where $\text{nullity}(\bA) = \dim(\ker(\bA))$ and $\ker(\bA) = \{\bx \in \fR^n : \bA\bx = \bzero\}$.
+\addThm{Rank-Nullity}{%
+For $\bA \in \fR^{m \times n}$: $\text{rank}(\bA) + \text{nullity}(\bA) = n$.
+\begin{itemize}
+    \item \textbf{Nullity:} Dimension of the null space $\{\bx : \bA\bx = \bzero\}$.
+\end{itemize}
 }
 \label{thm:rank-nullity}
 
-\addNote{%
-For a square $n \times n$ system $\bA\bx = \bb$:
+\addExcr{%
+\begin{enumerate}
+    \item Find the general solution to a $2 \times 3$ system as $\bx = \bx_p + \bx_n$ (particular + null space).
+    \item Why must a ``wide'' matrix ($m < n$) have a non-trivial null space?
+\end{enumerate}
+}
+
+\subsubsection{The Four Fundamental Subspaces}
+
+Solution structure is characterized by four spaces defined by $\bA \in \fR^{m \times n}$ with rank $r$:
+\begin{enumerate}
+    \item \textbf{Column Space ($\mathcal{R}(\bA)$):} $\fR^m, \dim=r$. Span of columns.
+    \item \textbf{Null Space ($\mathcal{N}(\bA)$):} $\fR^n, \dim=n-r$. Solutions to $\bA\bx = \bzero$.
+    \item \textbf{Row Space ($\mathcal{R}(\bA^T)$):} $\fR^n, \dim=r$. Span of rows.
+    \item \textbf{Left Null Space ($\mathcal{N}(\bA^T)$):} $\fR^m, \dim=m-r$. Solutions to $\bA^T\by = \bzero$.
+\end{enumerate}
+
+\addThm{Orthogonal Complements}{%
 \begin{itemize}
-    \item $\text{rank}(\bA) = n$: the null space is $\{\bzero\}$, so $\bA\bx = \bb$ has a
-    unique solution.
-    \item $\text{rank}(\bA) = r < n$: if a solution exists, there are infinitely many; the
-    solution set is an affine subspace of dimension $n - r$.
+    \item $\mathcal{R}(\bA^T) \perp \mathcal{N}(\bA)$ in $\fR^n$.
+    \item $\mathcal{R}(\bA) \perp \mathcal{N}(\bA^T)$ in $\fR^m$.
 \end{itemize}
+\textbf{Solvability:}\enspace $\bA\bx = \bb$ has a solution iff $\bb \in \mathcal{R}(\bA)$, i.e., $\bb \perp \mathcal{N}(\bA^T)$.
 }
+\label{thm:orthogonal-complements}
 
 \addExcr{%
-Refer to Thm~\ref{thm:rank-nullity}.
-Let
-\[
-    \bA = \begin{pmatrix} 1 & 2 & -1 \\ 2 & 5 & 0 \\ -1 & 1 & 6 \end{pmatrix}, \quad
-    \bb = \begin{pmatrix} 1 \\ 4 \\ 3 \end{pmatrix}.
-\]
 \begin{enumerate}
-    \item Determine $\text{rank}(\bA)$ by row-reducing $[\bA \mid \bb]$.
-    \item How many solutions does this system have?
-    Justify using Thm~\ref{thm:rank-nullity}.
-    \item Find the solution(s).
-    \item In NumPy, solve using \texttt{np.linalg.solve(A, b)} and check the residual
-    \texttt{np.linalg.norm(b - A @ x)}.  What residual do you expect for a consistent system?
-\end{enumerate}
-}
-
-\addExcr{%
-\textbf{(Linear Independence and the Null Space)}
-Refer to Def~\ref{def:linear-dependence} and Thm~\ref{thm:rank-nullity}.
-Let $\bA \in \fR^{m \times n}$ with $m < n$.
-\begin{enumerate}
-    \item Argue that the columns of $\bA$ must be linearly dependent.
-    (\textit{Hint: $\text{rank}(\bA) \leq m < n$, so nullity $> 0$.})
-    \item What does this imply about solutions to $\bA\bx = \bb$?
-    \item Give a $2 \times 3$ example where $\bA\bx = \bb$ has infinitely many solutions.
-    Find the general solution as a particular solution plus the null space.
-    \item Can a wide system ever have no solution?  Explain.
-\end{enumerate}
-}
-
-\subsubsection{Subspaces and the Four Fundamental Subspaces}
-
-Every matrix naturally defines four subspaces that completely characterize the solution
-structure of $\bA\bx = \bb$.  These subspaces reappear in least squares, SVD, and eigenvalue
-problems throughout the notes.
-
-\addDef{Subspace}{%
-A nonempty subset $\mathcal{S} \subseteq \fR^n$ is a \textbf{subspace} if it is closed under
-linear combinations:
-\begin{enumerate}
-  \item $\bzero \in \mathcal{S}$,
-  \item $\bu, \bv \in \mathcal{S} \Rightarrow \bu + \bv \in \mathcal{S}$,
-  \item $\bu \in \mathcal{S},\; \alpha \in \fR \Rightarrow \alpha\bu \in \mathcal{S}$.
-\end{enumerate}
-}
-\label{def:subspace}
-
-\addNote{%
-Every subspace must contain $\bzero$ (set $\alpha = 0$ in condition 3).  Geometrically,
-subspaces are flat objects passing through the origin.  Lines and planes through the origin
-in $\fR^3$ are subspaces; those not passing through the origin are affine subspaces.
-}
-
-\addExcr{%
-Refer to Def~\ref{def:subspace}.
-\begin{enumerate}
-    \item Determine whether each set is a subspace of $\fR^2$:
-    \[
-    \mathcal{S}_1 = \{(x,\, 2x)^T : x \in \fR\}, \qquad
-    \mathcal{S}_2 = \{(x,\, y)^T : x + y = 1\}.
-    \]
-    \item Show that $\ker(\bA) = \{\bx : \bA\bx = \bzero\}$ is always a subspace of $\fR^n$.
-\end{enumerate}
-}
-
-\addDef{The Four Fundamental Subspaces}{%
-For $\bA \in \fR^{m \times n}$ of rank $r$, four subspaces arise naturally:
-\begin{enumerate}
-  \item \textbf{Column space}: $\mathcal{R}(\bA) \subseteq \fR^m$, \quad $\dim = r$.
-  \item \textbf{Null space}: $\mathcal{N}(\bA) \subseteq \fR^n$, \quad $\dim = n - r$.
-  \item \textbf{Row space}: $\mathcal{R}(\bA^T) \subseteq \fR^n$, \quad $\dim = r$.
-  \item \textbf{Left null space}: $\mathcal{N}(\bA^T) \subseteq \fR^m$, \quad $\dim = m - r$.
-\end{enumerate}
-The dimensions follow from Thm~\ref{thm:rank-nullity} applied to $\bA$ and $\bA^T$.
-}
-\label{def:four-subspaces}
-
-\addExcr{%
-Refer to Def~\ref{def:four-subspaces} and Thm~\ref{thm:rank-nullity}.
-Let $\bA = \begin{pmatrix}1&2&3\\2&4&6\end{pmatrix}$.
-\begin{enumerate}
-    \item State the dimension of each of the four fundamental subspaces.
-    \item Find explicit bases for $\mathcal{R}(\bA)$ and $\mathcal{N}(\bA)$.
-    \item Verify the dimensions sum correctly as required by Thm~\ref{thm:rank-nullity}.
-\end{enumerate}
-}
-
-\addThm{Fundamental Theorem of Linear Algebra}{%
-The four fundamental subspaces of $\bA \in \fR^{m \times n}$ satisfy:
-\[
-  \mathcal{R}(\bA^T) \perp \mathcal{N}(\bA) \;\text{ in } \fR^n, \qquad
-  \mathcal{R}(\bA) \perp \mathcal{N}(\bA^T) \;\text{ in } \fR^m.
-\]
-Moreover, these are orthogonal complements:
-$\mathcal{R}(\bA^T) \oplus \mathcal{N}(\bA) = \fR^n$ and
-$\mathcal{R}(\bA) \oplus \mathcal{N}(\bA^T) = \fR^m$.
-}
-\label{thm:fundamental}
-
-\addPrf{%
-If $\bv \in \mathcal{R}(\bA^T)$, then $\bv = \bA^T\by$ for some $\by$.
-For any $\bx \in \mathcal{N}(\bA)$:
-\[
-  \bv^T\bx = (\bA^T\by)^T\bx = \by^T(\bA\bx) = \by^T\bzero = 0.
-\]
-Complementarity follows from Thm~\ref{thm:rank-nullity}: dimensions sum to $n$ and the
-intersection is $\{\bzero\}$.  The second relation follows by applying the first to $\bA^T$.
-}
-
-\addNote{%
-The orthogonal complement picture has immediate payoffs for $\bA\bx = \bb$:
-\begin{itemize}
-  \item \textbf{Solvability}: $\bA\bx = \bb$ has a solution iff $\bb \in \mathcal{R}(\bA)$,
-  equivalently $\bb \perp \mathcal{N}(\bA^T)$.
-  \item \textbf{Solution structure}: If $\hat{\bx}$ is any particular solution, the full
-  set is $\hat{\bx} + \mathcal{N}(\bA)$.
-  \item \textbf{Uniqueness}: Unique iff $\mathcal{N}(\bA) = \{\bzero\}$, i.e., full column rank.
-\end{itemize}
-}
-
-\addExmpl{%
-Let $\bA = \begin{pmatrix}1&2&3\\2&4&6\end{pmatrix}$, $\text{rank}(\bA) = 1$.
-\begin{itemize}
-  \item $\mathcal{R}(\bA) = \text{span}\{(1,2)^T\}$; \quad $\mathcal{N}(\bA^T) = \text{span}\{(2,-1)^T\}$.
-  Check: $(1,2)\cdot(2,-1) = 0$. $\checkmark$
-  \item $\mathcal{R}(\bA^T) = \text{span}\{(1,2,3)^T\}$; \quad $\mathcal{N}(\bA)$ is a plane spanned
-  by $(-2,1,0)^T$ and $(-3,0,1)^T$.
-\end{itemize}
-$\bA\bx = \bb$ has a solution only when $\bb = \alpha(1,2)^T$.
-}
-
-\textBox{%
-These four subspaces reappear in every major topic of these notes.  In least squares,
-the residual $\bb - \bA\hat{\bx}$ lies in $\mathcal{N}(\bA^T)$.  In SVD, the right singular
-vectors split into bases for $\mathcal{R}(\bA^T)$ and $\mathcal{N}(\bA)$.
-In eigenvalue problems, the concept generalizes to invariant subspaces.
-}
-
-\addDef{Linear Span}{%
-The \textbf{span} of $\{\bx_1, \dots, \bx_k\}$ is the set of all their linear combinations:
-\[
-\text{span}\{\bx_1, \dots, \bx_k\} = \{\alpha_1\bx_1 + \cdots + \alpha_k\bx_k : \alpha_i \in \fR\}.
-\]
-This is the smallest subspace of $\fR^n$ containing the given vectors.
-}
-\label{def:span}
-
-\addExmpl{%
-For $\bv_1 = (1,2)^T$ and $\bv_2 = (3,4)^T$: assume $\alpha(1,2) + \beta(3,4) = (0,0)$.
-Then $\alpha + 3\beta = 0$ and $2\alpha + 4\beta = 0$, forcing $\beta = 0$ then $\alpha = 0$.
-So $\{\bv_1, \bv_2\}$ is independent and $\text{span}\{\bv_1, \bv_2\} = \fR^2$.
-}
-
-\addExcr{%
-Refer to Def~\ref{def:span} and Def~\ref{def:subspace}.
-\begin{enumerate}
-    \item What is $\text{span}\{(1,0,0)^T,\,(0,1,0)^T\}$ in $\fR^3$?
-    What is its dimension?
-    \item For $\bA = \begin{pmatrix}1&2&3\\2&4&6\end{pmatrix}$, verify that
-    $\mathcal{R}(\bA) = \text{span}\{\text{columns of }\bA\}$ and find its dimension.
-    \item In NumPy, confirm that adding the column $(6,12)^T$ to $\bA$ does not increase
-    \texttt{np.linalg.matrix\_rank(A)}.
+    \item For $\bA = \begin{pmatrix}1&2&3\\2&4&6\end{pmatrix}$, find dimensions and bases for all four spaces.
+    \item Verify $\bb = (1, 3)^T$ is not in the column space. What is the projection of $\bb$ onto $\mathcal{R}(\bA)$?
 \end{enumerate}
 }
 

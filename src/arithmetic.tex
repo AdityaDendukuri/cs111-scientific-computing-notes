@@ -54,13 +54,13 @@ Then,
 \bB + \bA = \begin{pmatrix} e+a & f+b \\ g+c & h+d \end{pmatrix}.
 \]
 Since addition of real numbers is commutative, $\bA + \bB = \bB + \bA$.  Furthermore,
-for any third matrix $\mathbf{C} = \begin{pmatrix} i & j \\ k & l \end{pmatrix}$,
+for any third matrix $\bC = \begin{pmatrix} i & j \\ k & l \end{pmatrix}$,
 \[
-(\bA+\bB)+\mathbf{C} = \begin{pmatrix} (a+e)+i & (b+f)+j \\ (c+g)+k & (d+h)+l \end{pmatrix},
+(\bA+\bB)+\bC = \begin{pmatrix} (a+e)+i & (b+f)+j \\ (c+g)+k & (d+h)+l \end{pmatrix},
 \]
 and
 \[
-\bA+(\bB+\mathbf{C}) = \begin{pmatrix} a+(e+i) & b+(f+j) \\ c+(g+k) & d+(h+l) \end{pmatrix}.
+\bA+(\bB+\bC) = \begin{pmatrix} a+(e+i) & b+(f+j) \\ c+(g+k) & d+(h+l) \end{pmatrix}.
 \]
 By associativity of real addition, these are identical.  Hence matrix addition is both
 commutative and associative.
@@ -78,7 +78,7 @@ For \textbf{commutativity}:
 \[
     (\bA + \bB)_{ij} = a_{ij} + b_{ij} = b_{ij} + a_{ij} = (\bB + \bA)_{ij}.
 \]
-The \textbf{additive identity} is $\mathbf{0}$ since $(\bA + \mathbf{0})_{ij} = a_{ij}$.
+The \textbf{additive identity} is $\bzero$ since $(\bA + \bzero)_{ij} = a_{ij}$.
 The \textbf{additive inverse} of $\bA$ is $-\bA$ (negate every entry), satisfying
 $(\bA + (-\bA))_{ij} = 0$.
 
@@ -154,7 +154,7 @@ Refer to Def~\ref{def:dot-product}.
 }
 
 \addDef{Matrix Product}{%
-Let $\bA \in \mathbb{R}^{m \times n}$ and $\bB \in \mathbb{R}^{n \times p}$.  Their product
+Let $\bA \in \fR^{m \times n}$ and $\bB \in \fR^{n \times p}$.  Their product
 $\bA\bB$ is an $m \times p$ matrix defined by
 \[
 (\bA\bB)_{ij} = \sum_{k=1}^{n} a_{ik} b_{kj},
@@ -210,15 +210,15 @@ Let
 \[
 \bA = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}, \quad
 \bB = \begin{pmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{pmatrix}, \quad
-\mathbf{C} = \begin{pmatrix} c_{11} & c_{12} \\ c_{21} & c_{22} \end{pmatrix}.
+\bC = \begin{pmatrix} c_{11} & c_{12} \\ c_{21} & c_{22} \end{pmatrix}.
 \]
 Then,
 \[
-\bA(\bB + \mathbf{C}) = \bA \begin{pmatrix} b_{11}+c_{11} & b_{12}+c_{12} \\ b_{21}+c_{21} & b_{22}+c_{22} \end{pmatrix},
+\bA(\bB + \bC) = \bA \begin{pmatrix} b_{11}+c_{11} & b_{12}+c_{12} \\ b_{21}+c_{21} & b_{22}+c_{22} \end{pmatrix},
 \]
-and by computing the entries using Def~\ref{def:matrix-product}, one can verify that
+and by computing the entries, one can verify that
 \[
-\bA(\bB + \mathbf{C}) = \bA\bB + \bA\mathbf{C}.
+\bA(\bB + \bC) = \bA\bB + \bA\bC.
 \]
 }
 
@@ -244,19 +244,19 @@ Let $\bA = \begin{pmatrix} 2 & 1 \\ 0 & 3 \end{pmatrix}$ and
 $\bB = \begin{pmatrix} 1 & -1 \\ 2 & 4 \end{pmatrix}$.
 \begin{enumerate}
     \item Compute $\bA\bB$ and $\bB\bA$ by hand.  Confirm $\bA\bB \neq \bB\bA$.
-    \item Find a nonzero matrix $\mathbf{C} \neq \bI$ that commutes with $\bA$
-    (i.e., $\bA\mathbf{C} = \mathbf{C}\bA$).  \textit{Hint: try $\mathbf{C} = \alpha\bA + \beta\bI$.}
+    \item Find a nonzero matrix $\bC \neq \bI$ that commutes with $\bA$
+    (i.e., $\bA\bC = \bC\bA$).  \textit{Hint: try $\bC = \alpha\bA + \beta\bI$.}
+
     \item Verify associativity: compute $(\bA\bB)\bc$ and $\bA(\bB\bc)$ for $\bc = (1,0)^T$
     and confirm they are equal.
-    \item Using Lem~\ref{lem:matmul-cost}, compare the flop count of $(\bA\bB)\bc$ versus
+    \item Compare the flop count of $(\bA\bB)\bc$ versus
     $\bA(\bB\bc)$ for general $\bA, \bB \in \fR^{n \times n}$ and $\bc \in \fR^n$.  Which
     order is cheaper and by what factor?
 \end{enumerate}
 }
 
 Many properties of scalar arithmetic extend naturally to vectors and matrices.  In fact,
-matrices can be viewed as elements of a higher-dimensional vector space (see
-Thm~\ref{thm:Rmn-vecspace}), and matrix multiplication can be interpreted as the
+matrices can be viewed as elements of a higher-dimensional vector space, and matrix multiplication can be interpreted as the
 composition of linear transformations.  While the notations for vectors and matrices are
 similar, their roles differ:
 \begin{itemize}
@@ -266,25 +266,21 @@ similar, their roles differ:
 This conceptual distinction becomes crucial when discussing eigenvalues and linear
 transformations.
 
-\addCor{Parenthesization Reduces Cost from $O(n^3)$ to $O(n^2)$}{%
+\addThm{Associativity as an Optimization}{%
 For $\bA, \bB \in \fR^{n \times n}$ and $\bx \in \fR^n$, computing $\bA(\bB\bx)$ via two
 matrix-vector products costs $O(n^2)$ flops, whereas forming $(\bA\bB)\bx$ via a
 matrix-matrix product costs $O(n^3)$ flops.
 }
-\label{cor:parenthesization}
+\label{thm:associativity-optimization}
 
 \addExcr{%
-In this exercise, we will prove Cor~\ref{cor:parenthesization}.
-Refer to Lem~\ref{lem:matmul-cost}.
-
 Suppose $\bA, \bB \in \fR^{n \times n}$ and $\bx \in \fR^n$.
 \begin{enumerate}
     \item \textit{Approach 1:} Compute $\bM = \bA\bB$ first (cost?), then $\bM\bx$ (cost?).
     Write the total flop count.
     \item \textit{Approach 2:} Compute $\by = \bB\bx$ first (cost?), then $\bA\by$ (cost?).
     Write the total flop count.
-    \item Conclude the asymptotic improvement factor as $n \to \infty$.  This proves
-    Cor~\ref{cor:parenthesization}.
+    \item Conclude the asymptotic improvement factor as $n \to \infty$. 
     \item Write NumPy code for both approaches using \texttt{@}.  Does NumPy automatically
     choose the optimal evaluation order for a chain like \texttt{A @ B @ x}?
 \end{enumerate}
@@ -302,9 +298,9 @@ practice.
 For a square matrix $\bA \in \fR^{n \times n}$, the \textbf{inverse} of $\bA$, denoted
 $\bA^{-1}$, is the unique matrix satisfying
 \[
-\bA \bA^{-1} = \bA^{-1} \bA = \mathbf{I},
+\bA \bA^{-1} = \bA^{-1} \bA = \bI,
 \]
-where $\mathbf{I}$ is the $n \times n$ identity matrix.  A matrix that has an inverse is
+where $\bI$ is the $n \times n$ identity matrix.  A matrix that has an inverse is
 called \emph{invertible} or \emph{nonsingular}.
 }
 \label{def:matrix-inverse}
@@ -316,10 +312,10 @@ that $\bA$ has full rank.
 
 \textBox{%
 \textbf{Uniqueness of the Inverse}\\[2mm]
-Suppose $\bA$ is invertible and both $\bB$ and $\mathbf{C}$ satisfy the conditions of
+Suppose $\bA$ is invertible and both $\bB$ and $\bC$ satisfy the conditions of
 Def~\ref{def:matrix-inverse}.  Then,
 \[
-\bB = \bB\mathbf{I} = \bB(\bA\mathbf{C}) = (\bB\bA)\mathbf{C} = \mathbf{I}\mathbf{C} = \mathbf{C}.
+\bB = \bB\bI = \bB(\bA\bC) = (\bB\bA)\bC = \bI\bC = \bC.
 \]
 Thus the inverse of $\bA$ is unique.
 }
@@ -352,16 +348,13 @@ By uniqueness of the inverse, $(\bA\bB)^{-1} = \bB^{-1}\bA^{-1}$.
 \tfrac{\alpha}{\alpha}\bA\bA^{-1} = \bI$.
 
 \textbf{(4):} Transpose both sides of $\bA\bA^{-1} = \bI$ using the Reversal Law
-(see the transpose analogue): $(\bA^{-1})^T\bA^T = \bI$, so
+for transposes: $(\bA^{-1})^T\bA^T = \bI$, so
 $(\bA^T)^{-1} = (\bA^{-1})^T$.
 }
 
 \addNote{%
-Property (2) is critical in scientific computing.  To solve $(\bA\bB)\bx = \bc$, we should
-\emph{not} compute $(\bA\bB)^{-1}$ explicitly (large constant factor, numerical error
-amplification).  Instead, use the Reversal Law: first solve $\bA\by = \bc$ for $\by$ via
-LU factorization, then solve $\bB\bx = \by$.  The function \texttt{np.linalg.solve} does
-exactly this.
+\textbf{The Decomposition Principle.}\enspace
+In scientific computing, we almost never compute $\bA^{-1}$ explicitly. To solve $\bA\bx = \bb$, we decompose $\bA$ into simpler factors (like LU or QR) and solve a sequence of simpler systems. This is more numerically stable and computationally efficient. The Reversal Law $(\bA\bB)^{-1} = \bB^{-1}\bA^{-1}$ reflects this: to solve $(\bA\bB)\bx = \bb$, we first solve $\bA\by = \bb$ for $\by$, then $\bB\bx = \by$.
 }
 
 \addExcr{%
@@ -372,7 +365,7 @@ Refer to Def~\ref{def:matrix-inverse} and Thm~\ref{thm:inverse-props}.
     $\bA^{-1} = \frac{1}{\det\bA}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$.
     Verify $\bA\bA^{-1} = \bI$.
     \item Given $\bB = \begin{pmatrix} 1 & 0 \\ -1 & 1 \end{pmatrix}$, use the Reversal Law
-    (Thm~\ref{thm:inverse-props}(2)) to compute $(\bA\bB)^{-1}$ without inverting a new
+    to compute $(\bA\bB)^{-1}$ without inverting a new
     $2 \times 2$ system.
     \item Explain why \texttt{np.linalg.solve(A, b)} is preferred over
     \texttt{np.linalg.inv(A) @ b} for solving $\bA\bx = \bb$.  Address both numerical
@@ -392,8 +385,7 @@ Refer to Def~\ref{def:matrix-inverse} and Thm~\ref{thm:inverse-props}.
 \begin{enumerate}
     \item Suppose $\bA^2 = \bI$.  Multiply both sides of $\bA\bA = \bI$ on the right by
     $\bA^{-1}$ to deduce $\bA^{-1} = \bA$.
-    \item Conversely, suppose $\bA^{-1} = \bA$.  Show $\bA^2 = \bI$ directly from
-    Def~\ref{def:matrix-inverse}.
+    \item Conversely, suppose $\bA^{-1} = \bA$.  Show $\bA^2 = \bI$.
     \item Give a concrete $2 \times 2$ example of an involutory matrix other than $\pm\bI$.
     Verify it satisfies $\bA^2 = \bI$.
 \end{enumerate}

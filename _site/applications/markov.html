@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../applications/pca.html">Applications</a></li><li class="breadcrumb-item"><a href="../applications/markov.html"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Markov Chains and Stochastic Matrices</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -671,11 +662,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#stochastic-matrices-as-linear-operators" id="toc-stochastic-matrices-as-linear-operators" class="nav-link active" data-scroll-target="#stochastic-matrices-as-linear-operators"><span class="header-section-number">32.1</span> Stochastic Matrices as Linear Operators</a></li>
-  <li><a href="#stationary-distributions" id="toc-stationary-distributions" class="nav-link" data-scroll-target="#stationary-distributions"><span class="header-section-number">32.2</span> Stationary Distributions</a></li>
-  <li><a href="#spectral-gap-and-mixing-time" id="toc-spectral-gap-and-mixing-time" class="nav-link" data-scroll-target="#spectral-gap-and-mixing-time"><span class="header-section-number">32.3</span> Spectral Gap and Mixing Time</a></li>
-  <li><a href="#ergodic-theory-and-time-averages" id="toc-ergodic-theory-and-time-averages" class="nav-link" data-scroll-target="#ergodic-theory-and-time-averages"><span class="header-section-number">32.4</span> Ergodic Theory and Time Averages</a></li>
-  <li><a href="#computing-stationary-distributions" id="toc-computing-stationary-distributions" class="nav-link" data-scroll-target="#computing-stationary-distributions"><span class="header-section-number">32.5</span> Computing Stationary Distributions</a></li>
+  <li><a href="#definitions" id="toc-definitions" class="nav-link active" data-scroll-target="#definitions"><span class="header-section-number">32.1</span> Definitions</a></li>
+  <li><a href="#convergence-and-mixing" id="toc-convergence-and-mixing" class="nav-link" data-scroll-target="#convergence-and-mixing"><span class="header-section-number">32.2</span> Convergence and Mixing</a></li>
+  <li><a href="#properties-and-design" id="toc-properties-and-design" class="nav-link" data-scroll-target="#properties-and-design"><span class="header-section-number">32.3</span> Properties and Design</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">32.4</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/markov.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -702,10 +692,9 @@ window.Quarto = {
 </header>
 
 
-<p>A Markov chain models a random process that moves between states with probabilities depending only on the current state. The evolution of probability distributions is governed by repeated multiplication by a <em>stochastic matrix</em>, making Markov chain analysis a direct application of the linear algebra developed in earlier chapters. This section views stochastic matrices as linear operators (building on ), characterizes their stationary distributions via the Perron-Frobenius theorem, and develops three numerically stable methods for computing these distributions. The connection to power iteration (the result above) will be central throughout.</p>
-<section id="stochastic-matrices-as-linear-operators" class="level2" data-number="32.1">
-<h2 data-number="32.1" class="anchored" data-anchor-id="stochastic-matrices-as-linear-operators"><span class="header-section-number">32.1</span> Stochastic Matrices as Linear Operators</h2>
-<p>The random walk on a graph (see ) is described by a transition matrix <span class="math inline">\(\bP = \bD^{-1}\bA\)</span>. Here we abstract that concrete example: we study the class of <em>column-stochastic matrices</em> and identify which structural properties guarantee that repeated application of <span class="math inline">\(\bP\)</span> converges.</p>
+<p>Modeling random processes where future state depends only on the current state.</p>
+<section id="definitions" class="level2" data-number="32.1">
+<h2 data-number="32.1" class="anchored" data-anchor-id="definitions"><span class="header-section-number">32.1</span> Definitions</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -716,30 +705,12 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A matrix <span class="math inline">\(\bP \in \fR^{n \times n}\)</span> is <em>column-stochastic</em> if</p>
+<p>Matrix <span class="math inline">\(\bP \in \fR^{n \times n}\)</span> where:</p>
 <ol type="1">
-<li><p><span class="math inline">\(P_{ij} \geq 0\)</span> for all <span class="math inline">\(i, j\)</span> (all entries are nonnegative), and</p></li>
-<li><p><span class="math inline">\(\sum_{i=1}^n P_{ij} = 1\)</span> for every column <span class="math inline">\(j\)</span> (columns sum to 1).</p></li>
+<li><p><span class="math inline">\(P_{ij} \geq 0\)</span>.</p></li>
+<li><p><span class="math inline">\(\sum_i P_{ij} = 1\)</span> (Columns sum to 1).</p></li>
 </ol>
-<p>The entry <span class="math inline">\(P_{ij}\)</span> is the probability of transitioning <em>from</em> state <span class="math inline">\(j\)</span> <em>to</em> state <span class="math inline">\(i\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Stochastic matrix basics)</strong> Let <span class="math inline">\(\bP = \frac{1}{3}\begin{pmatrix}1 &amp; 2 &amp; 0 \\ 1 &amp; 0 &amp; 2 \\ 1 &amp; 1 &amp; 1\end{pmatrix}\)</span>.</p>
-<ol type="1">
-<li><p>Verify that <span class="math inline">\(\bP\)</span> is column-stochastic.</p></li>
-<li><p>Compute <span class="math inline">\(\mathbf{1}^T \bP\)</span> and <span class="math inline">\(\bP \mathbf{1}\)</span>. What vectors do you get, and what do they mean probabilistically?</p></li>
-<li><p>Show that <span class="math inline">\(\lambda = 1\)</span> is always an eigenvalue of a column-stochastic matrix by exhibiting a left eigenvector. (Hint: multiply <span class="math inline">\(\bP\)</span> on the left by <span class="math inline">\(\mathbf{1}^T\)</span>.)</p></li>
-</ol>
+<p><strong>Property:</strong> <span class="math inline">\(\lambda=1\)</span> is always an eigenvalue (dominant).</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -752,75 +723,13 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A <em>discrete-time homogeneous Markov chain</em> on <span class="math inline">\(n\)</span> states is a sequence of probability distributions <span class="math inline">\(\bx^{(0)}, \bx^{(1)}, \bx^{(2)}, ... \in \fR^n\)</span> evolving by <span class="math display">\[\bx^{(k+1)} = \bP\,\bx^{(k)}, \qquad k = 0, 1, 2, ...\]</span> where <span class="math inline">\(\bP\)</span> is column-stochastic and <span class="math inline">\(\bx^{(0)}\)</span> satisfies <span class="math inline">\(x^{(0)}_i \geq 0\)</span> and <span class="math inline">\(\sum_i x^{(0)}_i = 1\)</span>. The <span class="math inline">\(i\)</span>-th entry <span class="math inline">\(x^{(k)}_i\)</span> is the probability of being in state <span class="math inline">\(i\)</span> at time <span class="math inline">\(k\)</span>. After <span class="math inline">\(k\)</span> steps, <span class="math inline">\(\bx^{(k)} = \bP^k\,\bx^{(0)}\)</span>.</p>
+<p>Probability distributions <span class="math inline">\(\bx^{(k)}\)</span> evolving by <span class="math inline">\(\bx^{(k+1)} = \bP \bx^{(k)}\)</span>.</p>
+<ul>
+<li><p>After <span class="math inline">\(k\)</span> steps: <span class="math inline">\(\bx^{(k)} = \bP^k \bx^{(0)}\)</span>.</p></li>
+<li><p>Long-run behavior is governed by the eigendecomposition of <span class="math inline">\(\bP\)</span>.</p></li>
+</ul>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The Markov chain evolution <span class="math inline">\(\bx^{(k+1)} = \bP\bx^{(k)}\)</span> is exactly the power iteration of the result above applied to the stochastic matrix <span class="math inline">\(\bP\)</span>. This means the long-run behavior is entirely governed by the eigenstructure of <span class="math inline">\(\bP\)</span>: the dominant eigenvalue <span class="math inline">\(\lambda_1 = 1\)</span> selects the stationary distribution, while the subdominant eigenvalue <span class="math inline">\(\lambda_2\)</span> controls how fast the chain converges to it.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Two-state chain)</strong> Consider the transition matrix <span class="math display">\[\bP = \begin{pmatrix} 1-\alpha &amp; \beta \\ \alpha &amp; 1-\beta \end{pmatrix}, \qquad \alpha, \beta \in (0,1).\]</span></p>
-<ol type="1">
-<li><p>Verify that <span class="math inline">\(\bP\)</span> is column-stochastic for any <span class="math inline">\(\alpha, \beta \in (0,1)\)</span>.</p></li>
-<li><p>Compute <span class="math inline">\(\bP^2\)</span> symbolically and identify the pattern. What do the columns of <span class="math inline">\(\bP^k\)</span> approach as <span class="math inline">\(k \to \infty\)</span>?</p></li>
-<li><p>Using NumPy with <span class="math inline">\(\alpha = 0.3\)</span>, <span class="math inline">\(\beta = 0.2\)</span>: compute <code>numpy.linalg.matrix\_power(P, k)</code> for <span class="math inline">\(k = 1, 5, 20, 100\)</span>. Print the columns and observe their convergence.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Irreducibility and Primitivity
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A column-stochastic matrix <span class="math inline">\(\bP\)</span> is <em>irreducible</em> if for every pair of states <span class="math inline">\(i, j\)</span> there exists <span class="math inline">\(k \geq 1\)</span> such that <span class="math inline">\((\bP^k)_{ij} &gt; 0\)</span> (every state is reachable from every state). It is <em>primitive</em> (aperiodic) if in addition the greatest common divisor of all cycle lengths in the state transition graph is 1.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Reducibility)</strong> Consider the block transition matrix <span class="math display">\[\bP = \begin{pmatrix} 1/2 &amp; 1/3 &amp; 0 \\ 1/2 &amp; 2/3 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}.\]</span></p>
-<ol type="1">
-<li><p>Draw the state transition graph. Which states can reach which others?</p></li>
-<li><p>Starting from <span class="math inline">\(\bx^{(0)} = (0, 0, 1)^T\)</span>, compute <span class="math inline">\(\bx^{(k)}\)</span> for <span class="math inline">\(k = 1, 2, 5, 20\)</span>. What happens?</p></li>
-<li><p>Modify <span class="math inline">\(\bP\)</span> by adding a small teleportation term: <span class="math inline">\(\bP' = (1-\varepsilon)\bP + \frac{\varepsilon}{3}\mathbf{1}\mathbf{1}^T/3\)</span> for <span class="math inline">\(\varepsilon = 0.15\)</span>. Is <span class="math inline">\(\bP'\)</span> irreducible and primitive? (This is precisely the PageRank construction; see .)</p></li>
-</ol>
-</div>
-</div>
-</section>
-<section id="stationary-distributions" class="level2" data-number="32.2">
-<h2 data-number="32.2" class="anchored" data-anchor-id="stationary-distributions"><span class="header-section-number">32.2</span> Stationary Distributions</h2>
-<p>The central question for a Markov chain is: does the distribution <span class="math inline">\(\bx^{(k)}\)</span> converge as <span class="math inline">\(k \to \infty\)</span>, and if so, to what limit? The answer is provided by the Perron-Frobenius theorem, which guarantees that irreducible primitive stochastic matrices have a unique stationary distribution with all positive entries.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -831,141 +740,31 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A probability vector <span class="math inline">\(\boldsymbol{\pi} \in \fR^n\)</span> (with <span class="math inline">\(\pi_i \geq 0\)</span> and <span class="math inline">\(\sum_i \pi_i = 1\)</span>) is a <em>stationary distribution</em> of the stochastic matrix <span class="math inline">\(\bP\)</span> if <span class="math display">\[\bP\,\boldsymbol{\pi} = \boldsymbol{\pi}.\]</span> Equivalently, <span class="math inline">\(\boldsymbol{\pi}\)</span> is a right eigenvector of <span class="math inline">\(\bP\)</span> with eigenvalue 1. Starting from <span class="math inline">\(\boldsymbol{\pi}\)</span>, the chain does not move.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Stationary distribution by inspection)</strong> For the two-state chain <span class="math inline">\(\bP = \begin{pmatrix}1-\alpha &amp; \beta \\ \alpha &amp; 1-\beta\end{pmatrix}\)</span>:</p>
-<ol type="1">
-<li><p>Show by direct computation that <span class="math inline">\(\boldsymbol{\pi} = \frac{1}{\alpha+\beta}\begin{pmatrix}\beta \\ \alpha\end{pmatrix}\)</span> satisfies <span class="math inline">\(\bP\boldsymbol{\pi} = \boldsymbol{\pi}\)</span>.</p></li>
-<li><p>Verify that <span class="math inline">\(\pi_1 + \pi_2 = 1\)</span>.</p></li>
-<li><p>For <span class="math inline">\(\alpha = 0.3\)</span>, <span class="math inline">\(\beta = 0.2\)</span>: compute <span class="math inline">\(\boldsymbol{\pi}\)</span> and verify numerically with <code>numpy.linalg.eig(P)</code>, extracting the eigenvector for <span class="math inline">\(\lambda = 1\)</span> and normalizing it.</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Perron-Frobenius for Stochastic Matrices
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bP \in \fR^{n\times n}\)</span> be column-stochastic, irreducible, and primitive. Then:</p>
-<ol type="1">
-<li><p><span class="math inline">\(\lambda_1 = 1\)</span> is a simple eigenvalue (algebraic and geometric multiplicity 1).</p></li>
-<li><p>All other eigenvalues satisfy <span class="math inline">\(|\lambda_i| &lt; 1\)</span> for <span class="math inline">\(i \geq 2\)</span>.</p></li>
-<li><p>The eigenvector <span class="math inline">\(\boldsymbol{\pi}\)</span> for <span class="math inline">\(\lambda_1 = 1\)</span> has all strictly positive entries and is unique up to scaling.</p></li>
-<li><p>For any initial probability distribution <span class="math inline">\(\bx^{(0)}\)</span>, <span class="math display">\[\lim_{k \to \infty} \bP^k\,\bx^{(0)} = \boldsymbol{\pi}.\]</span></p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Step 1: <span class="math inline">\(\lambda = 1\)</span> is an eigenvalue.</strong> Since columns of <span class="math inline">\(\bP\)</span> sum to 1, <span class="math inline">\(\mathbf{1}^T\bP = \mathbf{1}^T\)</span>, so <span class="math inline">\(\mathbf{1}\)</span> is a left eigenvector for <span class="math inline">\(\lambda = 1\)</span>.</p>
-<p><strong>Step 2: <span class="math inline">\(|\lambda| \leq 1\)</span> for all eigenvalues.</strong> Let <span class="math inline">\(\bP\bv = \lambda\bv\)</span> and let <span class="math inline">\(i^*\)</span> achieve <span class="math inline">\(|v_{i^*}| = \|\bv\|_\infty\)</span>. Then <span class="math display">\[|\lambda|\,|v_{i^*}| = \left|\sum_j P_{i^*j}\,v_j\right| \leq \sum_j P_{i^*j}\,|v_j| \leq |v_{i^*}|\sum_j P_{i^*j} = |v_{i^*}|.\]</span></p>
-<p><strong>Step 3: Strict dominance under irreducibility.</strong> Irreducibility implies <span class="math inline">\(\bP^m &gt; 0\)</span> for some <span class="math inline">\(m\)</span>. By the general Perron-Frobenius theorem (the result above), <span class="math inline">\(\bP^m\)</span> has a unique Perron root, so the eigenspace for <span class="math inline">\(\lambda_1 = 1\)</span> is one-dimensional and <span class="math inline">\(|\lambda_i| &lt; 1\)</span> for <span class="math inline">\(i \geq 2\)</span> (primitivity prevents <span class="math inline">\(|\lambda_2| = 1\)</span> by ruling out periodic orbits).</p>
-<p><strong>Step 4: Convergence.</strong> Expand <span class="math inline">\(\bx^{(0)} = \boldsymbol{\pi} + \sum_{i=2}^n c_i\bv_i\)</span>. Then <span class="math inline">\(\bP^k\bx^{(0)} = \boldsymbol{\pi} + \sum_{i=2}^n c_i\lambda_i^k\bv_i \to \boldsymbol{\pi}\)</span> since <span class="math inline">\(|\lambda_i|^k \to 0\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>the result above is the theoretical foundation for PageRank (see ). The Google matrix <span class="math inline">\(\mathbf{G}\)</span> is made irreducible and primitive by adding the teleportation term <span class="math inline">\(\frac{1-d}{N}\mathbf{J}\)</span>, which introduces a small positive probability of jumping to any page. Without this, dangling nodes and disconnected components would prevent <span class="math inline">\(\lambda_1 = 1\)</span> from being simple, and power iteration might not converge to a unique vector.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Failure modes without irreducibility)</strong> Construct a <span class="math inline">\(4 \times 4\)</span> column-stochastic matrix <span class="math inline">\(\bP\)</span> that is <em>not</em> irreducible by having states <span class="math inline">\(\{1,2\}\)</span> and <span class="math inline">\(\{3,4\}\)</span> form two absorbing groups.</p>
-<ol type="1">
-<li><p>How many linearly independent stationary distributions does <span class="math inline">\(\bP\)</span> have?</p></li>
-<li><p>Starting from <span class="math inline">\(\bx^{(0)} = (1/4,1/4,1/4,1/4)^T\)</span>, run power iteration for 50 steps. What does <span class="math inline">\(\bx^{(k)}\)</span> converge to?</p></li>
-<li><p>Perturb <span class="math inline">\(\bP\)</span> with teleportation (<span class="math inline">\(\varepsilon = 0.05\)</span>) to restore irreducibility. How does the stationary distribution change?</p></li>
-</ol>
+<p>A probability vector <span class="math inline">\(\boldsymbol{\pi}\)</span> such that <strong><span class="math inline">\(\bP \boldsymbol{\pi} = \boldsymbol{\pi}\)</span></strong>.</p>
+<ul>
+<li><p>Right eigenvector of <span class="math inline">\(\bP\)</span> for <span class="math inline">\(\lambda=1\)</span>.</p></li>
+<li><p>Represents the equilibrium state of the chain.</p></li>
+</ul>
 </div>
 </div>
 </section>
-<section id="spectral-gap-and-mixing-time" class="level2" data-number="32.3">
-<h2 data-number="32.3" class="anchored" data-anchor-id="spectral-gap-and-mixing-time"><span class="header-section-number">32.3</span> Spectral Gap and Mixing Time</h2>
-<p>the result above guarantees convergence, but gives no information about how fast the chain reaches stationarity. The <em>spectral gap</em>, the distance between 1 and the next-largest eigenvalue in magnitude, is the key quantity controlling convergence speed. Chains with a large spectral gap mix quickly; chains with a small spectral gap may require exponentially many steps to mix.</p>
+<section id="convergence-and-mixing" class="level2" data-number="32.2">
+<h2 data-number="32.2" class="anchored" data-anchor-id="convergence-and-mixing"><span class="header-section-number">32.2</span> Convergence and Mixing</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Spectral Gap
+<span class="screen-reader-only">Note</span>Theorem: Perron-Frobenius for Chains
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For an irreducible primitive column-stochastic matrix <span class="math inline">\(\bP\)</span> with eigenvalues ordered as <span class="math inline">\(1 = |\lambda_1| &gt; |\lambda_2| \geq |\lambda_3| \geq \cdots \geq |\lambda_n|\)</span>, the <em>spectral gap</em> is <span class="math display">\[\delta = 1 - |\lambda_2|.\]</span> A large spectral gap (<span class="math inline">\(\delta\)</span> close to 1) indicates fast mixing; a small spectral gap (<span class="math inline">\(\delta\)</span> close to 0) indicates slow mixing.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For the random walk transition matrix <span class="math inline">\(\bP = \bD^{-1}\bA\)</span> on a graph, the eigenvalues of <span class="math inline">\(\bP\)</span> relate to those of the random-walk Laplacian <span class="math inline">\(\mathbf{L}_{\mathrm{rw}} = \bI - \bP\)</span> by <span class="math inline">\(\lambda_i(\bP) = 1 - \lambda_i(\mathbf{L}_{\mathrm{rw}})\)</span>. The spectral gap of <span class="math inline">\(\bP\)</span> therefore equals the Fiedler value (second-smallest eigenvalue) of <span class="math inline">\(\mathbf{L}_{\mathrm{rw}}\)</span>, as discussed in . Well-connected graphs have large Fiedler values and small mixing times.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Spectral gap and mixing speed)</strong> Compute the spectral gap using <code>numpy.linalg.eig</code> for the following stochastic matrices, then simulate 200 steps from <span class="math inline">\(\bx^{(0)} = \be_1\)</span> and plot <span class="math inline">\(\|\bx^{(k)} - \boldsymbol{\pi}\|_1\)</span> versus <span class="math inline">\(k\)</span>:</p>
+<p>If <span class="math inline">\(\bP\)</span> is <strong>irreducible</strong> (all states reachable) and <strong>primitive</strong> (no cycles), then:</p>
 <ol type="1">
-<li><p><span class="math inline">\(\bP_1 = \begin{pmatrix}0.85 &amp; 0.1 &amp; 0.05 \\ 0.1 &amp; 0.8 &amp; 0.1 \\ 0.05 &amp; 0.1 &amp; 0.85\end{pmatrix}\)</span> (nearly self-absorbing states).</p></li>
-<li><p><span class="math inline">\(\bP_2 = \frac{1}{3}\mathbf{1}\mathbf{1}^T\)</span> (fully mixed at every step).</p></li>
-<li><p>Which chain mixes faster? How does the empirical mixing time compare to the theoretical bound <span class="math inline">\(k \approx \log(n)/\delta\)</span>?</p></li>
+<li><p><span class="math inline">\(\lambda_1 = 1\)</span> is simple and unique.</p></li>
+<li><p><span class="math inline">\(|\lambda_i| &lt; 1\)</span> for all other eigenvalues.</p></li>
+<li><p><span class="math inline">\(\lim_{k\to\infty} \bP^k \bx^{(0)} = \boldsymbol{\pi}\)</span> for any initial state.</p></li>
 </ol>
 </div>
 </div>
@@ -975,148 +774,20 @@ Tip
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Geometric Mixing Bound
+<span class="screen-reader-only">Note</span>Definition: Spectral Gap and Mixing Time
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bP\)</span> be column-stochastic, irreducible, and primitive with spectral gap <span class="math inline">\(\delta = 1 - |\lambda_2|\)</span>. For any initial probability distribution <span class="math inline">\(\bx^{(0)}\)</span> and any <span class="math inline">\(k \geq 0\)</span>, <span class="math display">\[\|\bP^k\,\bx^{(0)} - \boldsymbol{\pi}\|_1 \leq C\,(1-\delta)^k,\]</span> where <span class="math inline">\(C\)</span> depends on the eigenvectors of <span class="math inline">\(\bP\)</span> and the initial condition. The number of steps to reduce the <span class="math inline">\(\ell^1\)</span> error below <span class="math inline">\(\varepsilon\)</span> is at most <span class="math inline">\(k_\varepsilon \approx \frac{\log(C/\varepsilon)}{\delta}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Step 1: Eigendecomposition.</strong> Write <span class="math inline">\(\bx^{(0)} = \boldsymbol{\pi} + \sum_{i=2}^n c_i\bv_i\)</span> where <span class="math inline">\(\{\bv_i\}\)</span> are eigenvectors of <span class="math inline">\(\bP\)</span>. Then <span class="math display">\[\bP^k\,\bx^{(0)} - \boldsymbol{\pi} = \sum_{i=2}^n c_i\,\lambda_i^k\,\bv_i.\]</span></p>
-<p><strong>Step 2: Norm bound.</strong> By the triangle inequality and <span class="math inline">\(|\lambda_i| \leq |\lambda_2| = 1 - \delta\)</span> for <span class="math inline">\(i \geq 2\)</span>: <span class="math display">\[\|\bP^k\bx^{(0)} - \boldsymbol{\pi}\|_1 \leq \sum_{i=2}^n |c_i|\,|\lambda_i|^k\,\|\bv_i\|_1 \leq (1-\delta)^k \underbrace{\sum_{i=2}^n |c_i|\,\|\bv_i\|_1}_{= C}.\]</span></p>
-<p><strong>Step 3: Mixing time.</strong> Solve <span class="math inline">\((1-\delta)^{k} \leq \varepsilon/C\)</span> for <span class="math inline">\(k\)</span>: taking logarithms gives <span class="math inline">\(k\log(1-\delta) \leq \log(\varepsilon/C)\)</span>. Using the bound <span class="math inline">\(\log(1-\delta) \leq -\delta\)</span> yields the stated estimate.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Mixing on graphs)</strong> For the following <span class="math inline">\(n = 20\)</span> vertex graphs, construct <span class="math inline">\(\bP = \bD^{-1}\bA\)</span>, compute the spectral gap <span class="math inline">\(\delta\)</span> via <code>numpy.linalg.eig</code>, and simulate the chain from <span class="math inline">\(\bx^{(0)} = \be_1\)</span> to estimate the empirical mixing time (steps until <span class="math inline">\(\|\bx^{(k)} - \boldsymbol{\pi}\|_1 &lt; 0.01\)</span>):</p>
-<ol type="1">
-<li><p>The path graph <span class="math inline">\(P_{20}\)</span> (chain of 20 vertices).</p></li>
-<li><p>The cycle graph <span class="math inline">\(C_{20}\)</span> (path with endpoints connected). Is this chain aperiodic?</p></li>
-<li><p>The complete graph <span class="math inline">\(K_{20}\)</span> (all pairs connected). What is <span class="math inline">\(\delta\)</span> exactly?</p></li>
-<li><p>Rank the three graphs by mixing speed. Explain the ranking using the graph structure.</p></li>
-</ol>
+<p>The gap <strong><span class="math inline">\(\delta = 1 - |\lambda_2|\)</span></strong> controls convergence speed.</p>
+<ul>
+<li><p><strong>Mixing Time:</strong> <span class="math inline">\(k_{\varepsilon} \approx \log(1/\varepsilon) / \delta\)</span>.</p></li>
+<li><p><strong>Insight:</strong> Large gap = fast mixing. Connected graphs have larger gaps.</p></li>
+</ul>
 </div>
 </div>
 </section>
-<section id="ergodic-theory-and-time-averages" class="level2" data-number="32.4">
-<h2 data-number="32.4" class="anchored" data-anchor-id="ergodic-theory-and-time-averages"><span class="header-section-number">32.4</span> Ergodic Theory and Time Averages</h2>
-<p>The mixing theory of the previous section describes how the <em>distribution</em> <span class="math inline">\(\bx^{(k)}\)</span> converges to <span class="math inline">\(\boldsymbol{\pi}\)</span>. But in practice, we never observe a distribution: we observe a single trajectory <span class="math inline">\(X_0, X_1, X_2, ...\)</span> of state visits. Ergodic theory asks whether time averages along a single trajectory converge to the spatial average under <span class="math inline">\(\boldsymbol{\pi}\)</span>, and if so, how fast. This is the bridge between the measure-theoretic picture (probability distributions) and the empirical picture (data from a simulation), and it is the theoretical foundation for Markov Chain Monte Carlo methods.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Ergodic Markov Chain
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A Markov chain with transition matrix <span class="math inline">\(\bP\)</span> is <em>ergodic</em> if it is both irreducible and aperiodic (primitive, in the sense of the result above). Ergodicity is the minimal condition that guarantees a unique stationary distribution and convergence of time averages.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Ergodicity check)</strong> Classify each of the following chains as ergodic or not, and justify your answer by examining the structure of <span class="math inline">\(\bP\)</span>:</p>
-<ol type="1">
-<li><p>The transition matrix <span class="math inline">\(\bP = \begin{pmatrix}0 &amp; 1 \\ 1 &amp; 0\end{pmatrix}\)</span> (two-state swap).</p></li>
-<li><p>The Google matrix <span class="math inline">\(\mathbf{G} = d\bS + \frac{1-d}{N}\mathbf{J}\)</span> from with <span class="math inline">\(d \in (0,1)\)</span>.</p></li>
-<li><p>The random walk on the <span class="math inline">\(n\)</span>-cycle <span class="math inline">\(C_n\)</span> (transitions to left/right neighbor with probability <span class="math inline">\(1/2\)</span> each). Does the answer depend on <span class="math inline">\(n\)</span>?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Ergodic Theorem for Markov Chains
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bP\)</span> be an ergodic (irreducible, aperiodic) column-stochastic matrix with stationary distribution <span class="math inline">\(\boldsymbol{\pi}\)</span>. For any observable <span class="math inline">\(\boldsymbol{f} = (f(1), ..., f(n))^T \in \fR^n\)</span> and any initial distribution <span class="math inline">\(\bx^{(0)}\)</span>, <span class="math display">\[\frac{1}{K}\sum_{k=0}^{K-1} \boldsymbol{f}^T\bx^{(k)} \;\xrightarrow{K \to \infty}\; \boldsymbol{f}^T\boldsymbol{\pi} = \sum_{i=1}^n \pi_i f(i),\]</span> i.e., the time average of <span class="math inline">\(f\)</span> along the chain converges to its expectation under the stationary distribution.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-23" class="callout-23-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Step 1: Average of iterates.</strong> Define the Cesàro mean <span class="math inline">\(\bar{\bP}_K = \frac{1}{K}\sum_{k=0}^{K-1}\bP^k\)</span>. Then <span class="math display">\[\frac{1}{K}\sum_{k=0}^{K-1}\boldsymbol{f}^T\bx^{(k)} = \boldsymbol{f}^T\!\left(\frac{1}{K}\sum_{k=0}^{K-1}\bP^k\bx^{(0)}\right) = \boldsymbol{f}^T\bar{\bP}_K\bx^{(0)}.\]</span></p>
-<p> Expand <span class="math inline">\(\bP^k = \boldsymbol{\pi}\mathbf{1}^T + \sum_{i=2}^n \lambda_i^k\bv_i\bw_i^T\)</span> where <span class="math inline">\(\{\bv_i, \bw_i\}\)</span> are right and left eigenvectors. Summing: <span class="math display">\[\bar{\bP}_K = \boldsymbol{\pi}\mathbf{1}^T + \sum_{i=2}^n \frac{1}{K}\cdot\frac{1 - \lambda_i^K}{1 - \lambda_i}\,\bv_i\bw_i^T.\]</span> Since <span class="math inline">\(|\lambda_i| \leq 1 - \delta &lt; 1\)</span> for <span class="math inline">\(i \geq 2\)</span>, each term satisfies <span class="math inline">\(\frac{1}{K}\left|\frac{1-\lambda_i^K}{1-\lambda_i}\right| \leq \frac{2}{K\delta} \to 0\)</span>. Therefore <span class="math inline">\(\bar{\bP}_K \to \boldsymbol{\pi}\mathbf{1}^T\)</span>.</p>
-<p><strong>Step 3: Conclusion.</strong> Since <span class="math inline">\(\mathbf{1}^T\bx^{(0)} = 1\)</span> (probability vector), <span class="math display">\[\boldsymbol{f}^T\bar{\bP}_K\bx^{(0)} \;\to\; \boldsymbol{f}^T(\boldsymbol{\pi}\mathbf{1}^T)\bx^{(0)} = \boldsymbol{f}^T\boldsymbol{\pi}. \qquad \square\]</span></p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The ergodic theorem is the theoretical basis for <em>Markov Chain Monte Carlo (MCMC)</em>: to compute the integral <span class="math inline">\(\mathbb{E}_\pi[f] = \sum_i \pi_i f(i)\)</span> for a complicated distribution <span class="math inline">\(\boldsymbol{\pi}\)</span>, design a Markov chain with stationary distribution <span class="math inline">\(\boldsymbol{\pi}\)</span>, simulate a long trajectory, and use the time average as an approximation. The error decays as <span class="math inline">\(O(1/\sqrt{K})\)</span> (by a central limit theorem for ergodic chains), at the same rate as independent Monte Carlo but without requiring independent samples from <span class="math inline">\(\boldsymbol{\pi}\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Ergodic theorem numerically)</strong> For the three-state chain <span class="math inline">\(\bP = \begin{pmatrix}0.7 &amp; 0.2 &amp; 0.1 \\ 0.2 &amp; 0.5 &amp; 0.3 \\ 0.1 &amp; 0.3 &amp; 0.6\end{pmatrix}\)</span>:</p>
-<ol type="1">
-<li><p>Compute the stationary distribution <span class="math inline">\(\boldsymbol{\pi}\)</span> (use any method from ).</p></li>
-<li><p>Define the observable <span class="math inline">\(f(i) = i\)</span> (state index). Compute the exact time-average limit <span class="math inline">\(\mathbb{E}_\pi[f] = \sum_i i\pi_i\)</span>.</p></li>
-<li><p>Simulate a trajectory of length <span class="math inline">\(K = 10{,}000\)</span> starting from state 1: at each step, draw the next state from column <span class="math inline">\(X_k\)</span> of <span class="math inline">\(\bP\)</span> using <code>numpy.random.choice</code>. Compute the running time average <span class="math inline">\(\frac{1}{k}\sum_{j=0}^{k-1} f(X_j)\)</span> for <span class="math inline">\(k = 1, ..., K\)</span> and plot it. How quickly does it converge to <span class="math inline">\(\mathbb{E}_\pi[f]\)</span>?</p></li>
-<li><p>Repeat with <span class="math inline">\(f(i) = i^2\)</span>. Compare the empirical time average to <span class="math inline">\(\sum_i i^2\pi_i\)</span>.</p></li>
-</ol>
-</div>
-</div>
+<section id="properties-and-design" class="level2" data-number="32.3">
+<h2 data-number="32.3" class="anchored" data-anchor-id="properties-and-design"><span class="header-section-number">32.3</span> Properties and Design</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1127,7 +798,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>An ergodic Markov chain with transition matrix <span class="math inline">\(\bP\)</span> and stationary distribution <span class="math inline">\(\boldsymbol{\pi}\)</span> satisfies <em>detailed balance</em> if <span class="math display">\[\pi_j P_{ij} = \pi_i P_{ji} \quad \text{for all } i, j.\]</span> Equivalently, the matrix <span class="math inline">\(\bP\,\bD_{\boldsymbol{\pi}}\)</span> is symmetric, where <span class="math inline">\(\bD_{\boldsymbol{\pi}} = \mathrm{diag}(\pi_1, ..., \pi_n)\)</span>. A chain satisfying detailed balance is called <em>reversible</em>: the process looks statistically identical run forwards or backwards in time.</p>
+<p>A chain is reversible if <span class="math inline">\(\pi_j P_{ij} = \pi_i P_{ji}\)</span> for all <span class="math inline">\(i, j\)</span>.</p>
+<ul>
+<li><p><strong>Implication:</strong> Reversible chains have <strong>real eigenvalues</strong>.</p></li>
+<li><p><strong>Symmetry:</strong> <span class="math inline">\(\bD_{\boldsymbol{\pi}}^{-1/2} \bP \bD_{\boldsymbol{\pi}}^{1/2}\)</span> is symmetric.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -1140,125 +815,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Detailed balance is a <em>sufficient</em> condition for <span class="math inline">\(\boldsymbol{\pi}\)</span> to be stationary (but not necessary). Proof: <span class="math inline">\((\bP\boldsymbol{\pi})_i = \sum_j P_{ij}\pi_j = \sum_j P_{ji}\pi_i = \pi_i\sum_j P_{ji} = \pi_i\)</span>, where the second step uses <span class="math inline">\(P_{ij}\pi_j = P_{ji}\pi_i\)</span> and the last step uses the column-stochastic property <span class="math inline">\(\sum_j P_{ji} = 1\)</span>. Detailed balance is far easier to verify than the full stationarity equation, making it the standard tool for designing MCMC chains.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Checking and building reversible chains)</strong> </p>
-<ol type="1">
-<li><p>For the two-state chain <span class="math inline">\(\bP = \begin{pmatrix}1-\alpha &amp; \beta \\ \alpha &amp; 1-\beta\end{pmatrix}\)</span> with stationary distribution <span class="math inline">\(\boldsymbol{\pi} = \frac{1}{\alpha+\beta}(\beta, \alpha)^T\)</span>, verify detailed balance <span class="math inline">\(\pi_j P_{ij} = \pi_i P_{ji}\)</span> for all four pairs <span class="math inline">\((i,j)\)</span>.</p></li>
-<li><p>For states <span class="math inline">\(\{1,2,3\}\)</span> with desired stationary distribution <span class="math inline">\(\boldsymbol{\pi} = (0.2, 0.5, 0.3)^T\)</span>, construct a <span class="math inline">\(3\times 3\)</span> column-stochastic matrix <span class="math inline">\(\bP\)</span> satisfying detailed balance. (There are many solutions; pick any valid one.) Verify that <span class="math inline">\(\bP\boldsymbol{\pi} = \boldsymbol{\pi}\)</span>.</p></li>
-<li><p>For the random walk on a path graph <span class="math inline">\(P_5\)</span>, is the transition matrix <span class="math inline">\(\bP = \bD^{-1}\bA\)</span> reversible? If so, what is <span class="math inline">\(\boldsymbol{\pi}\)</span>?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Reversible Chains Have Real Eigenvalues
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bP\)</span> be an ergodic column-stochastic matrix satisfying detailed balance with stationary distribution <span class="math inline">\(\boldsymbol{\pi}\)</span>. Then all eigenvalues of <span class="math inline">\(\bP\)</span> are real, and <span class="math inline">\(\bP\)</span> has a complete set of eigenvectors orthogonal with respect to the <span class="math inline">\(\boldsymbol{\pi}\)</span>-weighted inner product <span class="math inline">\(\langle \bu, \bv\rangle_\pi = \sum_i \pi_i^{-1} u_i v_i\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-30-contents" aria-controls="callout-30" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-30" class="callout-30-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><strong>Step 1: Symmetrization.</strong> Let <span class="math inline">\(\bD_{\boldsymbol{\pi}} = \mathrm{diag}(\pi_1, ..., \pi_n)\)</span> and define the conjugated matrix <span class="math display">\[\bS = \bD_{\boldsymbol{\pi}}^{-1/2}\,\bP\,\bD_{\boldsymbol{\pi}}^{1/2}.\]</span></p>
-<p><strong>Step 2: <span class="math inline">\(\bS\)</span> is symmetric.</strong> Compute the transpose using detailed balance <span class="math inline">\(\bP\bD_{\boldsymbol{\pi}} = \bD_{\boldsymbol{\pi}}\bP^T\)</span> (the matrix form of <span class="math inline">\(P_{ij}\pi_j = P_{ji}\pi_i\)</span>): <span class="math display">\[\bS^T = \bD_{\boldsymbol{\pi}}^{1/2}\bP^T\bD_{\boldsymbol{\pi}}^{-1/2} = \bD_{\boldsymbol{\pi}}^{1/2}(\bD_{\boldsymbol{\pi}}^{-1}\bP\bD_{\boldsymbol{\pi}})\bD_{\boldsymbol{\pi}}^{-1/2} = \bD_{\boldsymbol{\pi}}^{-1/2}\bP\bD_{\boldsymbol{\pi}}^{1/2} = \bS.\]</span></p>
-<p><strong>Step 3: Transfer eigenvalues.</strong> Since <span class="math inline">\(\bS\)</span> is real symmetric, it has real eigenvalues and orthonormal eigenvectors <span class="math inline">\(\{\bw_i\}\)</span> (Spectral Theorem). If <span class="math inline">\(\bS\bw_i = \lambda_i\bw_i\)</span>, then <span class="math inline">\(\bP(\bD_{\boldsymbol{\pi}}^{1/2}\bw_i) = \lambda_i(\bD_{\boldsymbol{\pi}}^{1/2}\bw_i)\)</span>, so <span class="math inline">\(\bv_i = \bD_{\boldsymbol{\pi}}^{1/2}\bw_i\)</span> are eigenvectors of <span class="math inline">\(\bP\)</span> with the same real eigenvalues. Orthogonality in the <span class="math inline">\(\boldsymbol{\pi}\)</span>-weighted inner product follows from <span class="math inline">\(\bw_i^T\bw_j = 0\)</span>.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The real-eigenvalue property is significant in three ways. First, it means we can use symmetric eigenvalue solvers (faster and more stable than the general case; see ) to find the spectrum of <span class="math inline">\(\bP\)</span>. Second, the spectral gap <span class="math inline">\(\delta = 1 - \lambda_2\)</span> now involves a real <span class="math inline">\(\lambda_2 \in (-1, 1)\)</span>, giving a sharper mixing bound. Third, in MCMC design, one constructs a reversible chain by the <em>Metropolis-Hastings algorithm</em>: given a proposal distribution <span class="math inline">\(Q_{ij}\)</span>, accept moves with probability <span class="math inline">\(\min(1, \pi_i Q_{ji}/(\pi_j Q_{ij}))\)</span>, which enforces detailed balance by construction.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Reversibility and spectral structure)</strong> </p>
-<ol type="1">
-<li><p>For the matrix <span class="math inline">\(\bP = \begin{pmatrix}1/2 &amp; 1/4 \\ 1/2 &amp; 3/4\end{pmatrix}\)</span> with <span class="math inline">\(\boldsymbol{\pi} = (1/3, 2/3)^T\)</span>: verify detailed balance, construct <span class="math inline">\(\bS = \bD_{\boldsymbol{\pi}}^{-1/2}\bP\bD_{\boldsymbol{\pi}}^{1/2}\)</span> numerically, and confirm it is symmetric. Compute the eigenvalues of <span class="math inline">\(\bS\)</span> and <span class="math inline">\(\bP\)</span> and verify they are the same real numbers.</p></li>
-<li><p>Construct a <span class="math inline">\(4\times 4\)</span> reversible chain on states <span class="math inline">\(\{1,2,3,4\}\)</span> with <span class="math inline">\(\boldsymbol{\pi} = (0.1, 0.4, 0.3, 0.2)^T\)</span>. Use <code>numpy.linalg.eig</code> and verify all eigenvalues are real.</p></li>
-<li><p>Now construct a non-reversible chain with the same <span class="math inline">\(\boldsymbol{\pi}\)</span> (add a circulation: some of the probability flux goes around a cycle without satisfying detailed balance). Compare the eigenvalues. Are they still real?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Metropolis-Hastings MCMC)</strong> In this exercise we implement a basic Metropolis-Hastings chain on a discrete state space <span class="math inline">\(\{1, ..., n\}\)</span> with <span class="math inline">\(n = 10\)</span>, targeting the stationary distribution <span class="math inline">\(\pi_i \propto e^{-i/3}\)</span> (a truncated geometric distribution).</p>
-<ol type="1">
-<li><p>Normalize <span class="math inline">\(\pi_i\)</span> and compute the exact distribution as a vector <span class="math inline">\(\boldsymbol{\pi} \in \fR^{10}\)</span>.</p></li>
-<li><p>Implement the Metropolis-Hastings algorithm with symmetric proposal <span class="math inline">\(Q_{ij} = Q_{ji} = 1/2\)</span> for <span class="math inline">\(|i-j|=1\)</span> (random walk proposal on a path). At each step, propose a new state <span class="math inline">\(j \sim Q(i,\cdot)\)</span> and accept with probability <span class="math inline">\(\min(1, \pi_j/\pi_i)\)</span>.</p></li>
-<li><p>Run the chain for <span class="math inline">\(K = 100{,}000\)</span> steps from state 1. Estimate <span class="math inline">\(\boldsymbol{\pi}\)</span> from the empirical visit frequencies and compare to the true <span class="math inline">\(\boldsymbol{\pi}\)</span> using a bar chart.</p></li>
-<li><p>Construct the transition matrix <span class="math inline">\(\bP\)</span> of the Metropolis-Hastings chain explicitly and verify that it satisfies detailed balance with <span class="math inline">\(\boldsymbol{\pi}\)</span>. Compute its eigenvalues and spectral gap.</p></li>
-</ol>
+<p><strong>Design Tool: Metropolis-Hastings.</strong> Construct a reversible chain for a desired <span class="math inline">\(\boldsymbol{\pi}\)</span> by accepting moves with probability <span class="math inline">\(a = \min(1, \frac{\pi_{\text{new}} Q(\text{old}|\text{new})}{\pi_{\text{old}} Q(\text{new}|\text{old})})\)</span>.</p>
 </div>
 </div>
 </section>
-<section id="computing-stationary-distributions" class="level2" data-number="32.5">
-<h2 data-number="32.5" class="anchored" data-anchor-id="computing-stationary-distributions"><span class="header-section-number">32.5</span> Computing Stationary Distributions</h2>
-<p>Given a stochastic matrix <span class="math inline">\(\bP\)</span>, three numerically distinct algorithms compute the stationary distribution <span class="math inline">\(\boldsymbol{\pi}\)</span>: solving a linear system, extracting the dominant eigenvector, and running power iteration. These approaches have different costs, accuracy characteristics, and scalability. The right choice depends on the problem size and structure, and understanding the tradeoffs requires the condition number theory from .</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Null-Space Formulation
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The stationary distribution satisfies <span class="math inline">\((\bP - \bI)\boldsymbol{\pi} = \bzero\)</span> with the normalization constraint <span class="math inline">\(\mathbf{1}^T\boldsymbol{\pi} = 1\)</span>. Since <span class="math inline">\(\bP - \bI\)</span> has rank <span class="math inline">\(n-1\)</span> (by irreducibility), we append the normalization row to get the overdetermined system <span class="math display">\[\begin{pmatrix} \bP - \bI \\ \mathbf{1}^T \end{pmatrix} \boldsymbol{\pi} = \begin{pmatrix} \bzero \\ 1 \end{pmatrix} \in \fR^{(n+1)},\]</span> solvable as a least squares problem via <code>numpy.linalg.lstsq</code>.</p>
-</div>
-</div>
+<section id="exercises" class="level2" data-number="32.4">
+<h2 data-number="32.4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">32.4</span> Exercises</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1269,74 +831,11 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>(Null-space method)</strong> For the <span class="math inline">\(3 \times 3\)</span> stochastic matrix <span class="math display">\[\bP = \begin{pmatrix} 0.7 &amp; 0.4 &amp; 0.2 \\ 0.2 &amp; 0.4 &amp; 0.5 \\ 0.1 &amp; 0.2 &amp; 0.3 \end{pmatrix},\]</span></p>
 <ol type="1">
-<li><p>Construct the augmented matrix <span class="math inline">\(\bA = \begin{pmatrix}(\bP-\bI)^T &amp; \mathbf{1}\end{pmatrix}^T\)</span> and the right-hand side <span class="math inline">\(\mathbf{b} = (0,...,0,1)^T\)</span>.</p></li>
-<li><p>Solve using <code>numpy.linalg.lstsq(A, b)</code>. Report <span class="math inline">\(\boldsymbol{\pi}\)</span> and verify <span class="math inline">\(\bP\boldsymbol{\pi} = \boldsymbol{\pi}\)</span>.</p></li>
-<li><p>Compute <span class="math inline">\(\kappa_2(\bA)\)</span>. Is the system well-conditioned?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Power Iteration Convergence for Markov Chains
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Let <span class="math inline">\(\bP\)</span> be column-stochastic, irreducible, and primitive with spectral gap <span class="math inline">\(\delta\)</span>. For any initial probability distribution <span class="math inline">\(\bx^{(0)}\)</span>, the iterates <span class="math inline">\(\bx^{(k+1)} = \bP\bx^{(k)}\)</span> satisfy <span class="math display">\[\|\bx^{(k)} - \boldsymbol{\pi}\|_1 \leq C\,(1-\delta)^k,\]</span> i.e., the Markov chain simulation is exactly power iteration (the result above) applied to <span class="math inline">\(\bP\)</span>, with convergence rate <span class="math inline">\(|\lambda_2| = 1 - \delta\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>For large sparse systems such as the web graph used in PageRank, factoring <span class="math inline">\(\bP - \bI\)</span> is prohibitive (the matrix is <span class="math inline">\(n \times n\)</span> with <span class="math inline">\(n \sim 10^9\)</span>). Power iteration is preferred because each step requires only a sparse matrix-vector product. The price is slower convergence: with the Google damping factor <span class="math inline">\(d = 0.85\)</span>, the spectral gap is <span class="math inline">\(\delta \geq 1 - d = 0.15\)</span>, so about <span class="math inline">\(k \approx \log(n)/0.15 \approx 130\)</span> iterations suffice for <span class="math inline">\(n = 10^9\)</span> (see ).</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(Three methods comparison)</strong> For the same <span class="math inline">\(3 \times 3\)</span> matrix from the null-space exercise:</p>
-<ol type="1">
-<li><p><strong>Eigenvector:</strong> Use <code>numpy.linalg.eig(P)</code>, identify <span class="math inline">\(\lambda = 1\)</span>, extract and normalize the eigenvector.</p></li>
-<li><p><strong>Power iteration:</strong> Iterate <span class="math inline">\(\bx^{(k+1)} = \bP\bx^{(k)}\)</span> from <span class="math inline">\(\bx^{(0)} = (1/3,1/3,1/3)^T\)</span>. Count iterations until <span class="math inline">\(\|\bx^{(k)} - \boldsymbol{\pi}\|_1 &lt; 10^{-10}\)</span>.</p></li>
-<li><p><strong>Null-space:</strong> Use the approach from the result above.</p></li>
-<li><p>Compare the three results and time each method using <code>time.perf\_counter</code>. Which is fastest? Which is most accurate (smallest residual <span class="math inline">\(\|\bP\boldsymbol{\pi} - \boldsymbol{\pi}\|\)</span>)?</p></li>
-</ol>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Exercise
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>(In this exercise, we will prove a property of doubly-stochastic matrices.)</strong> A matrix is <em>doubly-stochastic</em> if both its rows and columns sum to 1.</p>
-<ol type="1">
-<li><p>Show that the uniform distribution <span class="math inline">\(\boldsymbol{\pi} = \frac{1}{n}\mathbf{1}\)</span> is always stationary for any doubly-stochastic matrix <span class="math inline">\(\bP\)</span>.</p></li>
-<li><p>For an unweighted <span class="math inline">\(d\)</span>-regular graph (every vertex has degree <span class="math inline">\(d\)</span>), show that <span class="math inline">\(\bP = \bD^{-1}\bA = \frac{1}{d}\bA\)</span> is doubly-stochastic and that <span class="math inline">\(\boldsymbol{\pi} = \frac{1}{n}\mathbf{1}\)</span> without computing any eigenvalues. (Use only the column-sum and row-sum properties of <span class="math inline">\(\bA\)</span>.)</p></li>
-<li><p>Construct the transition matrix for the <span class="math inline">\(5\)</span>-cycle <span class="math inline">\(C_5\)</span> and verify the uniform stationary distribution numerically.</p></li>
+<li><p>Construct <span class="math inline">\(\bP\)</span> for a 2-state chain with transition probabilities <span class="math inline">\(\{0.1, 0.2\}\)</span>. Find <span class="math inline">\(\boldsymbol{\pi}\)</span>.</p></li>
+<li><p>Prove that <span class="math inline">\(|\lambda| \leq 1\)</span> for any stochastic matrix.</p></li>
+<li><p>Simulate 100 steps of PageRank on a 5-node graph. Check convergence rate vs.&nbsp;<span class="math inline">\(\lambda_2\)</span>.</p></li>
+<li><p>Find <span class="math inline">\(\boldsymbol{\pi}\)</span> for a random walk on <span class="math inline">\(K_4\)</span> (complete graph).</p></li>
 </ol>
 </div>
 </div>
@@ -1765,14 +1264,23 @@ Tip
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../applications/koopman.html" class="pagination-link" aria-label="Koopman Operator Theory, DMD, and SINDy">
-        <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../applications/koopman.html" class="pagination-link" aria-label="Koopman Theory, DMD, and SINDy">
+        <span class="nav-page-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/markov.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/applications/markov.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../fundamentals/math-notation.html">Fundamentals</a></li><li class="breadcrumb-item"><a href="../fundamentals/vectors-matrices.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Vectors and Matrices</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -693,7 +684,7 @@ window.Quarto = {
 
 
 <p>Scientific computing is built on two fundamental data structures: vectors and matrices. Before introducing these formally, we fix notation for the standard number systems that provide the raw material for all numerical computation.</p>
-<p><strong>Standard Number Systems.</strong> Throughout these notes, <span class="math inline">\(\mathbb{R}\)</span> denotes the set of all real numbers, <span class="math inline">\(\mathbb{Z}\)</span> the set of all integers, and <span class="math inline">\(\mathbb{C}\)</span> the set of all complex numbers. Our primary focus is real-valued computation; complex numbers arise naturally in eigenvalue analysis and signal processing.</p>
+<p><strong>Standard Number Systems.</strong> Throughout these notes, <span class="math inline">\(\fR\)</span> denotes the set of all real numbers, <span class="math inline">\(\fZ\)</span> the set of all integers, and <span class="math inline">\(\fC\)</span> the set of all complex numbers. Our primary focus is real-valued computation; complex numbers arise naturally in eigenvalue analysis and signal processing.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -704,7 +695,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>An element of a number system (<span class="math inline">\(\mathbb{R}\)</span>, <span class="math inline">\(\mathbb{Z}\)</span>, or <span class="math inline">\(\mathbb{C}\)</span>) is called a <strong>scalar</strong>. Scalars represent individual numerical quantities and serve as the atomic building blocks from which vectors and matrices are constructed.</p>
+<p>An element of a number system (<span class="math inline">\(\fR\)</span>, <span class="math inline">\(\fZ\)</span>, or <span class="math inline">\(\fC\)</span>) is called a <strong>scalar</strong>. Scalars represent individual numerical quantities and serve as the atomic building blocks from which vectors and matrices are constructed.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -747,7 +738,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Vectors may be written as row vectors or column vectors. Although both forms carry the same information, the distinction matters when applying linear transformations and computing inner products.</p>
+<p>Vectors may be written as row vectors or column vectors. Although both forms carry the same information, the distinction matters when applying linear transformations and computing inner products. <strong>In these notes, we assume vectors are column vectors by default.</strong></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -780,12 +771,12 @@ Tip
 <p>Refer to the result above.</p>
 <ol type="1">
 <li><p>Write a column vector <span class="math inline">\(\bx \in \fR^4\)</span> whose <span class="math inline">\(i\)</span>-th entry equals <span class="math inline">\(2^i\)</span> for <span class="math inline">\(i = 1, 2, 3, 4\)</span>.</p></li>
-<li><p>In NumPy, construct this vector with <code>np.array([...])</code> and confirm <code>x.shape == (4,)</code>. Why does NumPy report shape <code>(4,)</code> rather than <code>(4,1)</code>?</p></li>
+<li><p>In NumPy, construct this vector with <code>np.array([...])</code> and confirm <code>x.shape == (4,)</code>. This is known as a <em>rank-1 array</em>; it is neither a row nor a column vector, and its broadcasting behavior differs from 2D arrays.</p></li>
 <li><p>Can a vector in <span class="math inline">\(\fR^3\)</span> be added to a vector in <span class="math inline">\(\fR^4\)</span>? Justify in one sentence.</p></li>
 </ol>
 </div>
 </div>
-<p>Just as scalars belong to number systems like <span class="math inline">\(\mathbb{R}\)</span> or <span class="math inline">\(\mathbb{C}\)</span>, vectors inhabit <strong>vector spaces</strong>. While these notes treat vector spaces informally, subsequent chapters provide more rigorous definitions and properties.</p>
+<p>Just as scalars belong to number systems like <span class="math inline">\(\fR\)</span> or <span class="math inline">\(\fC\)</span>, vectors inhabit <strong>vector spaces</strong>. While these notes treat vector spaces informally, subsequent chapters provide more rigorous definitions and properties.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -798,7 +789,7 @@ Tip
 <div class="callout-body-container callout-body">
 The set of all real vectors of size <span class="math inline">\(n\)</span>. When we write <span class="math inline">\(\bx \in \fR^n\)</span>, it means <span class="math inline">\(\bx\)</span> has <span class="math inline">\(n\)</span> real entries. Vectors in <span class="math inline">\(\fR^n\)</span> take one of the following forms: <span class="math display">\[
 \begin{align}
-\boldsymbol{x} \in \fR^{n \times 1} &amp;= \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
+\bx \in \fR^{n \times 1} &amp;= \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}
 \quad \text{(column vector, default convention)}\\]</span>1mm] ^{1 n} &amp;=
 <span class="math display">\[\begin{pmatrix} x_1 &amp; x_2 &amp; \cdots &amp; x_n \end{pmatrix}
 \quad \text{(row vector)}\]</span>
@@ -889,9 +880,9 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Matrices can be interpreted as vectors whose entries are themselves vectors: <span class="math display">\[
+<p><strong>Structural Intuition: Matrix Columns.</strong> Matrices can be interpreted as vectors whose entries are themselves vectors: <span class="math display">\[
 \bA = \printmatrow{r} = \printmatcol{c},
-\]</span> where <span class="math inline">\(r_i = \bA[i,:]\)</span> is the <span class="math inline">\(i\)</span>-th row and <span class="math inline">\(c_i = \bA[:,i]\)</span> is the <span class="math inline">\(i\)</span>-th column. This viewpoint is useful when studying block matrices and matrix factorizations.</p>
+\]</span> where <span class="math inline">\(r_i = \bA[i,:]\)</span> is the <span class="math inline">\(i\)</span>-th row and <span class="math inline">\(c_i = \bA[:,i]\)</span> is the <span class="math inline">\(i\)</span>-th column. This viewpoint is vital: the product <span class="math inline">\(\bA\bx\)</span> is simply a <strong>linear combination of the columns of <span class="math inline">\(\bA\)</span></strong> weighted by the entries of <span class="math inline">\(\bx\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -1488,8 +1479,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/vectors-matrices.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/vectors-matrices.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

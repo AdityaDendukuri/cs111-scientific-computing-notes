@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../odes/ode-methods.html">ODEs</a></li><li class="breadcrumb-item"><a href="../odes/ode-methods.html"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Numerical Methods for ODEs</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -671,11 +662,10 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#eulers-method" id="toc-eulers-method" class="nav-link active" data-scroll-target="#eulers-method"><span class="header-section-number">27.1</span> Euler’s Method</a></li>
-  <li><a href="#classical-runge-kutta-rk4" id="toc-classical-runge-kutta-rk4" class="nav-link" data-scroll-target="#classical-runge-kutta-rk4"><span class="header-section-number">27.2</span> Classical Runge-Kutta (RK4)</a></li>
-  <li><a href="#adaptive-methods-rk45-dormand-prince" id="toc-adaptive-methods-rk45-dormand-prince" class="nav-link" data-scroll-target="#adaptive-methods-rk45-dormand-prince"><span class="header-section-number">27.3</span> Adaptive Methods: RK45 / Dormand-Prince</a></li>
-  <li><a href="#symplectic-integrators" id="toc-symplectic-integrators" class="nav-link" data-scroll-target="#symplectic-integrators"><span class="header-section-number">27.4</span> Symplectic Integrators</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">27.5</span> Exercises</a></li>
+  <li><a href="#basic-methods" id="toc-basic-methods" class="nav-link active" data-scroll-target="#basic-methods"><span class="header-section-number">27.1</span> Basic Methods</a></li>
+  <li><a href="#runge-kutta-methods" id="toc-runge-kutta-methods" class="nav-link" data-scroll-target="#runge-kutta-methods"><span class="header-section-number">27.2</span> Runge-Kutta Methods</a></li>
+  <li><a href="#symplectic-integrators" id="toc-symplectic-integrators" class="nav-link" data-scroll-target="#symplectic-integrators"><span class="header-section-number">27.3</span> Symplectic Integrators</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">27.4</span> Exercises</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/odes/ode-methods.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -702,20 +692,20 @@ window.Quarto = {
 </header>
 
 
-<p>Solve the <em>initial value problem</em> (IVP): find <span class="math inline">\(y : [t_0, T] \to \fR^d\)</span> satisfying <span class="math display">\[\frac{dy}{dt} = f(t, y), \qquad y(t_0) = y_0.\]</span> Numerical methods advance the solution step by step using a fixed or adaptive step size <span class="math inline">\(h\)</span>. The fundamental trade-offs are <em>accuracy</em> (local truncation error per step), <em>stability</em> (whether errors grow or decay), and <em>cost</em> (function evaluations per step).</p>
-<section id="eulers-method" class="level2" data-number="27.1">
-<h2 data-number="27.1" class="anchored" data-anchor-id="eulers-method"><span class="header-section-number">27.1</span> Euler’s Method</h2>
+<p>Numerical integration of the <em>initial value problem</em> (IVP): <span class="math display">\[\frac{dy}{dt} = f(t, y), \qquad y(t_0) = y_0.\]</span></p>
+<section id="basic-methods" class="level2" data-number="27.1">
+<h2 data-number="27.1" class="anchored" data-anchor-id="basic-methods"><span class="header-section-number">27.1</span> Basic Methods</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Forward Euler
+<span class="screen-reader-only">Note</span>Definition: Forward Euler (Explicit)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The simplest one-step method replaces <span class="math inline">\(dy/dt\)</span> by a forward difference: <span class="math display">\[y_{n+1} = y_n + h f(t_n, y_n).\]</span></p>
+<p>Advance via forward difference: <span class="math display">\[y_{n+1} = y_n + h f(t_n, y_n).\]</span> <strong>Error:</strong> Local <span class="math inline">\(O(h^2)\)</span>, Global <span class="math inline">\(O(h)\)</span>. <strong>Stability:</strong> Unstable for stiff problems. Absolute stability requires <span class="math inline">\(h \lambda \in\)</span> region of stability (circle in left half-plane).</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -724,49 +714,36 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Euler Method Error
+<span class="screen-reader-only">Note</span>Definition: Backward Euler (Implicit)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>local truncation error</em> (error per step) is <span class="math inline">\(O(h^2)\)</span>: for smooth <span class="math inline">\(y\)</span>, <span class="math display">\[y(t_{n+1}) - y_{n+1} = \frac{h^2}{2} y''(t_n) + O(h^3).\]</span> The <em>global error</em> over <span class="math inline">\([t_0, T]\)</span> is <span class="math inline">\(O(h)\)</span>: halving <span class="math inline">\(h\)</span> halves the total error.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Proof
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>Taylor-expand the exact solution: <span class="math inline">\(y(t_{n+1}) = y(t_n) + hy'(t_n) + \frac{h^2}{2}y''(t_n) + O(h^3)\)</span>. The Euler step uses <span class="math inline">\(y'(t_n) = f(t_n, y_n)\)</span>, so the local error is <span class="math inline">\(\frac{h^2}{2}y''(t_n) + O(h^3)\)</span>. Over <span class="math inline">\(N = (T - t_0)/h\)</span> steps, the global error is bounded by <span class="math inline">\(N \cdot O(h^2) = O(h)\)</span>.</p>
-</div>
+<p>Advance via backward difference: <span class="math display">\[y_{n+1} = y_n + h f(t_{n+1}, y_{n+1}).\]</span> <strong>Rule:</strong> Requires solving a nonlinear system at each step (via Newton). <strong>Stability:</strong> <strong>A-Stable</strong> (unconditionally stable for all <span class="math inline">\(h\)</span> if <span class="math inline">\(\text{Re}(\lambda) &lt; 0\)</span>). The choice for stiff systems.</p>
 </div>
 </div>
 </section>
-<section id="classical-runge-kutta-rk4" class="level2" data-number="27.2">
-<h2 data-number="27.2" class="anchored" data-anchor-id="classical-runge-kutta-rk4"><span class="header-section-number">27.2</span> Classical Runge-Kutta (RK4)</h2>
+<section id="runge-kutta-methods" class="level2" data-number="27.2">
+<h2 data-number="27.2" class="anchored" data-anchor-id="runge-kutta-methods"><span class="header-section-number">27.2</span> Runge-Kutta Methods</h2>
+<p>Multistage methods that match higher-order Taylor expansions without requiring analytic derivatives of <span class="math inline">\(f\)</span>.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Classical Fourth-Order Runge-Kutta
+<span class="screen-reader-only">Note</span>Definition: RK4 (Classical 4th Order)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>RK4</em> method evaluates <span class="math inline">\(f\)</span> at four intermediate stages: <span class="math display">\[
+<p>Evaluates <span class="math inline">\(f\)</span> at four stages per step: <span class="math display">\[
 \begin{align}
-k_1 &amp;= f(t_n,\, y_n), \qquad k_2 = f\!\left(t_n + \tfrac{h}{2},\, y_n + \tfrac{h}{2}k_1\right), \\
-k_3 &amp;= f\!\left(t_n + \tfrac{h}{2},\, y_n + \tfrac{h}{2}k_2\right), \qquad k_4 = f(t_n + h,\, y_n + hk_3), \\
-y_{n+1} &amp;= y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4).
+k_1 &amp;= f(t_n, y_n) \\
+    k_2 &amp;= f(t_n + h/2, y_n + h k_1 / 2) \\
+    k_3 &amp;= f(t_n + h/2, y_n + h k_2 / 2) \\
+    k_4 &amp;= f(t_n + h, y_n + h k_3) \\
+    y_{n+1} &amp;= y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)
 \end{align}
-\]</span></p>
+\]</span> <strong>Error:</strong> Local <span class="math inline">\(O(h^5)\)</span>, Global <strong><span class="math inline">\(O(h^4)\)</span></strong>. Standard default for non-stiff systems.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -775,48 +752,17 @@ y_{n+1} &amp;= y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4).
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: RK4 Accuracy
+<span class="screen-reader-only">Note</span>Theorem: Adaptive Step Control (RK45)
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The local truncation error of RK4 is <span class="math inline">\(O(h^5)\)</span> and the global error is <span class="math inline">\(O(h^4)\)</span>. The four stages are chosen so that the Taylor expansion of the numerical update matches <span class="math inline">\(y(t_{n+1})\)</span> through terms of order <span class="math inline">\(h^4\)</span>. Halving <span class="math inline">\(h\)</span> reduces the error by a factor of 16.</p>
+<p>Uses an <strong>embedded pair</strong> to estimate local error <span class="math inline">\(e\)</span> without extra stages (Dormand-Prince). <strong>Mechanism:</strong> <span class="math inline">\(h_{\text{new}} = h_{\text{old}} (\varepsilon / \|e\|)^{1/5}\)</span>. <strong>Rule:</strong> Automatically shrinks <span class="math inline">\(h\)</span> in regions of high curvature and expands <span class="math inline">\(h\)</span> where <span class="math inline">\(f\)</span> is smooth.</p>
 </div>
 </div>
 </section>
-<section id="adaptive-methods-rk45-dormand-prince" class="level2" data-number="27.3">
-<h2 data-number="27.3" class="anchored" data-anchor-id="adaptive-methods-rk45-dormand-prince"><span class="header-section-number">27.3</span> Adaptive Methods: RK45 / Dormand-Prince</h2>
-<p>Fixed step-size methods waste computation in smooth regions and are inaccurate in rapidly varying regions. <em>Adaptive</em> methods adjust <span class="math inline">\(h\)</span> to maintain a target local error tolerance.</p>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Embedded Runge-Kutta Methods
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>An <em>embedded</em> pair uses the same stage evaluations <span class="math inline">\(k_1, ..., k_s\)</span> to produce two approximations of different orders: <span class="math display">\[y_{n+1}^{(4)} = y_n + \sum_{i} b_i k_i, \qquad y_{n+1}^{(5)} = y_n + \sum_{i} \hat{b}_i k_i.\]</span> The difference <span class="math inline">\(e_{n+1} = y_{n+1}^{(5)} - y_{n+1}^{(4)}\)</span> estimates the local error without extra function evaluations. The step is accepted if <span class="math inline">\(\|e_{n+1}\| \leq \varepsilon_{\mathrm{tol}}\)</span> and rejected (with <span class="math inline">\(h\)</span> reduced) otherwise.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>Dormand-Prince</em> method (DOPRI5), used by <code>scipy.integrate.solve\_ivp</code> with <code>method='RK45'</code>, uses 6 stages to produce 4th and 5th order estimates with the standard step-size controller <span class="math display">\[h_{\mathrm{new}} = h_{\mathrm{old}} \cdot \min\!\left(h_{\max},\, \max\!\left(h_{\min},\,
-\mathrm{safety} \cdot \left(\frac{\varepsilon_{\mathrm{tol}}}{\|e\|}\right)^{1/5}\right)\right).\]</span></p>
-</div>
-</div>
-</section>
-<section id="symplectic-integrators" class="level2" data-number="27.4">
-<h2 data-number="27.4" class="anchored" data-anchor-id="symplectic-integrators"><span class="header-section-number">27.4</span> Symplectic Integrators</h2>
-<p>For <em>Hamiltonian systems</em> <span class="math inline">\(\dot{q} = \partial H/\partial p\)</span>, <span class="math inline">\(\dot{p} = -\partial H/\partial q\)</span>, standard Runge-Kutta methods do not conserve the energy <span class="math inline">\(H(q, p)\)</span> over long integrations — the numerical energy drifts. Symplectic integrators preserve the geometric structure of the flow.</p>
+<section id="symplectic-integrators" class="level2" data-number="27.3">
+<h2 data-number="27.3" class="anchored" data-anchor-id="symplectic-integrators"><span class="header-section-number">27.3</span> Symplectic Integrators</h2>
+<p>Preserve the geometric structure of <strong>Hamiltonian systems</strong> (Energy conservation).</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -827,20 +773,13 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For a separable Hamiltonian <span class="math inline">\(H = \frac{1}{2m}p^2 + V(q)\)</span> (so <span class="math inline">\(\dot{q} = p/m\)</span>, <span class="math inline">\(\dot{p} = -\nabla V(q)\)</span>), the <em>velocity Verlet</em> integrator is <span class="math display">\[q_{n+1} = q_n + h v_n + \frac{h^2}{2m} F_n, \qquad v_{n+1} = v_n + \frac{h}{2m}(F_n + F_{n+1}),\]</span> where <span class="math inline">\(F_n = -\nabla V(q_n)\)</span>. This requires one new force evaluation per step.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Theorem: Symplectic Structure of Velocity Verlet
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Velocity Verlet is a <em>symplectic</em> integrator of order 2: it exactly preserves the symplectic 2-form <span class="math inline">\(dq \wedge dp\)</span>. As a consequence, there exists a <em>modified Hamiltonian</em> <span class="math inline">\(\tilde{H}\)</span> that is exactly conserved by the discrete flow. The numerical energy <span class="math inline">\(H(q_n, p_n)\)</span> oscillates but does not drift — the error remains bounded for arbitrarily long times.</p>
+<p>For <span class="math inline">\(H = \frac{1}{2}v^2 + V(q)\)</span>, ensures no long-term energy drift:</p>
+<ol type="1">
+<li><p><span class="math inline">\(v_{n+1/2} = v_n + \frac{h}{2} F_n\)</span></p></li>
+<li><p><span class="math inline">\(q_{n+1} = q_n + h v_{n+1/2}\)</span></p></li>
+<li><p><span class="math inline">\(v_{n+1} = v_{n+1/2} + \frac{h}{2} F_{n+1}\)</span></p></li>
+</ol>
+<p><strong>Property:</strong> Symplectic and time-reversible. Numerical energy oscillates but stays bounded.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -853,25 +792,12 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>By contrast, Euler’s method applied to a Hamiltonian system has monotonically <em>growing</em> energy (it is anti-symplectic), and RK4 also exhibits slow energy drift over very long integrations.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Yoshida 4th-Order Symplectic Integrator
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <em>Yoshida</em> method composes three Verlet steps with carefully chosen sub-step sizes to achieve 4th-order accuracy while remaining symplectic: <span class="math display">\[w_1 = \frac{1}{2 - 2^{1/3}}, \qquad w_0 = 1 - 2w_1,\]</span> <span class="math display">\[\Phi_h = \Phi_{w_1 h}^{\mathrm{Verlet}} \circ \Phi_{w_0 h}^{\mathrm{Verlet}} \circ \Phi_{w_1 h}^{\mathrm{Verlet}}.\]</span> This requires 3 force evaluations per step and is 4th-order accurate and symplectic.</p>
+<p><strong>The Drift Warning:</strong> Standard explicit methods like Forward Euler or RK4 exhibit monotonic energy growth/decay in Hamiltonian systems. Always use symplectic methods for long-term physics simulations.</p>
 </div>
 </div>
 </section>
-<section id="exercises" class="level2" data-number="27.5">
-<h2 data-number="27.5" class="anchored" data-anchor-id="exercises"><span class="header-section-number">27.5</span> Exercises</h2>
+<section id="exercises" class="level2" data-number="27.4">
+<h2 data-number="27.4" class="anchored" data-anchor-id="exercises"><span class="header-section-number">27.4</span> Exercises</h2>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -883,11 +809,10 @@ Tip
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Apply 4 steps of forward Euler with <span class="math inline">\(h = 0.25\)</span> to solve <span class="math inline">\(y' = -y\)</span>, <span class="math inline">\(y(0) = 1\)</span> on <span class="math inline">\([0, 1]\)</span>. Compare to <span class="math inline">\(y(t) = e^{-t}\)</span>. What is the global error?</p></li>
-<li><p>Verify that RK4 applied to <span class="math inline">\(y' = \lambda y\)</span> with step <span class="math inline">\(h\)</span> gives <span class="math inline">\(y_{n+1} = R(h\lambda) y_n\)</span> where <span class="math inline">\(R(z) = 1 + z + z^2/2 + z^3/6 + z^4/24\)</span>. For which <span class="math inline">\(h\lambda \in \fR\)</span> is <span class="math inline">\(|R(h\lambda)| \leq 1\)</span> (stability)?</p></li>
-<li><p>Show that forward Euler applied to the harmonic oscillator <span class="math inline">\(\dot{q} = p\)</span>, <span class="math inline">\(\dot{p} = -q\)</span> gives <span class="math inline">\(H(q_{n+1}, p_{n+1}) = (1 + h^2) H(q_n, p_n)\)</span>. Conclude the energy grows without bound. What does velocity Verlet give instead?</p></li>
-<li><p>Derive the velocity Verlet update by applying the Störmer-Verlet splitting: decompose the Hamiltonian flow as <span class="math inline">\(\Phi_h \approx \Phi_{h/2}^V \circ \Phi_h^T \circ \Phi_{h/2}^V\)</span> where <span class="math inline">\(\Phi_h^T\)</span> advances positions (kinetic step) and <span class="math inline">\(\Phi_h^V\)</span> advances momenta (potential step).</p></li>
-<li><p>(Adaptive step control) Implement RK45 for <span class="math inline">\(y' = \cos(t^2)\)</span>, <span class="math inline">\(y(0) = 0\)</span> on <span class="math inline">\([0, 10]\)</span> with relative tolerance <span class="math inline">\(10^{-6}\)</span>. Plot the step sizes. Where does the integrator take small steps? Explain in terms of <span class="math inline">\(|f'(t)|\)</span>.</p></li>
+<li><p>Solve <span class="math inline">\(y' = -y, y(0)=1\)</span> with Forward Euler for 4 steps. Compare error to <span class="math inline">\(e^{-1}\)</span>.</p></li>
+<li><p>Verify the stability limit of Forward Euler for <span class="math inline">\(y' = \lambda y\)</span> is <span class="math inline">\(h &lt; 2/|\lambda|\)</span>.</p></li>
+<li><p>Show that Forward Euler on a harmonic oscillator leads to unbounded energy growth.</p></li>
+<li><p>Implement RK45 for <span class="math inline">\(y' = \cos(t^2)\)</span> and plot the step-size <span class="math inline">\(h\)</span> over time.</p></li>
 </ol>
 </div>
 </div>
@@ -1316,14 +1241,23 @@ Tip
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../applications/pca.html" class="pagination-link" aria-label="Principal Component Analysis via SVD">
-        <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../applications/pca.html" class="pagination-link" aria-label="Principal Component Analysis (PCA)">
+        <span class="nav-page-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/odes/ode-methods.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/odes/ode-methods.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

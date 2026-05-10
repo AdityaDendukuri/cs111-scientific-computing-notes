@@ -50,11 +50,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/bootstrap/bootstrap-dark-0660343bbbf1b177fb4a00621e6be9a6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../site_libs/bootstrap/bootstrap-a1ce736e63f8371d7172e25da0874641.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "navbar",
+  "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "end",
-  "type": "overlay",
+  "panel-placement": "start",
+  "type": "textbox",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -166,7 +166,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -332,32 +332,6 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">Scientific Computing</span>
-    </a>
-  </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf"> <i class="bi bi-file-pdf" role="img">
-</i> 
-<span class="menu-text">PDF</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-            <div class="quarto-navbar-tools">
-    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-</div>
-      </div> <!-- /container-fluid -->
-    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -366,13 +340,30 @@ window.Quarto = {
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../fundamentals/math-notation.html">Fundamentals</a></li><li class="breadcrumb-item"><a href="../fundamentals/math-notation.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Mathematical Notation and Proof Techniques</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Scientific Computing</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -499,7 +490,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../orthogonality/chebyshev.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials and Polynomial Approximation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Chebyshev Polynomials</span></span></a>
   </div>
 </li>
       </ul>
@@ -522,7 +513,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../eigenvalues/svd.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition and the Four Fundamental Subspaces</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Singular Value Decomposition</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -557,7 +548,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../iterative/jacobi.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi Iteration</span></span></a>
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Jacobi and Gauss-Seidel Methods</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -626,7 +617,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis via SVD</span></span></a>
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Principal Component Analysis (PCA)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -656,7 +647,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../applications/koopman.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Operator Theory, DMD, and SINDy</span></span></a>
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Koopman Theory, DMD, and SINDy</span></span></a>
   </div>
 </li>
       </ul>
@@ -700,7 +691,7 @@ window.Quarto = {
 </header>
 
 
-<p>These notes assume familiarity with calculus and basic proof writing, but the conventions below establish a shared vocabulary used throughout. Skimming this subsection now will prevent confusion when proofs appear later.</p>
+<p>Standard vocabulary for proofs and algorithms.</p>
 <section id="logic-and-set-notation" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="logic-and-set-notation"><span class="header-section-number">2.1</span> Logic and Set Notation</h2>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -713,7 +704,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The <em>universal quantifier</em> <span class="math inline">\(\forall\)</span> means <code>for all''; the *existential quantifier* $\exists$ means</code>there exists’‘. For example, <code>$\forall \varepsilon &gt; 0,\;\exists \delta &gt; 0$ such that...'' reads as</code>for every positive <span class="math inline">\(\varepsilon\)</span> there is a positive <span class="math inline">\(\delta\)</span> such that…’’. The negation of <span class="math inline">\(\forall x,\, P(x)\)</span> is <span class="math inline">\(\exists x,\, \neg P(x)\)</span>, and vice versa.</p>
+<ul>
+<li><p><strong>Universal (<span class="math inline">\(\forall\)</span>):</strong> ``For all.’’</p></li>
+<li><p><strong>Existential (<span class="math inline">\(\exists\)</span>):</strong> ``There exists.’’</p></li>
+<li><p><strong>Example:</strong> <code>$\forall \varepsilon &gt; 0,\;\exists \delta &gt; 0$'' reads as</code>for every positive <span class="math inline">\(\varepsilon\)</span> there is a positive <span class="math inline">\(\delta\)</span>.’’</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -726,7 +721,11 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><span class="math inline">\(P \Rightarrow Q\)</span> (<code>$P$ implies $Q$'') means: whenever $P$ is true, $Q$ is also true. $P \Leftrightarrow Q$ (</code><span class="math inline">\(P\)</span> if and only if <span class="math inline">\(Q\)</span>’’, abbreviated <em>iff</em>) means <span class="math inline">\(P \Rightarrow Q\)</span> and <span class="math inline">\(Q \Rightarrow P\)</span>. The <em>contrapositive</em> of <span class="math inline">\(P \Rightarrow Q\)</span> is <span class="math inline">\(\neg Q \Rightarrow \neg P\)</span>, which is logically equivalent and often easier to prove.</p>
+<ul>
+<li><p><strong>Implication (<span class="math inline">\(P \Rightarrow Q\)</span>):</strong> <span class="math inline">\(P\)</span> implies <span class="math inline">\(Q\)</span>.</p></li>
+<li><p><strong>Equivalence (<span class="math inline">\(P \Leftrightarrow Q\)</span>):</strong> <span class="math inline">\(P\)</span> if and only if <span class="math inline">\(Q\)</span> (iff).</p></li>
+<li><p><strong>Contrapositive:</strong> <span class="math inline">\(\neg Q \Rightarrow \neg P\)</span>. Logically equivalent to <span class="math inline">\(P \Rightarrow Q\)</span>.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -739,14 +738,13 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A <em>set</em> is a collection of distinct objects. Common notation:</p>
 <ul>
-<li><p><span class="math inline">\(x \in S\)</span>: <span class="math inline">\(x\)</span> is an element of <span class="math inline">\(S\)</span>; <span class="math inline">\(x \notin S\)</span>: <span class="math inline">\(x\)</span> is not.</p></li>
-<li><p><span class="math inline">\(S \subseteq T\)</span>: <span class="math inline">\(S\)</span> is a subset of <span class="math inline">\(T\)</span> (every element of <span class="math inline">\(S\)</span> is in <span class="math inline">\(T\)</span>).</p></li>
-<li><p><span class="math inline">\(S \cup T\)</span>: union; <span class="math inline">\(S \cap T\)</span>: intersection; <span class="math inline">\(S \setminus T\)</span>: set difference.</p></li>
-<li><p><span class="math inline">\(\{x \in S : P(x)\}\)</span>: the set of elements in <span class="math inline">\(S\)</span> satisfying property <span class="math inline">\(P\)</span>.</p></li>
+<li><p><span class="math inline">\(x \in S\)</span>: <span class="math inline">\(x\)</span> is an element of <span class="math inline">\(S\)</span>.</p></li>
+<li><p><span class="math inline">\(S \subseteq T\)</span>: <span class="math inline">\(S\)</span> is a subset of <span class="math inline">\(T\)</span>.</p></li>
+<li><p><span class="math inline">\(S \cup T\)</span>: Union; <span class="math inline">\(S \cap T\)</span>: Intersection; <span class="math inline">\(S \setminus T\)</span>: Set difference.</p></li>
+<li><p><span class="math inline">\(\{x \in S : P(x)\}\)</span>: Set builder notation.</p></li>
+<li><p><strong>Number Sets:</strong> <span class="math inline">\(\fZ\)</span> (integers), <span class="math inline">\(\fR\)</span> (reals), <span class="math inline">\(\fC\)</span> (complex), <span class="math inline">\(\fR^n\)</span> (vectors), <span class="math inline">\(\fR^{m \times n}\)</span> (matrices).</p></li>
 </ul>
-<p>Common number sets used throughout these notes: <span class="math inline">\(\fZ\)</span> (integers), <span class="math inline">\(\fR\)</span> (reals), <span class="math inline">\(\fC\)</span> (complex numbers), <span class="math inline">\(\fR^n\)</span> (real <span class="math inline">\(n\)</span>-vectors), <span class="math inline">\(\fR^{m \times n}\)</span> (real <span class="math inline">\(m \times n\)</span> matrices).</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -760,16 +758,15 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Write the statement ``every invertible matrix has a nonzero determinant’’ using quantifiers and implication.</p></li>
-<li><p>State the contrapositive of: ``if <span class="math inline">\(\bA\)</span> is invertible, then <span class="math inline">\(\bA\bx = \bzero\)</span> implies <span class="math inline">\(\bx = \bzero\)</span>.’’</p></li>
-<li><p>Let <span class="math inline">\(S = \{1, 2, 3, 4\}\)</span> and <span class="math inline">\(T = \{3, 4, 5, 6\}\)</span>. Compute <span class="math inline">\(S \cup T\)</span>, <span class="math inline">\(S \cap T\)</span>, and <span class="math inline">\(S \setminus T\)</span>.</p></li>
+<li><p>Write ``every invertible matrix has a nonzero determinant’’ using quantifiers and implication.</p></li>
+<li><p>State the contrapositive of: ``if <span class="math inline">\(\bA\)</span> is invertible, then <span class="math inline">\(\bA\bx = \bzero \Rightarrow \bx = \bzero\)</span>.’’</p></li>
+<li><p>Let <span class="math inline">\(S = \{1, 2, 3, 4\}\)</span> and <span class="math inline">\(T = \{3, 4, 5, 6\}\)</span>. Compute <span class="math inline">\(S \cup T, S \cap T, S \setminus T\)</span>.</p></li>
 </ol>
 </div>
 </div>
 </section>
 <section id="proof-techniques" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="proof-techniques"><span class="header-section-number">2.2</span> Proof Techniques</h2>
-<p>Nearly every claim in these notes is accompanied by a proof. There are three main strategies used here; recognizing which applies is the first step in writing your own proofs.</p>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -780,7 +777,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>A <em>direct proof</em> of <span class="math inline">\(P \Rightarrow Q\)</span> assumes <span class="math inline">\(P\)</span> is true and derives <span class="math inline">\(Q\)</span> through a chain of valid logical steps. Most proofs in these notes are direct.</p>
+<p>Assume <span class="math inline">\(P\)</span> is true and derive <span class="math inline">\(Q\)</span> through a chain of valid logical steps.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -793,7 +790,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>To prove statement <span class="math inline">\(P\)</span>: assume <span class="math inline">\(\neg P\)</span> and derive a logical contradiction (<span class="math inline">\(R\)</span> and <span class="math inline">\(\neg R\)</span> simultaneously, for some statement <span class="math inline">\(R\)</span>). This shows <span class="math inline">\(\neg P\)</span> is impossible, so <span class="math inline">\(P\)</span> must hold.</p>
+<p>Assume <span class="math inline">\(\neg P\)</span> and derive a logical contradiction (<span class="math inline">\(R \wedge \neg R\)</span>). Proves <span class="math inline">\(P\)</span> must hold.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-note no-icon callout-titled">
@@ -808,10 +805,22 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p>To prove <span class="math inline">\(P(n)\)</span> holds for all integers <span class="math inline">\(n \geq n_0\)</span>:</p>
 <ol type="1">
-<li><p><em>Base case</em>: verify <span class="math inline">\(P(n_0)\)</span> directly.</p></li>
-<li><p><em>Inductive step</em>: assume <span class="math inline">\(P(k)\)</span> (the <em>inductive hypothesis</em>) and prove <span class="math inline">\(P(k+1)\)</span>.</p></li>
+<li><p><strong>Base case:</strong> Verify <span class="math inline">\(P(n_0)\)</span> directly.</p></li>
+<li><p><strong>Inductive step:</strong> Assume <span class="math inline">\(P(k)\)</span> and prove <span class="math inline">\(P(k+1)\)</span>.</p></li>
 </ol>
-<p>Mathematical induction appears whenever an algorithm or formula is defined recursively.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Numerical Proofs:</strong> Often validate that an approximation is <strong>stable</strong> or that an error term <strong>converges</strong>. Frequently involves showing <span class="math inline">\(|f(x) - \hat{f}(x)| \leq \varepsilon\)</span> for small <span class="math inline">\(\varepsilon\)</span>.</p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
@@ -825,16 +834,15 @@ window.Quarto = {
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><p>Use a direct proof to show: if <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bB\)</span> are symmetric (<span class="math inline">\(\bA^T = \bA\)</span>, <span class="math inline">\(\bB^T = \bB\)</span>), then <span class="math inline">\(\bA + \bB\)</span> is symmetric.</p></li>
-<li><p>Use proof by contradiction to show: if <span class="math inline">\(\bA\bx = \bzero\)</span> implies <span class="math inline">\(\bx = \bzero\)</span>, then <span class="math inline">\(\bA\)</span> has no zero eigenvalue.</p></li>
-<li><p>By induction, prove <span class="math inline">\(\displaystyle\sum_{k=1}^{n} k = \frac{n(n+1)}{2}\)</span>.</p></li>
+<li><p>Prove: if <span class="math inline">\(\bA\)</span> and <span class="math inline">\(\bB\)</span> are symmetric, then <span class="math inline">\(\bA + \bB\)</span> is symmetric.</p></li>
+<li><p>Prove by contradiction: if <span class="math inline">\(\bA\bx = \bzero \Rightarrow \bx = \bzero\)</span>, then <span class="math inline">\(\bA\)</span> has no zero eigenvalue.</p></li>
+<li><p>By induction, prove <span class="math inline">\(\sum_{k=1}^{n} k = \frac{n(n+1)}{2}\)</span>.</p></li>
 </ol>
 </div>
 </div>
 </section>
 <section id="notation-conventions" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="notation-conventions"><span class="header-section-number">2.3</span> Notation Conventions</h2>
-<p>The following conventions are used consistently throughout these notes.</p>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -845,34 +853,13 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Scalars, Vectors, and Matrices.</strong> Scalars are lowercase italic: <span class="math inline">\(a, b, c, x\)</span>. Vectors are lowercase bold: <span class="math inline">\(\bx, \by, \ba\)</span>. Matrices are uppercase bold: <span class="math inline">\(\bA, \bB, \bQ\)</span>. The <span class="math inline">\(i\)</span>-th entry of <span class="math inline">\(\bx\)</span> is <span class="math inline">\(x_i\)</span>; the <span class="math inline">\((i,j)\)</span> entry of <span class="math inline">\(\bA\)</span> is <span class="math inline">\(a_{ij}\)</span> or <span class="math inline">\((\bA)_{ij}\)</span>. Indexing is 1-based throughout (unlike Python).</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Transpose and Inverse.</strong> <span class="math inline">\(\bA^T\)</span> is the transpose of <span class="math inline">\(\bA\)</span>; <span class="math inline">\(\bA^{-1}\)</span> is the matrix inverse (exists only for square, invertible <span class="math inline">\(\bA\)</span>). The notation <span class="math inline">\(\bA^{-T}\)</span> means <span class="math inline">\((\bA^{-1})^T = (\bA^T)^{-1}\)</span>. <span class="math inline">\(\bA^k\)</span> denotes <span class="math inline">\(\bA\)</span> multiplied by itself <span class="math inline">\(k\)</span> times; <span class="math inline">\(\bA^0 = \bI\)</span>.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-tip no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>Sums and Products.</strong> <span class="math display">\[\sum_{i=1}^{n} a_i = a_1 + a_2 + \cdots + a_n, \qquad
-  \prod_{i=1}^{n} a_i = a_1 a_2 \cdots a_n.\]</span> When the index set is clear from context we write <span class="math inline">\(\sum_i a_i\)</span>.</p>
+<p><strong>Scalars, Vectors, and Matrices.</strong></p>
+<ul>
+<li><p><strong>Scalars:</strong> Lowercase italic (<span class="math inline">\(a, b, x\)</span>).</p></li>
+<li><p><strong>Vectors:</strong> Lowercase bold (<span class="math inline">\(\bx, \by, \ba\)</span>). Default is <strong>column vector</strong>.</p></li>
+<li><p><strong>Matrices:</strong> Uppercase bold (<span class="math inline">\(\bA, \bB, \bQ\)</span>).</p></li>
+<li><p><strong>Indexing:</strong> 1-based (unlike Python). <span class="math inline">\(x_i\)</span> is <span class="math inline">\(i\)</span>-th entry; <span class="math inline">\(a_{ij}\)</span> is <span class="math inline">\((i,j)\)</span> entry.</p></li>
+</ul>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip no-icon callout-titled">
@@ -885,7 +872,57 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Functions.</strong> <span class="math inline">\(f : \fR^n \to \fR^m\)</span> means <span class="math inline">\(f\)</span> maps <span class="math inline">\(n\)</span>-vectors to <span class="math inline">\(m\)</span>-vectors. <span class="math inline">\(f \circ g\)</span> denotes function composition: <span class="math inline">\((f \circ g)(\bx) = f(g(\bx))\)</span>. A function <span class="math inline">\(f : \fR^{m \times n} \to \fR\)</span> maps matrices to scalars (e.g., a norm or the determinant).</p>
+<p><strong>Transpose and Inverse.</strong></p>
+<ul>
+<li><p><span class="math inline">\(\bA^T\)</span>: Transpose.</p></li>
+<li><p><span class="math inline">\(\bA^{-1}\)</span>: Matrix inverse (square, nonsingular matrices).</p></li>
+<li><p><span class="math inline">\(\bA^{-T}\)</span>: Transpose of the inverse <span class="math inline">\((\bA^{-1})^T\)</span>.</p></li>
+<li><p><span class="math inline">\(\bA^k\)</span>: <span class="math inline">\(k\)</span>-th power. <span class="math inline">\(\bA^0 = \bI\)</span>.</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Sums and Products.</strong> <span class="math display">\[\sum_{i=1}^{n} a_i = a_1 + ... + a_n, \qquad
+  \prod_{i=1}^{n} a_i = a_1 ... a_n.\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Functions.</strong></p>
+<ul>
+<li><p><span class="math inline">\(f : \fR^n \to \fR^m\)</span>: Maps <span class="math inline">\(n\)</span>-vectors to <span class="math inline">\(m\)</span>-vectors.</p></li>
+<li><p><span class="math inline">\(f \circ g\)</span>: Function composition <span class="math inline">\((f \circ g)(\bx) = f(g(\bx))\)</span>.</p></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Asymptotic Notation.</strong> Scaling of algorithms is described using <strong>Big-O notation</strong> (<span class="math inline">\(O(n^2), O(n^3)\)</span>). Details in the Computational Complexity section.</p>
 </div>
 </div>
 
@@ -1319,8 +1356,17 @@ Tip
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/math-notation.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/raw/main/main.pdf" title="Download PDF" style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+          background:rgba(255,255,255,0.85);border:1px solid #ccc;
+          border-radius:50%;width:2.4rem;height:2.4rem;
+          display:flex;align-items:center;justify-content:center;
+          box-shadow:0 2px 6px rgba(0,0,0,.15);
+          text-decoration:none;color:#555;font-size:1rem;
+          backdrop-filter:blur(4px);">
+  <i class="bi bi-file-earmark-pdf"></i>
+</a>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/edit/main/fundamentals/math-notation.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/AdityaDendukuri/cs111-scientific-computing-notes/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>
